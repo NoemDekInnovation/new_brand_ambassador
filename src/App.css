@@ -1,3 +1,9 @@
+
+/* 
+@tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
 /* .App {
   text-align: center;
 }
@@ -36,3 +42,59 @@
     transform: rotate(360deg);
   }
 } */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.auth__layout {
+  @apply h-screen object-cover bg-no-repeat w-screen bg-gray-50 flex items-center justify-center;
+}
+
+.auth__layout__image {
+  @apply h-screen fixed z-0;
+}
+
+.padding {
+  @apply px-4 md:px-12 xl:px-40 py-16;
+}
+
+.margin {
+}
+
+.banner {
+  @apply px-4 md:px-12 xl:pl-40 py-8 sm:py-20 flex flex-col xl:flex-row xl:space-x-8;
+}
+
+.talents__container {
+  @apply px-4 md:px-12 xl:px-40 py-16;
+}
+
+.flex__center {
+  /* @apply padding flex flex-col justify-center items-center space-x-20; */
+  @apply padding flex justify-center items-center space-x-20;
+}
+
+.dark__btn {
+  @apply bg-bm__btn__grey w-full px-6 py-1 text-white hover:bg-bm__btn__grey/70 rounded-md;
+}
+
+.light__btn {
+  @apply bg-bm_card_grey w-full px-6 py-1 text-bm__btn__grey hover:bg-bm_card_grey/70 rounded-md;
+}
+
+.outlined__btn {
+  @apply bg-inherit w-full px-6 py-1 border-2 text-bm__btn__grey hover:bg-white/70 rounded-md;
+}
+
+.outlined__yellow__btn {
+  @apply bg-inherit w-full px-6 py-1 border-2 border-yellow-300 text-yellow-300 hover:bg-white/70 rounded-md;
+}
+
+.dark__base__btn {
+  @apply text-bm__btn__grey w-full px-6 py-1  hover:text-bm__btn__grey/70 rounded-md;
+}
+
+.ox__btn {
+  @apply bg-bm__ox__red w-full px-6 py-1 text-white hover:bg-bm__ox__red/70 rounded-md;
+}
