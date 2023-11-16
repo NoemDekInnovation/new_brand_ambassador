@@ -6,6 +6,7 @@ import { useNavigate} from "react-router-dom";
 import backgroundImage from "../../assets/auth__background.jpeg";
 
 export default function VerifyEmail() {
+
     const navigate = useNavigate();
   const [email, setEmail] = useState('');
 
@@ -34,6 +35,7 @@ export default function VerifyEmail() {
     
         handleVerification();
       }, [navigate]);
+
 
   return (
     <div className="auth__layout">

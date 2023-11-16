@@ -1,3 +1,4 @@
+
 import React from "react";
 import "./App.css";
 import AgencyDashboard from "./components/agency/Dashboard";
@@ -19,6 +20,7 @@ import ResetPassword from "./components/forgotPassword/resetPassword";
 import VerifyEmail from "./components/verifyEmail/verifyEmail";
 import NewPassword from "./components/forgotPassword/newPassword";
 import Verification from "./components/forgotPassword/otpVerification";
+
 
 function App() {
   const ROLES: {
@@ -64,6 +66,7 @@ function App() {
           element={<NewPassword />}
         />
         <Route path="/" element={<LandingPage />} />
+
       </Routes>
     </Router>
   );
