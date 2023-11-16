@@ -14,6 +14,9 @@ import ResetPassword from "./components/forgotPassword/resetPassword";
 import VerifyEmail from "./components/verifyEmail/verifyEmail";
 import NewPassword from "./components/forgotPassword/newPassword";
 import Verification from "./components/forgotPassword/otpVerification";
+import TalentDashboard from "./components/talent/Dashboard";
+import { RootState } from "./redux/store";
+import { useSelector } from "react-redux";
 
 function App() {
   const ROLES: {
@@ -24,15 +27,21 @@ function App() {
     Talent: "talent",
   };
 
+  const { user } = useSelector((state: RootState) => state.user);
+
   return (
     <Router>
       <Routes>
-        <Route element={<RequiredAuth allowedRoles={[ROLES.Agency]} />}>
-          <Route path="/dashboard" element={<AgencyDashboard />} />
-        </Route>
-        <Route element={<RequiredAuth allowedRoles={[ROLES.Talent]} />}>
-          <Route path="/dashboard" element={<AgencyDashboard />} />
-        </Route>
+        {user?.accountId === "agency" && (
+          <Route element={<RequiredAuth allowedRoles={[ROLES.Agency]} />}>
+            <Route path="/dashboard" element={<AgencyDashboard />} />
+          </Route>
+        )}
+        {user?.accountId === "talent" && (
+          <Route element={<RequiredAuth allowedRoles={[ROLES.Talent]} />}>
+            <Route path="/dashboard" element={<TalentDashboard />} />
+          </Route>
+        )}
         <Route path="/auth/signup" element={<TalentSignUp />} />
         <Route path="/auth/signup/details" element={<SignUpDetails />} />
         <Route path="/auth/login" element={<Login />} />
