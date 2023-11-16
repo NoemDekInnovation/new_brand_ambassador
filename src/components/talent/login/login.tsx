@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import backgroundImage from "../../../assets/auth__background.jpeg";
 import Logo from "../../../assets/Logo.png";
 import { HiArrowLongLeft } from 'react-icons/hi2';
-import { loginUser } from '../../../api/axios';
+import { authAxiosInstance} from '../../../api/axios';
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -72,70 +72,15 @@ export default function Login() {
     errMsg.email = 'Please enter a valid email address.';
   }
 
-//   const onSubmit = async (data: any) => {
-//     // console.log(data, 'grill', errMsg);
-
-//     const isError = Object.values(errMsg).every(
-//       (error) => error === null || error === ''
-//     );
-
-//     if (isError) {
-//       setLoading(true);
-//       // console.log(data);
-
-//       try {
-//         const response = await loginUser({
-//           email: data.email,
-//           password: data.password,
-//           redirect: false,
-//         });
-
-//         if (response !== undefined && response.status === 200) {
-//           setSuccessModal(true);
-//           setError('');
-
-//           setTimeout(() => {
-
-//             navigate('/dashboard');
-//           }, 3000);
-
-
-//           return;
-//         }
-
-//         setLoading(false);
-
-//         // setError(
-//         //   "User login Password mismatch or check your internet connection."
-//         // );
-//         setError('Username/Password mismatch');
-//       } catch (error: any) {
-//         setLoading(false);
-
-//         if (error.response) {
-//           const keys = Object.keys(error.response.data);
-//           const errorMsg = error.response.data[keys[0]][0];
-//           setError(errorMsg);
-//           setMessage('');
-//           return;
-//         }
-
-//         setError('Something went wrong. Please try again.');
-
-//         setMessage('');
-//       }
-//     }
-//   };
 const onSubmit = async (data: any) => {
     setLoading(true);
-  
     try {
-      const response = await loginUser({
-        email: data.email,
-        password: data.password,
-        redirect: false,
-      });
+      const response = await authAxiosInstance.post('/signin', {
+        email:data.email,
+        password:data.password,
+    });
   
+    
       if (response.status === 200) {
         // Successful authentication
         setSuccessModal(true);
