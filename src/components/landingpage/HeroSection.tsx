@@ -44,8 +44,6 @@ const HeroSection = () => {
           <img
             src={require(`../../assets/${card_url}`)}
             alt="showcase img"
-            width={900}
-            height={600}
             style={{
               height: "25vh",
               objectFit: "cover",
