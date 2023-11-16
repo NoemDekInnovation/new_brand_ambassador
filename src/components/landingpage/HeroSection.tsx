@@ -44,6 +44,8 @@ const HeroSection = () => {
           <img
             src={require(`../../assets/${card_url}`)}
             alt="showcase img"
+            height={600}
+            width={900}
             style={{
               height: "25vh",
               objectFit: "cover",
@@ -210,10 +212,10 @@ const HeroSection = () => {
           className=" min-h-[400px] md:max-h-[400px] w-full bg-black/90 grayscale"
         />
         <div className="pt-28">
-            <Multi />
+          <Multi />
         </div>
       </div>
-      <div className='relative '></div>
+      <div className="relative "></div>
     </div>
   );
 };
