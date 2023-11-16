@@ -10,7 +10,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="flex justify-between px-4 md:px-12 xl:px-40 items-center py-3 text-[12px] font-medium bg-white shadow-xl drop-shadow-lg">
+      <nav className="flex justify-between px-4 md:px-12 xl:px-40 items-center py-3 text-[12px] font-medium bg-white shadow-xl drop-shadow-lg z-50">
         <div className="md:flex gap-5 items-center">
           <img src={logo} alt="logo" className="w-[144px] h-[39px]" />
           <div className="">
@@ -38,35 +38,47 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className="md:hidden bg-white flex items-center justify-end">
-          <div onClick={() => setToggle((prev) => !prev)}>
-            {toggle ? <IoCloseSharp className="w-5 h-5" /> : <RxHamburgerMenu className="w-5 h-5" />}
-          </div>
-          {toggle && (
-            <div className="p-6 absolute top-20 right-0 bg-white rounded-xl z-50">
-              <div className="flex flex-col items-center cursor-pointer mb-4">
-                <div className="px-2 py-1.5 text-sm font-semibold">Get Talent</div>
-                <div className="px-2 py-1.5 text-sm font-semibold">Find Work</div>
-                <div className="px-2 py-1.5 text-sm font-semibold">Manage Projects</div>
-              </div>
-              <Separator />
-
-              <div className="flex items-center justify-center px-2 py-1.5 text-sm font-semibold my-4">
-                <Link
-                  to={"/auth/login"}
-                  className="text-bm_btn_gray bg-white px-6 py-3 rounded mx-2"
-                >
-                  Login
-                </Link>
-                <Link
-                  to={"/auth/signup"}
-                  className="bg-bm__btn__grey text-white px-6 py-3 rounded mx-2"
-                >
-                  Create an account
-                </Link>
-              </div>
+        <div className="md:hidden top-0 left-0 w-full h-full z-50">
+          <div className="flex items-center justify-end mb-4">
+            <div onClick={() => setToggle((prev) => !prev)}>
+              {toggle ? (
+                <IoCloseSharp className="w-5 h-5" />
+              ) : (
+                <RxHamburgerMenu className="w-5 h-5" />
+              )}
             </div>
-          )}
+            {toggle && (
+              <div className="p-6 absolute top-20 right-0 bg-white rounded-xl z-50">
+                <div className="flex flex-col items-center cursor-pointer">
+                  <div className="px-2 py-1.5 text-sm font-semibold">
+                    Get Talent
+                  </div>
+                  <div className="px-2 py-1.5 text-sm font-semibold">
+                    Find Work
+                  </div>
+                  <div className="px-2 py-1.5 text-sm font-semibold">
+                    Manage Projects
+                  </div>
+                </div>
+                <Separator />
+
+                <div className="flex items-center justify-center px-2 py-1.5 text-sm font-semibold my-4">
+                  <Link
+                    to={"/auth/login"}
+                    className="text-bm_btn_gray bg-white px-6 py-3 rounded mx-2"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to={"/auth/signup"}
+                    className="bg-bm__btn__grey text-white px-6 py-3 rounded mx-2"
+                  >
+                    Create an account
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </nav>
     </>
