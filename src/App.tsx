@@ -4,19 +4,22 @@ import "./App.css";
 import AgencyDashboard from "./components/agency/Dashboard";
 import RequiredAuth from "./components/RequireAuth";
 import "./App.css";
+
+import TalentDashboard from "./components/talent/Dashboard";
+import { RootState } from "./redux/store";
+import { useSelector } from "react-redux";
+import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TalentSignUp from "./components/talent/signUp/signup";
 import SignUpDetails from "./components/talent/signUp/signUpDetails";
 import Login from "./components/talent/login/login";
+import LandingPage from "./components/landingpage";
 import ForgotPassword from "./components/forgotPassword/forgotPassword";
 import EmailCode from "./components/forgotPassword/emailCode";
 import ResetPassword from "./components/forgotPassword/resetPassword";
 import VerifyEmail from "./components/verifyEmail/verifyEmail";
 import NewPassword from "./components/forgotPassword/newPassword";
 import Verification from "./components/forgotPassword/otpVerification";
-import TalentDashboard from "./components/talent/Dashboard";
-import { RootState } from "./redux/store";
-import { useSelector } from "react-redux";
 
 function App() {
   const ROLES: {
@@ -61,6 +64,7 @@ function App() {
           path="/auth/login/reset-password/password"
           element={<NewPassword />}
         />
+        <Route path="/" element={<LandingPage />} />
       </Routes>
     </Router>
   );
