@@ -102,6 +102,7 @@ export default function Login() {
         setSuccessModal(true);
         setError("");
         dispatch(setUser(details));
+        setMessage(response.data.message);
 
         // Redirect to dashboard after a delay
         setTimeout(() => {
@@ -117,7 +118,7 @@ export default function Login() {
       if (error.response) {
         // Handle server response errors
         const keys = Object.keys(error.response.data);
-        const errorMsg = error.response.data[keys[0]][0];
+        const errorMsg = error.response.data.message;
         setError(errorMsg);
         setMessage("");
       } else if (error.message === "Username/Password mismatch") {

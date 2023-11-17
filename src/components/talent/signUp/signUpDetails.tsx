@@ -99,8 +99,22 @@ export default function SignUpDetails() {
     errMsg.firstName = "Please enter your first name";
   }
 
+  if (
+    errors?.firstName?.type === "required" ||
+    (watch("firstName") && !validator.isAlpha(watch("firstName")))
+  ) {
+    errMsg.firstName = "Please enter only alhpabetic characters";
+  }
+
   if (errors?.lastName?.type === "required") {
     errMsg.lastName = "Please enter your last name";
+  }
+
+  if (
+    errors?.lastName?.type === "required" ||
+    (watch("lastName") && !validator.isAlpha(watch("lastName")))
+  ) {
+    errMsg.lastName = "Please enter only alhpabetic characters";
   }
 
   if (errors?.agencyName?.type === "required") {
@@ -592,7 +606,7 @@ export default function SignUpDetails() {
                     Create Account
                   </Button>
                 </form>
-                <Dialog open={successModal}>
+                {/* <Dialog open={successModal}>
                   <DialogContent className="bg-bm_card_grey flex flex-col items-center justify-center rounded max-w-[350px] md:max-w-[460px] p-16">
                     <TbProgressCheck className="font-normal text-[155px] text-green-700" />
                     <div className="text-[20px] font-bold whitespace-nowrap">
@@ -603,7 +617,7 @@ export default function SignUpDetails() {
                       verify your account
                     </small>
                   </DialogContent>
-                </Dialog>
+                </Dialog> */}
               </div>
             </div>
           </div>
