@@ -14,12 +14,12 @@ import {
 import validator from "validator";
 import { TbEyeOff, TbEye } from "react-icons/tb";
 
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PasswordValidator from "password-validator";
 import { Button } from "../../../ui/button";
 // import { signIn } from "next-auth/react";
 import { Separator } from "../../../ui/seperator";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { HiArrowLongLeft } from "react-icons/hi2";
 import backgroundImage from "../../../assets/auth__background.jpeg";
 import Logo from "../../../assets/Logo.png";
@@ -99,8 +99,22 @@ export default function SignUpDetails() {
     errMsg.firstName = "Please enter your first name";
   }
 
+  if (
+    errors?.firstName?.type === "required" ||
+    (watch("firstName") && !validator.isAlpha(watch("firstName")))
+  ) {
+    errMsg.firstName = "Please enter only alhpabetic characters";
+  }
+
   if (errors?.lastName?.type === "required") {
     errMsg.lastName = "Please enter your last name";
+  }
+
+  if (
+    errors?.lastName?.type === "required" ||
+    (watch("lastName") && !validator.isAlpha(watch("lastName")))
+  ) {
+    errMsg.lastName = "Please enter only alhpabetic characters";
   }
 
   if (errors?.agencyName?.type === "required") {
@@ -234,13 +248,7 @@ export default function SignUpDetails() {
           <div className="lg:flex flex-col items-center justify-center hidden">
             <div className=" w-full p-4 min-w-[380px] rounded-lg">
               <div className="text-left  text-white">
-              <img
-                  src={Logo}
-                  style={{}}
-                  alt="logo"
-                  width={300}
-                  height={50}
-                />
+                <img src={Logo} style={{}} alt="logo" width={300} height={50} />
               </div>
             </div>
           </div>
@@ -532,7 +540,7 @@ export default function SignUpDetails() {
                     Create Account
                   </Button>
                 </form>
-                <Dialog open={successModal}>
+                {/* <Dialog open={successModal}>
                   <DialogContent className="bg-bm_card_grey flex flex-col items-center justify-center rounded max-w-[350px] md:max-w-[460px] p-16">
                     <TbProgressCheck className="font-normal text-[155px] text-green-700" />
                     <div className="text-[20px] font-bold whitespace-nowrap">
@@ -543,7 +551,7 @@ export default function SignUpDetails() {
                       verify your account
                     </small>
                   </DialogContent>
-                </Dialog>
+                </Dialog> */}
               </div>
             </div>
           </div>
