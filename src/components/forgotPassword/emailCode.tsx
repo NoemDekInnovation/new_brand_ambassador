@@ -11,7 +11,7 @@ import axiosInstance from "../../api/axios";
 import { Link } from "react-router-dom";
 import { HiArrowLongLeft } from "react-icons/hi2";
 import backgroundImage from "../../assets/auth__background.jpeg";
-import Logo from "../../assets/Logo.png";
+import Logo from "../../assets/Frame.svg";
 
 export default function EmailCode() {
   // const [showPasswordFields, setShowPasswordFields] = useState(false);
@@ -76,7 +76,7 @@ export default function EmailCode() {
           email: data.email,
         });
 
-        const emailMessage = response.data.message.replace(
+        const emailMessage = response.data.message.replace( 
           /Verification code has been sent to /g,
           ""
         );
@@ -113,7 +113,9 @@ export default function EmailCode() {
           <div className="lg:flex flex-col items-center justify-center hidden">
             <div className=" w-full p-4 min-w-[380px] rounded-lg">
               <div className="text-left  text-white">
+              <Link to={"/"}>
                 <img src={Logo} style={{}} alt="logo" width={300} height={50} />
+                </Link>
               </div>
             </div>
           </div>{" "}

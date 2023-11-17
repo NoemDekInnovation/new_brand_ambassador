@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { HiArrowLongLeft } from "react-icons/hi2";
 import { TbEyeOff, TbEye } from "react-icons/tb";
 import backgroundImage from "../../assets/auth__background.jpeg";
-import Logo from "../../assets/Logo.png";
+import Logo from "../../assets/Frame.svg";
 
 export default function NewPassword() {
   const [loading, setLoading] = useState(false);
@@ -167,8 +167,16 @@ export default function NewPassword() {
         <div className="z-10 flex justify-around w-full p-4 min-w-[350px] rounded-lg">
           <div className="lg:flex flex-col items-center justify-center hidden">
             <div className=" w-full p-4 min-w-[380px] rounded-lg">
-              <div className="text-left  text-white">
-                <img src={Logo} style={{}} alt="logo" width={300} height={50} />
+              <div className="text-left  text-white cursor-pointer">
+                <Link to="/">
+                  <img
+                    src={Logo}
+                    style={{}}
+                    alt="logo"
+                    width={300}
+                    height={50}
+                  />
+                </Link>
               </div>
             </div>
           </div>
@@ -186,7 +194,7 @@ export default function NewPassword() {
                 {error}
               </div>
             )}
-            <div className="bg-[#f3f3f3] text-black w-full max-w-[480px] p-[20px] m-2 md:p-[40px]  rounded">
+            <div className="bg-bm__card text-black w-full max-w-[480px] p-[20px] m-2 md:p-[40px]  rounded">
               <div className=" flex flex-col md:space-y-7">
                 <div className=" p-1 text-center ">
                   <Link to={"/auth/login/reset-password"}>
@@ -196,23 +204,23 @@ export default function NewPassword() {
                     Reset password
                   </h3>
                 </div>
-                <form>
-                  <Controller
+                <form>  
+                <Controller
                     name="password"
                     control={control}
                     rules={{ required: true }}
                     render={({ field }) => (
-                      <div className="w-full pb-4">
-                        <div className="flex items-center bg-white rounded-lg px-2 sm:px-4 ">
+                      <div className="w-full pb-4 relative">
+                        <div className="flex items-center">
                           <input
                             {...field}
                             type={showPass ? "text" : "password"}
                             placeholder="Password"
                             name="password"
-                            className="w-full h-10 rounded-lg text-base outline-none border-none focus:outline-none focus:ring-0 px-4"
+                            className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px]"
                           />
                           <div
-                            className="cursor-pointer"
+                            className="cursor-pointer ml-2 absolute right-0 md:top-[18px] flex items-center pr-2"
                             onClick={() => setShowPass(!showPass)}
                           >
                             {showPass ? <TbEye /> : <TbEyeOff />}
@@ -231,18 +239,17 @@ export default function NewPassword() {
                     control={control}
                     rules={{ required: true }}
                     render={({ field }) => (
-                      <div className="w-full pb-4">
-                        <div className="flex items-center bg-white rounded-lg px-2 sm:px-4 ">
+                      <div className="w-full pb-4 relative">
+                        <div className="flex items-center">
                           <input
                             {...field}
                             type={showPass ? "text" : "password"}
                             placeholder="Confirm Password"
                             name="password"
-                            className="w-full sm:h-12 rounded-lg text-[12px]  sm:text-[14px]  outline-none border-none focus:outline-none focus:ring-0"
+                            className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px]"
                           />
-
                           <div
-                            className="cursor-pointer"
+                            className="cursor-pointer ml-2 absolute right-0 md:top-[18px] flex items-center pr-2"
                             onClick={() => setShowPass(!showPass)}
                           >
                             {showPass ? <TbEye /> : <TbEyeOff />}
@@ -283,14 +290,6 @@ export default function NewPassword() {
                     Reset Password
                   </Button>
                 </form>
-                {/* <Dialog open={successModal}>
-                  <DialogContent className="bg-bm_card_grey flex flex-col items-center justify-center rounded max-w-[350px] md:max-w-[460px] p-16">
-                    <TbProgressCheck className="font-normal text-[155px] text-green-700" />
-                    <div className="text-[20px] font-bold whitespace-nowrap">
-                      Password Reset Successful
-                    </div>
-                  </DialogContent>
-                </Dialog> */}
               </div>
             </div>
           </div>
