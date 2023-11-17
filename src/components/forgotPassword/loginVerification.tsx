@@ -9,7 +9,7 @@ import { TbProgressCheck } from "react-icons/tb";
 import { HiArrowLongLeft } from "react-icons/hi2";
 // import { signIn } from "next-auth/react";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/Logo.png";
+import Logo from "../../assets/Frame.svg";
 import { authAxiosInstance } from "../../api/axios";
 import backgroundImage from "../../assets/auth__background.jpeg";
 
@@ -160,13 +160,9 @@ export default function LoginVerification() {
           <div className="lg:flex flex-col items-center justify-center hidden">
             <div className=" w-full p-4 min-w-[380px] rounded-lg">
               <div className="text-left  text-white">
-                {/* <h1 className="max-w-[300px] font-black text-[60px]">CAMPAIGN</h1>
-
-            <h1 className="font-normal text-[18px]">
-              Login or create an account
-            </h1> */}
+              <Link to={"/"}>
                 <img src={Logo} style={{}} alt="logo" width={300} height={50} />
-              </div>
+                </Link>              </div>
             </div>
           </div>
           <div className="flex flex-col justify-center items-center">

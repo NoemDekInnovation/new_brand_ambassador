@@ -4,7 +4,7 @@ import { FiChevronRight } from "react-icons/fi";
 import { HiArrowLongLeft } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import backgroundImage from "../../assets/auth__background.jpeg";
-import Logo from "../../assets/Logo.png";
+import Logo from "../../assets/Frame.svg";
 
 export default function ForgotPassword() {
   return (
@@ -13,8 +13,10 @@ export default function ForgotPassword() {
         <div className="z-10 flex justify-around w-full p-4 min-w-[350px] rounded-lg">
           <div className="lg:flex flex-col items-center justify-center hidden">
             <div className=" w-full p-4 min-w-[380px] rounded-lg">
-              <div className="text-left  text-white">
+              <div className="text-left  text-white cursor-pointer">
+                <Link to="/">
                 <img src={Logo} style={{}} alt="logo" width={300} height={50} />
+                </Link>
               </div>
             </div>
           </div>
