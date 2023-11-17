@@ -131,7 +131,7 @@ export default function EmailCode() {
                 {error}
               </div>
             )}
-            <div className="bg-bm__card text-black w-full max-w-[480px] md:w-[480px]  p-8 pt-10  pb-20 md:p-[60px] md:pb-[20vh] rounded">
+            <div className="bg-[#f3f3f3] text-black w-full max-w-[480px] md:w-[480px]  p-8 pt-10  pb-20 md:p-[60px] md:pb-[20vh] rounded">
               <div className=" flex flex-col space-y-4 sm:space-y-10">
                 <div className=" p-1 text-center ">
                   <Link to={"/auth/login/forgot-password"}>

@@ -186,7 +186,7 @@ export default function NewPassword() {
                 {error}
               </div>
             )}
-            <div className="bg-bm__card text-black w-full max-w-[480px] p-[20px] m-2 md:p-[40px]  rounded">
+            <div className="bg-[#f3f3f3] text-black w-full max-w-[480px] p-[20px] m-2 md:p-[40px]  rounded">
               <div className=" flex flex-col md:space-y-7">
                 <div className=" p-1 text-center ">
                   <Link to={"/auth/login/reset-password"}>
