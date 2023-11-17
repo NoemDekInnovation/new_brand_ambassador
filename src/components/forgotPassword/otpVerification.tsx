@@ -196,9 +196,9 @@ export default function Verification() {
                       renderSeparator={<span>&nbsp;&nbsp;</span>}
                       renderInput={(props) => <input {...props} />}
                       inputStyle={{
-                        width: 35,
-                        height: 35,
-                        borderRadius: 5,
+                        width: 50,
+                        height: 49,
+                        borderRadius: 6,
                         border: "2px solid #eee",
                       }}
                     />
