@@ -8,7 +8,7 @@ import { Button } from "../../../ui/button";
 // import { signIn } from 'next-auth/react';
 import { Link } from "react-router-dom";
 import backgroundImage from "../../../assets/auth__background.jpeg";
-import Logo from "../../../assets/Logo.png";
+import Logo from "../../../assets/Frame.svg";
 import { HiArrowLongLeft } from "react-icons/hi2";
 import { authAxiosInstance } from "../../../api/axios";
 import { useDispatch } from "react-redux";
@@ -102,6 +102,7 @@ export default function Login() {
         setSuccessModal(true);
         setError("");
         dispatch(setUser(details));
+        setMessage(response.data.message);
 
         // Redirect to dashboard after a delay
         setTimeout(() => {
@@ -117,7 +118,7 @@ export default function Login() {
       if (error.response) {
         // Handle server response errors
         const keys = Object.keys(error.response.data);
-        const errorMsg = error.response.data[keys[0]][0];
+        const errorMsg = error.response.data.message;
         setError(errorMsg);
         setMessage("");
       } else if (error.message === "Username/Password mismatch") {
@@ -136,8 +137,10 @@ export default function Login() {
         <div className="z-10 flex justify-around w-full p-4 min-w-[350px] rounded-lg">
           <div className="lg:flex flex-col items-center justify-center hidden">
             <div className=" w-full p-4 min-w-[380px] rounded-lg">
-              <div className="text-left  text-white">
+              <div className="text-left  text-white cursor-pointer">
+                <Link to="/">
                 <img src={Logo} style={{}} alt="logo" width={300} height={50} />
+                </Link>
               </div>
             </div>
           </div>
@@ -155,7 +158,7 @@ export default function Login() {
                 {error}
               </div>
             )}
-            <div className="bg-bm__card text-black w-full max-w-[480px] p-[20px] m-2 md:p-[60px]  rounded">
+            <div className="bg-[#f3f3f3] text-black w-full max-w-[480px] p-[20px] m-2 md:p-[60px]  rounded">
               <div className=" flex flex-col md:space-y-10">
                 <div className=" p-1 text-center ">
                   <Link to={"/"}>
@@ -198,22 +201,23 @@ export default function Login() {
                     )}
                   />
 
+
                   <Controller
                     name="password"
                     control={control}
                     rules={{ required: true }}
                     render={({ field }) => (
-                      <div className="w-full pb-4">
-                        <div className="flex items-center bg-white rounded-lg px-2 sm:px-4">
+                      <div className="w-full pb-4 relative">
+                        <div className="flex items-center">
                           <input
                             {...field}
                             type={showPass ? "text" : "password"}
                             placeholder="Password"
                             name="password"
-                            className="w-full h-10 rounded-lg text-base outline-none border-none focus:outline-none focus:ring-0 px-4"
+                            className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px]"
                           />
                           <div
-                            className="cursor-pointer"
+                            className="cursor-pointer ml-2 absolute right-0 top-[10px] md:top-[18px] flex items-center pr-2"
                             onClick={() => setShowPass(!showPass)}
                           >
                             {showPass ? <TbEye /> : <TbEyeOff />}

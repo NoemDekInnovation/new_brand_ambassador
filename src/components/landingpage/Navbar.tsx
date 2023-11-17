@@ -1,4 +1,4 @@
-import logo from "../../assets/Logo.png";
+import logo from "../../assets/download-logo.png";
 import { Link } from "react-router-dom";
 import { Separator } from "../../ui/seperator";
 import { IoCloseSharp } from "react-icons/io5";
@@ -39,7 +39,7 @@ const Navbar = () => {
         </div>
 
         <div className="md:hidden top-0 left-0 w-full h-full z-50">
-          <div className="flex items-center justify-end mb-4">
+          <div className="flex items-center justify-end">
             <div onClick={() => setToggle((prev) => !prev)}>
               {toggle ? (
                 <IoCloseSharp className="w-5 h-5" />
@@ -49,7 +49,7 @@ const Navbar = () => {
             </div>
             {toggle && (
               <div className="p-6 absolute top-20 right-0 bg-white rounded-xl z-50">
-                <div className="flex flex-col items-center cursor-pointer">
+                <div className="flex flex-col items-start cursor-pointer">
                   <div className="px-2 py-1.5 text-sm font-semibold">
                     Get Talent
                   </div>

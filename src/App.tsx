@@ -20,6 +20,7 @@ import ResetPassword from "./components/forgotPassword/resetPassword";
 import VerifyEmail from "./components/verifyEmail/verifyEmail";
 import NewPassword from "./components/forgotPassword/newPassword";
 import Verification from "./components/forgotPassword/otpVerification";
+import LoginVerification from "./components/forgotPassword/loginVerification";
 
 
 function App() {
@@ -60,7 +61,10 @@ function App() {
           path="/auth/login/reset-password/verification"
           element={<Verification />}
         />
-        <Route path="/auth/login/verification" element={<Verification />} />
+        <Route
+          path="/auth/login/verification"
+          element={<LoginVerification />}
+        />
         <Route
           path="/auth/login/reset-password/password"
           element={<NewPassword />}

@@ -1,17 +1,19 @@
 "use client";
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import OTPInput from "react-otp-input";
-import { useNavigate } from "react-router-dom";
+// import { useRouter } from "next/navigation";
 import { Button } from "../../ui/button";
-import { Dialog, DialogContent } from "../../ui/dialog";
+import { useNavigate } from "react-router-dom";
+// import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { TbProgressCheck } from "react-icons/tb";
-import axiosInstance from "../../api/axios";
 import { HiArrowLongLeft } from "react-icons/hi2";
+// import { signIn } from "next-auth/react";
 import { Link } from "react-router-dom";
-import backgroundImage from "../../assets/auth__background.jpeg";
 import Logo from "../../assets/Logo.png";
+import { authAxiosInstance } from "../../api/axios";
+import backgroundImage from "../../assets/auth__background.jpeg";
 
-export default function Verification() {
+export default function LoginVerification() {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -22,6 +24,7 @@ export default function Verification() {
   const [email, setEmail] = useState("");
   const [successModal, setSuccessModal] = useState(false);
 
+  //   const router = useRouter();
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
@@ -55,30 +58,33 @@ export default function Verification() {
     if (otp.length < 6) {
       return setError("The otp number cannot be less than six digits.");
     }
+    const url = "/confirm-code";
 
     try {
       setLoading(true);
 
-      const url = "/confirm-code";
-
-      const response = await axiosInstance.post(`${url}?email=${email}`, {
+      const response = await authAxiosInstance.post(`${url}?email=${email}`, {
+        email: email,
         code: otp,
       });
-      // console.log(response.data, response);
 
-      const stringWithAtSymbol = response.data.message.replace(
-        /OTP verified for /g,
-        "@"
+      if (response !== undefined && response.status === 200) {
+        setSuccessModal(true);
+        setError("");
+        setMessage(response.data.message);
+
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 3000);
+
+        return;
+      }
+
+      setLoading(false);
+
+      setError(
+        "Please enter your credentials correctly or check your internet connection."
       );
-      // console.log(response.data.message, stringWithAtSymbol, "help");
-      setMessage(response.data.message);
-      setSuccessModal(true);
-      setError("");
-
-      setTimeout(() => {
-        navigate(`/auth/login/reset-password/password`);
-        // router.push(`/auth/signup?email=` + email);
-      }, 3000);
     } catch (error: any) {
       setLoading(false);
 
@@ -150,15 +156,20 @@ export default function Verification() {
   return (
     <div className="auth__layout">
       <div className=" bg-white/30 z-10 h-screen w-screen flex items-center justify-center">
-        <div className="z-10 flex justify-around w-full p-4 md:min-w-[350px] rounded-lg">
+        <div className="z-10 flex justify-around w-full p-4 min-w-[350px] rounded-lg">
           <div className="lg:flex flex-col items-center justify-center hidden">
-            <div className=" w-full p-4 md:min-w-[380px] rounded-lg">
+            <div className=" w-full p-4 min-w-[380px] rounded-lg">
               <div className="text-left  text-white">
+                {/* <h1 className="max-w-[300px] font-black text-[60px]">CAMPAIGN</h1>
+
+            <h1 className="font-normal text-[18px]">
+              Login or create an account
+            </h1> */}
                 <img src={Logo} style={{}} alt="logo" width={300} height={50} />
               </div>
             </div>
           </div>
-          <div className="">
+          <div className="flex flex-col justify-center items-center">
             {message && (
               <div
                 className="p-4 mb-4 my-2 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
@@ -172,10 +183,10 @@ export default function Verification() {
                 {error}
               </div>
             )}
-            <div className="bg-[#f3f3f3] text-black w-full max-h-[350px] md:max-h-[400px] max-w-[480px] p-4 sm:p-8 pt-10  pb-20 md:p-[60px] md:pb-[20vh] rounded">
+            <div className="bg-bm_card_grey text-black w-full max-h-[350px]  md:max-h-[400px] max-w-[480px] p-8 pt-10  pb-20 md:p-[60px] md:pb-[20vh] rounded">
               <div className=" flex flex-col space-y-4 sm:space-y-10">
                 <div className=" p-1 text-center ">
-                  <Link to={"/auth/login/reset-password"}>
+                  <Link to={"/auth/login/email"}>
                     <HiArrowLongLeft className="text-black text-[30px] hover:bg-black/10" />{" "}
                   </Link>
                   <h3 className="font-medium text-[18px] sm:text-[24px] mb-5">
@@ -196,9 +207,9 @@ export default function Verification() {
                       renderSeparator={<span>&nbsp;&nbsp;</span>}
                       renderInput={(props) => <input {...props} />}
                       inputStyle={{
-                        width: 50,
-                        height: 49,
-                        borderRadius: 6,
+                        width: 35,
+                        height: 35,
+                        borderRadius: 5,
                         border: "2px solid #eee",
                       }}
                     />
@@ -226,6 +237,12 @@ export default function Verification() {
                     Verify
                   </Button>
                 </form>
+                {/* <Dialog open={successModal} onOpenChange={() => {}}>
+                  <DialogContent className="bg-bm_card_grey flex flex-col items-center justify-center max-w-[360px] py-16">
+                    <TbProgressCheck className="font-normal text-[155px] text-green-700" />
+                    <div className="">Login Successful</div>
+                  </DialogContent>
+                </Dialog> */}
               </div>
             </div>
           </div>
