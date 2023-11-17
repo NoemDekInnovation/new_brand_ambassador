@@ -103,7 +103,7 @@ export default function SignUpDetails() {
     errors?.firstName?.type === "required" ||
     (watch("firstName") && !validator.isAlpha(watch("firstName")))
   ) {
-    errMsg.firstName = "Please enter only alhpabetic characters";
+    errMsg.firstName = "Please enter only alphabetic characters";
   }
 
   if (errors?.lastName?.type === "required") {
@@ -114,7 +114,7 @@ export default function SignUpDetails() {
     errors?.lastName?.type === "required" ||
     (watch("lastName") && !validator.isAlpha(watch("lastName")))
   ) {
-    errMsg.lastName = "Please enter only alhpabetic characters";
+    errMsg.lastName = "Please enter only alphabetic characters";
   }
 
   if (errors?.agencyName?.type === "required") {
