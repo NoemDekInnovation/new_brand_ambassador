@@ -7,7 +7,7 @@ import axiosInstance from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import PasswordValidator from "password-validator";
 import { Button } from "../../ui/button";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { HiArrowLongLeft } from "react-icons/hi2";
 import { TbEyeOff, TbEye } from "react-icons/tb";
 import backgroundImage from "../../assets/auth__background.jpeg";
@@ -168,13 +168,7 @@ export default function NewPassword() {
           <div className="lg:flex flex-col items-center justify-center hidden">
             <div className=" w-full p-4 min-w-[380px] rounded-lg">
               <div className="text-left  text-white">
-                <img
-                  src={Logo}
-                  style={{}}
-                  alt="logo"
-                  width={300}
-                  height={50}
-                />
+                <img src={Logo} style={{}} alt="logo" width={300} height={50} />
               </div>
             </div>
           </div>
@@ -289,14 +283,14 @@ export default function NewPassword() {
                     Reset Password
                   </Button>
                 </form>
-                <Dialog open={successModal}>
+                {/* <Dialog open={successModal}>
                   <DialogContent className="bg-bm_card_grey flex flex-col items-center justify-center rounded max-w-[350px] md:max-w-[460px] p-16">
                     <TbProgressCheck className="font-normal text-[155px] text-green-700" />
                     <div className="text-[20px] font-bold whitespace-nowrap">
                       Password Reset Successful
                     </div>
                   </DialogContent>
-                </Dialog>
+                </Dialog> */}
               </div>
             </div>
           </div>

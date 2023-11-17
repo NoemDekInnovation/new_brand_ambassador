@@ -8,11 +8,10 @@ import { Dialog, DialogContent } from "../../ui/dialog";
 import { TbProgressCheck } from "react-icons/tb";
 import { Button } from "../../ui/button";
 import axiosInstance from "../../api/axios";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { HiArrowLongLeft } from "react-icons/hi2";
 import backgroundImage from "../../assets/auth__background.jpeg";
 import Logo from "../../assets/Logo.png";
-
 
 export default function EmailCode() {
   // const [showPasswordFields, setShowPasswordFields] = useState(false);
@@ -82,7 +81,7 @@ export default function EmailCode() {
           ""
         );
         // console.log("response", response, emailMessage);
-
+        setMessage(response.data.message);
         setSuccessModal(true);
         setError("");
         localStorage.setItem("userEmail", emailMessage);
@@ -114,13 +113,7 @@ export default function EmailCode() {
           <div className="lg:flex flex-col items-center justify-center hidden">
             <div className=" w-full p-4 min-w-[380px] rounded-lg">
               <div className="text-left  text-white">
-                <img
-                  src={Logo}
-                  style={{}}
-                  alt="logo"
-                  width={300}
-                  height={50}
-                />
+                <img src={Logo} style={{}} alt="logo" width={300} height={50} />
               </div>
             </div>
           </div>{" "}
@@ -194,13 +187,13 @@ export default function EmailCode() {
                     )}
                     Get Code
                   </Button>
-                  <Dialog open={successModal}>
+                  {/* <Dialog open={successModal}>
                     <DialogContent className="bg-bm_card_grey flex flex-col items-center justify-center max-w-[360px] py-16">
                       <TbProgressCheck className="font-normal text-[155px] text-green-700" />
 
                       <div className="">Email sent successfully</div>
                     </DialogContent>
-                  </Dialog>
+                  </Dialog> */}
                 </form>
               </div>
             </div>
