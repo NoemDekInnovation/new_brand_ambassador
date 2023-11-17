@@ -178,7 +178,7 @@ export default function Verification() {
                 {error}
               </div>
             )}
-            <div className="bg-bm__card text-black w-full max-h-[350px] md:max-h-[400px] max-w-[480px] p-4 sm:p-8 pt-10  pb-20 md:p-[60px] md:pb-[20vh] rounded">
+            <div className="bg-[#f3f3f3] text-black w-full max-h-[350px] md:max-h-[400px] max-w-[480px] p-4 sm:p-8 pt-10  pb-20 md:p-[60px] md:pb-[20vh] rounded">
               <div className=" flex flex-col space-y-4 sm:space-y-10">
                 <div className=" p-1 text-center ">
                   <Link to={"/auth/login/reset-password"}>
