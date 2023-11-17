@@ -14,15 +14,15 @@ import {
 import validator from "validator";
 import { TbEyeOff, TbEye } from "react-icons/tb";
 
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PasswordValidator from "password-validator";
 import { Button } from "../../../ui/button";
 // import { signIn } from "next-auth/react";
 import { Separator } from "../../../ui/seperator";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { HiArrowLongLeft } from "react-icons/hi2";
 import backgroundImage from "../../../assets/auth__background.jpeg";
-import Logo from "../../../assets/Logo.png";
+import Logo from "../../../assets/Frame.svg";
 
 export default function SignUpDetails() {
   const [loading, setLoading] = useState(false);
@@ -233,14 +233,16 @@ export default function SignUpDetails() {
         <div className="z-10 flex justify-around w-full p-4 min-w-[350px] rounded-lg">
           <div className="lg:flex flex-col items-center justify-center hidden">
             <div className=" w-full p-4 min-w-[380px] rounded-lg">
-              <div className="text-left  text-white">
-              <img
-                  src={Logo}
-                  style={{}}
-                  alt="logo"
-                  width={300}
-                  height={50}
-                />
+              <div className="text-left  text-white cursor-pointer">
+                <Link to="/">
+                  <img
+                    src={Logo}
+                    style={{}}
+                    alt="logo"
+                    width={300}
+                    height={50}
+                  />
+                </Link>
               </div>
             </div>
           </div>
@@ -446,7 +448,7 @@ export default function SignUpDetails() {
                       )}
                     />
                   )}
-                  <Controller
+                  {/* <Controller
                     name="password"
                     control={control}
                     rules={{ required: true }}
@@ -474,8 +476,37 @@ export default function SignUpDetails() {
                         )}
                       </div>
                     )}
-                  />
+                  /> */}
                   <Controller
+                    name="password"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <div className="w-full pb-4 relative">
+                        <div className="flex items-center">
+                          <input
+                            {...field}
+                            type={showPass ? "text" : "password"}
+                            placeholder="Password"
+                            name="password"
+                            className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px]"
+                          />
+                          <div
+                            className="cursor-pointer ml-2 absolute right-0 md:top-[18px] flex items-center pr-2"
+                            onClick={() => setShowPass(!showPass)}
+                          >
+                            {showPass ? <TbEye /> : <TbEyeOff />}
+                          </div>
+                        </div>
+                        {errMsg.password && (
+                          <small className="text-red-500">
+                            {errMsg.password}
+                          </small>
+                        )}
+                      </div>
+                    )}
+                  />
+                  {/* <Controller
                     name="confirmPassword"
                     control={control}
                     rules={{ required: true }}
@@ -492,6 +523,35 @@ export default function SignUpDetails() {
 
                           <div
                             className="cursor-pointer"
+                            onClick={() => setShowPass(!showPass)}
+                          >
+                            {showPass ? <TbEye /> : <TbEyeOff />}
+                          </div>
+                        </div>
+                        {errMsg.confirmPassword && (
+                          <small className="text-red-500">
+                            {errMsg.confirmPassword}
+                          </small>
+                        )}
+                      </div>
+                    )}
+                  /> */}
+                  <Controller
+                    name="confirmPassword"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <div className="w-full pb-4 relative">
+                        <div className="flex items-center">
+                          <input
+                            {...field}
+                            type={showPass ? "text" : "password"}
+                            placeholder="Confirm Password"
+                            name="password"
+                            className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px]"
+                          />
+                          <div
+                            className="cursor-pointer ml-2 absolute right-0 md:top-[18px] flex items-center pr-2"
                             onClick={() => setShowPass(!showPass)}
                           >
                             {showPass ? <TbEye /> : <TbEyeOff />}
