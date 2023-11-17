@@ -9,10 +9,9 @@ import { TbProgressCheck } from "react-icons/tb";
 import { Button } from "../../ui/button";
 import { HiArrowLongLeft } from "react-icons/hi2";
 import axiosInstance from "../../api/axios";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import backgroundImage from "../../assets/auth__background.jpeg";
 import Logo from "../../assets/Logo.png";
-
 
 export default function ResetPassword() {
   // const [showPasswordFields, setShowPasswordFields] = useState(false);
@@ -82,6 +81,7 @@ export default function ResetPassword() {
           ""
         );
         // console.log("response", response, emailMessage);
+        setMessage(response.data.message);
 
         setSuccessModal(true);
         setError("");
@@ -118,17 +118,19 @@ export default function ResetPassword() {
           <div className="lg:flex flex-col items-center justify-center hidden">
             <div className=" w-full p-4 min-w-[380px] rounded-lg">
               <div className="text-left  text-white">
-                <img
-                  src={Logo}
-                  style={{}}
-                  alt="logo"
-                  width={300}
-                  height={50}
-                />
+                <img src={Logo} style={{}} alt="logo" width={300} height={50} />
               </div>
             </div>
           </div>{" "}
           <div className="">
+            {message && (
+              <div
+                className="p-4 mb-4 my-2 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                role="alert"
+              >
+                <span className="font-medium">Success alert!</span> {message}
+              </div>
+            )}
             {error && (
               <div className=" bg-red-100 text-red-700 text-center p-2 rounded-lg mb-2 transition-all duration-1000">
                 {error}
@@ -190,13 +192,13 @@ export default function ResetPassword() {
                     )}
                     Get Code
                   </Button>
-                  <Dialog open={successModal}>
+                  {/* <Dialog open={successModal}>
                     <DialogContent className="bg-bm_card_grey flex flex-col items-center justify-center max-w-[360px] py-16">
                       <TbProgressCheck className="font-normal text-[155px] text-green-700" />
 
                       <div className="">Email sent successfully</div>
                     </DialogContent>
-                  </Dialog>
+                  </Dialog> */}
                 </form>
               </div>
             </div>
