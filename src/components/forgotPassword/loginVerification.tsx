@@ -11,6 +11,7 @@ import { HiArrowLongLeft } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/Logo.png";
 import { authAxiosInstance } from "../../api/axios";
+import backgroundImage from "../../assets/auth__background.jpeg";
 
 export default function LoginVerification() {
   const [otp, setOtp] = useState("");
@@ -248,7 +249,7 @@ export default function LoginVerification() {
         </div>
       </div>
       <img
-        src={"/images/auth__background.jpeg"}
+        src={backgroundImage}
         alt="background"
         width={3440}
         height={2000}
