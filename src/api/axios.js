@@ -19,18 +19,35 @@ export const authAxiosInstance = axios.create({
   // timeout: 4500,
 });
 
-export const registerUser = async (data) => {
+// export const registerUser = async (data) => {
+//   try {
+//     const response = await authAxiosInstance.post("/register", data);
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
+export const registerUser = async (data, token) => {
   try {
-    const response = await authAxiosInstance.post("/register", data);
+    const response = await authAxiosInstance.post("/register", data, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const registerAgency = async (data) => {
+export const registerAgency = async (data, token) => {
   try {
-    const response = await authAxiosInstance.post("/agency-register", data);
+    const response = await authAxiosInstance.post("/agency-register", data,  {
+      headers: {
+        Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
