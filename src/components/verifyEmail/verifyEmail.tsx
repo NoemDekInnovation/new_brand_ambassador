@@ -2,22 +2,20 @@
 
 import axiosInstance from "../../api/axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import backgroundImage from "../../assets/auth__background.jpeg";
-import axios from "axios";
 
 export default function VerifyEmail() {
 
     const navigate = useNavigate();
-    const token = useParams();
-
-
-    console.log("my", window.location.pathname)
+    const location = useLocation();
 
   const [email, setEmail] = useState('');
 
     useEffect(() => {
         const localEmail = localStorage.getItem('userEmail');
+        const searchParams = new URLSearchParams(location.search);
+        const token = searchParams.get('token');
 
         const handleVerification = async () => {
           if (localEmail && token) {
