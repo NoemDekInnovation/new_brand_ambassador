@@ -2,26 +2,29 @@
 
 import axiosInstance from "../../api/axios";
 import { useEffect, useState } from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import backgroundImage from "../../assets/auth__background.jpeg";
+import axios from "axios";
 
 export default function VerifyEmail() {
 
     const navigate = useNavigate();
+    const token = useParams();
+
+
+    console.log("my", window.location.pathname)
+
   const [email, setEmail] = useState('');
 
     useEffect(() => {
         const localEmail = localStorage.getItem('userEmail');
-    
+
         const handleVerification = async () => {
-          if (localEmail) {
+          if (localEmail && token) {
             try {
-              // Assuming your backend expects an email parameter in the query string
-              await axiosInstance.get(`/verify-email?email=${encodeURIComponent(localEmail)}`);
-              
-              // Optionally, clear the local storage if needed
-              // localStorage.clear();
-    
+              await axiosInstance(
+                `/verify-email?token=${token}`
+              );
               // Redirect to login page after a delay
               setTimeout(() => {
                 navigate('/auth/login');
