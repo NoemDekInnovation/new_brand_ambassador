@@ -9,10 +9,11 @@ import React, { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Input } from '../ui/input';
 import Logo from '../assets/Logo.png';
 import avatar from '../assets/avatar.jpg';
+import { logout } from '../redux/user.slice';
 
 export default function NewNavBar() {
   const user = useSelector((state: RootState) => state.user);
@@ -21,6 +22,7 @@ export default function NewNavBar() {
 
   // const router = useRouter();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleToggle = () => {
     setToggleMenubar(!toggleMenubar);
   };
@@ -99,9 +101,9 @@ export default function NewNavBar() {
                   to='/api/auth/signout'
                   onClick={(e) => {
                     e.preventDefault();
-                    // dispatch(logout(''));
+                    dispatch(logout(""));
                     // signOut();
-                    // router.push('/auth/login');
+                    navigate('/auth/login');
                   }}
                 >
                   Logout
