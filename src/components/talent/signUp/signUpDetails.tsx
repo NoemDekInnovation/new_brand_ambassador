@@ -256,7 +256,7 @@ export default function SignUpDetails() {
                     alt="logo"
                     width={300}
                     height={50}
-                  />
+                  /> 
                 </Link>
               </div>
             </div>
