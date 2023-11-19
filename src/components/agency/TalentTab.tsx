@@ -7,7 +7,7 @@ import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
 import { Input } from "../../ui/input";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { AiOutlineImport } from "react-icons/ai";
-import { BiSortAlt2 } from "react-icons/bi";
+import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight, BiSortAlt2 } from "react-icons/bi";
 import beauty from "../../assets/beauty.jpg"
 
 import {
@@ -462,7 +462,9 @@ export default function TalentTab() {
               <CardContent className="py-3 md:py-6 space-y-3">
                 <div className="flex justify-between">
                   <p>Current Contacts</p>
-                  <p className="text-white bg-bm__ox__red px-2 rounded-sm">25</p>
+                  <p className="text-white bg-bm__ox__red px-2 rounded-sm">
+                    25
+                  </p>
                 </div>
                 <Separator className="bg-bm__beige" />
                 <div className=" ">
@@ -475,7 +477,7 @@ export default function TalentTab() {
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="py-3 md:py-6 space-y-3">  
+              <CardContent className="py-3 md:py-6 space-y-3">
                 <div className="flex flex-col ">
                   <p>Gender</p>
                   <Separator className="bg-bm__beige" />
@@ -574,6 +576,17 @@ export default function TalentTab() {
               </div>
             </div>
             <Separator className="my-2" />
+            <div className="flex gap-4 text-bm_black/75 text-[10px] whitespace-nowrap justify-end">
+              <div className="">1 - 5 of 750 </div>
+
+              <div className="flex gap-4 text-bm_black/75 text-[14px]">
+                <BiChevronLeft />
+                <BiChevronsLeft />
+                <BiChevronsRight />
+                <BiChevronRight />
+              </div>
+            </div>
+            <Separator className="my-2" />
             <div className=" m-auto grid grid-cols-4 gap-3 md:gap-12 mt-8">
               {/* <div className="container m-auto grid grid-cols-4 gap-3"> */}
               {talents}
@@ -581,6 +594,7 @@ export default function TalentTab() {
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+         
+    </div>
+  );
 }
