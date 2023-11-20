@@ -20,6 +20,7 @@ import VerifyEmail from "./components/verifyEmail/verifyEmail";
 import NewPassword from "./components/forgotPassword/newPassword";
 import Verification from "./components/forgotPassword/otpVerification";
 import LoginVerification from "./components/forgotPassword/loginVerification";
+import Profile from "./components/talent/Profile";
 
 function App() {
   const ROLES: {
@@ -43,6 +44,7 @@ function App() {
         {user?.accountId === "talent" && (
           <Route element={<RequiredAuth allowedRoles={[ROLES.Talent]} />}>
             <Route path="/dashboard" element={<TalentDashboard />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
         )}
         <Route path="/auth/signup" element={<TalentSignUp />} />

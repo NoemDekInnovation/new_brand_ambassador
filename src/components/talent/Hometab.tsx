@@ -6,8 +6,8 @@ import { AgencyCard } from "./components/AgencyCard";
 
 const Hometab = () => {
   return (
-    <div className="bg-bm_card_grey  h-full">
-      <div className="px-4 md:px-12 xl:px-40 flex py-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
+    <div className="bg-bm_card_grey  h-full overflow-y-scroll">
+      <div className="pr-4 md:pr-12 xl:pr-40 flex py-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
         <div className=" space-y-8 flex-1 flex flex-col items-center sm:block">
           <CurrentProject />
           <div className="sm:hidden w-full">
