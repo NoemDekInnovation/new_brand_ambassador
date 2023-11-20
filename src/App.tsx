@@ -20,6 +20,7 @@ import VerifyEmail from "./components/verifyEmail/verifyEmail";
 import NewPassword from "./components/forgotPassword/newPassword";
 import Verification from "./components/forgotPassword/otpVerification";
 import LoginVerification from "./components/forgotPassword/loginVerification";
+import { AgencyProfile } from "./components/agency/profile/agencyprofile";
 
 function App() {
   const ROLES: {
@@ -68,6 +69,7 @@ function App() {
           element={<NewPassword />}
         />
         <Route path="/" element={<LandingPage />} />
+        <Route path="/profile" element={<AgencyProfile />} />
       </Routes>
     </Router>
   );
