@@ -7,8 +7,9 @@ export function MainLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-bm__layout">
       <NewNavBar />
-      <div className="flex-1">{children}</div>
-      <Footer />
+      <div className="flex">
+        <div className="flex-1">{children}</div>
+      </div>
     </div>
   );
 }

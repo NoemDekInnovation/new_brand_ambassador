@@ -20,7 +20,10 @@ import VerifyEmail from "./components/verifyEmail/verifyEmail";
 import NewPassword from "./components/forgotPassword/newPassword";
 import Verification from "./components/forgotPassword/otpVerification";
 import LoginVerification from "./components/forgotPassword/loginVerification";
-import { AgencyProfile } from "./components/agency/profile/agencyprofile";
+import Profile from "./components/talent/Profile";
+import EditProfile from "./components/talent/EditProfile";
+import AgencyProfile from "./components/agency/profile/agencyprofile";
+import EditAgencyProfile from "./components/agency/profile/editagencyprofile";
 
 function App() {
   const ROLES: {
@@ -39,11 +42,18 @@ function App() {
         {user?.accountId === "agency" && (
           <Route element={<RequiredAuth allowedRoles={[ROLES.Agency]} />}>
             <Route path="/dashboard" element={<AgencyDashboard />} />
+            <Route path="/profile" element={<AgencyProfile />} />
+            <Route
+              path="/profile/edit-agency-profile"
+              element={<EditAgencyProfile />}
+            />
           </Route>
         )}
         {user?.accountId === "talent" && (
           <Route element={<RequiredAuth allowedRoles={[ROLES.Talent]} />}>
             <Route path="/dashboard" element={<TalentDashboard />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/edit-profile" element={<EditProfile />} />
           </Route>
         )}
         <Route path="/auth/signup" element={<TalentSignUp />} />
