@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import Footer from "../Footer";
 import { Button } from "../../ui/button";
 import { MdPayments, MdSettings } from "react-icons/md";
+import { RiEdit2Fill } from "react-icons/ri";
 
 const Profile = () => {
   return (
@@ -24,17 +25,17 @@ const Profile = () => {
               <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige w-[240px] max-h-[189px] border rounded-[6px]">
                 <p className="text-[15px] font-medium">My Account</p>
                 <Separator className="bg-bm__gler" />
-                <div className="flex items-center gap-4 p-1 hover:bg-gray-400 transition-colors transform hover:scale-105 cursor-pointer">
+                <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
                   <BiSolidUserDetail />
                   <p className="text-[12px] font-normal">Profile</p>
                 </div>
                 <Separator className="bg-bm__gler/50" />
-                <div className="flex items-center gap-4 p-1 hover:bg-gray-400 transition-colors transform hover:scale-105 cursor-pointer">
+                <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
                   <MdPayments />
                   <p className="text-[12px] font-normal">Billings & Payments</p>
                 </div>
                 <Separator className="bg-bm__gler/50" />
-                <div className="flex items-center gap-4 p-1 hover:bg-gray-400 transition-colors transform hover:scale-105 cursor-pointer">
+                <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
                   <MdSettings />
                   <p className="text-[12px] font-normal">Settings</p>
                 </div>
@@ -121,7 +122,10 @@ const Profile = () => {
                   <div className="flex-1 flex flex-col gap-2">
                     <div className="flex w-full  justify-between items-center ">
                       <p>Noah Samuel Omolola</p>
-                      <Link to={"edit-profile"}>Edit Profile</Link>
+                      <div className="flex items-center gap-2 bg-[#93979D] text-white p-2 rounded-md">
+                        <RiEdit2Fill />
+                        <Link to={"edit-profile"}>Edit Profile</Link>
+                      </div>
                     </div>
                     <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
                       <p className="text-[15px] font-medium">Overview</p>
