@@ -2,6 +2,7 @@ import ListCard, { TopProjectCard } from "./ListCard";
 import ProjectCard, { CurrentProjects } from "./ProjectCard";
 import circle from "../../assets/Vector.png";
 import plus from "../../assets/plus.png"
+import addButton from "../../assets/Add Button.png"
 
 const currentProject = {
   isCurrent: true,
@@ -33,10 +34,11 @@ const HomeTab = () => {
           <TopProjectCard card_title="Top Projects" card_width="w-full" />
         </div>
         {/* <img src={circle} width={66} height={66} alt="" /> */}
-        <div className="h-[66px] w-[66px] rounded-[30px] bg-[#93979D] flex items-center justify-center">
+        {/* <div className="h-[66px] w-[66px] rounded-[30px] bg-[#93979D] flex items-center justify-center">
           <img src={circle} alt=""  />
           <img src={plus} alt=""  /> 
-        </div>
+        </div> */}
+        <img src={addButton} alt="" />
       </div>
     </div>
   );

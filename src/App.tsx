@@ -22,6 +22,8 @@ import Verification from './components/forgotPassword/otpVerification';
 import LoginVerification from './components/forgotPassword/loginVerification';
 import Profile from './components/talent/Profile';
 import EditProfile from './components/talent/EditProfile';
+import AgencyProfile from './components/agency/profile/agencyprofile';
+import EditAgencyProfile from './components/agency/profile/editagencyprofile';
 
 function App() {
   const ROLES: {
@@ -37,41 +39,46 @@ function App() {
   return (
     <Router>
       <Routes>
-        {user?.accountId === 'agency' && (
+        {user?.accountId === "agency" && (
           <Route element={<RequiredAuth allowedRoles={[ROLES.Agency]} />}>
-            <Route path='/dashboard' element={<AgencyDashboard />} />
+            <Route path="/dashboard" element={<AgencyDashboard />} />
+            <Route path="/profile" element={<AgencyProfile />} />
+            <Route
+              path="/profile/edit-agency-profile"
+              element={<EditAgencyProfile />}
+            />
           </Route>
         )}
-        {user?.accountId === 'talent' && (
+        {user?.accountId === "talent" && (
           <Route element={<RequiredAuth allowedRoles={[ROLES.Talent]} />}>
-            <Route path='/dashboard' element={<TalentDashboard />} />
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/profile/edit-profile' element={<EditProfile />} />
+            <Route path="/dashboard" element={<TalentDashboard />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/edit-profile" element={<EditProfile />} />
           </Route>
         )}
-        <Route path='/auth/signup' element={<TalentSignUp />} />
-        <Route path='/auth/signup/details' element={<SignUpDetails />} />
-        <Route path='/auth/login' element={<Login />} />
+        <Route path="/auth/signup" element={<TalentSignUp />} />
+        <Route path="/auth/signup/details" element={<SignUpDetails />} />
+        <Route path="/auth/login" element={<Login />} />
         <Route
-          path='/auth/login/forgot-password'
+          path="/auth/login/forgot-password"
           element={<ForgotPassword />}
         />
-        <Route path='/auth/login/email' element={<EmailCode />} />
-        <Route path='/auth/login/reset-password' element={<ResetPassword />} />
-        <Route path='/auth/signup/verify-email' element={<VerifyEmail />} />
+        <Route path="/auth/login/email" element={<EmailCode />} />
+        <Route path="/auth/login/reset-password" element={<ResetPassword />} />
+        <Route path="/auth/signup/verify-email" element={<VerifyEmail />} />
         <Route
-          path='/auth/login/reset-password/verification'
+          path="/auth/login/reset-password/verification"
           element={<Verification />}
         />
         <Route
-          path='/auth/login/verification'
+          path="/auth/login/verification"
           element={<LoginVerification />}
         />
         <Route
-          path='/auth/login/reset-password/password'
+          path="/auth/login/reset-password/password"
           element={<NewPassword />}
         />
-        <Route path='/' element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
       </Routes>
     </Router>
   );
