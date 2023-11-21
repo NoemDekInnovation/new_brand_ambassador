@@ -4,24 +4,24 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
-import React, { useState } from 'react';
-import { AiOutlineSearch } from 'react-icons/ai';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+} from "../ui/dropdown-menu";
+import React, { useState } from "react";
+import { AiOutlineSearch } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 import { Link, useNavigate } from "react-router-dom";
-import { Input } from '../ui/input';
+import { Input } from "../ui/input";
 import logo from "../assets/download-logo.png";
-import avatar from '../assets/avatar.jpg';
+import avatar from "../assets/avatar.jpg";
 import { logout } from "../redux/user.slice";
 
 export default function NewNavBar() {
   const user = useSelector((state: RootState) => state.user);
   const [toggleMenubar, setToggleMenubar] = useState(false);
+  const navigate = useNavigate();
 
   // const router = useRouter();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const handleToggle = () => {
     setToggleMenubar(!toggleMenubar);
   };
@@ -30,7 +30,7 @@ export default function NewNavBar() {
       <nav className="flex justify-between px-4  md:px-12 xl:px-40 items-center  text-[12px] font-medium bg-white py-10">
         <div className="flex items-center gap-2 md:gap-8 w-full">
           <div className="flex justify-between items-center w-full lg:w-fit">
-            <Link to="/">
+            <Link to="/dashboard">
               <img src={logo} style={{}} alt="logo" width={140} height={50} />
             </Link>
 
@@ -100,10 +100,9 @@ export default function NewNavBar() {
                   to="/api/auth/signout"
                   onClick={(e) => {
                     e.preventDefault();
-                    dispatch(logout(""));
+                    // dispatch(logout(''));
                     // signOut();
                     navigate("/auth/login");
-                    navigate('/auth/login');
                   }}
                 >
                   Logout

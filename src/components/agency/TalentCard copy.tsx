@@ -16,12 +16,6 @@ import blue2 from "../../assets/Profile 1 1.png";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { useState } from "react";
 import { IoLocationSharp, IoStarHalf, IoShareSocial } from "react-icons/io5";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../../ui/tooltip";
 
 const slides = [beauty, profile, blue, nivea, blue2];
 

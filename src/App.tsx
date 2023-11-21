@@ -1,37 +1,37 @@
-import React from "react";
-import "./App.css";
-import AgencyDashboard from "./components/agency/Dashboard";
-import RequiredAuth from "./components/RequireAuth";
-import "./App.css";
+import React from 'react';
+import './App.css';
+import AgencyDashboard from './components/agency/Dashboard';
+import RequiredAuth from './components/RequireAuth';
+import './App.css';
 
-import TalentDashboard from "./components/talent/Dashboard";
-import { RootState } from "./redux/store";
-import { useSelector } from "react-redux";
-import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import TalentSignUp from "./components/talent/signUp/signup";
-import SignUpDetails from "./components/talent/signUp/signUpDetails";
-import Login from "./components/talent/login/login";
-import LandingPage from "./components/landingpage";
-import ForgotPassword from "./components/forgotPassword/forgotPassword";
-import EmailCode from "./components/forgotPassword/emailCode";
-import ResetPassword from "./components/forgotPassword/resetPassword";
-import VerifyEmail from "./components/verifyEmail/verifyEmail";
-import NewPassword from "./components/forgotPassword/newPassword";
-import Verification from "./components/forgotPassword/otpVerification";
-import LoginVerification from "./components/forgotPassword/loginVerification";
-import Profile from "./components/talent/Profile";
-import EditProfile from "./components/talent/EditProfile";
-import AgencyProfile from "./components/agency/profile/agencyprofile";
-import EditAgencyProfile from "./components/agency/profile/editagencyprofile";
+import TalentDashboard from './components/talent/Dashboard';
+import { RootState } from './redux/store';
+import { useSelector } from 'react-redux';
+import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import TalentSignUp from './components/talent/signUp/signup';
+import SignUpDetails from './components/talent/signUp/signUpDetails';
+import Login from './components/talent/login/login';
+import LandingPage from './components/landingpage';
+import ForgotPassword from './components/forgotPassword/forgotPassword';
+import EmailCode from './components/forgotPassword/emailCode';
+import ResetPassword from './components/forgotPassword/resetPassword';
+import VerifyEmail from './components/verifyEmail/verifyEmail';
+import NewPassword from './components/forgotPassword/newPassword';
+import Verification from './components/forgotPassword/otpVerification';
+import LoginVerification from './components/forgotPassword/loginVerification';
+import Profile from './components/talent/Profile';
+import EditProfile from './components/talent/EditProfile';
+import AgencyProfile from './components/agency/profile/agencyprofile';
+import EditAgencyProfile from './components/agency/profile/editagencyprofile';
 
 function App() {
   const ROLES: {
     Agency: string;
     Talent: string;
   } = {
-    Agency: "agency",
-    Talent: "talent",
+    Agency: 'agency',
+    Talent: 'talent',
   };
 
   const { user } = useSelector((state: RootState) => state.user);
@@ -78,7 +78,6 @@ function App() {
           element={<NewPassword />}
         />
         <Route path="/" element={<LandingPage />} />
-        <Route path="/profile" element={<AgencyProfile />} />
       </Routes>
     </Router>
   );
