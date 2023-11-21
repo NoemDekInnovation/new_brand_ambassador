@@ -15,7 +15,7 @@ const AgencyProfile = () => {
   return (
     <MainLayout>
       <div className=" flex py-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
-        <div className="bg-white flex w-full max-w-[1120px] mx-auto min-h-[70vh] p-[24px]  gap-[24px]">
+        <div className="bg-white flex w-full max-w-[1600px] mx-auto min-h-[70vh] p-[24px]  gap-[24px]">
           <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige w-[240px] max-h-[189px] border rounded-[6px]">
             <p className="text-[15px] font-medium">My Account</p>
             <Separator className="bg-bm__gler" />
@@ -46,7 +46,7 @@ const AgencyProfile = () => {
               <div className="flex-1 flex flex-col gap-2">
                 <div className="flex w-full  justify-between items-center ">
                   <p>Noah Samuel Omolola</p>
-                  <div className="flex items-center gap-2 bg-[#93979D] text-white">
+                  <div className="flex items-center gap-2 bg-[#93979D] text-white p-2 rounded-md">
                     <RiEdit2Fill />
                     <Link to={"edit-agency-profile"}>Edit Profile</Link>
                   </div>

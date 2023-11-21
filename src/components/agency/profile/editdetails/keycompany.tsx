@@ -7,6 +7,8 @@ import { Input } from "../../../../ui/input";
 import { Separator } from "../../../../ui/seperator";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { MdPayments, MdSettings } from "react-icons/md";
+import darkUnion from "../../../../assets/long_union.png";
+import subtract from "../../../../assets/long_Subtract.png";
 // import { Progress } from '@/components/ui/progress';
 
 export default function KeyCompany({
@@ -21,8 +23,8 @@ export default function KeyCompany({
   setKeyCompany: React.Dispatch<React.SetStateAction<{}>>;
 }) {
   return (
-    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[883px] py-10 max-w-fit mx-auto p-24">
-      <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px] ">
+    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[883px] py-10 mx-auto p-24">
+      <Card className="bg-white h-full p-2 md:p-4 flex justify-between gap-[24px]  ">
         <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige w-[240px] max-h-[189px] border rounded-[6px]">
           <p className="text-[15px] font-medium">My Account</p>
           <Separator className="bg-bm__gler" />
@@ -43,14 +45,23 @@ export default function KeyCompany({
             <p className="text-[12px] font-normal">Settings</p>
           </div>
         </Card>
-        <div className="">
-          <div className="flex justify-between font-medium text-[12px] my-2">
-            <p className="bg-black text-white p-4">Key Contact Details</p>
-            <p className="bg-[#D7D8DA] border border-bm__btn__grey p-4 ">
-              Company Details
-            </p>
+        <div className="flex-1">
+          <div className="flex justify-between font-medium text-[12px] my-2 space-x-[-10px]">
+            <div className="relative text-white flex items-center justify-center">
+              <p className="absolute top-[25%]  z-20 text-[16px]">
+                Key Contact Details
+              </p>
+              <img src={darkUnion} alt="" className=" z-10 w-[800px]" />
+            </div>
+            <div className=" relative text-black flex items-center justify-center">
+              <p className="absolute top-[25%] z-20 text-[16px] text-[#252525]">
+                {" "}
+                Company Details
+              </p>
+              <img src={subtract} alt="" className=" z-10 w-[800px]" />
+            </div>
           </div>
-          <CardContent className="border rounded-xl  p-5 flex-1 flex flex-col  mt-3 w-[808px] ">
+          <CardContent className="border rounded-xl  p-5 flex-1 flex flex-col  mt-3 ">
             <div className="pb-8">
               <Input type="file" className="hidden pb-4" />
               <div className="mt-3 border w-[120px] h-[150px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
