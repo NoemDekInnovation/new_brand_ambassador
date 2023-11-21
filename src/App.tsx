@@ -33,7 +33,7 @@ function App() {
   };
 
   const { user } = useSelector((state: RootState) => state.user);
-
+  const me = localStorage.getItem("me");
   return (
     <Router>
       <Routes>
