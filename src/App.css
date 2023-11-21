@@ -1,4 +1,3 @@
-
 /* 
 @tailwind base;
 @tailwind components;
@@ -43,9 +42,10 @@
   }
 } */
 
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 .auth__layout {
   @apply h-screen object-cover bg-no-repeat w-screen bg-gray-50 flex items-center justify-center;
@@ -97,4 +97,10 @@
 
 .ox__btn {
   @apply bg-bm__ox__red w-full px-6 py-1 text-white hover:bg-bm__ox__red/70 rounded-md;
+}
+
+/* styles.css */
+
+body {
+  font-family: "Poppins", sans-serif;
 }
