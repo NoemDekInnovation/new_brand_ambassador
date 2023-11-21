@@ -11,6 +11,7 @@ export function MainLayout({ children }: { children: ReactNode }) {
       <div className="flex">
         <div className="flex-1">{children}</div>
       </div>
+      <AgencyFooter />
     </div>
   );
 }
