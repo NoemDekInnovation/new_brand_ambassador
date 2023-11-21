@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AgencyLayout } from "../Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
-import arrowIcon from "../../assets/teenyicons_down-solid.png";
+import arrowIcon from "../../assets/Vector.png";
 import HomeTab from "./HomeTab";
 import TalentTab from "./TalentTab";
 import ProjectTab from "./ProjectTab";
@@ -103,9 +103,7 @@ const Dashboard = () => {
         <TabsContent className="w-full" value="users"></TabsContent>
       </Tabs>
     </AgencyLayout>
-    
   );
 };
 
 export default Dashboard;
- 
