@@ -9,23 +9,14 @@ import React, { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-<<<<<<< HEAD
 import { Link, useNavigate } from "react-router-dom";
-=======
-import { Link, useNavigate } from 'react-router-dom';
->>>>>>> staging
 import { Input } from '../ui/input';
 import logo from "../assets/download-logo.png";
 import avatar from '../assets/avatar.jpg';
-<<<<<<< HEAD
 import { logout } from "../redux/user.slice";
-=======
-import { logout } from '../redux/user.slice';
->>>>>>> staging
 
 export default function NewNavBar() {
   const user = useSelector((state: RootState) => state.user);
-  const navigate = useNavigate();
   const [toggleMenubar, setToggleMenubar] = useState(false);
 
   // const router = useRouter();
@@ -111,11 +102,8 @@ export default function NewNavBar() {
                     e.preventDefault();
                     dispatch(logout(""));
                     // signOut();
-<<<<<<< HEAD
                     navigate("/auth/login");
-=======
                     navigate('/auth/login');
->>>>>>> staging
                   }}
                 >
                   Logout
