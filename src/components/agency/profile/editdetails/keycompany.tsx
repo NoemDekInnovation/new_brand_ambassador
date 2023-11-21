@@ -9,6 +9,7 @@ import { BiSolidUserDetail } from "react-icons/bi";
 import { MdPayments, MdSettings } from "react-icons/md";
 import darkUnion from "../../../../assets/long_union.png";
 import subtract from "../../../../assets/long_Subtract.png";
+import { Link } from "react-router-dom";
 // import { Progress } from '@/components/ui/progress';
 
 export default function KeyCompany({
@@ -28,19 +29,19 @@ export default function KeyCompany({
         <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige max-h-[189px] border rounded-[6px]  rounded-b-0">
           <p className="text-[15px] font-medium">My Account</p>
           <Separator className="bg-bm__gler" />
-          <div className="flex items-center gap-4 hover:bg-gray-400 transition-colors transform hover:scale-105 p-2 cursor-pointer">
+          <div className="flex items-center gap-4  hover:bg-black/10 transform hover:scale-105 p-2 cursor-pointer">
             <BiSolidUserDetail />
             <p className="text-[12px] font-normal">Profile</p>
           </div>
           <Separator className="bg-bm__gler/50" />
 
-          <div className="flex items-center gap-4  hover:bg-gray-400 transition-colors transform hover:scale-105 p-2 cursor-pointer">
+          <div className="flex items-center gap-4   hover:bg-black/10 transform hover:scale-105 p-2 cursor-pointer">
             <MdPayments />
             <p className="text-[12px] font-normal">Billings & Payments</p>
           </div>
           <Separator className="bg-bm__gler/50" />
 
-          <div className="flex items-center gap-4  hover:bg-gray-400 transition-colors transform hover:scale-105 p-2 cursor-pointer">
+          <div className="flex items-center gap-4   hover:bg-black/10 transform hover:scale-105 p-2 cursor-pointer">
             <MdSettings />
             <p className="text-[12px] font-normal">Settings</p>
           </div>
@@ -48,17 +49,21 @@ export default function KeyCompany({
         <div className="flex-1">
           <div className="flex justify-between font-medium text-[12px] my-2 space-x-[-10px]">
             <div className="relative text-white flex items-center justify-center">
-              <p className="absolute top-[25%]  z-20 text-[16px]">
+              <p className="absolute top-[25%]  z-20 text-[16px] ">
                 Key Contact Details
               </p>
-              <img src={darkUnion} alt="" className=" z-10 w-[800px]" />
+              <img
+                src={darkUnion}
+                alt=""
+                className=" z-10 w-[800px] h-[50px] "
+              />
             </div>
             <div className=" relative text-black flex items-center justify-center">
-              <p className="absolute top-[25%] z-20 text-[16px] text-[#252525]">
+              <p className="absolute top-[25%] z-20 text-[16px] text-[#252525] ">
                 {" "}
                 Company Details
               </p>
-              <img src={subtract} alt="" className=" z-10 w-[800px]" />
+              <img src={subtract} alt="" className=" z-10 w-[800px] h-[50px]" />
             </div>
           </div>
           <CardContent className="border rounded-xl  p-5 flex-1 flex flex-col  mt-3 ">
@@ -163,9 +168,9 @@ export default function KeyCompany({
           {/* <Progress value={14} className='my-2 md:my-7' /> */}
 
           <div className="flex justify-between mt-2">
-            <Button className="light__btn max-w-[100px]" onClick={cancel}>
-              Cancel
-            </Button>
+            <Link to={"/profile"}>
+              <Button className="light__btn max-w-[100px]">Cancel</Button>
+            </Link>
             <div className="flex gap-4">
               <Button className="light__btn" onClick={next}>
                 Save

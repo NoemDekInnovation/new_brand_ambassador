@@ -24,19 +24,19 @@ export default function Skills({
         <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige max-h-[189px] border rounded-[6px]">
           <p className="text-[15px] font-medium">My Account</p>
           <Separator className="bg-bm__gler" />
-          <div className="flex items-center gap-4 hover:bg-gray-400 transition-colors transform hover:scale-105 p-2 cursor-pointer">
+          <div className="flex items-center gap-4  hover:bg-black/10 transform hover:scale-105 p-2 cursor-pointer">
             <BiSolidUserDetail />
             <p className="text-[12px] font-normal">Profile</p>
           </div>
           <Separator className="bg-bm__gler/50" />
 
-          <div className="flex items-center gap-4  hover:bg-gray-400 transition-colors transform hover:scale-105 p-2 cursor-pointer">
+          <div className="flex items-center gap-4   hover:bg-black/10 transform hover:scale-105 p-2 cursor-pointer">
             <MdPayments />
             <p className="text-[12px] font-normal">Billings & Payments</p>
           </div>
           <Separator className="bg-bm__gler/50" />
 
-          <div className="flex items-center gap-4  hover:bg-gray-400 transition-colors transform hover:scale-105 p-2 cursor-pointer">
+          <div className="flex items-center gap-4   hover:bg-black/10 transform hover:scale-105 p-2 cursor-pointer">
             <MdSettings />
             <p className="text-[12px] font-normal">Settings</p>
           </div>

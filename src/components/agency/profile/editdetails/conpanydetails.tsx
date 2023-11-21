@@ -23,19 +23,19 @@ export default function CompanyDetails({
         <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige max-h-[189px] border rounded-[6px]">
           <p className="text-[15px] font-medium">My Account</p>
           <Separator className="bg-bm__gler" />
-          <div className="flex items-center gap-4 hover:bg-gray-400 transition-colors transform hover:scale-105 p-2 cursor-pointer">
+          <div className="flex items-center gap-4  hover:bg-black/10 transform hover:scale-105 p-2 cursor-pointer">
             <BiSolidUserDetail />
             <p className="text-[12px] font-normal">Profile</p>
           </div>
           <Separator className="bg-bm__gler/50" />
 
-          <div className="flex items-center gap-4  hover:bg-gray-400 transition-colors transform hover:scale-105 p-2 cursor-pointer">
+          <div className="flex items-center gap-4   hover:bg-black/10 transform hover:scale-105 p-2 cursor-pointer">
             <MdPayments />
             <p className="text-[12px] font-normal">Billings & Payments</p>
           </div>
           <Separator className="bg-bm__gler/50" />
 
-          <div className="flex items-center gap-4  hover:bg-gray-400 transition-colors transform hover:scale-105 p-2 cursor-pointer">
+          <div className="flex items-center gap-4   hover:bg-black/10 transform hover:scale-105 p-2 cursor-pointer">
             <MdSettings />
             <p className="text-[12px] font-normal">Settings</p>
           </div>
@@ -43,12 +43,25 @@ export default function CompanyDetails({
         <div className="flex-1 overflow-y-scroll pr-2">
           <div className="flex justify-between font-medium text-[12px] my-2 space-x-[-10px]">
             <div className="relative text-black flex items-center justify-center">
-              <p className="absolute top-[25%]  z-20">Key Contact Details</p>
-              <img src={darkUnion} alt="" className=" z-10 w-[800px]" />
+              <p className="absolute top-[25%] text-[16px] text-[#252525] z-20">
+                Key Contact Details
+              </p>
+              <img
+                src={darkUnion}
+                alt=""
+                className=" z-10 w-[800px] h-[50px]"
+              />
             </div>
             <div className=" relative text-white flex items-center justify-center">
-              <p className="absolute top-[25%] z-20"> Company Details</p>
-              <img src={subtract} alt="" className=" z-10 w-[800px]" />
+              <p className="absolute top-[25%] text-[16px] z-20">
+                {" "}
+                Company Details
+              </p>
+              <img
+                src={subtract}
+                alt=""
+                className=" z-10 w-[800px]  h-[50px]"
+              />
             </div>
           </div>
           <CardContent className="border rounded-xl  p-5 flex-1 flex flex-col  mt-3 ">
@@ -74,7 +87,7 @@ export default function CompanyDetails({
                 htmlFor="floating_first_name"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                First name
+                Agency Name
               </label>
             </div>
             <div className="relative z-0 w-full mb-6 group">
@@ -92,7 +105,7 @@ export default function CompanyDetails({
                 htmlFor="floating_last_name"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Middle Name
+                Agency Type
               </label>
             </div>
             <div className="relative z-0 w-full mb-6 group">
@@ -110,7 +123,7 @@ export default function CompanyDetails({
                 htmlFor="floating_last_name"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Last Name
+                Email Address
               </label>
             </div>
             <div className="relative z-0 w-full mb-6 group">
@@ -128,7 +141,7 @@ export default function CompanyDetails({
                 htmlFor="floating_last_name"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Email
+                Office Nmber
               </label>
             </div>
             <div className="relative z-0 w-full mb-6 group">
@@ -204,7 +217,7 @@ export default function CompanyDetails({
                   htmlFor="floating_first_name"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Middle name
+                  LGA
                 </label>
               </div>
 
@@ -223,7 +236,7 @@ export default function CompanyDetails({
                   htmlFor="floating_last_name"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Email
+                  State
                 </label>
               </div>
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
@@ -241,7 +254,7 @@ export default function CompanyDetails({
                   htmlFor="floating_last_name"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Email
+                  Zip Code
                 </label>
               </div>
             </div>
@@ -249,9 +262,11 @@ export default function CompanyDetails({
           {/* <Progress value={14} className='my-2 md:my-7' /> */}
           <div className="flex justify-between mt-2">
             <div className="flex gap-2">
-              <Button className="light__btn max-w-[100px]" onClick={cancel}>
-                Close
-              </Button>
+              <Link to={"/profile"}>
+                <Button className="light__btn max-w-[100px]" onClick={cancel}>
+                  Cancel
+                </Button>
+              </Link>
               <Button className="light__btn max-w-[100px]" onClick={prev}>
                 Back
               </Button>
