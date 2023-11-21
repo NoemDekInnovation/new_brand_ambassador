@@ -6,7 +6,7 @@ import AgencyFooter from "./agency/AgencyFooter";
 
 export function MainLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col bg-bm__layout">
+    <div className="min-h-screen flex flex-col bg-bm_card_grey">
       <NewNavBar />
       <div className="flex">
         <div className="flex-1">{children}</div>

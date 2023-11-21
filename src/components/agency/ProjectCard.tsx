@@ -96,7 +96,7 @@ export function CurrentProjects({
         </CardTitle>
       </CardHeader>
       <Separator className="my-2" />
-      <div className="w-[808px] h-[168px]">
+      <div className="max-w-[1200px] h-[168px]">
         <Carousel
           additionalTransfrom={0}
           arrows
@@ -121,19 +121,19 @@ export function CurrentProjects({
                 max: 3000,
                 min: 1024,
               },
-              items: 1,
-            },
-            mobile: {
-              breakpoint: {
-                max: 464,
-                min: 0,
-              },
-              items: 1,
+              items: 4,
             },
             tablet: {
               breakpoint: {
                 max: 1024,
                 min: 464,
+              },
+              items: 4,
+            },
+            mobile: {
+              breakpoint: {
+                max: 464,
+                min: 0,
               },
               items: 1,
             },

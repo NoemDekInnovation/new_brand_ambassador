@@ -19,7 +19,7 @@ export default function Address({
   return (
     <div className=' bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'>
       {/* <div className='fixed top-0 h-screen w-screen bg-[#F3F3F3]/30 z-[1000] mt-[20vh] px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'> */}
-      <Card className='bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px]'>
+      <Card className='bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px] w-fit mx-auto'>
         <Card className=' p-6 flex flex-col justify-center gap-2  border-bm__beige w-[240px] max-h-[189px] border rounded-[6px]'>
           <p className='text-[15px] font-medium'>My Account</p>
           <Separator className='bg-bm__gler' />
