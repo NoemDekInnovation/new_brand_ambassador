@@ -39,9 +39,17 @@ const AgencyProfile = () => {
               <div className="bg-black w-fit rounded-[5px] px-1 text-[18px]">
                 <BiSolidUserDetail className="text-white w-fit" />
               </div>
-              <p>Profile</p>
+              <p className="">Profile</p>
+              <p className="ml-20 bg-bm__ox__red px-2 text-white rounded-md">
+                60%
+              </p>
             </div>
-            <Progress value={33} />
+            <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700  my-2">
+              <div
+                className="bg-bm__ox__red h-1.5 rounded-full"
+                style={{ width: "33%" }}
+              ></div>
+            </div>
             <div className=" flex w-full gap-4 h-fit">
               <div className="flex-1 flex flex-col gap-2">
                 <div className="flex w-full  justify-between items-center ">

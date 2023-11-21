@@ -1,10 +1,10 @@
-import { MainLayout } from '../Layout';
-import { Card } from '../../ui/card';
-import { Separator } from '../../ui/seperator';
-import { BiSolidUserDetail } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
-import Footer from '../Footer';
-import { Button } from '../../ui/button';
+import { MainLayout } from "../Layout";
+import { Card } from "../../ui/card";
+import { Separator } from "../../ui/seperator";
+import { BiSolidUserDetail } from "react-icons/bi";
+import { Link } from "react-router-dom";
+import Footer from "../Footer";
+import { Button } from "../../ui/button";
 
 const Profile = () => {
   return (
