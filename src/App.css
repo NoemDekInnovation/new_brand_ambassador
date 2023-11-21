@@ -47,6 +47,8 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+
+
 .auth__layout {
   @apply h-screen object-cover bg-no-repeat w-screen bg-gray-50 flex items-center justify-center;
 }
