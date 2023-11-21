@@ -41,8 +41,6 @@ export const responsive = {
   },
 };
 
-
-
 export function CurrentProjects({
   card_title,
   card_content,
@@ -54,7 +52,7 @@ export function CurrentProjects({
     return (
       <Card
         className=" bg-white p-2 mx-3 rounded-md md:w-[244px] shadow-md"
-        key={idx} 
+        key={idx}
       >
         <CardTitle className="text-[15px] font-medium leading-[15px]">
           Project Name
@@ -98,7 +96,7 @@ export function CurrentProjects({
         </CardTitle>
       </CardHeader>
       <Separator className="my-2" />
-      <div className="w-[808px] h-[168px]">
+      <div className="h-[168px]">
         <Carousel
           additionalTransfrom={0}
           arrows
@@ -108,7 +106,7 @@ export function CurrentProjects({
           containerClass="container"
           dotListClass=""
           draggable
-          focusOnSelect={false} 
+          focusOnSelect={false}
           infinite
           itemClass=""
           keyBoardControl
@@ -123,10 +121,10 @@ export function CurrentProjects({
                 max: 3000,
                 min: 1024,
               },
-              items: 1,
+              items: 5,
             },
             mobile: {
-              breakpoint: { 
+              breakpoint: {
                 max: 464,
                 min: 0,
               },
@@ -137,8 +135,8 @@ export function CurrentProjects({
                 max: 1024,
                 min: 464,
               },
-              items: 1,
-            },   
+              items: 4,
+            },
           }}
           rewind={false}
           rewindWithAnimation={false}
@@ -155,8 +153,6 @@ export function CurrentProjects({
     </Card>
   );
 }
-
-
 
 const ProjectCard = ({
   card_title,
@@ -214,5 +210,99 @@ const ProjectCard = ({
     </Card>
   );
 };
+// export function CurrentProjects({
+//   card_title,
+//   card_content,
+// }: {
+//   card_title: string;
+//   card_content: { isCurrent: boolean; content: number[] };
+// }) {
+//   const projects = [1, 2, 3, 4, 5, 6, 7].map((_, idx) => {
+//     return (
+//       <div
+//         className="mx-3 border rounded-md p-2 md:p-4 bg-white shadow-md"
+//         key={idx}
+//         style={{ minWidth: "300px" }}
+//       >
+//         <h3 className="text-[15px] font-medium">Project Name</h3>
+//         <p className="text-[14px]">
+//           This is the decription... This is the description
+//         </p>
+//         <Separator className="my-1" />
+//         <div className="flex text-[14px] py-2">
+//           <p className="text-bm__niv pr-2 border-r-2 border-r-black mr-2 font-medium text-sm">
+//             Project Code: NIV23{" "}
+//           </p>
+//           <p className="text-bm__niv font-medium text-sm">300 Brand</p>
+//         </div>
+//         <div className="flex text-[14px] py-2">
+//           <p className="text-bm__niv underline pr-2 border-r-2 border-r-black mr-2 font-medium text-sm">
+//             300 Applications
+//           </p>
+//           <p className="text-bm__niv underline font-medium text-sm">
+//             10 Supervisors
+//           </p>
+//         </div>
+//         <Separator className="my-1" />
+//         <div className="flex text-[13px] gap-2">
+//           <div className=" font-normal">Nov -30 - Dec 30</div>
+//           <div className="">.</div>
+//           <div className="font-normal">Lagos, Abuja, Ogun</div>
+//         </div>
+//       </div>
+//     );
+//   });
+
+//   return (
+//     <Card className="p-2 md:p-4 bg-white w-[1300px] overflow-auto">
+//       <CardHeader className="flex-row p-1 justify-between items-center">
+//         <CardTitle>
+//           <p className="font-medium text-[15px] whitespace-nowrap">
+//             {card_title}
+//           </p>
+//         </CardTitle>
+//       </CardHeader>
+//       <Separator className="my-2" />
+//       {/* <div className="flex p-2 md:p-4 md:pl-0 pl-0 w-[1300px] overflow-x-auto">
+//           {projects}
+//         </div>
+//         <div className="flex justify-between items-center mt-2">
+//           <button
+//             className="text-bm_black/75 text-[16px]"
+//             onClick={() => scrollProjects(-1)}
+//           >
+//             <BiChevronLeft />
+//           </button>
+//           <button
+//             className="text-bm_black/75 text-[16px]"
+//             onClick={() => scrollProjects(1)}
+//           >
+//             <BiChevronRight />
+//           </button>
+//         </div> */}
+//       {projects !== null && (
+//         <Carousel
+//           responsive={responsive}
+//           autoPlay={true}
+//           swipeable={true}
+//           draggable={true}
+//           autoPlaySpeed={6000}
+//           keyBoardControl={true}
+//           customTransition="all 5"
+//           transitionDuration={100}
+//           showDots={true}
+//           infinite={true}
+//           partialVisible={false}
+//           slidesToSlide={1}
+//           dotListClass="custom-dot-list-style"
+//           // showDots={true}
+//           // responsive={responsive}
+//         >
+//           {projects}
+//         </Carousel>
+//       )}
+//     </Card>
+//   );
+// }
 
 export default ProjectCard;
