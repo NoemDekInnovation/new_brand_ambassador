@@ -12,9 +12,6 @@ import { Link } from "react-router-dom";
 import Logo from "../../assets/Frame.svg";
 import { authAxiosInstance } from "../../api/axios";
 import backgroundImage from "../../assets/auth__background.jpeg";
-import { setUser } from "../../redux/user.slice";
-import { useDispatch } from "react-redux";
-
 
 export default function LoginVerification() {
   const [otp, setOtp] = useState("");
@@ -29,7 +26,6 @@ export default function LoginVerification() {
 
   //   const router = useRouter();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     const userEmail = localStorage.getItem("userEmail");
@@ -62,7 +58,7 @@ export default function LoginVerification() {
     if (otp.length < 6) {
       return setError("The otp number cannot be less than six digits.");
     }
-    const url = "/confirm-login-code";
+    const url = "/confirm-code";
 
     try {
       setLoading(true);
@@ -73,16 +69,8 @@ export default function LoginVerification() {
       });
 
       if (response !== undefined && response.status === 200) {
-         
-        let details = {
-          firstName: response.data.data.firstName,
-          role: response.data.data.role,
-          accountId: response.data.data.accountType,
-        };
-        
         setSuccessModal(true);
         setError("");
-        dispatch(setUser(details));
         setMessage(response.data.message);
 
         setTimeout(() => {
