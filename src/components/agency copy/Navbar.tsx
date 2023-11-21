@@ -30,7 +30,7 @@ const Navbar = () => {
           <div className="flex justify-between items-center w-full lg:w-fit">
             <Link to="/">
               <img src={logo} alt="logo" width={140} height={50} />
-            </Link >
+            </Link>
             {/* Mobile Menu */}
             <div className="md:hidden top-0 left-0 w-full h-full z-50">
               <div className="flex items-center justify-end">
