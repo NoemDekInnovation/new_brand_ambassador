@@ -20,9 +20,10 @@ import { RiStackshareLine } from "react-icons/ri";
 import { Dialog, DialogContent } from "../../ui/dialog";
 import girl1 from "../../assets/Rectangle 11 (1).png"
 import girl2 from "../../assets/Gallery=Gallery6.png"
-import girl3 from "../../assets/Profile 2 1.png"
+import girl3 from "../../assets/Profile 1 1.png"
+import girl4 from "../../assets/Profile 2 1.png"
 import Age from "../../assets/Age.png"
-import height from "../../assets/Height.png"
+import height from "../../assets/Height.png" 
 import post from "../../assets/Project Post.png"
 import category from "../../assets/Category.png"
 import group from "../../assets/Group.png"
@@ -32,12 +33,30 @@ import AgencyPop from "./AgencyPop";
 
 const slides = [beauty, profile, blue, nivea, blue2];
 const dialogSlide = [girl1, girl2];
+const modalImage = [girl4,girl3]
 
 export default function TalentCard() {
   const [curr, setCurr] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [toggleDialog, setToggleDialog] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const handleImageClick = (index: number) => {
+    setCurrentImageIndex(index);
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % dialogSlide.length);
+  };
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex - 1 + dialogSlide.length) % dialogSlide.length
+    );
+  };
+
+  
   
 
   const openDialog = (index: any) => {
@@ -181,13 +200,25 @@ export default function TalentCard() {
                   </div>
                 </div>
               </div>
-              <img
-                src={girl2}
-                alt=""
-                width={960}
-                height={1280}
-                className="w-full h-full object-contain"
-              />
+              <div className="relative">
+                <img
+                  src={modalImage[currentImageIndex]}
+                  alt={`girl-${currentImageIndex + 1}`}
+                  width={400}
+                  height={533}
+                  className=" h-full object-contain"
+                  onClick={() => handleImageClick(currentImageIndex)}
+                />
+                <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-row items-center justify-between px-4 mt-2">
+                  <button onClick={handlePrevImage} style={{ color: "white" }}>
+                    &lt;
+                  </button>
+                  <button onClick={handleNextImage} style={{ color: "white" }}>
+                    &gt;
+                  </button>
+                </div>
+              </div>
+
               <div className="flex flex-row items-center flex-wrap p-0 m-0">
                 {dialogSlide.slice(0, 7).map((image, index) => (
                   <img
