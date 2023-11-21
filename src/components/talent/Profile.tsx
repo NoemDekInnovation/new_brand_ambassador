@@ -1,45 +1,40 @@
-import { MainLayout } from '../Layout';
-import { Card } from '../../ui/card';
-import { Separator } from '../../ui/seperator';
-import { BiSolidUserDetail } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
-import Footer from '../Footer';
-import { Button } from '../../ui/button';
-import { MdPayments, MdSettings } from 'react-icons/md';
+// import { MainLayout } from "../Layout";
+// import { Card } from "../../ui/card";
+// import { Separator } from "../../ui/seperator";
+// import { BiSolidUserDetail } from "react-icons/bi";
+// import { Link } from "react-router-dom";
+// import Footer from "../Footer";
+// import { Button } from "../../ui/button";
+import { MainLayout } from "../Layout";
+import { Card } from "../../ui/card";
+import { Separator } from "../../ui/seperator";
+import { BiSolidUserDetail } from "react-icons/bi";
+import { Link } from "react-router-dom";
+import Footer from "../Footer";
+import { Button } from "../../ui/button";
+import { MdPayments, MdSettings } from "react-icons/md";
 
 const Profile = () => {
   return (
     <MainLayout>
       <div className="flex overflow-hidden h-[85vh] bg-bm_card_grey">
-        <Footer />
         <div className="flex-1 overflow-y-scroll p-2">
           <div className=" flex py-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
-            <div className="bg-white flex w-full max-w-[1120px] mx-auto min-h-[70vh] p-[24px]  gap-[24px]">
-              {/* <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige w-[240px] max-h-[189px] border rounded-[6px]">
-                <p className="text-[15px] font-medium">My Account</p>
-                <Separator className="bg-bm__gler" />
-                <p className="text-[12px] font-normal">Profile</p>
-                <Separator className="bg-bm__gler/50" />
-
-                <p className="text-[12px] font-normal">Billings & Payments</p>
-                <Separator className="bg-bm__gler/50" />
-
-                <p className="text-[12px] font-normal">Settings</p>
-              </Card> */}
+            <div className="bg-white flex w-full max-w-[1600px] mx-auto min-h-[70vh] p-[24px]  gap-[24px]">
               <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige w-[240px] max-h-[189px] border rounded-[6px]">
                 <p className="text-[15px] font-medium">My Account</p>
                 <Separator className="bg-bm__gler" />
-                <div className="flex items-center gap-4 hover:bg-gray-400 transition-colors transform hover:scale-105 cursor-pointer">
+                <div className="flex items-center gap-4 p-1 hover:bg-gray-400 transition-colors transform hover:scale-105 cursor-pointer">
                   <BiSolidUserDetail />
                   <p className="text-[12px] font-normal">Profile</p>
                 </div>
                 <Separator className="bg-bm__gler/50" />
-                <div className="flex items-center gap-4  hover:bg-gray-400 transition-colors transform hover:scale-105 cursor-pointer">
+                <div className="flex items-center gap-4 p-1 hover:bg-gray-400 transition-colors transform hover:scale-105 cursor-pointer">
                   <MdPayments />
                   <p className="text-[12px] font-normal">Billings & Payments</p>
                 </div>
                 <Separator className="bg-bm__gler/50" />
-                <div className="flex items-center gap-4  hover:bg-gray-400 transition-colors transform hover:scale-105 cursor-pointer">
+                <div className="flex items-center gap-4 p-1 hover:bg-gray-400 transition-colors transform hover:scale-105 cursor-pointer">
                   <MdSettings />
                   <p className="text-[12px] font-normal">Settings</p>
                 </div>
@@ -57,7 +52,7 @@ const Profile = () => {
                   </div>
                   <Link to={"/dashboard"}>
                     <Button className="border border-black text-[18px] p-3 rounded-[40px] h-[40px] w-[40px]">
-                      x 
+                      x
                     </Button>
                   </Link>
                 </div>
