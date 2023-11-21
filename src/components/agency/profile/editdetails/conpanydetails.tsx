@@ -18,9 +18,9 @@ export default function CompanyDetails({
   cancel: () => void;
 }) {
   return (
-    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 py-10 mx-auto p-24">
-      <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px] ">
-        <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige w-[240px] max-h-[189px] border rounded-[6px]">
+    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 pt-10 mx-auto overflow-hidden pb-0">
+      <Card className="bg-white  h-[80vh] p-2 md:p-4  flex justify-between gap-[24px] overflow-hidden">
+        <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige max-h-[189px] border rounded-[6px]">
           <p className="text-[15px] font-medium">My Account</p>
           <Separator className="bg-bm__gler" />
           <div className="flex items-center gap-4 hover:bg-gray-400 transition-colors transform hover:scale-105 p-2 cursor-pointer">
@@ -40,7 +40,7 @@ export default function CompanyDetails({
             <p className="text-[12px] font-normal">Settings</p>
           </div>
         </Card>
-        <div className="flex-1">
+        <div className="flex-1 overflow-y-scroll pr-2">
           <div className="flex justify-between font-medium text-[12px] my-2 space-x-[-10px]">
             <div className="relative text-black flex items-center justify-center">
               <p className="absolute top-[25%]  z-20">Key Contact Details</p>

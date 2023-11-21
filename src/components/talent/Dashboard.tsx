@@ -10,7 +10,7 @@ const TalentDashboard = () => {
     <MainLayout>
       {" "}
       <Tabs defaultValue="home" className="w-full">
-        <div className="flex flex-col md:flex-row  justify-between w-full pr-4 pb-4  md:pr-12 xl:pr-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0">
+        <div className="flex flex-col md:flex-row  justify-between w-full pr-4   md:pr-12 xl:pr-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0">
           <TabsList className=" pl-4  md:pl-12 xl:pl-40">
             <TabsTrigger value="home">Home</TabsTrigger>
             <TabsTrigger value="projects">Projects</TabsTrigger>
@@ -29,7 +29,7 @@ const TalentDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="flex overflow-hidden overflow-y-hidden h-[80vh]">
+        <div className="flex overflow-hidden overflow-y-hidden h-[82vh] mb-2">
           <Footer />
           <TabsContent value="home" className="w-full">
             <Hometab />
