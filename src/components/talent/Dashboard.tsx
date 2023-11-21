@@ -3,14 +3,15 @@ import { MainLayout } from "../Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import group from "../../assets/Group.jpg";
 import Hometab from "./Hometab";
+import Footer from "../Footer";
 
 const TalentDashboard = () => {
   return (
     <MainLayout>
       {" "}
       <Tabs defaultValue="home" className="w-full">
-        <div className="flex flex-col md:flex-row  justify-between w-full px-4 pb-4  md:px-12 xl:px-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0">
-          <TabsList className=" ">
+        <div className="flex flex-col md:flex-row  justify-between w-full pr-4 pb-4  md:pr-12 xl:pr-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0">
+          <TabsList className=" pl-4  md:pl-12 xl:pl-40">
             <TabsTrigger value="home">Home</TabsTrigger>
             <TabsTrigger value="projects">Projects</TabsTrigger>
             <TabsTrigger value="reports">Reports</TabsTrigger>
@@ -28,11 +29,14 @@ const TalentDashboard = () => {
             </div>
           </div>
         </div>
-        <TabsContent value="home" className="w-full">
-          <Hometab />
-        </TabsContent>
-        <TabsContent value="projects">Projects</TabsContent>
-        <TabsContent value="reports">Reports</TabsContent>
+        <div className="flex overflow-hidden overflow-y-hidden h-[80vh]">
+          <Footer />
+          <TabsContent value="home" className="w-full">
+            <Hometab />
+          </TabsContent>
+          <TabsContent value="projects">Projects</TabsContent>
+          <TabsContent value="reports">Reports</TabsContent>
+        </div>
       </Tabs>
     </MainLayout>
   );
