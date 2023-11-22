@@ -18,7 +18,7 @@ const AgencyProfile = () => {
         <div className="flex-1 ">
           <div className=" flex pt-10  md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
             <div className="bg-white flex w-full max-w-[1600px] mx-auto h-[83vh] p-[24px] pb-2 gap-[24px] ">
-              <Card className=" p-1 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
+              <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
                 <p className="text-[15px] font-medium p-2">My Account</p>
                 <Separator className="bg-bm__gler" />
                 <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
