@@ -1,9 +1,25 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction, useState } from "react";
+import NewProject from "../agency/createproject/index";
+import ProjectsView from "./ProjectView";
 
-const ProjectTab = () => {
+export default function ProjectTab({
+  setDefault,
+}: {
+  setDefault: Dispatch<SetStateAction<string>>;
+}) {
+  const [showNewProject, setShowNewProject] = useState(false);
+
+  const toggleView = () => {
+    setShowNewProject(!showNewProject);
+  };
+
   return (
-    <div>ProjectTab</div>
-  )
+    <div>
+      {showNewProject ? (
+        <NewProject cancelProject={toggleView} setDefault={setDefault} />
+      ) : (
+        <ProjectsView newProject={toggleView} />
+      )}
+    </div>
+  );
 }
-
-export default ProjectTab
