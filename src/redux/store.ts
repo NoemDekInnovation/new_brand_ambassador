@@ -1,23 +1,23 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./user.slice";
-// import talentReducer from "./talent.slice";
-// import projectSlice from "./project.slice";
-// import skillsSlice from "./skills.slice";
-// import agencyProjectSlice from "./agencyProject.slice";
-// import favouriteSlice from "./favourite.slice";
-// import publishProjectSlice from "./publishProject.slice";
-// import activeProjectSlice from "./createProject/activeProject.slice";
+import talentReducer from "./talent.slice";
+import projectSlice from "./project.slice";
+import skillsSlice from "./skills.slice";
+import agencyProjectSlice from "./agencyproject.slice";
+import favouriteSlice from "./favourite.slice";
+import publishProjectSlice from "./publishProject";
+import activeProjectSlice from "./createproject/activeProject.slice";
 
 const store = configureStore({
   reducer: {
     user: userReducer,
-    // talent: talentReducer,
-    // project: projectSlice,
-    // skills: skillsSlice,
-    // agencyProject: agencyProjectSlice,
-    // favouriteProject: favouriteSlice,
-    // publishProject: publishProjectSlice,
-    // projects: activeProjectSlice,
+    talent: talentReducer,
+    project: projectSlice,
+    skills: skillsSlice,
+    agencyProject: agencyProjectSlice,
+    favouriteProject: favouriteSlice,
+    publishProject: publishProjectSlice,
+    projects: activeProjectSlice,
   },
 });
 
