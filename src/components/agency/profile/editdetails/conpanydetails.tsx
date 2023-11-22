@@ -21,23 +21,23 @@ export default function CompanyDetails({
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 pt-10 mx-auto overflow-hidden pb-0">
       <Card className="bg-white  h-[80vh] p-2 md:p-4  flex justify-between gap-[24px] overflow-hidden">
         <Card className=" p-1 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
-          <p className="text-[15px] font-medium p-2">My Account</p>
+          <p className="text-[15px] font-semibold p-2">My Account</p>
           <Separator className="bg-bm__gler" />
           <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <div className="flex items-center gap-4 mr-2">
               <BiSolidUserDetail />
-              <p className="text-[12px] font-normal ">Profile</p>
+              <p className="text-[14px] font-normal ">Profile</p>
             </div>
           </div>
           <Separator className="bg-bm__gler/50" />
           <div className="flex items-center gap-4 p-3   hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <MdPayments />
-            <p className="text-[12px] font-normal">Billings & Payments</p>
+            <p className="text-[14px] font-normal">Billings & Payments</p>
           </div>
           <Separator className="bg-bm__gler/50" />
           <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <MdSettings />
-            <p className="text-[12px] font-normal">Settings</p>
+            <p className="text-[14px] font-normal">Settings</p>
           </div>
         </Card>
         <div className="flex-1 overflow-y-scroll pr-2">
@@ -64,14 +64,13 @@ export default function CompanyDetails({
               />
             </div>
           </div>
-          <CardContent className="border rounded-xl  p-5 flex-1 flex flex-col  mt-3 ">
+          <CardContent className="border rounded-xl  p-8 flex-1 flex flex-col  mt-3 ">
             <div className="pb-8">
               <Input type="file" className="hidden pb-4" />
               <div className="mt-3 border w-[120px] h-[150px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
                 Attach or drop photos here
               </div>
             </div>
-            <Separator className=" my-3" />
             <div className="relative  z-0 w-full mb-6 group">
               <input
                 type="text"
