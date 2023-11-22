@@ -6,6 +6,10 @@ import { Separator } from '../../ui/seperator';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { Input } from '../../ui/input';
 import { BsChevronDoubleLeft, BsChevronDoubleRight, BsChevronLeft, BsChevronRight } from 'react-icons/bs';
+import ActiveProjects from './ActiveProjects';
+import PublishedProject from './PublishedProject';
+import CompletedProjects from './CompletedProjects';
+import DraftsProjects from './DraftsProjects';
 
 type ProjectDetailsProps = {
   activeType: "Active" | "Published" | "Completed" | "Drafts";
@@ -51,6 +55,23 @@ const talents = [1, 2, 3].map((_, idx) => {
 });
 
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({activeType}) => {
+    let projects;
+    switch (activeType) {
+      case "Active":
+        projects = <ActiveProjects />;
+        break;
+        case "Published":
+            projects = <PublishedProject />
+            break;
+            case "Completed":
+                projects = <CompletedProjects />
+                break;
+                case "Drafts":
+                    projects = <DraftsProjects />
+                    break; 
+      default:
+        projects = null;
+    }
   return (
     <CardContent className=" flex-1">
       <div className="flex justify-between">
@@ -83,7 +104,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({activeType}) => {
       <div className="flex justify-end my-3"> {/* <Pagination /> */}</div>
       <Separator className="my-2" />
       <div className=" m-auto flex flex-col gap-3 md:gap-12 mt-8">
-        {talents}
+        {projects}
       </div>
       <Separator className="my-2 mt-6" />
       <div className="flex justify-end my-3"> {/* <Pagination /> */}</div>
