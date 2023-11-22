@@ -19,7 +19,7 @@ export default function Address({
   cancel: () => void;
 }) {
   return (
-    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 min-h-[70vh] py-10">
+    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">
       {/* <div className='fixed top-0 h-screen w-screen bg-[#F3F3F3]/30 z-[1000] mt-[20vh] px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'> */}
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px]">
         <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
@@ -42,7 +42,7 @@ export default function Address({
             <p className="text-[12px] font-normal">Settings</p>
           </div>
         </Card>
-        <div className="flex-1">
+        <div className="flex-1 overflow-y-scroll pr-2">
           <div className="flex justify-between font-medium text-[12px] my-2">
             <div className="relative text-black flex items-center justify-center">
               <p className="absolute top-[25%] text-[16px] z-20">Overview</p>
