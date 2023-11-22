@@ -25,19 +25,19 @@ export default function Social({
         <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige max-h-[189px] border rounded-[6px]">
           <p className="text-[15px] font-medium">My Account</p>
           <Separator className="bg-bm__gler" />
-          <div className="flex items-center gap-4 hover:bg-gray-400 transition-colors transform hover:scale-105 p-2 cursor-pointer">
+          <div className="flex items-center gap-4  hover:bg-black/10 transform hover:scale-105 p-2 cursor-pointer">
             <BiSolidUserDetail />
             <p className="text-[12px] font-normal">Profile</p>
           </div>
           <Separator className="bg-bm__gler/50" />
 
-          <div className="flex items-center gap-4  hover:bg-gray-400 transition-colors transform hover:scale-105 p-2 cursor-pointer">
+          <div className="flex items-center gap-4   hover:bg-black/10 transform hover:scale-105 p-2 cursor-pointer">
             <MdPayments />
             <p className="text-[12px] font-normal">Billings & Payments</p>
           </div>
           <Separator className="bg-bm__gler/50" />
 
-          <div className="flex items-center gap-4  hover:bg-gray-400 transition-colors transform hover:scale-105 p-2 cursor-pointer">
+          <div className="flex items-center gap-4  hover:bg-black/10 transform hover:scale-105 p-2 cursor-pointer">
             <MdSettings />
             <p className="text-[12px] font-normal">Settings</p>
           </div>
@@ -45,44 +45,48 @@ export default function Social({
         <div className="flex-1 overflow-y-scroll pr-2">
           <div className="flex justify-between font-medium text-[12px] my-2">
             <div className="relative text-black flex items-center justify-center">
-              <p className="absolute top-[25%]  z-20">Overview</p>
-              <img src={union} alt="" className=" z-10 w-[150px]" />
+              <p className="absolute top-[25%] text-[16px] z-20">Overview</p>
+              <img src={union} alt="" className=" z-10 w-[300px] h-[50px]" />
             </div>
             <div className=" relative text-black flex items-center justify-center">
-              <p className="absolute top-[15%]  leading-4 z-20">
+              <p className="absolute top-[25%] text-[16px] z-20">
                 {" "}
-                Personal <br /> Details
+                Personal Details
               </p>
-              <img src={subtract} alt="" className=" z-10 w-[150px]" />
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
             </div>
             <div className=" relative text-black flex items-center justify-center">
-              <p className="absolute top-[25%] z-20"> Address</p>
-              <img src={subtract} alt="" className=" z-10 w-[150px]" />
+              <p className="absolute top-[25%] text-[16px] z-20"> Address</p>
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
             </div>
 
             <div className=" relative text-black flex items-center justify-center">
-              <p className="absolute top-[15%]  leading-4 z-20">
+              <p className="absolute top-[15%] text-[14px]  leading-4 z-20">
                 {" "}
                 Education & <br /> Certification
               </p>
-              <img src={subtract} alt="" className=" z-10 w-[150px]" />
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
             </div>
 
             <div className=" relative text-black flex items-center justify-center">
-              <p className="absolute top-[25%] z-20"> Experience</p>
-              <img src={subtract} alt="" className=" z-10 w-[150px]" />
+              <p className="absolute top-[25%] text-[16px] z-20"> Experience</p>
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
             </div>
 
             <div className=" relative text-black flex items-center justify-center">
-              <p className="absolute top-[15%]  leading-4 z-20">
+              <p className="absolute top-[15%] text-[14px] leading-4 z-20">
                 Skills &<br /> Opportunities
               </p>
-              <img src={subtract} alt="" className=" z-10 w-[150px]" />
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
             </div>
 
             <div className=" relative text-white flex items-center justify-center">
-              <p className="absolute top-[25%] z-20"> Socials</p>
-              <img src={subtract4} alt="" className=" z-10 w-[150px]" />
+              <p className="absolute top-[25%] text-[16px] z-20"> Socials</p>
+              <img
+                src={subtract4}
+                alt=""
+                className=" z-10 w-[300px] h-[50px]"
+              />
             </div>
           </div>
           <CardContent className="border rounded-xl  p-3 flex-1 flex flex-col  mt-3">
