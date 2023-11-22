@@ -45,44 +45,48 @@ export default function Social({
         <div className="flex-1">
           <div className="flex justify-between font-medium text-[12px] my-2">
             <div className="relative text-black flex items-center justify-center">
-              <p className="absolute top-[25%]  z-20">Overview</p>
-              <img src={union} alt="" className=" z-10 w-[150px]" />
+              <p className="absolute top-[25%] text-[16px] z-20">Overview</p>
+              <img src={union} alt="" className=" z-10 w-[300px] h-[50px]" />
             </div>
             <div className=" relative text-black flex items-center justify-center">
-              <p className="absolute top-[15%]  leading-4 z-20">
+              <p className="absolute top-[25%] text-[16px] z-20">
                 {" "}
-                Personal <br /> Details
+                Personal Details
               </p>
-              <img src={subtract} alt="" className=" z-10 w-[150px]" />
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
             </div>
             <div className=" relative text-black flex items-center justify-center">
-              <p className="absolute top-[25%] z-20"> Address</p>
-              <img src={subtract} alt="" className=" z-10 w-[150px]" />
+              <p className="absolute top-[25%] text-[16px] z-20"> Address</p>
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
             </div>
 
             <div className=" relative text-black flex items-center justify-center">
-              <p className="absolute top-[15%]  leading-4 z-20">
+              <p className="absolute top-[15%] text-[14px]  leading-4 z-20">
                 {" "}
                 Education & <br /> Certification
               </p>
-              <img src={subtract} alt="" className=" z-10 w-[150px]" />
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
             </div>
 
             <div className=" relative text-black flex items-center justify-center">
-              <p className="absolute top-[25%] z-20"> Experience</p>
-              <img src={subtract} alt="" className=" z-10 w-[150px]" />
+              <p className="absolute top-[25%] text-[16px] z-20"> Experience</p>
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
             </div>
 
             <div className=" relative text-black flex items-center justify-center">
-              <p className="absolute top-[15%]  leading-4 z-20">
+              <p className="absolute top-[15%] text-[14px] leading-4 z-20">
                 Skills &<br /> Opportunities
               </p>
-              <img src={subtract} alt="" className=" z-10 w-[150px]" />
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
             </div>
 
             <div className=" relative text-white flex items-center justify-center">
-              <p className="absolute top-[25%] z-20"> Socials</p>
-              <img src={subtract4} alt="" className=" z-10 w-[150px]" />
+              <p className="absolute top-[25%] text-[16px] z-20"> Socials</p>
+              <img
+                src={subtract4}
+                alt=""
+                className=" z-10 w-[300px] h-[50px]"
+              />
             </div>
           </div>
           <CardContent className="border rounded-xl  p-3 flex-1 flex flex-col  mt-3">

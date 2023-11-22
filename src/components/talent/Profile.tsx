@@ -21,8 +21,8 @@ const Profile = () => {
       <div className="flex overflow-hidden bg-bm_card_grey">
         <div className="flex-1">
           <div className=" flex pt-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
-            <div className="bg-white flex w-full max-w-[1600px] mx-auto h-[83vh] p-[24px]  gap-[24px]">
-              <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige w-[240px] max-h-[189px] border rounded-[6px]">
+            <div className="bg-white flex w-full max-w-[1600px] mx-auto h-[83vh] p-[24px] pb-2  gap-[24px]">
+              <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige w-[280px] max-h-[189px] border rounded-[6px]">
                 <p className="text-[15px] font-medium">My Account</p>
                 <Separator className="bg-bm__gler" />
                 <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
@@ -30,7 +30,7 @@ const Profile = () => {
                   <p className="text-[12px] font-normal">Profile</p>
                 </div>
                 <Separator className="bg-bm__gler/50" />
-                <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+                <div className="flex items-center gap-4 p-2   hover:bg-black/10 transform hover:scale-105 cursor-pointer">
                   <MdPayments />
                   <p className="text-[12px] font-normal">Billings & Payments</p>
                 </div>

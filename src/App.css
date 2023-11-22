@@ -104,3 +104,17 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+
+.hover-wrapper {
+  display: inline-block; /* or display: block; depending on your layout */
+}
+
+.hover-wrapper:hover {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.1
+  ); /* Adjust the color and opacity as needed */
+  transform: scale(1.05); /* Adjust the scale factor as needed */
+}
