@@ -22,13 +22,13 @@ type ProjectListProps = {
 const getImageSrc = (projectType: any) => {
   switch (projectType) {
     case "Active":
-      return "./../assets/Current Projects.png";
+      return current;
     case "Published":
-      return "../../assets/Published Projects.png";
+      return published;
     case "Completed":
-      return "../../assets/Completed Projects.png";
+      return completed;
     case "Drafts":
-      return "./../assets/Draft Projects.png";
+      return draft;
     default:
       return ""; 
   }
