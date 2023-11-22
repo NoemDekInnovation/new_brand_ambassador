@@ -18,7 +18,7 @@ export default function Education({
   cancel: () => void;
 }) {
   return (
-    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 min-h-[70vh] py-10">
+    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 overflow-hidden  h-[87.3vh] pt-10">
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px]">
         <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige max-h-[189px] border rounded-[6px]">
           <p className="text-[15px] font-medium">My Account</p>
@@ -40,7 +40,7 @@ export default function Education({
             <p className="text-[12px] font-normal">Settings</p>
           </div>
         </Card>
-        <div className="flex-1">
+        <div className="flex-1 overflow-y-scroll pr-2">
           <div className="flex justify-between font-medium text-[12px] my-2">
             <div className="relative text-black flex items-center justify-center">
               <p className="absolute top-[25%]  z-20">Overview</p>

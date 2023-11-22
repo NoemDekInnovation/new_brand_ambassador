@@ -20,7 +20,7 @@ const Profile = () => {
       <div className="flex overflow-hidden bg-bm_card_grey">
         <div className="flex-1">
           <div className=" flex pt-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
-            <div className="bg-white flex w-full max-w-[1600px] mx-auto h-[83vh] p-[24px]  gap-[24px]">
+            <div className="bg-white flex w-full max-w-[1600px] mx-auto h-[83vh] p-[24px] pb-2 gap-[24px]">
               <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige w-[240px] max-h-[189px] border rounded-[6px]">
                 <p className="text-[15px] font-medium">My Account</p>
                 <Separator className="bg-bm__gler" />

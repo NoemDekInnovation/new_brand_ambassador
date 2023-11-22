@@ -24,7 +24,7 @@ export default function Overview({
   setOverView: React.Dispatch<React.SetStateAction<{}>>;
 }) {
   return (
-    <div className=" bg-[#F3F3F3]/30  px-4 md:px-12 xl:px-40 min-h-[70vh] py-10  ">
+    <div className=" bg-[#F3F3F3]/30  px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10 overflow-hidden">
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px]">
         <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige  max-h-[189px] border rounded-[6px]">
           <p className="text-[15px] font-medium">My Account</p>
@@ -44,7 +44,7 @@ export default function Overview({
             <p className="text-[12px] font-normal">Settings</p>
           </div>
         </Card>
-        <div className="flex-1">
+        <div className="flex-1 overflow-y-scroll pr-2">
           <div className="flex justify-between font-medium text-[12px] my-2 space-x-[10px]">
             <div className="relative text-white flex items-center justify-center">
               <p className="absolute top-[25%]  z-20">Overview</p>
@@ -87,7 +87,7 @@ export default function Overview({
               <img src={subtract2} alt="" className=" z-10 w-[150px]" />
             </div>
           </div>
-          <CardContent className="border rounded-xl  p-3 flex-1 flex flex-col  mt-3">
+          <CardContent className="border rounded-xl  p-3 pb-0 flex-1 flex flex-col  mt-3">
             <p>Show agencies the best version of yourself.</p>
 
             <Separator className=" my-3" />
