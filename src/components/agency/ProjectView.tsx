@@ -17,6 +17,11 @@ import { TopProjectCard } from "./ListCard";
 // import Pagination from "../../ui/Pagination";
 import { AiOutlineReload } from "react-icons/ai";
 import { FaRegArrowAltCircleUp } from "react-icons/fa";
+import create from "../../assets/Add.png"
+import current from "../../assets/Current Projects.png"
+import completed from "../../assets/Completed Projects.png"
+import published from "../../assets/Published Projects.png"
+import draft from "../../assets/Draft Projects.png"
 
 export default function ProjectsView({
   newProject,
@@ -150,10 +155,12 @@ export default function ProjectsView({
           <Card className="bg-white h-full p-3 md:p-6 flex flex-col md:flex-row gap-3 md:gap-6">
             <CardContent className="flex-col flex p-0 gap-3 md:gap-6">
               <div className="flex gap-2 md:gap-4 justify-between w-full">
+                <img src={create} alt="" />
                 <Button
-                  className="dark__btn whitespace-nowrap"
+                  className="dark__btn whitespace-nowrap flex items-center"
                   onClick={newProject}
                 >
+                  <img src={create} alt="" className="mr-2" />
                   Create Project
                 </Button>
               </div>
@@ -161,7 +168,8 @@ export default function ProjectsView({
                 <CardContent className="py-3 md:py-6 space-y-3">
                   <div className="flex justify-between ">
                     <div className="flex items-center">
-                      <AiOutlineReload />
+                      {/* <AiOutlineReload /> */}
+                      <img src={current} alt="" className="mr-3" />
                       <p>Current</p>{" "}
                     </div>
                     <div className="text-white bg-bm__ox__red px-2 rounded-sm">
@@ -171,7 +179,8 @@ export default function ProjectsView({
                   <Separator className="bg-bm__beige" />
                   <div className="flex justify-between ">
                     <div className="flex items-center">
-                      <FaRegArrowAltCircleUp />
+                      {/* <FaRegArrowAltCircleUp /> */}
+                      <img src={published} alt="" className="mr-3" />
                       <p>Published</p>
                     </div>
                     <div className="text-white bg-bm__ox__red px-2 rounded-sm">
@@ -180,14 +189,20 @@ export default function ProjectsView({
                   </div>
                   <Separator className="bg-bm__beige" />
                   <div className="flex justify-between ">
+                    <div className="flex items-center">
+                      <img src={completed} alt="" className="mr-3" />
                     <p>Completed</p>
+                    </div>
                     <div className="text-white bg-bm__ox__red px-2 rounded-sm">
                       33
                     </div>
                   </div>
                   <Separator className="bg-bm__beige" />
                   <div className="flex justify-between ">
+                  <div className="flex items-center">
+                    <img src={draft} alt="" className="mr-3" />
                     <p>Drafts</p>
+                  </div>
                     <div className="text-white bg-bm__ox__red px-2 rounded-sm">
                       10
                     </div>
