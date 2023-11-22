@@ -22,6 +22,7 @@ import girl1 from "../../assets/Rectangle 11 (1).png"
 import girl2 from "../../assets/Gallery=Gallery6.png"
 import girl3 from "../../assets/Profile 1 1.png"
 import girl4 from "../../assets/Profile 2 1.png"
+import girl5 from "../../assets/Rectangle 11 (1).png"
 import Age from "../../assets/Age.png"
 import height from "../../assets/Height.png" 
 import post from "../../assets/Project Post.png"
@@ -32,8 +33,8 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import AgencyPop from "./AgencyPop";
 
 const slides = [beauty, profile, blue, nivea, blue2];
-const dialogSlide = [girl1, girl2];
-const modalImage = [girl4,girl3]
+const dialogSlide = [girl1, girl2,girl5];
+const modalImage = [girl4, girl3,girl4];   
 
 export default function TalentCard() {
   const [curr, setCurr] = useState(0);
@@ -206,7 +207,7 @@ export default function TalentCard() {
                   alt={`girl-${currentImageIndex + 1}`}
                   width={400}
                   height={533}
-                  className=" h-full object-contain"
+                  className=" h-full w-full"
                   onClick={() => handleImageClick(currentImageIndex)}
                 />
                 <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-row items-center justify-between px-4 mt-2">
@@ -225,11 +226,11 @@ export default function TalentCard() {
                     key={index}
                     src={image}
                     alt={`girl-${index + 1}`}
-                    className="object-fill"
+                    className="h-[80px]"
                   />
                 ))}
               </div>
-            </DialogContent>
+            </DialogContent> 
           </Dialog>
         </div>
       </div>

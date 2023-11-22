@@ -19,27 +19,6 @@ import { useRef } from "react";
 import Carousel from "react-multi-carousel";
 import { FaArrowRight } from "react-icons/fa";
 
-export const responsive = {
-  xLargeDesktop: {
-    // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 1440 },
-    items: 7,
-    slidesToSlide: 2,
-  },
-  superLargeDesktop: {
-    // the naming can be any, depends on you.
-    breakpoint: { max: 1440, min: 800 },
-    items: 7,
-  },
-  tablet: {
-    breakpoint: { max: 800, min: 464 },
-    items: 7,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-  },
-};
 
 export function CurrentProjects({
   card_title,
@@ -54,33 +33,32 @@ export function CurrentProjects({
         className=" bg-white p-2 mx-3 rounded-md md:w-[244px] shadow-md"
         key={idx}
       >
-        <CardTitle className="text-[15px] font-medium leading-[15px]">
-          Project Name
-        </CardTitle>
-        <CardDescription className="text-[10px] leading-4 font-normal">
-          This is the decription... This is the description
-        </CardDescription>
+        <p className="text-[15px] font-medium">Project Name</p>
+        <p className="text-[10px] leading-4 font-normal">
+          This is the project description.. this is the project description
+        </p>
         <Separator className="my-1" />
-        <div className="flex text-[14px] py-2">
-          <p className="text-bm__niv pr-2 border-r-2 border-r-black mr-2 font-medium text-sm">
-            Project Code: NIV23{" "}
-          </p>
-          <p className="text-bm__niv font-medium text-sm">300 Brand</p>
-        </div>
-        <div className="flex text-[14px] py-2">
-          <p className="text-bm__niv underline pr-2 border-r-2 border-r-black mr-2 font-medium text-sm">
-            {" "}
-            300 Applications
-          </p>
-          <p className="text-bm__niv underline font-medium text-sm">
-            10 Supervisors{" "}
-          </p>
+        <div className="">
+          <div className="flex items-center py-2">
+            <p className="font-medium text-[10px] text-bm__niv">
+              Project Code: NIV23
+            </p>
+            <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
+            <p className="font-medium text-[10px] text-bm__niv ml-2">
+              300 Brand
+            </p>
+          </div>
+          <div className="flex items-center py-2">
+            <p className="font-medium text-[10px] text-bm__niv">Ambassadors</p>
+            <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
+            <p className="font-medium text-[10px] text-bm__niv ml-2">
+              50 Supervisors
+            </p>
+          </div>
         </div>
         <Separator className="my-1" />
-        <div className="flex text-[8px] gap-2 m-2">
-          <div className=" font-normal">November 30 - December 30</div>
-          <div className="">.</div>
-          <div className="font-normal">Lagos, Abuja, Ogun</div>
+        <div className="py-2">
+          <div className="font-medium text-[8px]">Nov 30 - December 30 . Lagos, Abuja, Ogun, Plateau</div>
         </div>
       </Card>
     );
@@ -103,7 +81,7 @@ export function CurrentProjects({
           autoPlaySpeed={3000}
           centerMode={false}
           className=""
-          containerClass="container"
+          containerClass=""
           dotListClass=""
           draggable
           focusOnSelect={false}

@@ -33,11 +33,6 @@ const HomeTab = () => {
           <ListCard card_title="My Projects" card_width="w-full" />
           <TopProjectCard card_title="Top Projects" card_width="w-full" />
         </div>
-        {/* <img src={circle} width={66} height={66} alt="" /> */}
-        {/* <div className="h-[66px] w-[66px] rounded-[30px] bg-[#93979D] flex items-center justify-center">
-          <img src={circle} alt=""  />
-          <img src={plus} alt=""  /> 
-        </div> */}
         <img src={addButton} alt="" />
       </div>
     </div>
