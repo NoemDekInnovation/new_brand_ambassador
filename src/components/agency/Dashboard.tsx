@@ -88,7 +88,7 @@ const Dashboard = () => {
           <TalentTab />
         </TabsContent>
         <TabsContent className="w-full" value="projects">
-          <ProjectTab />
+          <ProjectTab setDefault={setDefaultTab} />
         </TabsContent>
         <TabsContent className="w-full" value="inventory">
           Inventory
