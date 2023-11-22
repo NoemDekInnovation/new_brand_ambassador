@@ -26,20 +26,22 @@ export default function Overview({
   return (
     <div className=" bg-[#F3F3F3]/30  px-4 md:px-12 xl:px-40 min-h-[70vh] py-10  ">
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px]">
-        <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige  max-h-[189px] border rounded-[6px]">
-          <p className="text-[15px] font-medium">My Account</p>
+        <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
+          <p className="text-[15px] font-medium p-2">My Account</p>
           <Separator className="bg-bm__gler" />
-          <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
-            <BiSolidUserDetail />
-            <p className="text-[12px] font-normal">Profile</p>
+          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+            <div className="flex items-center gap-4 mr-2">
+              <BiSolidUserDetail />
+              <p className="text-[12px] font-normal ">Profile</p>
+            </div>
           </div>
           <Separator className="bg-bm__gler/50" />
-          <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+          <div className="flex items-center gap-4 p-3   hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <MdPayments />
             <p className="text-[12px] font-normal">Billings & Payments</p>
           </div>
           <Separator className="bg-bm__gler/50" />
-          <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <MdSettings />
             <p className="text-[12px] font-normal">Settings</p>
           </div>
