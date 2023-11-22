@@ -10,6 +10,7 @@ import { RiEdit2Fill } from "react-icons/ri";
 import { TiContacts } from "react-icons/ti";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
 import { MdPayments, MdSettings } from "react-icons/md";
+import addButton from "../../../assets/Add Button.png";
 
 const AgencyProfile = () => {
   return (
@@ -17,146 +18,177 @@ const AgencyProfile = () => {
       <div className="flex overflow-hidden  bg-bm_card_gray">
         <div className="flex-1 ">
           <div className=" flex pt-10  md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
-            <div className="bg-white flex w-full max-w-[1600px] mx-auto h-[83vh] p-[24px] pb-2 gap-[24px] ">
+            <div className="bg-white flex w-full max-w-[1500px] mx-auto h-[83vh] p-[24px] pb-2 gap-[24px] justify-center ">
               <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
-                <p className="text-[15px] font-medium p-2">My Account</p>
+                <p className="text-[15px] font-semibold p-2">My Account</p>
                 <Separator className="bg-bm__gler" />
                 <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
                   <div className="flex items-center gap-4 mr-2">
                     <BiSolidUserDetail />
-                    <p className="text-[12px] font-normal ">Profile</p>
+                    <p className="text-[14px] font-normal ">Profile</p>
                   </div>
                 </div>
                 <Separator className="bg-bm__gler/50" />
                 <div className="flex items-center gap-4 p-3   hover:bg-black/10 transform hover:scale-105 cursor-pointer">
                   <MdPayments />
-                  <p className="text-[12px] font-normal">Billings & Payments</p>
+                  <p className="text-[14px] font-normal">Billings & Payments</p>
                 </div>
                 <Separator className="bg-bm__gler/50" />
                 <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
                   <MdSettings />
-                  <p className="text-[12px] font-normal">Settings</p>
+                  <p className="text-[14px] font-normal">Settings</p>
                 </div>
               </Card>
-              <div className="w-full overflow-y-scroll pr-2">
+              <div className="flex flex-col w-full">
                 <div className="flex items-center gap-4">
                   <div className="bg-black w-fit rounded-[5px] px-1 text-[18px]">
                     <BiSolidUserDetail className="text-white w-fit" />
                   </div>
-                  <p className="">Profile</p>
+                  <p className="text-[16px] font-bold">Profile</p>
                   <p className="ml-20 bg-bm__ox__red px-2 text-white rounded-md">
                     60%
                   </p>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700  my-2">
+                <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700  my-2 mb-7">
                   <div
-                    className="bg-bm__ox__red h-1.5 rounded-full"
+                    className="bg-bm__ox__red h-1.5 rounded-full "
                     style={{ width: "33%" }}
                   ></div>
                 </div>
-                <div className=" flex w-full gap-4 h-fit">
-                  <div className="flex-1 flex flex-col gap-2">
-                    <div className="flex w-full  justify-between items-center ">
-                      <p>Noah Samuel Omolola</p>
-                      <div className="flex items-center gap-2 bg-[#93979D] text-white p-2 rounded-md">
-                        <RiEdit2Fill />
-                        <Link to={"edit-agency-profile"}>Edit Profile</Link>
-                      </div>
-                    </div>
-                    <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px] ">
-                      <div className="flex  justify-between items-center text-black">
-                        <div className="flex items-center">
-                          <div className="flex items-center gap-4">
-                            <TiContacts />
-                            <p className="text-[15px] font-medium flex-start">
-                              Key Contact Details
-                            </p>
-                          </div>
-                        </div>
-                        <RiEdit2Fill className="cursor-pointer" />
-                      </div>
-                      <Separator className="bg-bm__gler/50" />
-                      <div className="h-[150px] w-[120px] bg-green-200 rounded-md">
-                        <img src={Pic} alt="img" />
-                      </div>
-                      <div className="text-[12px] font-normal gap-2 flex flex-col">
-                        <div className="pt-20 flex items-center">
-                          <p className="w-[120px]">First Name:</p>
-                          <p className="">Noah</p>
-                        </div>
-                        <div className="flex items-center">
-                          <p className="w-[120px]">Last Name:</p>
-                          <p className="">Samuel</p>
-                        </div>
-                        <div className="flex items-center">
-                          <p className="w-[120px]">Middle Name:</p>
-                          <p className="">Omolola</p>
-                        </div>
-                        <div className="flex items-center">
-                          <p className="w-[120px]">Email Address:</p>
-                          <p className="">-</p>
-                        </div>
-                        <div className="flex items-center">
-                          <p className="w-[120px]">Phone Number:</p>
-                          <p className="">-</p>
+                <div className="w-full overflow-y-scroll pr-2">
+                  <div className=" flex w-full gap-4 h-fit">
+                    <div className="flex-1 flex flex-col gap-2">
+                      <div className="flex w-full  justify-between items-center ">
+                        <p className="text-[15px] font-bold">
+                          Noah Samuel Omolola
+                        </p>
+                        <div className="flex items-center gap-2 bg-[#93979D] text-white p-2 rounded-md">
+                          <RiEdit2Fill />
+                          <Link to={"edit-agency-profile"}>Edit Profile</Link>
                         </div>
                       </div>
-                    </Card>
-                    <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
-                      <div className="flex  justify-between items-center text-black">
-                        <div className="flex items-center gap-4">
+                      <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px] ">
+                        <div className="flex  justify-between items-center text-black">
                           <div className="flex items-center">
-                            <HiOutlineOfficeBuilding className="cursor-pointer" />
+                            <div className="flex items-center gap-4">
+                              <TiContacts />
+                              <p className="text-[15px] font-medium flex-start">
+                                Key Contact Details
+                              </p>
+                            </div>
                           </div>
-                          <p className="text-[15px] font-medium flex-start">
-                            Company Details
-                          </p>
+                          <RiEdit2Fill className="cursor-pointer" />
                         </div>
-
-                        <RiEdit2Fill />
-                      </div>
-                      <Separator className="bg-bm__gler/50" />
-                      <div className="h-[150px] w-[120px] bg-green-200 rounded-md">
-                        {" "}
-                      </div>
-                      <div className="text-[12px] font-normal gap-2 flex flex-col">
+                        <Separator className="bg-bm__gler/50" />
+                        <div className="h-[150px] w-[120px] bg-green-200 rounded-md">
+                          <img src={Pic} alt="img" />
+                        </div>
                         <div className="text-[12px] font-normal gap-2 flex flex-col">
-                          <div className="pt-10 flex items-center">
-                            <p className="w-[120px]">Agency Name:</p>
+                          <div className="pt-20 flex items-center">
+                            <p className="w-[120px] text-[12px] font-semibold">
+                              First Name:
+                            </p>
                             <p className="">Noah</p>
                           </div>
                           <div className="flex items-center">
-                            <p className="w-[120px]">Agency Type:</p>
+                            <p className="w-[120px] text-[12px] font-semibold">
+                              Last Name:
+                            </p>
                             <p className="">Samuel</p>
                           </div>
                           <div className="flex items-center">
-                            <p className="w-[120px]">Email Address:</p>
+                            <p className="w-[120px] text-[12px] font-semibold">
+                              Middle Name:
+                            </p>
+                            <p className="">Omolola</p>
+                          </div>
+                          <div className="flex items-center">
+                            <p className="w-[120px] text-[12px] font-semibold">
+                              Email Address:
+                            </p>
                             <p className="">-</p>
                           </div>
                           <div className="flex items-center">
-                            <p className="w-[120px]">Phone Number:</p>
+                            <p className="w-[120px] text-[12px] font-semibold">
+                              Phone Number:
+                            </p>
                             <p className="">-</p>
                           </div>
                         </div>
-                        <div className="flex">
-                          <p className="w-[120px]">Office Address 1:</p>
-                          <p className="">
-                            1b, Rosewood Close, Off Royal-Palm Drive, <br />
-                            Osborne Forseshore Estate Phase 2, <br />
-                            Ikoyi L.G.A
-                            <br />
-                            Lagos State
-                            <br />
-                            233312
-                            <br />
-                          </p>
+                      </Card>
+                      <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
+                        <div className="flex  justify-between items-center text-black">
+                          <div className="flex items-center gap-4">
+                            <div className="flex items-center">
+                              <HiOutlineOfficeBuilding className="cursor-pointer" />
+                            </div>
+                            <p className="text-[15px] font-medium flex-start">
+                              Company Details
+                            </p>
+                          </div>
+
+                          <RiEdit2Fill />
                         </div>
-                      </div>
-                    </Card>
+                        <Separator className="bg-bm__gler/50" />
+                        <div className="h-[150px] w-[120px] bg-green-200 rounded-md">
+                          {" "}
+                        </div>
+                        <div className="text-[12px] font-normal gap-2 flex flex-col">
+                          <div className="text-[12px] font-normal gap-2 flex flex-col">
+                            <div className="pt-10 flex items-center">
+                              <p className="w-[120px] text-[12px] font-semibold">
+                                Agency Name:
+                              </p>
+                              <p className="">Noah</p>
+                            </div>
+                            <div className="flex items-center">
+                              <p className="w-[120px] text-[12px] font-semibold">
+                                Agency Type:
+                              </p>
+                              <p className="">Samuel</p>
+                            </div>
+                            <div className="flex items-center">
+                              <p className="w-[120px] text-[12px] font-semibold">
+                                Email Address:
+                              </p>
+                              <p className="">-</p>
+                            </div>
+                            <div className="flex items-center">
+                              <p className="w-[120px] text-[12px] font-semibold">
+                                Phone Number:
+                              </p>
+                              <p className="">-</p>
+                            </div>
+                            <div className="flex items-center">
+                              <p className="w-[120px] text-[12px] font-semibold">
+                                Website:
+                              </p>
+                              <p className="">-</p>
+                            </div>
+                          </div>
+                          <div className="flex">
+                            <p className="w-[120px] text-[12px] font-semibold">
+                              Office Address 1:
+                            </p>
+                            <p className="">
+                              1b, Rosewood Close, Off Royal-Palm Drive, <br />
+                              Osborne Forseshore Estate Phase 2, <br />
+                              Ikoyi L.G.A
+                              <br />
+                              Lagos State
+                              <br />
+                              233312
+                              <br />
+                            </p>
+                          </div>
+                        </div>
+                      </Card>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <img src={addButton} alt="" className="pr-50" />
           </div>
         </div>
       </div>
