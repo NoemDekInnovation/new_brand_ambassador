@@ -68,7 +68,7 @@ export function TopProjectCard({
                 <p className="font-normal text-[13px]">
                   This is the project description.{" "}
                 </p>
-                <p className="font-normal text-[13px] text-bm_ox_red">
+                <p className="font-medium text-[13px] text-[#800000]">
                   3oo Applications{" "}
                 </p>
                 <div className="flex space-x-2 text-[12px]">
