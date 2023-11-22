@@ -14,7 +14,7 @@ import { RootState } from "../../redux/store";
 import { useToast } from "../../ui/use-toast";
 import { TopProjectCard } from "./ListCard";
 
-import Pagination from "../../ui/Pagination";
+// import Pagination from "../../ui/Pagination";
 import { AiOutlineReload } from "react-icons/ai";
 import { FaRegArrowAltCircleUp } from "react-icons/fa";
 
