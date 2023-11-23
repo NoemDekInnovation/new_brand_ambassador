@@ -15,8 +15,19 @@ import { useToast } from "../../ui/use-toast";
 import { TopProjectCard } from "./ListCard";
 
 // import Pagination from "../../ui/Pagination";
-import { AiOutlineReload } from "react-icons/ai";
+import { AiOutlineReload, AiOutlineSearch } from "react-icons/ai";
 import { FaRegArrowAltCircleUp } from "react-icons/fa";
+import create from "../../assets/Add.png"
+import current from "../../assets/Current Projects.png"
+import completed from "../../assets/Completed Projects.png"
+import published from "../../assets/Published Projects.png"
+import draft from "../../assets/Draft Projects.png"
+import { Input } from "../../ui/input";
+import { BsChevronDoubleLeft, BsChevronDoubleRight, BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import ProjectList from "./ProjectList";
+import ProjectDetails from "./ProjectDetails";
+
+type ProjectType = "Active" | "Published" | "Completed" | "Drafts";
 
 export default function ProjectsView({
   newProject,
@@ -28,6 +39,7 @@ export default function ProjectsView({
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+    const [activeType, setActiveType] = useState<ProjectType>("Active");
 
   const { toast } = useToast();
   const { user } = useSelector((state: RootState) => state.user);
@@ -143,6 +155,18 @@ export default function ProjectsView({
     }
   };
 
+  const projectCount = {
+    'Active': 3,
+    'Published': 3,
+    'Completed': 3,
+    'Drafts': 3
+  };
+
+  const handleProjectTypeChange = (type: ProjectType) => {
+    setActiveType(type);
+  };
+
+
   return (
     <div className="bg-bm_card_grey  h-full  ">
       <div className="px-4 md:px-12 xl:px-40 flex py-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
@@ -150,78 +174,25 @@ export default function ProjectsView({
           <Card className="bg-white h-full p-3 md:p-6 flex flex-col md:flex-row gap-3 md:gap-6">
             <CardContent className="flex-col flex p-0 gap-3 md:gap-6">
               <div className="flex gap-2 md:gap-4 justify-between w-full">
+                <img src={create} alt="" />
                 <Button
-                  className="dark__btn whitespace-nowrap"
+                  className="dark__btn whitespace-nowrap flex items-center"
                   onClick={newProject}
                 >
+                  <img src={create} alt="" className="mr-2" />
                   Create Project
                 </Button>
               </div>
               <Card className="min-w-[250px]">
-                <CardContent className="py-3 md:py-6 space-y-3">
-                  <div className="flex justify-between ">
-                    <div className="flex items-center">
-                      <AiOutlineReload />
-                      <p>Current</p>{" "}
-                    </div>
-                    <div className="text-white bg-bm__ox__red px-2 rounded-sm">
-                      3
-                    </div>
-                  </div>
-                  <Separator className="bg-bm__beige" />
-                  <div className="flex justify-between ">
-                    <div className="flex items-center">
-                      <FaRegArrowAltCircleUp />
-                      <p>Published</p>
-                    </div>
-                    <div className="text-white bg-bm__ox__red px-2 rounded-sm">
-                      2
-                    </div>
-                  </div>
-                  <Separator className="bg-bm__beige" />
-                  <div className="flex justify-between ">
-                    <p>Completed</p>
-                    <div className="text-white bg-bm__ox__red px-2 rounded-sm">
-                      33
-                    </div>
-                  </div>
-                  <Separator className="bg-bm__beige" />
-                  <div className="flex justify-between ">
-                    <p>Drafts</p>
-                    <div className="text-white bg-bm__ox__red px-2 rounded-sm">
-                      10
-                    </div>
-                  </div>
-                </CardContent>
+                {/* former card content was here */}
+                <ProjectList
+                  projectCount={projectCount}
+                  onProjectTypeChange={handleProjectTypeChange}
+                />
               </Card>
             </CardContent>
-            <CardContent className=" flex-1">
-              <div className="flex justify-between">
-                <p className="font-semibold text-[18px]">Active Projects</p>
-                <div className="flex items-center gap-3 md:gap-6">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className="flex gap-1 items-center">
-                      <BiSortAlt2 />
-                      Sort by: {"  "} Average Rating
-                    </DropdownMenuTrigger>
-                  </DropdownMenu>
-                </div>
-              </div>
-              <Separator className="my-2" />
-              <div className="flex justify-end my-3">
-                {" "}
-                {/* <Pagination /> */}
-              </div>
-              <Separator className="my-2" />
-              <div className=" m-auto flex flex-col gap-3 md:gap-12 mt-8">
-                {talents}
-              </div>
-              <Separator className="my-2 mt-6" />
-              <div className="flex justify-end my-3">
-                {" "}
-                {/* <Pagination /> */}
-              </div>
-            </CardContent>
+            {/* second card content */}
+            <ProjectDetails activeType={activeType} />
           </Card>
           <div className="sm:hidden w-full">
             <TopProjectCard card_title="Top Projects" card_width="w-full" />
