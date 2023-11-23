@@ -56,7 +56,7 @@ export default function ProjectDetails({
       <Card className="w-full pt-4 my-7">
         <CardContent>
           <div className="flex justify-between items-center">
-            <h2 className="text-[18px] font-medium">{title}</h2>
+            <h2 className="text-[15px] font-medium leading-[22.5px]">{title}</h2>
             {/* <AiOutlineEdit className="text-[16px] rounded-md " /> */}
             <a
               onClick={handleClick}
