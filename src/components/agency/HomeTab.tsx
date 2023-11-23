@@ -11,7 +11,7 @@ const currentProject = {
 
 const avaibleProject = {
   isCurrent: false,
-  content: [1, 2, 3, 4],
+  content: [1, 2, 3, 4, 5],
 };
 
 const HomeTab = () => {
