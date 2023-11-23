@@ -1,8 +1,8 @@
-import React from 'react'
-import { Card, CardContent, CardFooter } from '../../ui/card';
+import React from "react";
+import { Card, CardContent, CardFooter } from "../../ui/card";
 const talents = [1, 2, 3].map((_, idx) => {
   return (
-    <Card className="p-4" key={idx}>
+    <Card className="p-4 hover:bg-black/10 cursor-pointer" key={idx}>
       <CardContent className="p-0 space-y-1">
         <h3 className="font-medium text-[15px] ">
           Project Name {"  "}(in-store){" "}
@@ -39,9 +39,7 @@ const talents = [1, 2, 3].map((_, idx) => {
   );
 });
 const ActiveProjects = () => {
-  return (
-    <>{talents}</>
-  )
-}
+  return <>{talents}</>;
+};
 
-export default ActiveProjects
+export default ActiveProjects;

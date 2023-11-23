@@ -1,15 +1,20 @@
-import React from 'react'
-import { Card, CardContent, CardFooter } from '../../ui/card';
-import { DropdownMenu, DropdownMenuTrigger } from '../../ui/dropdown-menu';
-import { BiSortAlt2 } from 'react-icons/bi';
-import { Separator } from '../../ui/seperator';
-import { AiOutlineSearch } from 'react-icons/ai';
-import { Input } from '../../ui/input';
-import { BsChevronDoubleLeft, BsChevronDoubleRight, BsChevronLeft, BsChevronRight } from 'react-icons/bs';
-import ActiveProjects from './ActiveProjects';
-import PublishedProject from './PublishedProject';
-import CompletedProjects from './CompletedProjects';
-import DraftsProjects from './DraftsProjects';
+import React from "react";
+import { Card, CardContent, CardFooter } from "../../ui/card";
+import { DropdownMenu, DropdownMenuTrigger } from "../../ui/dropdown-menu";
+import { BiSortAlt2 } from "react-icons/bi";
+import { Separator } from "../../ui/seperator";
+import { AiOutlineSearch } from "react-icons/ai";
+import { Input } from "../../ui/input";
+import {
+  BsChevronDoubleLeft,
+  BsChevronDoubleRight,
+  BsChevronLeft,
+  BsChevronRight,
+} from "react-icons/bs";
+import ActiveProjects from "./ActiveProjects";
+import PublishedProject from "./PublishedProject";
+import CompletedProjects from "./CompletedProjects";
+import DraftsProjects from "./DraftsProjects";
 
 type ProjectDetailsProps = {
   activeType: "Active" | "Published" | "Completed" | "Drafts";
@@ -17,7 +22,7 @@ type ProjectDetailsProps = {
 
 const talents = [1, 2, 3].map((_, idx) => {
   return (
-    <Card className="p-4" key={idx}>
+    <Card className="p-4 hover:bg-black/10 cursor-pointer" key={idx}>
       <CardContent className="p-0 space-y-1">
         <h3 className="font-medium text-[15px] ">
           Project Name {"  "}(in-store){" "}
@@ -54,24 +59,24 @@ const talents = [1, 2, 3].map((_, idx) => {
   );
 });
 
-const ProjectDetails: React.FC<ProjectDetailsProps> = ({activeType}) => {
-    let projects;
-    switch (activeType) {
-      case "Active":
-        projects = <ActiveProjects />;
-        break;
-        case "Published":
-            projects = <PublishedProject />
-            break;
-            case "Completed":
-                projects = <CompletedProjects />
-                break;
-                case "Drafts":
-                    projects = <DraftsProjects />
-                    break; 
-      default:
-        projects = null;
-    }
+const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
+  let projects;
+  switch (activeType) {
+    case "Active":
+      projects = <ActiveProjects />;
+      break;
+    case "Published":
+      projects = <PublishedProject />;
+      break;
+    case "Completed":
+      projects = <CompletedProjects />;
+      break;
+    case "Drafts":
+      projects = <DraftsProjects />;
+      break;
+    default:
+      projects = null;
+  }
   return (
     <CardContent className=" flex-1">
       <div className="flex justify-between">
@@ -85,7 +90,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({activeType}) => {
           </DropdownMenu>
         </div>
       </div>
-      <Separator className="my-2" />
+      <Separator className="my-2 bg-[#D7D8DA]" />
       <div className="hidden lg:flex items-center border rounded-md w-1/2 px-3">
         <AiOutlineSearch className="text-[15px]" />
         <Input
@@ -102,14 +107,14 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({activeType}) => {
       </div>
 
       <div className="flex justify-end my-3"> {/* <Pagination /> */}</div>
-      <Separator className="my-2" />
-      <div className=" m-auto flex flex-col gap-3 md:gap-12 mt-8">
+      <Separator className="bg-[#D7D8DA]" />
+      <div className=" m-auto flex flex-col gap-3 md:gap-2 mt-8">
         {projects}
       </div>
-      <Separator className="my-2 mt-6" />
+      <Separator className="my-2 mt-6 bg-[#D7D8DA]" />
       <div className="flex justify-end my-3"> {/* <Pagination /> */}</div>
     </CardContent>
   );
 };
 
-export default ProjectDetails
+export default ProjectDetails;

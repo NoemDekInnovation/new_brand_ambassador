@@ -1,12 +1,11 @@
-import React from 'react'
-import { Card, CardContent, CardFooter } from '../../ui/card';
-
+import React from "react";
+import { Card, CardContent, CardFooter } from "../../ui/card";
 
 const talents = [1, 2, 3].map((_, idx) => {
   return (
-    <Card className="p-4 relative" key={idx}>
+    <Card className="p-4 relative hover:bg-black/10 cursor-pointer" key={idx}>
       <span className="absolute top-0 right-0 text-sm  pr-2 pt-2">
-        Closed on 25th Nov 2023
+        Completed on 25th Nov 2023
       </span>
       <CardContent className="p-0 space-y-1">
         <h3 className="font-medium text-[15px] ">
@@ -40,15 +39,12 @@ const talents = [1, 2, 3].map((_, idx) => {
             Lagos, Abuja, Ogun, Plateau
           </div>
         </div>
-
       </CardFooter>
     </Card>
   );
 });
 const CompletedProjects = () => {
-  return (
-    <>{talents}</>
-  )
-}
+  return <>{talents}</>;
+};
 
-export default CompletedProjects
+export default CompletedProjects;
