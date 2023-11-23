@@ -16,6 +16,9 @@ export function MainLayout({ children }: { children: ReactNode }) {
           <TbSquarePlus2 className="text-white text-3xl" />
         </div>
       </div>
+      <div className="h-[66px] w-[66px] rounded-full bg-[#93979D] absolute right-12 top-52 flex items-center justify-center">
+        <TbSquarePlus2 className="text-white text-3xl" />
+      </div>
       <AgencyFooter />
     </div>
   );
