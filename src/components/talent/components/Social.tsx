@@ -23,21 +23,21 @@ export default function Social({
       {/* <div className='fixed top-0 h-screen w-screen bg-[#F3F3F3]/30 z-[1000] mt-[20vh] px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'> */}
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px]">
         <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
-          <p className="text-[15px] font-medium p-2">My Account</p>
+          <p className="text-[15px] font-semibold p-2">My Account</p>
           <Separator className="bg-bm__gler" />
           <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <BiSolidUserDetail />
-            <p className="text-[12px] font-normal ">Profile</p>
+            <p className="text-[14px] font-normal ">Profile</p>
           </div>
           <Separator className="bg-bm__gler/50" />
           <div className="flex items-center gap-4 p-3   hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <MdPayments />
-            <p className="text-[12px] font-normal">Billings & Payments</p>
+            <p className="text-[14px] font-normal">Billings & Payments</p>
           </div>
           <Separator className="bg-bm__gler/50" />
           <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <MdSettings />
-            <p className="text-[12px] font-normal">Settings</p>
+            <p className="text-[14px] font-normal">Settings</p>
           </div>
         </Card>
         <div className="flex-1 overflow-y-scroll pr-2">
@@ -87,9 +87,9 @@ export default function Social({
               />
             </div>
           </div>
-          <CardContent className="border rounded-xl  p-3 flex-1 flex flex-col  mt-3">
+          <CardContent className="border rounded-xl  p-8 flex-1 flex flex-col  mt-3">
             <p>Add your social handles to boost your profile.</p>
-            <Separator className=" my-3" />
+            <Separator className=" my-7 bg-[#D7D8DA]" />
             <div className="grid  md:gap-6 mt-4">
               <div className="relative  z-0 w-full mb-6 group">
                 <input
@@ -176,7 +176,7 @@ export default function Social({
           <div className="flex justify-between mt-2">
             <div className="flex gap-4">
               <Button className="light__btn max-w-[100px]" onClick={cancel}>
-                Close
+                <Link to={"/profile"}>Close</Link>
               </Button>
               <Button className="light__btn max-w-[100px]" onClick={prev}>
                 Back

@@ -33,7 +33,7 @@ const HomeTab = () => {
           <ListCard card_title="My Projects" card_width="w-full" />
           <TopProjectCard card_title="Top Projects" card_width="w-full" />
         </div>
-        <img src={addButton} alt="" />
+        {/* <img src={addButton} alt="" /> */} 
       </div>
     </div>
   );

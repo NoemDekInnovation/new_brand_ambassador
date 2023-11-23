@@ -6,7 +6,13 @@ import subtract from "../../../assets/Subtract.png";
 import subtract2 from "../../../assets/Subtract2.png";
 import subtract3 from "../../../assets/Subtract3.png";
 import { BiSolidUserDetail } from "react-icons/bi";
-import { MdPayments, MdSettings } from "react-icons/md";
+import {
+  MdOutlineAddCircleOutline,
+  MdPayments,
+  MdSettings,
+} from "react-icons/md";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 export default function Education({
   next,
@@ -21,23 +27,23 @@ export default function Education({
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 overflow-hidden  h-[87.3vh] pt-10">
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px]">
         <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
-          <p className="text-[15px] font-medium p-2">My Account</p>
+          <p className="text-[15px] font-semibold p-2">My Account</p>
           <Separator className="bg-bm__gler" />
           <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <div className="flex items-center gap-4 mr-2">
               <BiSolidUserDetail />
-              <p className="text-[12px] font-normal ">Profile</p>
+              <p className="text-[14px] font-normal ">Profile</p>
             </div>
           </div>
           <Separator className="bg-bm__gler/50" />
           <div className="flex items-center gap-4 p-3   hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <MdPayments />
-            <p className="text-[12px] font-normal">Billings & Payments</p>
+            <p className="text-[14px] font-normal">Billings & Payments</p>
           </div>
           <Separator className="bg-bm__gler/50" />
           <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <MdSettings />
-            <p className="text-[12px] font-normal">Settings</p>
+            <p className="text-[14px] font-normal">Settings</p>
           </div>
         </Card>
         <div className="flex-1 overflow-y-scroll pr-2">
@@ -107,12 +113,12 @@ export default function Education({
               />
             </div>
           </div>
-          <CardContent className="border rounded-xl  p-3 flex-1 flex flex-col  mt-3">
+          <CardContent className="border rounded-xl  p-8 flex-1 flex flex-col  mt-3">
             <p>
               Your education & certifications will help you get better work
               opportunities.
             </p>
-            <Separator className=" my-3" />
+            <Separator className=" my-7 bg-[#D7D8DA]" />
             <div className="mt-2">
               <p>Education 1</p>
               <div className="grid md:grid-cols-2 md:gap-6 mt-4">
@@ -194,11 +200,14 @@ export default function Education({
                 </div>
               </div>
             </div>
-            <Separator className="bg-bm__beige mb-3 md:mb-6" />
-            <Button className="dark__btn max-w-[120px] whitespace-nowrap">
-              Add Education
+            <Separator className="bg-bm__beige my-4 md:mb-6" />
+            <Button className="dark__btn max-w-[140px] whitespace-nowrap">
+              <div className="flex items-center gap-1">
+                <MdOutlineAddCircleOutline className="text-[16px]" />
+                Add Education
+              </div>
             </Button>
-            <Separator className="bg-bm__beige my-3 md:my-6 py-[2px]" />
+            <Separator className="bg-bm__beige my-7 md:my-6 py-[2px]" />
 
             <div className="mt-2">
               <p>Certification 1</p>
@@ -262,25 +271,28 @@ export default function Education({
                 </div>
               </div>
             </div>
-            <Separator className="bg-bm__beige mb-3 md:mb-6" />
+            <Separator className="bg-bm__beige my-4 md:mb-6" />
 
             <Button className="dark__btn max-w-[150px] whitespace-nowrap">
-              Add Certification
+              <div className="flex items-center gap-1">
+                <MdOutlineAddCircleOutline className="text-[16px]" />
+                Add Certification
+              </div>
             </Button>
           </CardContent>
           {/* <Progress value={56} className='my-2 md:my-7' /> */}
           <div className="flex justify-between mt-2">
             <div className="flex gap-4">
               <Button className="light__btn max-w-[100px]" onClick={cancel}>
-                Close
+                <Link to={"/profile"}>Close</Link>
               </Button>
               <Button className="light__btn max-w-[100px]" onClick={prev}>
                 Back
               </Button>
             </div>
             <div className="flex gap-4">
-              <Button className="light__btn" onClick={next}>
-                Create
+              <Button className="dark__btn" onClick={next}>
+                Save
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
