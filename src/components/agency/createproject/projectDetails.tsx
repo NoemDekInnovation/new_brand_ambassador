@@ -281,7 +281,7 @@ export default function ProjectDetails({
           </div>
         </InfoCard>
 
-        <div className="flex justify-between mb-2">
+        <div className="flex justify-between mb-5">
           <div className="flex whitespace-nowrap gap-4 md:gap-8">
             <Button className="light__btn max-w-[100px]" onClick={cancel}>
               Cancel
