@@ -4,6 +4,7 @@ import { Card, CardContent } from "../../../ui/card";
 import { Separator } from "../../../ui/seperator";
 import React from "react";
 import { Textarea } from "../../../ui/textarea";
+import { ImAttachment } from "react-icons/im";
 
 export default function TalentRequirement({
   next,
@@ -20,7 +21,7 @@ export default function TalentRequirement({
 }) {
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
-      <Card className="p-4 md:p-8 m-8 bg-white">
+      <Card className="p-4 md:p-8 mt-5 bg-white">
         <ChevBackground
           text="Tell talent what you require for their proposal"
           stage="5"
@@ -47,7 +48,10 @@ export default function TalentRequirement({
               </p>
 
               <Button className="light__btn max-w-[200px] mt-4">
-                Attach file
+                <div className="flex items-center gap-1">
+                  <ImAttachment className="text-[16px]" />
+                  Attach file
+                </div>
               </Button>
             </form>
           </CardContent>

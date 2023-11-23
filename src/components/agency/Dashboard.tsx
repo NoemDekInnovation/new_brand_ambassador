@@ -119,25 +119,27 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <TabsContent value="home" className="w-full">
-          <HomeTab />
-        </TabsContent>
-        <TabsContent className="w-full" value="talent">
-          <TalentTab />
-        </TabsContent>
-        <TabsContent className="w-full" value="projects">
-          <ProjectTab setDefault={setDefaultTab} />
-        </TabsContent>
-        <TabsContent className="w-full" value="inventory">
-          Inventory
-        </TabsContent>
-        <TabsContent className="w-full" value="outlets">
-          Outlets
-        </TabsContent>
-        <TabsContent className="w-full" value="reports">
-          Reports
-        </TabsContent>
-        <TabsContent className="w-full" value="users"></TabsContent>
+        <div className="flex overflow-hidden overflow-y-hidden h-[82vh] mb-2 ">
+          <TabsContent value="home" className="w-full">
+            <HomeTab />
+          </TabsContent>
+          <TabsContent className="w-full" value="talent">
+            <TalentTab />
+          </TabsContent>
+          <TabsContent className="w-full" value="projects">
+            <ProjectTab setDefault={setDefaultTab} />
+          </TabsContent>
+          <TabsContent className="w-full" value="inventory">
+            Inventory
+          </TabsContent>
+          <TabsContent className="w-full" value="outlets">
+            Outlets
+          </TabsContent>
+          <TabsContent className="w-full" value="reports">
+            Reports
+          </TabsContent>
+          <TabsContent className="w-full" value="users"></TabsContent>
+        </div>
       </Tabs>
     </AgencyLayout>
   );
