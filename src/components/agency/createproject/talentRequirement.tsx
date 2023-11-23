@@ -35,7 +35,7 @@ export default function TalentRequirement({
             {/* <p className="text-[15px] font-medium  mb-3">Project Title</p> */}
             <form>
               <p className="text-[15px] font-medium  mb-3">
-                Proposal Requirements
+                Application Requirements
               </p>
 
               <Textarea
@@ -47,7 +47,7 @@ export default function TalentRequirement({
                 250 Characters
               </p>
 
-              <Button className="light__btn max-w-[200px] mt-4">
+              <Button className="light__btn max-w-[200px] mt-4 hover:underline tranform ">
                 <div className="flex items-center gap-1">
                   <ImAttachment className="text-[16px]" />
                   Attach file

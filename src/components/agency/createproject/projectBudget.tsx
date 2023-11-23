@@ -99,11 +99,11 @@ export default function ProjectBudget({
                       S
                     </div>
                   </div> */}
-                  <div className="pt-2 flex gap-6 max-w-3xl mt-2 mb-4 cursor-pointer flex-wrap">
+                  <div className="pt-2 flex gap-3 max-w-3xl mt-2 mb-4 cursor-pointer flex-wrap">
                     {daysOfWeek.map(({ label, value }: DayObject, index) => (
                       <div
                         key={index}
-                        className={`bg-bm_card_grey rounded-md p-2 px-3 ${
+                        className={`bg-bm_card_grey rounded-md p-2 px-3 font-semibold ${
                           selectedDays.includes(value)
                             ? "bg-[#252525] text-white"
                             : ""
@@ -124,7 +124,7 @@ export default function ProjectBudget({
                     )}
                   <label
                     htmlFor="floating_first_name"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    className=" text-[18px] peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Working days
                   </label>
@@ -154,21 +154,21 @@ export default function ProjectBudget({
                         id="daily"
                         className="h-6 w-6"
                       />
-                      <label>Daily</label>
+                      <label className="text-[16px]">Daily</label>
                       <input
                         type="radio"
                         name="weekly"
                         id="weekly"
                         className="h-6 w-6"
                       />
-                      <label>Weekly</label>
+                      <label className="text-[16px]">Weekly</label>
                       <input
                         type="radio"
                         name="monthly"
                         id="monthly"
                         className="h-6 w-6"
                       />
-                      <label>Monthly</label>
+                      <label className="text-[16px]">Monthly</label>
                     </div>
                     {/* <p className="text-[15px] font-medium  mb-3">0</p>
                     <Separator className="my-3 md:my-8 bg-bm__beige" /> */}
@@ -208,21 +208,21 @@ export default function ProjectBudget({
                       id="daily"
                       className="h-6 w-6"
                     />
-                    <label>Daily</label>
+                    <label className="text-[16px]">Daily</label>
                     <input
                       type="radio"
                       name="weekly"
                       id="weekly"
                       className="h-6 w-6"
                     />
-                    <label>Weekly</label>
+                    <label className="text-[16px]">Weekly</label>
                     <input
                       type="radio"
                       name="monthly"
                       id="monthly"
                       className="h-6 w-6"
                     />
-                    <label>Monthly</label>
+                    <label className="text-[16px]">Monthly</label>
                   </div>
                   <div className="pt-2">
                     <p className="text-[12px] text-bm__btn__grey">&#x20A6; 0</p>

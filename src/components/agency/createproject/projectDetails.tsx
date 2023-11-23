@@ -171,26 +171,26 @@ export default function ProjectDetails({
           <div className="pt-3">
             <Separator className="bg-[#D7D8DA5C] mt-3" />
             <p className="pt-5">Working Days</p>
-            <div className="pt-3 flex gap-6 max-w-3xl">
-              <div className="bg-bm_card_grey text-bm_black rounded-md p-2 px-3">
+            <div className="pt-3 flex gap-4 max-w-3xl">
+              <div className="bg-bm_card_grey text-bm_black rounded-md p-2 px-3 font-semibold">
                 S
               </div>
-              <div className="text-bm_card_grey bg-bm_black rounded-md p-2 px-3">
+              <div className="text-bm_card_grey bg-bm_black rounded-md p-2 px-3 font-semibold">
                 M
               </div>
-              <div className="bg-bm_card_grey text-bm_black rounded-md p-2 px-3">
+              <div className="bg-bm_card_grey text-bm_black rounded-md p-2 px-3 font-semibold">
                 T
               </div>
-              <div className="text-bm_card_grey bg-bm_black rounded-md p-2 px-3">
+              <div className="text-bm_card_grey bg-bm_black rounded-md p-2 px-3 font-semibold">
                 W
               </div>
-              <div className="bg-bm_card_grey text-bm_black rounded-md p-2 px-3">
+              <div className="bg-bm_card_grey text-bm_black rounded-md p-2 px-3 font-semibold">
                 T
               </div>
-              <div className="bg-bm_card_grey text-bm_black rounded-md p-2 px-3">
+              <div className="bg-bm_card_grey text-bm_black rounded-md p-2 px-3 font-semibold">
                 F
               </div>
-              <div className="bg-bm_card_grey text-bm_black rounded-md p-2 px-3">
+              <div className="bg-bm_card_grey text-bm_black rounded-md p-2 px-3 font-semibold">
                 S
               </div>
               {/* {formData.workingDays} */}
@@ -213,17 +213,18 @@ export default function ProjectDetails({
         <InfoCard title="Application Requirements">
           <Separator className="bg-[#D7D8DA5C] mt-3" />
           <p className="text-[14px] pt-3">
-            Proposal Requirements: Lorem ipsum dolor sit amet consectetur. Sit
-            amet gravida tempus proin accumsan. Consequat aliquam quis nulla leo
-            duis consequat porta vulputate penatibus. Blandit lorem amet
-            volutpat diam ut dignissim viverra orci.Proposal Requirements: Lorem
-            ipsum dolor sit amet consectetur. Sit amet gravida tempus proin
-            accumsan. Consequat aliquam quis nulla leo duis consequat porta
-            vulputate penatibus. Blandit lorem amet volutpat diam ut dignissim
-            viverra orci.Proposal Requirements: Lorem ipsum dolor sit amet
-            consectetur. Sit amet gravida tempus proin accumsan. Consequat
-            aliquam quis nulla leo duis consequat porta vulputate penatibus.
-            Blandit lorem amet volutpat diam ut dignissim viverra orci.
+            Application Requirements: Lorem ipsum dolor sit amet consectetur.
+            Sit amet gravida tempus proin accumsan. Consequat aliquam quis nulla
+            leo duis consequat porta vulputate penatibus. Blandit lorem amet
+            volutpat diam ut dignissim viverra orci.Application Requirements:
+            Lorem ipsum dolor sit amet consectetur. Sit amet gravida tempus
+            proin accumsan. Consequat aliquam quis nulla leo duis consequat
+            porta vulputate penatibus. Blandit lorem amet volutpat diam ut
+            dignissim viverra orci.Application Requirements: Lorem ipsum dolor
+            sit amet consectetur. Sit amet gravida tempus proin accumsan.
+            Consequat aliquam quis nulla leo duis consequat porta vulputate
+            penatibus. Blandit lorem amet volutpat diam ut dignissim viverra
+            orci.
             {/* {formData.projectRequirements} */}
           </p>
           <Separator className="bg-[#D7D8DA5C] mt-3" />
