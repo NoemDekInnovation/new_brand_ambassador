@@ -22,12 +22,14 @@ const Dashboard = () => {
     <AgencyLayout>
       <Tabs defaultValue={defaultTab} className="w-full">
         <div className="flex flex-col lg:flex-row  justify-between w-full px-4 md:px-12 xl:px-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0  overflow-x-scroll md:overflow-x-hidden overflow-y-hidden">
-          <TabsList className="">
-            <TabsTrigger value="home">Home</TabsTrigger>
+          <TabsList className="mb-4">
+            <TabsTrigger value="home" className="hover:underline">
+              Home
+            </TabsTrigger>
             <Menubar className="border-0">
               <MenubarMenu>
                 <MenubarTrigger className="border-0">
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-3 cursor-pointer hover:underline">
                     <p></p>Talent
                     {/* <TabsTrigger value="talent">Talent</TabsTrigger> */}
                     <img src={arrowIcon} alt="arrowicon" />
@@ -55,26 +57,26 @@ const Dashboard = () => {
             <Menubar className="border-0">
               <MenubarMenu>
                 <MenubarTrigger className="border-0">
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-3 cursor-pointer hover:underline">
                     <p>Projects</p>
                     {/* <TabsTrigger value="talent">Talent</TabsTrigger> */}
                     <img src={arrowIcon} alt="arrowicon" />
                   </div>
                 </MenubarTrigger>
                 <MenubarContent className="bg-white">
-                  <MenubarItem>
+                  <MenubarItem className="hover:underline">
                     <TabsTrigger value="projects">Active</TabsTrigger>
                   </MenubarItem>
                   <MenubarSeparator className="bg-bm__beige" />
-                  <MenubarItem>
+                  <MenubarItem className="hover:underline">
                     <TabsTrigger value="projects">Published</TabsTrigger>
                   </MenubarItem>
                   <MenubarSeparator className="bg-bm__beige" />
-                  <MenubarItem>
+                  <MenubarItem className="hover:underline">
                     <TabsTrigger value="projects">Completed</TabsTrigger>
                   </MenubarItem>
                   <MenubarSeparator className="bg-bm__beige" />
-                  <MenubarItem>
+                  <MenubarItem className="hover:underline">
                     <TabsTrigger value="projects">Drafts</TabsTrigger>
                   </MenubarItem>
                 </MenubarContent>
@@ -83,13 +85,21 @@ const Dashboard = () => {
 
             {/* <TabsTrigger value="projects">Projects</TabsTrigger>
             <img src={arrowIcon} alt="arrowicon" /> */}
-            <TabsTrigger value="inventory">Inventory</TabsTrigger>
+            <TabsTrigger value="inventory" className="hover:underline">
+              Inventory
+            </TabsTrigger>
             <img src={arrowIcon} alt="arrowicon" />
-            <TabsTrigger value="outlets">Outlets</TabsTrigger>
+            <TabsTrigger value="outlets" className="hover:underline">
+              Outlets
+            </TabsTrigger>
             <img src={arrowIcon} alt="arrowicon" />
-            <TabsTrigger value="reports">Reports</TabsTrigger>
+            <TabsTrigger value="reports" className="hover:underline">
+              Reports
+            </TabsTrigger>
             <img src={arrowIcon} alt="arrowicon" />
-            <TabsTrigger value="users">Users</TabsTrigger>
+            <TabsTrigger value="users" className="hover:underline">
+              Users
+            </TabsTrigger>
             <img src={arrowIcon} alt="arrowicon" />
           </TabsList>
           <div className="flex">

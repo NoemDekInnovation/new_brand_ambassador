@@ -1,14 +1,17 @@
-import React from 'react'
-import { Card, CardContent, CardFooter } from '../../ui/card';
+import React from "react";
+import { Card, CardContent, CardFooter } from "../../ui/card";
 
 const talents = [1, 2, 3, 4].map((_, idx) => {
-    const isEvenIndex = idx % 2 === 0;
-    const editedTimestamp = isEvenIndex
-      ? "June 2nd, 2023 | 2:00 PM"
-      : "2 hrs ago";
+  const isEvenIndex = idx % 2 === 0;
+  const editedTimestamp = isEvenIndex
+    ? "June 2nd, 2023 | 2:00 PM"
+    : "2 hrs ago";
 
   return (
-    <Card className="p-4 relative" key={idx}>
+    <Card
+      className="p-4 mb-4 relative hover:bg-black/10 cursor-pointer"
+      key={idx}
+    >
       <span className="absolute top-0 right-0 text-sm  pr-2 pt-2">
         {`Edited ${editedTimestamp}`}
       </span>
@@ -50,9 +53,7 @@ const talents = [1, 2, 3, 4].map((_, idx) => {
 });
 
 const DraftsProjects = () => {
-  return (
-    <div>{talents}</div>
-  )
-}
+  return <div>{talents}</div>;
+};
 
-export default DraftsProjects
+export default DraftsProjects;

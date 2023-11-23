@@ -30,14 +30,12 @@ const getImageSrc = (projectType: any) => {
     case "Drafts":
       return draft;
     default:
-      return ""; 
+      return "";
   }
 };
 
 const ProjectType: React.FC<ProjectTypeProps> = ({ name, count, onClick }) => {
   const [isActive, setIsActive] = useState(false);
-
-
 
   return (
     <div className="flex justify-between " onClick={() => onClick(name)}>
@@ -50,7 +48,6 @@ const ProjectType: React.FC<ProjectTypeProps> = ({ name, count, onClick }) => {
   );
 };
 
-
 const ProjectList: React.FC<ProjectListProps> = ({
   onProjectTypeChange,
   projectCount,
@@ -62,16 +59,16 @@ const ProjectList: React.FC<ProjectListProps> = ({
   };
   return (
     <>
-      <CardContent className="py-3 md:py-6 space-y-3 cursor-pointer">
-        <div className="custom-hover">
+      <CardContent className="p-1 flex flex-col justify-center gap-1 border rounded-[6px]">
+        <div className="gap-4 p-3 hover:bg-black/10 cursor-pointer">
           <ProjectType
-            name="Active" 
+            name="Active"
             count={projectCount["Active"]}
             onClick={handleProjectTypeClick}
           />
         </div>
         <Separator className="shrink-0 h-[1px] w-full bg-bm__beige" />
-        <div className="custom-hover">
+        <div className="gap-4 p-3 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Published"
             count={projectCount["Published"]}
@@ -79,7 +76,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
           />
         </div>
         <Separator className="shrink-0 h-[1px] w-full bg-bm__beige" />
-        <div className="custom-hover">
+        <div className="gap-4 p-3 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Completed"
             count={projectCount["Completed"]}
@@ -87,7 +84,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
           />
         </div>
         <Separator className="shrink-0 h-[1px] w-full bg-bm__beige" />
-        <div className="custom-hover">
+        <div className="gap-4 p-3 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Drafts"
             count={projectCount["Drafts"]}

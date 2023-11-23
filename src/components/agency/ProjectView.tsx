@@ -17,13 +17,18 @@ import { TopProjectCard } from "./ListCard";
 // import Pagination from "../../ui/Pagination";
 import { AiOutlineReload, AiOutlineSearch } from "react-icons/ai";
 import { FaRegArrowAltCircleUp } from "react-icons/fa";
-import create from "../../assets/Add.png"
-import current from "../../assets/Current Projects.png"
-import completed from "../../assets/Completed Projects.png"
-import published from "../../assets/Published Projects.png"
-import draft from "../../assets/Draft Projects.png"
+import create from "../../assets/Add.png";
+import current from "../../assets/Current Projects.png";
+import completed from "../../assets/Completed Projects.png";
+import published from "../../assets/Published Projects.png";
+import draft from "../../assets/Draft Projects.png";
 import { Input } from "../../ui/input";
-import { BsChevronDoubleLeft, BsChevronDoubleRight, BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import {
+  BsChevronDoubleLeft,
+  BsChevronDoubleRight,
+  BsChevronLeft,
+  BsChevronRight,
+} from "react-icons/bs";
 import ProjectList from "./ProjectList";
 import ProjectDetails from "./ProjectDetails";
 
@@ -39,7 +44,7 @@ export default function ProjectsView({
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-    const [activeType, setActiveType] = useState<ProjectType>("Active");
+  const [activeType, setActiveType] = useState<ProjectType>("Active");
 
   const { toast } = useToast();
   const { user } = useSelector((state: RootState) => state.user);
@@ -156,16 +161,15 @@ export default function ProjectsView({
   };
 
   const projectCount = {
-    'Active': 3,
-    'Published': 3,
-    'Completed': 3,
-    'Drafts': 3
+    Active: 3,
+    Published: 3,
+    Completed: 3,
+    Drafts: 3,
   };
 
   const handleProjectTypeChange = (type: ProjectType) => {
     setActiveType(type);
   };
-
 
   return (
     <div className="bg-bm_card_grey  h-full  ">
@@ -174,7 +178,7 @@ export default function ProjectsView({
           <Card className="bg-white h-full p-3 md:p-6 flex flex-col md:flex-row gap-3 md:gap-6">
             <CardContent className="flex-col flex p-0 gap-3 md:gap-6">
               <div className="flex gap-2 md:gap-4 justify-between w-full">
-                <img src={create} alt="" />
+                {/* <img src={create} alt="" /> */}
                 <Button
                   className="dark__btn whitespace-nowrap flex items-center"
                   onClick={newProject}

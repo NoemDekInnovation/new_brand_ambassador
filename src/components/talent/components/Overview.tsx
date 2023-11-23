@@ -51,11 +51,7 @@ export default function Overview({
           <div className="flex justify-between font-medium text-[12px] my-2 ">
             <div className="relative text-white flex items-center justify-center ">
               <p className="absolute top-[25%]  z-20 text-[16px]">Overview</p>
-              <img
-                src={darkUnion}
-                alt=""
-                className=" z-10 w-[300px] h-[50px]"
-              />
+              <img src={darkUnion} alt="" className=" z-5 w-[300px] h-[50px]" />
             </div>
             <div className=" relative text-black flex items-center justify-center">
               <p className="absolute top-[25%] text-[16px] z-20">
