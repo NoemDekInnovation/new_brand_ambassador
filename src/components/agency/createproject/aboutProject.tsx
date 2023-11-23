@@ -205,7 +205,7 @@ export default function AboutProject({
           </div>
           <div className="flex whitespace-nowrap gap-4 md:gap-8">
             <Button className="dark__btn" type="button" onClick={next}>
-              Next
+             Save and Next
             </Button>
           </div>
         </div>

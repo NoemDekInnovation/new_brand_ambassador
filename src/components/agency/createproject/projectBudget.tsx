@@ -251,7 +251,7 @@ export default function ProjectBudget({
           </div>
           <div className="flex whitespace-nowrap gap-4 md:gap-8">
             <Button className="dark__btn" onClick={next}>
-              Next
+             Save and Next
             </Button>
           </div>
         </div>

@@ -10,9 +10,21 @@ import React, {
   useState,
   useEffect,
 } from "react";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../../../ui/dialog";
+
 import { useNavigate } from "react-router-dom";
 
 import { AiOutlineEdit } from "react-icons/ai";
+
+import createdproject from "../../../assets/created-project.png"
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 export default function ProjectDetails({
   next,
@@ -67,7 +79,27 @@ export default function ProjectDetails({
       <Card className="p-4 md:p-8 m-8 bg-white">
         <div className=" flex justify-between px-2 items-center">
           <h3 className="font-semibold text-[15px]">Project Details</h3>
-          <Button className="dark__btn max-w-[200px]">Post this project</Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="dark__btn max-w-[200px]">
+                Post this project
+              </Button>
+            </DialogTrigger>
+            <DialogContent
+              className="max-w-[360px] bg-[#F3F3F3]"
+            >
+              <DialogHeader className="flex flex-col items-center">
+                <img
+                  src={createdproject}
+                  alt=""
+                  className="w-[55.36px] h-[55.34px] mt-2 mb-3"
+                />
+                <DialogDescription className="text-center font-medium text-[18px] pb-3">
+                  Your Project has been Posted Successfuly
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <InfoCard title="Nivea">
