@@ -28,7 +28,7 @@ const Dashboard = () => {
               <MenubarMenu>
                 <MenubarTrigger className="border-0">
                   <div className="flex items-center space-x-3">
-                    <p>Talent</p>
+                    <p></p>Talent
                     {/* <TabsTrigger value="talent">Talent</TabsTrigger> */}
                     <img src={arrowIcon} alt="arrowicon" />
                   </div>
@@ -52,9 +52,37 @@ const Dashboard = () => {
                 </MenubarContent>
               </MenubarMenu>
             </Menubar>
+            <Menubar className="border-0">
+              <MenubarMenu>
+                <MenubarTrigger className="border-0">
+                  <div className="flex items-center space-x-3">
+                    <p>Projects</p>
+                    {/* <TabsTrigger value="talent">Talent</TabsTrigger> */}
+                    <img src={arrowIcon} alt="arrowicon" />
+                  </div>
+                </MenubarTrigger>
+                <MenubarContent className="bg-white">
+                  <MenubarItem>
+                    <TabsTrigger value="projects">Active</TabsTrigger>
+                  </MenubarItem>
+                  <MenubarSeparator className="bg-bm__beige" />
+                  <MenubarItem>
+                    <TabsTrigger value="projects">Published</TabsTrigger>
+                  </MenubarItem>
+                  <MenubarSeparator className="bg-bm__beige" />
+                  <MenubarItem>
+                    <TabsTrigger value="projects">Completed</TabsTrigger>
+                  </MenubarItem>
+                  <MenubarSeparator className="bg-bm__beige" />
+                  <MenubarItem>
+                    <TabsTrigger value="projects">Drafts</TabsTrigger>
+                  </MenubarItem>
+                </MenubarContent>
+              </MenubarMenu>
+            </Menubar>
 
-            <TabsTrigger value="projects">Projects</TabsTrigger>
-            <img src={arrowIcon} alt="arrowicon" />
+            {/* <TabsTrigger value="projects">Projects</TabsTrigger>
+            <img src={arrowIcon} alt="arrowicon" /> */}
             <TabsTrigger value="inventory">Inventory</TabsTrigger>
             <img src={arrowIcon} alt="arrowicon" />
             <TabsTrigger value="outlets">Outlets</TabsTrigger>
