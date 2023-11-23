@@ -188,7 +188,7 @@ const AgencyProfile = () => {
                 </div>
               </div>
             </div>
-            <img src={addButton} alt="" className="pr-50" />
+            {/* <img src={addButton} alt="" className="pr-50" /> */}
           </div>
         </div>
       </div>
