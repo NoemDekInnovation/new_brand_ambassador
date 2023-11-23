@@ -108,7 +108,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
 
       <div className="flex justify-end my-3"> {/* <Pagination /> */}</div>
       <Separator className="bg-[#D7D8DA]" />
-      <div className=" m-auto flex flex-col gap-3 md:gap-2 mt-8">
+      <div className=" overflow-y-scroll h-[53vh] m-auto flex flex-col gap-3 md:gap-2 mt-8">
         {projects}
       </div>
       <Separator className="my-2 mt-6 bg-[#D7D8DA]" />

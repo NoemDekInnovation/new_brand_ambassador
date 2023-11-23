@@ -15,7 +15,7 @@ export default function GetStarted({
 }) {
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
-      <Card className="p-4 md:p-8 m-8 bg-white">
+      <Card className="p-4 md:p-8 mt-5 bg-white h-[2000px]">
         <ChevBackground text="Getting Started" stage="1" />
         <Card className="w-full py-6 my-7">
           <CardContent>
@@ -88,7 +88,7 @@ export default function GetStarted({
           </div>
           <div className="flex whitespace-nowrap gap-4 md:gap-8">
             <Button className="dark__btn" onClick={next}>
-             Save and Next
+              Save and Next
             </Button>
           </div>
         </div>

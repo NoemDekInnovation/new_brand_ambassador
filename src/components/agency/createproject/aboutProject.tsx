@@ -24,8 +24,8 @@ export default function AboutProject({
   // console.log(formValues.projectTitle);
 
   return (
-    <div className="px-4 pb-4  md:px-12 xl:px-40">
-      <Card className="p-4 md:p-8 m-8 bg-white">
+    <div className="px-4 pb-4  md:px-12 xl:px-40 ">
+      <Card className="p-4 md:p-8 mt-5 bg-white overflow-y-scroll h-[83vh]">
         <ChevBackground text="Tell us about your project" stage="2" />
         <Card className="w-full py-6 my-7">
           <CardContent>
@@ -194,7 +194,7 @@ export default function AboutProject({
             </form>
           </CardContent>
         </Card>
-        <div className="flex justify-between">
+        <div className="flex justify-between mb-5">
           <div className="flex whitespace-nowrap gap-4 md:gap-8">
             <Button className="light__btn max-w-[100px]" onClick={cancel}>
               Cancel
@@ -205,7 +205,7 @@ export default function AboutProject({
           </div>
           <div className="flex whitespace-nowrap gap-4 md:gap-8">
             <Button className="dark__btn" type="button" onClick={next}>
-             Save and Next
+              Save and Next
             </Button>
           </div>
         </div>
