@@ -26,7 +26,7 @@ export default function NewNavBar() {
     setToggleMenubar(!toggleMenubar);
   };
   return (
-    <div className="fixed w-full z-[100]">
+    <div>
       <nav className="flex justify-between px-4  md:px-12 xl:px-40 items-center  text-[12px] font-medium bg-white py-7">
         <div className="flex items-center gap-2 md:gap-8 w-full">
           <div className="flex justify-between items-center w-full lg:w-fit">
