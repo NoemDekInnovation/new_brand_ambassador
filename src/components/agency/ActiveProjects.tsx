@@ -39,7 +39,7 @@ const talents = [1, 2, 3, 4, 5, 6, 7, 8].map((_, idx) => {
   );
 });
 const ActiveProjects = () => {
-  return <div className="p-2 flex flex-col w-full gap-2">{talents}</div>;
+  return <div className="flex flex-col w-full gap-2">{talents}</div>;
 };
 
 export default ActiveProjects;
