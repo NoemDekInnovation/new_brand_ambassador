@@ -15,6 +15,7 @@ import {
 } from "../../../redux/skills.slice";
 import { AppDispatch } from "../../../redux/store";
 import { GrFormClose } from "react-icons/gr";
+import { MdOutlineAddCircleOutline } from "react-icons/md";
 
 const animatedComponents = makeAnimated();
 
@@ -126,7 +127,7 @@ export default function RequiredTalents({
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
-      <Card className="p-4 md:p-8 m-8 bg-white">
+      <Card className="p-4 md:p-8 mt-5 bg-white h-[2000px]">
         <ChevBackground
           text="Specify the talent you want and the skills required"
           stage="3"
@@ -162,7 +163,7 @@ export default function RequiredTalents({
                           {errors.opportunities.message}
                         </p>
                       )}
-                      <p className="text-[12px] text-bm__btn__grey">
+                      <p className="text-[12px] text-bm__btn__grey pl-2">
                         E.g, Supervisor, Brand Ambassador, Usher, etc.
                       </p>
                     </div>
@@ -274,7 +275,10 @@ export default function RequiredTalents({
               onClick={handleAddTalent}
               className="dark__btn max-w-[200px]"
             >
-              Add talent type
+              <div className="flex items-center gap-1">
+                <MdOutlineAddCircleOutline className="text-[16px]" />
+                Add talent type
+              </div>
             </Button>
           </CardContent>
         </Card>
@@ -289,7 +293,7 @@ export default function RequiredTalents({
           </div>
           <div className="flex whitespace-nowrap gap-4 md:gap-8">
             <Button className="dark__btn" onClick={next}>
-             Save and Next
+              Save and Next
             </Button>
           </div>
         </div>

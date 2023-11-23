@@ -173,9 +173,9 @@ export default function ProjectsView({
 
   return (
     <div className="bg-bm_card_grey  h-full  ">
-      <div className="px-4 md:px-12 xl:px-40 flex py-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
-        <div className=" space-y-8 flex-1 flex flex-col items-center sm:block">
-          <Card className="bg-white h-full p-3 md:p-6 flex flex-col md:flex-row gap-3 md:gap-6">
+      <div className=" h-full px-4 md:px-12 xl:px-40 flex py-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
+        <div className="h-full space-y-8 flex-1 flex flex-col items-center sm:block">
+          <Card className="bg-white h-full min-h-[89vh] p-3 md:p-6 flex flex-col md:flex-row gap-3 md:gap-6">
             <CardContent className="flex-col flex p-0 gap-3 md:gap-6">
               <div className="flex gap-2 md:gap-4 justify-between w-full">
                 {/* <img src={create} alt="" /> */}
