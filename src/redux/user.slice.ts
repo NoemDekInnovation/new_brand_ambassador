@@ -1,9 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-interface USERProps {
+export interface USERProps {
   firstName: string;
   role: string;
   accountId: string;
+  authKey: string
 }
 
 export interface userProps {
@@ -46,7 +47,7 @@ const userSlice = createSlice({
     //   state.user = null;
     // },
     logout: (state, action) => {
-      state.user = { firstName: "", role: "", accountId: "" };
+      state.user = { firstName: "", role: "", accountId: "", authKey: "" };
 
       
       localStorage.removeItem(localStorageKey);

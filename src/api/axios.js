@@ -11,6 +11,7 @@ const instance = axios.create({
 
 export default instance;
 
+
 export const authAxiosInstance = axios.create({
   baseURL,
   headers: {
@@ -28,6 +29,16 @@ export const authAxiosInstance = axios.create({
 //     throw error;
 //   }
 // };
+
+
+export const campaignAuthAxiosInstance = axios.create({
+  baseURL,
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${""}`
+  },
+});
+
 
 export const registerUser = async (data, token) => {
   try {

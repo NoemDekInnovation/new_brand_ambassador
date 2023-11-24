@@ -7,6 +7,7 @@ import agencyProjectSlice from "./agencyproject.slice";
 import favouriteSlice from "./favourite.slice";
 import publishProjectSlice from "./publishProject";
 import activeProjectSlice from "./createproject/activeProject.slice";
+import completeProject from "./completeProject";
 
 const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ const store = configureStore({
     agencyProject: agencyProjectSlice,
     favouriteProject: favouriteSlice,
     publishProject: publishProjectSlice,
+    completeProject: completeProject,
     projects: activeProjectSlice,
   },
 });

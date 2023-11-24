@@ -95,8 +95,9 @@ export const fetchActiveProject = createAsyncThunk(
 
 export const fetchPublishProject = createAsyncThunk(
   "publishProject/fetchPublishProject",
-  async (url: string) => {
-    const response = await authAxiosInstance(`/${url}/published-projects`);
+  async () => {
+    const response = await authAxiosInstance(`/published-projects`);
+    console.log(response)
     return response.data as Data;
   }
 );
