@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface USERProps {
   firstName: string;
@@ -12,23 +12,44 @@ export interface userProps {
   message: string;
   user: USERProps | null;
 }
+
+const localStorageKey = "userData";
+
+
+const storedUserData = localStorage.getItem(localStorageKey);
+
 const initialState: userProps = {
   loading: false,
   error: "",
   message: "",
-  user: { firstName: "", role: "", accountId: "" },
+  // user: { firstName: "", role: "", accountId: "" },
+  user: storedUserData
+    ? JSON.parse(storedUserData)
+    : { firstName: "", role: "", accountId: "" },
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state, action) => {
+    // setUser: (state, action) => {
+    //   state.user = action.payload;
+    // },
+    setUser: (state, action: PayloadAction<USERProps>) => {
       state.user = action.payload;
+
+      
+      localStorage.setItem(localStorageKey, JSON.stringify(action.payload));
     },
 
+    // logout: (state, action) => {
+    //   state.user = null;
+    // },
     logout: (state, action) => {
-      state.user = null;
+      state.user = { firstName: "", role: "", accountId: "" };
+
+      
+      localStorage.removeItem(localStorageKey);
     },
   },
 });
