@@ -48,6 +48,12 @@ export default function ProjectsView({
 
   const { toast } = useToast();
   const { user } = useSelector((state: RootState) => state.user);
+    const { publishProject } = useSelector(
+      (state: RootState) => state.publishProject
+    );
+    const { completeProject } = useSelector(
+      (state: RootState) => state.completeProject
+    );
 
   const talents = [1, 2, 3].map((_, idx) => {
     return (
@@ -160,10 +166,11 @@ export default function ProjectsView({
     }
   };
 
+
   const projectCount = {
     Active: 3,
-    Published: 3,
-    Completed: 3,
+    Published: publishProject.length || 0,
+    Completed: completeProject.length || 0,
     Drafts: 3,
   };
 
