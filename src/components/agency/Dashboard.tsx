@@ -23,14 +23,17 @@ const Dashboard = () => {
       <Tabs defaultValue={defaultTab} className="w-full">
         <div className="flex flex-col lg:flex-row  justify-between w-full px-4 md:px-12 xl:px-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0  overflow-x-scroll md:overflow-x-hidden overflow-y-hidden">
           <TabsList className="mb-4">
-            <TabsTrigger value="home" className="hover:underline">
+            <TabsTrigger
+              value="home"
+              className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+            >
               Home
             </TabsTrigger>
             <Menubar className="border-0">
               <MenubarMenu>
                 <MenubarTrigger className="border-0">
                   <div className="flex items-center space-x-3 cursor-pointer hover:underline">
-                    <p></p>Talent
+                    <p>Talent</p>
                     {/* <TabsTrigger value="talent">Talent</TabsTrigger> */}
                     <img src={arrowIcon} alt="arrowicon" />
                   </div>
@@ -85,19 +88,31 @@ const Dashboard = () => {
 
             {/* <TabsTrigger value="projects">Projects</TabsTrigger>
             <img src={arrowIcon} alt="arrowicon" /> */}
-            <TabsTrigger value="inventory" className="hover:underline">
+            <TabsTrigger
+              value="inventory"
+              className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+            >
               Inventory
             </TabsTrigger>
             <img src={arrowIcon} alt="arrowicon" />
-            <TabsTrigger value="outlets" className="hover:underline">
+            <TabsTrigger
+              value="outlets"
+              className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+            >
               Outlets
             </TabsTrigger>
             <img src={arrowIcon} alt="arrowicon" />
-            <TabsTrigger value="reports" className="hover:underline">
+            <TabsTrigger
+              value="reports"
+              className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+            >
               Reports
             </TabsTrigger>
             <img src={arrowIcon} alt="arrowicon" />
-            <TabsTrigger value="users" className="hover:underline">
+            <TabsTrigger
+              value="users"
+              className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+            >
               Users
             </TabsTrigger>
             <img src={arrowIcon} alt="arrowicon" />
