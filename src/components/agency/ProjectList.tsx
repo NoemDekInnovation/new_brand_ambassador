@@ -12,6 +12,7 @@ type ProjectTypeProps = {
   name: ProjectType;
   count: number;
   onClick: (name: ProjectType) => void;
+  isActive: boolean
 };
 
 type ProjectListProps = {
@@ -22,7 +23,7 @@ type ProjectListProps = {
 const getImageSrc = (projectType: any) => {
   switch (projectType) {
     case "Active":
-      return current;
+      return current;   
     case "Published":
       return published;
     case "Completed":
@@ -34,11 +35,15 @@ const getImageSrc = (projectType: any) => {
   }
 };
 
-const ProjectType: React.FC<ProjectTypeProps> = ({ name, count, onClick }) => {
-  const [isActive, setIsActive] = useState(false);
+const ProjectType: React.FC<ProjectTypeProps> = ({ name, count, onClick, isActive }) => {
 
   return (
-    <div className="flex justify-between " onClick={() => onClick(name)}>
+    <div
+      className={`flex justify-between  ${
+        isActive ? "bg-black/10" : ""
+      }`}
+      onClick={() => onClick(name)}
+    >
       <div className="flex items-center">
         <img src={getImageSrc(name)} alt="" />
         <p className="ml-4">{name}</p>
@@ -52,10 +57,14 @@ const ProjectList: React.FC<ProjectListProps> = ({
   onProjectTypeChange,
   projectCount,
 }) => {
+  const [activeProjectType, setActiveProjectType] =
+    useState<ProjectType>("Active");
   const handleProjectTypeClick = (
     type: "Active" | "Published" | "Completed" | "Drafts"
   ) => {
     onProjectTypeChange(type);
+        setActiveProjectType(type);
+
   };
   return (
     <>
@@ -65,6 +74,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
             name="Active"
             count={projectCount["Active"]}
             onClick={handleProjectTypeClick}
+            isActive={activeProjectType === "Active"}
           />
         </div>
         <Separator className="shrink-0 h-[1px] w-full bg-bm__beige" />
@@ -73,6 +83,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
             name="Published"
             count={projectCount["Published"]}
             onClick={handleProjectTypeClick}
+            isActive={activeProjectType === "Published"}
           />
         </div>
         <Separator className="shrink-0 h-[1px] w-full bg-bm__beige" />
@@ -81,6 +92,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
             name="Completed"
             count={projectCount["Completed"]}
             onClick={handleProjectTypeClick}
+            isActive={activeProjectType === "Completed"}
           />
         </div>
         <Separator className="shrink-0 h-[1px] w-full bg-bm__beige" />
@@ -89,6 +101,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
             name="Drafts"
             count={projectCount["Drafts"]}
             onClick={handleProjectTypeClick}
+            isActive={activeProjectType === "Drafts"}
           />
         </div>
       </CardContent>
