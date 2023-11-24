@@ -12,7 +12,7 @@ type ProjectTypeProps = {
   name: ProjectType;
   count: number;
   onClick: (name: ProjectType) => void;
-  isActive: boolean
+  isActive: boolean;
 };
 
 type ProjectListProps = {
@@ -23,7 +23,7 @@ type ProjectListProps = {
 const getImageSrc = (projectType: any) => {
   switch (projectType) {
     case "Active":
-      return current;   
+      return current;
     case "Published":
       return published;
     case "Completed":
@@ -35,13 +35,15 @@ const getImageSrc = (projectType: any) => {
   }
 };
 
-const ProjectType: React.FC<ProjectTypeProps> = ({ name, count, onClick, isActive }) => {
-
+const ProjectType: React.FC<ProjectTypeProps> = ({
+  name,
+  count,
+  onClick,
+  isActive,
+}) => {
   return (
     <div
-      className={`flex justify-between  ${
-        isActive ? "bg-black/10" : ""
-      }`}
+      className={`flex justify-between p-4 ${isActive ? "bg-black/10" : ""}`}
       onClick={() => onClick(name)}
     >
       <div className="flex items-center">
@@ -52,7 +54,6 @@ const ProjectType: React.FC<ProjectTypeProps> = ({ name, count, onClick, isActiv
     </div>
   );
 };
-
 const ProjectList: React.FC<ProjectListProps> = ({
   onProjectTypeChange,
   projectCount,
@@ -63,13 +64,13 @@ const ProjectList: React.FC<ProjectListProps> = ({
     type: "Active" | "Published" | "Completed" | "Drafts"
   ) => {
     onProjectTypeChange(type);
-        setActiveProjectType(type);
-
+    setActiveProjectType(type);
   };
+  const [isActive, setIsActive] = useState(false);
   return (
     <>
       <CardContent className="p-1 flex flex-col justify-center gap-1 border rounded-[6px]">
-        <div className="gap-4 p-3 hover:bg-black/10 cursor-pointer">
+        <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Active"
             count={projectCount["Active"]}
@@ -78,7 +79,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
           />
         </div>
         <Separator className="shrink-0 h-[1px] w-full bg-bm__beige" />
-        <div className="gap-4 p-3 hover:bg-black/10 cursor-pointer">
+        <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Published"
             count={projectCount["Published"]}
@@ -87,7 +88,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
           />
         </div>
         <Separator className="shrink-0 h-[1px] w-full bg-bm__beige" />
-        <div className="gap-4 p-3 hover:bg-black/10 cursor-pointer">
+        <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Completed"
             count={projectCount["Completed"]}
@@ -96,7 +97,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
           />
         </div>
         <Separator className="shrink-0 h-[1px] w-full bg-bm__beige" />
-        <div className="gap-4 p-3 hover:bg-black/10 cursor-pointer">
+        <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Drafts"
             count={projectCount["Drafts"]}
