@@ -40,19 +40,39 @@ const Dashboard = () => {
                 </MenubarTrigger>
                 <MenubarContent className="bg-white">
                   <MenubarItem>
-                    <TabsTrigger value="talent">Current Contracts</TabsTrigger>
+                    <TabsTrigger
+                      value="talent"
+                      className="cursor-pointer hover:underline"
+                    >
+                      Current Contracts
+                    </TabsTrigger>
                   </MenubarItem>
                   <MenubarSeparator className="bg-bm__beige" />
                   <MenubarItem>
-                    <TabsTrigger value="talent">Favourites</TabsTrigger>
+                    <TabsTrigger
+                      value="talent"
+                      className="cursor-pointer hover:underline"
+                    >
+                      Favourites
+                    </TabsTrigger>
                   </MenubarItem>
                   <MenubarSeparator className="bg-bm__beige" />
                   <MenubarItem>
-                    <TabsTrigger value="talent">Engaged Talent</TabsTrigger>
+                    <TabsTrigger
+                      value="talent"
+                      className="cursor-pointer hover:underline"
+                    >
+                      Engaged Talent
+                    </TabsTrigger>
                   </MenubarItem>
                   <MenubarSeparator className="bg-bm__beige" />
                   <MenubarItem>
-                    <TabsTrigger value="talent">My Talent</TabsTrigger>
+                    <TabsTrigger
+                      value="talent"
+                      className="cursor-pointer hover:underline"
+                    >
+                      My Talent
+                    </TabsTrigger>
                   </MenubarItem>
                 </MenubarContent>
               </MenubarMenu>

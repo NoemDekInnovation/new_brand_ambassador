@@ -9,8 +9,7 @@ export interface Auth {
 const RequiredAuth = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const { user } = useSelector((state: RootState) => state.user);
 
-  console.log(user?.accountId);
-
+  // console.log(user?.accountId);
   const location = useLocation();
 
   return [user?.accountId]?.find((role: any) =>
