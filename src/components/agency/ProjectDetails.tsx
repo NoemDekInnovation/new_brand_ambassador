@@ -91,24 +91,24 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
         </div>
       </div>
       <Separator className="my-2 bg-[#D7D8DA]" />
-      <div className="hidden lg:flex items-center border rounded-md w-1/2 px-3">
-        <AiOutlineSearch className="text-[15px]" />
-        <Input
-          className="border-0 focus:border-0 focus:ring-0 focus:outline-none flex-1"
-          placeholder="Search Project"
-        />
+      <div className="flex justify-between">
+        <div className="hidden lg:flex items-center border rounded-md w-1/2 px-3 ">
+          <AiOutlineSearch className="text-[15px]" />
+          <Input
+            className="border-0 focus:border-0 focus:ring-0 focus:outline-none flex-1"
+            placeholder="Search Project"
+          />
+        </div>
+        <div className="flex justify-end items-center text-[10px] font-normal ">
+          1 - 3 of 3
+          <BsChevronDoubleLeft className="mx-4" />
+          <BsChevronLeft />
+          <BsChevronRight className="mx-4" />
+          <BsChevronDoubleRight />
+        </div>
       </div>
-      <div className="flex justify-end items-center text-[10px] font-normal">
-        1 - 3 of 3
-        <BsChevronDoubleLeft className="mx-4" />
-        <BsChevronLeft />
-        <BsChevronRight className="mx-4" />
-        <BsChevronDoubleRight />
-      </div>
-
-      <div className="flex justify-end my-3"> {/* <Pagination /> */}</div>
-      <Separator className="bg-[#D7D8DA]" />
-      <div className=" overflow-y-scroll h-[53vh] m-auto flex flex-col gap-3 md:gap-2 mt-8">
+      <Separator className="bg-[#D7D8DA] mt-2" />
+      <div className=" overflow-y-scroll h-[53vh] m-auto flex flex-col gap-3 md:gap-2 mt-2 pr-2">
         {projects}
       </div>
       <Separator className="my-2 mt-6 bg-[#D7D8DA]" />

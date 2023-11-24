@@ -126,8 +126,8 @@ export default function RequiredTalents({
   }, [example]);
 
   return (
-    <div className="px-4 pb-4  md:px-12 xl:px-40">
-      <Card className="p-4 md:p-8 mt-5 bg-white h-[2000px]">
+    <div className="px-4 pb-4  md:px-12 xl:px-40 ">
+      <Card className="p-4 md:p-8 mt-5 bg-white overflow-y-scroll h-[83vh]">
         <ChevBackground
           text="Specify the talent you want and the skills required"
           stage="3"
