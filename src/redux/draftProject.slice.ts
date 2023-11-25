@@ -1,11 +1,11 @@
-// import { ProjectProps } from "./types";
-// import { campaignAuthAxiosInstance } from "../api/axios";
-// import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { ProjectProps } from "./types";
+import { campaignAuthAxiosInstance } from "../api/axios";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // export interface ActiveProjectsProps {
-//     loading: Boolean;
-//     error: string | null;
-//     draftProject: ProjectProps[];
+//   loading: Boolean;
+//   error: string | null;
+//   draftProject: ProjectProps[];
 // }
 
 // const initialState: ActiveProjectsProps = {
