@@ -26,7 +26,11 @@ import { AiOutlineEdit } from "react-icons/ai";
 import createdproject from "../../../assets/created-project.png";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { ImAttachment } from "react-icons/im";
-import { AboutProjectProps, ProjectPostProps, RequiredTalentsProps } from "../../../redux/types";
+import {
+  AboutProjectProps,
+  ProjectPostProps,
+  RequiredTalentsProps,
+} from "../../../redux/types";
 import { DayObject, daysOfWeek } from "./projectBudget";
 
 export default function ProjectDetails({
@@ -110,17 +114,17 @@ export default function ProjectDetails({
     );
   }
 
-    const handleInputChange = (
-      e: React.ChangeEvent<HTMLInputElement>,
-      fieldName: string
-    ) => {
-      const { value } = e.target;
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string
+  ) => {
+    const { value } = e.target;
 
-      setProjectPost((prevData: ProjectPostProps) => ({
-        ...prevData,
-        [fieldName]: value,
-      }));
-    };
+    setProjectPost((prevData: ProjectPostProps) => ({
+      ...prevData,
+      [fieldName]: value,
+    }));
+  };
 
   // const projectTitle = formData.projectTitle
   // const projectDescription = formData.projectDescription
@@ -359,7 +363,7 @@ export default function ProjectDetails({
     //   </Card>
     // </div>
     <div className="px-4 pb-4  md:px-12 xl:px-40">
-      <Card className="p-4 md:p-8  bg-white">
+      <Card className="p-4 md:p-8  bg-white overflow-y-scroll h-[83vh]">
         <div className="flex flex-col sm:flex-row justify-between px-2 items-center">
           <h3 className="font-semibold text-xs sm:text-sm md:text-base lg:text-lg">
             Project Details

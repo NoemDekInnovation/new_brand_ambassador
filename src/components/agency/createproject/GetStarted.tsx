@@ -20,26 +20,22 @@ export default function GetStarted({
   projectName: any;
   setProjectName: any;
 }) {
-
-    const dispatch = useDispatch<AppDispatch>();
-    const { user } = useSelector((state: RootState) => state.user);
-    const { draftProject } = useSelector((state: RootState) => state.draftProject);
-    const [selectedProject, setSelectedProject] = useState<string>("");
-    const [projectsDropdown, setProjectsDropdown] = useState<
-      { label: string; value: string }[]
-    >([]);
-    console.log(draftProject)
-
+  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.user);
+  const { draftProject } = useSelector(
+    (state: RootState) => state.draftProject
+  );
+  const [selectedProject, setSelectedProject] = useState<string>("");
+  const [projectsDropdown, setProjectsDropdown] = useState<
+    { label: string; value: string }[]
+  >([]);
+  console.log(draftProject);
 
   useEffect(() => {
     if (user?.accountId) {
-      dispatch(fetchdraftproject())
+      dispatch(fetchdraftproject());
     }
-  }, [dispatch, user])
-
-  if (!Array.isArray(draftProject)) {
-    return <div>Loading...</div>;
-  }
+  }, [dispatch, user]);
 
   useEffect(() => {
     const draftData = draftProject;
@@ -51,19 +47,20 @@ export default function GetStarted({
     );
   }, [draftProject]);
 
+  if (!Array.isArray(draftProject)) {
+    return <div>Loading...</div>;
+  }
+
   // const handleProjectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
   //   setSelectedProject(event.target.value);
   // };
 
   const handleProjectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     // Capitalize the selected value before updating the state
-    const capitalizedValue = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);
+    const capitalizedValue =
+      e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);
     setSelectedProject(capitalizedValue);
   };
-
-
-
-
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
