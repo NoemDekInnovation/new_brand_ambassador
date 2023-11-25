@@ -8,13 +8,13 @@ import { Input } from "../../ui/input";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { AiOutlineImport } from "react-icons/ai";
 import { BiSortAlt2 } from "react-icons/bi";
-import beauty from "../../assets/beauty.jpg"
+import beauty from "../../assets/beauty.jpg";
 
 import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle, 
+  DialogTitle,
   DialogTrigger,
 } from "../../ui/dialog";
 import {
@@ -41,8 +41,8 @@ import {
 } from "react-icons/ai";
 // import { multerAxiosInstance } from "@/utils/axios";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store"; 
-import { useToast } from "../../ui/use-toast"; 
+import { RootState } from "../../redux/store";
+import { useToast } from "../../ui/use-toast";
 import PreviewBoard from "./PreviewBoard";
 // import { setFailedImport, setSuccessImport } from "@/redux/talent.slice";
 
@@ -55,8 +55,8 @@ export default function TalentTab() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
-//   const dispatch = useDispatch();
-//   const { user } = useSelector((state: RootState) => state.user);
+  //   const dispatch = useDispatch();
+  //   const { user } = useSelector((state: RootState) => state.user);
 
   const talents = [1, 2, 3, 4, 5, 6, 7, 8, 9, 20, 21, 332, 43].map((_, idx) => {
     return (
@@ -459,72 +459,111 @@ export default function TalentTab() {
               </Dialog>
             </div>
             <Card>
-              <CardContent className="py-3 md:py-6 space-y-3">
-                <div className="flex justify-between">
-                  <p>Current Contacts</p>
-                  <p className="text-white bg-bm__ox__red px-2 rounded-sm">25</p>
+              <CardContent className="p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[210px] border rounded-[6px]">
+                <div className="hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+                  <p className="text-[#252525B2] text-[14px] font-normal p-3 mr-3">
+                    All Talents
+                  </p>
+                  <Separator className="bg-[#D7D8DA]" />
                 </div>
-                <Separator className="bg-bm__beige" />
-                <div className=" ">
-                  <p> Favorites</p>
+                <div className="flex justify-between hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+                  <div className=" flex items-center gap-10 ">
+                    <p className="text-[#252525B2] text-[14px] font-normal p-3">
+                      Current Contacts
+                    </p>
+                    <p className="text-white bg-bm__ox__red px-2 rounded-sm ">
+                      25
+                    </p>
+                  </div>
                 </div>
-                <Separator className="bg-bm__beige" />
-                <div className="">
-                  <p>Engaged</p>
+                <Separator className="bg-[#D7D8DA]" />
+                <div className=" hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+                  <p className="text-[#252525B2] text-[14px] font-normal p-3 mr-3">
+                    {" "}
+                    Favorites
+                  </p>
+                </div>
+                <Separator className="bg-[#D7D8DA]" />
+                <div className=" hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+                  <p className="text-[#252525B2] text-[14px] font-normal p-3 mr-3">
+                    Engaged
+                  </p>
                 </div>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="py-3 md:py-6 space-y-3">  
+              <CardContent className="py-3 md:py-6 space-y-3 overflow-y-scroll h-[43vh]">
                 <div className="flex flex-col ">
-                  <p>Gender</p>
-                  <Separator className="bg-bm__beige" />
+                  <p className="mb-2 font-semibold">Gender</p>
+                  <Separator className="bg-[#D7D8DA]" />
                   <RadioGroup defaultValue="male" className="mt-2">
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="male" id="male" />
-                      <Label htmlFor="male">Male</Label>
+                      <Label htmlFor="male">
+                        <p className="text-[14px] font-normal">Male</p>
+                      </Label>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 pb-2">
                       <RadioGroupItem value="female" id="female" />
-                      <Label htmlFor="female">Female</Label>
+                      <Label
+                        htmlFor="female"
+                        className="text-[14px] font-normal"
+                      >
+                        Female
+                      </Label>
                     </div>
                   </RadioGroup>
                 </div>
                 <Separator className="bg-bm__beige h-[2px]" />
                 <div className=" ">
-                  <p> Role</p>
-                  <Separator className="bg-bm__beige" />
+                  <p className="py-2 font-semibold"> Talent Type</p>
+                  <Separator className="bg-[#D7D8DA]" />
                   <RadioGroup defaultValue="male" className="mt-2">
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="male" id="male" />
-                      <Label htmlFor="male">Usher</Label>
+                      <RadioGroupItem value="usher" id="usher" />
+                      <Label
+                        htmlFor="usher"
+                        className="text-[14px] font-normal"
+                      >
+                        Usher
+                      </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="female" id="female" />
-                      <Label htmlFor="female">Brand Ambassador</Label>
+                      <RadioGroupItem value="ba" id="ba" />
+                      <Label htmlFor="ba" className="text-[14px] font-normal">
+                        Brand Ambassador
+                      </Label>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="female" id="female" />
-                      <Label htmlFor="female">Female</Label>
+                    <div className="flex items-center space-x-2 pb-2">
+                      <RadioGroupItem value="supervisor" id="supervisor" />
+                      <Label
+                        htmlFor="supervisor"
+                        className="text-[14px] font-normal"
+                      >
+                        Supervisor
+                      </Label>
                     </div>
                   </RadioGroup>
                 </div>
                 <Separator className="bg-bm__beige h-[2px]" />
-                <div className="">
-                  <p>Age</p>
-                  <Separator className="bg-bm__beige mb-2" />
-                  <div className="flex gap-1 items-center">
+                <div className="pb-4">
+                  <p className="py-3 font-semibold">Age</p>
+                  <Separator className="bg-[#D7D8DA] mb-2" />
+                  <div className="flex gap-1 items-center pt-2">
                     <Input className="max-w-[80px]" />
                     to
                     <Input className="max-w-[80px]" />
                   </div>
                 </div>
                 <Separator className="bg-bm__beige h-[2px]" />
-                <div className="">
-                  <p>Location</p>
-                  <Separator className="bg-bm__beige mb-2" />
-                  <div className="flex gap-1 items-center justify-center">
-                    <Input className="max-w-[180px]" />
+                <div className="pb-4">
+                  <p className="py-2 font-semibold">Location</p>
+                  <Separator className="bg-[#D7D8DA] mb-2" />
+                  <div className="flex gap-1 items-center justify-center pt-2">
+                    <Input
+                      className="max-w-[210px]"
+                      placeholder="Search location"
+                    />
                   </div>
                 </div>
               </CardContent>
@@ -574,13 +613,14 @@ export default function TalentTab() {
               </div>
             </div>
             <Separator className="my-2" />
-            <div className=" m-auto grid grid-cols-4 gap-3 md:gap-12 mt-8">
+            <div className=" m-auto grid grid-cols-4 gap-3 md:gap-12 mt-8  overflow-y-scroll h-[83vh]">
               {/* <div className="container m-auto grid grid-cols-4 gap-3"> */}
               {talents}
             </div>
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+         
+    </div>
+  );
 }

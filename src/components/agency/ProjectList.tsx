@@ -12,6 +12,7 @@ type ProjectTypeProps = {
   name: ProjectType;
   count: number;
   onClick: (name: ProjectType) => void;
+  isActive: boolean;
 };
 
 type ProjectListProps = {
@@ -34,11 +35,17 @@ const getImageSrc = (projectType: any) => {
   }
 };
 
-const ProjectType: React.FC<ProjectTypeProps> = ({ name, count, onClick }) => {
-  const [isActive, setIsActive] = useState(false);
-
+const ProjectType: React.FC<ProjectTypeProps> = ({
+  name,
+  count,
+  onClick,
+  isActive,
+}) => {
   return (
-    <div className="flex justify-between " onClick={() => onClick(name)}>
+    <div
+      className={`flex justify-between p-4 ${isActive ? "bg-black/10" : ""}`}
+      onClick={() => onClick(name)}
+    >
       <div className="flex items-center">
         <img src={getImageSrc(name)} alt="" />
         <p className="ml-4">{name}</p>
@@ -47,48 +54,55 @@ const ProjectType: React.FC<ProjectTypeProps> = ({ name, count, onClick }) => {
     </div>
   );
 };
-
 const ProjectList: React.FC<ProjectListProps> = ({
   onProjectTypeChange,
   projectCount,
 }) => {
+  const [activeProjectType, setActiveProjectType] =
+    useState<ProjectType>("Active");
   const handleProjectTypeClick = (
     type: "Active" | "Published" | "Completed" | "Drafts"
   ) => {
     onProjectTypeChange(type);
+    setActiveProjectType(type);
   };
+  const [isActive, setIsActive] = useState(false);
   return (
     <>
       <CardContent className="p-1 flex flex-col justify-center gap-1 border rounded-[6px]">
-        <div className="gap-4 p-3 hover:bg-black/10 cursor-pointer">
+        <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Active"
             count={projectCount["Active"]}
             onClick={handleProjectTypeClick}
+            isActive={activeProjectType === "Active"}
           />
         </div>
         <Separator className="shrink-0 h-[1px] w-full bg-bm__beige" />
-        <div className="gap-4 p-3 hover:bg-black/10 cursor-pointer">
+        <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Published"
             count={projectCount["Published"]}
             onClick={handleProjectTypeClick}
+            isActive={activeProjectType === "Published"}
           />
         </div>
         <Separator className="shrink-0 h-[1px] w-full bg-bm__beige" />
-        <div className="gap-4 p-3 hover:bg-black/10 cursor-pointer">
+        <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Completed"
             count={projectCount["Completed"]}
             onClick={handleProjectTypeClick}
+            isActive={activeProjectType === "Completed"}
           />
         </div>
         <Separator className="shrink-0 h-[1px] w-full bg-bm__beige" />
-        <div className="gap-4 p-3 hover:bg-black/10 cursor-pointer">
+        <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Drafts"
             count={projectCount["Drafts"]}
             onClick={handleProjectTypeClick}
+            isActive={activeProjectType === "Drafts"}
           />
         </div>
       </CardContent>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import AgencyDashboard from "./components/agency/Dashboard";
 import RequiredAuth from "./components/RequireAuth";
@@ -6,7 +6,7 @@ import "./App.css";
 
 import TalentDashboard from "./components/talent/Dashboard";
 import { RootState } from "./redux/store";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TalentSignUp from "./components/talent/signUp/signup";
@@ -35,6 +35,8 @@ function App() {
   };
 
   const { user } = useSelector((state: RootState) => state.user);
+  // Check for user in local storage on component mount
+  // const { user } = useSelector((state: RootState) => state.user);
   return (
     <Router>
       <Routes>

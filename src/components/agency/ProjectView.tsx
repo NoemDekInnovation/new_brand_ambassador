@@ -31,6 +31,7 @@ import {
 } from "react-icons/bs";
 import ProjectList from "./ProjectList";
 import ProjectDetails from "./ProjectDetails";
+import ActiveProject from "../../redux/ActiveProject";
 
 type ProjectType = "Active" | "Published" | "Completed" | "Drafts";
 
@@ -48,6 +49,15 @@ export default function ProjectsView({
 
   const { toast } = useToast();
   const { user } = useSelector((state: RootState) => state.user);
+  const { publishProject } = useSelector(
+    (state: RootState) => state.publishProject
+  );
+  const { completeProject } = useSelector(
+    (state: RootState) => state.completeProject
+  );
+  const { draftProject } = useSelector(
+    (state: RootState) => state.draftProject
+  );
 
   const talents = [1, 2, 3].map((_, idx) => {
     return (
@@ -161,10 +171,10 @@ export default function ProjectsView({
   };
 
   const projectCount = {
-    Active: 3,
-    Published: 3,
-    Completed: 3,
-    Drafts: 3,
+    Active: 8,
+    Published: publishProject.length || 0,
+    Completed: completeProject.length || 0,
+    Drafts: draftProject.length || 0,
   };
 
   const handleProjectTypeChange = (type: ProjectType) => {

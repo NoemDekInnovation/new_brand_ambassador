@@ -18,23 +18,23 @@ import { useState } from "react";
 import { IoLocationSharp, IoShareSocial, IoStarHalf } from "react-icons/io5";
 import { RiStackshareLine } from "react-icons/ri";
 import { Dialog, DialogContent } from "../../ui/dialog";
-import girl1 from "../../assets/Rectangle 11 (1).png"
-import girl2 from "../../assets/Gallery=Gallery6.png"
-import girl3 from "../../assets/Profile 1 1.png"
-import girl4 from "../../assets/Profile 2 1.png"
-import girl5 from "../../assets/Rectangle 11 (1).png"
-import Age from "../../assets/Age.png"
-import height from "../../assets/Height.png" 
-import post from "../../assets/Project Post.png"
-import category from "../../assets/Category.png"
-import group from "../../assets/Group.png"
+import girl1 from "../../assets/Rectangle 11 (1).png";
+import girl2 from "../../assets/Gallery=Gallery6.png";
+import girl3 from "../../assets/Profile 1 1.png";
+import girl4 from "../../assets/Profile 2 1.png";
+import girl5 from "../../assets/Rectangle 11 (1).png";
+import Age from "../../assets/Age.png";
+import height from "../../assets/Height.png";
+import post from "../../assets/Project Post.png";
+import category from "../../assets/Category.png";
+import group from "../../assets/Group.png";
 
 import { IoIosHeartEmpty } from "react-icons/io";
 import AgencyPop from "./AgencyPop";
 
 const slides = [beauty, profile, blue, nivea, blue2];
-const dialogSlide = [girl1, girl2,girl5];
-const modalImage = [girl4, girl3,girl4];   
+const dialogSlide = [girl1, girl2, girl5];
+const modalImage = [girl4, girl3, girl4];
 
 export default function TalentCard() {
   const [curr, setCurr] = useState(0);
@@ -57,19 +57,14 @@ export default function TalentCard() {
     );
   };
 
-  
-  
-
   const openDialog = (index: any) => {
     setSelectedImageIndex(index);
     setToggleDialog(true);
   };
 
-
   const handleMouseEnter = (index: any) => {
     setHoveredIndex(index);
   };
-
 
   const handleMouseLeave = () => {
     setHoveredIndex(null);
@@ -80,8 +75,6 @@ export default function TalentCard() {
   const next = () => {
     setCurr((curr) => (curr === slides.length - 1 ? 0 : curr + 1));
   };
-
-
 
   return (
     <Card className="bg-white h-[262px] w-[196px]">
@@ -230,7 +223,7 @@ export default function TalentCard() {
                   />
                 ))}
               </div>
-            </DialogContent> 
+            </DialogContent>
           </Dialog>
         </div>
       </div>

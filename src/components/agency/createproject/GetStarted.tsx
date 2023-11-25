@@ -2,17 +2,66 @@ import ChevBackground from "../../../ui/chevbackground";
 import { Button } from "../../../ui/button";
 import { Card, CardContent } from "../../../ui/card";
 import { Separator } from "../../../ui/seperator";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "../../../ui/label";
 import { RadioGroup, RadioGroupItem } from "../../../ui/radio-group";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { fetchdraftproject } from "../../../redux/draftProject.slice";
 
 export default function GetStarted({
   next,
   cancel,
+  projectName,
+  setProjectName,
 }: {
   next: () => void;
   cancel: () => void;
+  projectName: any;
+  setProjectName: any;
 }) {
+  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.user);
+  const { draftProject } = useSelector(
+    (state: RootState) => state.draftProject
+  );
+  const [selectedProject, setSelectedProject] = useState<string>("");
+  const [projectsDropdown, setProjectsDropdown] = useState<
+    { label: string; value: string }[]
+  >([]);
+  console.log(draftProject);
+
+  useEffect(() => {
+    if (user?.accountId) {
+      dispatch(fetchdraftproject());
+    }
+  }, [dispatch, user]);
+
+  useEffect(() => {
+    const draftData = draftProject;
+    setProjectsDropdown(
+      draftData.map((project) => ({
+        label: project.projectTitle,
+        value: project.projectCode,
+      }))
+    );
+  }, [draftProject]);
+
+  if (!Array.isArray(draftProject)) {
+    return <div>Loading...</div>;
+  }
+
+  // const handleProjectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSelectedProject(event.target.value);
+  // };
+
+  const handleProjectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    // Capitalize the selected value before updating the state
+    const capitalizedValue =
+      e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);
+    setSelectedProject(capitalizedValue);
+  };
+
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
       <Card className="p-4 md:p-8 mt-5 bg-white h-[2000px]">

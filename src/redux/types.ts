@@ -174,7 +174,7 @@ export interface SkillProp {
   result: string;
 }
 
-export interface AboutProject {
+export interface AboutProjectProps {
   projectTitle: string;
   projectCategory: string;
   projectCode: string;

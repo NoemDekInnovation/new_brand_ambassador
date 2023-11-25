@@ -6,7 +6,9 @@ import skillsSlice from "./skills.slice";
 import agencyProjectSlice from "./agencyproject.slice";
 import favouriteSlice from "./favourite.slice";
 import publishProjectSlice from "./publishProject";
-import activeProjectSlice from "./createproject/activeProject.slice";
+import activeProjectSlice from "./ActiveProject"
+import completeProject from "./completeProject";
+import draftProjectSlice from "./draftProject.slice";
 
 const store = configureStore({
   reducer: {
@@ -17,6 +19,9 @@ const store = configureStore({
     agencyProject: agencyProjectSlice,
     favouriteProject: favouriteSlice,
     publishProject: publishProjectSlice,
+    completeProject: completeProject,
+    draftProject: draftProjectSlice,
+    activeProject: activeProjectSlice,
     projects: activeProjectSlice,
   },
 });
