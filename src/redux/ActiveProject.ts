@@ -3,10 +3,55 @@ import { campaignAuthAxiosInstance } from "../api/axios";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
+type ProjectDuration = {
+  startDate: string;
+  endDate: string;
+};
+
+type ProjectPost = {
+  startDate: string | null;
+  endDate: string | null;
+};
+
+type Talent = {
+  skills: string[]; // You can replace this with the actual type of skills
+  paymentOptions: string;
+  salary: string;
+  _id: string;
+};
+
+type Project = {
+  projectDuration: ProjectDuration;
+  projectPost: ProjectPost;
+  metaData: {
+    createdBy: string;
+    isActive: boolean;
+  };
+  _id: string;
+  draft: boolean;
+  projectTitle: string;
+  projectCategory: string;
+  projectCode: string;
+  projectLocation: string[];
+  projectDescription: string;
+  talent: Talent[];
+  workingDays: string[];
+  projectRequirements: string;
+  document: string[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+
+type ProjectListResponse = {
+  projects: Project[];
+};
+
+
  export interface ActiveProjectsProps {
    loading: boolean;
    error: string | null;
-   activeProject: ProjectProps[];
+   activeProject: ProjectListResponse[];
  }
 
  const initialState: ActiveProjectsProps = {
@@ -31,7 +76,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
              },
            }
          );
-        console.log(response.data,"femi");
+        console.log(response.data.projects,"femi");
 
          return response.data.projects;
        }
@@ -67,3 +112,6 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
  });
 
  export default activeProjects.reducer;
+
+
+

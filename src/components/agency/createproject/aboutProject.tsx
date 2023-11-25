@@ -4,24 +4,48 @@ import ChevBackground from "../../../ui/chevbackground";
 import { Button } from "../../../ui/button";
 import { Card, CardContent } from "../../../ui/card";
 import { Separator } from "../../../ui/seperator";
-import React from "react";
+import React, { useEffect } from "react";
 import { Textarea } from "../../../ui/textarea";
+import { AboutProjectProps } from "../../../redux/types";
 
 export default function AboutProject({
   next,
   prev,
   cancel,
-  register,
-  errors,
+  aboutProject,
+  setAboutProject,
 }: {
   next: () => void;
   prev: () => void;
   cancel: () => void;
-  register: any;
-  errors: any;
+  setAboutProject: any;
+  aboutProject: AboutProjectProps;
 }) {
   // const formValues = formInput.getValues()
   // console.log(formValues.projectTitle);
+
+  useEffect(() => {
+    const savedAboutProject =
+      typeof window !== undefined && localStorage.getItem("aboutProject");
+    if (savedAboutProject) {
+      setAboutProject(JSON.parse(savedAboutProject));
+    }
+    console.log(savedAboutProject);
+  }, []);
+
+  const handleInputChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+    fieldName: string
+  ) => {
+    const { name, value } = e.target;
+
+    setAboutProject((prevData: AboutProjectProps) => ({
+      ...prevData,
+      [fieldName]: value,
+    }));
+  };
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40 ">
@@ -43,13 +67,15 @@ export default function AboutProject({
                       id="floating_first_name"
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
-                      {...register("projectTitle")}
+                      value={aboutProject.projectTitle}
+                      onChange={(e) => handleInputChange(e, "projectTitle")}
+                      required
                     />
-                    {errors.projectTitle && (
+                    {/* {errors.projectTitle && (
                       <p className="text-red-800 block mt-2">
                         {errors.projectTitle.message}
                       </p>
-                    )}
+                    )} */}
 
                     <label
                       htmlFor="floating_first_name"
@@ -65,7 +91,7 @@ export default function AboutProject({
               </div>
               <div className="grid md:grid-cols-2 md:gap-6">
                 <div className="relative  z-0 w-full mb-6 group">
-                  <input
+                  {/* <input
                     type="text"
                     id="floating_first_name"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -76,7 +102,18 @@ export default function AboutProject({
                     <p className="text-red-800 block mt-2">
                       {errors.projectCategory.message}
                     </p>
-                  )}
+                  )} */}
+
+                  <input
+                    type="text"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    id="projectCategory"
+                    name="projectCategory"
+                    value={aboutProject.projectCategory}
+                    onChange={(e) => handleInputChange(e, "projectCategory")}
+                    required
+                  />
 
                   <label
                     htmlFor="floating_first_name"
@@ -88,7 +125,7 @@ export default function AboutProject({
               </div>
               <div className="grid md:grid-cols-2 md:gap-6">
                 <div className="relative  z-0 w-full mb-6 group">
-                  <input
+                  {/* <input
                     type="text"
                     id="floating_first_name"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -99,7 +136,16 @@ export default function AboutProject({
                     <p className="text-red-800 block mt-2">
                       {errors.projectCode.message}
                     </p>
-                  )}
+                  )} */}
+                  <input
+                    type="text"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    id="projectCode"
+                    name="projectCode"
+                    value={aboutProject.projectCode}
+                    onChange={(e) => handleInputChange(e, "projectCode")}
+                  />
                   <label
                     htmlFor="floating_first_name"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -110,7 +156,7 @@ export default function AboutProject({
               </div>
               <div className="grid md:grid-cols-2 md:gap-6">
                 <div className="relative  z-0 w-full mb-6 group">
-                  <input
+                  {/* <input
                     type="date"
                     id="startDate"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -121,7 +167,17 @@ export default function AboutProject({
                     <p className="text-red-800 block mt-2">
                       {errors.projectDuration.startDate.message}
                     </p>
-                  )}
+                  )} */}
+
+                  <input
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    type="date"
+                    id="startDate"
+                    name="startDate"
+                    value={aboutProject.startDate}
+                    onChange={(e) => handleInputChange(e, "startDate")}
+                  />
 
                   <label
                     htmlFor="floating_first_name"
@@ -133,7 +189,7 @@ export default function AboutProject({
                 <div className="flex gap-4 items-center">
                   to
                   <div className="relative z-0 w-full mb-6 group">
-                    <input
+                    {/* <input
                       type="date"
                       id="floating_last_name"
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -144,7 +200,16 @@ export default function AboutProject({
                       <p className="text-red-800 block mt-2">
                         {errors.projectDuration.endDate.message}
                       </p>
-                    )}
+                    )} */}
+                    <input
+                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                      type="date"
+                      id="endDate"
+                      name="endDate"
+                      value={aboutProject.endDate}
+                      onChange={(e) => handleInputChange(e, "endDate")}
+                    />
                     <label
                       htmlFor="floating_last_name"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -154,7 +219,7 @@ export default function AboutProject({
               </div>
               <div className="grid md:grid-cols-2 md:gap-6">
                 <div className="relative  z-0 w-full mb-6 group">
-                  <input
+                  {/* <input
                     type="text"
                     id="floating_first_name"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -165,7 +230,16 @@ export default function AboutProject({
                     <p className="text-red-800 block mt-2">
                       {errors.projectLocation.message}
                     </p>
-                  )}
+                  )} */}
+                  <input
+                    type="text"
+                    id="projectLocation"
+                    name="projectLocation"
+                    value={aboutProject.projectLocation}
+                    onChange={(e) => handleInputChange(e, "projectLocation")}
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                  />
                   <label
                     htmlFor="floating_first_name"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -178,7 +252,7 @@ export default function AboutProject({
                 Project Description
               </p>
 
-              <Textarea
+              {/* <Textarea
                 placeholder="Describe your project here..."
                 className="min-h-[250px]"
                 {...register("projectDescription")}
@@ -187,7 +261,15 @@ export default function AboutProject({
                 <p className="text-red-800 block mt-2">
                   {errors.projectDescription.message}
                 </p>
-              )}
+              )} */}
+              <Textarea
+                placeholder="Describe your project here..."
+                className="min-h-[250px]"
+                id="projectDescription"
+                name="projectDescription"
+                value={aboutProject.projectDescription}
+                onChange={(e) => handleInputChange(e, "projectDescription")}
+              />
               <p className="text-[12px] text-bm__btn__grey mt-3">
                 250 Characters
               </p>
@@ -204,7 +286,19 @@ export default function AboutProject({
             </Button>
           </div>
           <div className="flex whitespace-nowrap gap-4 md:gap-8">
-            <Button className="dark__btn" type="button" onClick={next}>
+            {/* <Button className="dark__btn" type="button" onClick={next}>
+              Save and Next
+            </Button> */}
+            <Button
+              className="dark__btn"
+              onClick={() => {
+                next();
+                localStorage.setItem(
+                  "aboutProject",
+                  JSON.stringify(aboutProject)
+                );
+              }}
+            >
               Save and Next
             </Button>
           </div>
