@@ -1,8 +1,7 @@
+import React, { useEffect } from "react";
 import ListCard, { TopProjectCard } from "./ListCard";
 import ProjectCard, { CurrentProjects } from "./ProjectCard";
-import circle from "../../assets/Vector.png";
-import plus from "../../assets/plus.png";
-import addButton from "../../assets/Add Button.png";
+
 
 const currentProject = {
   isCurrent: true,
@@ -13,6 +12,7 @@ const avaibleProject = {
   isCurrent: false,
   content: [1, 2, 3, 4, 5],
 };
+
 
 const HomeTab = () => {
   return (

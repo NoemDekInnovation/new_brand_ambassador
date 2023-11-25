@@ -54,6 +54,7 @@ export default function ProjectsView({
     const { completeProject } = useSelector(
       (state: RootState) => state.completeProject
     );
+    const {draftProject} = useSelector((state: RootState) => state.draftProject)
 
   const talents = [1, 2, 3].map((_, idx) => {
     return (
@@ -171,7 +172,7 @@ export default function ProjectsView({
     Active: 3,
     Published: publishProject.length || 0,
     Completed: completeProject.length || 0,
-    Drafts: 3,
+    Drafts: draftProject.length || 0,
   };
 
   const handleProjectTypeChange = (type: ProjectType) => {

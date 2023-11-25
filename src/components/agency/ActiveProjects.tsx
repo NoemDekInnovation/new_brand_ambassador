@@ -1,4 +1,7 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { fetchactiveproject } from "../../redux/ActiveProject";
 import { Card, CardContent, CardFooter } from "../../ui/card";
 const talents = [1, 2, 3, 4, 5, 6, 7, 8].map((_, idx) => {
   return (
@@ -39,6 +42,9 @@ const talents = [1, 2, 3, 4, 5, 6, 7, 8].map((_, idx) => {
   );
 });
 const ActiveProjects = () => {
+  const {activeProject} = useSelector((state: RootState) => state.activeProject)
+  console.log(activeProject);
+  
   return <div className="flex flex-col w-full gap-2">{talents}</div>;
 };
 
