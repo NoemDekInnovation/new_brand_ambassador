@@ -145,9 +145,7 @@ const Dashboard = () => {
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <div className="text-white bg-bm__ox__red px-2 rounded-sm">
-                22
-              </div>
+              <div className="text-white bg-black px-2 rounded-sm">22</div>
               <p className="font-medium text-xs leading-[18px]">
                 Completed Projects
               </p>

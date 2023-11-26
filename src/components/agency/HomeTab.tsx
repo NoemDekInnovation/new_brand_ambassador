@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import ListCard, { TopProjectCard } from "./ListCard";
 import ProjectCard, { CurrentProjects } from "./ProjectCard";
 
-
 const currentProject = {
   isCurrent: true,
   content: [1],
@@ -10,13 +9,12 @@ const currentProject = {
 
 const avaibleProject = {
   isCurrent: false,
-  content: [1, 2, 3, 4, 5],
+  content: [1, 2, 3, 4, 5, 6],
 };
-
 
 const HomeTab = () => {
   return (
-    <div className=" bg-bm_card_grey h-full overflow-y-scroll">
+    <div className=" bg-bm_card_grey h-full overflow-y-scroll w-[1950px]">
       <div className="px-4 md:px-12 xl:px-40 flex pt-10 pb-2  md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
         <div className=" space-y-8 flex-1 flex flex-col items-center sm:block">
           <CurrentProjects
