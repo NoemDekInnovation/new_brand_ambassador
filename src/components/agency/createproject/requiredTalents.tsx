@@ -381,7 +381,7 @@ export default function RequiredTalents({
     //   </Card>
     // </div>
     <div className="px-4 pb-4  md:px-12 xl:px-40">
-      <Card className="p-4 md:p-8  bg-white">
+      <Card className="p-4 md:p-8  bg-white overflow-y-scroll h-[83vh]">
         <ChevBackground
           text="Specify the talent you want and the skills required"
           stage="3"
@@ -415,7 +415,7 @@ export default function RequiredTalents({
                           {errors.opportunities.message}
                         </p>
                       )}
-                      <p className="text-[12px] text-bm__btn__grey">
+                      <p className="text-[12px] text-bm__btn__grey pl-2">
                         E.g, Supervisor, Brand Ambassador, Usher, etc.
                       </p>
                     </div>
