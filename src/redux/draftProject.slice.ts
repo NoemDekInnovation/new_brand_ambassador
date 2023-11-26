@@ -2,10 +2,10 @@ import { ProjectProps } from "./types";
 import { campaignAuthAxiosInstance } from "../api/axios";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export interface  DraftProjectsProps {
-    loading: Boolean;
-    error: string | null;
-    draftProject: ProjectProps[];
+export interface DraftProjectsProps {
+  loading: Boolean;
+  error: string | null;
+  draftProject: ProjectProps[];
 }
 
 const initialState: DraftProjectsProps = {

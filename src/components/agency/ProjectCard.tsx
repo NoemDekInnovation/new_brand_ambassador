@@ -19,7 +19,6 @@ import { useRef } from "react";
 import Carousel from "react-multi-carousel";
 import { FaArrowRight } from "react-icons/fa";
 
-
 export function CurrentProjects({
   card_title,
   card_content,
@@ -30,7 +29,7 @@ export function CurrentProjects({
   const projects = [1, 2, 3, 4, 5, 6, 7].map((_, idx) => {
     return (
       <Card
-        className=" bg-white p-2 mx-3 rounded-md md:w-[244px] shadow-md"
+        className=" bg-white p-2 mx-3 rounded-md md:w-[234px] shadow-md"
         key={idx}
       >
         <p className="text-[15px] font-medium">Project Name</p>
@@ -58,7 +57,9 @@ export function CurrentProjects({
         </div>
         <Separator className="my-1" />
         <div className="py-2">
-          <div className="font-medium text-[8px]">Nov 30 - December 30 . Lagos, Abuja, Ogun, Plateau</div>
+          <div className="font-medium text-[8px]">
+            Nov 30 - December 30 . Lagos, Abuja, Ogun, Plateau
+          </div>
         </div>
       </Card>
     );
@@ -77,11 +78,12 @@ export function CurrentProjects({
       <div className="max-w-[1200px] h-[168px]">
         <Carousel
           additionalTransfrom={0}
+          partialVisible={true}
           arrows
           autoPlaySpeed={3000}
           centerMode={false}
-          className=""
-          containerClass=""
+          className="gap-2"
+          containerClass="sm:mx-9 md:mx-4 lg:mx-12 w-[1200px]"
           dotListClass=""
           draggable
           focusOnSelect={false}
@@ -100,13 +102,15 @@ export function CurrentProjects({
                 min: 1024,
               },
               items: 4,
+              partialVisibilityGutter: 40,
             },
             tablet: {
               breakpoint: {
                 max: 1024,
                 min: 464,
               },
-              items: 4,
+              items: 3,
+              partialVisibilityGutter: 20,
             },
             mobile: {
               breakpoint: {
@@ -120,7 +124,7 @@ export function CurrentProjects({
           rewindWithAnimation={false}
           rtl={false}
           shouldResetAutoplay
-          showDots
+          // showDots
           sliderClass=""
           slidesToSlide={1}
           swipeable
