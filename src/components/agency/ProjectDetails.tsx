@@ -20,6 +20,7 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { fetchpublishproject } from "../../redux/publishProject";
 import { fetchcompleteproject } from "../../redux/completeProject";
 import { fetchdraftproject } from "../../redux/draftProject.slice";
+import { fetchactiveproject } from "../../redux/ActiveProject";
 
 type ProjectDetailsProps = {
   activeType: "Active" | "Published" | "Completed" | "Drafts";
@@ -52,7 +53,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
     const fetchProjects = async () => {
       if (user?.accountId) {
         if (activeType === "Active") {
-          console.log("active");
+          dispatch(fetchactiveproject());
         } else if (activeType === "Published") {
           dispatch(fetchpublishproject());
         } else if (activeType === "Completed") {

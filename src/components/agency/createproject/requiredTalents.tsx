@@ -5,7 +5,7 @@ import { Button } from "../../../ui/button";
 import { Card, CardContent } from "../../../ui/card";
 import { Separator } from "../../../ui/seperator";
 import React, { useEffect, useState, useRef } from "react";
-import Select, {SingleValue} from "react-select";
+import Select, { SingleValue } from "react-select";
 import makeAnimated from "react-select/animated";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -64,7 +64,6 @@ export default function RequiredTalents({
   setRequiredTalents: any;
   requiredTalents: RequiredTalentsProps[];
 }) {
-
   const handleAddTalentType = () => {
     setRequiredTalents([
       ...requiredTalents,
@@ -111,21 +110,17 @@ export default function RequiredTalents({
     }
   };
 
-
-
-
-
   const talentOptions = [
     { label: "Brand Ambassador", value: "brand ambassador" },
     { label: "Supervisor", value: "supervisor" },
     { label: "Usher", value: "usher" },
   ];
 
-    const qualificationOptions = [
-      { label: "Bachelors Degree", value: "Bachelors Degree" },
-      { label: "Masters Degree", value: "Masters Degree" },
-      { label: "Secondary School", value: "Secondary School" },
-    ];
+  const qualificationOptions = [
+    { label: "Bachelors Degree", value: "Bachelors Degree" },
+    { label: "Masters Degree", value: "Masters Degree" },
+    { label: "Secondary School", value: "Secondary School" },
+  ];
 
   const { loading, skills, error, skillsFetchSucess } = useSelector(
     (state: any) => state.skills
@@ -141,15 +136,14 @@ export default function RequiredTalents({
   const [skillStore, setSkillStore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-      const savedRequiredTalent =
-        typeof window !== undefined && localStorage.getItem("requiredTalent");
-      if (savedRequiredTalent) {
-        setRequiredTalents(JSON.parse(savedRequiredTalent));
-      }
-      console.log(savedRequiredTalent);
-    }, []);
-
+  useEffect(() => {
+    const savedRequiredTalent =
+      typeof window !== undefined && localStorage.getItem("requiredTalent");
+    if (savedRequiredTalent) {
+      setRequiredTalents(JSON.parse(savedRequiredTalent));
+    }
+    console.log(savedRequiredTalent);
+  }, []);
 
   const [repeat, setFormRepeat] = useState([
     { talent: "", qualifications: "", skills: [], skillStore: false },
@@ -198,14 +192,14 @@ export default function RequiredTalents({
   //   dispatch(fetchSkills(example));
   // }, [example]);
 
-    useEffect(() => {
-      const fetchData = async () => {
-        await dispatch(fetchSkills(example));
-        setIsLoading(false);
-      };
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchSkills(example));
+      setIsLoading(false);
+    };
 
-      fetchData();
-    }, [example, dispatch]);
+    fetchData();
+  }, [example, dispatch]);
 
   return (
     // <div className="px-4 pb-4  md:px-12 xl:px-40 ">
@@ -382,7 +376,7 @@ export default function RequiredTalents({
     //   </Card>
     // </div>
     <div className="px-4 pb-4  md:px-12 xl:px-40">
-      <Card className="p-4 md:p-8  bg-white">
+      <Card className="p-4 md:p-8  bg-white overflow-y-scroll h-[83vh]">
         <ChevBackground
           text="Specify the talent you want and the skills required"
           stage="3"
@@ -416,7 +410,7 @@ export default function RequiredTalents({
                           {errors.opportunities.message}
                         </p>
                       )}
-                      <p className="text-[12px] text-bm__btn__grey">
+                      <p className="text-[12px] text-bm__btn__grey pl-2">
                         E.g, Supervisor, Brand Ambassador, Usher, etc.
                       </p>
                     </div>

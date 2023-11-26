@@ -431,7 +431,7 @@ export default function ProjectDetails({
         </InfoCard>
 
         <InfoCard
-          title="September 1st 2023 to January 13th 2024"
+          title="September 1st 2023  to  January 13th 2024"
           edit={() => edit("projectBudget")}
         >
           <div className="pt-2">
@@ -467,7 +467,7 @@ export default function ProjectDetails({
           </div>
         </InfoCard>
         <InfoCard
-          title="Proposal Requirement"
+          title="Application Requirement"
           edit={() => edit("talentRequirement")}
         >
           <Separator className="bg-bm__beige my-2" />
