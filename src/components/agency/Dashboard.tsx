@@ -14,13 +14,21 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "../../ui/menubar";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const Dashboard = () => {
   const [defaultTab, setDefaultTab] = useState("home");
+    const { activeProject } = useSelector(
+      (state: RootState) => state.activeProject
+    );
+      const { completeProject } = useSelector(
+        (state: RootState) => state.completeProject
+      );
 
   return (
     <AgencyLayout>
-      <Tabs defaultValue={defaultTab} className="w-full">
+      <Tabs  defaultValue={defaultTab} className="w-full">
         <div className="flex flex-col lg:flex-row  justify-between w-full px-4 md:px-12 xl:px-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0  overflow-x-scroll md:overflow-x-hidden overflow-y-hidden">
           <TabsList className="mb-4">
             <TabsTrigger
@@ -29,7 +37,7 @@ const Dashboard = () => {
             >
               Home
             </TabsTrigger>
-            <Menubar className="border-0">
+            <Menubar  className="border-0">
               <MenubarMenu>
                 <MenubarTrigger className="border-0">
                   <div className="flex items-center space-x-3 cursor-pointer hover:underline">
@@ -139,13 +147,17 @@ const Dashboard = () => {
           </TabsList>
           <div className="flex">
             <div className="flex items-center gap-2 mr-6">
-              <div className="text-white bg-bm__niv px-2 rounded-sm">5</div>
+              <div className="text-white bg-bm__niv px-2 rounded-sm">
+                {activeProject.length || 0}
+              </div>
               <p className="font-medium text-xs leading-[18px]">
                 Active Projects
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <div className="text-white bg-black px-2 rounded-sm">22</div>
+              <div className="text-white bg-black px-2 rounded-sm">
+                {completeProject.length || 0}
+              </div>
               <p className="font-medium text-xs leading-[18px]">
                 Completed Projects
               </p>

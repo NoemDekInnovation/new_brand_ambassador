@@ -4,8 +4,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import group from "../../assets/Group.jpg";
 import Hometab from "./Hometab";
 import Footer from "../Footer";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const TalentDashboard = () => {
+        const { completeProject } = useSelector(
+          (state: RootState) => state.completeProject
+        );
   return (
     <MainLayout>
       {" "}
@@ -22,8 +27,8 @@ const TalentDashboard = () => {
               <p className="">4.5</p>
             </div>
             <div className="flex items-center gap-2">
-              <div className="text-white bg-bm__ox__red px-2 rounded-sm">
-                22
+              <div className="text-white bg-black px-2 rounded-sm">
+                {completeProject.length || 0}
               </div>
               <p className="">Completed Projects</p>
             </div>

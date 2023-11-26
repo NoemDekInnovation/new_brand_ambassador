@@ -376,7 +376,7 @@ export default function ProjectDetails({
           </button>
         </div>
 
-        <InfoCard title={projectName} edit={() => edit("aboutProject")}>
+        <InfoCard title={aboutProject.projectTitle} edit={() => edit("aboutProject")}>
           <div className="pt-2">
             <p>In-Store</p>
             <Separator className="bg-bm__beige my-2" />
@@ -431,7 +431,7 @@ export default function ProjectDetails({
         </InfoCard>
 
         <InfoCard
-          title="September 1st 2023  to  January 13th 2024"
+          title={aboutProject.startDate}
           edit={() => edit("projectBudget")}
         >
           <div className="pt-2">
@@ -456,7 +456,7 @@ export default function ProjectDetails({
             <p>Location</p>
             <div className="pt-2 flex gap-6 max-w-3xl flex-wrap">
               {(aboutProject.projectLocation !== undefined &&
-                aboutProject.projectLocation.length < 0 && (
+                 (
                   <Button className="light__btn  max-w-fit">
                     {aboutProject.projectLocation}
                   </Button>
@@ -552,6 +552,9 @@ export default function ProjectDetails({
             <Button className="dark__btn" onClick={() => submit(false)}>
               Post this project{" "}
             </Button>
+            {/* <Button className="dark__btn" onClick={() => console.log("submit")}>
+              Post this project{" "}
+            </Button> */}
           </div>
         </div>
       </Card>

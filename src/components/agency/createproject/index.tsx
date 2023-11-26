@@ -375,9 +375,24 @@ export default function NewProject({
   //   const formData = getValues();
   //   localStorage.setItem(currentStep, JSON.stringify(formData));
   // };
+    const payload: any = {
+      projectTitle: aboutProject.projectTitle,
+      projectCategory: aboutProject.projectCategory,
+      projectCode: aboutProject.projectCode,
+      projectLocation: aboutProject.projectLocation,
+      projectDescription: aboutProject.projectDescription,
+      projectRequirements: proposal,
 
+      projectDuration: {
+        startDate: aboutProject.startDate,
+        endDate: aboutProject.endDate,
+      },
+
+      talent: requiredTalents,
+      workingDays: workDays,
+      projectPost: projectPost,
+    };
   const submitHandler = async (isDraft: boolean) => {
-    console.log("Hello");
     setIsLoading(true);
     const payload: any = {
       draft: isDraft,
@@ -423,15 +438,26 @@ export default function NewProject({
 
       handleData(payload, null);
       formData.append("document", document);
+    
 
       if (user?.accountId !== undefined) {
+    console.log(payload, "formData", user.authKey);
+    // const user = localStorage.getItem("userData");
+        // const parsedUser = JSON.parse(user);
+
         try {
           const response = await multerAxiosInstance.post(
-            `/${user?.accountId}/create-project`,
-            formData
+            `/create-project`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${user.authKey || ""}`,
+                // Replace YOUR_ACCESS_TOKEN with your actual access token
+              },
+            }
           );
           console.log(response);
-
+console.log(payload, "formData", user?.accountId);
           setSuccessModal(true);
           setTimeout(() => {
             cancelProject();

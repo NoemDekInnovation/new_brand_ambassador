@@ -21,7 +21,7 @@ export const MyApplication = ({
   card_title: string;
 }) => {
   return (
-    <Card className={`p-2 md:p-4 bg-white  w-[240px] ${card_width}`}>
+    <Card className={`p-2 md:p-4 bg-white  w-full ${card_width}`}>
       <CardHeader className='flex-row p-1 justify-between items-center'>
         <div className='flex space-x-3'>
           <CardTitle className=''>
