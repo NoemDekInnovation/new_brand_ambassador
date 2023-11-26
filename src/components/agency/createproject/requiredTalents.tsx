@@ -153,6 +153,11 @@ export default function RequiredTalents({
     setSkillData([...skillData, id]);
     setSkillStore(false);
     console.log(id);
+    if (id !== null) {
+      const updatedExperiences = [...requiredTalents];
+      updatedExperiences[index].relevantSkills.push(id);
+      setRequiredTalents(updatedExperiences);
+    }
   };
 
   const handleSkillDelete = (index: number) => {

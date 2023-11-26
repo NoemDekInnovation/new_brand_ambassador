@@ -248,7 +248,6 @@
 //   );
 // }
 
-
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import GetStarted from "./GetStarted";
 import AboutProject from "./aboutProject";
@@ -263,11 +262,10 @@ import { useForm } from "react-hook-form";
 import { DayOfWeek, RequiredTalentsProps } from "../../../redux/types";
 
 import { useDispatch, useSelector } from "react-redux";
- import { AppDispatch, RootState } from "../../../redux/store";
- import { fetchSkills, SkillsStateProps } from "../../../redux/skills.slice";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { fetchSkills, SkillsStateProps } from "../../../redux/skills.slice";
 import { multerAxiosInstance } from "../../../api/axios";
 // import Loading from "../../../components/l";
-
 
 const aboutProjectSchema = z.object({
   projectTitle: z.string(),
@@ -360,7 +358,7 @@ export default function NewProject({
 
   const handleStepChange = (step: string) => {
     setCurrentStep(step);
-    console.log(step)
+    console.log(step);
   };
 
   const {
@@ -379,6 +377,7 @@ export default function NewProject({
   // };
 
   const submitHandler = async (isDraft: boolean) => {
+    console.log("Hello");
     setIsLoading(true);
     const payload: any = {
       draft: isDraft,
