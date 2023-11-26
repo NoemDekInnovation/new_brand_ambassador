@@ -5,7 +5,7 @@ import { Button } from "../../../ui/button";
 import { Card, CardContent } from "../../../ui/card";
 import { Separator } from "../../../ui/seperator";
 import React, { useEffect, useState, useRef } from "react";
-import Select, {SingleValue} from "react-select";
+import Select, { SingleValue } from "react-select";
 import makeAnimated from "react-select/animated";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -64,7 +64,6 @@ export default function RequiredTalents({
   setRequiredTalents: any;
   requiredTalents: RequiredTalentsProps[];
 }) {
-
   const handleAddTalentType = () => {
     setRequiredTalents([
       ...requiredTalents,
@@ -111,21 +110,17 @@ export default function RequiredTalents({
     }
   };
 
-
-
-
-
   const talentOptions = [
     { label: "Brand Ambassador", value: "brand ambassador" },
     { label: "Supervisor", value: "supervisor" },
     { label: "Usher", value: "usher" },
   ];
 
-    const qualificationOptions = [
-      { label: "Bachelors Degree", value: "Bachelors Degree" },
-      { label: "Masters Degree", value: "Masters Degree" },
-      { label: "Secondary School", value: "Secondary School" },
-    ];
+  const qualificationOptions = [
+    { label: "Bachelors Degree", value: "Bachelors Degree" },
+    { label: "Masters Degree", value: "Masters Degree" },
+    { label: "Secondary School", value: "Secondary School" },
+  ];
 
   const { loading, skills, error, skillsFetchSucess } = useSelector(
     (state: any) => state.skills
@@ -141,15 +136,14 @@ export default function RequiredTalents({
   const [skillStore, setSkillStore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-      const savedRequiredTalent =
-        typeof window !== undefined && localStorage.getItem("requiredTalent");
-      if (savedRequiredTalent) {
-        setRequiredTalents(JSON.parse(savedRequiredTalent));
-      }
-      console.log(savedRequiredTalent);
-    }, []);
-
+  useEffect(() => {
+    const savedRequiredTalent =
+      typeof window !== undefined && localStorage.getItem("requiredTalent");
+    if (savedRequiredTalent) {
+      setRequiredTalents(JSON.parse(savedRequiredTalent));
+    }
+    console.log(savedRequiredTalent);
+  }, []);
 
   const [repeat, setFormRepeat] = useState([
     { talent: "", qualifications: "", skills: [], skillStore: false },
@@ -159,6 +153,11 @@ export default function RequiredTalents({
     setSkillData([...skillData, id]);
     setSkillStore(false);
     console.log(id);
+    if (id !== null) {
+      const updatedExperiences = [...requiredTalents];
+      updatedExperiences[index].relevantSkills.push(id);
+      setRequiredTalents(updatedExperiences);
+    }
   };
 
   const handleSkillDelete = (index: number) => {
@@ -198,14 +197,14 @@ export default function RequiredTalents({
   //   dispatch(fetchSkills(example));
   // }, [example]);
 
-    useEffect(() => {
-      const fetchData = async () => {
-        await dispatch(fetchSkills(example));
-        setIsLoading(false);
-      };
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchSkills(example));
+      setIsLoading(false);
+    };
 
-      fetchData();
-    }, [example, dispatch]);
+    fetchData();
+  }, [example, dispatch]);
 
   return (
     // <div className="px-4 pb-4  md:px-12 xl:px-40 ">
