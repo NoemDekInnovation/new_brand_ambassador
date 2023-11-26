@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Card, CardContent, CardFooter } from "../../ui/card";
 import { Button } from "../../ui/button";
 import { Separator } from "../../ui/seperator";
@@ -9,8 +9,8 @@ import validator from "validator";
 import { DropdownMenu, DropdownMenuTrigger } from "../../ui/dropdown-menu";
 
 import { multerAxiosInstance } from "../../api/axios";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
 import { useToast } from "../../ui/use-toast";
 import { TopProjectCard } from "./ListCard";
 
@@ -31,8 +31,11 @@ import {
 } from "react-icons/bs";
 import ProjectList from "./ProjectList";
 import ProjectDetails from "./ProjectDetails";
-import ActiveProject from "../../redux/ActiveProject";
+import ActiveProject, { fetchactiveproject } from "../../redux/ActiveProject";
 import { act } from "react-dom/test-utils";
+import { fetchcompleteproject } from "../../redux/completeProject";
+import { fetchdraftproject } from "../../redux/draftProject.slice";
+import { fetchpublishproject } from "../../redux/publishProject";
 
 type ProjectType = "Active" | "Published" | "Completed" | "Drafts";
 
@@ -175,12 +178,21 @@ export default function ProjectsView({
     }
   };
 
+  const dispatch = useDispatch<AppDispatch>();
+
   const projectCount = {
     Active: activeProject.length || 0,
     Published: publishProject.length || 0,
     Completed: completeProject.length || 0,
     Drafts: draftProject.length || 0,
   };
+
+  useEffect(() => {
+    dispatch(fetchactiveproject());
+    dispatch(fetchcompleteproject());
+    dispatch(fetchdraftproject());
+    dispatch(fetchpublishproject());
+  }, [dispatch]);
 
   const handleProjectTypeChange = (type: ProjectType) => {
     setActiveType(type);
