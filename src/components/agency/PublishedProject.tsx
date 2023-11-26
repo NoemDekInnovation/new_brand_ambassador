@@ -18,7 +18,7 @@ const PublishedProject = () => {
   }, [dispatch]);
 
   if (!Array.isArray(publishProject)) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
   const formatWorkingDays = (workingDays?: string[]) => {
     return workingDays?.join(", ") || "";
@@ -31,11 +31,9 @@ const PublishedProject = () => {
   };
 
   const talents = publishProject.map((project, idx) => {
-    
-const formattedLocation = Array.isArray(project.projectLocation)
-  ? project.projectLocation.join(", ")
-  : "";
-
+    const formattedLocation = Array.isArray(project.projectLocation)
+      ? project.projectLocation.join(", ")
+      : "";
 
     return (
       <Card className="p-4 relative hover:bg-black/10 cursor-pointer" key={idx}>

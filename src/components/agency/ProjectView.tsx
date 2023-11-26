@@ -32,6 +32,7 @@ import {
 import ProjectList from "./ProjectList";
 import ProjectDetails from "./ProjectDetails";
 import ActiveProject from "../../redux/ActiveProject";
+import { act } from "react-dom/test-utils";
 
 type ProjectType = "Active" | "Published" | "Completed" | "Drafts";
 
@@ -57,6 +58,10 @@ export default function ProjectsView({
   );
   const { draftProject } = useSelector(
     (state: RootState) => state.draftProject
+  );
+
+  const { activeProject } = useSelector(
+    (state: RootState) => state.activeProject
   );
 
   const talents = [1, 2, 3].map((_, idx) => {
@@ -171,7 +176,7 @@ export default function ProjectsView({
   };
 
   const projectCount = {
-    Active: 8,
+    Active: activeProject.length || 0,
     Published: publishProject.length || 0,
     Completed: completeProject.length || 0,
     Drafts: draftProject.length || 0,

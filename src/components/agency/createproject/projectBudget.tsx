@@ -60,60 +60,57 @@ export default function ProjectBudget({
   // };
   // console.log(selectedDays);
 
-    const handleDayToggle = (day: DayOfWeek): void => {
-      setWorkDays((prevSelectedDays: DayOfWeek[]) => {
-        if (prevSelectedDays.includes(day)) {
-          return prevSelectedDays.filter((selectedDay) => selectedDay !== day);
-        } else {
-          return [...prevSelectedDays, day];
-        }
-      });
-    };
-
-    function formatAsNaira(value: string): string {
-      // Remove non-numeric characters
-      const numericValue = value.replace(/[^0-9]/g, "");
-
-      // Add commas to the string for better readability
-      const numberWithCommas = numericValue.replace(
-        /\B(?=(\d{3})+(?!\d))/g,
-        ","
-      );
-
-      // Return the formatted value with the Naira symbol
-      return `₦${numberWithCommas}`;
-    }
-
-    const handlePaymentChange = (row: any, index: number) => {
-      const updatedTalentType = [...requiredTalents];
-      updatedTalentType[index].paymentOptions = row;
-      setRequiredTalents(updatedTalentType);
-    };
-
-    useEffect(() => {
-      const savedProjectBudget =
-        typeof window !== undefined && localStorage.getItem("projectBudget");
-      if (savedProjectBudget) {
-        setRequiredTalents(JSON.parse(savedProjectBudget));
+  const handleDayToggle = (day: DayOfWeek): void => {
+    setWorkDays((prevSelectedDays: DayOfWeek[]) => {
+      if (prevSelectedDays.includes(day)) {
+        return prevSelectedDays.filter((selectedDay) => selectedDay !== day);
+      } else {
+        return [...prevSelectedDays, day];
       }
-    }, []);
+    });
+  };
 
-    const handleInputChange = (
-      e: React.ChangeEvent<HTMLInputElement>,
-      index: number
-    ) => {
-      const { name, value } = e.target as { name: string; value: string };
+  function formatAsNaira(value: string): string {
+    // Remove non-numeric characters
+    const numericValue = value.replace(/[^0-9]/g, "");
 
-      // Remove non-numeric characters
-      const numericValue = value.replace(/[^0-9]/g, "");
+    // Add commas to the string for better readability
+    const numberWithCommas = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-      // Format the numeric value as Naira
-      const formattedValue = formatAsNaira(numericValue);
+    // Return the formatted value with the Naira symbol
+    return `₦${numberWithCommas}`;
+  }
 
-      const updatedExperiences = [...requiredTalents];
-      updatedExperiences[index][name] = formattedValue;
-      setRequiredTalents(updatedExperiences);
-    };
+  const handlePaymentChange = (row: any, index: number) => {
+    const updatedTalentType = [...requiredTalents];
+    updatedTalentType[index].paymentOptions = row;
+    setRequiredTalents(updatedTalentType);
+  };
+
+  useEffect(() => {
+    const savedProjectBudget =
+      typeof window !== undefined && localStorage.getItem("projectBudget");
+    if (savedProjectBudget) {
+      setRequiredTalents(JSON.parse(savedProjectBudget));
+    }
+  }, []);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const { name, value } = e.target as { name: string; value: string };
+
+    // Remove non-numeric characters
+    const numericValue = value.replace(/[^0-9]/g, "");
+
+    // Format the numeric value as Naira
+    const formattedValue = formatAsNaira(numericValue);
+
+    const updatedExperiences = [...requiredTalents];
+    updatedExperiences[index][name] = formattedValue;
+    setRequiredTalents(updatedExperiences);
+  };
 
   return (
     // <div className="px-4 pb-4  md:px-12 xl:px-40">
@@ -325,14 +322,14 @@ export default function ProjectBudget({
         <ChevBackground text="Tell us your budget for this project" stage="4" />
         <Card className="w-full py-6 my-7">
           <CardContent>
-            <p className="text-[12px] font-light">
+            <p className="text-[12px] font-normal">
               This will help available talents to know the amount they will be
               earning
             </p>
             <Separator className="my-3 md:my-8 bg-bm__beige" />
             <div className="grid md:grid-cols-2 md:gap-6">
               <div className="relative  z-0 w-full mb-6 group">
-                <div className="pt-2 flex gap-6 max-w-3xl mt-2 mb-4 cursor-pointer flex-wrap">
+                <div className="pt-2 flex gap-2 max-w-3xl mt-2 mb-4 cursor-pointer flex-wrap font-semibold">
                   {daysOfWeek.map(({ label, value }: DayObject, index) => (
                     <div
                       key={index}
@@ -356,7 +353,7 @@ export default function ProjectBudget({
                   )}
                 <label
                   htmlFor="floating_first_name"
-                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  className="peer-focus:font-semi-bold absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Working days
                 </label>
@@ -373,15 +370,21 @@ export default function ProjectBudget({
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="daily" id="daily" />
-                        <Label htmlFor="daily">Daily</Label>
+                        <Label htmlFor="daily" className="text-[12px]">
+                          Daily
+                        </Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="weekly" id="weekly" />
-                        <Label htmlFor="weekly">Weekly</Label>
+                        <Label htmlFor="weekly" className="text-[12px]">
+                          Weekly
+                        </Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="monthly" id="monthly" />
-                        <Label htmlFor="monthly">Monthly</Label>
+                        <Label htmlFor="monthly" className="text-[12px]">
+                          Monthly
+                        </Label>
                       </div>
                     </RadioGroup>
                     <div className="pt-2">
@@ -410,7 +413,7 @@ export default function ProjectBudget({
                           </label>
                         </div>
                       </div>
-                      <Separator className="bg-bm__beige my-2" />
+                      {/* <Separator className="bg-bm__beige my-2" /> */}
                     </div>
                     <label
                       htmlFor="floating_first_name"
