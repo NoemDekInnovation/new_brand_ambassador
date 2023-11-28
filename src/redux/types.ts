@@ -283,3 +283,10 @@ export interface favProp {
 }
 
 export type DayOfWeek = "S" | "M" | "T" | "W" | "T" | "F" | "S" | string;
+
+export type editAdmin = {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  profilePic: string;
+};

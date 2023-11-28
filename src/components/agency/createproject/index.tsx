@@ -265,7 +265,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchSkills, SkillsStateProps } from "../../../redux/skills.slice";
 import { campaignAuthAxiosInstance, multerAxiosInstance, patchAxiosInstance } from "../../../api/axios";
-import { isDraft } from "immer";
 // import Loading from "../../../components/l";
 
 const aboutProjectSchema = z.object({
@@ -483,10 +482,88 @@ export default function NewProject({
 
   const submitHandler = async (isDraft: boolean) => {
     setIsLoading(true);
-    const createProject = new FormData();
-    // createProject.append("")
-  }
-  
+    const payload: any = {
+      draft: isDraft,
+      projectTitle: aboutProject.projectTitle,
+      projectCategory: aboutProject.projectCategory,
+      projectCode: aboutProject.projectCode,
+      projectLocation: [aboutProject.projectLocation],
+      projectDescription: aboutProject.projectDescription,
+      projectRequirements: proposal,
+      document: "document",
+      
+
+      projectDuration: {
+        startDate: aboutProject.startDate,
+        endDate: aboutProject.endDate,
+      },
+
+      talent: requiredTalents,
+      workingDays: workDays,
+      projectPost: projectPost,
+    };
+    try {
+      const formData = new FormData();
+      const handleData = (data: any, parentKey: any) => {
+        for (const key in data) {
+          const value = data[key];
+          const newKey = parentKey ? `${parentKey}[${key}]` : key;
+
+          if (Array.isArray(value)) {
+            value.forEach((item, index) => {
+              const itemKey = `${newKey}[${index}]`;
+              if (typeof item === "object") {
+                handleData(item, itemKey);
+              } else {
+                formData.append(itemKey, item);
+              }
+            });
+          } else if (typeof value === "object") {
+            handleData(value, newKey);
+          } else {
+            formData.append(newKey, value);
+          }
+        }
+      };
+
+      handleData(payload, null);
+      formData.append("document", document);
+      // formData.append("document", "document");   
+
+      if (user?.accountId !== undefined) {
+        console.log(payload, "formData", user.authKey);
+        // const user = localStorage.getItem("userData");
+        // const parsedUser = JSON.parse(user);
+
+        try {
+          const response = await patchAxiosInstance.post(
+            `/create-project`,
+            payload,
+            {
+              headers: {
+                Authorization: `Bearer ${user.authKey || ""}`,
+              },
+            }
+          );
+          console.log(response);
+          console.log(payload, "formData", user?.accountId);
+          setSuccessModal(true);
+          setTimeout(() => {
+            cancelProject();
+          }, 3000);
+          // setLoading(false);
+        } catch (error: any) {
+          // setLoading(false);
+          console.log(error);
+        }
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+
+      console.log(error);
+    }
+  };
 
   return (
     <>
