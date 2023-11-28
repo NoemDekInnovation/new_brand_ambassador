@@ -896,10 +896,10 @@ export default function TalentsView({
                       </div>
                     </CardContent>
                   </Card> */}
-                  {/* <TalentList
+                  <TalentList
                     talentCount={talentCount}
                     onTalentTypeChnage={onTalentTypeChnage}
-                  /> */}
+                  />
                   <Card>
                     <CardContent className="py-3 md:py-6 space-y-3">
                       <div className="flex flex-col ">
