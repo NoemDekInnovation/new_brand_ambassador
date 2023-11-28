@@ -248,7 +248,6 @@
 //   );
 // }
 
-
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import GetStarted from "./GetStarted";
 import AboutProject from "./aboutProject";
@@ -263,11 +262,10 @@ import { useForm } from "react-hook-form";
 import { DayOfWeek, RequiredTalentsProps } from "../../../redux/types";
 
 import { useDispatch, useSelector } from "react-redux";
- import { AppDispatch, RootState } from "../../../redux/store";
- import { fetchSkills, SkillsStateProps } from "../../../redux/skills.slice";
-import { multerAxiosInstance } from "../../../api/axios";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { fetchSkills, SkillsStateProps } from "../../../redux/skills.slice";
+import { campaignAuthAxiosInstance, multerAxiosInstance } from "../../../api/axios";
 // import Loading from "../../../components/l";
-
 
 const aboutProjectSchema = z.object({
   projectTitle: z.string(),
@@ -325,14 +323,15 @@ export default function NewProject({
     RequiredTalentsProps[]
   >([
     {
-      talentType: "",
-      qualification: "",
-      relevantSkills: [],
+      opportunities: "",
+      qualifications: "",
+      skills: [],
 
       paymentOptions: "",
       salary: "",
     },
   ]);
+  console.log(requiredTalents);
 
   const [workDays, setWorkDays] = useState<DayOfWeek[]>([]);
   const [proposal, setProposal] = useState("");
@@ -340,17 +339,17 @@ export default function NewProject({
   const [document, setDocument] = useState("");
   const [successModal, setSuccessModal] = useState(false);
 
-  const clearLocalStorage = () => {
-    localStorage.removeItem("aboutProject");
-    localStorage.removeItem("requiredTalent");
-    localStorage.removeItem("projectBudget");
-    localStorage.removeItem("proposal");
-    localStorage.removeItem("document");
-  };
+  // const clearLocalStorage = () => {
+  //   localStorage.removeItem("aboutProject");
+  //   localStorage.removeItem("requiredTalent");
+  //   localStorage.removeItem("projectBudget");
+  //   localStorage.removeItem("proposal");
+  //   localStorage.removeItem("document");
+  // };
 
-  useEffect(() => {
-    clearLocalStorage();
-  }, []);
+  // useEffect(() => {
+  //   clearLocalStorage();
+  // }, []);
 
   const [projectPost, setProjectPost] = useState({
     startDate: "",
@@ -360,7 +359,7 @@ export default function NewProject({
 
   const handleStepChange = (step: string) => {
     setCurrentStep(step);
-    console.log(step)
+    console.log(step);
   };
 
   const {
@@ -377,7 +376,23 @@ export default function NewProject({
   //   const formData = getValues();
   //   localStorage.setItem(currentStep, JSON.stringify(formData));
   // };
+  const payload: any = {
+    projectTitle: aboutProject.projectTitle,
+    projectCategory: aboutProject.projectCategory,
+    projectCode: aboutProject.projectCode,
+    projectLocation: aboutProject.projectLocation,
+    projectDescription: aboutProject.projectDescription,
+    projectRequirements: proposal,
 
+    projectDuration: {
+      startDate: aboutProject.startDate,
+      endDate: aboutProject.endDate,
+    },
+
+    talent: requiredTalents,
+    workingDays: workDays,
+    projectPost: projectPost,
+  };
   const submitHandler = async (isDraft: boolean) => {
     setIsLoading(true);
     const payload: any = {
@@ -385,9 +400,10 @@ export default function NewProject({
       projectTitle: aboutProject.projectTitle,
       projectCategory: aboutProject.projectCategory,
       projectCode: aboutProject.projectCode,
-      projectLocation: aboutProject.projectLocation,
+      projectLocation: [aboutProject.projectLocation],
       projectDescription: aboutProject.projectDescription,
       projectRequirements: proposal,
+      
 
       projectDuration: {
         startDate: aboutProject.startDate,
@@ -424,15 +440,26 @@ export default function NewProject({
 
       handleData(payload, null);
       formData.append("document", document);
+      // formData.append("document", "document");   
 
       if (user?.accountId !== undefined) {
+        console.log(payload, "formData", user.authKey);
+        // const user = localStorage.getItem("userData");
+        // const parsedUser = JSON.parse(user);
+
         try {
           const response = await multerAxiosInstance.post(
-            `/${user?.accountId}/create-project`,
-            formData
+            `/create-project`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${user.authKey || ""}`,
+                
+              },
+            }
           );
           console.log(response);
-
+          console.log(payload, "formData", user?.accountId);
           setSuccessModal(true);
           setTimeout(() => {
             cancelProject();

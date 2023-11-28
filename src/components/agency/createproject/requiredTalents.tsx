@@ -68,9 +68,9 @@ export default function RequiredTalents({
     setRequiredTalents([
       ...requiredTalents,
       {
-        talentType: "",
-        qualification: "",
-        relevantSkills: [],
+        opportunities: "",
+        qualifications: "",
+        skills: [],
       },
     ]);
   };
@@ -94,7 +94,7 @@ export default function RequiredTalents({
   ) => {
     if (value !== null) {
       const updatedTalentType = [...requiredTalents];
-      updatedTalentType[index].talentType = value.value;
+      updatedTalentType[index].opportunities = value.value;
       setRequiredTalents(updatedTalentType);
     }
   };
@@ -105,7 +105,7 @@ export default function RequiredTalents({
   ) => {
     if (value !== null) {
       const updatedTalentType = [...requiredTalents];
-      updatedTalentType[index].qualification = value.value;
+      updatedTalentType[index].qualifications = value.value;
       setRequiredTalents(updatedTalentType);
     }
   };
@@ -153,6 +153,11 @@ export default function RequiredTalents({
     setSkillData([...skillData, id]);
     setSkillStore(false);
     console.log(id);
+    if (id !== null) {
+      const updatedExperiences = [...requiredTalents];
+      updatedExperiences[index].skills.push(id);
+      setRequiredTalents(updatedExperiences);
+    }
   };
 
   const handleSkillDelete = (index: number) => {
@@ -465,7 +470,7 @@ export default function RequiredTalents({
                               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                               onChange={(e) => {
                                 setExample(e.target.value);
-                                handleInputChange(e, index);
+                                // handleInputChange(e, index);
                               }}
 
                               // value={example}
@@ -489,7 +494,7 @@ export default function RequiredTalents({
                             ))}
                           </ul> */}
                           <ul className="flex flex-wrap max-w-md">
-                            {talent?.relevantSkills?.map((d, index) => (
+                            {talent?.skills?.map((d, index) => (
                               <li className="p-2 flex items-center" key={index}>
                                 <p className="flex items-center whitespace-nowrap justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 dark__btn max-w-[200px] cursor-pointer">
                                   {d}

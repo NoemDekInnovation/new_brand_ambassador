@@ -102,7 +102,7 @@ export default function ProjectDetails({
       <Card className="w-full pt-4 my-7">
         <CardContent>
           <div className="flex justify-between items-center">
-            <h2 className="text-[18px] font-medium">{title}</h2>
+            <h2 className="text-[18px] font-medium capitalize">{title}</h2>
             <button onClick={edit}>
               <AiOutlineEdit className="text-[16px] rounded-md " />
             </button>
@@ -376,11 +376,11 @@ export default function ProjectDetails({
           </button>
         </div>
 
-        <InfoCard title={projectName} edit={() => edit("aboutProject")}>
+        <InfoCard title={aboutProject.projectTitle} edit={() => edit("aboutProject")}>
           <div className="pt-2">
             <p>In-Store</p>
             <Separator className="bg-bm__beige my-2" />
-            <p>Project Description: {aboutProject.projectDescription || "-"}</p>
+            <p className=" capitalize">Project Description: {aboutProject.projectDescription || "-"}</p>
           </div>
         </InfoCard>
         <InfoCard title="" edit={() => edit("requiredTalents")}>
@@ -388,21 +388,21 @@ export default function ProjectDetails({
             return (
               <div className="" key={idx}>
                 <div className="flex justify-between items-center">
-                  <h2 className="text-[18px] font-medium">
+                  <h2 className="text-[18px] font-medium capitalize">
                     {_.talentType || "-"}
                   </h2>
                 </div>
                 <div className="pt-2">
-                  <p>{_.qualification || "-"}</p>
+                  <p className=" capitalize">{_.qualification || "-"}</p>
                   <Separator className="bg-bm__beige my-2" />
                 </div>
                 <div className="pt-2">
                   <p>Skills</p>
                   <div className="pt-2 flex gap-6 max-w-3xl flex-wrap">
-                    {_.relevantSkills.map((skill, idx) => {
+                    {_.skills.map((skill, idx) => {
                       return (
                         <div className="" key={idx}>
-                          <Button className="light__btn max-w-fit">
+                          <Button className="light__btn max-w-fit capitalize">
                             {skill}
                           </Button>
                         </div>
@@ -415,7 +415,7 @@ export default function ProjectDetails({
                   <p>Budget</p>
                   <div className="flex justify-between items-center">
                     {(_.salary && (
-                      <div className="pt-2 flex gap-6 max-w-3xl">
+                      <div className="pt-2 flex gap-6 max-w-3xl capitalize">
                         {_.salary} per week
                       </div>
                     )) ||
@@ -431,7 +431,7 @@ export default function ProjectDetails({
         </InfoCard>
 
         <InfoCard
-          title="September 1st 2023  to  January 13th 2024"
+          title={aboutProject.startDate}
           edit={() => edit("projectBudget")}
         >
           <div className="pt-2">
@@ -440,7 +440,7 @@ export default function ProjectDetails({
               {daysOfWeek.map(({ label, value }: DayObject, index) => (
                 <div
                   key={index}
-                  className={` rounded-md p-2 px-3 ${
+                  className={` rounded-md p-2 px-3 capitalize ${
                     workDays.includes(value)
                       ? "bg-[#252525] text-white"
                       : "bg-bm_card_grey"
@@ -456,8 +456,8 @@ export default function ProjectDetails({
             <p>Location</p>
             <div className="pt-2 flex gap-6 max-w-3xl flex-wrap">
               {(aboutProject.projectLocation !== undefined &&
-                aboutProject.projectLocation.length < 0 && (
-                  <Button className="light__btn  max-w-fit">
+                 (
+                  <Button className="light__btn  max-w-fit capitalize">
                     {aboutProject.projectLocation}
                   </Button>
                 )) ||
@@ -471,7 +471,7 @@ export default function ProjectDetails({
           edit={() => edit("talentRequirement")}
         >
           <Separator className="bg-bm__beige my-2" />
-          <p>{proposal || "-"} </p>
+          <p className=" capitalize">{proposal || "-"} </p>
           <Separator className="bg-bm__beige my-2" />
 
           <div className="flex gap-4 mt-4">
@@ -497,7 +497,7 @@ export default function ProjectDetails({
                 type="date"
                 id="startDate"
                 name="startDate"
-                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                 placeholder=" "
                 required
                 value={projectPost.startDate}
@@ -517,7 +517,7 @@ export default function ProjectDetails({
                   type="date"
                   id="endDate"
                   name="endDate"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize"
                   placeholder=" "
                   required
                   onChange={(e) => handleInputChange(e, "endDate")}
@@ -552,6 +552,9 @@ export default function ProjectDetails({
             <Button className="dark__btn" onClick={() => submit(false)}>
               Post this project{" "}
             </Button>
+            {/* <Button className="dark__btn" onClick={() => console.log("submit")}>
+              Post this project{" "}
+            </Button> */}
           </div>
         </div>
       </Card>

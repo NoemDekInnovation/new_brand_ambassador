@@ -21,6 +21,7 @@ import { fetchpublishproject } from "../../redux/publishProject";
 import { fetchcompleteproject } from "../../redux/completeProject";
 import { fetchdraftproject } from "../../redux/draftProject.slice";
 import { fetchactiveproject } from "../../redux/ActiveProject";
+import Pagination from "../../ui/Pagination";
 
 type ProjectDetailsProps = {
   activeType: "Active" | "Published" | "Completed" | "Drafts";
@@ -45,26 +46,47 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
       projects = null;
   }
 
-  const { user } = useSelector((state: RootState) => state.user);
+  // const { user } = useSelector((state: RootState) => state.user);
 
   const dispatch = useDispatch<AppDispatch>();
+    const { completeProject } = useSelector(
+      (state: RootState) => state.completeProject
+    );
+      const { activeProject } = useSelector(
+        (state: RootState) => state.activeProject
+      );
+        const { publishProject } = useSelector(
+          (state: RootState) => state.publishProject
+        );
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      if (user?.accountId) {
-        if (activeType === "Active") {
-          dispatch(fetchactiveproject());
-        } else if (activeType === "Published") {
-          dispatch(fetchpublishproject());
-        } else if (activeType === "Completed") {
-          dispatch(fetchcompleteproject());
-        } else if (activeType === "Drafts") {
-          dispatch(fetchdraftproject());
-        }
-      }
-    };
-    fetchProjects();
-  }, []);
+          const { draftProject } = useSelector(
+            (state: RootState) => state.draftProject
+          );
+  // useEffect(() => {
+  //   const fetchProjects = async () => {
+  //     if (user?.accountId) {
+  //       if (activeType === "Active") {
+  //         dispatch(fetchactiveproject());
+  //       } else if (activeType === "Published") {
+  //         dispatch(fetchpublishproject());
+  //       } else if (activeType === "Completed") {
+  //         dispatch(fetchcompleteproject());
+  //       } else if (activeType === "Drafts") {
+  //         dispatch(fetchdraftproject());
+  //       }
+  //     }
+  //   };
+  //   fetchProjects();
+  // }, []);
+  const projectsToRender =
+    activeType === "Active"
+      ? activeProject.length || 0
+      : activeType === "Published"
+      ? publishProject.length || 0
+      : activeType === "Completed"
+      ? completeProject.length || 0
+      : draftProject.length || 0;
+
   return (
     <CardContent className=" flex-1">
       <div className="flex justify-between">
@@ -100,7 +122,16 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
         {projects}
       </div>
       <Separator className="my-2 mt-6 bg-[#D7D8DA]" />
-      <div className="flex justify-end my-3"> {/* <Pagination /> */}</div>
+      <div className="flex justify-end my-3">
+        <Pagination
+          first={""}
+          last={""}
+          prev={""}
+          next={""}
+          currentPage={1}
+          count={projectsToRender}
+        />
+      </div>
     </CardContent>
   );
 };

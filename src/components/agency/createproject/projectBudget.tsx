@@ -78,7 +78,8 @@ export default function ProjectBudget({
     const numberWithCommas = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
     // Return the formatted value with the Naira symbol
-    return `₦${numberWithCommas}`;
+    // return `₦${numberWithCommas}`;
+    return value
   }
 
   const handlePaymentChange = (row: any, index: number) => {
@@ -108,7 +109,7 @@ export default function ProjectBudget({
     const formattedValue = formatAsNaira(numericValue);
 
     const updatedExperiences = [...requiredTalents];
-    updatedExperiences[index][name] = formattedValue;
+    updatedExperiences[index][name] = value;
     setRequiredTalents(updatedExperiences);
   };
 
