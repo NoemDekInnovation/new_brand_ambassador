@@ -46,7 +46,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
       projects = null;
   }
 
-  const { user } = useSelector((state: RootState) => state.user);
+  // const { user } = useSelector((state: RootState) => state.user);
 
   const dispatch = useDispatch<AppDispatch>();
     const { completeProject } = useSelector(

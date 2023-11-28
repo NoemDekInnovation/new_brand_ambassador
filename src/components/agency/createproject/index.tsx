@@ -264,7 +264,7 @@ import { DayOfWeek, RequiredTalentsProps } from "../../../redux/types";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchSkills, SkillsStateProps } from "../../../redux/skills.slice";
-import { multerAxiosInstance } from "../../../api/axios";
+import { campaignAuthAxiosInstance, multerAxiosInstance } from "../../../api/axios";
 // import Loading from "../../../components/l";
 
 const aboutProjectSchema = z.object({
@@ -323,14 +323,15 @@ export default function NewProject({
     RequiredTalentsProps[]
   >([
     {
-      talentType: "",
-      qualification: "",
-      relevantSkills: [],
+      opportunities: "",
+      qualifications: "",
+      skills: [],
 
       paymentOptions: "",
       salary: "",
     },
   ]);
+  console.log(requiredTalents);
 
   const [workDays, setWorkDays] = useState<DayOfWeek[]>([]);
   const [proposal, setProposal] = useState("");
@@ -338,17 +339,17 @@ export default function NewProject({
   const [document, setDocument] = useState("");
   const [successModal, setSuccessModal] = useState(false);
 
-  const clearLocalStorage = () => {
-    localStorage.removeItem("aboutProject");
-    localStorage.removeItem("requiredTalent");
-    localStorage.removeItem("projectBudget");
-    localStorage.removeItem("proposal");
-    localStorage.removeItem("document");
-  };
+  // const clearLocalStorage = () => {
+  //   localStorage.removeItem("aboutProject");
+  //   localStorage.removeItem("requiredTalent");
+  //   localStorage.removeItem("projectBudget");
+  //   localStorage.removeItem("proposal");
+  //   localStorage.removeItem("document");
+  // };
 
-  useEffect(() => {
-    clearLocalStorage();
-  }, []);
+  // useEffect(() => {
+  //   clearLocalStorage();
+  // }, []);
 
   const [projectPost, setProjectPost] = useState({
     startDate: "",
@@ -375,23 +376,23 @@ export default function NewProject({
   //   const formData = getValues();
   //   localStorage.setItem(currentStep, JSON.stringify(formData));
   // };
-    const payload: any = {
-      projectTitle: aboutProject.projectTitle,
-      projectCategory: aboutProject.projectCategory,
-      projectCode: aboutProject.projectCode,
-      projectLocation: aboutProject.projectLocation,
-      projectDescription: aboutProject.projectDescription,
-      projectRequirements: proposal,
+  const payload: any = {
+    projectTitle: aboutProject.projectTitle,
+    projectCategory: aboutProject.projectCategory,
+    projectCode: aboutProject.projectCode,
+    projectLocation: aboutProject.projectLocation,
+    projectDescription: aboutProject.projectDescription,
+    projectRequirements: proposal,
 
-      projectDuration: {
-        startDate: aboutProject.startDate,
-        endDate: aboutProject.endDate,
-      },
+    projectDuration: {
+      startDate: aboutProject.startDate,
+      endDate: aboutProject.endDate,
+    },
 
-      talent: requiredTalents,
-      workingDays: workDays,
-      projectPost: projectPost,
-    };
+    talent: requiredTalents,
+    workingDays: workDays,
+    projectPost: projectPost,
+  };
   const submitHandler = async (isDraft: boolean) => {
     setIsLoading(true);
     const payload: any = {
@@ -399,9 +400,10 @@ export default function NewProject({
       projectTitle: aboutProject.projectTitle,
       projectCategory: aboutProject.projectCategory,
       projectCode: aboutProject.projectCode,
-      projectLocation: aboutProject.projectLocation,
+      projectLocation: [aboutProject.projectLocation],
       projectDescription: aboutProject.projectDescription,
       projectRequirements: proposal,
+      
 
       projectDuration: {
         startDate: aboutProject.startDate,
@@ -438,11 +440,11 @@ export default function NewProject({
 
       handleData(payload, null);
       formData.append("document", document);
-    
+      // formData.append("document", "document");   
 
       if (user?.accountId !== undefined) {
-    console.log(payload, "formData", user.authKey);
-    // const user = localStorage.getItem("userData");
+        console.log(payload, "formData", user.authKey);
+        // const user = localStorage.getItem("userData");
         // const parsedUser = JSON.parse(user);
 
         try {
@@ -452,12 +454,12 @@ export default function NewProject({
             {
               headers: {
                 Authorization: `Bearer ${user.authKey || ""}`,
-                // Replace YOUR_ACCESS_TOKEN with your actual access token
+                
               },
             }
           );
           console.log(response);
-console.log(payload, "formData", user?.accountId);
+          console.log(payload, "formData", user?.accountId);
           setSuccessModal(true);
           setTimeout(() => {
             cancelProject();

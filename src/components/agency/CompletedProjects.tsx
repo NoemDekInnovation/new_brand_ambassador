@@ -70,13 +70,13 @@ const CompletedProjects = () => {
         </CardContent>
         <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
           <div className="flex md:space-x-2 text-bm__grey__text text-[10px] h-full flex-wrap  ">
-            <div className=" font-normal text-[8px]">
+            <div className=" font-normal text-[8px] capitalize">
               {/* Mon, Wed, Fri {"  "} */}
               {formatWorkingDaysS(project.workingDays)} {"  "}
             </div>
             <div className="text-[10px] pb-1 font-black">.</div>
 
-            <div className="font-normal text-[8px]">
+            <div className="font-normal text-[8px] capitalize">
               {/* Nov 30 - December 30 */}
               {new Date(project.projectDuration.startDate).toLocaleDateString(
                 "en-US",
@@ -89,7 +89,7 @@ const CompletedProjects = () => {
               )}
             </div>
             <div className="text-[10px] pb-1 font-black">.</div>
-            <div className="font-normal text-[8px]">
+            <div className="font-normal text-[8px] capitalize">
               {/* Lagos, Abuja, Ogun, Plateau */}
               {formattedLocation}
             </div>
