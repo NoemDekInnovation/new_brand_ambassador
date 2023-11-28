@@ -264,7 +264,15 @@ import { DayOfWeek, RequiredTalentsProps } from "../../../redux/types";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchSkills, SkillsStateProps } from "../../../redux/skills.slice";
-import { campaignAuthAxiosInstance, multerAxiosInstance, patchAxiosInstance } from "../../../api/axios";
+// import {
+//   campaignAuthAxiosInstance,
+//   multerAxiosInstance,
+// } from "../../../api/axios";
+import {
+  campaignAuthAxiosInstance,
+  multerAxiosInstance,
+  patchAxiosInstance,
+} from "../../../api/axios";
 // import Loading from "../../../components/l";
 
 const aboutProjectSchema = z.object({
@@ -404,7 +412,6 @@ export default function NewProject({
       projectDescription: aboutProject.projectDescription,
       projectRequirements: proposal,
       document: "document",
-      
 
       projectDuration: {
         startDate: aboutProject.startDate,
@@ -441,7 +448,7 @@ export default function NewProject({
 
       handleData(payload, null);
       formData.append("document", document);
-      // formData.append("document", "document");   
+      // formData.append("document", "document");
 
       if (user?.accountId !== undefined) {
         console.log(payload, "formData", user.authKey);
