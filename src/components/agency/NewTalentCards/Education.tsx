@@ -4,6 +4,11 @@ import { Separator } from "../../../ui/seperator";
 import { Button } from "../../../ui/button";
 import { Progress } from "../../../ui/progress";
 import { CertificateProps, EducationProps } from "../../../redux/types";
+import union from "../../../assets/Union1.png";
+import subtract from "../../../assets/Subtract.png";
+import subtract2 from "../../../assets/Subtract2.png";
+import subtract3 from "../../../assets/Subtract3.png";
+import { MdOutlineAddCircleOutline } from "react-icons/md";
 
 export default function Education({
   next,
@@ -63,35 +68,56 @@ export default function Education({
     setCertificate(updatedCertificate);
   };
   return (
-    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 min-h-[70vh] py-10">
-      <Card className="bg-white  h-full p-2 md:p-4 flex-col flex">
-        <div className="flex gap-2 lg:justify-between font-medium text-[12px] my-2 flex-wrap">
-          <p className="bg-[#D7D8DA] border border-bm__btn__grey p-2 rounded lg:p-4 ">
-            Overview
-          </p>
-          <p className="bg-[#D7D8DA] border border-bm__btn__grey p-2 rounded lg:p-4 ">
-            Personal Details
-          </p>
-          <p className="bg-[#D7D8DA] border border-bm__btn__grey p-2 rounded lg:p-4 ">
-            Address
-          </p>
-          <p className="bg-black text-white p-4">Education & Certification</p>
-          <p className="bg-[#D7D8DA] border border-bm__btn__grey p-2 rounded lg:p-4 ">
-            Experience
-          </p>
-          <p className="bg-[#D7D8DA] border border-bm__btn__grey p-2 rounded lg:p-4 ">
-            Skills & Opportunities
-          </p>
-          <p className="bg-[#D7D8DA] border border-bm__btn__grey p-2 rounded lg:p-4 ">
-            Socials
-          </p>
+    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 min-h-[70vh] py-5">
+      <Card className="bg-white  h-[79vh] p-8 md:p-4 flex-col flex overflow-y-scroll">
+        <div className="flex justify-between font-medium text-[12px] my-2 ">
+          <div className="relative text-black flex items-center justify-center">
+            <p className="absolute top-[25%] text-[16px]  z-20">Overview</p>
+            <img src={union} alt="" className=" z-10  w-[300px] h-[50px]" />
+          </div>
+          <div className=" relative text-black flex items-center justify-center">
+            <p className="absolute top-[25%] text-[16px] z-20 ">
+              {" "}
+              Personal Details
+            </p>
+            <img src={subtract} alt="" className=" z-10  w-[300px] h-[50px]" />
+          </div>
+          <div className=" relative text-black flex items-center justify-center">
+            <p className="absolute top-[25%] text-[16px] z-20"> Address</p>
+            <img src={subtract} alt="" className=" z-10  w-[300px] h-[50px]" />
+          </div>
+
+          <div className=" relative text-white flex items-center justify-center">
+            <p className="absolute top-[15%] text-[14px] leading-4 z-20 ">
+              {" "}
+              Education & <br /> Certification
+            </p>
+            <img src={subtract3} alt="" className=" z-10  w-[300px] h-[50px]" />
+          </div>
+
+          <div className=" relative text-black flex items-center justify-center">
+            <p className="absolute top-[25%] text-[16px] z-20"> Experience</p>
+            <img src={subtract} alt="" className=" z-10  w-[300px] h-[50px]" />
+          </div>
+
+          <div className=" relative text-black flex items-center justify-center">
+            <p className="absolute top-[15%] text-[14px]  leading-4 z-20">
+              Skills &<br /> Opportunities
+            </p>
+            <img src={subtract} alt="" className=" z-10  w-[300px] h-[50px]" />
+          </div>
+
+          <div className=" relative text-black flex items-center justify-center">
+            <p className="absolute top-[25%] text-[16px] z-20"> Socials</p>
+            <img src={subtract2} alt="" className=" z-10  w-[300px] h-[50px]" />
+          </div>
         </div>
-        <CardContent className="border rounded-xl  p-3 flex-1 flex flex-col  mt-3">
+        <CardContent className="border rounded-xl  p-8 flex-1 flex flex-col  mt-3">
           <p>
             Your education & certifications will help you get better work
             opportunities.
           </p>
-          <Separator className=" my-3" />
+          <Separator className=" my-7 bg-[#D7D8DA]" />
           {education.map((e, index) => (
             <>
               <div className="mt-2" key={index}>
@@ -177,14 +203,17 @@ export default function Education({
               </div>
             </>
           ))}
-          <Separator className="bg-bm__beige mb-3 md:mb-6" />
+          <Separator className="bg-bm__beige my-4 md:mb-6" />
           <Button
-            className="dark__btn max-w-[120px] whitespace-nowrap"
+            className="dark__btn max-w-[140px] whitespace-nowrap"
             onClick={handleAddEducation}
           >
-            Add Education
+            <div className="flex items-center gap-1">
+              <MdOutlineAddCircleOutline className="text-[16px]" />
+              Add Education
+            </div>
           </Button>
-          <Separator className="bg-bm__beige my-3 md:my-6 py-[2px]" />
+          <Separator className="bg-bm__beige my-7 md:my-6 py-[2px]" />
           {certificate.map((c, index) => (
             <>
               <div className="mt-2" key={index}>
@@ -251,20 +280,27 @@ export default function Education({
               </div>
             </>
           ))}
-          <Separator className="bg-bm__beige mb-3 md:mb-6" />
-
+          <Separator className="bg-bm__beige my-4 md:mb-6" />
           <Button
             className="dark__btn max-w-[150px] whitespace-nowrap"
             onClick={handleAddCertification}
           >
-            Add Certification
+            <div className="flex items-center gap-1">
+              <MdOutlineAddCircleOutline className="text-[16px]" />
+              Add Certification
+            </div>
           </Button>
         </CardContent>
         <Progress value={56} className="my-2 md:my-7" />
         <div className="flex flex-col md:flex-row justify-between mt-2 gap-4">
-          <Button className="light__btn md:max-w-[100px]" onClick={cancel}>
-            Close
-          </Button>
+          <div className="flex gap-4">
+            <Button className="light__btn md:max-w-[100px]" onClick={cancel}>
+              Close
+            </Button>
+            <Button className="light__btn max-w-[100px]" onClick={prev}>
+              Back
+            </Button>
+          </div>
           <div className="flex gap-4 flex-col md:flex-row">
             <Button className="light__btn" onClick={create}>
               Create
