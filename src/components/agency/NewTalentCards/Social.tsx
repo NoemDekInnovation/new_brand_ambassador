@@ -6,6 +6,11 @@ import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
 import { Progress } from "../../../ui/progress";
 import { SocialsProps } from "../../../redux/types";
+import union from "../../../assets/Union1.png";
+import subtract from "../../../assets/Subtract.png";
+import subtract2 from "../../../assets/Subtract2.png";
+import subtract4 from "../../../assets/Subtract4.png";
+import { Link } from "react-router-dom";
 
 export default function Social({
   next,
@@ -34,33 +39,54 @@ export default function Social({
     }));
   };
   return (
-    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 min-h-[70vh] py-10">
+    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87vh] py-10">
       {/* <div className='fixed top-0 h-screen w-screen bg-[#F3F3F3]/30 z-[1000] mt-[20vh] px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'> */}
       <Card className="bg-white  h-full p-2 md:p-4 flex-col flex">
-        <div className="flex gap-2 lg:justify-between font-medium text-[12px] my-2 flex-wrap">
-          <p className="bg-[#D7D8DA] border border-bm__btn__grey p-2 rounded lg:p-4 ">
-            Overview
-          </p>
-          <p className="bg-[#D7D8DA] border border-bm__btn__grey p-2 rounded lg:p-4 ">
-            Personal Details
-          </p>
-          <p className="bg-[#D7D8DA] border border-bm__btn__grey p-2 rounded lg:p-4 ">
-            Address
-          </p>
-          <p className="bg-[#D7D8DA] border border-bm__btn__grey p-2 rounded lg:p-4 ">
-            Education & Certification
-          </p>
-          <p className="bg-[#D7D8DA] border border-bm__btn__grey p-2 rounded lg:p-4 ">
-            Experience
-          </p>
-          <p className="bg-[#D7D8DA] border border-bm__btn__grey p-2 rounded lg:p-4 ">
-            Skills & Opportunities
-          </p>
-          <p className="bg-black text-white p-4">Socials</p>
+        <div className="flex justify-between font-medium text-[12px] my-2">
+          <div className="relative text-black flex items-center justify-center">
+            <p className="absolute top-[25%] text-[16px] z-20">Overview</p>
+            <img src={union} alt="" className=" z-10 w-[300px] h-[50px]" />
+          </div>
+          <div className=" relative text-black flex items-center justify-center">
+            <p className="absolute top-[25%] text-[16px] z-20">
+              {" "}
+              Personal Details
+            </p>
+            <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
+          </div>
+          <div className=" relative text-black flex items-center justify-center">
+            <p className="absolute top-[25%] text-[16px] z-20"> Address</p>
+            <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
+          </div>
+
+          <div className=" relative text-black flex items-center justify-center">
+            <p className="absolute top-[15%] text-[14px]  leading-4 z-20">
+              {" "}
+              Education & <br /> Certification
+            </p>
+            <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
+          </div>
+
+          <div className=" relative text-black flex items-center justify-center">
+            <p className="absolute top-[25%] text-[16px] z-20"> Experience</p>
+            <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
+          </div>
+
+          <div className=" relative text-black flex items-center justify-center">
+            <p className="absolute top-[15%] text-[14px] leading-4 z-20">
+              Skills &<br /> Opportunities
+            </p>
+            <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
+          </div>
+
+          <div className=" relative text-white flex items-center justify-center">
+            <p className="absolute top-[25%] text-[16px] z-20"> Socials</p>
+            <img src={subtract4} alt="" className=" z-10 w-[300px] h-[50px]" />
+          </div>
         </div>
-        <CardContent className="border rounded-xl  p-3 flex-1 flex flex-col  mt-3">
+        <CardContent className="border rounded-xl  p-8 flex-1 flex flex-col  mt-3">
           <p>Add your social handles to boost your profile.</p>
-          <Separator className=" my-3" />
+          <Separator className=" my-7 bg-[#D7D8DA]" />
           <div className="grid  md:gap-6 mt-4">
             <div className="relative  z-0 w-full mb-6 group">
               <input
@@ -144,7 +170,7 @@ export default function Social({
         </CardContent>
         <Progress value={100} className="my-2 md:my-7" />
 
-        <div className="flex flex-col md:flex-row justify-between mt-2 gap-4">
+        <div className="flex flex-col md:flex-row justify-between my-2 gap-4">
           <div className="flex gap-4">
             <Button className="light__btn max-w-[100px]" onClick={cancel}>
               Close
@@ -155,15 +181,14 @@ export default function Social({
           </div>
 
           <div className="flex gap-4">
-            <Button className="light__btn" onClick={create}>
-              Create
-            </Button>
-            <Button
-              className="dark__btn w-fit whitespace-nowrap"
-              onClick={next}
-            >
-              Save
-            </Button>
+            <Link to={"/dashboard"}>
+              <Button
+                className="dark__btn w-fit whitespace-nowrap"
+                // onClick={next}
+              >
+                Save
+              </Button>
+            </Link>
           </div>
         </div>
       </Card>

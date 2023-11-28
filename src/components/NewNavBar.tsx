@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog" 
+} from "../ui/dialog";
 import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +23,7 @@ import { Input } from "../ui/input";
 import logo from "../assets/download-logo.png";
 import avatar from "../assets/avatar.jpg";
 import { logout } from "../redux/user.slice";
-import logoutImg from "../assets/logout.png"
+import logoutImg from "../assets/logout.png";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/seperator";
 import { DialogClose } from "@radix-ui/react-dialog";
@@ -64,7 +64,7 @@ export default function NewNavBar() {
               </button>
             </div>
           </div>
-          <div className="hidden lg:flex items-center border rounded-md w-full px-3">
+          <div className="hidden lg:flex items-center border rounded-md w-[full] px-3">
             <AiOutlineSearch className="text-[15px] " />
             <Input
               className="border-0 focus:border-0 focus:ring-0 focus:outline-none "
@@ -199,5 +199,3 @@ export default function NewNavBar() {
     </div>
   );
 }
-
-
