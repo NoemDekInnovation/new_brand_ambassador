@@ -11,7 +11,6 @@ const instance = axios.create({
 
 export default instance;
 
-
 export const authAxiosInstance = axios.create({
   baseURL,
   headers: {
@@ -30,15 +29,13 @@ export const authAxiosInstance = axios.create({
 //   }
 // };
 
-
 export const campaignAuthAxiosInstance = axios.create({
   baseURL,
   headers: {
     "Content-Type": "application/json",
-    "Authorization": `Bearer ${""}`
+    Authorization: `Bearer ${""}`,
   },
 });
-
 
 export const registerUser = async (data, token) => {
   try {
@@ -69,7 +66,7 @@ export const registerAgency = async (data, token) => {
 export const multerAxiosInstance = axios.create({
   baseURL,
   headers: {
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json",
     Authorization: `Bearer ${""}`,
   },
 });
@@ -96,3 +93,14 @@ export const multerAxiosInstance = axios.create({
 //     return Promise.reject(error);
 //   }
 // );
+
+// export const loginUser = async (data) => {
+
+export const editadmin = async (data) => {
+  try {
+    const response = await multerAxiosInstance.patch("/edit-admin", data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

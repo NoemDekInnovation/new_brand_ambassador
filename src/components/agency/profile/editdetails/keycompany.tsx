@@ -24,6 +24,22 @@ export default function KeyCompany({
   keyCompany: {};
   setKeyCompany: React.Dispatch<React.SetStateAction<{}>>;
 }) {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyCompany({
+      ...keyCompany,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleInputFileChange = (event: { target: any }) => {
+    const selectedFile = event.target.files[0]; // Assuming you only allow single file uploads
+
+    // You can perform additional checks on the file if needed (e.g., file type, size)
+
+    // Display the selected file name or perform other actions
+    // console.log("Selected file:", file.name);
+  };
+
   return (
     <div className=" bg-[#F3F3F3]/30  px-4 md:px-12 xl:px-40 pt-10 mx-auto p-24 pb-0 overflow-hidden">
       <Card className="bg-white h-[85vh] p-2 md:p-4 flex justify-between gap-[24px] overflow-hidden ">
@@ -68,11 +84,18 @@ export default function KeyCompany({
             </div>
           </div>
           <CardContent className="border rounded-xl  p-8 flex-1 flex flex-col  mt-3 ">
-            <div className="pb-8">
-              <Input type="file" className="hidden pb-4" />
-              <div className="mt-3 border w-[120px] h-[150px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
+            <div className="pb-8 cursor-pointer">
+              <Input
+                type="file"
+                className="hidden pb-4"
+                onChange={handleInputFileChange}
+              />
+              <label
+                htmlFor="fileInput"
+                className="mt-3 border w-[120px] h-[150px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]"
+              >
                 Attach or drop photos here
-              </div>
+              </label>
             </div>
             <div className="relative  z-0 w-full mb-6 group">
               <input
@@ -82,7 +105,7 @@ export default function KeyCompany({
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 // value={formData.projectDuration.startDate}
-                // onChange={handleInputChange}
+                onChange={handleInputChange}
                 required
               />
               <label
@@ -100,7 +123,7 @@ export default function KeyCompany({
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 // value={formData.projectDuration.endDate}
-                // onChange={handleInputChange}
+                onChange={handleInputChange}
                 required
               />
               <label
@@ -118,7 +141,7 @@ export default function KeyCompany({
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 // value={formData.projectDuration.endDate}
-                // onChange={handleInputChange}
+                onChange={handleInputChange}
                 required
               />
               <label
@@ -136,7 +159,7 @@ export default function KeyCompany({
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 // value={formData.projectDuration.endDate}
-                // onChange={handleInputChange}
+                onChange={handleInputChange}
                 required
               />
               <label
@@ -154,7 +177,7 @@ export default function KeyCompany({
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 // value={formData.projectDuration.endDate}
-                // onChange={handleInputChange}
+                onChange={handleInputChange}
                 required
               />
               <label
