@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AgencyLayout } from "../Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import arrowIcon from "../../assets/teenyicons_down-solid.png";
@@ -14,9 +14,53 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "../../ui/menubar";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const Dashboard = () => {
   const [defaultTab, setDefaultTab] = useState("home");
+  const { activeProject } = useSelector(
+    (state: RootState) => state.activeProject
+  );
+  const { completeProject } = useSelector(
+    (state: RootState) => state.completeProject
+  );
+
+  const talentRef = useRef<HTMLParagraphElement>(null);
+  const projectsRef = useRef<HTMLParagraphElement>(null);
+  const handleTabClick = (tab: string) => {
+    if (tab === "Home") {
+      console.log(talentRef.current?.innerHTML);
+
+      if (talentRef.current) {
+        const element = talentRef.current as HTMLParagraphElement;
+        element.style.color = "#000000";
+        element.style.fontWeight = "500";
+        element.style.fontSize = "14px";
+      } else {
+        const element = talentRef.current as unknown as HTMLParagraphElement;
+        element.style.color = "#800000";
+        element.style.fontWeight = "600";
+        element.style.fontSize = "15px";
+      }
+    } else if (tab === "Talent") {
+      console.log(talentRef.current?.innerHTML);
+
+      if (talentRef.current) {
+        const element = talentRef.current as HTMLParagraphElement;
+        element.style.color = "#800000";
+        element.style.fontWeight = "600";
+        element.style.fontSize = "15px";
+      }
+    } else if (tab === "Projects") {
+      if (projectsRef.current) {
+        const element = projectsRef.current as HTMLParagraphElement;
+        element.style.color = "#800000";
+        element.style.fontWeight = "600";
+        element.style.fontSize = "15px";
+      }
+    }
+  };
 
   return (
     <AgencyLayout>
@@ -26,6 +70,7 @@ const Dashboard = () => {
             <TabsTrigger
               value="home"
               className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+              onClick={() => handleTabClick("Home")}
             >
               Home
             </TabsTrigger>
@@ -33,7 +78,7 @@ const Dashboard = () => {
               <MenubarMenu>
                 <MenubarTrigger className="border-0">
                   <div className="flex items-center space-x-3 cursor-pointer hover:underline">
-                    <p>Talent</p>
+                    <p ref={talentRef}>Talent</p>
                     {/* <TabsTrigger value="talent">Talent</TabsTrigger> */}
                     <img src={arrowIcon} alt="arrowicon" />
                   </div>
@@ -42,7 +87,8 @@ const Dashboard = () => {
                   <MenubarItem>
                     <TabsTrigger
                       value="talent"
-                      className="cursor-pointer hover:underline"
+                      className="cursor-pointer hover:underline w-full items-start justify-start"
+                      onClick={() => handleTabClick("Talent")}
                     >
                       Current Contracts
                     </TabsTrigger>
@@ -51,7 +97,8 @@ const Dashboard = () => {
                   <MenubarItem>
                     <TabsTrigger
                       value="talent"
-                      className="cursor-pointer hover:underline"
+                      className="cursor-pointer hover:underline w-full items-start justify-start"
+                      onClick={() => handleTabClick("Talent")}
                     >
                       Favourites
                     </TabsTrigger>
@@ -60,7 +107,8 @@ const Dashboard = () => {
                   <MenubarItem>
                     <TabsTrigger
                       value="talent"
-                      className="cursor-pointer hover:underline"
+                      className="cursor-pointer hover:underline w-full items-start justify-start"
+                      onClick={() => handleTabClick("Talent")}
                     >
                       Engaged Talent
                     </TabsTrigger>
@@ -69,7 +117,8 @@ const Dashboard = () => {
                   <MenubarItem>
                     <TabsTrigger
                       value="talent"
-                      className="cursor-pointer hover:underline"
+                      className="cursor-pointer hover:underline w-full items-start justify-start"
+                      onClick={() => handleTabClick("Talent")}
                     >
                       My Talent
                     </TabsTrigger>
@@ -81,26 +130,50 @@ const Dashboard = () => {
               <MenubarMenu>
                 <MenubarTrigger className="border-0">
                   <div className="flex items-center space-x-3 cursor-pointer hover:underline">
-                    <p>Projects</p>
+                    <p ref={projectsRef}>Projects</p>
                     {/* <TabsTrigger value="talent">Talent</TabsTrigger> */}
                     <img src={arrowIcon} alt="arrowicon" />
                   </div>
                 </MenubarTrigger>
                 <MenubarContent className="bg-white">
                   <MenubarItem className="hover:underline">
-                    <TabsTrigger value="projects">Active</TabsTrigger>
+                    <TabsTrigger
+                      value="projects"
+                      className="cursor-pointer hover:underline w-full items-start justify-start"
+                      onClick={() => handleTabClick("Projects")}
+                    >
+                      Active
+                    </TabsTrigger>
                   </MenubarItem>
                   <MenubarSeparator className="bg-bm__beige" />
                   <MenubarItem className="hover:underline">
-                    <TabsTrigger value="projects">Published</TabsTrigger>
+                    <TabsTrigger
+                      value="projects"
+                      className="cursor-pointer hover:underline w-full items-start justify-start"
+                      onClick={() => handleTabClick("Projects")}
+                    >
+                      Published
+                    </TabsTrigger>
                   </MenubarItem>
                   <MenubarSeparator className="bg-bm__beige" />
                   <MenubarItem className="hover:underline">
-                    <TabsTrigger value="projects">Completed</TabsTrigger>
+                    <TabsTrigger
+                      value="projects"
+                      className="cursor-pointer hover:underline w-full items-start justify-start"
+                      onClick={() => handleTabClick("Projects")}
+                    >
+                      Completed
+                    </TabsTrigger>
                   </MenubarItem>
                   <MenubarSeparator className="bg-bm__beige" />
                   <MenubarItem className="hover:underline">
-                    <TabsTrigger value="projects">Drafts</TabsTrigger>
+                    <TabsTrigger
+                      value="projects"
+                      className="cursor-pointer hover:underline w-full items-start justify-start"
+                      onClick={() => handleTabClick("Projects")}
+                    >
+                      Drafts
+                    </TabsTrigger>
                   </MenubarItem>
                 </MenubarContent>
               </MenubarMenu>
@@ -139,13 +212,17 @@ const Dashboard = () => {
           </TabsList>
           <div className="flex">
             <div className="flex items-center gap-2 mr-6">
-              <div className="text-white bg-bm__niv px-2 rounded-sm">5</div>
+              <div className="text-white bg-bm__niv px-2 rounded-sm">
+                {activeProject.length || 0}
+              </div>
               <p className="font-medium text-xs leading-[18px]">
                 Active Projects
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <div className="text-white bg-black px-2 rounded-sm">22</div>
+              <div className="text-white bg-black px-2 rounded-sm">
+                {completeProject.length || 0}
+              </div>
               <p className="font-medium text-xs leading-[18px]">
                 Completed Projects
               </p>

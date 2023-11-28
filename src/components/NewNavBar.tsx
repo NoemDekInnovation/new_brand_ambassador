@@ -41,8 +41,8 @@ export default function NewNavBar() {
   return (
     <div>
       <nav className="flex justify-between px-4  md:px-12 xl:px-40 items-center  text-[12px] font-medium bg-white py-7">
-        <div className="flex items-center gap-2 md:gap-8 w-full">
-          <div className="flex justify-between items-center w-full lg:w-fit">
+        <div className="flex items-center gap-2 md:gap-8 flex-1">
+          <div className="flex justify-between items-center lg:w-fit">
             <Link to="/dashboard">
               <img src={logo} style={{}} alt="logo" width={140} height={50} />
             </Link>
@@ -64,7 +64,7 @@ export default function NewNavBar() {
               </button>
             </div>
           </div>
-          <div className="hidden lg:flex items-center border rounded-md w-full px-3">
+          <div className="hidden lg:flex items-center border rounded-md w-full  px-3">
             <AiOutlineSearch className="text-[15px] " />
             <Input
               className="border-0 focus:border-0 focus:ring-0 focus:outline-none "
@@ -80,7 +80,7 @@ export default function NewNavBar() {
                 {" "}
                 <div className="flex items-center space-x-2 ml-4">
                   <img src={avatar} width={40} height={40} alt="" />
-                  <div className="flex flex-col">
+                  <div className="flex flex-col w-[47px] h-[30px]">
                     <p className="text-[12px] font-normal">
                       {user?.user?.firstName}
                     </p>

@@ -35,12 +35,35 @@ const getImageSrc = (projectType: any) => {
   }
 };
 
+enum projectColors {
+  green = "bg-bm__niv",
+  black = "bg-black",
+  orange = "bg-bm_card__orange",
+  grey = "bg-[#93979D]",
+}
+
+const getProjectColor = (type: ProjectType): string => {
+  switch (type) {
+    case "Active":
+      return projectColors.green;
+    case "Published":
+      return projectColors.orange;
+    case "Completed":
+      return projectColors.black;
+    case "Drafts":
+      return projectColors.grey;
+    default:
+      return "";
+  }
+};
+
 const ProjectType: React.FC<ProjectTypeProps> = ({
   name,
   count,
   onClick,
   isActive,
 }) => {
+  const backgroundColor = getProjectColor(name);
   return (
     <div
       className={`flex justify-between p-4 ${isActive ? "bg-black/10" : ""}`}
@@ -50,7 +73,11 @@ const ProjectType: React.FC<ProjectTypeProps> = ({
         <img src={getImageSrc(name)} alt="" />
         <p className="ml-4">{name}</p>
       </div>
-      <div className="text-white bg-bm__ox__red px-2 rounded-sm">{count}</div>
+      {/* <div className="text-white bg-bm__ox__red px-2 rounded-sm">{count}</div> */}
+      {/* <div className={`text-white ${projectColors[name]} px-2 rounded-sm`}> */}
+      <div className={`text-white ${backgroundColor} px-2 rounded-sm`}>
+        {count}
+      </div>
     </div>
   );
 };

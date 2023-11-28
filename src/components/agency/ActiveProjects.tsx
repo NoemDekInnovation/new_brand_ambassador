@@ -36,16 +36,16 @@ const ActiveProjects = () => {
     return (
       <Card className="p-4 hover:bg-black/10 cursor-pointer " key={idx}>
         <CardContent className="p-0 space-y-1">
-          <h3 className="font-medium text-[15px] ">
+          <h3 className="font-medium text-[15px] capitalize">
             {/* Project Name {"  "}(in-store){" "} */}
             {project.projectTitle}
           </h3>
-          <p className="font-normal text-[15px]">
+          <p className="font-normal text-[15px] capitalize">
             {/* This is the project description.. this is the project description */}
             {project.projectDescription}
           </p>
           <div className="flex md:space-x-2 text-bm__niv text-[10px] font-medium items-center flex-wrap">
-            <div className="text-[10px] font-medium">
+            <div className="text-[10px] font-medium capitalize">
               Project Code: {project.projectCode}
             </div>
             <div className="text-[15px] p-0 px-2">|</div>
@@ -58,7 +58,7 @@ const ActiveProjects = () => {
         </CardContent>
         <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
           <div className="flex md:space-x-2 text-bm__grey__text text-[10px] h-full flex-wrap  ">
-            <div className=" font-normal text-[8px]">
+            <div className=" font-normal text-[8px] capitalize">
               {/* Mon, Wed, Fri {"  "} */}
               {formatWorkingDaysS(project.workingDays)}
             </div>

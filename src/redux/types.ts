@@ -190,9 +190,9 @@ export interface ProjectPostProps {
 }
 
 export interface RequiredTalentsProps {
-  talentType: string;
-  qualification: string;
-  relevantSkills: string[];
+  opportunities: string;
+  qualifications: string;
+  skills: string[];
   paymentOptions: string;
   salary: string;
 

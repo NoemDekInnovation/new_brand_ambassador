@@ -68,23 +68,31 @@ export const registerAgency = async (data, token) => {
 
 export const multerAxiosInstance = axios.create({
   baseURL,
+  headers: {
+    "Content-Type": "multipart/form-data",
+    Authorization: `Bearer ${""}`,
+  },
 });
 
-multerAxiosInstance.interceptors.request.use(
-  async (config) => {
-    const accessToken = await useAuth();
+// export const multerAxiosInstance = axios.create({
+//   baseURL,
+// });
 
-    console.log("my token", accessToken);
+// multerAxiosInstance.interceptors.request.use(
+//   async (config) => {
+//     const accessToken = await useAuth();
 
-    if (accessToken) {
-      config.headers["Authorization"] = `Bearer ${accessToken}`;
-    }
+//     console.log("my token", accessToken);
 
-    // Set the Content-Type header to application/json
-    config.headers["Content-Type"] = "multipart/form-data";
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+//     if (accessToken) {
+//       config.headers["Authorization"] = `Bearer ${accessToken}`;
+//     }
+
+//     // Set the Content-Type header to application/json
+//     config.headers["Content-Type"] = "multipart/form-data";
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
