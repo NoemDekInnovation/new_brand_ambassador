@@ -69,10 +69,20 @@ export const registerAgency = async (data, token) => {
 export const multerAxiosInstance = axios.create({
   baseURL,
   headers: {
-    "Content-Type": "multipart/form-data",
+    // "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json", 
     Authorization: `Bearer ${""}`,
   },
 });
+
+export const patchAxiosInstance = axios.create({
+  baseURL,
+  headers: {
+    "Content-Type": "'multipart/form-data'",
+    Authorization: `Bearer ${""}`,
+  },
+});
+
 
 // export const multerAxiosInstance = axios.create({
 //   baseURL,
