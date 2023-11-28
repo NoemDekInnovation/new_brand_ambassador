@@ -483,7 +483,8 @@ export default function NewProject({
 
   const submitHandler = async (isDraft: boolean) => {
     setIsLoading(true);
-    const createProject = new FormData()
+    const createProject = new FormData();
+    // createProject.append("")
   }
   
 
