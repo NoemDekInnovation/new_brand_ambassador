@@ -79,7 +79,7 @@ export default function Skills({
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] py-10">
       {/* <div className='fixed top-0 h-screen w-screen bg-[#F3F3F3]/30 z-[1000] mt-[20vh] px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'> */}
-      <Card className="bg-white  h-full p-2 md:p-4 flex-col flex">
+      <Card className="bg-white  h-full p-2 md:p-4 flex-col flex overflow-y-scroll">
         <div className="flex justify-between font-medium text-[12px] my-2">
           <div className="relative text-black flex items-center justify-center">
             <p className="absolute top-[25%] text-[16px] z-20">Overview</p>
@@ -152,7 +152,7 @@ export default function Skills({
                 </label>
                 <ul className="flex flex-wrap max-w-md">
                   {skillsData.map((data, index) => (
-                    <li className="p-2 flex items-center" key={index}>
+                    <li className="p-2 flex items-center " key={index}>
                       <p className="flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 dark__btn max-w-[200px] cursor-pointer">
                         {data}{" "}
                         <GrFormClose
