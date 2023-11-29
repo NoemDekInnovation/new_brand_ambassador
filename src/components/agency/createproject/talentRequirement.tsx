@@ -51,6 +51,7 @@ export default function TalentRequirement({
   useEffect(() => {
     localStorage.setItem("proposal", proposal);
     if (document) {
+      
       // Convert the File object to a data URL and save it
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -68,7 +69,8 @@ export default function TalentRequirement({
       const selectedFile = Array.from(files);
       setDocument(selectedFile[0]);
     }
-  };
+  }; 
+  
 
   const handleDivClick = () => {
     // Trigger a click event on the hidden input
