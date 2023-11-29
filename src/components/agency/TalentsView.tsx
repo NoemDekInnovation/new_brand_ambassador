@@ -901,8 +901,8 @@ export default function TalentsView({
                     onTalentTypeChnage={onTalentTypeChnage}
                   />
                   <Card>
-                    <CardContent className="py-3 md:py-6 space-y-3">
-                      <div className="flex flex-col ">
+                    <CardContent className="py-3 md:py-6 space-y-3 overflow-y-scroll h-[30vh]">
+                      <div className="flex flex-col">
                         <p>Gender</p>
                         <Separator className="bg-bm__beige" />
                         {/* <RadioGroup value={selectedGender} onChange={handleGenderChange}></RadioGroup> */}

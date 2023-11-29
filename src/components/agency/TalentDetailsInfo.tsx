@@ -94,27 +94,24 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   const { talents: resTalents } = useSelector(
     (state: RootState) => state.talent
   );
+  console.log(resTalents);
 
-  // useEffect(() => {
-  //     const fetchTalents = async () => {
-  //         if (user?.accountId) {
-  //             if (activeType === "My Talents") {
-  //                 dispatch(fetchTalents)
-  //             } else if (activeType === "Current Contacts") {
-
-  //             } else if (activeType === "All Talents") {
-
-  //             } else if (activeType === "Engaged") {
-
-  //             } else if (activeType === "Favorites") {
-
-  //             } else {
-  //                 console.log("No data yet")
-  //             }
-  //         }
-  //     }
-  //     fetchTalents();
-  // }, [activeType]);
+  useEffect(() => {
+    const fetchTalents = async () => {
+      if (user?.accountId) {
+        if (activeType === "My Talents") {
+          dispatch(fetchTalents);
+        } else if (activeType === "Current Contacts") {
+        } else if (activeType === "All Talents") {
+        } else if (activeType === "Engaged") {
+        } else if (activeType === "Favorites") {
+        } else {
+          console.log("No data yet");
+        }
+      }
+    };
+    fetchTalents();
+  }, [activeType]);
 
   const handleInvite = async () => {
     setIsLoading(true);

@@ -34,7 +34,8 @@ export const fetchTalents = createAsyncThunk(
   "categories/fetchTalents",
   async (url: string) => {
     try {
-      const response = await authAxiosInstance(`/${url}/agency-talent`);
+      const response = await authAxiosInstance(`/${url}/all-talents`);
+      // console.log(response, "my");
 
       return response.data.data;
     } catch (error) {
