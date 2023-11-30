@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MainLayout } from "../../Layout";
 import { Card } from "../../../ui/card";
 import { Separator } from "../../../ui/seperator";
@@ -11,8 +11,55 @@ import { TiContacts } from "react-icons/ti";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
 import { MdPayments, MdSettings } from "react-icons/md";
 import addButton from "../../../assets/Add Button.png";
+import { patchAxiosInstance } from "../../../api/axios";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 const AgencyProfile = () => {
+  const { user } = useSelector((state: RootState) => state.user);
+
+  const [profileData, setProfileData] = useState({
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    email: "",
+    phone: "",
+    profilePic: "",
+    companyLogo: "",
+    agencyName: "",
+    agencyType: "",
+    officePhone: "",
+    website: "",
+    address: [
+      {
+        street: "",
+        city: "",
+        LGA: "",
+        state: "",
+        zipCode: "",
+      },
+    ],
+  });
+
+  useEffect(() => {
+    const updateProfile = async () => {
+      if (user?.accountId !== undefined) {
+        try {
+          const response = await patchAxiosInstance.get(`/get-agency-profile`, {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ""}`,
+            },
+          });
+          setProfileData(response.data.data);
+          // Handle the response here if needed
+        } catch (error) {
+          // Handle errors here
+        }
+      }
+    };
+    updateProfile();
+  }, []);
+
   return (
     <MainLayout>
       <div className="flex overflow-hidden  bg-bm_card_gray">
@@ -59,8 +106,8 @@ const AgencyProfile = () => {
                   <div className=" flex w-full gap-4 h-fit">
                     <div className="flex-1 flex flex-col gap-2">
                       <div className="flex w-full  justify-between items-center ">
-                        <p className="text-[15px] font-bold">
-                          Noah Samuel Omolola
+                        <p className="text-[15px] font-bold capitalize">
+                          {profileData.firstName} {profileData.lastName}
                         </p>
                         <div className="flex items-center gap-2 bg-[#93979D] text-white p-2 rounded-md">
                           <RiEdit2Fill />
@@ -80,21 +127,24 @@ const AgencyProfile = () => {
                           <RiEdit2Fill className="cursor-pointer" />
                         </div>
                         <Separator className="bg-bm__gler/50" />
-                        <div className="h-[150px] w-[120px] bg-green-200 rounded-md">
-                          <img src={Pic} alt="img" />
+                        <div className="h-[150px] w-[120px] rounded-md">
+                          <img src={profileData.profilePic} alt="img" />
                         </div>
                         <div className="text-[12px] font-normal gap-2 flex flex-col">
                           <div className="pt-20 flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               First Name:
                             </p>
-                            <p className="">Noah</p>
+                            {/* <p className="">Noah</p> */}
+                            <p className="capitalize">
+                              {profileData.firstName}
+                            </p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               Last Name:
                             </p>
-                            <p className="">Samuel</p>
+                            <p className="capitalize">{profileData.lastName}</p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
@@ -106,13 +156,13 @@ const AgencyProfile = () => {
                             <p className="w-[120px] text-[12px] font-semibold">
                               Email Address:
                             </p>
-                            <p className="">-</p>
+                            <p className="">{profileData.email}</p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               Phone Number:
                             </p>
-                            <p className="">-</p>
+                            <p className="">{profileData.phone}</p>
                           </div>
                         </div>
                       </Card>
@@ -130,8 +180,8 @@ const AgencyProfile = () => {
                           <RiEdit2Fill />
                         </div>
                         <Separator className="bg-bm__gler/50" />
-                        <div className="h-[150px] w-[120px] bg-green-200 rounded-md">
-                          {" "}
+                        <div className="h-[150px] w-[120px] rounded-md">
+                          <img src={profileData.companyLogo} alt="img" />
                         </div>
                         <div className="text-[12px] font-normal gap-2 flex flex-col">
                           <div className="text-[12px] font-normal gap-2 flex flex-col">
@@ -139,13 +189,13 @@ const AgencyProfile = () => {
                               <p className="w-[120px] text-[12px] font-semibold">
                                 Agency Name:
                               </p>
-                              <p className="">Noah</p>
+                              <p className="">{profileData.agencyName}</p>
                             </div>
                             <div className="flex items-center">
                               <p className="w-[120px] text-[12px] font-semibold">
                                 Agency Type:
                               </p>
-                              <p className="">Samuel</p>
+                              <p className="">{profileData.agencyType}</p>
                             </div>
                             <div className="flex items-center">
                               <p className="w-[120px] text-[12px] font-semibold">
@@ -157,13 +207,13 @@ const AgencyProfile = () => {
                               <p className="w-[120px] text-[12px] font-semibold">
                                 Phone Number:
                               </p>
-                              <p className="">-</p>
+                              <p className="">{profileData.officePhone}</p>
                             </div>
                             <div className="flex items-center">
                               <p className="w-[120px] text-[12px] font-semibold">
                                 Website:
                               </p>
-                              <p className="">-</p>
+                              <p className="">{profileData.website}</p>
                             </div>
                           </div>
                           <div className="flex">
@@ -171,14 +221,11 @@ const AgencyProfile = () => {
                               Office Address 1:
                             </p>
                             <p className="">
-                              1b, Rosewood Close, Off Royal-Palm Drive, <br />
-                              Osborne Forseshore Estate Phase 2, <br />
-                              Ikoyi L.G.A
-                              <br />
-                              Lagos State
-                              <br />
-                              233312
-                              <br />
+                              {profileData.address[0].street}, <br />
+                              {profileData.address[0].city}, <br />
+                              {profileData.address[0].LGA}, <br />
+                              {profileData.address[0].state} <br />
+                              {profileData.address[0].zipCode}
                             </p>
                           </div>
                         </div>
