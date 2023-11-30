@@ -7,6 +7,10 @@ import { MdPayments, MdSettings } from "react-icons/md";
 import darkUnion from "../../../../assets/long_union_2.png";
 import subtract from "../../../../assets/long_subtract2.png";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
+import { patchAxiosInstance } from "../../../../api/axios";
 
 export default function CompanyDetails({
   cancel,
@@ -17,6 +21,112 @@ export default function CompanyDetails({
   prev: () => void;
   cancel: () => void;
 }) {
+  const { user } = useSelector((state: RootState) => state.user);
+
+  const [loading, setLoading] = useState(false);
+  const [companyProfile, setCompanyProfile] = useState({
+    agencyType: "",
+    officePhone: "",
+    companyLogo: null as File | null,
+    website: "",
+    address: [
+      {
+        street: "",
+        city: "",
+        LGA: "",
+        state: "",
+        zipCode: "",
+      },
+    ],
+  });
+
+  const handleEditCompany = async () => {
+    setLoading(true);
+    const companyData = new FormData();
+    companyData.append("agencyType", companyProfile.agencyType);
+    companyData.append("officePhone", companyProfile.officePhone);
+    if (companyProfile.companyLogo !== null) {
+      companyData.append("companyLogo", companyProfile.companyLogo);
+    }
+    companyData.append("website", companyProfile.website);
+    companyProfile.address.forEach((address, index) => {
+      companyData.append(`address[${index}][street]`, address.street);
+      companyData.append(`address[${index}][city]`, address.city);
+      companyData.append(`address[${index}][LGA]`, address.LGA);
+      companyData.append(`address[${index}][state]`, address.state);
+      companyData.append(`address[${index}][zipCode]`, address.zipCode);
+    });
+
+    if (user?.accountId !== undefined) {
+      try {
+        const response = await patchAxiosInstance.patch(
+          `/agency-details`,
+          companyData,
+          {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ""}`,
+            },
+          }
+        );
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
+    }
+  };
+
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    // For nested fields
+    if (name.startsWith("address.")) {
+      // Extract the nested field name (e.g., city, street, LGA, etc.)
+      const addressField = name.split(".")[1];
+
+      // Update the state for the nested field
+      setCompanyProfile({
+        ...companyProfile,
+        address: [
+          {
+            ...companyProfile.address[0],
+            [addressField]: value,
+          },
+        ],
+      });
+    } else {
+      // For non-nested fields
+      setCompanyProfile({
+        ...companyProfile,
+        [name]: value,
+      });
+    }
+  };
+
+
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, files } = e.target;
+
+  if (files?.length) {
+    const selectedFiles = Array.from(files);
+    console.log("Selected File:", selectedFiles[0]);
+
+    
+    setCompanyProfile({
+      ...companyProfile,
+      [name]: selectedFiles[0],
+    });
+    console.log("Updated Company Profile:", companyProfile);
+  }
+};
+
+
+  const imageUrl = companyProfile.companyLogo
+    ? URL.createObjectURL(companyProfile.companyLogo)
+    : null;
+
+  console.log("Image URL:", imageUrl);
+
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 pt-10 mx-auto p-24 overflow-hidden pb-0">
       <Card className="bg-white  h-[83vh] p-2 md:p-4  flex justify-between gap-[24px] overflow-hidden">
@@ -66,16 +176,38 @@ export default function CompanyDetails({
           </div>
           <CardContent className="border rounded-xl  p-8 flex-1 flex flex-col  mt-3 ">
             <div className="pb-8">
-              <Input type="file" className="hidden pb-4" />
+              {/* <Input type="file" className="hidden pb-4" />
               <div className="mt-3 border w-[120px] h-[150px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
                 Attach or drop photos here
-              </div>
+              </div> */}
+              <label htmlFor="picture" className="cursor-pointer">
+                <Input
+                  id="picture"
+                  type="file"
+                  className="pb-4"
+                  onChange={handleFileChange}
+                  name="companyLogo"
+                  style={{ display: "none" }}
+                />
+                <div className="mt-3 border w-[120px] h-[150px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
+                  {/* Attach or drop photos here */}
+                  {imageUrl ? (
+                    <img
+                      src={imageUrl}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    "Attach or drop photos here"
+                  )}
+                </div>
+              </label>
             </div>
             <div className="relative  z-0 w-full mb-6 group">
               <input
                 type="text"
-                name="floating_first_name"
-                id="floating_first_name"
+                name="agencyName"
+                id="agencyName"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 // value={formData.projectDuration.startDate}
@@ -92,12 +224,14 @@ export default function CompanyDetails({
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
-                name="floating_last_name"
-                id="floating_last_name"
+                name="agencyType"
+                id="agencyType"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 // value={formData.projectDuration.endDate}
                 // onChange={handleInputChange}
+                value={companyProfile.agencyType}
+                onChange={handleInputChange}
                 required
               />
               <label
@@ -128,12 +262,14 @@ export default function CompanyDetails({
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
-                name="floating_last_name"
-                id="floating_last_name"
+                name="officePhone"
+                id="officePhone"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 // value={formData.projectDuration.endDate}
                 // onChange={handleInputChange}
+                value={companyProfile.officePhone}
+                onChange={handleInputChange}
                 required
               />
               <label
@@ -141,6 +277,27 @@ export default function CompanyDetails({
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Office Nmber
+              </label>
+            </div>
+
+            <div className="relative z-0 w-full mb-6 group">
+              <input
+                type="text"
+                name="website"
+                id="website"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                // value={formData.projectDuration.endDate}
+                // onChange={handleInputChange}
+                value={companyProfile.website}
+                onChange={handleInputChange}
+                required
+              />
+              <label
+                htmlFor="floating_last_name"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Website
               </label>
             </div>
             <div className="relative z-0 w-full mb-6 group">
@@ -152,6 +309,8 @@ export default function CompanyDetails({
                 placeholder=" "
                 // value={formData.projectDuration.endDate}
                 // onChange={handleInputChange}
+                value={companyProfile.officePhone}
+                onChange={handleInputChange}
                 required
               />
               <label
@@ -165,12 +324,14 @@ export default function CompanyDetails({
               <div className="relative md:col-span-4  z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_first_name"
+                  name="address.street"
                   id="floating_first_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   // value={formData.projectDuration.startDate}
                   // onChange={handleInputChange}
+                  value={companyProfile.address[0].street}
+                  onChange={handleInputChange}
                   required
                 />
                 <label
@@ -184,16 +345,18 @@ export default function CompanyDetails({
               <div className="relative md:col-span-1 z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_last_name"
-                  id="floating_last_name"
+                  name="address.city"
+                  id="floating_first_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   // value={formData.projectDuration.endDate}
                   // onChange={handleInputChange}
+                  value={companyProfile.address[0].city}
+                  onChange={handleInputChange}
                   required
                 />
                 <label
-                  htmlFor="floating_last_name"
+                  htmlFor="floating_first_name"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   City
@@ -204,12 +367,14 @@ export default function CompanyDetails({
               <div className="relative md:col-span-1  z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_first_name"
+                  name="address.LGA"
                   id="floating_first_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   // value={formData.projectDuration.startDate}
                   // onChange={handleInputChange}
+                  value={companyProfile.address[0].LGA}
+                  onChange={handleInputChange}
                   required
                 />
                 <label
@@ -223,16 +388,18 @@ export default function CompanyDetails({
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_last_name"
-                  id="floating_last_name"
+                  name="address.state"
+                  id="floating_first_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   // value={formData.projectDuration.endDate}
                   // onChange={handleInputChange}
+                  value={companyProfile.address[0].state}
+                  onChange={handleInputChange}
                   required
                 />
                 <label
-                  htmlFor="floating_last_name"
+                  htmlFor="floating_first_name"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   State
@@ -241,16 +408,18 @@ export default function CompanyDetails({
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_last_name"
-                  id="floating_last_name"
+                  name="address.zipCode"
+                  id="floating_first_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   // value={formData.projectDuration.endDate}
                   // onChange={handleInputChange}
+                  value={companyProfile.address[0].zipCode}
+                  onChange={handleInputChange}
                   required
                 />
                 <label
-                  htmlFor="floating_last_name"
+                  htmlFor="floating_first_name"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Zip Code
@@ -275,6 +444,7 @@ export default function CompanyDetails({
                 <Button
                   className="dark__btn w-fit whitespace-nowrap"
                   // onClick={next}
+                  onClick={handleEditCompany}
                 >
                   Save
                 </Button>
