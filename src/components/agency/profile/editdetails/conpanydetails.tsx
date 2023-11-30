@@ -176,10 +176,6 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           </div>
           <CardContent className="border rounded-xl  p-8 flex-1 flex flex-col  mt-3 ">
             <div className="pb-8">
-              {/* <Input type="file" className="hidden pb-4" />
-              <div className="mt-3 border w-[120px] h-[150px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
-                Attach or drop photos here
-              </div> */}
               <label htmlFor="picture" className="cursor-pointer">
                 <Input
                   id="picture"

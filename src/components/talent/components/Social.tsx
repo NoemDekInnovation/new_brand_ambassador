@@ -8,6 +8,10 @@ import subtract4 from "../../../assets/Subtract4.png";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { MdPayments, MdSettings } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { useState } from "react";
+import { patchAxiosInstance } from "../../../api/axios";
 
 export default function Social({
   next,
@@ -18,6 +22,49 @@ export default function Social({
   prev: () => void;
   cancel: () => void;
 }) {
+    const { user } = useSelector((state: RootState) => state.user);
+
+    const [loading, setLoading] = useState(false);
+    const [socials, setSocials] = useState({
+      facebook: "",
+      twitter: "",
+      instagram: "",
+      linkedin: ""
+    })
+
+    const handleInputChange = (name: string, value: string) => {
+      setSocials((prevSocials) => ({
+        ...prevSocials,
+        [name]: value,
+      }));
+    };
+
+    const handleSocial = async () => {
+    setLoading(true);
+    const socialsFormData = new FormData();
+
+    Object.entries(socials).forEach(([key, value]) => {
+      socialsFormData.append(`socials[${key}]`, value);
+    });
+
+            if (user?.accountId !== undefined) {
+              try {
+                const response = await patchAxiosInstance.patch(
+                  `/profile-details`,
+                  socialsFormData,
+                  {
+                    headers: {
+                      Authorization: `Bearer ${user.authKey || ""}`,
+                    },
+                  }
+                );
+                setLoading(false);
+              } catch (error) {
+                setLoading(false);
+              }
+            }
+    }
+
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">
       {/* <div className='fixed top-0 h-screen w-screen bg-[#F3F3F3]/30 z-[1000] mt-[20vh] px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'> */}
