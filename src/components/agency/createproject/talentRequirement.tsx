@@ -51,6 +51,7 @@ export default function TalentRequirement({
   useEffect(() => {
     localStorage.setItem("proposal", proposal);
     if (document) {
+      
       // Convert the File object to a data URL and save it
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -68,14 +69,13 @@ export default function TalentRequirement({
       const selectedFile = Array.from(files);
       setDocument(selectedFile[0]);
     }
-  };
+  }; 
+  
 
   const handleDivClick = () => {
     // Trigger a click event on the hidden input
     fileInputRef?.current?.click();
   };
-
-
 
   return (
     // <div className="px-4 pb-4  md:px-12 xl:px-40">
@@ -147,7 +147,7 @@ export default function TalentRequirement({
             {/* <p className="text-[15px] font-medium  mb-3">Project Title</p> */}
 
             <p className="text-[15px] font-medium  mb-3">
-              Proposal Requirements
+              Application Requirements
             </p>
 
             <Textarea
@@ -163,7 +163,10 @@ export default function TalentRequirement({
               className="light__btn max-w-[200px] mt-4"
               onClick={handleDivClick}
             >
-              Attach file
+              <div className="flex items-center gap-1">
+                <ImAttachment className="text-[16px]" />
+                Attach file
+              </div>
             </Button>
             <Input
               type="file"

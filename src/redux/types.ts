@@ -190,9 +190,9 @@ export interface ProjectPostProps {
 }
 
 export interface RequiredTalentsProps {
-  talentType: string;
-  qualification: string;
-  relevantSkills: string[];
+  opportunities: string;
+  qualifications: string;
+  skills: string[];
   paymentOptions: string;
   salary: string;
 
@@ -283,3 +283,10 @@ export interface favProp {
 }
 
 export type DayOfWeek = "S" | "M" | "T" | "W" | "T" | "F" | "S" | string;
+
+export type editAdmin = {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  profilePic: string;
+};

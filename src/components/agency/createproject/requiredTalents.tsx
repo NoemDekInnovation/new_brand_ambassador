@@ -5,7 +5,7 @@ import { Button } from "../../../ui/button";
 import { Card, CardContent } from "../../../ui/card";
 import { Separator } from "../../../ui/seperator";
 import React, { useEffect, useState, useRef } from "react";
-import Select, {SingleValue} from "react-select";
+import Select, { SingleValue } from "react-select";
 import makeAnimated from "react-select/animated";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -64,14 +64,13 @@ export default function RequiredTalents({
   setRequiredTalents: any;
   requiredTalents: RequiredTalentsProps[];
 }) {
-
   const handleAddTalentType = () => {
     setRequiredTalents([
       ...requiredTalents,
       {
-        talentType: "",
-        qualification: "",
-        relevantSkills: [],
+        opportunities: "",
+        qualifications: "",
+        skills: [],
       },
     ]);
   };
@@ -95,7 +94,7 @@ export default function RequiredTalents({
   ) => {
     if (value !== null) {
       const updatedTalentType = [...requiredTalents];
-      updatedTalentType[index].talentType = value.value;
+      updatedTalentType[index].opportunities = value.value;
       setRequiredTalents(updatedTalentType);
     }
   };
@@ -106,26 +105,22 @@ export default function RequiredTalents({
   ) => {
     if (value !== null) {
       const updatedTalentType = [...requiredTalents];
-      updatedTalentType[index].qualification = value.value;
+      updatedTalentType[index].qualifications = value.value;
       setRequiredTalents(updatedTalentType);
     }
   };
 
-
-
-
-
   const talentOptions = [
-    { label: "Brand Ambassador", value: "brand ambassador" },
+    { label: "Brand Ambassador", value: "ba" },
     { label: "Supervisor", value: "supervisor" },
     { label: "Usher", value: "usher" },
   ];
 
-    const qualificationOptions = [
-      { label: "Bachelors Degree", value: "Bachelors Degree" },
-      { label: "Masters Degree", value: "Masters Degree" },
-      { label: "Secondary School", value: "Secondary School" },
-    ];
+  const qualificationOptions = [
+    { label: "Bachelors Degree", value: "Bachelors Degree" },
+    { label: "Masters Degree", value: "Masters Degree" },
+    { label: "Secondary School", value: "Secondary School" },
+  ];
 
   const { loading, skills, error, skillsFetchSucess } = useSelector(
     (state: any) => state.skills
@@ -141,15 +136,14 @@ export default function RequiredTalents({
   const [skillStore, setSkillStore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-      const savedRequiredTalent =
-        typeof window !== undefined && localStorage.getItem("requiredTalent");
-      if (savedRequiredTalent) {
-        setRequiredTalents(JSON.parse(savedRequiredTalent));
-      }
-      console.log(savedRequiredTalent);
-    }, []);
-
+  useEffect(() => {
+    const savedRequiredTalent =
+      typeof window !== undefined && localStorage.getItem("requiredTalent");
+    if (savedRequiredTalent) {
+      setRequiredTalents(JSON.parse(savedRequiredTalent));
+    }
+    console.log(savedRequiredTalent);
+  }, []);
 
   const [repeat, setFormRepeat] = useState([
     { talent: "", qualifications: "", skills: [], skillStore: false },
@@ -159,6 +153,11 @@ export default function RequiredTalents({
     setSkillData([...skillData, id]);
     setSkillStore(false);
     console.log(id);
+    if (id !== null) {
+      const updatedExperiences = [...requiredTalents];
+      updatedExperiences[index].skills.push(id);
+      setRequiredTalents(updatedExperiences);
+    }
   };
 
   const handleSkillDelete = (index: number) => {
@@ -198,14 +197,14 @@ export default function RequiredTalents({
   //   dispatch(fetchSkills(example));
   // }, [example]);
 
-    useEffect(() => {
-      const fetchData = async () => {
-        await dispatch(fetchSkills(example));
-        setIsLoading(false);
-      };
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchSkills(example));
+      setIsLoading(false);
+    };
 
-      fetchData();
-    }, [example, dispatch]);
+    fetchData();
+  }, [example, dispatch]);
 
   return (
     // <div className="px-4 pb-4  md:px-12 xl:px-40 ">
@@ -382,7 +381,7 @@ export default function RequiredTalents({
     //   </Card>
     // </div>
     <div className="px-4 pb-4  md:px-12 xl:px-40">
-      <Card className="p-4 md:p-8  bg-white">
+      <Card className="p-4 md:p-8  bg-white overflow-y-scroll h-[83vh]">
         <ChevBackground
           text="Specify the talent you want and the skills required"
           stage="3"
@@ -416,7 +415,7 @@ export default function RequiredTalents({
                           {errors.opportunities.message}
                         </p>
                       )}
-                      <p className="text-[12px] text-bm__btn__grey">
+                      <p className="text-[12px] text-bm__btn__grey pl-2">
                         E.g, Supervisor, Brand Ambassador, Usher, etc.
                       </p>
                     </div>
@@ -471,7 +470,7 @@ export default function RequiredTalents({
                               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                               onChange={(e) => {
                                 setExample(e.target.value);
-                                handleInputChange(e, index);
+                                // handleInputChange(e, index);
                               }}
 
                               // value={example}
@@ -495,7 +494,7 @@ export default function RequiredTalents({
                             ))}
                           </ul> */}
                           <ul className="flex flex-wrap max-w-md">
-                            {talent?.relevantSkills?.map((d, index) => (
+                            {talent?.skills?.map((d, index) => (
                               <li className="p-2 flex items-center" key={index}>
                                 <p className="flex items-center whitespace-nowrap justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 dark__btn max-w-[200px] cursor-pointer">
                                   {d}

@@ -248,7 +248,6 @@
 //   );
 // }
 
-
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import GetStarted from "./GetStarted";
 import AboutProject from "./aboutProject";
@@ -263,11 +262,10 @@ import { useForm } from "react-hook-form";
 import { DayOfWeek, RequiredTalentsProps } from "../../../redux/types";
 
 import { useDispatch, useSelector } from "react-redux";
- import { AppDispatch, RootState } from "../../../redux/store";
- import { fetchSkills, SkillsStateProps } from "../../../redux/skills.slice";
-import { multerAxiosInstance } from "../../../api/axios";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { fetchSkills, SkillsStateProps } from "../../../redux/skills.slice";
+import { campaignAuthAxiosInstance, multerAxiosInstance, patchAxiosInstance } from "../../../api/axios";
 // import Loading from "../../../components/l";
-
 
 const aboutProjectSchema = z.object({
   projectTitle: z.string(),
@@ -325,14 +323,15 @@ export default function NewProject({
     RequiredTalentsProps[]
   >([
     {
-      talentType: "",
-      qualification: "",
-      relevantSkills: [],
+      opportunities: "",
+      qualifications: "",
+      skills: [],
 
       paymentOptions: "",
       salary: "",
     },
   ]);
+  console.log(requiredTalents);
 
   const [workDays, setWorkDays] = useState<DayOfWeek[]>([]);
   const [proposal, setProposal] = useState("");
@@ -360,7 +359,7 @@ export default function NewProject({
 
   const handleStepChange = (step: string) => {
     setCurrentStep(step);
-    console.log(step)
+    console.log(step);
   };
 
   const {
@@ -373,14 +372,11 @@ export default function NewProject({
     resolver: zodResolver(aboutProjectSchema),
   });
 
-  // const saveData = () => {
-  //   const formData = getValues();
-  //   localStorage.setItem(currentStep, JSON.stringify(formData));
-  // };
-
-  const submitHandler = async (isDraft: boolean) => {
+const submitHandler = async (isDraft: boolean) => {
+  try {
     setIsLoading(true);
-    const payload: any = {
+
+    const payload = {
       draft: isDraft,
       projectTitle: aboutProject.projectTitle,
       projectCategory: aboutProject.projectCategory,
@@ -388,68 +384,77 @@ export default function NewProject({
       projectLocation: aboutProject.projectLocation,
       projectDescription: aboutProject.projectDescription,
       projectRequirements: proposal,
-
       projectDuration: {
         startDate: aboutProject.startDate,
         endDate: aboutProject.endDate,
       },
-
       talent: requiredTalents,
       workingDays: workDays,
       projectPost: projectPost,
     };
-    try {
-      const formData = new FormData();
-      const handleData = (data: any, parentKey: any) => {
-        for (const key in data) {
-          const value = data[key];
-          const newKey = parentKey ? `${parentKey}[${key}]` : key;
 
-          if (Array.isArray(value)) {
-            value.forEach((item, index) => {
-              const itemKey = `${newKey}[${index}]`;
-              if (typeof item === "object") {
-                handleData(item, itemKey);
-              } else {
-                formData.append(itemKey, item);
-              }
-            });
-          } else if (typeof value === "object") {
-            handleData(value, newKey);
-          } else {
-            formData.append(newKey, value);
+    const formData = new FormData();
+        console.log("FORMDATA", formData);
+    appendDataToFormData(payload, formData);
+    formData.append("document", document);
+
+    if (user?.accountId !== undefined) {
+      try {
+        const response = await patchAxiosInstance.post(
+          `/create-project`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ""}`,
+            },
           }
-        }
-      };
+        );
 
-      handleData(payload, null);
-      formData.append("document", document);
+        console.log("response", response);
 
-      if (user?.accountId !== undefined) {
-        try {
-          const response = await multerAxiosInstance.post(
-            `/${user?.accountId}/create-project`,
-            formData
-          );
-          console.log(response);
-
-          setSuccessModal(true);
-          setTimeout(() => {
-            cancelProject();
-          }, 3000);
-          // setLoading(false);
-        } catch (error: any) {
-          // setLoading(false);
-          console.log(error);
-        }
+        setSuccessModal(true);
+        setTimeout(() => {
+          cancelProject();
+        }, 3000);
+      } catch (error) {
+        console.error("Error while posting data:", error);
+        // Handle error appropriately (e.g., show a user-friendly message)
       }
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-
-      console.log(error);
     }
-  };
+  } catch (error) {
+    console.error("Unexpected error:", error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+const appendDataToFormData = (
+  data: any,
+  formData: FormData,
+  parentKey = ""
+) => {
+  for (const key in data) {
+    const value = data[key];
+    const newKey = parentKey ? `${parentKey}[${key}]` : key;
+
+    if (Array.isArray(value)) {
+      value.forEach((item, index) => {
+        const itemKey = `${newKey}[${index}]`;
+        if (typeof item === "object") {
+          appendDataToFormData(item, formData, itemKey);
+        } else {
+          formData.append(itemKey, item);
+        }
+      });
+    } else if (typeof value === "object") {
+      appendDataToFormData(value, formData, newKey);
+    } else {
+      formData.append(newKey, value);
+    }
+  }
+};
+
+
 
   return (
     <>
@@ -532,3 +537,6 @@ export default function NewProject({
     </>
   );
 }
+
+
+
