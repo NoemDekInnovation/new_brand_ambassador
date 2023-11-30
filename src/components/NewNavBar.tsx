@@ -82,7 +82,7 @@ export default function NewNavBar() {
                   <img src={avatar} width={40} height={40} alt="" />
                   <div className="flex flex-col w-[47px] h-[30px]">
                     <p className="text-[12px] font-normal">
-                      {user?.user?.firstName}
+                      {user?.user?.firstName || user?.user?.agencyName}
                     </p>
 
                     <p
