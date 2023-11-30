@@ -429,165 +429,165 @@ export default function TalentsView({
                 : "translate-y-[1000px] opacity-0 h-0"
             }`}
           >
-            <div className="bg-white w-[90vw] min-h-[80vh] p-3 md:p-6 rounded-xl">
-              <div className="flex w-full justify-between ">
-                <div className="gap-3 flex items-center whitespace-nowrap w-full ">
-                  <div className=" w-full flex flex-1 items-center gap-4">
-                    <p>{selectedRole?.fullName}</p>
+            {/* <div className="bg-white w-[90vw] min-h-[80vh] p-3 md:p-6 rounded-xl"> */}
+            <div className="flex w-full justify-between ">
+              <div className="gap-3 flex items-center whitespace-nowrap w-full ">
+                <div className=" w-full flex flex-1 items-center gap-4">
+                  <p>{selectedRole?.fullName}</p>
 
-                    <AiOutlineHeart />
-                  </div>
-                  <Button className="dark__btn max-w-[100px] mr-4">
-                    Invite Talent
-                  </Button>
-                  <Button className="light__btn max-w-[100px]">Share</Button>
+                  <AiOutlineHeart />
                 </div>
-                <Button onClick={() => setPopUp(false)}>x</Button>
+                <Button className="dark__btn max-w-[100px] mr-4">
+                  Invite Talent
+                </Button>
+                <Button className="light__btn max-w-[100px]">Share</Button>
               </div>
-              <Separator className={"my-3"} />
-              <div className="flex gap-2 md:gap-4">
-                <div className="flex flex-col gap-2 md:gap-4">
-                  <img
-                    src={Logo}
-                    alt=""
-                    width={300}
-                    height={400}
-                    style={{
-                      width: "100%",
-                      maxHeight: "400px",
-                      objectFit: "contain",
-                    }}
-                  />
-                  <div className="flex justify-evenly w-[60w] lg:w-[40w] gap-1">
-                    {[1, 2, 3, 4, 5, 6, 7].map((photo) => (
-                      <div className="" key={photo}>
-                        <img
-                          src={Logo}
-                          alt={""}
-                          style={{ width: "100%", height: "auto" }}
-                          height={80}
-                          width={40}
-                        />
-                      </div>
-                    ))}
+              <Button onClick={() => setPopUp(false)}>x</Button>
+            </div>
+            <Separator className={"my-3"} />
+            <div className="flex gap-2 md:gap-4">
+              {/* <div className="flex flex-col gap-2 md:gap-4"> */}
+              {/* <img
+                src={Logo}
+                alt=""
+                width={300}
+                height={400}
+                style={{
+                  width: "100%",
+                  maxHeight: "400px",
+                  objectFit: "contain",
+                }}
+              /> */}
+              <div className="flex justify-evenly w-[60w] lg:w-[40w] gap-1">
+                {[1, 2, 3, 4, 5, 6, 7].map((photo) => (
+                  <div className="" key={photo}>
+                    {/* <img
+                      src={Logo}
+                      alt={""}
+                      style={{ width: "100%", height: "auto" }}
+                      height={80}
+                      width={40}
+                    /> */}
                   </div>
-                  <div className="mb-3">
-                    <p>Qualification & Certificates</p>
-                    <Separator className="bg-bm__beige my-3" />
-                    <p>BSc. Modelling</p>
-                  </div>
-                </div>
-                <div className="flex-1 space-y-4">
-                  <Card className="p-2 md:p-4">
-                    <h2>Overview</h2>
-                    <Separator className="bg-bm__beige my-3" />
-                    <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                      {selectedRole?.summary || "-"}
-                    </p>
-                  </Card>
-                  <Card className="p-2 md:p-4">
-                    <h2>Personal Details</h2>
-                    <Separator className="bg-bm__beige my-3" />
-                    <div className="flex gap-2">
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        First Name:
-                      </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        {selectedRole?.firstName || "-"}
-                      </p>
-                    </div>
-                    <div className="flex gap-2">
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        Last Name:{" "}
-                      </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        {selectedRole?.lastName || "-"}
-                      </p>
-                    </div>{" "}
-                    <div className="flex gap-2">
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        Middle Name:{" "}
-                      </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        {selectedRole?.middleName || "-"}
-                      </p>
-                    </div>{" "}
-                    <div className="flex gap-2">
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        Email Address:
-                      </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        {selectedRole?.email || "-"}
-                      </p>
-                    </div>{" "}
-                    <div className="flex gap-2">
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        Phone Number:{" "}
-                      </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        {selectedRole?.phone || "-"}
-                      </p>
-                    </div>{" "}
-                    <div className="flex gap-2">
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        Alternate Number:
-                      </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        {selectedRole?.alternatePhone || "-"}
-                      </p>
-                    </div>{" "}
-                    <div className="flex gap-2">
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        Date of Birth:{" "}
-                      </p>{" "}
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        {selectedRole?.DOB || "-"}
-                      </p>
-                    </div>{" "}
-                    <div className="flex gap-2">
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        Gender:
-                      </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        {selectedRole?.gender || "-"}
-                      </p>
-                    </div>{" "}
-                    <div className="flex gap-2">
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        Skin Color:
-                      </p>
-                      {/* <p className='text-[12px] font-normal text-bm_black w-[110px]'>
-                      {selectedRole?.skinColor || '-'}
-                    </p> */}
-                    </div>{" "}
-                    <div className="flex gap-2">
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        State of Origin:
-                      </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        {selectedRole?.origin || "-"}
-                      </p>
-                    </div>{" "}
-                    <div className="flex gap-2">
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        Height:
-                      </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        {selectedRole?.height || "-"}
-                      </p>
-                    </div>{" "}
-                    <div className="flex gap-2">
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        Dress Size:
-                      </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                        {selectedRole?.dressSize || "-"}
-                      </p>
-                    </div>
-                  </Card>
-                </div>
+                ))}
+              </div>
+              <div className="mb-3">
+                <p>Qualification & Certificates</p>
+                <Separator className="bg-bm__beige my-3" />
+                <p>BSc. Modelling</p>
               </div>
             </div>
+            <div className="flex-1 space-y-4">
+              <Card className="p-2 md:p-4">
+                <h2>Overview</h2>
+                <Separator className="bg-bm__beige my-3" />
+                <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                  {selectedRole?.summary || "-"}
+                </p>
+              </Card>
+              <Card className="p-2 md:p-4">
+                <h2>Personal Details</h2>
+                <Separator className="bg-bm__beige my-3" />
+                <div className="flex gap-2">
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    First Name:
+                  </p>
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    {selectedRole?.firstName || "-"}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    Last Name:{" "}
+                  </p>
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    {selectedRole?.lastName || "-"}
+                  </p>
+                </div>{" "}
+                <div className="flex gap-2">
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    Middle Name:{" "}
+                  </p>
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    {selectedRole?.middleName || "-"}
+                  </p>
+                </div>{" "}
+                <div className="flex gap-2">
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    Email Address:
+                  </p>
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    {selectedRole?.email || "-"}
+                  </p>
+                </div>{" "}
+                <div className="flex gap-2">
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    Phone Number:{" "}
+                  </p>
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    {selectedRole?.phone || "-"}
+                  </p>
+                </div>{" "}
+                <div className="flex gap-2">
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    Alternate Number:
+                  </p>
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    {selectedRole?.alternatePhone || "-"}
+                  </p>
+                </div>{" "}
+                <div className="flex gap-2">
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    Date of Birth:{" "}
+                  </p>{" "}
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    {selectedRole?.DOB || "-"}
+                  </p>
+                </div>{" "}
+                <div className="flex gap-2">
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    Gender:
+                  </p>
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    {selectedRole?.gender || "-"}
+                  </p>
+                </div>{" "}
+                <div className="flex gap-2">
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    Skin Color:
+                  </p>
+                  {/* <p className='text-[12px] font-normal text-bm_black w-[110px]'>
+                      {selectedRole?.skinColor || '-'}
+                    </p> */}
+                </div>{" "}
+                <div className="flex gap-2">
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    State of Origin:
+                  </p>
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    {selectedRole?.origin || "-"}
+                  </p>
+                </div>{" "}
+                <div className="flex gap-2">
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    Height:
+                  </p>
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    {selectedRole?.height || "-"}
+                  </p>
+                </div>{" "}
+                <div className="flex gap-2">
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    Dress Size:
+                  </p>
+                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    {selectedRole?.dressSize || "-"}
+                  </p>
+                </div>
+              </Card>
+            </div>
+            {/* </div> */}
+            {/* </div> */}
           </div>
 
           <div className="bg-bm_card_grey  h-full w-full ">
@@ -903,7 +903,7 @@ export default function TalentsView({
                   <Card>
                     <CardContent className="py-3 md:py-6 space-y-3 overflow-y-scroll h-[30vh]">
                       <div className="flex flex-col">
-                        <p>Gender</p>
+                        <p className="text-[14px] font-semibold mb-2">Gender</p>
                         <Separator className="bg-bm__beige" />
                         {/* <RadioGroup value={selectedGender} onChange={handleGenderChange}></RadioGroup> */}
                         <RadioGroup
@@ -913,17 +913,30 @@ export default function TalentsView({
                         >
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem value="male" id="male" />
-                            <Label htmlFor="male">Male</Label>
+                            <Label
+                              htmlFor="male"
+                              className="text-[14px] font-normal"
+                            >
+                              Male
+                            </Label>
                           </div>
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem value="female" id="female" />
-                            <Label htmlFor="female">Female</Label>
+                            <Label
+                              htmlFor="female"
+                              className="text-[14px] font-normal"
+                            >
+                              Female
+                            </Label>
                           </div>
                         </RadioGroup>
                       </div>
                       <Separator className="bg-bm__beige h-[2px]" />
                       <div className=" ">
-                        <p> Role</p>
+                        <p className="text-[14px] font-semibold mb-2">
+                          {" "}
+                          Talent Type
+                        </p>
                         <Separator className="bg-bm__beige" />
                         <RadioGroup
                           defaultValue=""
@@ -932,24 +945,39 @@ export default function TalentsView({
                         >
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem value="usher" id="usher" />
-                            <Label htmlFor="usher">Usher</Label>
+                            <Label
+                              htmlFor="usher"
+                              className="text-[14px] font-normal"
+                            >
+                              Usher
+                            </Label>
                           </div>
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem value="ba" id="ba" />
-                            <Label htmlFor="ba">Brand Ambassador</Label>
+                            <Label
+                              htmlFor="ba"
+                              className="text-[14px] font-normal"
+                            >
+                              Brand Ambassador
+                            </Label>
                           </div>
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem
                               value="supervisor"
                               id="supervisor"
                             />
-                            <Label htmlFor="supervisor">Supervisor</Label>
+                            <Label
+                              htmlFor="supervisor"
+                              className="text-[14px] font-normal"
+                            >
+                              Supervisor
+                            </Label>
                           </div>
                         </RadioGroup>
                       </div>
                       <Separator className="bg-bm__beige h-[2px]" />
                       <div className="">
-                        <p>Age</p>
+                        <p className="text-[14px] font-semibold mb-2">Age</p>
                         <Separator className="bg-bm__beige mb-2" />
                         <div className="flex gap-1 items-center justify-around">
                           <Input
@@ -966,12 +994,25 @@ export default function TalentsView({
                         </div>
                       </div>
                       <Separator className="bg-bm__beige h-[2px]" />
-                      <div className="">
-                        <p>Location</p>
+                      {/* <div className="">
+                        <p className="text-[14px] font-semibold mb-2">
+                          Location
+                        </p>
                         <Separator className="bg-bm__beige mb-2" />
                         <div className="flex gap-1 items-center justify-center">
                           <Input
                             className="max-w-[180px]"
+                            onChange={handleLocationChange}
+                          />
+                        </div>
+                      </div> */}
+                      <div className="pb-4">
+                        <p className="py-2 font-semibold">Location</p>
+                        <Separator className="bg-[#D7D8DA] mb-2" />
+                        <div className="flex gap-1 items-center justify-center pt-2">
+                          <Input
+                            className="max-w-[210px]"
+                            placeholder="Search location"
                             onChange={handleLocationChange}
                           />
                         </div>
