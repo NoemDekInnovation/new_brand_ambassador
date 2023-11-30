@@ -111,7 +111,7 @@ export default function RequiredTalents({
   };
 
   const talentOptions = [
-    { label: "Brand Ambassador", value: "brand ambassador" },
+    { label: "Brand Ambassador", value: "ba" },
     { label: "Supervisor", value: "supervisor" },
     { label: "Usher", value: "usher" },
   ];
