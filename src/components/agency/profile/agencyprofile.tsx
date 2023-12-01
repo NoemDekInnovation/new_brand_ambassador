@@ -128,7 +128,11 @@ const AgencyProfile = () => {
                         </div>
                         <Separator className="bg-bm__gler/50" />
                         <div className="h-[150px] w-[120px] rounded-md">
-                          <img src={profileData.profilePic} alt="img" />
+                          <img
+                            src={profileData.profilePic}
+                            alt="img"
+                            className="h-[170px] w-[120px]"
+                          />
                         </div>
                         <div className="text-[12px] font-normal gap-2 flex flex-col">
                           <div className="pt-20 flex items-center">
@@ -181,7 +185,11 @@ const AgencyProfile = () => {
                         </div>
                         <Separator className="bg-bm__gler/50" />
                         <div className="h-[150px] w-[120px] rounded-md">
-                          <img src={profileData.companyLogo} alt="img" />
+                          <img
+                            src={profileData.companyLogo}
+                            alt="img"
+                            className="h-[160px] w-[120px]"
+                          />
                         </div>
                         <div className="text-[12px] font-normal gap-2 flex flex-col">
                           <div className="text-[12px] font-normal gap-2 flex flex-col">
@@ -221,9 +229,9 @@ const AgencyProfile = () => {
                               Office Address 1:
                             </p>
                             <p className="">
-                              {profileData.address[0].street}, <br />
+                              {profileData.address[0].street},
                               {profileData.address[0].city}, <br />
-                              {profileData.address[0].LGA}, <br />
+                              {profileData.address[0].LGA},
                               {profileData.address[0].state} <br />
                               {profileData.address[0].zipCode}
                             </p>
