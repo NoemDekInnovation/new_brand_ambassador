@@ -32,11 +32,11 @@ const initialState: TalentsProps = {
 
 export const fetchTalents = createAsyncThunk(
   "categories/fetchTalents",
-  async (url: string) => {
+  async () => {
     try {
-      const response = await authAxiosInstance(`/${url}/all-talents`);
-      // console.log(response, "my");
+      const response = await authAxiosInstance(`/all-talents`);
 
+      console.log("checker", response.data);
       return response.data.data;
     } catch (error) {
       throw error;

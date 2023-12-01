@@ -41,10 +41,46 @@ export default function AboutProject({
   ) => {
     const { name, value } = e.target;
 
-    setAboutProject((prevData: AboutProjectProps) => ({
-      ...prevData,
-      [fieldName]: value,
-    }));
+    // const truncatedValue = value.slice(0, 250);
+
+    // setAboutProject((prevData: AboutProjectProps) => ({
+    //   ...prevData,
+    //   [fieldName]: truncatedValue,
+    // }));
+    if (fieldName === "startDate" || fieldName === "endDate") {
+      // Get the current date
+      const currentDate = new Date();
+
+      // Get the selected date
+      const selectedDate = new Date(value + "T00:00:00");
+
+      if (selectedDate < currentDate) {
+        // Display an error message
+        console.error("Selected date cannot be in the past");
+        // Optionally, you can set an error state to display a message in your UI
+      } else if (
+        fieldName === "endDate" &&
+        selectedDate <= new Date(aboutProject.startDate + "T00:00:00")
+      ) {
+        // Display an error message
+        console.error("End date cannot be before or equal to start date");
+        // Optionally, you can set an error state to display a message in your UI
+      } else {
+        // No error, update the state with truncated value
+        const truncatedValue = value.slice(0, 250);
+        setAboutProject((prevData: AboutProjectProps) => ({
+          ...prevData,
+          [fieldName]: truncatedValue,
+        }));
+      }
+    } else {
+      // For other fields, update the state directly with truncated value
+      const truncatedValue = value.slice(0, 250);
+      setAboutProject((prevData: AboutProjectProps) => ({
+        ...prevData,
+        [fieldName]: truncatedValue,
+      }));
+    }
   };
 
   return (
@@ -271,7 +307,8 @@ export default function AboutProject({
                 onChange={(e) => handleInputChange(e, "projectDescription")}
               />
               <p className="text-[12px] text-bm__btn__grey mt-3">
-                250 Characters
+                {250 - aboutProject.projectDescription.length} Characters
+                remaining
               </p>
             </form>
           </CardContent>

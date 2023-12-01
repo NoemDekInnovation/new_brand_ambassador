@@ -97,6 +97,7 @@ export default function Login() {
           accountId: response.data.data.accountType,
           authKey: response.data.data.accessToken,
           agencyName: response.data.data.agencyName,
+          profilePic: response.data.data.profilePic,
         };
 
         // console.log(details, "details");

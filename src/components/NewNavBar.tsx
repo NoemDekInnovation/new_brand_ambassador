@@ -84,7 +84,12 @@ export default function NewNavBar() {
               <DropdownMenuTrigger>
                 {" "}
                 <div className="flex items-center space-x-2 ml-4">
-                  <img src={avatar} width={40} height={40} alt="" />
+                  <img
+                    src={user?.user?.profilePic || avatar}
+                    width={40}
+                    height={40}
+                    alt=""
+                  />
                   <div className="flex flex-col w-[47px] h-[30px]">
                     <p className="text-[12px] font-normal">
                       {capitalizeFirstLetter(

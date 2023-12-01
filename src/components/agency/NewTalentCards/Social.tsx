@@ -184,7 +184,7 @@ export default function Social({
             <Link to={"/dashboard"}>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
-                // onClick={next}
+                onClick={create}
               >
                 Save
               </Button>
