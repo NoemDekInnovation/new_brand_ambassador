@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "../../../ui/card";
 import { Button } from "../../../ui/button";
 import { Separator } from "../../../ui/seperator";
@@ -9,6 +9,9 @@ import subtract3 from "../../../assets/Subtract3.png";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { MdPayments, MdSettings } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { patchAxiosInstance } from "../../../api/axios";
 
 export default function Address({
   next,
@@ -19,6 +22,67 @@ export default function Address({
   prev: () => void;
   cancel: () => void;
 }) {
+
+    const { user } = useSelector((state: RootState) => state.user);
+
+    const [loading, setLoading] = useState(false);
+
+    const [addressDatas, setAddressDatas] = useState({
+      address: [ 
+        {
+          street: "",
+          city: "",
+          LGA: "",
+          state: "",
+          zipCode: "",
+        },
+      ],
+    });
+
+    const handleInput = (index: number, field: string, value: string) => {
+      setAddressDatas((prevAddressDatas) => {
+        const updatedAddress = [...prevAddressDatas.address];
+        updatedAddress[index] = {
+          ...updatedAddress[index],
+          [field]: value,
+        };
+        return { ...prevAddressDatas, address: updatedAddress };
+      });
+    };
+
+    const handleAdress = async () => {
+      setLoading(true);
+      const addressData = new FormData();
+      // Loop through each address in the array
+      addressDatas.address.forEach((address, index) => {
+        // Append each field of the address to the FormData
+        addressData.append(`street${index}`, address.street);
+        addressData.append(`city${index}`, address.city);
+        addressData.append(`LGA${index}`, address.LGA);
+        addressData.append(`state${index}`, address.state);
+        addressData.append(`zipCode${index}`, address.zipCode);
+      });
+
+          if (user?.accountId !== undefined) {
+            try {
+              const response = await patchAxiosInstance.patch(
+                `/profile-details`,
+                addressData,
+                {
+                  headers: {
+                    Authorization: `Bearer ${user.authKey || ""}`,
+                  },
+                }
+              );
+              setLoading(false);
+            } catch (error) {
+              setLoading(false);
+            }
+          }
+    }
+
+
+
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">
       {/* <div className='fixed top-0 h-screen w-screen bg-[#F3F3F3]/30 z-[1000] mt-[20vh] px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'> */}
@@ -104,16 +168,18 @@ export default function Address({
               <div className="relative md:col-span-4  z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_first_name"
-                  id="floating_first_name"
+                  name="street"
+                  id="street"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   // value={formData.projectDuration.startDate}
                   // onChange={handleInputChange}
+                  value={addressDatas.address[0].street}
+                  onChange={(e) => handleInput(0, "street", e.target.value)}
                   required
                 />
                 <label
-                  htmlFor="floating_first_name"
+                  htmlFor="street"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Street address
@@ -123,12 +189,14 @@ export default function Address({
               <div className="relative md:col-span-1 z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_last_name"
-                  id="floating_last_name"
+                  name="city"
+                  id="city"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   // value={formData.projectDuration.endDate}
                   // onChange={handleInputChange}
+                  value={addressDatas.address[0].city}
+                  onChange={(e) => handleInput(0, "city", e.target.value)} // Pass the index, field, and value
                   required
                 />
                 <label
@@ -143,16 +211,18 @@ export default function Address({
               <div className="relative md:col-span-1  z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_first_name"
-                  id="floating_first_name"
+                  name="LGA"
+                  id="LGA"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   // value={formData.projectDuration.startDate}
                   // onChange={handleInputChange}
+                  value={addressDatas.address[0].LGA}
+                  onChange={(e) => handleInput(0, "LGA", e.target.value)} // Pass the index, field, and value
                   required
                 />
                 <label
-                  htmlFor="floating_first_name"
+                  htmlFor="LGA"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   L.G.A
@@ -162,16 +232,18 @@ export default function Address({
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_last_name"
-                  id="floating_last_name"
+                  name="state"
+                  id="state"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   // value={formData.projectDuration.endDate}
                   // onChange={handleInputChange}
+                  value={addressDatas.address[0].state}
+                  onChange={(e) => handleInput(0, "state", e.target.value)} // Pass the index, field, and value
                   required
                 />
                 <label
-                  htmlFor="floating_last_name"
+                  htmlFor="state"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   State
@@ -180,16 +252,18 @@ export default function Address({
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_last_name"
-                  id="floating_last_name"
+                  name="zipCode"
+                  id="zipCode"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   // value={formData.projectDuration.endDate}
                   // onChange={handleInputChange}
+                  value={addressDatas.address[0].zipCode}
+                  onChange={(e) => handleInput(0, "zipCode", e.target.value)} // Pass the index, field, and value
                   required
                 />
                 <label
-                  htmlFor="floating_last_name"
+                  htmlFor="zipCode"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Zip Code
@@ -214,7 +288,11 @@ export default function Address({
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
-                onClick={next}
+                // onClick={next}
+                onClick={() => {
+                  handleAdress();
+                  next();
+                }}
               >
                 Save and Next
               </Button>

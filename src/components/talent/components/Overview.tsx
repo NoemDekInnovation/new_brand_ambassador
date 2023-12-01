@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "../../../ui/card";
 // import { Separator } from '../../../ui/separator';
 // import { Textarea } from '../../../ui/textarea';
@@ -12,6 +12,9 @@ import subtract2 from "../../../assets/Subtract2.png";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { MdPayments, MdSettings } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { patchAxiosInstance } from "../../../api/axios";
 
 export default function Overview({
   next,
@@ -24,6 +27,64 @@ export default function Overview({
   overView: {};
   setOverView: React.Dispatch<React.SetStateAction<{}>>;
 }) {
+  const { user } = useSelector((state: RootState) => state.user);
+  const [loading, setLoading] = useState(false);
+  const [overviewPic, setOverViewPic] = useState({
+    profilePic: null as File | null,
+    summary: ""
+  });
+
+  const handlePic = async () => {
+    setLoading(true);
+    const overviewPicData = new FormData();
+    overviewPicData.append("summary", overviewPic.summary)
+    if (overviewPic.profilePic !== null) {
+      overviewPicData.append("profilePic", overviewPic.profilePic);
+    }
+
+    if (user?.accountId !== undefined) {
+      try {
+        const response = await patchAxiosInstance.patch(
+          `/profile-details`,
+          overviewPicData,
+          {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ""}`,
+            },
+          }
+        );
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    setOverViewPic((prevOverviewPic) => ({
+      ...prevOverviewPic,
+      profilePic: file || null,
+    }));
+  };
+
+  const imageUrl = overviewPic.profilePic
+    ? URL.createObjectURL(overviewPic.profilePic)
+    : null;
+  console.log("Image URL:", imageUrl);
+
+  const handleSummaryChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const value = event.target.value;
+
+    setOverViewPic((prevOverviewPic) => ({
+      ...prevOverviewPic,
+      summary: value,
+    }));
+  };
+
   return (
     <div className=" bg-[#F3F3F3]/30  px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10 overflow-hidden">
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px]">
@@ -98,13 +159,35 @@ export default function Overview({
             <p>Show agencies the best version of yourself.</p>
 
             <Separator className=" my-3 bg-[#D7D8DA5C]" />
-            <Input type="file" className="hidden" />
+            {/* <Input type="file" className="hidden" />
             <div className="my-3 border w-[156px] h-[156px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
               Attach or drop photos here
             </div>
             <p className="text-[13px] font-light mb-3">
               Attach as many photos as possible.
-            </p>
+            </p> */}
+            <label htmlFor="picture" className="cursor-pointer">
+              <input
+                type="file"
+                id="picture"
+                className="pb-4"
+                onChange={handleFileChange}
+                name="profilePic"
+                style={{ display: "none" }}
+              />
+              <div className="mt-3 border w-[120px] h-[150px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
+                {/* Attach or drop photos here */}
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  "Attach or drop photos here"
+                )}
+              </div>
+            </label>
             <Separator
               className="py-[2px] my-7 bg-[#D7D8DA]
 "
@@ -118,6 +201,8 @@ export default function Overview({
             <textarea
               className="flex-1 min-h-[300px] rounded-lg p-3 border border-[#E5E5E5]"
               placeholder="Summarise your strength and skills"
+              value={overviewPic.summary}
+              onChange={handleSummaryChange}
             />
             <p className="text-[10px] mb-7">250 characters</p>
           </CardContent>
@@ -133,7 +218,11 @@ export default function Overview({
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
-                onClick={next}
+                // onClick={next}
+                onClick={() => {
+                  handlePic();
+                  next();
+                }}
               >
                 Save and Next
               </Button>

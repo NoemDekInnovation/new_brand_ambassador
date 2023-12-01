@@ -13,19 +13,19 @@ const EditProfile = () => {
 
   const [overView, setOverView] = useState({});
   const cancelProject = () => {};
-  const [experiences, setExperiences] = useState([
-    {
-      agencyName: '',
-      projectName: '',
-      projectCategory: '',
-      projectDuration: '',
-      salary: '',
-      year: '',
-      _id: '',
-    },
-  ]);
+  // const [experiences, setExperiences] = useState([
+  //   {
+  //     agencyName: '',
+  //     projectName: '',
+  //     projectCategory: '',
+  //     projectDuration: '',
+  //     salary: '',
+  //     year: '',
+  //     _id: '',
+  //   },
+  // ]);
 
-  console.log(experiences);
+  // console.log(experiences);
 
   const handleStepChange = (step: string) => {
     setCurrentStep(step);
@@ -71,12 +71,12 @@ const EditProfile = () => {
       )}
       {currentStep === 'experience' && (
         <MainLayout>
-          <Experience
+          <Experience 
             next={() => handleStepChange('skills')}
             prev={() => handleStepChange('education')}
             cancel={cancelProject}
-            experiences={experiences}
-            setExperiences={setExperiences}
+            // experiences={experiences}
+            // setExperiences={setExperiences} 
           />
         </MainLayout>
       )}
