@@ -96,6 +96,7 @@ export default function ProjectBudget({
 
     // Return the formatted value with the Naira symbol
     return `₦${numberWithCommas}`;
+    // ₦
   }
 
   const handlePaymentChange = (row: any, index: number) => {
@@ -415,6 +416,7 @@ export default function ProjectBudget({
                             placeholder=" "
                             value={requiredTalents[index].salary || ""}
                             onChange={(e) => handleInputChange(e, index)}
+                            pattern="[0-9]*"
                           />
                           {errors.qualifcations && (
                             <p className="text-red-800 block mt-2">

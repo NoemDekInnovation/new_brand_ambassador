@@ -120,10 +120,44 @@ export default function ProjectDetails({
   ) => {
     const { value } = e.target;
 
-    setProjectPost((prevData: ProjectPostProps) => ({
-      ...prevData,
-      [fieldName]: value,
-    }));
+    // setProjectPost((prevData: ProjectPostProps) => ({
+    //   ...prevData,
+    //   [fieldName]: value,
+    // }));
+    if (fieldName === "startDate" || fieldName === "endDate") {
+      // Get the current date
+      const currentDate = new Date();
+
+      // Get the selected date
+      const selectedDate = new Date(value + "T00:00:00");
+
+      if (selectedDate < currentDate) {
+        // Display an error message
+        console.error("Selected date cannot be in the past");
+        // Optionally, you can set an error state to display a message in your UI
+      } else if (
+        fieldName === "endDate" &&
+        selectedDate <= new Date(aboutProject.startDate + "T00:00:00")
+      ) {
+        // Display an error message
+        console.error("End date cannot be before or equal to start date");
+        // Optionally, you can set an error state to display a message in your UI
+      } else {
+        // No error, update the state with truncated value
+        const truncatedValue = value.slice(0, 250);
+        setProjectPost((prevData: AboutProjectProps) => ({
+          ...prevData,
+          [fieldName]: truncatedValue,
+        }));
+      }
+    } else {
+      // For other fields, update the state directly with truncated value
+      const truncatedValue = value.slice(0, 250);
+      setProjectPost((prevData: AboutProjectProps) => ({
+        ...prevData,
+        [fieldName]: truncatedValue,
+      }));
+    }
   };
 
   const startDate = new Date(aboutProject.startDate);
@@ -405,9 +439,14 @@ export default function ProjectDetails({
               {aboutProject.projectCode}
             </p>
             <Separator className="bg-bm__beige my-3" />
-            <p className=" capitalize text-[14px]">
+            {/* <p className=" capitalize text-[14px]">
               Project Description: {aboutProject.projectDescription || "-"}
-            </p>
+            </p> */}
+            <div className="flex flex-col overflow-y-auto h-[10vh]">
+              <p className=" capitalize overflow-hidden break-words">
+                Project Description: {aboutProject.projectDescription || "-"}
+              </p>
+            </div>
           </div>
         </InfoCard>
         <InfoCard
