@@ -20,7 +20,7 @@ import { TbProgressCheck } from "react-icons/tb";
 
 import { RootState } from "../../../redux/store";
 import { useSelector } from "react-redux";
-import { multerAxiosInstance } from "../../../api/axios";
+import { multerAxiosInstance, patchAxiosInstance } from "../../../api/axios";
 
 type TalentOption = {
   label: string;
@@ -201,10 +201,16 @@ export default function NewTalentCards({
 
     if (user?.accountId !== undefined) {
       try {
-        const response = await multerAxiosInstance.post(
-          `/${user?.accountId}/register-talent`,
-          formData
+        const response = await patchAxiosInstance.post(
+          `/register-talent`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ""}`,
+            },
+          }
         );
+        console.log(response);
         setSuccessModal(true);
         setTimeout(() => {
           cancelProject();

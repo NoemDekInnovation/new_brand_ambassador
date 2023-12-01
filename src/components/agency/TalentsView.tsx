@@ -1,5 +1,9 @@
-import { RootState } from "../../redux/store";
-import { authAxiosInstance, multerAxiosInstance } from "../../api/axios";
+import { AppDispatch, RootState } from "../../redux/store";
+import {
+  authAxiosInstance,
+  multerAxiosInstance,
+  patchAxiosInstance,
+} from "../../api/axios";
 import React, { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardContent } from "../../ui/card";
@@ -19,7 +23,11 @@ import {
 // import Image from "next/image";
 import { Controller, useForm } from "react-hook-form";
 import validator from "validator";
-import { setFailedImport, setSuccessImport } from "../../redux/talent.slice";
+import {
+  fetchTalents,
+  setFailedImport,
+  setSuccessImport,
+} from "../../redux/talent.slice";
 import {
   BsChevronDoubleLeft,
   BsChevronDoubleRight,
@@ -57,6 +65,7 @@ import Loading from "../Loading";
 import TalentList from "./TalentList";
 import TalentDetailsInfo from "./TalentDetailsInfo";
 import Logo from "../../assets/beauty.jpg";
+import {} from "../../redux/talent.slice";
 
 type TalentType =
   | "All Talents"
@@ -90,7 +99,7 @@ export default function TalentsView({
   const [selectedTalentID, setSelectedTalentID] = useState("");
   const [activeType, setActiveType] = useState<TalentType>("All Talents");
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.user);
   const {
     count,
@@ -98,6 +107,8 @@ export default function TalentsView({
     loading,
     talents: resTalents,
   } = useSelector((state: RootState) => state.talent);
+
+  console.log("change", resTalents);
 
   const talentCount = {
     "All Talents": 0,
@@ -112,14 +123,7 @@ export default function TalentsView({
   };
 
   useEffect(() => {
-    setIsLoading(true);
-
-    const fetchProjects = async () => {
-      const response = await authAxiosInstance(`/${user?.accountId}/projects`);
-      setProjects(response?.data?.data.projects);
-    };
-    fetchProjects();
-    setIsLoading(false);
+    dispatch(fetchTalents());
   }, [user?.accountId]);
 
   const handleProfilePopUp = (talent: any) => {
@@ -364,9 +368,14 @@ export default function TalentsView({
           // opportunities: data.talentType,
           email: data.email,
         };
-        const response = await authAxiosInstance.post(
+        const response = await patchAxiosInstance.post(
           `/${user?.accountId}/register-talent`,
-          requestData
+          requestData,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.authKey}`,
+            },
+          }
         );
 
         if (
