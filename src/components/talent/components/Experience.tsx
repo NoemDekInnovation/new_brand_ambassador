@@ -16,106 +16,44 @@ import { Link } from "react-router-dom";
 import { patchAxiosInstance } from "../../../api/axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import { ExperienceProps } from "../../../redux/types";
 
 export default function Experience({
   next,
   prev,
   cancel,
+  setExperiences,
+  experiences,
+  create,
 }: {
+  create: () => void;
   next: () => void;
   prev: () => void;
   cancel: () => void;
   // experiences: ExperienceProps[];
+  setExperiences: any;
+  experiences: ExperienceProps[];
 }) {
-
-
-const handleAddExperience = () => {
-  setExperiences({
-    experience: [
-      ...experiences.experience,
-      {
-        agencyName: "",
-        projectName: "",
-        projectCategory: "",
-        projectDuration: "",
-        salary: "",
-        year: "",
-      },
-    ],
-  });
-};
-
-const handleInputChange = (
-  e: React.ChangeEvent<HTMLInputElement>,
-  index: number
-) => {
-  const { name, value } = e.target;
-
-  const updatedExperiences = { ...experiences };
-  updatedExperiences.experience[index][
-    name as keyof (typeof updatedExperiences.experience)[0]
-  ] = value;
-  setExperiences(updatedExperiences);
-};
-
-
-const { user } = useSelector((state: RootState) => state.user);
-
-const [loading, setLoading] = useState(false);
-const [experiences, setExperiences] = useState({
-  experience: [
-    {
-      agencyName: "",
-      projectName: "",
-      projectCategory: "",
-      projectDuration: "",
-      salary: "",
-      year: "",
-    },
-  ],
-});
-
-const handleExperience = async () => {
-  setLoading(true);
-  const experiencesData = new FormData();
-  experiences.experience.forEach((exp, index) => {
-    experiencesData.append(`experience[${index}][agencyName]`, exp.agencyName);
-    experiencesData.append(
-      `experience[${index}][projectName]`,
-      exp.projectName
-    );
-    experiencesData.append(
-      `experience[${index}][projectCategory]`,
-      exp.projectCategory
-    );
-    experiencesData.append(
-      `experience[${index}][projectDuration]`,
-      exp.projectDuration
-    );
-    experiencesData.append(`experience[${index}][salary]`, exp.salary);
-    experiencesData.append(`experience[${index}][year]`, exp.year);
-  });
-
-  if (user?.accountId !== undefined) {
-    try {
-      const response = await patchAxiosInstance.patch(
-        `/profile-details`,
-        experiencesData,
+    const handleAddExperience = () => {
+      // Add a new empty experience object when the "Add Experience" button is clicked
+      setExperiences([
+        ...experiences,
         {
-          headers: {
-            Authorization: `Bearer ${user.authKey || ""}`,
-          },
-        }
-      );
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
-  }
-};
+          /* initialize with empty values */
+        },
+      ]);
+    };
+    const handleInputChange = (
+      e: React.ChangeEvent<HTMLInputElement>,
+      index: number
+    ) => {
+      const { name, value } = e.target;
 
-
-
+      const updatedExperiences = [...experiences];
+      updatedExperiences[index][name] = value;
+      setExperiences(updatedExperiences);
+    };
+  
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10 overflow-hidden">
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px] ">
@@ -197,7 +135,7 @@ const handleExperience = async () => {
             </p>
 
             <Separator className=" my-7 bg-[#D7D8DA]" />
-            {experiences.experience.map((experience: any, index: any) => (
+            {experiences.map((experience, index) => (
               <>
                 <div className="mt-2" key={index}>
                   <p>Experience {index + 1}</p>
@@ -349,11 +287,8 @@ const handleExperience = async () => {
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
-                // onClick={next}
-                onClick={() => {
-                  handleExperience();
-                  next();
-                }}
+                onClick={next}
+        
               >
                 Save and Next
               </Button>
