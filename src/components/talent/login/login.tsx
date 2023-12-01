@@ -96,6 +96,8 @@ export default function Login() {
           role: response.data.data.role,
           accountId: response.data.data.accountType,
           authKey: response.data.data.accessToken,
+          agencyName: response.data.data.agencyName,
+          profilePic: response.data.data.profilePic,
         };
 
         // console.log(details, "details");
@@ -140,7 +142,13 @@ export default function Login() {
             <div className=" w-full p-4 min-w-[380px] rounded-lg">
               <div className="text-left  text-white cursor-pointer">
                 <Link to="/">
-                <img src={Logo} style={{}} alt="logo" width={300} height={50} />
+                  <img
+                    src={Logo}
+                    style={{}}
+                    alt="logo"
+                    width={300}
+                    height={50}
+                  />
                 </Link>
               </div>
             </div>
@@ -201,7 +209,6 @@ export default function Login() {
                       </div>
                     )}
                   />
-
 
                   <Controller
                     name="password"

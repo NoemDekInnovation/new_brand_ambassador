@@ -120,12 +120,62 @@ export default function ProjectDetails({
   ) => {
     const { value } = e.target;
 
-    setProjectPost((prevData: ProjectPostProps) => ({
-      ...prevData,
-      [fieldName]: value,
-    }));
+    // setProjectPost((prevData: ProjectPostProps) => ({
+    //   ...prevData,
+    //   [fieldName]: value,
+    // }));
+    if (fieldName === "startDate" || fieldName === "endDate") {
+      // Get the current date
+      const currentDate = new Date();
+
+      // Get the selected date
+      const selectedDate = new Date(value + "T00:00:00");
+
+      if (selectedDate < currentDate) {
+        // Display an error message
+        console.error("Selected date cannot be in the past");
+        // Optionally, you can set an error state to display a message in your UI
+      } else if (
+        fieldName === "endDate" &&
+        selectedDate <= new Date(aboutProject.startDate + "T00:00:00")
+      ) {
+        // Display an error message
+        console.error("End date cannot be before or equal to start date");
+        // Optionally, you can set an error state to display a message in your UI
+      } else {
+        // No error, update the state with truncated value
+        const truncatedValue = value.slice(0, 250);
+        setProjectPost((prevData: AboutProjectProps) => ({
+          ...prevData,
+          [fieldName]: truncatedValue,
+        }));
+      }
+    } else {
+      // For other fields, update the state directly with truncated value
+      const truncatedValue = value.slice(0, 250);
+      setProjectPost((prevData: AboutProjectProps) => ({
+        ...prevData,
+        [fieldName]: truncatedValue,
+      }));
+    }
   };
 
+  const startDate = new Date(aboutProject.startDate);
+  const endDate = new Date(aboutProject.endDate);
+
+  const formattedStartDate = startDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const formattedEndDate = endDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const formattedDateRange = `${formattedStartDate} to ${formattedEndDate}`;
   // const projectTitle = formData.projectTitle
   // const projectDescription = formData.projectDescription
 
@@ -362,6 +412,7 @@ export default function ProjectDetails({
     //     </div>
     //   </Card>
     // </div>
+
     <div className="px-4 pb-4  md:px-12 xl:px-40">
       <Card className="p-4 md:p-8  bg-white overflow-y-scroll h-[83vh]">
         <div className="flex flex-col sm:flex-row justify-between px-2 items-center">
@@ -376,29 +427,49 @@ export default function ProjectDetails({
           </button>
         </div>
 
-        <InfoCard title={aboutProject.projectTitle} edit={() => edit("aboutProject")}>
+        <InfoCard
+          title={aboutProject.projectTitle}
+          edit={() => edit("aboutProject")}
+        >
           <div className="pt-2">
-            <p>In-Store</p>
-            <Separator className="bg-bm__beige my-2" />
-            <p className=" capitalize">Project Description: {aboutProject.projectDescription || "-"}</p>
+            <p className="py-2 text-[16px] font-normal">
+              {aboutProject.projectCategory}
+            </p>
+            <p className="py-2 text-[16px] font-normal">
+              {aboutProject.projectCode}
+            </p>
+            <Separator className="bg-bm__beige my-3" />
+            {/* <p className=" capitalize text-[14px]">
+              Project Description: {aboutProject.projectDescription || "-"}
+            </p> */}
+            <div className="flex flex-col overflow-y-auto h-[10vh]">
+              <p className=" capitalize overflow-hidden break-words">
+                Project Description: {aboutProject.projectDescription || "-"}
+              </p>
+            </div>
           </div>
         </InfoCard>
-        <InfoCard title="" edit={() => edit("requiredTalents")}>
+        <InfoCard
+          title={requiredTalents[0].opportunities}
+          edit={() => edit("requiredTalents")}
+        >
           {requiredTalents.map((_, idx) => {
             return (
               <div className="" key={idx}>
-                <div className="flex justify-between items-center">
+                {/* <div className="flex justify-between items-center">
                   <h2 className="text-[18px] font-medium capitalize">
                     {_.talentType || "-"}
                   </h2>
-                </div>
+                </div> */}
                 <div className="pt-2">
-                  <p className=" capitalize">{_.qualification || "-"}</p>
-                  <Separator className="bg-bm__beige my-2" />
+                  <p className=" capitalize text-[16px] font-normal">
+                    {requiredTalents[0].qualifications || "-"}
+                  </p>
+                  <Separator className="bg-bm__beige my-3" />
                 </div>
                 <div className="pt-2">
                   <p>Skills</p>
-                  <div className="pt-2 flex gap-6 max-w-3xl flex-wrap">
+                  <div className="py-3 flex gap-6 max-w-3xl flex-wrap">
                     {_.skills.map((skill, idx) => {
                       return (
                         <div className="" key={idx}>
@@ -416,7 +487,7 @@ export default function ProjectDetails({
                   <div className="flex justify-between items-center">
                     {(_.salary && (
                       <div className="pt-2 flex gap-6 max-w-3xl capitalize">
-                        {_.salary} per week
+                        {_.salary} {requiredTalents[0].paymentOptions}
                       </div>
                     )) ||
                       "-"}{" "}
@@ -430,17 +501,15 @@ export default function ProjectDetails({
           {/* <Separator className="bg-bm__beige my-4 py-[2px]" /> */}
         </InfoCard>
 
-        <InfoCard
-          title={aboutProject.startDate}
-          edit={() => edit("projectBudget")}
-        >
-          <div className="pt-2">
+        <InfoCard title={formattedDateRange} edit={() => edit("projectBudget")}>
+          <Separator className="bg-bm__beige my-4" />
+          <div className="py-3">
             <p>Working Days</p>
-            <div className="pt-2 flex gap-6 max-w-3xl mt-2 mb-4 cursor-pointer flex-wrap">
+            <div className="pt-2 flex gap-4 max-w-3xl mt-2 mb-4 cursor-pointer flex-wrap">
               {daysOfWeek.map(({ label, value }: DayObject, index) => (
                 <div
                   key={index}
-                  className={` rounded-md p-2 px-3 capitalize ${
+                  className={` rounded-md p-2 px-3 mb-4 capitalize font-semibold ${
                     workDays.includes(value)
                       ? "bg-[#252525] text-white"
                       : "bg-bm_card_grey"
@@ -453,25 +522,28 @@ export default function ProjectDetails({
             <Separator className="bg-bm__beige my-2" />
           </div>
           <div className="pt-2">
-            <p>Location</p>
-            <div className="pt-2 flex gap-6 max-w-3xl flex-wrap">
-              {(aboutProject.projectLocation !== undefined &&
-                 (
-                  <Button className="light__btn  max-w-fit capitalize">
-                    {aboutProject.projectLocation}
-                  </Button>
-                )) ||
+            <p className="mb-2">Location</p>
+            <div className="py-2 flex gap-6 max-w-3xl flex-wrap">
+              {(aboutProject.projectLocation !== undefined && (
+                <Button className="light__btn  max-w-fit capitalize">
+                  {aboutProject.projectLocation}
+                </Button>
+              )) ||
                 "-"}
             </div>
-            <Separator className="bg-bm__beige my-2" />
+            {/* <Separator className="bg-bm__beige my-2" /> */}
           </div>
         </InfoCard>
         <InfoCard
           title="Application Requirement"
           edit={() => edit("talentRequirement")}
         >
-          <Separator className="bg-bm__beige my-2" />
-          <p className=" capitalize">{proposal || "-"} </p>
+          <Separator className="bg-bm__beige my-3" />
+          <div className="flex flex-col overflow-y-auto h-[10vh]">
+            <p className=" capitalize overflow-hidden break-words">
+              {proposal || "-"}{" "}
+            </p>
+          </div>
           <Separator className="bg-bm__beige my-2" />
 
           <div className="flex gap-4 mt-4">
@@ -490,7 +562,7 @@ export default function ProjectDetails({
           title="Tell us the period for this project post"
           edit={() => edit("aboutProject")}
         >
-          <Separator className="bg-bm__beige my-2" />
+          <Separator className="bg-bm__beige my-3" />
           <div className="grid md:grid-cols-2 md:gap-6 mt-4 md:mt-8">
             <div className="relative  z-0 w-full mb-6 group">
               <input

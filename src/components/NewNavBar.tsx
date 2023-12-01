@@ -38,6 +38,11 @@ export default function NewNavBar() {
   const handleToggle = () => {
     setToggleMenubar(!toggleMenubar);
   };
+
+  const capitalizeFirstLetter = (str: string | undefined): string => {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
   return (
     <div>
       <nav className="flex justify-between px-4  md:px-12 xl:px-40 items-center  text-[12px] font-medium bg-white py-7">
@@ -79,10 +84,17 @@ export default function NewNavBar() {
               <DropdownMenuTrigger>
                 {" "}
                 <div className="flex items-center space-x-2 ml-4">
-                  <img src={avatar} width={40} height={40} alt="" />
+                  <img
+                    src={user?.user?.profilePic || avatar}
+                    width={40}
+                    height={40}
+                    alt=""
+                  />
                   <div className="flex flex-col w-[47px] h-[30px]">
                     <p className="text-[12px] font-normal">
-                      {user?.user?.firstName}
+                      {capitalizeFirstLetter(
+                        user?.user?.firstName || user?.user?.agencyName
+                      )}
                     </p>
 
                     <p
@@ -90,7 +102,7 @@ export default function NewNavBar() {
               text-[10px] font-normal
               "
                     >
-                      {user?.user?.role}
+                      {capitalizeFirstLetter(user?.user?.role)}
                     </p>
                   </div>
                 </div>

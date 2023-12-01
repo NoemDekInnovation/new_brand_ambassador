@@ -70,6 +70,23 @@ export default function ProjectBudget({
     });
   };
 
+  // function formatAsNaira(value: string): string {
+  //   // Remove non-numeric characters
+  //   const numericValue = value.replace(/[^0-9]/g, "");
+
+  //   // Add commas to the string for better readability
+  //   const numberWithCommas = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  //   // Return the formatted value with the Naira symbol
+  //   // return `₦${numberWithCommas}`;
+  //   return value;
+  // }
+
+  // const handlePaymentChange = (row: any, index: number) => {
+  //   const updatedTalentType = [...requiredTalents];
+  //   updatedTalentType[index].paymentOptions = row;
+  //   setRequiredTalents(updatedTalentType);
+  // };
   function formatAsNaira(value: string): string {
     // Remove non-numeric characters
     const numericValue = value.replace(/[^0-9]/g, "");
@@ -78,8 +95,8 @@ export default function ProjectBudget({
     const numberWithCommas = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
     // Return the formatted value with the Naira symbol
-    // return `₦${numberWithCommas}`;
-    return value
+    return `₦${numberWithCommas}`;
+    // ₦
   }
 
   const handlePaymentChange = (row: any, index: number) => {
@@ -109,7 +126,7 @@ export default function ProjectBudget({
     const formattedValue = formatAsNaira(numericValue);
 
     const updatedExperiences = [...requiredTalents];
-    updatedExperiences[index][name] = value;
+    updatedExperiences[index][name] = formattedValue;
     setRequiredTalents(updatedExperiences);
   };
 
@@ -399,6 +416,7 @@ export default function ProjectBudget({
                             placeholder=" "
                             value={requiredTalents[index].salary || ""}
                             onChange={(e) => handleInputChange(e, index)}
+                            pattern="[0-9]*"
                           />
                           {errors.qualifcations && (
                             <p className="text-red-800 block mt-2">

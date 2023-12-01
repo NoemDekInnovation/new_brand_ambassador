@@ -4,7 +4,9 @@ export interface USERProps {
   firstName: string;
   role: string;
   accountId: string;
-  authKey: string
+  authKey: string;
+  agencyName: string;
+  profilePic: string;
 }
 
 export interface userProps {
@@ -15,7 +17,6 @@ export interface userProps {
 }
 
 const localStorageKey = "userData";
-
 
 const storedUserData = localStorage.getItem(localStorageKey);
 
@@ -39,7 +40,6 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<USERProps>) => {
       state.user = action.payload;
 
-      
       localStorage.setItem(localStorageKey, JSON.stringify(action.payload));
     },
 
@@ -47,9 +47,15 @@ const userSlice = createSlice({
     //   state.user = null;
     // },
     logout: (state, action) => {
-      state.user = { firstName: "", role: "", accountId: "", authKey: "" };
+      state.user = {
+        firstName: "",
+        role: "",
+        accountId: "",
+        authKey: "",
+        agencyName: "",
+        profilePic: "",
+      };
 
-      
       localStorage.removeItem(localStorageKey);
     },
   },

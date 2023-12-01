@@ -2,7 +2,7 @@ import ChevBackground from "../../../ui/chevbackground";
 import { Button } from "../../../ui/button";
 import { Card, CardContent } from "../../../ui/card";
 import { Separator } from "../../../ui/seperator";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Textarea } from "../../../ui/textarea";
 import { ImAttachment } from "react-icons/im";
 import { Input } from "../../../ui/input";
@@ -51,7 +51,6 @@ export default function TalentRequirement({
   useEffect(() => {
     localStorage.setItem("proposal", proposal);
     if (document) {
-      
       // Convert the File object to a data URL and save it
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -62,19 +61,37 @@ export default function TalentRequirement({
     }
   }, [proposal, document]);
 
+  const [selectedFileName, setSelectedFileName] = useState("");
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target;
+    const fileInput = fileInputRef.current;
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      setSelectedFileName(fileInput.files[0].name);
+    }
 
     if (files?.length) {
       const selectedFile = Array.from(files);
       setDocument(selectedFile[0]);
     }
-  }; 
-  
+  };
 
   const handleDivClick = () => {
     // Trigger a click event on the hidden input
     fileInputRef?.current?.click();
+  };
+
+  // const [proposals, setProposals] = useState("");
+
+  const handleProposalChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e && e.target) {
+      const inputValue = e.target.value ?? "";
+
+      // Limit the text to 250 characters
+      if (inputValue.length <= 250) {
+        setProposal(inputValue);
+      }
+    }
   };
 
   return (
@@ -153,10 +170,11 @@ export default function TalentRequirement({
             <Textarea
               placeholder="Describe proposal requirements..."
               className="min-h-[250px]"
-              onChange={(e) => setProposal(e.target.value)}
+              value={proposal}
+              onChange={handleProposalChange}
             />
             <p className="text-[12px] text-bm__btn__grey mt-3">
-              250 Characters
+              {250 - proposal.length} Characters remaining
             </p>
 
             <Button
@@ -175,6 +193,7 @@ export default function TalentRequirement({
               onChange={handleFileChange}
               name="document"
             />
+            {selectedFileName && <p>{selectedFileName}</p>}
           </CardContent>
         </Card>
 
