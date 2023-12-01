@@ -6,6 +6,7 @@ export interface USERProps {
   accountId: string;
   authKey: string;
   agencyName: string;
+  profilePic: string;
 }
 
 export interface userProps {
@@ -52,6 +53,7 @@ const userSlice = createSlice({
         accountId: "",
         authKey: "",
         agencyName: "",
+        profilePic: "",
       };
 
       localStorage.removeItem(localStorageKey);

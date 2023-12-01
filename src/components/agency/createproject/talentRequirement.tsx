@@ -70,15 +70,28 @@ export default function TalentRequirement({
       setSelectedFileName(fileInput.files[0].name);
     }
 
-    // if (files?.length) {
-    //   const selectedFile = Array.from(files);
-    //   setDocument(selectedFile[0]);
-    // }
+    if (files?.length) {
+      const selectedFile = Array.from(files);
+      setDocument(selectedFile[0]);
+    }
   };
 
   const handleDivClick = () => {
     // Trigger a click event on the hidden input
     fileInputRef?.current?.click();
+  };
+
+  // const [proposals, setProposals] = useState("");
+
+  const handleProposalChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e && e.target) {
+      const inputValue = e.target.value ?? "";
+
+      // Limit the text to 250 characters
+      if (inputValue.length <= 250) {
+        setProposal(inputValue);
+      }
+    }
   };
 
   return (
@@ -157,10 +170,11 @@ export default function TalentRequirement({
             <Textarea
               placeholder="Describe proposal requirements..."
               className="min-h-[250px]"
-              onChange={(e) => setProposal(e.target.value)}
+              value={proposal}
+              onChange={handleProposalChange}
             />
             <p className="text-[12px] text-bm__btn__grey mt-3">
-              250 Characters
+              {250 - proposal.length} Characters remaining
             </p>
 
             <Button
