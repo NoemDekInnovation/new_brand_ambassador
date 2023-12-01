@@ -12,75 +12,34 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { patchAxiosInstance } from "../../../api/axios";
+import { AddressProps } from "../../../redux/types";
 
 export default function Address({
   next,
   prev,
   cancel,
+  setAddress,
+  address,
+  create,
 }: {
+  create: () => void;
   next: () => void;
   prev: () => void;
   cancel: () => void;
+  setAddress: any;
+  address: AddressProps;
 }) {
+    const handleInputChange = (
+      e: React.ChangeEvent<HTMLInputElement>,
+      fieldName: string
+    ) => {
+      const { value } = e.target;
 
-    const { user } = useSelector((state: RootState) => state.user);
-
-    const [loading, setLoading] = useState(false);
-
-    const [addressDatas, setAddressDatas] = useState({
-      address: [ 
-        {
-          street: "",
-          city: "",
-          LGA: "",
-          state: "",
-          zipCode: "",
-        },
-      ],
-    });
-
-    const handleInput = (index: number, field: string, value: string) => {
-      setAddressDatas((prevAddressDatas) => {
-        const updatedAddress = [...prevAddressDatas.address];
-        updatedAddress[index] = {
-          ...updatedAddress[index],
-          [field]: value,
-        };
-        return { ...prevAddressDatas, address: updatedAddress };
-      });
+      setAddress((prevData: AddressProps) => ({
+        ...prevData,
+        [fieldName]: value,
+      }));
     };
-
-    const handleAdress = async () => {
-      setLoading(true);
-      const addressData = new FormData();
-      // Loop through each address in the array
-      addressDatas.address.forEach((address, index) => {
-        // Append each field of the address to the FormData
-        addressData.append(`street${index}`, address.street);
-        addressData.append(`city${index}`, address.city);
-        addressData.append(`LGA${index}`, address.LGA);
-        addressData.append(`state${index}`, address.state);
-        addressData.append(`zipCode${index}`, address.zipCode);
-      });
-
-          if (user?.accountId !== undefined) {
-            try {
-              const response = await patchAxiosInstance.patch(
-                `/profile-details`,
-                addressData,
-                {
-                  headers: {
-                    Authorization: `Bearer ${user.authKey || ""}`,
-                  },
-                }
-              );
-              setLoading(false);
-            } catch (error) {
-              setLoading(false);
-            }
-          }
-    }
-
 
 
   return (
@@ -172,10 +131,8 @@ export default function Address({
                   id="street"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
-                  value={addressDatas.address[0].street}
-                  onChange={(e) => handleInput(0, "street", e.target.value)}
+                  value={address.street}
+                  onChange={(e) => handleInputChange(e, "street")}
                   required
                 />
                 <label
@@ -193,14 +150,12 @@ export default function Address({
                   id="city"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.endDate}
-                  // onChange={handleInputChange}
-                  value={addressDatas.address[0].city}
-                  onChange={(e) => handleInput(0, "city", e.target.value)} // Pass the index, field, and value
+                  value={address.city}
+                  onChange={(e) => handleInputChange(e, "city")}
                   required
                 />
                 <label
-                  htmlFor="floating_last_name"
+                  htmlFor="city"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   City
@@ -215,10 +170,8 @@ export default function Address({
                   id="LGA"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
-                  value={addressDatas.address[0].LGA}
-                  onChange={(e) => handleInput(0, "LGA", e.target.value)} // Pass the index, field, and value
+                  value={address.LGA}
+                  onChange={(e) => handleInputChange(e, "LGA")}
                   required
                 />
                 <label
@@ -236,10 +189,8 @@ export default function Address({
                   id="state"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.endDate}
-                  // onChange={handleInputChange}
-                  value={addressDatas.address[0].state}
-                  onChange={(e) => handleInput(0, "state", e.target.value)} // Pass the index, field, and value
+                  value={address.state}
+                  onChange={(e) => handleInputChange(e, "state")}
                   required
                 />
                 <label
@@ -256,10 +207,8 @@ export default function Address({
                   id="zipCode"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.endDate}
-                  // onChange={handleInputChange}
-                  value={addressDatas.address[0].zipCode}
-                  onChange={(e) => handleInput(0, "zipCode", e.target.value)} // Pass the index, field, and value
+                  value={address.zipCode}
+                  onChange={(e) => handleInputChange(e, "zipCode")}
                   required
                 />
                 <label
@@ -290,7 +239,7 @@ export default function Address({
                 className="dark__btn w-fit whitespace-nowrap"
                 // onClick={next}
                 onClick={() => {
-                  handleAdress();
+                  create();
                   next();
                 }}
               >

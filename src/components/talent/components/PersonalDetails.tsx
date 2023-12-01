@@ -12,75 +12,33 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useState } from "react";
 import { patchAxiosInstance } from "../../../api/axios";
+import { PersonalProps } from "../../../redux/types";
+import { Progress } from "../../../ui/progress";
 
 export default function PersonalDetails({
   next,
   prev,
   cancel,
+  setPersonal,
+  personal,
+  create,
 }: {
+  create: () => void;
   next: () => void;
   prev: () => void;
   cancel: () => void;
+  setPersonal: any;
+  personal: PersonalProps;
 }) {
-  const { user } = useSelector((state: RootState) => state.user);
-  const [loading, setLoading] = useState(false);
-  const [personal, setPersonal] = useState({
-    firstName: "",
-    lastName: "",
-    middleName: "",
-    phone: "",
-    alternatePhone: "",
-    DOB: "",
-    gender: "",
-    origin: "",
-    nationality: "",
-    height: "",
-    skinColor: "",
-    dressSize: "",
-    languages: "",
-  });
-
-  const handlePersonal = async () => {
-    setLoading(false);
-    const personalData = new FormData();
-    personalData.append("firstName", personal.firstName);
-    personalData.append("lastName", personal.lastName);
-    personalData.append("middleName", personal.middleName);
-    personalData.append("phone", personal.phone);
-    personalData.append("alternatePhone", personal.alternatePhone);
-    personalData.append("DOB", personal.DOB);
-    personalData.append("gender", personal.gender);
-    personalData.append("origin", personal.origin);
-    personalData.append("nationality", personal.nationality);
-    personalData.append("height", personal.height);
-    personalData.append("skinColor", personal.skinColor);
-    personalData.append("dressSize", personal.dressSize);
-    personalData.append("languages", personal.languages);
-
-        if (user?.accountId !== undefined) {
-      try {
-        const response = await patchAxiosInstance.patch(
-          `/profile-details`,
-          personalData,
-          {
-            headers: {
-              Authorization: `Bearer ${user.authKey || ""}`,
-            },
-          }
-        );
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-      }
-    }
-  }
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string
+  ) => {
     const { name, value } = e.target;
 
-    setPersonal((prevPersonal) => ({
-      ...prevPersonal,
-      [name]: value,
+    setPersonal((prevData: PersonalProps) => ({
+      ...prevData,
+      [fieldName]: value,
     }));
   };
 
@@ -169,17 +127,15 @@ export default function PersonalDetails({
                 <input
                   type="text"
                   name="firstName"
-                  id="floating_first_name"
+                  id="firstName"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
                   value={personal.firstName}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, "firstName")}
                   required
                 />
                 <label
-                  htmlFor="floating_first_name"
+                  htmlFor="firstName"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   First name
@@ -190,17 +146,15 @@ export default function PersonalDetails({
                 <input
                   type="text"
                   name="lastName"
-                  id="floating_last_name"
+                  id="lastName"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.endDate}
-                  // onChange={handleInputChange}
                   value={personal.lastName}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, "lastName")}
                   required
                 />
                 <label
-                  htmlFor="floating_last_name"
+                  htmlFor="lastName"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Last Name
@@ -212,17 +166,15 @@ export default function PersonalDetails({
                 <input
                   type="text"
                   name="middleName"
-                  id="floating_first_name"
+                  id="middleName"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
                   value={personal.middleName}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, "middleName")}
                   required
                 />
                 <label
-                  htmlFor="floating_first_name"
+                  htmlFor="middleName"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Middle name
@@ -232,16 +184,16 @@ export default function PersonalDetails({
               <div className="relative z-0 w-full mb-6 group">
                 <input
                   type="email"
-                  name="floating_last_name"
-                  id="floating_last_name"
+                  name="email"
+                  id="email"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.endDate}
-                  // onChange={handleInputChange}
+                  value={personal.email}
+                  onChange={(e) => handleInputChange(e, "email")}
                   required
                 />
                 <label
-                  htmlFor="floating_last_name"
+                  htmlFor="email"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Email
@@ -251,19 +203,17 @@ export default function PersonalDetails({
             <div className="grid md:grid-cols-2 md:gap-6">
               <div className="relative  z-0 w-full mb-6 group">
                 <input
-                  type="text"
+                  type="tel"
                   name="phone"
-                  id="floating_first_name"
+                  id="phone"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
                   value={personal.phone}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, "phone")}
                   required
                 />
                 <label
-                  htmlFor="floating_first_name"
+                  htmlFor="phone"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Phone number
@@ -272,19 +222,17 @@ export default function PersonalDetails({
 
               <div className="relative z-0 w-full mb-6 group">
                 <input
-                  type="text"
+                  type="tel"
                   name="alternatePhone"
-                  id="floating_last_name"
+                  id="alternatePhone"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.endDate}
-                  // onChange={handleInputChange}
                   value={personal.alternatePhone}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, "alternatePhone")}
                   required
                 />
                 <label
-                  htmlFor="floating_last_name"
+                  htmlFor="alternatePhone"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Alternate number
@@ -296,17 +244,15 @@ export default function PersonalDetails({
                 <input
                   type="date"
                   name="DOB"
-                  id="floating_first_name"
+                  id="DOB"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
                   value={personal.DOB}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, "DOB")}
                   required
                 />
                 <label
-                  htmlFor="floating_first_name"
+                  htmlFor="DOB"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Date of Birth
@@ -317,17 +263,15 @@ export default function PersonalDetails({
                 <input
                   type="text"
                   name="gender"
-                  id="floating_last_name"
+                  id="gender"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.endDate}
-                  // onChange={handleInputChange}
                   value={personal.gender}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, "gender")}
                   required
                 />
                 <label
-                  htmlFor="floating_last_name"
+                  htmlFor="gender"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Gender
@@ -339,17 +283,15 @@ export default function PersonalDetails({
                 <input
                   type="text"
                   name="origin"
-                  id="floating_first_name"
+                  id="origin"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
                   value={personal.origin}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, "origin")}
                   required
                 />
                 <label
-                  htmlFor="floating_first_name"
+                  htmlFor="origin"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   State of origin
@@ -360,17 +302,15 @@ export default function PersonalDetails({
                 <input
                   type="text"
                   name="nationality"
-                  id="floating_last_name"
+                  id="nationality"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.endDate}
-                  // onChange={handleInputChange}
                   value={personal.nationality}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, "nationality")}
                   required
                 />
                 <label
-                  htmlFor="floating_last_name"
+                  htmlFor="nationality"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Nationality
@@ -382,17 +322,15 @@ export default function PersonalDetails({
                 <input
                   type="text"
                   name="height"
-                  id="floating_first_name"
+                  id="height"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
                   value={personal.height}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, "height")}
                   required
                 />
                 <label
-                  htmlFor="floating_first_name"
+                  htmlFor="height"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Height
@@ -403,17 +341,15 @@ export default function PersonalDetails({
                 <input
                   type="text"
                   name="skinColor"
-                  id="floating_last_name"
+                  id="skinColor"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.endDate}
-                  // onChange={handleInputChange}
                   value={personal.skinColor}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, "skinColor")}
                   required
                 />
                 <label
-                  htmlFor="floating_last_name"
+                  htmlFor="skinColor"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Skin color
@@ -425,17 +361,15 @@ export default function PersonalDetails({
                 <input
                   type="text"
                   name="dressSize"
-                  id="floating_first_name"
+                  id="dressSize"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
                   value={personal.dressSize}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, "dressSize")}
                   required
                 />
                 <label
-                  htmlFor="floating_first_name"
+                  htmlFor="dressSize"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Dress Size
@@ -444,19 +378,17 @@ export default function PersonalDetails({
 
               <div className="relative z-0 w-full mb-6 group">
                 <input
-                  type="Languages"
+                  type="text"
                   name="languages"
-                  id="floating_last_name"
+                  id="languages"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.endDate}
-                  // onChange={handleInputChange}
                   value={personal.languages}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e, "languages")}
                   required
                 />
                 <label
-                  htmlFor="floating_last_name"
+                  htmlFor="languages"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Languages
@@ -484,7 +416,7 @@ export default function PersonalDetails({
                 className="dark__btn w-fit whitespace-nowrap"
                 // onClick={next}
                 onClick={() => {
-                  handlePersonal();
+                  create();
                   next();
                 }}
               >

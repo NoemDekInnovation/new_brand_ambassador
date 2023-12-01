@@ -8,70 +8,73 @@ import subtract3 from "../../../assets/Subtract3.png";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { MdPayments, MdSettings } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { useEffect, useState } from "react";
 import { patchAxiosInstance } from "../../../api/axios";
+import { SkillsStateProps, fetchSkills } from "../../../redux/skills.slice";
+import { GrFormClose } from "react-icons/gr";
+
+type TalentOption = {
+  label: string;
+  value: string;
+};
 
 export default function Skills({
   next,
   prev,
   cancel,
+  create,
+  handleSkillSelect,
+  handleSkillDelete,
+  skillsData,
+  talentOptions,
 }: {
+  create: () => void;
   next: () => void;
   prev: () => void;
   cancel: () => void;
+  talentOptions: TalentOption[];
+  skillsData: string[];
+  handleSkillSelect: (id: any) => void;
+  handleSkillDelete: (index: number) => void;
 }) {
-    const { user } = useSelector((state: RootState) => state.user);
+    const { loading, skills, error, skillsFetchSucess } = useSelector(
+      (state: any) => state.skills
+    ) as SkillsStateProps;
+    // console.log(skills);
 
-    const [loading, setLoading] = useState(false);
-    const [skillData, setSkillData] = useState({
-      skills: "",
-      opportunities: ""
-    });
+    const [inputValue, setInputValue] = useState<string>("");
+    const [filteredOptions, setFilteredOptions] = useState<TalentOption[]>([]);
+    const [isSearching, setIsSearching] = useState<boolean>(false);
+    const [example, setExample] = useState("");
 
-    const handleSkillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSkillData((prevData) => ({
-        ...prevData,
-        skills: event.target.value,
-      }));
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setInputValue(value);
+      setIsSearching(true);
+
+      if (value) {
+        const searchLower = value.toLowerCase();
+        const filtered = talentOptions.filter((option) =>
+          option.label.toLowerCase().includes(searchLower)
+        );
+        setFilteredOptions(filtered);
+      } else {
+        setFilteredOptions([]);
+      }
     };
 
-    const handleOpportunitiesChange = (
-      event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      setSkillData((prevData) => ({
-        ...prevData,
-        opportunities: event.target.value,
-      }));
+    const handleOptionClick = (value: string) => {
+      setInputValue(value);
+      setIsSearching(false);
+      setFilteredOptions([]);
     };
+    const dispatch = useDispatch<AppDispatch>();
 
-    const handleSkill = async () => {
-      setLoading(true);
-      const skillDatas = new FormData();
-      skillDatas.append("skills", skillData.skills)
-      skillDatas.append("opportunities", skillData.opportunities);
-
-              if (user?.accountId !== undefined) {
-                try {
-                  const response = await patchAxiosInstance.patch(
-                    `/profile-details`,
-                    skillDatas,
-                    {
-                      headers: {
-                        Authorization: `Bearer ${user.authKey || ""}`,
-                      },
-                    }
-                  );
-                  setLoading(false);
-                } catch (error) {
-                  setLoading(false);
-                }
-              }
-    }
-
-
-
+    useEffect(() => {
+      dispatch(fetchSkills(example));
+    }, [example]);
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">
       {/* <div className='fixed top-0 h-screen w-screen bg-[#F3F3F3]/30 z-[1000] mt-[20vh] px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'> */}
@@ -156,15 +159,17 @@ export default function Skills({
                 <div className="relative  z-0 w-full mb-6 group">
                   <input
                     type="text"
-                    name="skills"
-                    id="skills"
+                    name="floating_first_name"
+                    id="floating_first_name"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     // value={formData.projectDuration.startDate}
                     // onChange={handleInputChange}
-                    value={skillData.skills}
-                    onChange={handleSkillChange}
                     required
+                    onChange={(e) => {
+                      setExample(e.target.value);
+                    }}
+                    value={example}
                   />
                   <label
                     htmlFor="skills"
@@ -172,6 +177,40 @@ export default function Skills({
                   >
                     Type and select your skills
                   </label>
+                  <ul className="flex flex-wrap max-w-md">
+                    {skillsData.map((data, index) => (
+                      <li className="p-2 flex items-center " key={index}>
+                        <p className="flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 dark__btn max-w-[200px] cursor-pointer">
+                          {data}{" "}
+                          <GrFormClose
+                            className="ml-2 cursor-pointer"
+                            onClick={() => handleSkillDelete(index)}
+                          />
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="relative">
+                    <div className="flex gap-2 lg:justify-between font-medium text-[12px] my-2 flex-wrap">
+                      <ul className="list-none">
+                        {skills.results.map((skill, index) => (
+                          <li
+                            className="rounded bg-white px-4 py-2 mb-1 text-gray-800 max-w-xs"
+                            key={index}
+                          >
+                            <button
+                              onClick={() => handleSkillSelect(skill)}
+                              disabled={skillsData.length >= 5}
+                              className="ml-2"
+                            >
+                              {skill}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                   <small>Maximun of 5 skills</small>
                 </div>
               </div>
@@ -181,14 +220,14 @@ export default function Skills({
                 <div className="relative  z-0 w-full mb-6 group">
                   <input
                     type="text"
-                    name="opportunities"
-                    id="opportunities"
+                    name="floating_first_name"
+                    id="floating_first_name"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     // value={formData.projectDuration.startDate}
                     // onChange={handleInputChange}
-                    value={skillData.opportunities}
-                    onChange={handleOpportunitiesChange}
+                    value={inputValue}
+                    onChange={handleInputChange}
                     required
                   />
                   <label
@@ -197,6 +236,26 @@ export default function Skills({
                   >
                     Type and select the opportunities that you are open to
                   </label>
+                  {isSearching &&
+                    inputValue &&
+                    filteredOptions.length === 0 && (
+                      <div className="absolute z-10 w-full bg-white py-2 px-4 text-sm text-gray-900">
+                        Not found
+                      </div>
+                    )}
+                  {isSearching && filteredOptions.length > 0 && (
+                    <ul className="absolute z-10 w-full bg-white shadow-md max-h-60 overflow-auto">
+                      {filteredOptions.map((option) => (
+                        <li
+                          key={option.value}
+                          onClick={() => handleOptionClick(option.label)}
+                          className="py-2 px-4 hover:bg-gray-100 cursor-pointer"
+                        >
+                          {option.label}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                   {/* <small>Maximun of 5 skills</small> */}
                 </div>
               </div>
@@ -219,11 +278,8 @@ export default function Skills({
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
-                // onClick={next}
-                onClick={() => {
-                  handleSkill();
-                  next();
-                }}
+                onClick={next}
+                
               >
                 Save and Next
               </Button>

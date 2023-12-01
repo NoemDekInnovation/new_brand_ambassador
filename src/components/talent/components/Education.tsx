@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useState } from "react";
 import { patchAxiosInstance } from "../../../api/axios";
+import { CertificateProps, EducationProps } from "../../../redux/types";
 
 interface EducationDetails {
   institution: string;
@@ -35,123 +36,59 @@ export default function Education({
   next,
   prev,
   cancel,
+  setEducation,
+  education,
+  setCertificate,
+  certificate,
+  create,
 }: {
+  create: () => void;
   next: () => void;
   prev: () => void;
   cancel: () => void;
+  setEducation: any;
+  education: EducationProps[];
+  setCertificate: any;
+  certificate: CertificateProps[];
 }) {
-  const { user } = useSelector((state: RootState) => state.user);
+   const handleAddEducation = () => {
+     // Add a new empty experience object when the "Add Experience" button is clicked
+     setEducation([
+       ...education,
+       {
+         /* initialize with empty values */
+       },
+     ]);
+   };
+   const handleAddCertification = () => {
+     // Add a new empty experience object when the "Add Experience" button is clicked
+     setCertificate([
+       ...certificate,
+       {
+         /* initialize with empty values */
+       },
+     ]);
+   };
+   const handleEduInputChange = (
+     e: React.ChangeEvent<HTMLInputElement>,
+     index: number
+   ) => {
+     const { name, value } = e.target;
 
-  const [loading, setLoading] = useState(false);
-  const [educationDetails, setEducationDetails] = useState({
-    education: [
-      {
-        institution: "",
-        degree: "",
-        grade: "",
-        gradYear: "",
-      },
-    ],
-  });
-  const [certificateDetails, setCertificateDetails] = useState({
-    certifications: [
-      {
-        certificateName: "",
-        organisation: "",
-        certYear: "",
-      },
-    ],
-  });
+     const updatedEducation = [...education];
+     updatedEducation[index][name] = value;
+     setEducation(updatedEducation);
+   };
+   const handleCertInputChange = (
+     e: React.ChangeEvent<HTMLInputElement>,
+     index: number
+   ) => {
+     const { name, value } = e.target;
 
-  const handleEducation = async () => {
-    setLoading(true);
-    const educationData = new FormData();
-    // Adding education details to FormData
-    educationDetails.education.forEach((edu, index) => {
-      educationData.append(`education[${index}][institution]`, edu.institution);
-      educationData.append(`education[${index}][degree]`, edu.degree);
-      educationData.append(`education[${index}][grade]`, edu.grade);
-      educationData.append(`education[${index}][gradYear]`, edu.gradYear);
-    });
-
-    // Adding certificate details to FormData
-    certificateDetails.certifications.forEach((cert, index) => {
-      educationData.append(
-        `certifications[${index}][certificateName]`,
-        cert.certificateName
-      );
-      educationData.append(
-        `certifications[${index}][organisation]`,
-        cert.organisation
-      );
-      educationData.append(`certifications[${index}][certYear]`, cert.certYear);
-    });
-
-        if (user?.accountId !== undefined) {
-          try {
-            const response = await patchAxiosInstance.patch(
-              `/profile-details`,
-              educationData,
-              {
-                headers: {
-                  Authorization: `Bearer ${user.authKey || ""}`,
-                },
-              }
-            );
-            setLoading(false);
-          } catch (error) {
-            setLoading(false);
-          }
-        }
-  }
-
-const handleInput = (
-  value: string,
-  field: keyof EducationDetails | keyof CertificateDetails,
-  index: number,
-  category: "education" | "certifications"
-): void => {
-  if (category === "education") {
-    const updatedEducation = [...educationDetails.education];
-    (updatedEducation[index] as any)[field] = value;
-    setEducationDetails({ education: updatedEducation });
-  } else if (category === "certifications") {
-    const updatedCertifications = [...certificateDetails.certifications];
-    (updatedCertifications[index] as any)[field] = value;
-    setCertificateDetails({ certifications: updatedCertifications });
-  }
-};
-
-const handleAddEducation = () => {
-  setEducationDetails((prevDetails) => ({
-    education: [
-      ...prevDetails.education,
-      {
-        institution: "",
-        degree: "",
-        grade: "",
-        gradYear: "",
-      },
-    ],
-  }));
-};
-
-const handleAddCertification = () => {
-  setCertificateDetails((prevDetails) => ({
-    certifications: [
-      ...prevDetails.certifications,
-      {
-        certificateName: "",
-        organisation: "",
-        certYear: "",
-      },
-    ],
-  }));
-};
-
-
-
-  
+     const updatedCertificate = [...certificate];
+     updatedCertificate[index][name] = value;
+     setCertificate(updatedCertificate);
+   };
 
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 overflow-hidden  h-[87.3vh] pt-10">
@@ -346,109 +283,90 @@ const handleAddCertification = () => {
                 </div>
               </div>
             </div> */}
-            {educationDetails.education.map((edu, index) => (
-              <div key={index} className="mt-2">
-                <p>Education {index + 1}</p>
-                <div className="grid md:grid-cols-2 md:gap-6 mt-4">
-                  <div className="relative  z-0 w-full mb-6 group">
-                    <input
-                      type="text"
-                      name="institution"
-                      id={`institution_${index}`}
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      // value={formData.projectDuration.startDate}
-                      // onChange={handleInputChange}
-                      value={edu.institution}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInput(
-                          e.target.value,
-                          "institution",
-                          0,
-                          "education"
-                        )
-                      }
-                      required
-                    />
-                    <label
-                      htmlFor="floating_first_name"
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      Institution
-                    </label>
-                  </div>
+            {education.map((e, index) => (
+              <>
+                <div className="mt-2" key={index}>
+                  <p>Education {index + 1}</p>
+                  <div className="grid md:grid-cols-2 md:gap-6 mt-4">
+                    <div className="relative  z-0 w-full mb-6 group">
+                      <input
+                        type="text"
+                        name="institution"
+                        id="institution"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        value={e.institution}
+                        onChange={(e) => handleEduInputChange(e, index)}
+                        required
+                      />
+                      <label
+                        htmlFor="institution"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        Institution
+                      </label>
+                    </div>
 
-                  <div className="relative z-0 w-full mb-6 group">
-                    <input
-                      type="text"
-                      name="degree"
-                      id={`degree_${index}`}
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      // value={formData.projectDuration.endDate}
-                      // onChange={handleInputChange}
-                      value={edu.degree}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInput(e.target.value, "degree", 0, "education")
-                      }
-                      required
-                    />
-                    <label
-                      htmlFor="floating_last_name"
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      Degree
-                    </label>
+                    <div className="relative z-0 w-full mb-6 group">
+                      <input
+                        type="text"
+                        name="degree"
+                        id="degree"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        value={e.degree}
+                        onChange={(e) => handleEduInputChange(e, index)}
+                        required
+                      />
+                      <label
+                        htmlFor="degree"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        Degree
+                      </label>
+                    </div>
+                  </div>
+                  <div className="grid md:grid-cols-2 md:gap-6">
+                    <div className="relative  z-0 w-full mb-6 group">
+                      <input
+                        type="text"
+                        name="grade"
+                        id="grade"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        value={e.grade}
+                        onChange={(e) => handleEduInputChange(e, index)}
+                        required
+                      />
+                      <label
+                        htmlFor="grade"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        Grade
+                      </label>
+                    </div>
+
+                    <div className="relative z-0 w-full mb-6 group">
+                      <input
+                        type="date"
+                        name="gradYear"
+                        id="gradYear"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        value={e.gradYear}
+                        onChange={(e) => handleEduInputChange(e, index)}
+                        required
+                      />
+                      <label
+                        htmlFor="gradYear"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        Graduation Year
+                      </label>
+                    </div>
                   </div>
                 </div>
-                <div className="grid md:grid-cols-2 md:gap-6">
-                  <div className="relative  z-0 w-full mb-6 group">
-                    <input
-                      type="text"
-                      name="grade"
-                      id={`grade_${index}`}
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      // value={formData.projectDuration.startDate}
-                      // onChange={handleInputChange}
-                      value={edu.grade}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInput(e.target.value, "grade", 0, "education")
-                      }
-                      required
-                    />
-                    <label
-                      htmlFor="floating_first_name"
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      Grade
-                    </label>
-                  </div>
-
-                  <div className="relative z-0 w-full mb-6 group">
-                    <input
-                      type="text"
-                      name="gradYear"
-                      id={`gradYear_${index}`}
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      // value={formData.projectDuration.endDate}
-                      // onChange={handleInputChange}
-                      value={edu.gradYear}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInput(e.target.value, "gradYear", 0, "education")
-                      }
-                      required
-                    />
-                    <label
-                      htmlFor="floating_last_name"
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      Graduation Year
-                    </label>
-                  </div>
-                </div>
-              </div>
+              </>
             ))}
             <Separator className="bg-bm__beige my-4 md:mb-6" />
             <Button
@@ -542,96 +460,71 @@ const handleAddCertification = () => {
                 </div>
               </div>
             </div> */}
-            {certificateDetails.certifications.map((cert, index) => (
-              <div key={index} className="mt-2">
-                <p>Certification {index + 1}</p>
-                <div className="grid  md:gap-6 mt-4">
-                  <div className="relative  z-0 w-full mb-6 group">
-                    <input
-                      type="text"
-                      name="certificateName"
-                      id={`certificateName_${index}`}
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      // value={formData.projectDuration.startDate}
-                      // onChange={handleInputChange}
-                      value={cert.certificateName}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInput(
-                          e.target.value,
-                          "certificateName",
-                          0,
-                          "certifications"
-                        )
-                      }
-                      required
-                    />
-                    <label
-                      htmlFor="floating_first_name"
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      Certificate name
-                    </label>
+            {certificate.map((c, index) => (
+              <>
+                <div className="mt-2" key={index}>
+                  <p>Certification {index + 1}</p>
+                  <div className="grid  md:gap-6 mt-4">
+                    <div className="relative  z-0 w-full mb-6 group">
+                      <input
+                        type="text"
+                        name="certificateName"
+                        id="certificateName"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        value={c.certificateName}
+                        onChange={(e) => handleCertInputChange(e, index)}
+                        required
+                      />
+                      <label
+                        htmlFor="certificateName"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        Certificate name
+                      </label>
+                    </div>
                   </div>
-                </div>
-                <div className="grid md:grid-cols-2 md:gap-6">
-                  <div className="relative  z-0 w-full mb-6 group">
-                    <input
-                      type="text"
-                      name="organisation"
-                      id={`organisation_${index}`}
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      // value={formData.projectDuration.startDate}
-                      // onChange={handleInputChange}
-                      value={cert.organisation}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInput(
-                          e.target.value,
-                          "organisation",
-                          0,
-                          "certifications"
-                        )
-                      }
-                      required
-                    />
-                    <label
-                      htmlFor="floating_first_name"
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      Organisation
-                    </label>
-                  </div>
+                  <div className="grid md:grid-cols-2 md:gap-6">
+                    <div className="relative  z-0 w-full mb-6 group">
+                      <input
+                        type="text"
+                        name="organisation"
+                        id="organisation"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        value={c.organisation}
+                        onChange={(e) => handleCertInputChange(e, index)}
+                        required
+                      />
+                      <label
+                        htmlFor="floating_first_name"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        Organisation
+                      </label>
+                    </div>
 
-                  <div className="relative z-0 w-full mb-6 group">
-                    <input
-                      type="text"
-                      name="certYear"
-                      id={`certYear_${index}`}
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      // value={formData.projectDuration.endDate}
-                      // onChange={handleInputChange}
-                      value={cert.certYear}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInput(
-                          e.target.value,
-                          "certYear",
-                          0,
-                          "certifications"
-                        )
-                      }
-                      required
-                    />
-                    <label
-                      htmlFor="floating_last_name"
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      Year
-                    </label>
+                    <div className="relative z-0 w-full mb-6 group">
+                      <input
+                        type="email"
+                        name="certYear"
+                        id="certYear"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        value={c.certYear}
+                        onChange={(e) => handleCertInputChange(e, index)}
+                        required
+                      />
+                      <label
+                        htmlFor="certYear"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        Year
+                      </label>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </>
             ))}
             <Separator className="bg-bm__beige my-4 md:mb-6" />
 
@@ -663,7 +556,7 @@ const handleAddCertification = () => {
                 className="dark__btn w-fit whitespace-nowrap"
                 // onClick={next}
                 onClick={() => {
-                  handleEducation();
+                  create();
                   next();
                 }}
               >
