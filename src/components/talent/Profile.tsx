@@ -18,8 +18,51 @@ import { FaChartPie, FaCrown, FaGraduationCap } from "react-icons/fa";
 import { TiContacts } from "react-icons/ti";
 import { FaLocationDot } from "react-icons/fa6";
 import { PiStackSimpleFill } from "react-icons/pi";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { useEffect, useState } from "react";
+import { patchAxiosInstance } from "../../api/axios";
 
 const Profile = () => {
+  const { user } = useSelector((state: RootState) => state.user);
+
+  const [talentData, setTalentData] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    profilePic: "",
+    languages: [],
+    skills: [],
+    opportunities: "",
+    address: [],
+    education: [],
+    certifications: [],
+    experience: [],
+    socials: {
+      facebook: "",
+      twitter: "",
+      instagram: "",
+      linkedin: "",
+    },
+    summary: ""
+  });
+
+  useEffect(() => {
+    const updateTalent = async () => {
+      if (user?.accountId !== undefined) {
+        try {
+          const response = await patchAxiosInstance.get(`/get-talent-profile`, {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ""}`,
+            },
+          });
+          setTalentData(response.data.data);
+        } catch (error) {}
+      }
+    };
+    updateTalent();
+  }, []);
+
   return (
     <MainLayout>
       <div className="flex overflow-hidden bg-bm_card_grey">
@@ -74,7 +117,9 @@ const Profile = () => {
                   <div className=" flex w-full gap-4 h-fit">
                     <div className=" w-full max-w-[240px] flex flex-col gap-2">
                       {/* <img src="" className='' alt="" /> */}
-                      <div className="h-[300px] bg-green-200 rounded-md"></div>
+                      <div className="h-[300px]  rounded-md">
+                        <img src={talentData.profilePic} className="" alt="" />
+                      </div>
 
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-[240px]  border rounded-[6px]">
                         <div className="flex items-center gap-4">
@@ -84,13 +129,23 @@ const Profile = () => {
                           </p>
                         </div>
                         <Separator className="bg-bm__gler/50" />
-                        <p className="text-[12px] font-normal">
+                        {/* <p className="text-[12px] font-normal">
                           BSc. Modelling
-                        </p>
+                        </p> */}
+                        {talentData.education.map((qualification, index) => (
+                          <p key={index} className="text-[12px] font-normal">
+                            {qualification}
+                          </p>
+                        ))}
 
-                        <p className="text-[12px] font-normal">
+                        {/* <p className="text-[12px] font-normal">
                           Certificate in Dancing
-                        </p>
+                        </p> */}
+                        {talentData.certifications.map((certificate, index) => (
+                          <p key={index} className="text-[12px] font-normal">
+                            {certificate}
+                          </p>
+                        ))}
                       </Card>
 
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-[240px]  border rounded-[6px]">
@@ -111,10 +166,21 @@ const Profile = () => {
                         </div>
 
                         <Separator className="bg-bm__gler/50" />
-                        <p className="text-[12px] font-normal">
+                        {/* <p className="text-[12px] font-normal">
                           Modelling . Singing . Dancing . Paintballing . Catwalk
                           . Leg walk . Pretty
-                        </p>
+                        </p> */}
+                        {talentData.skills.length > 0 ? (
+                          talentData.skills.map((skill, index) => (
+                            <p key={index} className="text-[12px] font-normal">
+                              {skill}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="text-[12px] font-normal">
+                            No skills available
+                          </p>
+                        )}
                       </Card>
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-[240px]  border rounded-[6px]">
                         <p className="text-[15px] font-medium">Socials</p>
@@ -124,20 +190,26 @@ const Profile = () => {
                         <p className="text-[12px] font-normal">IamNoah </p>
                         <p className="text-[12px] font-normal"> IamNoah </p>
                         <p className="text-[12px] font-normal">Noah Omolade </p>
+                        
                       </Card>
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-[240px]  border rounded-[6px]">
                         <p className="text-[15px] font-medium">Languages</p>
 
                         <Separator className="bg-bm__gler/50" />
-                        <p className="text-[12px] font-normal">
+                        {/* <p className="text-[12px] font-normal">
                           Yoruba . English . Hausa{" "}
-                        </p>
+                        </p> */}
+                        {talentData.languages.map((language, index) => (
+                          <p key={index} className="text-[12px] font-normal">
+                            {language}
+                          </p>
+                        ))}
                       </Card>
                     </div>
                     <div className="flex-1 flex flex-col gap-2">
                       <div className="flex w-full  justify-between items-center ">
                         <p className="text-[16px] font-bold">
-                          Noah Samuel Omolola
+                          {talentData.firstName} {talentData.lastName}
                         </p>
                         <div className="flex items-center gap-2 bg-[#93979D] text-white p-2 rounded-md">
                           <RiEdit2Fill />
@@ -157,6 +229,7 @@ const Profile = () => {
                           risus mattis. Justo sed pretium tristique aliquam.
                           Tempus in elementum arcu suscipit. Neque volutpat
                           placerat sem sem quis.
+                          {talentData.summary}
                         </p>
                       </Card>
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
@@ -172,13 +245,13 @@ const Profile = () => {
                             <p className="w-[120px] text-[12px] font-medium">
                               First Name:
                             </p>
-                            <p className="">Noah</p>
+                            <p className="">{talentData.firstName}</p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-medium">
                               Last Name:
                             </p>
-                            <p className="">Samuel</p>
+                            <p className="">{talentData.lastName}</p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-medium">
@@ -236,7 +309,7 @@ const Profile = () => {
                           </div>
                         </div>
                       </Card>
-                      <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
+                      {/* <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
                         <div className="flex items-center gap-4">
                           <FaLocationDot />
                           <p className="text-[15px] font-medium">Address</p>
@@ -257,7 +330,41 @@ const Profile = () => {
                             <p>233312</p>
                           </div>
                         </div>
+                      </Card> */}
+                      <Card className="p-6 flex flex-col justify-center gap-2 bg-white border-bm__beige w-full border rounded-[6px]">
+                        <div className="flex items-center gap-4">
+                          <FaLocationDot />
+                          <p className="text-[15px] font-medium">Address</p>
+                        </div>
+                        <Separator className="bg-bm__gler/50" />
+
+                        {(talentData.address as string[])?.length > 0 ? (
+                          (talentData.address as string[]).map(
+                            (addressLine, index) => (
+                              <div
+                                key={index}
+                                className="text-[12px] font-normal gap-2 flex flex-col"
+                              >
+                                <div className="flex items-center">
+                                  <p className="text-[12px] font-medium">
+                                    Address {index + 1}
+                                  </p>
+                                </div>
+                                <div className="flex flex-col">
+                                  {addressLine.split(",").map((line, i) => (
+                                    <p key={i} className="text-[12px]">
+                                      {line.trim()}
+                                    </p>
+                                  ))}
+                                </div>
+                              </div>
+                            )
+                          )
+                        ) : (
+                          <p>No address information available</p>
+                        )}
                       </Card>
+
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
                         <div className="flex items-center gap-4">
                           <FaGraduationCap />

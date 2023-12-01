@@ -12,59 +12,34 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useState } from "react";
 import { patchAxiosInstance } from "../../../api/axios";
+import { SocialsProps } from "../../../redux/types";
 
 export default function Social({
   next,
   prev,
   cancel,
+  socials,
+  setSocials,
+  create,
 }: {
+  create: () => void;
   next: () => void;
   prev: () => void;
   cancel: () => void;
+  socials: SocialsProps;
+  setSocials: any;
 }) {
-    const { user } = useSelector((state: RootState) => state.user);
+    const handleInputChange = (
+      e: React.ChangeEvent<HTMLInputElement>,
+      fieldName: string
+    ) => {
+      const { name, value } = e.target;
 
-    const [loading, setLoading] = useState(false);
-    const [socials, setSocials] = useState({
-      facebook: "",
-      twitter: "",
-      instagram: "",
-      linkedin: ""
-    })
-
-    const handleInputChange = (name: string, value: string) => {
-      setSocials((prevSocials) => ({
-        ...prevSocials,
-        [name]: value,
+      setSocials((prevData: SocialsProps) => ({
+        ...prevData,
+        [fieldName]: value,
       }));
     };
-
-    const handleSocial = async () => {
-    setLoading(true);
-    const socialsFormData = new FormData();
-
-    Object.entries(socials).forEach(([key, value]) => {
-      socialsFormData.append(`socials[${key}]`, value);
-    });
-
-            if (user?.accountId !== undefined) {
-              try {
-                const response = await patchAxiosInstance.patch(
-                  `/profile-details`,
-                  socialsFormData,
-                  {
-                    headers: {
-                      Authorization: `Bearer ${user.authKey || ""}`,
-                    },
-                  }
-                );
-                setLoading(false);
-              } catch (error) {
-                setLoading(false);
-              }
-            }
-    }
-
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">
       {/* <div className='fixed top-0 h-screen w-screen bg-[#F3F3F3]/30 z-[1000] mt-[20vh] px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'> */}
@@ -145,12 +120,8 @@ export default function Social({
                   id="linkedin"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
                   value={socials.linkedin}
-                  onChange={(e) =>
-                    handleInputChange("linkedin", e.target.value)
-                  }
+                  onChange={(e) => handleInputChange(e, "linkedin")}
                   required
                 />
                 <label
@@ -169,12 +140,8 @@ export default function Social({
                   id="instagram"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
                   value={socials.instagram}
-                  onChange={(e) =>
-                    handleInputChange("instagram", e.target.value)
-                  }
+                  onChange={(e) => handleInputChange(e, "instagram")}
                   required
                 />
                 <label
@@ -193,10 +160,8 @@ export default function Social({
                   id="twitter"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
                   value={socials.twitter}
-                  onChange={(e) => handleInputChange("twitter", e.target.value)}
+                  onChange={(e) => handleInputChange(e, "twitter")}
                   required
                 />
                 <label
@@ -215,11 +180,8 @@ export default function Social({
                   id="facebook"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
-                  onChange={(e) =>
-                    handleInputChange("facebook", e.target.value)
-                  }
+                  value={socials.facebook}
+                  onChange={(e) => handleInputChange(e, "facebook")}
                   required
                 />
                 <label
@@ -246,8 +208,8 @@ export default function Social({
               <Link to={"/profile"}>
                 <Button
                   className="dark__btn w-fit whitespace-nowrap"
-                  // onClick={next}
-                  // onClick={handleSocial}
+                  onClick={next}
+                  
                 >
                   Save
                 </Button>

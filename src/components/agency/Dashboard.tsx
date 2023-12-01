@@ -28,39 +28,41 @@ const Dashboard = () => {
 
   const talentRef = useRef<HTMLParagraphElement>(null);
   const projectsRef = useRef<HTMLParagraphElement>(null);
-  const handleTabClick = (tab: string) => {
+ 
+ const handleTabClick = (tab: string) => {
+    // Reset styles for all tabs
+    if (talentRef.current) {
+      talentRef.current.style.color = "#000000";
+      talentRef.current.style.fontWeight = "500";
+      talentRef.current.style.fontSize = "14px";
+    }
+
+    if (projectsRef.current) {
+      projectsRef.current.style.color = "#000000";
+      projectsRef.current.style.fontWeight = "500";
+      projectsRef.current.style.fontSize = "14px";
+    }
+ 
+    // Apply styles for the clicked tab
     if (tab === "Home") {
-      console.log(talentRef.current?.innerHTML);
-
-      if (talentRef.current) {
-        const element = talentRef.current as HTMLParagraphElement;
-        element.style.color = "#000000";
-        element.style.fontWeight = "500";
-        element.style.fontSize = "14px";
-      } else {
-        const element = talentRef.current as unknown as HTMLParagraphElement;
-        element.style.color = "#800000";
-        element.style.fontWeight = "600";
-        element.style.fontSize = "15px";
-      }
+      // No need to update styles for Home tab
     } else if (tab === "Talent") {
-      console.log(talentRef.current?.innerHTML);
-
       if (talentRef.current) {
-        const element = talentRef.current as HTMLParagraphElement;
-        element.style.color = "#800000";
-        element.style.fontWeight = "600";
-        element.style.fontSize = "15px";
+        talentRef.current.style.color = "#800000";
+        talentRef.current.style.fontWeight = "600";
+        talentRef.current.style.fontSize = "15px";
       }
     } else if (tab === "Projects") {
       if (projectsRef.current) {
-        const element = projectsRef.current as HTMLParagraphElement;
-        element.style.color = "#800000";
-        element.style.fontWeight = "600";
-        element.style.fontSize = "15px";
+        projectsRef.current.style.color = "#800000";
+        projectsRef.current.style.fontWeight = "600";
+        projectsRef.current.style.fontSize = "15px";
       }
-    }
+    } 
   };
+
+
+
 
   return (
     <AgencyLayout>
@@ -184,6 +186,7 @@ const Dashboard = () => {
             <TabsTrigger
               value="inventory"
               className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+              onClick={() => handleTabClick("inventory")}
             >
               Inventory
             </TabsTrigger>
