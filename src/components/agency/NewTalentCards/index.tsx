@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import FurtherTalentDetails from "./FurtherTalentDetails";
-import PersonalDetails from "./PersonalDetails";
-import Address from "./Address";
-import Education from "./Education";
-import Experience from "./Experience";
-import Skills from "./Skills";
-import Social from "./Social";
+import React, { useEffect, useState } from 'react';
+import FurtherTalentDetails from './FurtherTalentDetails';
+import PersonalDetails from './PersonalDetails';
+import Address from './Address';
+import Education from './Education';
+import Experience from './Experience';
+import Skills from './Skills';
+import Social from './Social';
 import {
   AddressProps,
   CertificateProps,
@@ -14,13 +14,13 @@ import {
   PersonalProps,
   SkillProp,
   SocialsProps,
-} from "../../../redux/types";
-import { Dialog, DialogContent } from "../../../ui/dialog";
-import { TbProgressCheck } from "react-icons/tb";
+} from '../../../redux/types';
+import { Dialog, DialogContent } from '../../../ui/dialog';
+import { TbProgressCheck } from 'react-icons/tb';
 
-import { RootState } from "../../../redux/store";
-import { useSelector } from "react-redux";
-import { multerAxiosInstance, patchAxiosInstance } from "../../../api/axios";
+import { RootState } from '../../../redux/store';
+import { useSelector } from 'react-redux';
+import { patchAxiosInstance } from '../../../api/axios';
 
 type TalentOption = {
   label: string;
@@ -29,83 +29,87 @@ type TalentOption = {
 
 export default function NewTalentCards({
   cancelProject,
+  projectId,
+  talent,
 }: {
   cancelProject: () => void;
+  projectId: string;
+  talent: string;
 }) {
   const talentOptions: TalentOption[] = [
-    { label: "Brand Ambassador", value: "brand ambassador" },
-    { label: "Supervisor", value: "supervisor" },
-    { label: "Usher", value: "usher" },
+    { label: 'Brand Ambassador', value: 'brand ambassador' },
+    { label: 'Supervisor', value: 'supervisor' },
+    { label: 'Usher', value: 'usher' },
   ];
   const { user } = useSelector((state: RootState) => state.user);
-  const [currentStep, setCurrentStep] = useState("overView");
+  const [currentStep, setCurrentStep] = useState('overView');
 
   const [overView, setOverView] = useState({
-    summary: "",
-    profilePic: "",
+    summary: '',
+    profilePic: '',
   });
 
   const [personal, setPersonal] = useState<PersonalProps>({
-    firstName: "",
-    lastName: "",
-    middleName: "",
-    email: "",
-    phone: "",
-    alternatePhone: "",
-    DOB: "",
-    gender: "",
-    origin: "",
-    nationality: "",
-    height: "",
-    skinColor: "",
-    dressSize: "",
-    languages: "",
+    firstName: '',
+    lastName: '',
+    middleName: '',
+    email: '',
+    phone: '',
+    alternatePhone: '',
+    DOB: '',
+    gender: '',
+    origin: '',
+    nationality: '',
+    height: '',
+    skinColor: '',
+    dressSize: '',
+    languages: '',
   });
 
   const [address, setAddress] = useState<AddressProps>({
-    street: "",
-    city: "",
-    LGA: "",
-    state: "",
-    zipCode: "",
+    street: '',
+    city: '',
+    LGA: '',
+    state: '',
+    zipCode: '',
   });
 
   const [experiences, setExperiences] = useState<ExperienceProps[]>([
     {
-      agencyName: "",
-      projectName: "",
-      projectCategory: "",
-      projectDuration: "",
-      salary: "",
-      year: "",
+      agencyName: '',
+      projectName: '',
+      projectCategory: '',
+      projectDuration: '',
+      salary: '',
+      year: '',
       // _id: '',
     },
   ]);
 
   const [education, setEducation] = useState<EducationProps[]>([
     {
-      institution: "",
-      degree: "",
-      grade: "",
-      gradYear: "",
+      institution: '',
+      degree: '',
+      grade: '',
+      gradYear: '',
       // _id: '',
     },
   ]);
 
   const [certificate, setCertificate] = useState<CertificateProps[]>([
     {
-      certificateName: "",
-      organisation: "Agency",
-      certYear: "",
+      certificateName: '',
+      organisation: 'Agency',
+      certYear: '',
       // _id: '',
     },
   ]);
 
   const [socials, setSocials] = useState<SocialsProps>({
-    facebook: "",
-    twitter: "",
-    instagram: "",
-    linkedin: "",
+    facebook: '',
+    twitter: '',
+    instagram: '',
+    linkedin: '',
   });
 
   const [skillData, setSkillData] = useState<string[]>([]);
@@ -122,7 +126,7 @@ export default function NewTalentCards({
     if (skillData.length < 5) {
       setSkillData([...skillData, id]);
     } else {
-      alert("You can only select up to 5 skills.");
+      alert('You can only select up to 5 skills.');
     }
   };
 
@@ -139,8 +143,8 @@ export default function NewTalentCards({
       middleName: personal.middleName,
       email: personal.email,
       phone: personal.phone,
-      projectId: "653be3fc55125474a87dabed",
-      role: "supervisor",
+      projectId: projectId,
+      role: talent,
       summary: overView.summary,
       alternatePhone: personal.alternatePhone,
       DOB: personal.DOB,
@@ -151,8 +155,8 @@ export default function NewTalentCards({
       skinColor: personal.skinColor,
       dressSize: personal.dressSize,
       languages: [personal.languages],
-      skills: ["tech", "football"],
-      opportunities: talentOptions,
+      skills: ['tech', 'football'],
+      opportunities: talent,
       education: education,
       certifications: certificate,
       experience: experiences,
@@ -174,13 +178,13 @@ export default function NewTalentCards({
         if (Array.isArray(value)) {
           value.forEach((item, index) => {
             const itemKey = `${newKey}[${index}]`;
-            if (typeof item === "object") {
+            if (typeof item === 'object') {
               handleData(item, itemKey);
             } else {
               formData.append(itemKey, item);
             }
           });
-        } else if (typeof value === "object") {
+        } else if (typeof value === 'object') {
           handleData(value, newKey);
         } else {
           formData.append(newKey, value);
@@ -191,13 +195,13 @@ export default function NewTalentCards({
     handleData(payload, null);
 
     // Address information (as an array)
-    formData.append("address[0][street]", address.street);
-    formData.append("address[0][city]", address.city);
-    formData.append("address[0][LGA]", address.LGA);
-    formData.append("address[0][state]", address.state);
-    formData.append("address[0][zipCode]", address.zipCode);
+    formData.append('address[0][street]', address.street);
+    formData.append('address[0][city]', address.city);
+    formData.append('address[0][LGA]', address.LGA);
+    formData.append('address[0][state]', address.state);
+    formData.append('address[0][zipCode]', address.zipCode);
 
-    formData.append("profilePic", overView.profilePic);
+    formData.append('profilePic', overView.profilePic);
 
     if (user?.accountId !== undefined) {
       try {
@@ -206,7 +210,7 @@ export default function NewTalentCards({
           formData,
           {
             headers: {
-              Authorization: `Bearer ${user.authKey || ""}`,
+              Authorization: `Bearer ${user.authKey || ''}`,
             },
           }
         );
@@ -227,39 +231,39 @@ export default function NewTalentCards({
   return (
     <>
       <div>
-        {currentStep === "overView" && (
+        {currentStep === 'overView' && (
           <FurtherTalentDetails
-            next={() => handleStepChange("personal")}
+            next={() => handleStepChange('personal')}
             cancel={cancelProject}
             overView={overView}
             setOverView={setOverView}
             create={() => handleSubmit()}
           />
         )}
-        {currentStep === "personal" && (
+        {currentStep === 'personal' && (
           <PersonalDetails
-            next={() => handleStepChange("address")}
-            prev={() => handleStepChange("overView")}
+            next={() => handleStepChange('address')}
+            prev={() => handleStepChange('overView')}
             cancel={cancelProject}
             setPersonal={setPersonal}
             personal={personal}
             create={() => handleSubmit()}
           />
         )}
-        {currentStep === "address" && (
+        {currentStep === 'address' && (
           <Address
-            next={() => handleStepChange("education")}
-            prev={() => handleStepChange("personal")}
+            next={() => handleStepChange('education')}
+            prev={() => handleStepChange('personal')}
             cancel={cancelProject}
             setAddress={setAddress}
             address={address}
             create={() => handleSubmit()}
           />
         )}
-        {currentStep === "education" && (
+        {currentStep === 'education' && (
           <Education
-            next={() => handleStepChange("experience")}
-            prev={() => handleStepChange("address")}
+            next={() => handleStepChange('experience')}
+            prev={() => handleStepChange('address')}
             cancel={cancelProject}
             setEducation={setEducation}
             education={education}
@@ -268,20 +272,20 @@ export default function NewTalentCards({
             create={() => handleSubmit()}
           />
         )}
-        {currentStep === "experience" && (
+        {currentStep === 'experience' && (
           <Experience
-            next={() => handleStepChange("skills")}
-            prev={() => handleStepChange("education")}
+            next={() => handleStepChange('skills')}
+            prev={() => handleStepChange('education')}
             cancel={cancelProject}
             experiences={experiences}
             setExperiences={setExperiences}
             create={() => handleSubmit()}
           />
         )}
-        {currentStep === "skills" && (
+        {currentStep === 'skills' && (
           <Skills
-            next={() => handleStepChange("social")}
-            prev={() => handleStepChange("experience")}
+            next={() => handleStepChange('social')}
+            prev={() => handleStepChange('experience')}
             cancel={cancelProject}
             create={() => handleSubmit()}
             talentOptions={talentOptions}
@@ -290,10 +294,10 @@ export default function NewTalentCards({
             handleSkillDelete={handleSkillDelete}
           />
         )}
-        {currentStep === "social" && (
+        {currentStep === 'social' && (
           <Social
-            next={() => handleStepChange("personal")}
-            prev={() => handleStepChange("skills")}
+            next={() => handleStepChange('personal')}
+            prev={() => handleStepChange('skills')}
             cancel={cancelProject}
             socials={socials}
             setSocials={setSocials}
@@ -302,11 +306,11 @@ export default function NewTalentCards({
         )}
       </div>
       <Dialog open={successModal}>
-        <DialogContent className="bg-bm_card_grey flex flex-col items-center justify-center max-w-[360px] py-16">
-          <TbProgressCheck className="font-normal text-[155px] text-green-700" />
+        <DialogContent className='bg-bm_card_grey flex flex-col items-center justify-center max-w-[360px] py-16'>
+          <TbProgressCheck className='font-normal text-[155px] text-green-700' />
 
-          <div className="">Upload Successful</div>
-          <p className="text-[12px] font-normal text-center">
+          <div className=''>Upload Successful</div>
+          <p className='text-[12px] font-normal text-center'>
             Your uploaded list have been added to “My Talent”
           </p>
         </DialogContent>
