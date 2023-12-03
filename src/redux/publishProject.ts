@@ -1,7 +1,6 @@
-import { ProjectProps } from "./types";
-import { campaignAuthAxiosInstance } from "../api/axios";
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import { ProjectProps } from './types';
+import { campaignAuthAxiosInstance } from '../api/axios';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export interface PublishProjectsProps {
   loading: boolean;
@@ -11,40 +10,38 @@ export interface PublishProjectsProps {
 
 const initialState: PublishProjectsProps = {
   loading: false,
-  error: "",
+  error: '',
   publishProject: [],
 };
 
 export const fetchpublishproject = createAsyncThunk(
-  "agency/fetchpublishproject",
+  'agency/fetchpublishproject',
   async () => {
-const user = localStorage.getItem("userData")
-
+    const user = localStorage.getItem('userData');
 
     try {
-      
       if (user !== null) {
         const parsedUser = JSON.parse(user);
-        const response = await campaignAuthAxiosInstance(`/published-projects`, {
-          
-          "headers": {
-            "Authorization": `Bearer ${parsedUser.authKey}`
+        const response = await campaignAuthAxiosInstance(
+          `/published-projects`,
+          {
+            headers: {
+              Authorization: `Bearer ${parsedUser.authKey}`,
+            },
           }
-        });
+        );
         // console.log(response.data.data.projects);
-        
+
         return response.data.data.projects;
       }
-      
-    } 
-    catch (error) {
+    } catch (error) {
       throw error;
     }
   }
 );
 
 const publishProjects = createSlice({
-  name: "publish",
+  name: 'publish',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -58,12 +55,12 @@ const publishProjects = createSlice({
         (state, action: PayloadAction<any>) => {
           state.loading = false;
           state.error = null;
-          state.publishProject = action.payload
+          state.publishProject = action.payload;
         }
       )
       .addCase(fetchpublishproject.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Failde to fetch publish project";
+        state.error = action.error.message || 'Failde to fetch publish project';
       });
   },
 });
