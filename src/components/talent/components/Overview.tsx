@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Card, CardContent } from "../../../ui/card";
 // import { Separator } from '../../../ui/separator';
 // import { Textarea } from '../../../ui/textarea';
@@ -15,74 +15,54 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { patchAxiosInstance } from "../../../api/axios";
+import { Textarea } from "../../../ui/textarea";
+import { Progress } from "@radix-ui/react-progress";
 
 export default function Overview({
   next,
   cancel,
   overView,
   setOverView,
+  create,
 }: {
+  create: () => void;
   next: () => void;
   cancel: () => void;
-  overView: {};
-  setOverView: React.Dispatch<React.SetStateAction<{}>>;
+  overView: {
+    summary: string;
+    profilePic: any;
+  };
+  setOverView: any;
 }) {
-  const { user } = useSelector((state: RootState) => state.user);
-  const [loading, setLoading] = useState(false);
-  const [overviewPic, setOverViewPic] = useState({
-    profilePic: null as File | null,
-    summary: ""
-  });
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const handlePic = async () => {
-    setLoading(true);
-    const overviewPicData = new FormData();
-    overviewPicData.append("summary", overviewPic.summary)
-    if (overviewPic.profilePic !== null) {
-      overviewPicData.append("profilePic", overviewPic.profilePic);
-    }
+  const [inView, setInView] = useState<File>({} as File);
+  const [inVw, setInVw] = useState(false);
 
-    if (user?.accountId !== undefined) {
-      try {
-        const response = await patchAxiosInstance.patch(
-          `/profile-details`,
-          overviewPicData,
-          {
-            headers: {
-              Authorization: `Bearer ${user.authKey || ""}`,
-            },
-          }
-        );
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-      }
+  const handleDivClick = () => {
+    // Trigger a click event on the hidden input
+    fileInputRef?.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+
+    if (files?.length) {
+      const selectedFile = Array.from(files);
+      setOverView({
+        ...overView,
+        [name]: selectedFile[0],
+      });
+      setInVw(true);
     }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-
-    setOverViewPic((prevOverviewPic) => ({
-      ...prevOverviewPic,
-      profilePic: file || null,
-    }));
-  };
-
-  const imageUrl = overviewPic.profilePic
-    ? URL.createObjectURL(overviewPic.profilePic)
-    : null;
-  console.log("Image URL:", imageUrl);
-
-  const handleSummaryChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const value = event.target.value;
-
-    setOverViewPic((prevOverviewPic) => ({
-      ...prevOverviewPic,
-      summary: value,
-    }));
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    // Update the state with the user's input
+    setOverView({
+      ...overView,
+      summary: e.target.value,
+    });
   };
 
   return (
@@ -167,20 +147,25 @@ export default function Overview({
               Attach as many photos as possible.
             </p> */}
             <label htmlFor="picture" className="cursor-pointer">
-              <input
-                type="file"
+              <Input
                 id="picture"
+                type="file"
                 className="pb-4"
+                ref={fileInputRef}
                 onChange={handleFileChange}
                 name="profilePic"
                 style={{ display: "none" }}
               />
-              <div className="mt-3 border w-[120px] h-[150px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
+
+              <div
+                onClick={handleDivClick}
+                className="mt-3 border w-[156px] h-[156px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]"
+              >
                 {/* Attach or drop photos here */}
-                {imageUrl ? (
+                {inVw ? (
                   <img
-                    src={imageUrl}
-                    alt="Profile"
+                    src={URL.createObjectURL(overView?.profilePic)}
+                    alt=""
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -201,8 +186,8 @@ export default function Overview({
             <textarea
               className="flex-1 min-h-[300px] rounded-lg p-3 border border-[#E5E5E5]"
               placeholder="Summarise your strength and skills"
-              value={overviewPic.summary}
-              onChange={handleSummaryChange}
+              value={overView?.summary}
+              onChange={handleTextareaChange}
             />
             <p className="text-[10px] mb-7">250 characters</p>
           </CardContent>
@@ -218,9 +203,8 @@ export default function Overview({
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
-                // onClick={next}
                 onClick={() => {
-                  handlePic();
+                  create();
                   next();
                 }}
               >
