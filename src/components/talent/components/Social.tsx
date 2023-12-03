@@ -208,8 +208,11 @@ export default function Social({
               <Link to={"/profile"}>
                 <Button
                   className="dark__btn w-fit whitespace-nowrap"
-                  onClick={next}
-                  
+                  // onClick={next}
+                  onClick={() => {
+                    create();
+                    next();
+                  }}
                 >
                   Save
                 </Button>

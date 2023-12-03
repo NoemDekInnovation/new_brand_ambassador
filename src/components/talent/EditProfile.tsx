@@ -17,7 +17,7 @@ type TalentOption = {
   value: string;
 };
 
-export default function EditProfile({}) {
+export default function EditProfile() {
 
   const talentOptions: TalentOption[] = [
     { label: "Brand Ambassador", value: "brand ambassador" },
@@ -200,7 +200,6 @@ const [loading, setLoading] = useState(false);
                 },
               }
             );
-              console.log("RESPONSE:",response);
             setSuccessModal(true)
             setTimeout(() => {
               cancelProject();
@@ -211,10 +210,6 @@ const [loading, setLoading] = useState(false);
           }
         }
   }
-
-
-
-
 
 
 

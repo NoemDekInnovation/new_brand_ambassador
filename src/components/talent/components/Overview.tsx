@@ -38,6 +38,10 @@ export default function Overview({
 
   const [inView, setInView] = useState<File>({} as File);
   const [inVw, setInVw] = useState(false);
+  const [error, setError] = useState<string>("");
+
+  
+
 
   const handleDivClick = () => {
     // Trigger a click event on the hidden input
@@ -54,6 +58,7 @@ export default function Overview({
         [name]: selectedFile[0],
       });
       setInVw(true);
+      
     }
   };
 
@@ -63,6 +68,23 @@ export default function Overview({
       ...overView,
       summary: e.target.value,
     });
+  };
+
+  const validateAndProceed = () => {
+    // Validate if the profile picture is missing
+    if (!overView.profilePic) {
+      setError("Please upload a profile picture before proceeding.");
+      return; // Return early if profile picture is missing
+    }
+
+    // Check if the summary is not empty or contains only white spaces
+    if (overView.summary.trim() === "") {
+      setError("Please enter your summary before proceeding.");
+    } else {
+      setError("");
+      // Proceed to the next step
+      next();
+    }
   };
 
   return (
@@ -89,7 +111,7 @@ export default function Overview({
           </div>
         </Card>
         <div className="flex-1 overflow-y-scroll pr-2">
-          <div className="flex justify-between font-medium text-[12px] my-2 ">
+          <div className="flex justify-between font-medium text-[12px] my-2 sticky top-0 bg-white z-10">
             <div className="relative text-white flex items-center justify-center ">
               <p className="absolute top-[25%]  z-20 text-[16px]">Overview</p>
               <img src={darkUnion} alt="" className=" z-5 w-[300px] h-[50px]" />
@@ -151,14 +173,14 @@ export default function Overview({
                 id="picture"
                 type="file"
                 className="pb-4"
-                ref={fileInputRef}
+                // ref={fileInputRef}
                 onChange={handleFileChange}
                 name="profilePic"
                 style={{ display: "none" }}
               />
 
               <div
-                onClick={handleDivClick}
+                // onClick={handleDivClick}
                 className="mt-3 border w-[156px] h-[156px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]"
               >
                 {/* Attach or drop photos here */}
@@ -173,6 +195,7 @@ export default function Overview({
                 )}
               </div>
             </label>
+
             <Separator
               className="py-[2px] my-7 bg-[#D7D8DA]
 "
@@ -188,8 +211,10 @@ export default function Overview({
               placeholder="Summarise your strength and skills"
               value={overView?.summary}
               onChange={handleTextareaChange}
+              maxLength={250}
             />
             <p className="text-[10px] mb-7">250 characters</p>
+            {error && <p className="text-red-500">{error}</p>}
           </CardContent>
           {/* <Progress value={14} className='my-2 md:my-7' /> */}
 
@@ -205,7 +230,8 @@ export default function Overview({
                 className="dark__btn w-fit whitespace-nowrap"
                 onClick={() => {
                   create();
-                  next();
+                  // next();
+                  validateAndProceed();
                 }}
               >
                 Save and Next

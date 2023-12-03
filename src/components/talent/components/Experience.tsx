@@ -34,26 +34,67 @@ export default function Experience({
   setExperiences: any;
   experiences: ExperienceProps[];
 }) {
-    const handleAddExperience = () => {
-      // Add a new empty experience object when the "Add Experience" button is clicked
-      setExperiences([
-        ...experiences,
-        {
-          /* initialize with empty values */
-        },
-      ]);
-    };
-    const handleInputChange = (
-      e: React.ChangeEvent<HTMLInputElement>,
-      index: number
-    ) => {
-      const { name, value } = e.target;
+  const [errors, setErrors] = useState({
+    agencyName: "",
+    projectName: "",
+    projectCategory: "",
+    projectDuration: "",
+    salary: "",
+    year: "",
+  });
 
-      const updatedExperiences = [...experiences];
-      updatedExperiences[index][name] = value;
-      setExperiences(updatedExperiences);
+  const handleSaveAndNext = () => {
+    const newErrors = {
+      agencyName: "",
+      projectName: "",
+      projectCategory: "",
+      projectDuration: "",
+      salary: "",
+      year: "",
     };
-  
+    experiences.forEach((experience, index) => {
+      if (!experience.agencyName) {
+        newErrors.agencyName = `Error in experience ${
+          index + 1
+        }: Agency Name is required`;
+      }
+    });
+    // console.log("New Errors:", newErrors); // Log the newErrors object
+
+    // setErrors(newErrors);
+
+    // create();
+    // next();
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      ...newErrors,
+    }));
+
+    create();
+    next();
+
+  }
+
+  const handleAddExperience = () => {
+    // Add a new empty experience object when the "Add Experience" button is clicked
+    setExperiences([
+      ...experiences,
+      {
+        /* initialize with empty values */
+      },
+    ]);
+  };
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const { name, value } = e.target;
+
+    const updatedExperiences = [...experiences];
+    updatedExperiences[index][name] = value;
+    setExperiences(updatedExperiences);
+  };
+
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10 overflow-hidden">
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px] ">
@@ -157,6 +198,11 @@ export default function Experience({
                       >
                         Name of Agency{" "}
                       </label>
+                      {errors.agencyName && (
+                        <p className="text-red-500 text-sm">
+                          {errors.agencyName}
+                        </p>
+                      )}
                     </div>
 
                     <div className="relative z-0 w-full mb-6 group">
@@ -287,8 +333,12 @@ export default function Experience({
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
-                onClick={next}
-        
+                // onClick={next}
+                // onClick={() => {
+                //   create();
+                //   next();
+                // }}
+                onClick={handleSaveAndNext}
               >
                 Save and Next
               </Button>

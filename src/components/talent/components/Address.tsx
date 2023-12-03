@@ -29,18 +29,77 @@ export default function Address({
   setAddress: any;
   address: AddressProps;
 }) {
-    const handleInputChange = (
-      e: React.ChangeEvent<HTMLInputElement>,
-      fieldName: string
-    ) => {
-      const { value } = e.target;
+  const [error, setError] = useState({
+    street: "",
+    city: "",
+    LGA: "",
+    state: "",
+    zipCode: "",
+  });
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string
+  ) => {
+    const { value } = e.target;
 
-      setAddress((prevData: AddressProps) => ({
-        ...prevData,
-        [fieldName]: value,
+    setAddress((prevData: AddressProps) => ({
+      ...prevData,
+      [fieldName]: value,
+    }));
+  };
+
+  const handleSaveAndNext = () => {
+    setError({
+      street: "",
+      city: "",
+      LGA: "",
+      state: "",
+      zipCode: "",
+    });
+
+    if (address.street.trim() === "") {
+      setError((prevError) => ({
+        ...prevError,
+        street: "Please enter your street",
       }));
-    };
+      return;
+    }
 
+    if (address.city.trim() === "") {
+      setError((prevError) => ({
+        ...prevError,
+        city: "Please enter your city",
+      }));
+      return;
+    }
+
+    if (address.LGA.trim() === "") {
+      setError((prevError) => ({
+        ...prevError,
+        LGA: "Please enter your LGA",
+      }));
+      return;
+    }
+
+    if (address.state.trim() === "") {
+      setError((prevError) => ({
+        ...prevError,
+        state: "Please enter your state",
+      }));
+      return;
+    }
+
+    if (address.zipCode.trim() === "") {
+      setError((prevError) => ({
+        ...prevError,
+        zipCode: "Please enter your zipCode",
+      }));
+      return;
+    }
+
+        create();
+        next();
+  };
 
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">
@@ -141,6 +200,9 @@ export default function Address({
                 >
                   Street address
                 </label>
+                {error.street && (
+                  <p className="text-red-500 text-sm">{error.street}</p>
+                )}
               </div>
 
               <div className="relative md:col-span-1 z-0 w-full mb-6 group">
@@ -160,6 +222,9 @@ export default function Address({
                 >
                   City
                 </label>
+                {error.city && (
+                  <p className="text-red-500 text-sm">{error.city}</p>
+                )}
               </div>
             </div>
             <div className="grid md:grid-cols-5 md:gap-6">
@@ -180,6 +245,9 @@ export default function Address({
                 >
                   L.G.A
                 </label>
+                {error.LGA && (
+                  <p className="text-red-500 text-sm">{error.LGA}</p>
+                )}
               </div>
 
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
@@ -199,6 +267,9 @@ export default function Address({
                 >
                   State
                 </label>
+                {error.state && (
+                  <p className="text-red-500 text-sm">{error.state}</p>
+                )}
               </div>
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
                 <input
@@ -217,6 +288,9 @@ export default function Address({
                 >
                   Zip Code
                 </label>
+                {error.zipCode && (
+                  <p className="text-red-500 text-sm">{error.zipCode}</p>
+                )}
               </div>
             </div>
           </CardContent>
@@ -238,10 +312,11 @@ export default function Address({
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
                 // onClick={next}
-                onClick={() => {
-                  create();
-                  next();
-                }}
+                // onClick={() => {
+                //   create();
+                //   next();
+                // }}
+                onClick={handleSaveAndNext}
               >
                 Save and Next
               </Button>

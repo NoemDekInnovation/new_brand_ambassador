@@ -278,8 +278,11 @@ export default function Skills({
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
-                onClick={next}
-                
+                // onClick={next}
+                onClick={() => {
+                  create();
+                  next();
+                }}
               >
                 Save and Next
               </Button>

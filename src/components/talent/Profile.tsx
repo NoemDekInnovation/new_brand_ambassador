@@ -31,6 +31,7 @@ const Profile = () => {
     lastName: "",
     phone: "",
     profilePic: "",
+    email: "",
     languages: [],
     skills: [],
     opportunities: "",
@@ -61,7 +62,9 @@ const Profile = () => {
       }
     };
     updateTalent();
+
   }, []);
+  console.log(talentData)
 
   return (
     <MainLayout>
@@ -269,7 +272,7 @@ const Profile = () => {
                             <p className="w-[120px] text-[12px] font-medium">
                               Email Address:
                             </p>
-                            <p className="">-</p>
+                            <p className="">{talentData.email}</p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-medium">

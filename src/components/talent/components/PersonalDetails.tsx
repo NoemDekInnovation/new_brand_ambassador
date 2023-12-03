@@ -30,6 +30,23 @@ export default function PersonalDetails({
   setPersonal: any;
   personal: PersonalProps;
 }) {
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    email: "",
+    phone: "",
+    alternatePhone: "",
+    DOB: "",
+    gender: "",
+    origin: "",
+    nationality: "",
+    height: "",
+    skinColor: "",
+    languages: "",
+    dressSize: "",
+  });
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     fieldName: string
@@ -40,6 +57,140 @@ export default function PersonalDetails({
       ...prevData,
       [fieldName]: value,
     }));
+  };
+
+  const handleSaveAndNext = () => {
+    setErrors({
+      firstName: "",
+      lastName: "",
+      middleName: "",
+      email: "",
+      phone: "",
+      alternatePhone: "",
+      DOB: "",
+      gender: "",
+      origin: "",
+      nationality: "",
+      height: "",
+      skinColor: "",
+      languages: "",
+      dressSize: "",
+    });
+
+    if (personal.firstName.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        firstName: "Please enter your first name",
+      }));
+      return;
+    }
+
+    if (personal.lastName.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        lastName: "Please enter your last name",
+      }));
+      return;
+    }
+
+    if (personal.middleName.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        middleName: "Please enter your middle name",
+      }));
+      return;
+    }
+
+    if (personal.email.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        email: "Please enter your email",
+      }));
+      return;
+    }
+
+    if (personal.phone.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        phone: "Please enter your phone",
+      }));
+      return;
+    }
+
+    if (personal.alternatePhone.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        alternatePhone: "Please enter your alternatePhone",
+      }));
+      return;
+    }
+
+    if (personal.gender.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        gender: "Please enter your gender",
+      }));
+      return;
+    }
+
+    if (personal.DOB.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        DOB: "Please enter your DOB",
+      }));
+      return;
+    }
+
+    if (personal.origin.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        origin: "Please enter your origin",
+      }));
+      return;
+    }
+
+    if (personal.nationality.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        nationality: "Please enter your nationality",
+      }));
+      return;
+    }
+
+    if (personal.height.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        height: "Please enter your height",
+      }));
+      return;
+    }
+
+    if (personal.skinColor.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        skinColor: "Please enter your skinColor",
+      }));
+      return;
+    }
+
+    if (personal.languages.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        languages: "Please enter your languages",
+      }));
+      return;
+    }
+
+    if (personal.dressSize.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        dressSize: "Please enter your dressSize",
+      }));
+      return;
+    }
+
+    create();
+    next();
   };
 
   return (
@@ -140,6 +291,10 @@ export default function PersonalDetails({
                 >
                   First name
                 </label>
+                {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}
+                {errors.firstName && (
+                  <p className="text-red-500 text-sm">{errors.firstName}</p>
+                )}
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
@@ -159,6 +314,12 @@ export default function PersonalDetails({
                 >
                   Last Name
                 </label>
+                {/* {lastError && (
+                  <p className="text-red-500 text-sm">{lastError}</p>
+                )} */}
+                {errors.lastName && (
+                  <p className="text-red-500 text-sm">{errors.lastName}</p>
+                )}
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
@@ -179,6 +340,12 @@ export default function PersonalDetails({
                 >
                   Middle name
                 </label>
+                {/* {middleError && (
+                  <p className="text-red-500 text-sm">{middleError}</p>
+                )} */}
+                {errors.middleName && (
+                  <p className="text-red-500 text-sm">{errors.middleName}</p>
+                )}
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
@@ -198,6 +365,9 @@ export default function PersonalDetails({
                 >
                   Email
                 </label>
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email}</p>
+                )}
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
@@ -218,6 +388,9 @@ export default function PersonalDetails({
                 >
                   Phone number
                 </label>
+                {errors.phone && (
+                  <p className="text-red-500 text-sm">{errors.phone}</p>
+                )}
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
@@ -237,6 +410,11 @@ export default function PersonalDetails({
                 >
                   Alternate number
                 </label>
+                {errors.alternatePhone && (
+                  <p className="text-red-500 text-sm">
+                    {errors.alternatePhone}
+                  </p>
+                )}
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
@@ -257,6 +435,9 @@ export default function PersonalDetails({
                 >
                   Date of Birth
                 </label>
+                {errors.DOB && (
+                  <p className="text-red-500 text-sm">{errors.DOB}</p>
+                )}
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
@@ -276,6 +457,9 @@ export default function PersonalDetails({
                 >
                   Gender
                 </label>
+                {errors.gender && (
+                  <p className="text-red-500 text-sm">{errors.gender}</p>
+                )}
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
@@ -296,6 +480,9 @@ export default function PersonalDetails({
                 >
                   State of origin
                 </label>
+                {errors.origin && (
+                  <p className="text-red-500 text-sm">{errors.origin}</p>
+                )}
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
@@ -315,6 +502,9 @@ export default function PersonalDetails({
                 >
                   Nationality
                 </label>
+                {errors.nationality && (
+                  <p className="text-red-500 text-sm">{errors.nationality}</p>
+                )}
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
@@ -335,6 +525,9 @@ export default function PersonalDetails({
                 >
                   Height
                 </label>
+                {errors.height && (
+                  <p className="text-red-500 text-sm">{errors.height}</p>
+                )}
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
@@ -354,6 +547,9 @@ export default function PersonalDetails({
                 >
                   Skin color
                 </label>
+                {errors.skinColor && (
+                  <p className="text-red-500 text-sm">{errors.skinColor}</p>
+                )}
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
@@ -374,6 +570,9 @@ export default function PersonalDetails({
                 >
                   Dress Size
                 </label>
+                {errors.dressSize && (
+                  <p className="text-red-500 text-sm">{errors.dressSize}</p>
+                )}
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
@@ -393,6 +592,9 @@ export default function PersonalDetails({
                 >
                   Languages
                 </label>
+                {errors.languages && (
+                  <p className="text-red-500 text-sm">{errors.languages}</p>
+                )}
               </div>
             </div>
           </CardContent>
@@ -415,10 +617,11 @@ export default function PersonalDetails({
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
                 // onClick={next}
-                onClick={() => {
-                  create();
-                  next();
-                }}
+                // onClick={() => {
+                //   create();
+                //   next();
+                // }}
+                onClick={handleSaveAndNext}
               >
                 Save and Next
               </Button>

@@ -41,7 +41,7 @@ export default function Education({
   setCertificate,
   certificate,
   create,
-}: {
+}: { 
   create: () => void;
   next: () => void;
   prev: () => void;
@@ -51,6 +51,8 @@ export default function Education({
   setCertificate: any;
   certificate: CertificateProps[];
 }) {
+
+
    const handleAddEducation = () => {
      // Add a new empty experience object when the "Add Experience" button is clicked
      setEducation([
@@ -186,103 +188,7 @@ export default function Education({
               opportunities.
             </p>
             <Separator className=" my-7 bg-[#D7D8DA]" />
-            {/* <div className="mt-2">
-              <p>Education 1</p>
-              <div className="grid md:grid-cols-2 md:gap-6 mt-4">
-                <div className="relative  z-0 w-full mb-6 group">
-                  <input
-                    type="text"
-                    name="institution"
-                    id="institution"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    // value={formData.projectDuration.startDate}
-                    // onChange={handleInputChange}
-                    value={educationDetails.education[0].institution}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleInput(e.target.value, "institution", 0, "education")
-                    }
-                    required
-                  />
-                  <label
-                    htmlFor="floating_first_name"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Institution
-                  </label>
-                </div>
-
-                <div className="relative z-0 w-full mb-6 group">
-                  <input
-                    type="text"
-                    name="degree"
-                    id="degree"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    // value={formData.projectDuration.endDate}
-                    // onChange={handleInputChange}
-                    value={educationDetails.education[0].degree}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleInput(e.target.value, "degree", 0, "education")
-                    }
-                    required
-                  />
-                  <label
-                    htmlFor="floating_last_name"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Degree
-                  </label>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-2 md:gap-6">
-                <div className="relative  z-0 w-full mb-6 group">
-                  <input
-                    type="text"
-                    name="grade"
-                    id="grade"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    // value={formData.projectDuration.startDate}
-                    // onChange={handleInputChange}
-                    value={educationDetails.education[0].grade}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleInput(e.target.value, "grade", 0, "education")
-                    }
-                    required
-                  />
-                  <label
-                    htmlFor="floating_first_name"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Grade
-                  </label>
-                </div>
-
-                <div className="relative z-0 w-full mb-6 group">
-                  <input
-                    type="text"
-                    name="gradYear"
-                    id="gradYear"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    // value={formData.projectDuration.endDate}
-                    // onChange={handleInputChange}
-                    value={educationDetails.education[0].gradYear}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleInput(e.target.value, "gradYear", 0, "education")
-                    }
-                    required
-                  />
-                  <label
-                    htmlFor="floating_last_name"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Graduation Year
-                  </label>
-                </div>
-              </div>
-            </div> */}
+            
             {education.map((e, index) => (
               <>
                 <div className="mt-2" key={index}>
@@ -379,87 +285,6 @@ export default function Education({
               </div>
             </Button>
             <Separator className="bg-bm__beige my-7 md:my-6 py-[2px]" />
-
-            {/* <div className="mt-2">
-              <p>Certification 1</p>
-              <div className="grid  md:gap-6 mt-4">
-                <div className="relative  z-0 w-full mb-6 group">
-                  <input
-                    type="text"
-                    name="certificateName"
-                    id="certificateName"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    // value={formData.projectDuration.startDate}
-                    // onChange={handleInputChange}
-                    value={certificateDetails.certifications[0].certificateName}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleInput(
-                        e.target.value,
-                        "certificateName",
-                        0,
-                        "certifications"
-                      )
-                    }
-                    required
-                  />
-                  <label
-                    htmlFor="floating_first_name"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Certificate name
-                  </label>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-2 md:gap-6">
-                <div className="relative  z-0 w-full mb-6 group">
-                  <input
-                    type="text"
-                    name="organisation"
-                    id="organisation"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    // value={formData.projectDuration.startDate}
-                    // onChange={handleInputChange}
-                    value={certificateDetails.certifications[0].organisation}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleInput(
-                        e.target.value,
-                        "organisation",
-                        0,
-                        "certifications"
-                      )
-                    }
-                    required
-                  />
-                  <label
-                    htmlFor="floating_first_name"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Organisation
-                  </label>
-                </div>
-
-                <div className="relative z-0 w-full mb-6 group">
-                  <input
-                    type="email"
-                    name="floating_last_name"
-                    id="floating_last_name"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    // value={formData.projectDuration.endDate}
-                    // onChange={handleInputChange}
-                    required
-                  />
-                  <label
-                    htmlFor="floating_last_name"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Year
-                  </label>
-                </div>
-              </div>
-            </div> */}
             {certificate.map((c, index) => (
               <>
                 <div className="mt-2" key={index}>
