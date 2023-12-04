@@ -11,6 +11,14 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import { patchAxiosInstance } from "../../../../api/axios";
+import { Controller, useForm } from "react-hook-form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../../ui/select";
 
 export default function CompanyDetails({
   cancel,
@@ -75,7 +83,6 @@ export default function CompanyDetails({
     }
   };
 
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -103,23 +110,20 @@ export default function CompanyDetails({
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
 
-const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const { name, files } = e.target;
+    if (files?.length) {
+      const selectedFiles = Array.from(files);
+      console.log("Selected File:", selectedFiles[0]);
 
-  if (files?.length) {
-    const selectedFiles = Array.from(files);
-    console.log("Selected File:", selectedFiles[0]);
-
-    
-    setCompanyProfile({
-      ...companyProfile,
-      [name]: selectedFiles[0],
-    });
-    console.log("Updated Company Profile:", companyProfile);
-  }
-};
-
+      setCompanyProfile({
+        ...companyProfile,
+        [name]: selectedFiles[0],
+      });
+      console.log("Updated Company Profile:", companyProfile);
+    }
+  };
 
   const imageUrl = companyProfile.companyLogo
     ? URL.createObjectURL(companyProfile.companyLogo)
@@ -230,6 +234,52 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                 onChange={handleInputChange}
                 required
               />
+              {/* <Controller
+                name="agencyType"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <div className="w-full pb-4">
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="w-full bg-white">
+                        <SelectValue placeholder="Select Type of Agency" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white">
+                        <SelectItem value="Advertising Agency">
+                          Advertising Agency
+                        </SelectItem>
+                        <SelectItem value="Branding Agency">
+                          Branding Agency
+                        </SelectItem>
+
+                        <SelectItem value=" Public Relations Agency">
+                          Public Relations Agency
+                        </SelectItem>
+                        <SelectItem value="Promotional Agency">
+                          Promotional Agency
+                        </SelectItem>
+                        <SelectItem value="Event Agency">
+                          Event Agency
+                        </SelectItem>
+                        <SelectItem value="Social Media Marketing Agency">
+                          Social Media Marketing Agency
+                        </SelectItem>
+                        <SelectItem value="Production and Design Agency">
+                          Production and Design Agency
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {errMsg.agencyType && (
+                      <small className="text-red-500">
+                        {errMsg.agencyType}
+                      </small>
+                    )}
+                  </div>
+                )}
+              /> */}
               <label
                 htmlFor="floating_last_name"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"

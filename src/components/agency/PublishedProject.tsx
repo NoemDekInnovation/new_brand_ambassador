@@ -16,6 +16,14 @@ const PublishedProject = () => {
     (state: RootState) => state.publishProject
   );
   const dispatch = useDispatch<AppDispatch>();
+  const [popUp, setPopUp] = useState(false);
+
+  const handleProfilePopUp = (talent: any) => {
+    // console.log(talent);
+    setPopUp(!popUp);
+    console.log("worked", popUp);
+    // setSelectedRole(talent);
+  };
 
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -57,12 +65,8 @@ const PublishedProject = () => {
         <Card
           className="p-4 relative hover:bg-black/10 cursor-pointer"
           key={idx}
-          // onClick={() => handleCardClick(publishProject)}
+          onClick={handleProfilePopUp}
         >
-          {/* <Dialog
-            open={isDialogVisible}
-            onOpenChange={setDialogVisible}
-          ></Dialog> */}
           <span className="absolute top-0 right-0 text-sm text-[#800000] pr-2 pt-2">
             Closes on 25th Nov 2023
           </span>
@@ -128,7 +132,6 @@ const PublishedProject = () => {
             </button>
           </CardFooter>
         </Card>
-        {/* {isDialogVisible && <PreviewPublished />} */}
       </>
     );
   });
@@ -140,39 +143,7 @@ const PublishedProject = () => {
   return (
     <>
       {talents}
-      {/* {isDialogVisible && (
-      <PreviewPublished
-        next={next}
-        cancel={handleDialogClose}
-        aboutProject={{
-          projectTitle: "Project Title",
-          projectCategory: "Project Category",
-          projectCode: "Project Code",
-          projectLocation: ["Project Location"],
-          projectDescription: "Project Description",
-          startDate: "Start Date",
-          endDate: "End Date",
-        }}
-        requiredTalents={[
-          {
-            opportunities: "opportunities",
-            qualifications: "qualifications",
-            skills: ["skills"],
-            paymentOptions: "paymentOptions",
-            salary: "salary",
-          },
-        ]}
-        workDays={[]}
-        proposal={""}
-        document={undefined}
-        projectPost={{ startDate: "startDate", endDate: "endDate" }}
-        projectName={undefined}
-        setProjectPost={undefined}
-        setOverView={}
-        aboutProject={aboutProject.projectDescription}
-        ... (pass other necessary props)
-        />
-      )} */}
+      <PreviewPublished popUp={popUp} setPopUp={() => setPopUp(!popUp)} />
     </>
   );
 };
