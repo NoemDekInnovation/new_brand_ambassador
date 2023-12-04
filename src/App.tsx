@@ -24,6 +24,7 @@ import Profile from "./components/talent/Profile";
 import EditProfile from "./components/talent/EditProfile";
 import AgencyProfile from "./components/agency/profile/agencyprofile";
 import EditAgencyProfile from "./components/agency/profile/editagencyprofile";
+import PreviewPublished from "./components/agency/publishedpreview/PreviewPublished";
 
 function App() {
   const ROLES: {
@@ -83,6 +84,7 @@ function App() {
           element={<NewPassword />}
         />
         <Route path="/" element={<LandingPage />} />
+        {/* <Route path="/preview" element={<PreviewPublished />} /> */}
       </Routes>
     </Router>
   );
