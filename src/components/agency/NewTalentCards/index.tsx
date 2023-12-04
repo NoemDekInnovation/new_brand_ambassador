@@ -20,7 +20,7 @@ import { TbProgressCheck } from "react-icons/tb";
 
 import { RootState } from "../../../redux/store";
 import { useSelector } from "react-redux";
-import { multerAxiosInstance, patchAxiosInstance } from "../../../api/axios";
+import { patchAxiosInstance } from "../../../api/axios";
 
 type TalentOption = {
   label: string;
@@ -29,8 +29,12 @@ type TalentOption = {
 
 export default function NewTalentCards({
   cancelProject,
+  projectId,
+  talent,
 }: {
   cancelProject: () => void;
+  projectId: string;
+  talent: string;
 }) {
   const talentOptions: TalentOption[] = [
     { label: "Brand Ambassador", value: "brand ambassador" },
@@ -139,8 +143,8 @@ export default function NewTalentCards({
       middleName: personal.middleName,
       email: personal.email,
       phone: personal.phone,
-      projectId: "653be3fc55125474a87dabed",
-      role: "supervisor",
+      projectId: projectId,
+      role: talent,
       summary: overView.summary,
       alternatePhone: personal.alternatePhone,
       DOB: personal.DOB,
@@ -152,7 +156,7 @@ export default function NewTalentCards({
       dressSize: personal.dressSize,
       languages: [personal.languages],
       skills: ["tech", "football"],
-      opportunities: talentOptions,
+      opportunities: talent,
       education: education,
       certifications: certificate,
       experience: experiences,
