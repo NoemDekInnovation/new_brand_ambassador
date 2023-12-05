@@ -28,8 +28,8 @@ const Dashboard = () => {
 
   const talentRef = useRef<HTMLParagraphElement>(null);
   const projectsRef = useRef<HTMLParagraphElement>(null);
- 
- const handleTabClick = (tab: string) => {
+
+  const handleTabClick = (tab: string) => {
     // Reset styles for all tabs
     if (talentRef.current) {
       talentRef.current.style.color = "#000000";
@@ -42,7 +42,7 @@ const Dashboard = () => {
       projectsRef.current.style.fontWeight = "500";
       projectsRef.current.style.fontSize = "14px";
     }
- 
+
     // Apply styles for the clicked tab
     if (tab === "Home") {
       // No need to update styles for Home tab
@@ -58,11 +58,8 @@ const Dashboard = () => {
         projectsRef.current.style.fontWeight = "600";
         projectsRef.current.style.fontSize = "15px";
       }
-    } 
+    }
   };
-
-
-
 
   return (
     <AgencyLayout>
