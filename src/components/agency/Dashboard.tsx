@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { AgencyLayout } from "../Layout";
+import { AppDispatch } from "../../redux/store";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import arrowIcon from "../../assets/teenyicons_down-solid.png";
 import HomeTab from "./HomeTab";
@@ -14,8 +15,10 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "../../ui/menubar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { fetchactiveproject } from "../../redux/ActiveProject";
+import { fetchcompleteproject } from "../../redux/completeProject";
 
 const Dashboard = () => {
   const [defaultTab, setDefaultTab] = useState("home");

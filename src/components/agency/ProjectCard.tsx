@@ -15,9 +15,18 @@ import {
 } from "../../ui/dropdown-menu";
 import { BiChevronRight, BiSortAlt2, BiChevronLeft } from "react-icons/bi";
 import TalentCard from "./TalentCard";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Carousel from "react-multi-carousel";
 import { FaArrowRight } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { fetchactiveproject } from "../../redux/ActiveProject";
+
+const options: Intl.DateTimeFormatOptions = {
+  // year: "numeric",
+  month: "short",
+  day: "numeric",
+};
 
 export function CurrentProjects({
   card_title,
@@ -26,39 +35,71 @@ export function CurrentProjects({
   card_title: string;
   card_content: { isCurrent: boolean; content: number[] };
 }) {
-  const projects = [1, 2, 3, 4, 5, 6, 7].map((_, idx) => {
+  const { activeProject } = useSelector(
+    (state: RootState) => state.activeProject
+  );
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchactiveproject());
+  }, [dispatch]);
+
+  const projects = activeProject.map((project, idx) => {
+    console.log(project);
+    if (!Array.isArray(activeProject)) {
+      return <div>Loading...</div>;
+    }
+
     return (
       <Card
         className=" bg-white p-2 mx-3 rounded-md md:w-[234px] shadow-md"
         key={idx}
       >
-        <p className="text-[15px] font-medium">Project Name</p>
-        <p className="text-[10px] leading-4 font-normal">
-          This is the project description.. this is the project description
+        <p className="text-[15px] font-medium capitalize">
+          {/* Project Name */}
+          {project.projectTitle}
+        </p>
+        <p className="text-[10px] leading-4 font-normal capitalize">
+          {/* This is the project description.. this is the project description */}
+          {project.projectDescription}
         </p>
         <Separator className="my-1" />
         <div className="">
           <div className="flex items-center py-2">
-            <p className="font-medium text-[10px] text-bm__niv">
-              Project Code: NIV23
+            <p className="font-medium text-[10px] text-bm__niv ">
+              PC: {project.projectCode}
             </p>
             <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
+            <p className="font-medium text-[10px] text-bm__niv ml-2">0 BA</p>
+            <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
             <p className="font-medium text-[10px] text-bm__niv ml-2">
-              300 Brand
+              0 Supervisors
             </p>
           </div>
-          <div className="flex items-center py-2">
+          {/* <div className="flex items-center py-2">
             <p className="font-medium text-[10px] text-bm__niv">Ambassadors</p>
             <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
             <p className="font-medium text-[10px] text-bm__niv ml-2">
-              50 Supervisors
+              0 Supervisors
             </p>
-          </div>
+          </div> */}
         </div>
         <Separator className="my-1" />
         <div className="py-2">
           <div className="font-medium text-[8px]">
-            Nov 30 - December 30 . Lagos, Abuja, Ogun, Plateau
+            {new Date(project.projectDuration.startDate).toLocaleDateString(
+              "en-US",
+              options
+            )}{" "}
+            {" - "}
+            {new Date(project.projectDuration.endDate).toLocaleDateString(
+              "en-US",
+              options
+            )}{" "}
+            . {project.projectLocation}
+            {/* Nov 30 - December 30 . Lagos, Abuja, Ogun, Plateau */}
+            {/* {project.projectPost.startDate} - {project.projectPost.endDate} .{" "}
+            {project.projectLocation} */}
           </div>
         </div>
       </Card>

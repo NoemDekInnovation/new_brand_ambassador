@@ -74,6 +74,7 @@ export default function TalentRequirement({
       const selectedFile = Array.from(files);
       setDocument(selectedFile[0]);
     }
+    checkFormValidity();
   };
 
   const handleDivClick = () => {
@@ -92,7 +93,21 @@ export default function TalentRequirement({
         setProposal(inputValue);
       }
     }
+    checkFormValidity();
   };
+
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const checkFormValidity = () => {
+    const isFormValid =
+      typeof proposal === "string" && proposal.trim() !== "" && document;
+
+    setIsFormValid(isFormValid);
+  };
+
+  useEffect(() => {
+    checkFormValidity();
+  }, [proposal, document]);
 
   return (
     // <div className="px-4 pb-4  md:px-12 xl:px-40">
@@ -172,6 +187,7 @@ export default function TalentRequirement({
               className="min-h-[250px]"
               value={proposal}
               onChange={handleProposalChange}
+              required
             />
             <p className="text-[12px] text-bm__btn__grey mt-3">
               {250 - proposal.length} Characters remaining
@@ -192,6 +208,7 @@ export default function TalentRequirement({
               ref={fileInputRef}
               onChange={handleFileChange}
               name="document"
+              required
             />
             {selectedFileName && <p>{selectedFileName}</p>}
           </CardContent>
@@ -213,7 +230,11 @@ export default function TalentRequirement({
             </Button>
           </div>
           <div className="flex flex-col md:flex-row md:whitespace-nowrap md:gap-8">
-            <Button className="dark__btn" onClick={next}>
+            <Button
+              className="dark__btn"
+              onClick={next}
+              disabled={!isFormValid}
+            >
               Review Project Post
             </Button>
           </div>
