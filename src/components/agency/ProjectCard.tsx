@@ -225,7 +225,7 @@ const ProjectCard = ({
         {card_content.content.map((_, idx) => {
           return (
             <div key={idx}>
-              <TalentCard />{" "}
+              <TalentCard />
             </div>
           );
         })}

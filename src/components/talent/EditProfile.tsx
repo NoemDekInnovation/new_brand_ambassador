@@ -9,7 +9,14 @@ import Social from './components/Social';
 import Skills from './components/Skills';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { AddressProps, CertificateProps, EducationProps, ExperienceProps, PersonalProps, SocialsProps } from '../../redux/types';
+import {
+  AddressProps,
+  CertificateProps,
+  EducationProps,
+  ExperienceProps,
+  PersonalProps,
+  SocialsProps,
+} from '../../redux/types';
 import { patchAxiosInstance } from '../../api/axios';
 
 type TalentOption = {
@@ -18,91 +25,90 @@ type TalentOption = {
 };
 
 export default function EditProfile({}) {
-
   const talentOptions: TalentOption[] = [
-    { label: "Brand Ambassador", value: "brand ambassador" },
-    { label: "Supervisor", value: "supervisor" },
-    { label: "Usher", value: "usher" },
+    { label: 'Brand Ambassador', value: 'brand ambassador' },
+    { label: 'Supervisor', value: 'supervisor' },
+    { label: 'Usher', value: 'usher' },
   ];
 
   const { user } = useSelector((state: RootState) => state.user);
 
-const cancelProject = () => {};
-const [currentStep, setCurrentStep] = useState("overView");
+  const cancelProject = () => {};
+  const [currentStep, setCurrentStep] = useState('overView');
 
-const [overView, setOverView] = useState({
-  summary: "",
-  profilePic: null as File | null, 
-});
+  const [overView, setOverView] = useState({
+    summary: '',
+    profilePic: null as File | null,
+  });
 
-const [personal, setPersonal] = useState<PersonalProps>({
-  firstName: "",
-  lastName: "",
-  middleName: "",
-  email: "",
-  phone: "",
-  alternatePhone: "",
-  DOB: "",
-  gender: "",
-  origin: "",
-  nationality: "",
-  height: "",
-  skinColor: "",
-  dressSize: "",
-  languages: "",
-});
+  const [personal, setPersonal] = useState<PersonalProps>({
+    firstName: '',
+    lastName: '',
+    middleName: '',
+    email: '',
+    phone: '',
+    alternatePhone: '',
+    DOB: '',
+    gender: '',
+    origin: '',
+    nationality: '',
+    height: '',
+    skinColor: '',
+    dressSize: '',
+    languages: '',
+  });
 
-const [address, setAddress] = useState<AddressProps>({
-  street: "",
-  city: "",
-  LGA: "",
-  state: "",
-  zipCode: "",
-});
+  const [address, setAddress] = useState<AddressProps>({
+    street: '',
+    city: '',
+    LGA: '',
+    state: '',
+    zipCode: '',
+  });
 
-const [experiences, setExperiences] = useState<ExperienceProps[]>([
-  {
-    agencyName: "",
-    projectName: "",
-    projectCategory: "",
-    projectDuration: "",
-    salary: "",
-    year: "",
-    // _id: '',
-  },
-]);
+  const [experiences, setExperiences] = useState<ExperienceProps[]>([
+    {
+      agencyName: '',
+      projectName: '',
+      projectCategory: '',
+      projectDuration: '',
+      salary: '',
+      year: '',
+      // _id: '',
+    },
+  ]);
 
-const [education, setEducation] = useState<EducationProps[]>([
-  {
-    institution: "",
-    degree: "",
-    grade: "",
-    gradYear: "",
-    // _id: '',
-  },
-]);
+  const [education, setEducation] = useState<EducationProps[]>([
+    {
+      institution: '',
+      degree: '',
+      grade: '',
+      gradYear: '',
+      // _id: '',
+    },
+  ]);
 
-const [certificate, setCertificate] = useState<CertificateProps[]>([
-  {
-    certificateName: "",
-    organisation: "",
-    certYear: "",
-    // _id: '',
-  },
-]);
+  const [certificate, setCertificate] = useState<CertificateProps[]>([
+    {
+      certificateName: '',
+      organisation: '',
+      certYear: '',
+      // _id: '',
+    },
+  ]);
 
-const [socials, setSocials] = useState<SocialsProps>({
-  facebook: "",
-  twitter: "",
-  instagram: "",
-  linkedin: "",
-});
+  const [socials, setSocials] = useState<SocialsProps>({
+    facebook: '',
+    twitter: '',
+    instagram: '',
+    linkedin: '',
+  });
 
-const [skillData, setSkillData] = useState<string[]>([]);
+  const [skillData, setSkillData] = useState<string[]>([]);
 
-const [successModal, setSuccessModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
 
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleStepChange = (step: string) => {
     setCurrentStep(step);
@@ -112,7 +118,7 @@ const [loading, setLoading] = useState(false);
     if (skillData.length < 5) {
       setSkillData([...skillData, id]);
     } else {
-      alert("You can only select up to 5 skills.");
+      alert('You can only select up to 5 skills.');
     }
   };
 
@@ -132,15 +138,15 @@ const [loading, setLoading] = useState(false);
       summary: overView.summary,
       alternatePhone: personal.alternatePhone,
       DOB: personal.DOB,
-      gender: personal.gender,
+      gender: 'Male',
       nationality: personal.nationality,
       origin: personal.origin,
       height: personal.height,
       skinColor: personal.skinColor,
       dressSize: personal.dressSize,
       languages: [personal.languages],
-      skills: ["tech", "football"],
-      opportunities: talentOptions,
+      skills: ['tech', 'football'],
+      opportunities: 'supervisor',
       education: education,
       certifications: certificate,
       experience: experiences,
@@ -152,79 +158,73 @@ const [loading, setLoading] = useState(false);
       },
     };
 
-        const formData = new FormData();
+    const formData = new FormData();
 
-        const handleData = (data: any, parentKey: any) => {
-          for (const key in data) {
-            const value = data[key];
-            const newKey = parentKey ? `${parentKey}[${key}]` : key;
+    const handleData = (data: any, parentKey: any) => {
+      for (const key in data) {
+        const value = data[key];
+        const newKey = parentKey ? `${parentKey}[${key}]` : key;
 
-            if (Array.isArray(value)) {
-              value.forEach((item, index) => {
-                const itemKey = `${newKey}[${index}]`;
-                if (typeof item === "object") {
-                  handleData(item, itemKey);
-                } else {
-                  formData.append(itemKey, item);
-                }
-              });
-            } else if (typeof value === "object") {
-              handleData(value, newKey);
+        if (Array.isArray(value)) {
+          value.forEach((item, index) => {
+            const itemKey = `${newKey}[${index}]`;
+            if (typeof item === 'object') {
+              handleData(item, itemKey);
             } else {
-              formData.append(newKey, value);
+              formData.append(itemKey, item);
             }
-          }
-        };
-
-        handleData(payload, null);
-
-        // Address information (as an array)
-        formData.append("address[0][street]", address.street);
-        formData.append("address[0][city]", address.city);
-        formData.append("address[0][LGA]", address.LGA);
-        formData.append("address[0][state]", address.state);
-        formData.append("address[0][zipCode]", address.zipCode);
-
-        if(overView.profilePic !== null) {
-          formData.append("profilePic", overView.profilePic)
+          });
+        } else if (typeof value === 'object') {
+          handleData(value, newKey);
+        } else {
+          formData.append(newKey, value);
         }
+      }
+    };
 
-        if(user?.accountId !== undefined) {
-          try {
-            const response = await patchAxiosInstance.patch(
-              `/profile-details`,
-              formData,
-              {
-                headers: {
-                  Authorization: `Bearer ${user.authKey || ""}`,
-                },
-              }
-            );
-              console.log("RESPONSE:",response);
-            setSuccessModal(true)
-            setTimeout(() => {
-              cancelProject();
-            }, 3000);
-            setLoading(false);
-          } catch (error) {
-            setLoading(false);
+    handleData(payload, null);
+
+    // Address information (as an array)
+    formData.append('address[0][street]', address.street);
+    formData.append('address[0][city]', address.city);
+    formData.append('address[0][LGA]', address.LGA);
+    formData.append('address[0][state]', address.state);
+    formData.append('address[0][zipCode]', address.zipCode);
+
+    if (overView.profilePic !== null) {
+      formData.append('profilePic', overView.profilePic);
+    }
+
+    if (user?.accountId !== undefined) {
+      try {
+        const response = await patchAxiosInstance.patch(
+          `/profile-details`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ''}`,
+            },
           }
-        }
-  }
-
-
-
-
-
-
+        );
+        console.log('RESPONSE:', response);
+        setSuccessModal(true);
+        setTimeout(() => {
+          cancelProject();
+        }, 3000);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
+    }
+  };
 
   return (
     <>
       <div>
-        {currentStep === "overView" && (
+        {currentStep === 'overView' && (
           <MainLayout>
             <Overview
-              next={() => handleStepChange("personal")}
+              next={() => handleStepChange('personal')}
               cancel={cancelProject}
               overView={overView}
               setOverView={setOverView}
@@ -232,11 +232,11 @@ const [loading, setLoading] = useState(false);
             />
           </MainLayout>
         )}
-        {currentStep === "personal" && (
+        {currentStep === 'personal' && (
           <MainLayout>
             <PersonalDetails
-              next={() => handleStepChange("address")}
-              prev={() => handleStepChange("overView")}
+              next={() => handleStepChange('address')}
+              prev={() => handleStepChange('overView')}
               cancel={cancelProject}
               setPersonal={setPersonal}
               personal={personal}
@@ -244,11 +244,11 @@ const [loading, setLoading] = useState(false);
             />
           </MainLayout>
         )}
-        {currentStep === "address" && (
+        {currentStep === 'address' && (
           <MainLayout>
             <Address
-              next={() => handleStepChange("education")}
-              prev={() => handleStepChange("personal")}
+              next={() => handleStepChange('education')}
+              prev={() => handleStepChange('personal')}
               cancel={cancelProject}
               setAddress={setAddress}
               address={address}
@@ -256,11 +256,11 @@ const [loading, setLoading] = useState(false);
             />
           </MainLayout>
         )}
-        {currentStep === "education" && (
+        {currentStep === 'education' && (
           <MainLayout>
             <Education
-              next={() => handleStepChange("experience")}
-              prev={() => handleStepChange("address")}
+              next={() => handleStepChange('experience')}
+              prev={() => handleStepChange('address')}
               cancel={cancelProject}
               setEducation={setEducation}
               education={education}
@@ -270,11 +270,11 @@ const [loading, setLoading] = useState(false);
             />
           </MainLayout>
         )}
-        {currentStep === "experience" && (
+        {currentStep === 'experience' && (
           <MainLayout>
             <Experience
-              next={() => handleStepChange("skills")}
-              prev={() => handleStepChange("education")}
+              next={() => handleStepChange('skills')}
+              prev={() => handleStepChange('education')}
               cancel={cancelProject}
               // experiences={experiences}
               // setExperiences={setExperiences}
@@ -284,11 +284,11 @@ const [loading, setLoading] = useState(false);
             />
           </MainLayout>
         )}
-        {currentStep === "skills" && (
+        {currentStep === 'skills' && (
           <MainLayout>
             <Skills
-              next={() => handleStepChange("social")}
-              prev={() => handleStepChange("experience")}
+              next={() => handleStepChange('social')}
+              prev={() => handleStepChange('experience')}
               cancel={cancelProject}
               create={() => handleSubmit()}
               talentOptions={talentOptions}
@@ -298,11 +298,11 @@ const [loading, setLoading] = useState(false);
             />
           </MainLayout>
         )}
-        {currentStep === "social" && (
+        {currentStep === 'social' && (
           <MainLayout>
             <Social
-              next={() => handleStepChange("personal")}
-              prev={() => handleStepChange("skills")}
+              next={() => handleStepChange('personal')}
+              prev={() => handleStepChange('skills')}
               cancel={cancelProject}
               socials={socials}
               setSocials={setSocials}

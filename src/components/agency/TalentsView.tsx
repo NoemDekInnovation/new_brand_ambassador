@@ -81,6 +81,7 @@ export default function TalentsView({
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
   const [projects, setProjects] = useState<ProjectProps[]>();
   const [successModal, setSuccessModal] = useState(false);
+  const [successModalx, setSuccessModalx] = useState(true);
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedTalent, setSelectedTalent] = useState("");
   const [selectedTalentID, setSelectedTalentID] = useState("");
@@ -109,9 +110,9 @@ export default function TalentsView({
   useEffect(() => {
     setIsLoading(true);
     dispatch(fetchTalents());
-    dispatch(fetchEngageTalents());
-    dispatch(fetchAgencyTalents());
-    dispatch(fetchFavoriteTalents());
+    // dispatch(fetchEngageTalents());
+    // dispatch(fetchAgencyTalents());
+    // dispatch(fetchFavoriteTalents());
 
     const fetchProjects = async () => {
       if (user?.accountId !== undefined) {
@@ -337,7 +338,9 @@ export default function TalentsView({
           setError("");
           setMessage(response.data.message);
           // setResLink(newAccountResponse.data.link);
-          return;
+          return setTimeout(() => {
+            setSuccessModal(false);
+          }, 3000);
         }
         setIsLoading(false);
         setError(
@@ -548,11 +551,38 @@ export default function TalentsView({
           </div>
 
           <div className="bg-bm_card_grey  h-full w-full ">
+            {/* <button
+                      className='bg-green-200'
+                      // onClick={() => {
+                      //   // setSuccessModalx(true);
+                      //   console.log('lol', successModal);
+                      // }}
+                      onClick={() => {
+                        console.log('hello world');
+                      }}
+                    >
+                      set true
+                    </button> */}
             <div className="px-4 md:px-12 xl:px-40 min-h-[70vh] py-10">
               <Card className="bg-white h-full p-3 md:p-6 flex flex-col md:flex-row gap-3 md:gap-6">
                 <CardContent className="flex-col flex p-0 gap-3 md:gap-6">
                   <div className="flex gap-2 md:gap-4 justify-between w-full">
-                    <Dialog>
+                    {/* <button
+                      className='bg-green-200'
+                      // onClick={() => {
+                      //   // setSuccessModalx(true);
+                      //   console.log('lol', successModal);
+                      // }}
+                      onClick={() => {
+                        console.log('hello world');
+                      }}
+                    >
+                      set true
+                    </button> */}
+                    <Dialog
+                    // open={successModalx}
+                    // onOpenChange={() => setSuccessModalx(false)}
+                    >
                       <DialogTrigger className="dark__btn whitespace-nowrap flex items-center">
                         <BsPersonFillAdd className="text-[17px] mr-2" />
                         Add Talent
@@ -746,6 +776,19 @@ export default function TalentsView({
                         </div>
                       </DialogContent>
                     </Dialog>
+                    {/* <Dialog
+                      open={successModal}
+                      onOpenChange={() => setSuccessModal(false)}
+                    >
+                      <DialogContent className='bg-bm_card_grey flex flex-col items-center justify-center max-w-[360px] py-16'>
+                        <TbProgressCheck className='font-normal text-[155px] text-green-700' />
+                        <div className=''>Talent Created Successfully</div>
+                        <p>
+                          A link has been sent to the Talent email address
+                          provided to complete his/her registration.
+                        </p>
+                      </DialogContent>
+                    </Dialog> */}
                     <Dialog
                       open={successModal}
                       onOpenChange={() => setSuccessModal(false)}

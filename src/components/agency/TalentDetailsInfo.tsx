@@ -143,8 +143,6 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
         console.log(error);
       }
     }
-
-    console.log('Hello', selectedProject, selectedTalent, selectedTalentID);
   };
 
   const filteredTalents = resTalents?.filter((talent, idx) => {
