@@ -1,23 +1,23 @@
-import { Separator } from "../../ui/seperator";
+import { Separator } from '../../ui/seperator';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../ui/card";
+} from '../../ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
-import { BiChevronRight, BiSortAlt2, BiChevronLeft } from "react-icons/bi";
-import TalentCard from "./TalentCard";
-import { useRef } from "react";
-import Carousel from "react-multi-carousel";
-import { FaArrowRight } from "react-icons/fa";
+} from '../../ui/dropdown-menu';
+import { BiChevronRight, BiSortAlt2, BiChevronLeft } from 'react-icons/bi';
+import TalentCard from './TalentCard';
+import { useRef } from 'react';
+import Carousel from 'react-multi-carousel';
+import { FaArrowRight } from 'react-icons/fa';
 
 export function CurrentProjects({
   card_title,
@@ -29,35 +29,35 @@ export function CurrentProjects({
   const projects = [1, 2, 3, 4, 5, 6, 7].map((_, idx) => {
     return (
       <Card
-        className=" bg-white p-2 mx-3 rounded-md md:w-[234px] shadow-md"
+        className=' bg-white p-2 mx-3 rounded-md md:w-[234px] shadow-md'
         key={idx}
       >
-        <p className="text-[15px] font-medium">Project Name</p>
-        <p className="text-[10px] leading-4 font-normal">
+        <p className='text-[15px] font-medium'>Project Name</p>
+        <p className='text-[10px] leading-4 font-normal'>
           This is the project description.. this is the project description
         </p>
-        <Separator className="my-1" />
-        <div className="">
-          <div className="flex items-center py-2">
-            <p className="font-medium text-[10px] text-bm__niv">
+        <Separator className='my-1' />
+        <div className=''>
+          <div className='flex items-center py-2'>
+            <p className='font-medium text-[10px] text-bm__niv'>
               Project Code: NIV23
             </p>
-            <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
-            <p className="font-medium text-[10px] text-bm__niv ml-2">
+            <div className='ml-2 border-r-2 border-[#252525] h-[15px] font-medium' />
+            <p className='font-medium text-[10px] text-bm__niv ml-2'>
               300 Brand
             </p>
           </div>
-          <div className="flex items-center py-2">
-            <p className="font-medium text-[10px] text-bm__niv">Ambassadors</p>
-            <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
-            <p className="font-medium text-[10px] text-bm__niv ml-2">
+          <div className='flex items-center py-2'>
+            <p className='font-medium text-[10px] text-bm__niv'>Ambassadors</p>
+            <div className='ml-2 border-r-2 border-[#252525] h-[15px] font-medium' />
+            <p className='font-medium text-[10px] text-bm__niv ml-2'>
               50 Supervisors
             </p>
           </div>
         </div>
-        <Separator className="my-1" />
-        <div className="py-2">
-          <div className="font-medium text-[8px]">
+        <Separator className='my-1' />
+        <div className='py-2'>
+          <div className='font-medium text-[8px]'>
             Nov 30 - December 30 . Lagos, Abuja, Ogun, Plateau
           </div>
         </div>
@@ -66,29 +66,29 @@ export function CurrentProjects({
   });
 
   return (
-    <Card className="p-2 md:p-4 bg-white h-[255px]">
-      <CardHeader className="flex-row p-1 justify-between items-center">
+    <Card className='p-2 md:p-4 bg-white h-[255px]'>
+      <CardHeader className='flex-row p-1 justify-between items-center'>
         <CardTitle>
-          <p className="text-[15px] font-medium leading-[15px] whitespace-nowrap">
+          <p className='text-[15px] font-medium leading-[15px] whitespace-nowrap'>
             {card_title}
           </p>
         </CardTitle>
       </CardHeader>
-      <Separator className="my-2" />
-      <div className="max-w-[1200px] h-[168px]">
+      <Separator className='my-2' />
+      <div className='max-w-[1200px] h-[168px]'>
         <Carousel
           additionalTransfrom={0}
           partialVisible={true}
           arrows
           autoPlaySpeed={3000}
           centerMode={false}
-          className="gap-2"
-          containerClass="sm:mx-9 md:mx-4 lg:mx-12 w-[1200px]"
-          dotListClass=""
+          className='gap-2'
+          containerClass='sm:mx-9 md:mx-4 lg:mx-12 w-[1200px]'
+          dotListClass=''
           draggable
           focusOnSelect={false}
           infinite
-          itemClass=""
+          itemClass=''
           keyBoardControl
           minimumTouchDrag={80}
           pauseOnHover
@@ -125,7 +125,7 @@ export function CurrentProjects({
           rtl={false}
           shouldResetAutoplay
           // showDots
-          sliderClass=""
+          sliderClass=''
           slidesToSlide={1}
           swipeable
         >
@@ -144,47 +144,47 @@ const ProjectCard = ({
   card_content: { isCurrent: boolean; content: number[] };
 }) => {
   return (
-    <Card className="p-2 md:p-4 bg-white h-[352px]">
-      <CardHeader className="flex-row p-1 justify-between items-center">
-        <CardTitle className="font-medium text-[15px] leading-[15px] whitespace-nowrap">
+    <Card className='p-2 md:p-4 bg-white h-[352px]'>
+      <CardHeader className='flex-row p-1 justify-between items-center'>
+        <CardTitle className='font-medium text-[15px] leading-[15px] whitespace-nowrap'>
           {card_title}
         </CardTitle>
-        <div className="flex justify-between items-center">
-          <div className="flex gap-8 text-bm_black/75 text-[10px] whitespace-nowrap">
+        <div className='flex justify-between items-center'>
+          <div className='flex gap-8 text-bm_black/75 text-[10px] whitespace-nowrap'>
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center text-[15px] leading-[18px] font-normal text-[#252525B2]">
-                Sort: {"  "}Relevance
+              <DropdownMenuTrigger className='flex items-center text-[15px] leading-[18px] font-normal text-[#252525B2]'>
+                Sort: {'  '}Relevance
               </DropdownMenuTrigger>
 
-              <DropdownMenuContent className="bg-white p-3">
-                <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+              <DropdownMenuContent className='bg-white p-3'>
+                <DropdownMenuItem className='hover:bg-black/10  text-[16px]'>
                   Relevance
                 </DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-bm__beige" />
+                <DropdownMenuSeparator className='bg-bm__beige' />
 
-                <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                <DropdownMenuItem className='hover:bg-black/10  text-[16px]'>
                   Salary
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <div className="flex items-center gap-2">
-              <div className="text-[15px] leading-[18px] font-normal text-[#252525B2]">
-                View all favourites{" "}
+            <div className='flex items-center gap-2'>
+              <div className='text-[15px] leading-[18px] font-normal text-[#252525B2]'>
+                View all favourites{' '}
               </div>
 
-              <div className="text-[14px] text-[#252525B2]">
-                <FaArrowRight className="w-[w8px]" />
+              <div className='text-[14px] text-[#252525B2]'>
+                <FaArrowRight className='w-[w8px]' />
               </div>
             </div>
           </div>
         </div>
       </CardHeader>
-      <Separator className="my-3" />
-      <div className="flex justify-between items-center flex-wrap space-x-1 ">
+      <Separator className='my-3' />
+      <div className='flex justify-between items-center flex-wrap space-x-1 '>
         {card_content.content.map((_, idx) => {
           return (
             <div key={idx}>
-              <TalentCard />{" "}
+              <TalentCard />
             </div>
           );
         })}
