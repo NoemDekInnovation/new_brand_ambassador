@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import ListCard, { TopProjectCard } from "./ListCard";
 import ProjectCard, { CurrentProjects } from "./ProjectCard";
-import { RootState } from "../../redux/store";
-import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTalents } from "../../redux/talent.slice";
 
 const currentProject = {
   isCurrent: true,
@@ -15,8 +16,20 @@ const avaibleProject = {
 };
 
 const HomeTab = () => {
-  const talent = useSelector((state: RootState) => state.talent);
-  console.log(talent);
+  const { talents: resTalents, agencyTalents } = useSelector(
+    (state: RootState) => state.talent
+  );
+  console.log("my", resTalents);
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(fetchTalents());
+  }, [dispatch]);
+
+  const avaibleProject = {
+    isCurrent: false,
+    content: resTalents,
+  };
+
   return (
     <div className=" bg-bm_card_grey h-full overflow-y-scroll w-[1950px]">
       <div className="px-4 md:px-12 xl:px-40 flex pt-10 pb-2  md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
@@ -29,7 +42,7 @@ const HomeTab = () => {
             card_content={avaibleProject}
             card_title="Leading Talent"
           />
-          <ProjectCard card_content={avaibleProject} card_title="Favorites" />
+          {/* <ProjectCard card_content={avaibleProject} card_title="Favorites" /> */}
         </div>
         <div className="space-y-8 hidden sm:block">
           <ListCard card_title="My Projects" card_width="w-full" />
