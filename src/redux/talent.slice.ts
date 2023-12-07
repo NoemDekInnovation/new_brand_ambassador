@@ -7,7 +7,9 @@ export interface TalentsProps {
   loading: boolean;
   error: string | null;
   message: string;
-  talents: TalentProps[] | null;
+  talents: TalentProps[];
+  agencyTalents: TalentProps[];
+
   successfulImport: [];
   failedImport: [];
   count: number;
@@ -21,6 +23,8 @@ const initialState: TalentsProps = {
   error: "",
   message: "",
   talents: [],
+  agencyTalents: [],
+
   successfulImport: [],
   failedImport: [],
   count: 0,
@@ -38,6 +42,80 @@ export const fetchTalents = createAsyncThunk(
 
       console.log("checker", response.data);
       return response.data.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+// export const fetchEngageTalents = createAsyncThunk(
+//   'categories/fetchEngageTalents',
+//   async () => {
+//     const user = localStorage.getItem('userData');
+//     // console.log('tre');
+
+//     try {
+//       if (user !== null) {
+//         const parsedUser = JSON.parse(user);
+//         console.log('tre', user);
+
+//         const response = await authAxiosInstance(`/engaged-talents`, {
+//           headers: {
+//             Authorization: `Bearer ${parsedUser.authKey}`,
+//           },
+//         });
+//         console.log('cost', user);
+
+//         console.log('checker', response.data);
+//         return response.data.data;
+//       }
+//     } catch (error) {
+//       throw error;
+//     }
+//   }
+// );
+
+export const fetchFavoriteTalents = createAsyncThunk(
+  "categories/fetchFavoriteTalents",
+  async () => {
+    const user = localStorage.getItem("userData");
+
+    try {
+      if (user !== null) {
+        const parsedUser = JSON.parse(user);
+
+        const response = await authAxiosInstance(`/favorites-filter`, {
+          headers: {
+            Authorization: `Bearer ${parsedUser.authKey}`,
+          },
+        });
+
+        console.log("checker", response.data);
+        return response.data.data;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+export const fetchAgencyTalents = createAsyncThunk(
+  "categories/fetchAgencyTalents",
+  async () => {
+    const user = localStorage.getItem("userData");
+
+    try {
+      if (user !== null) {
+        const parsedUser = JSON.parse(user);
+
+        const response = await authAxiosInstance(`/agency-talent`, {
+          headers: {
+            Authorization: `Bearer ${parsedUser.authKey}`,
+          },
+        });
+
+        console.log("checker", response.data);
+        return response.data.data;
+      }
     } catch (error) {
       throw error;
     }
@@ -74,7 +152,28 @@ const talents = createSlice({
       .addCase(fetchTalents.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      .addCase(fetchAgencyTalents.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        fetchAgencyTalents.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.agencyTalents = action.payload.talents;
+          // state.prev = action.payload.prev;
+          // state.count = action.payload.count; // Store the count
+          // state.next = action.payload.next;
+        }
+      )
+      .addCase(
+        fetchAgencyTalents.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      );
   },
 });
 

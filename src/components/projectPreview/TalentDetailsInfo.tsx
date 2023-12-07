@@ -43,11 +43,16 @@ import { Button } from "../../ui/button";
 import { authAxiosInstance, campaignAuthAxiosInstance } from "../../api/axios";
 // import Image from "next/image";
 import Logo from "../../assets/beauty.jpg";
-import AllTalents from "./talents/AllTalents";
-import CurrentContacts from "./talents/CurrentContacts";
-import Engaged from "./talents/Engaged";
-import MyTalents from "./talents/MyTalents";
-import FavoriteTalents from "./talents/FavoriteTalents";
+import AllTalents from "../agency/talents/AllTalents";
+import CurrentContacts from "../agency/talents/CurrentContacts";
+import FavoriteTalents from "../agency/talents/FavoriteTalents";
+import MyTalents from "../agency/talents/MyTalents";
+import Engaged from "../agency/talents/Engaged";
+// import AllTalents from "./talents/AllTalents";
+// import CurrentContacts from "./talents/CurrentContacts";
+// import Engaged from "./talents/Engaged";
+// import MyTalents from "./talents/MyTalents";
+// import FavoriteTalents from "./talents/FavoriteTalents";
 
 type TalentDetailsProps = {
   activeType:

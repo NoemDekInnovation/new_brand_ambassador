@@ -97,6 +97,7 @@ export default function RequiredTalents({
       updatedTalentType[index].opportunities = value.value;
       setRequiredTalents(updatedTalentType);
     }
+    checkFormValidity();
   };
 
   const handleChangeQualification = (
@@ -108,6 +109,7 @@ export default function RequiredTalents({
       updatedTalentType[index].qualifications = value.value;
       setRequiredTalents(updatedTalentType);
     }
+    checkFormValidity();
   };
 
   const talentOptions = [
@@ -158,6 +160,7 @@ export default function RequiredTalents({
       updatedExperiences[index].skills.push(id);
       setRequiredTalents(updatedExperiences);
     }
+    checkFormValidity();
   };
 
   const handleSkillDelete = (index: number) => {
@@ -204,7 +207,22 @@ export default function RequiredTalents({
     };
 
     fetchData();
+    checkFormValidity();
   }, [example, dispatch]);
+
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const checkFormValidity = () => {
+    const isFormValid = Object.values(requiredTalents).every(
+      (field) => typeof field === "string" && (field as string).trim() !== ""
+    );
+
+    setIsFormValid(isFormValid);
+  };
+
+  useEffect(() => {
+    checkFormValidity();
+  }, [requiredTalents]);
 
   return (
     // <div className="px-4 pb-4  md:px-12 xl:px-40 ">
@@ -408,6 +426,7 @@ export default function RequiredTalents({
                           options={talentOptions}
                           onChange={(e) => handleChangeTalent(e, index)}
                           className="mt-4 p-2 rounded-md w-full"
+                          required
                         />
                       </div>
                       {errors.opportunities && (
@@ -436,6 +455,7 @@ export default function RequiredTalents({
                         options={qualificationOptions}
                         onChange={(e) => handleChangeQualification(e, index)}
                         className="mt-4 p-2 rounded-md w-full"
+                        required
                       />
                       {errors.qualifications && (
                         <p className="text-red-800 block mt-2">
@@ -591,6 +611,7 @@ export default function RequiredTalents({
                   JSON.stringify(requiredTalents)
                 );
               }}
+              disabled={isFormValid}
             >
               Save and Next
             </Button>

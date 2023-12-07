@@ -27,6 +27,16 @@ export const daysOfWeek: DayObject[] = [
   { value: "Sat", label: "S" },
 ];
 
+export const daysOfWeekx: DayObject[] = [
+  { value: "sundays", label: "S" },
+  { value: "mondays", label: "M" },
+  { value: "tuesdays", label: "T" },
+  { value: "wednesdays", label: "W" },
+  { value: "thursdays", label: "T" },
+  { value: "fridays", label: "F" },
+  { value: "saturdays", label: "S" },
+];
+
 export default function ProjectBudget({
   next,
   prev,
@@ -68,6 +78,7 @@ export default function ProjectBudget({
         return [...prevSelectedDays, day];
       }
     });
+    checkFormValidity();
   };
 
   // function formatAsNaira(value: string): string {
@@ -129,6 +140,20 @@ export default function ProjectBudget({
     updatedExperiences[index][name] = formattedValue;
     setRequiredTalents(updatedExperiences);
   };
+
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const checkFormValidity = () => {
+    const isFormValid = requiredTalents.every(
+      (field) => typeof field.name === "string" && field.name.trim() !== ""
+    );
+
+    setIsFormValid(isFormValid);
+  };
+
+  useEffect(() => {
+    checkFormValidity();
+  }, [requiredTalents]);
 
   return (
     // <div className="px-4 pb-4  md:px-12 xl:px-40">
@@ -472,6 +497,7 @@ export default function ProjectBudget({
                   JSON.stringify(requiredTalents)
                 );
               }}
+              disabled={isFormValid}
             >
               Save and Next
             </Button>

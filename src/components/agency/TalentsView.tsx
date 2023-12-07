@@ -1,48 +1,31 @@
 import { AppDispatch, RootState } from "../../redux/store";
 import {
   authAxiosInstance,
-  multerAxiosInstance,
+  campaignAuthAxiosInstance,
   patchAxiosInstance,
 } from "../../api/axios";
 import React, { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardContent } from "../../ui/card";
-import {
-  AiOutlineHeart,
-  AiOutlineImport,
-  AiOutlineMore,
-  AiOutlineUnorderedList,
-} from "react-icons/ai";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
+import { AiOutlineHeart, AiOutlineImport } from "react-icons/ai";
+import { DropdownMenuSeparator } from "../../ui/dropdown-menu";
 // import Image from "next/image";
 import { Controller, useForm } from "react-hook-form";
 import validator from "validator";
 import {
+  fetchAgencyTalents,
+  fetchFavoriteTalents,
   fetchTalents,
   setFailedImport,
   setSuccessImport,
 } from "../../redux/talent.slice";
-import {
-  BsChevronDoubleLeft,
-  BsChevronDoubleRight,
-  BsChevronLeft,
-  BsChevronRight,
-  BsPersonFillAdd,
-} from "react-icons/bs";
+import { BsPersonFillAdd } from "react-icons/bs";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogDescription,
-  DialogFooter,
 } from "../../ui/dialog";
 import { Button } from "../../ui/button";
 import {
@@ -56,8 +39,7 @@ import { Input } from "../../ui/input";
 import PreviewBoard from "./PreviewBoard";
 import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
 import { Label } from "../../ui/label";
-import { BiSortAlt2 } from "react-icons/bi";
-import { TbLayoutGrid, TbProgressCheck } from "react-icons/tb";
+import { TbProgressCheck } from "react-icons/tb";
 // import Pagination from "../Pagination";
 import { ProjectProps, TalentProps } from "../../redux/types";
 import { Separator } from "../../ui/seperator";
@@ -66,8 +48,9 @@ import TalentList from "./TalentList";
 import TalentDetailsInfo from "./TalentDetailsInfo";
 import Logo from "../../assets/beauty.jpg";
 import {} from "../../redux/talent.slice";
+import { fetchEngageTalents } from "../../redux/engagetalent.slice";
 
-type TalentType =
+export type TalentType =
   | "All Talents"
   | "Current Contacts"
   | "Favorites"
@@ -76,8 +59,12 @@ type TalentType =
 
 export default function TalentsView({
   newProject,
+  setProjectId,
+  setTalent,
 }: {
   newProject: () => void;
+  setProjectId: any;
+  setTalent: any;
 }) {
   const [talentFile, setTalentFile] = useState<File>({} as File);
   const [formData, setFormData] = useState(new FormData());
@@ -94,6 +81,7 @@ export default function TalentsView({
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
   const [projects, setProjects] = useState<ProjectProps[]>();
   const [successModal, setSuccessModal] = useState(false);
+  const [successModalx, setSuccessModalx] = useState(true);
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedTalent, setSelectedTalent] = useState("");
   const [selectedTalentID, setSelectedTalentID] = useState("");
@@ -101,21 +89,18 @@ export default function TalentsView({
 
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.user);
-  const {
-    count,
-    error: resErrror,
-    loading,
-    talents: resTalents,
-  } = useSelector((state: RootState) => state.talent);
+  const { talents: resTalents, agencyTalents } = useSelector(
+    (state: RootState) => state.talent
+  );
 
   console.log("change", resTalents);
 
   const talentCount = {
-    "All Talents": 0,
+    "All Talents": resTalents.length || 0,
     "Current Contacts": 0,
     Favorites: 0,
     Engaged: 0,
-    "My Talents": resTalents?.length || 0,
+    "My Talents": agencyTalents.length || 0,
   };
 
   const onTalentTypeChnage = (type: TalentType) => {
@@ -123,7 +108,33 @@ export default function TalentsView({
   };
 
   useEffect(() => {
+    setIsLoading(true);
     dispatch(fetchTalents());
+    // dispatch(fetchEngageTalents());
+    // dispatch(fetchAgencyTalents());
+    // dispatch(fetchFavoriteTalents());
+
+    const fetchProjects = async () => {
+      if (user?.accountId !== undefined) {
+        try {
+          const response = await campaignAuthAxiosInstance(
+            `/published-projects`,
+            {
+              headers: {
+                Authorization: `Bearer ${user.authKey || ""}`,
+              },
+            }
+          );
+          setProjects(response?.data?.data.projects);
+        } catch (error) {
+          console.error("Error while fetiching projects:", error);
+          // Handle error appropriately (e.g., show a user-friendly message)
+        }
+      }
+    };
+
+    fetchProjects();
+    setIsLoading(false);
   }, [user?.accountId]);
 
   const handleProfilePopUp = (talent: any) => {
@@ -197,9 +208,14 @@ export default function TalentsView({
         const fileData = new FormData();
         fileData.append("document", talentFile);
 
-        const response = await multerAxiosInstance.post(
-          `${user.accountId}/import-talent`,
-          fileData // Pass the FormData object directly
+        const response = await patchAxiosInstance.post(
+          `/import-talent`,
+          fileData, // Pass the FormData object directly,
+          {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ""}`,
+            },
+          }
         );
         setIsLoading(false);
         dispatch(setFailedImport(response.data.failedToImport));
@@ -233,73 +249,7 @@ export default function TalentsView({
         console.log(error);
       }
     }
-
-    console.log("Hello", selectedProject, selectedTalent, selectedTalentID);
   };
-
-  const filteredTalents = resTalents?.filter((talent, idx) => {
-    const talentgender = talent?.gender;
-    const talentRole = talent?.opportunities;
-    const talentAge = talent?.age;
-    const talentAddress = talent?.address[0];
-    // const size = sellers..toLowerCase();
-    // const search = searchTerm.toLowerCase();
-    const searchLocation = selectedLocation.toLowerCase();
-
-    if (
-      selectedGender === "all" &&
-      selectedOppor === "all" &&
-      selectedLocation === "all" &&
-      ageRange.start === "" &&
-      ageRange.end === ""
-    ) {
-      return talent;
-    }
-    const isGenderMatch = selectedGender === talentgender;
-    const isRoleMatch = selectedOppor === talentRole;
-    const isOfAge =
-      talentAge >= parseInt(ageRange.start) &&
-      talentAge <= parseInt(ageRange.end);
-    const isCity = talentAddress?.city.includes(searchLocation);
-    const isState = talentAddress?.state.includes(searchLocation);
-
-    if (isGenderMatch) {
-      if (
-        selectedOppor === "all" &&
-        selectedLocation === "all" &&
-        ageRange.start === "" &&
-        ageRange.end === ""
-      ) {
-        return isGenderMatch;
-      }
-      if (
-        selectedOppor !== "all" &&
-        selectedLocation === "all" &&
-        ageRange.start === "" &&
-        ageRange.end === ""
-      ) {
-        return isGenderMatch && isRoleMatch;
-      }
-      if (
-        selectedOppor !== "all" &&
-        selectedLocation === "all" &&
-        ageRange.start !== "" &&
-        ageRange.end !== ""
-      ) {
-        return isGenderMatch && isRoleMatch && isOfAge;
-      }
-
-      if (
-        selectedOppor !== "all" &&
-        selectedLocation !== "all" &&
-        ageRange.start !== "" &&
-        ageRange.end !== ""
-      ) {
-        return isGenderMatch && isRoleMatch && (isCity || isState) && isOfAge;
-      }
-    }
-    return talent;
-  });
 
   const {
     control,
@@ -352,7 +302,6 @@ export default function TalentsView({
   }
 
   const onSubmit = async (data: any) => {
-    // console.log(data);
     setIsLoading(true);
     const isError = Object.values(errMsg).every(
       (error) => error === null || error === ""
@@ -368,8 +317,8 @@ export default function TalentsView({
           // opportunities: data.talentType,
           email: data.email,
         };
-        const response = await patchAxiosInstance.post(
-          `/${user?.accountId}/register-talent`,
+        const response = await campaignAuthAxiosInstance.post(
+          `/register-talent`,
           requestData,
           {
             headers: {
@@ -389,7 +338,9 @@ export default function TalentsView({
           setError("");
           setMessage(response.data.message);
           // setResLink(newAccountResponse.data.link);
-          return;
+          return setTimeout(() => {
+            setSuccessModal(false);
+          }, 3000);
         }
         setIsLoading(false);
         setError(
@@ -600,11 +551,38 @@ export default function TalentsView({
           </div>
 
           <div className="bg-bm_card_grey  h-full w-full ">
+            {/* <button
+                      className='bg-green-200'
+                      // onClick={() => {
+                      //   // setSuccessModalx(true);
+                      //   console.log('lol', successModal);
+                      // }}
+                      onClick={() => {
+                        console.log('hello world');
+                      }}
+                    >
+                      set true
+                    </button> */}
             <div className="px-4 md:px-12 xl:px-40 min-h-[70vh] py-10">
               <Card className="bg-white h-full p-3 md:p-6 flex flex-col md:flex-row gap-3 md:gap-6">
                 <CardContent className="flex-col flex p-0 gap-3 md:gap-6">
                   <div className="flex gap-2 md:gap-4 justify-between w-full">
-                    <Dialog>
+                    {/* <button
+                      className='bg-green-200'
+                      // onClick={() => {
+                      //   // setSuccessModalx(true);
+                      //   console.log('lol', successModal);
+                      // }}
+                      onClick={() => {
+                        console.log('hello world');
+                      }}
+                    >
+                      set true
+                    </button> */}
+                    <Dialog
+                    // open={successModalx}
+                    // onOpenChange={() => setSuccessModalx(false)}
+                    >
                       <DialogTrigger className="dark__btn whitespace-nowrap flex items-center">
                         <BsPersonFillAdd className="text-[17px] mr-2" />
                         Add Talent
@@ -724,7 +702,7 @@ export default function TalentsView({
                           render={({ field }) => (
                             <div className="w-full ">
                               <Select
-                                onValueChange={field.onChange}
+                                onValueChange={(e) => setProjectId(e)}
                                 defaultValue={field.value}
                               >
                                 <SelectTrigger className="w-full bg-white">
@@ -758,7 +736,7 @@ export default function TalentsView({
                           render={({ field }) => (
                             <div className="w-full pb-2">
                               <Select
-                                onValueChange={field.onChange}
+                                onValueChange={(e) => setTalent(e)}
                                 defaultValue={field.value}
                               >
                                 <SelectTrigger className="w-full bg-white">
@@ -798,6 +776,19 @@ export default function TalentsView({
                         </div>
                       </DialogContent>
                     </Dialog>
+                    {/* <Dialog
+                      open={successModal}
+                      onOpenChange={() => setSuccessModal(false)}
+                    >
+                      <DialogContent className='bg-bm_card_grey flex flex-col items-center justify-center max-w-[360px] py-16'>
+                        <TbProgressCheck className='font-normal text-[155px] text-green-700' />
+                        <div className=''>Talent Created Successfully</div>
+                        <p>
+                          A link has been sent to the Talent email address
+                          provided to complete his/her registration.
+                        </p>
+                      </DialogContent>
+                    </Dialog> */}
                     <Dialog
                       open={successModal}
                       onOpenChange={() => setSuccessModal(false)}
@@ -879,32 +870,6 @@ export default function TalentsView({
                       </DialogContent>
                     </Dialog>
                   </div>
-                  {/* <Card>
-                    <CardContent className='py-3 md:py-6 space-y-3'>
-                      <div className=' '>
-                        <p> All Talents</p>
-                      </div>
-                      <Separator className='bg-bm__beige' />
-                      <div className='flex justify-between '>
-                        <p>Current Contacts</p>{' '}
-                        <span className='bg-bm__ox__red text-white px-2'>
-                          {resTalents?.length}
-                        </span>
-                      </div>
-                      <Separator className='bg-bm__beige' />
-                      <div className=' '>
-                        <p> Favorites</p>
-                      </div>
-                      <Separator className='bg-bm__beige' />
-                      <div className=''>
-                        <p>Engaged</p>
-                      </div>
-                      <Separator className='bg-bm__beige' />
-                      <div className=''>
-                        <p>My Talents</p>
-                      </div>
-                    </CardContent>
-                  </Card> */}
                   <TalentList
                     talentCount={talentCount}
                     onTalentTypeChnage={onTalentTypeChnage}
