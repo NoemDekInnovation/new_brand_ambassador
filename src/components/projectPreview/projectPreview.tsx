@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Card, CardContent } from "../../ui/card";
 import { Dialog, DialogContent, Overlay } from "@radix-ui/react-dialog";
 import { TbMap2, TbProgressCheck } from "react-icons/tb";
@@ -17,46 +17,62 @@ import { Button } from "../../ui/button";
 import { useNavigate } from "react-router-dom";
 
 import { AiOutlineEdit } from "react-icons/ai";
-// import { DayObject, daysOfWeek } from "/createproject/projectBudget";
+import {
+  DayObject,
+  daysOfWeek,
+  daysOfWeekx,
+} from "../agency/createproject/projectBudget";
 import {
   AboutProjectProps,
   ProjectPostProps,
+  ProjectProps,
   RequiredTalentsProps,
 } from "../../redux/types";
-
-// interface InfoCardProps {
-//   title: string;
-//   children: ReactNode;
-// }
-
-// function InfoCard({ title, children }: InfoCardProps): JSX.Element {
-//   // Function implementation goes here
-
-//   return <div>{children || null}</div>;
-// }
-
-// // }
-
-// interface PreviewPublishedProps {
-//   next: () => void;
-//   cancel: () => void;
-//   aboutProject: AboutProjectProps;
-//   requiredTalents: RequiredTalentsProps[];
-//   workDays: string[];
-//   proposal: string;
-//   document: any;
-//   projectPost: any;
-//   projectName: any;
-//   setProjectPost: any;
-// }
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { campaignAuthAxiosInstance } from "../../api/axios";
 
 const ProjectPreview = ({
   popUp,
   setPopUp,
-}: {
+  selectedProject,
+}: // workDays,
+{
   popUp: boolean;
   setPopUp: any;
+  selectedProject: any;
+  // workDays: [];
 }) => {
+  console.log("rked", selectedProject);
+
+  const startDate = new Date(selectedProject?.projectDuration?.startDate);
+  const endDate = new Date(selectedProject?.projectDuration?.endDate);
+  const formattedStartDate = startDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const formattedEndDate = endDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const PstartDate = new Date(selectedProject?.projectPost?.startDate);
+  const PendDate = new Date(selectedProject?.projectPost?.endDate);
+  const FormattedPstartDate = startDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const FormattedPendDate = endDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  // const [selectedProject, setSelectedProject] = useState("");
   return (
     <div
       className={`fixed z-[1000] bg-black/50  w-[100%] items-center justify-end flex flex-col transition-all duration-1000 inset-0 ${
@@ -73,15 +89,19 @@ const ProjectPreview = ({
           />
         </span>
         <div className="flex flex-row items-center p-4">
-          <div className="text-[14px] font-medium capitalize">Project Name</div>
-          <div className="text-[15px] p-0 px-2">|</div>
-
-          <div className="text-[12px] font-medium capitalize">
-            Project category
+          <div className="text-[14px] font-medium capitalize">
+            {selectedProject?.projectTitle}
           </div>
           <div className="text-[15px] p-0 px-2">|</div>
 
-          <div className="text-[12px] font-medium capitalize">Project Code</div>
+          <div className="text-[12px] font-medium capitalize">
+            {selectedProject?.projectCategory}
+          </div>
+          <div className="text-[15px] p-0 px-2">|</div>
+
+          <div className="text-[12px] font-medium capitalize">
+            {selectedProject?.projectCode}
+          </div>
           <div className="text-[15px] p-0 px-2">|</div>
 
           <div className="text-[12px] font-medium capitalize text-green-500">
@@ -164,23 +184,23 @@ const ProjectPreview = ({
           <Card className="w-full pt-2 my-3">
             <CardContent>
               <div className="flex justify-between items-center">
-                <h2 className="text-[18px] font-medium capitalize">title 1</h2>
+                <h2 className="text-[18px] font-medium capitalize">
+                  {selectedProject?.projectTitle}
+                </h2>
               </div>
 
               <div className="pt-2">
                 <p className="py-2 text-[16px] font-normal">
-                  {/* {aboutProject.projectCategory} */}
-                  project Category: -
+                  {selectedProject?.projectCategory || "-"}
                 </p>
                 <p className="py-2 text-[16px] font-normal">
-                  {/* {aboutProject.projectCode} */}
-                  project Code: -
+                  {selectedProject?.projectCode || "-"}
                 </p>
                 <Separator className="bg-bm__beige my-3" />
                 <div className="flex flex-col overflow-y-auto h-[10vh]">
                   <p className=" capitalize overflow-hidden break-words">
-                    Project Description:{" "}
-                    {/* {aboutProject.projectDescription || "-"} */}
+                    Project Description:
+                    {selectedProject?.projectDescription || "-"}
                   </p>
                 </div>
               </div>
@@ -188,10 +208,10 @@ const ProjectPreview = ({
           </Card>
           <Card className="w-full pt-4 my-3">
             <CardContent>
-              {["requiredTalents"].map((_: any, idx: number) => {
+              {selectedProject?.talent.map((talent: any, idx: number) => {
                 return (
                   <div className="" key={idx}>
-                    <h2>Brand Amassabor</h2>
+                    <h2>{talent?.opportunities}</h2>
                     {/* <div className="flex justify-between items-center">
                   <h2 className="text-[18px] font-medium capitalize">
                     {_.talentType || "-"}
@@ -199,32 +219,32 @@ const ProjectPreview = ({
                 </div> */}
                     <div className="pt-4">
                       <p className=" capitalize text-[16px] font-normal">
-                        <p>BSc.</p>
-                        {/* {requiredTalents[0].qualifications || "-"} */}
+                        {/* <p>BSc.</p> */}
+                        {talent?.qualifications || "-"}
                       </p>
                       <Separator className="bg-bm__beige my-3" />
                     </div>
                     <div className="pt-2">
                       <p>Skills</p>
                       <div className="py-3 flex gap-6 max-w-3xl flex-wrap">
-                        {/* {_.skills.map((skill, idx) => {
-                            return (
-                              <div className="" key={idx}>
-                                <Button className="light__btn max-w-fit capitalize">
-                                  {skill}
-                                </Button>
-                              </div>
-                            );
-                          })} */}
+                        {talent?.skills.map((skill: string, idx: number) => {
+                          return (
+                            <div className="" key={idx}>
+                              <Button className="light__btn max-w-fit capitalize">
+                                {skill}
+                              </Button>
+                            </div>
+                          );
+                        })}
                       </div>
                       <Separator className="bg-bm__beige my-2" />
                     </div>
                     <div className="pt-2">
                       <p>Budget</p>
                       <div className="flex justify-between items-center">
-                        {(_.salary && (
+                        {(talent?.salary && (
                           <div className="pt-2 flex gap-6 max-w-3xl capitalize">
-                            {/* {_.salary} {requiredTalents[0].paymentOptions} */}
+                            {talent?.salary} {talent?.paymentOptions}
                           </div>
                         )) ||
                           "-"}{" "}
@@ -241,7 +261,7 @@ const ProjectPreview = ({
             <CardContent>
               <div className="flex justify-between items-center">
                 <h2 className="text-[18px] font-medium capitalize">
-                  September 1st 2014 to September 20th 2015
+                  {formattedStartDate} to {formattedEndDate}
                 </h2>
               </div>
 
@@ -249,32 +269,31 @@ const ProjectPreview = ({
               <div className="py-3">
                 <p>Working Days</p>
                 <div className="pt-2 flex gap-4 max-w-3xl mt-2 mb-4 cursor-pointer flex-wrap">
-                  {/* {daysOfWeek.map(({ label, value }: DayObject, index) => (
-                      <div
-                        key={index}
-                        className={` rounded-md p-2 px-3 mb-4 capitalize font-semibold 
+                  {daysOfWeekx.map(({ label, value }: DayObject, index) => (
+                    <div
+                      key={index}
+                      className={` rounded-md p-2 px-3 mb-4 capitalize font-semibold 
                         ${
-                          workDays.includes(value)
+                          selectedProject?.workingDays.includes(value)
                             ? "bg-[#252525] text-white"
                             : "bg-bm_card_grey"
-                        }`
-                      }
-                      >
-                        {label}
-                      </div>
-                    ))} */}
+                        }`}
+                    >
+                      {label}
+                    </div>
+                  ))}
                 </div>
                 <Separator className="bg-bm__beige my-2" />
               </div>
               <div className="pt-2">
                 <p className="mb-2">Location</p>
                 <div className="py-2 flex gap-6 max-w-3xl flex-wrap">
-                  {/* {(aboutProject.projectLocation !== undefined && (
-                      <Button className="light__btn  max-w-fit capitalize">
-                        {aboutProject.projectLocation}
-                      </Button>
-                    )) ||
-                      "-"} */}
+                  {(selectedProject?.projectLocation !== undefined && (
+                    <Button className="light__btn  max-w-fit capitalize">
+                      {selectedProject?.projectLocation}
+                    </Button>
+                  )) ||
+                    "-"}
                 </div>
                 {/* <Separator className="bg-bm__beige my-2" /> */}
               </div>
@@ -290,8 +309,8 @@ const ProjectPreview = ({
               <Separator className="bg-bm__beige my-3" />
               <div className="flex flex-col overflow-y-auto h-[10vh]">
                 <p className=" capitalize overflow-hidden break-words">
-                  {/* {proposal || "-"}{" "} */}
-                  Application requirements:
+                  Application requirements:{" "}
+                  {selectedProject?.projectRequirements || "-"}
                 </p>
               </div>
               <Separator className="bg-bm__beige my-2" />
@@ -301,11 +320,11 @@ const ProjectPreview = ({
             <CardContent>
               <div className="flex flex-col mb-4 gap-2">
                 <p>Posted On</p>
-                <p>September 20th 2023</p>
+                {FormattedPstartDate}
               </div>
               <div className="flex flex-col gap-2">
                 <p>Closed On</p>
-                <p>September 20th 2023</p>
+                {FormattedPendDate}
               </div>
             </CardContent>
           </Card>

@@ -61,13 +61,14 @@ export function CurrentProjects({
   );
   const dispatch = useDispatch<AppDispatch>();
 
+  const [selectedProject, setSelectedProject] = useState();
+
   const [popUp, setPopUp] = useState(false);
   const handleProfilePopUp = (project: any) => {
-    // console.log(talent);
+    setSelectedProject(project);
     setPopUp(!popUp);
     // setSelectedRole(talent);
   };
-  console.log("worked", popUp);
 
   useEffect(() => {
     dispatch(fetchactiveproject());
@@ -83,7 +84,7 @@ export function CurrentProjects({
         <Card
           className=" bg-white p-2 mx-3 rounded-md md:w-[234px] shadow-md cursor-pointer"
           key={idx}
-          onClick={handleProfilePopUp}
+          onClick={() => handleProfilePopUp(project)}
         >
           <p className="text-[15px] font-medium capitalize">
             {/* Project Name */}
@@ -206,7 +207,12 @@ export function CurrentProjects({
           </Carousel>
         </div>
       </Card>
-      <ProjectPreview popUp={popUp} setPopUp={() => setPopUp(!popUp)} />;
+      <ProjectPreview
+        popUp={popUp}
+        setPopUp={() => setPopUp(!popUp)}
+        selectedProject={selectedProject}
+      />
+      ;
     </>
   );
 }
@@ -221,8 +227,6 @@ const ProjectCard = ({
   const [selectedProject, setSelectedProject] = useState("");
   const [projects, setProjects] = useState<ProjectProps[]>();
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log("lopl", projects);
 
   const { user } = useSelector((state: RootState) => state.user);
   useEffect(() => {
