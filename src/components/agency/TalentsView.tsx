@@ -50,7 +50,7 @@ import Logo from "../../assets/beauty.jpg";
 import {} from "../../redux/talent.slice";
 import { fetchEngageTalents } from "../../redux/engagetalent.slice";
 
-type TalentType =
+export type TalentType =
   | "All Talents"
   | "Current Contacts"
   | "Favorites"

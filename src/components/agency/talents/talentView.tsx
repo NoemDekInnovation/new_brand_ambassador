@@ -188,6 +188,8 @@ export const TalentGrid = ({
   selectedProject,
   setSuccessModal,
   successModal,
+  setModal,
+  modal,
 }: {
   _: any;
   idx?: number;
@@ -201,9 +203,9 @@ export const TalentGrid = ({
   setSelectedTalentID?: any;
   setSuccessModal?: any;
   successModal?: boolean;
+  setModal: any;
+  modal?: boolean;
 }) => {
-  console.log(_.profilePic);
-
   // const slides = [beauty, profile, blue, nivea, blue2];
   const slides =
     _.profilePic !== ""
@@ -250,6 +252,10 @@ export const TalentGrid = ({
   const next = () => {
     setCurr((curr) => (curr === slides.length - 1 ? 0 : curr + 1));
   };
+  const handleModalPop = () => {
+    setSelectedTalentID(_._id);
+    setModal(!modal);
+  };
 
   return (
     <>
@@ -270,7 +276,10 @@ export const TalentGrid = ({
                 <AiOutlineMore />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-white p-3 space-y-2 shadow-sm rounded-sm border">
-                <DropdownMenuItem className="hover:bg-black/10 flex items-center">
+                <DropdownMenuItem
+                  className="hover:bg-black/10 flex items-center"
+                  onClick={() => handleModalPop()}
+                >
                   <RiStackshareLine />
                   <span className="ml-2">Invite</span>
                 </DropdownMenuItem>
