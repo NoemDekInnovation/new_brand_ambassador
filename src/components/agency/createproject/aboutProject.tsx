@@ -4,7 +4,7 @@ import ChevBackground from "../../../ui/chevbackground";
 import { Button } from "../../../ui/button";
 import { Card, CardContent } from "../../../ui/card";
 import { Separator } from "../../../ui/seperator";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Textarea } from "../../../ui/textarea";
 import { AboutProjectProps } from "../../../redux/types";
 
@@ -81,7 +81,21 @@ export default function AboutProject({
         [fieldName]: truncatedValue,
       }));
     }
+    checkFormValidity();
   };
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const checkFormValidity = () => {
+    const isFormValid = Object.values(aboutProject).every(
+      (field) => typeof field === "string" && field.trim() !== ""
+    );
+
+    setIsFormValid(isFormValid);
+  };
+
+  useEffect(() => {
+    checkFormValidity();
+  }, [aboutProject]);
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40 ">
@@ -181,6 +195,7 @@ export default function AboutProject({
                     name="projectCode"
                     value={aboutProject.projectCode}
                     onChange={(e) => handleInputChange(e, "projectCode")}
+                    required
                   />
                   <label
                     htmlFor="floating_first_name"
@@ -213,6 +228,7 @@ export default function AboutProject({
                     name="startDate"
                     value={aboutProject.startDate}
                     onChange={(e) => handleInputChange(e, "startDate")}
+                    required
                   />
 
                   <label
@@ -245,6 +261,7 @@ export default function AboutProject({
                       name="endDate"
                       value={aboutProject.endDate}
                       onChange={(e) => handleInputChange(e, "endDate")}
+                      required
                     />
                     <label
                       htmlFor="floating_last_name"
@@ -275,6 +292,7 @@ export default function AboutProject({
                     onChange={(e) => handleInputChange(e, "projectLocation")}
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
+                    required
                   />
                   <label
                     htmlFor="floating_first_name"
@@ -305,6 +323,7 @@ export default function AboutProject({
                 name="projectDescription"
                 value={aboutProject.projectDescription}
                 onChange={(e) => handleInputChange(e, "projectDescription")}
+                required
               />
               <p className="text-[12px] text-bm__btn__grey mt-3">
                 {250 - aboutProject.projectDescription.length} Characters
@@ -335,6 +354,7 @@ export default function AboutProject({
                   JSON.stringify(aboutProject)
                 );
               }}
+              disabled={!isFormValid}
             >
               Save and Next
             </Button>

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { AgencyLayout } from "../Layout";
+import { AppDispatch } from "../../redux/store";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import arrowIcon from "../../assets/teenyicons_down-solid.png";
 import HomeTab from "./HomeTab";
@@ -14,8 +15,10 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "../../ui/menubar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { fetchactiveproject } from "../../redux/ActiveProject";
+import { fetchcompleteproject } from "../../redux/completeProject";
 
 const Dashboard = () => {
   const [defaultTab, setDefaultTab] = useState("home");
@@ -28,8 +31,8 @@ const Dashboard = () => {
 
   const talentRef = useRef<HTMLParagraphElement>(null);
   const projectsRef = useRef<HTMLParagraphElement>(null);
- 
- const handleTabClick = (tab: string) => {
+
+  const handleTabClick = (tab: string) => {
     // Reset styles for all tabs
     if (talentRef.current) {
       talentRef.current.style.color = "#000000";
@@ -42,7 +45,7 @@ const Dashboard = () => {
       projectsRef.current.style.fontWeight = "500";
       projectsRef.current.style.fontSize = "14px";
     }
- 
+
     // Apply styles for the clicked tab
     if (tab === "Home") {
       // No need to update styles for Home tab
@@ -58,11 +61,8 @@ const Dashboard = () => {
         projectsRef.current.style.fontWeight = "600";
         projectsRef.current.style.fontSize = "15px";
       }
-    } 
+    }
   };
-
-
-
 
   return (
     <AgencyLayout>

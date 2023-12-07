@@ -273,11 +273,11 @@ const PreviewPublished = ({
             </div>
           </div>
         </div>
-        {/* <Card className=" flex absolute flex-col p-4 md:p-8 bg-white overflow-y-scroll h-[83vh]  w-[1000px] right-0 top-0 mt-[150px] pl-[50px]"> */}
-        <div>
+        <Card className=" flex absolute flex-col p-4 md:p-8 bg-white overflow-y-scroll h-[83vh]  w-[1000px] right-0 top-0 mt-[150px] pl-[50px]">
+          {/* <div>
           <h1>Project Title</h1>
-        </div>
-        a {/* </Card> */}
+        </div> */}
+        </Card>
       </Card>
     </div>
   );

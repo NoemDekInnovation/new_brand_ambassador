@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import ListCard, { TopProjectCard } from "./ListCard";
 import ProjectCard, { CurrentProjects } from "./ProjectCard";
+import { RootState } from "../../redux/store";
+import { useSelector } from "react-redux";
 
 const currentProject = {
   isCurrent: true,
@@ -13,6 +15,8 @@ const avaibleProject = {
 };
 
 const HomeTab = () => {
+  const talent = useSelector((state: RootState) => state.talent);
+  console.log(talent);
   return (
     <div className=" bg-bm_card_grey h-full overflow-y-scroll w-[1950px]">
       <div className="px-4 md:px-12 xl:px-40 flex pt-10 pb-2  md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
