@@ -19,7 +19,7 @@ const HomeTab = () => {
   const { talents: resTalents, agencyTalents } = useSelector(
     (state: RootState) => state.talent
   );
-  console.log("my", resTalents);
+
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(fetchTalents());
