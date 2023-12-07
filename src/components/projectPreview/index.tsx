@@ -7,9 +7,11 @@ import Contract from "./Contract";
 export const ProjectViewCard = ({
   popUp,
   setPopUp,
+  selectedProject,
 }: {
   popUp: boolean;
   setPopUp: any;
+  selectedProject: any;
 }) => {
   const [selectedComponent, setSelectedComponent] = useState(1);
 
@@ -20,6 +22,7 @@ export const ProjectViewCard = ({
           popUp={popUp}
           setPopUp={() => setPopUp(!popUp)}
           select={setSelectedComponent}
+          selectedProject={selectedProject}
         />
       )}
       {selectedComponent === 2 && (

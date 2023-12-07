@@ -27,6 +27,16 @@ export const daysOfWeek: DayObject[] = [
   { value: "Sat", label: "S" },
 ];
 
+export const daysOfWeekx: DayObject[] = [
+  { value: "sundays", label: "S" },
+  { value: "mondays", label: "M" },
+  { value: "tuesdays", label: "T" },
+  { value: "wednesdays", label: "W" },
+  { value: "thursdays", label: "T" },
+  { value: "fridays", label: "F" },
+  { value: "saturdays", label: "S" },
+];
+
 export default function ProjectBudget({
   next,
   prev,
