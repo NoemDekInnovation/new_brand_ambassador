@@ -43,6 +43,7 @@ import { Button } from "../../ui/button";
 import { campaignAuthAxiosInstance } from "../../api/axios";
 import { TbProgressCheck } from "react-icons/tb";
 import ProjectPreview from "../projectPreview/projectPreview";
+import { ProjectViewCard } from "../projectPreview";
 
 const options: Intl.DateTimeFormatOptions = {
   // year: "numeric",
@@ -207,7 +208,7 @@ export function CurrentProjects({
           </Carousel>
         </div>
       </Card>
-      <ProjectPreview popUp={popUp} setPopUp={() => setPopUp(!popUp)} />;
+      <ProjectViewCard popUp={popUp} setPopUp={() => setPopUp(!popUp)} />
     </>
   );
 }
@@ -239,7 +240,7 @@ const ProjectCard = ({
           },
         });
         const projects = response?.data?.data.projects.map((project: any) => {
-          // console.log(project._id, project.projectDescription);
+          console.log(project._id, project);
           return { value: project._id, label: project.projectDescription };
         });
 

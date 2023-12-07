@@ -53,7 +53,9 @@ import {
 const ProjectPreview = ({
   popUp,
   setPopUp,
+  select,
 }: {
+  select: any;
   popUp: boolean;
   setPopUp: any;
 }) => {
@@ -127,27 +129,39 @@ const ProjectPreview = ({
             </div>
           </Card>
 
-          <div className="flex absolute flex-row justify-start items-start font-medium text-[12px] my-2 max-w-[970px] right-5 -top-2">
-            <div className="relative text-white flex items-center justify-center ">
+          <div className="flex absolute flex-row justify-start items-start font-medium text-[12px] my-2 max-w-[970px] right-5 -top-2 cursor-pointer">
+            <div
+              onClick={() => select(1)}
+              className="relative text-white flex items-center justify-center "
+            >
               <p className="absolute top-[25%]  z-20 text-[16px]">
                 Project Overview
               </p>
               <img src={darkUnion} alt="" className=" z-5 w-[300px] h-[45px]" />
             </div>
-            <div className=" relative text-black flex items-center justify-center">
+            <div
+              onClick={() => select(2)}
+              className=" relative text-black flex items-center justify-center"
+            >
               <p className="absolute top-[25%] text-[16px] z-20">
                 Invite Talent
               </p>
               <img src={subtract} alt="" className=" z-10 w-[300px] h-[45px]" />
             </div>
-            <div className=" relative text-black flex items-center justify-center">
+            <div
+              onClick={() => select(3)}
+              className=" relative text-black flex items-center justify-center"
+            >
               <p className="absolute top-[25%] text-[16px] z-20">
                 {" "}
                 Applications
               </p>
               <img src={subtract} alt="" className=" z-10 w-[300px] h-[45px]" />
             </div>
-            <div className=" relative text-black flex items-center justify-center">
+            <div
+              onClick={() => select(4)}
+              className=" relative text-black flex items-center justify-center"
+            >
               <p className="absolute top-[25%] z-20 text-[16px]"> Contracts</p>
               <img
                 src={subtract2}
