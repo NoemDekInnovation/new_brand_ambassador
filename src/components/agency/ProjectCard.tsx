@@ -40,8 +40,9 @@ import {
   SelectValue,
 } from "../../ui/select";
 import { Button } from "../../ui/button";
-import { authAxiosInstance, campaignAuthAxiosInstance } from "../../api/axios";
+import { campaignAuthAxiosInstance } from "../../api/axios";
 import { TbProgressCheck } from "react-icons/tb";
+import ProjectPreview from "../projectPreview/projectPreview";
 
 const options: Intl.DateTimeFormatOptions = {
   // year: "numeric",
@@ -61,6 +62,14 @@ export function CurrentProjects({
   );
   const dispatch = useDispatch<AppDispatch>();
 
+  const [popUp, setPopUp] = useState(false);
+  const handleProfilePopUp = (project: any) => {
+    // console.log(talent);
+    setPopUp(!popUp);
+    // setSelectedRole(talent);
+  };
+  console.log("worked", popUp);
+
   useEffect(() => {
     dispatch(fetchactiveproject());
   }, [dispatch]);
@@ -71,129 +80,135 @@ export function CurrentProjects({
     }
 
     return (
-      <Card
-        className=" bg-white p-2 mx-3 rounded-md md:w-[234px] shadow-md"
-        key={idx}
-      >
-        <p className="text-[15px] font-medium capitalize">
-          {/* Project Name */}
-          {project.projectTitle}
-        </p>
-        <p className="text-[10px] leading-4 font-normal capitalize">
-          {/* This is the project description.. this is the project description */}
-          {project.projectDescription}
-        </p>
-        <Separator className="my-1" />
-        <div className="">
-          <div className="flex items-center py-2">
-            <p className="font-medium text-[10px] text-bm__niv ">
-              PC: {project.projectCode}
-            </p>
-            <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
-            <p className="font-medium text-[10px] text-bm__niv ml-2">0 BA</p>
-            <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
-            <p className="font-medium text-[10px] text-bm__niv ml-2">
-              0 Supervisors
-            </p>
-          </div>
-          {/* <div className="flex items-center py-2">
+      <>
+        <Card
+          className=" bg-white p-2 mx-3 rounded-md md:w-[234px] shadow-md cursor-pointer"
+          key={idx}
+          onClick={handleProfilePopUp}
+        >
+          <p className="text-[15px] font-medium capitalize">
+            {/* Project Name */}
+            {project.projectTitle}
+          </p>
+          <p className="text-[10px] leading-4 font-normal capitalize">
+            {/* This is the project description.. this is the project description */}
+            {project.projectDescription}
+          </p>
+          <Separator className="my-1" />
+          <div className="">
+            <div className="flex items-center py-2">
+              <p className="font-medium text-[10px] text-bm__niv ">
+                PC: {project.projectCode}
+              </p>
+              <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
+              <p className="font-medium text-[10px] text-bm__niv ml-2">0 BA</p>
+              <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
+              <p className="font-medium text-[10px] text-bm__niv ml-2">
+                0 Supervisors
+              </p>
+            </div>
+            {/* <div className="flex items-center py-2">
             <p className="font-medium text-[10px] text-bm__niv">Ambassadors</p>
             <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
             <p className="font-medium text-[10px] text-bm__niv ml-2">
               0 Supervisors
             </p>
           </div> */}
-        </div>
-        <Separator className="my-1" />
-        <div className="py-2">
-          <div className="font-medium text-[8px]">
-            {new Date(project.projectDuration.startDate).toLocaleDateString(
-              "en-US",
-              options
-            )}{" "}
-            {" - "}
-            {new Date(project.projectDuration.endDate).toLocaleDateString(
-              "en-US",
-              options
-            )}{" "}
-            . {project.projectLocation}
-            {/* Nov 30 - December 30 . Lagos, Abuja, Ogun, Plateau */}
-            {/* {project.projectPost.startDate} - {project.projectPost.endDate} .{" "}
-            {project.projectLocation} */}
           </div>
-        </div>
-      </Card>
+          <Separator className="my-1" />
+          <div className="py-2">
+            <div className="font-medium text-[8px]">
+              {new Date(project.projectDuration.startDate).toLocaleDateString(
+                "en-US",
+                options
+              )}{" "}
+              {" - "}
+              {new Date(project.projectDuration.endDate).toLocaleDateString(
+                "en-US",
+                options
+              )}{" "}
+              . {project.projectLocation}
+              {/* Nov 30 - December 30 . Lagos, Abuja, Ogun, Plateau */}
+              {/* {project.projectPost.startDate} - {project.projectPost.endDate} .{" "}
+            {project.projectLocation} */}
+            </div>
+          </div>
+        </Card>
+      </>
     );
   });
 
   return (
-    <Card className="p-2 md:p-4 bg-white h-[255px]">
-      <CardHeader className="flex-row p-1 justify-between items-center">
-        <CardTitle>
-          <p className="text-[15px] font-medium leading-[15px] whitespace-nowrap">
-            {card_title}
-          </p>
-        </CardTitle>
-      </CardHeader>
-      <Separator className="my-2" />
-      <div className="max-w-[1200px] h-[168px]">
-        <Carousel
-          additionalTransfrom={0}
-          partialVisible={true}
-          arrows
-          autoPlaySpeed={3000}
-          centerMode={false}
-          className="gap-2"
-          containerClass="sm:mx-9 md:mx-4 lg:mx-12 w-[1200px]"
-          dotListClass=""
-          draggable
-          focusOnSelect={false}
-          infinite
-          itemClass=""
-          keyBoardControl
-          minimumTouchDrag={80}
-          pauseOnHover
-          renderArrowsWhenDisabled={false}
-          renderButtonGroupOutside={false}
-          renderDotsOutside={false}
-          responsive={{
-            desktop: {
-              breakpoint: {
-                max: 3000,
-                min: 1024,
+    <>
+      <Card className="p-2 md:p-4 bg-white h-[255px]">
+        <CardHeader className="flex-row p-1 justify-between items-center">
+          <CardTitle>
+            <p className="text-[15px] font-medium leading-[15px] whitespace-nowrap">
+              {card_title}
+            </p>
+          </CardTitle>
+        </CardHeader>
+        <Separator className="my-2" />
+        <div className="max-w-[1200px] h-[168px]">
+          <Carousel
+            additionalTransfrom={0}
+            partialVisible={true}
+            arrows
+            autoPlaySpeed={3000}
+            centerMode={false}
+            className="gap-2"
+            containerClass="sm:mx-9 md:mx-4 lg:mx-12 w-[1200px]"
+            dotListClass=""
+            draggable
+            focusOnSelect={false}
+            infinite
+            itemClass=""
+            keyBoardControl
+            minimumTouchDrag={80}
+            pauseOnHover
+            renderArrowsWhenDisabled={false}
+            renderButtonGroupOutside={false}
+            renderDotsOutside={false}
+            responsive={{
+              desktop: {
+                breakpoint: {
+                  max: 3000,
+                  min: 1024,
+                },
+                items: 4,
+                partialVisibilityGutter: 40,
               },
-              items: 4,
-              partialVisibilityGutter: 40,
-            },
-            tablet: {
-              breakpoint: {
-                max: 1024,
-                min: 464,
+              tablet: {
+                breakpoint: {
+                  max: 1024,
+                  min: 464,
+                },
+                items: 3,
+                partialVisibilityGutter: 20,
               },
-              items: 3,
-              partialVisibilityGutter: 20,
-            },
-            mobile: {
-              breakpoint: {
-                max: 464,
-                min: 0,
+              mobile: {
+                breakpoint: {
+                  max: 464,
+                  min: 0,
+                },
+                items: 1,
               },
-              items: 1,
-            },
-          }}
-          rewind={false}
-          rewindWithAnimation={false}
-          rtl={false}
-          shouldResetAutoplay
-          // showDots
-          sliderClass=""
-          slidesToSlide={1}
-          swipeable
-        >
-          {projects}
-        </Carousel>
-      </div>
-    </Card>
+            }}
+            rewind={false}
+            rewindWithAnimation={false}
+            rtl={false}
+            shouldResetAutoplay
+            // showDots
+            sliderClass=""
+            slidesToSlide={1}
+            swipeable
+          >
+            {projects}
+          </Carousel>
+        </div>
+      </Card>
+      <ProjectPreview popUp={popUp} setPopUp={() => setPopUp(!popUp)} />;
+    </>
   );
 }
 
