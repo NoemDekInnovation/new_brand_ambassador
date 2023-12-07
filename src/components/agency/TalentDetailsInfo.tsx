@@ -1,61 +1,61 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardFooter } from '../../ui/card';
+import React, { useEffect, useState } from "react";
+import { Card, CardContent, CardFooter } from "../../ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@radix-ui/react-dropdown-menu';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../redux/store';
-import { BiSortAlt2 } from 'react-icons/bi';
-import { TbLayoutGrid } from 'react-icons/tb';
+} from "@radix-ui/react-dropdown-menu";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { BiSortAlt2 } from "react-icons/bi";
+import { TbLayoutGrid } from "react-icons/tb";
 import {
   AiOutlineHeart,
   AiOutlineMore,
   AiOutlineUnorderedList,
-} from 'react-icons/ai';
-import { Separator } from '@radix-ui/react-separator';
+} from "react-icons/ai";
+import { Separator } from "@radix-ui/react-separator";
 import {
   BsChevronDoubleLeft,
   BsChevronDoubleRight,
   BsChevronLeft,
   BsChevronRight,
-} from 'react-icons/bs';
-import Pagination from '../../ui/Pagination';
-import { ProjectProps, TalentProps } from '../../redux/types';
+} from "react-icons/bs";
+import Pagination from "../../ui/Pagination";
+import { ProjectProps, TalentProps } from "../../redux/types";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
-} from '@radix-ui/react-dialog';
-import { DialogFooter, DialogHeader } from '../../ui/dialog';
+} from "@radix-ui/react-dialog";
+import { DialogFooter, DialogHeader } from "../../ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@radix-ui/react-select';
-import { Button } from '../../ui/button';
-import { authAxiosInstance } from '../../api/axios';
+} from "@radix-ui/react-select";
+import { Button } from "../../ui/button";
+import { authAxiosInstance, campaignAuthAxiosInstance } from "../../api/axios";
 // import Image from "next/image";
-import Logo from '../../assets/beauty.jpg';
-import AllTalents from './talents/AllTalents';
-import CurrentContacts from './talents/CurrentContacts';
-import Engaged from './talents/Engaged';
-import MyTalents from './talents/MyTalents';
-import FavoriteTalents from './talents/FavoriteTalents';
+import Logo from "../../assets/beauty.jpg";
+import AllTalents from "./talents/AllTalents";
+import CurrentContacts from "./talents/CurrentContacts";
+import Engaged from "./talents/Engaged";
+import MyTalents from "./talents/MyTalents";
+import FavoriteTalents from "./talents/FavoriteTalents";
 
 type TalentDetailsProps = {
   activeType:
-    | 'All Talents'
-    | 'Current Contacts'
-    | 'Favorites'
-    | 'Engaged'
-    | 'My Talents';
+    | "All Talents"
+    | "Current Contacts"
+    | "Favorites"
+    | "Engaged"
+    | "My Talents";
   handleProfilePopUp: (talent: TalentProps) => void;
 };
 
@@ -65,21 +65,21 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
 }) => {
   let pageTalents;
 
-  console.log('activeType', activeType);
+  console.log("activeType", activeType);
 
   const [gridView, setGridView] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [popUp, setPopUp] = useState(false);
-  const [selectedGender, setSelectedGender] = useState('all');
-  const [selectedOppor, setSelectedOppor] = useState('all');
-  const [selectedLocation, setSelectedLocation] = useState('all');
-  const [ageRange, setAgeRange] = useState({ start: '', end: '' });
+  const [selectedGender, setSelectedGender] = useState("all");
+  const [selectedOppor, setSelectedOppor] = useState("all");
+  const [selectedLocation, setSelectedLocation] = useState("all");
+  const [ageRange, setAgeRange] = useState({ start: "", end: "" });
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
   const [projects, setProjects] = useState<ProjectProps[]>();
   const [successModal, setSuccessModal] = useState(false);
-  const [selectedProject, setSelectedProject] = useState('');
-  const [selectedTalent, setSelectedTalent] = useState('');
-  const [selectedTalentID, setSelectedTalentID] = useState('');
+  const [selectedProject, setSelectedProject] = useState("");
+  const [selectedTalent, setSelectedTalent] = useState("");
+  const [selectedTalentID, setSelectedTalentID] = useState("");
 
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -88,11 +88,11 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   };
 
   const handleClear = () => {
-    setSelectedLocation('all');
-    setSelectedOppor('all');
-    setAgeRange({ ...ageRange, start: '' });
-    setAgeRange({ ...ageRange, end: '' });
-    setSelectedGender('all');
+    setSelectedLocation("all");
+    setSelectedOppor("all");
+    setAgeRange({ ...ageRange, start: "" });
+    setAgeRange({ ...ageRange, end: "" });
+    setSelectedGender("all");
   };
 
   const handleViewToggle = () => {
@@ -108,14 +108,14 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   useEffect(() => {
     const fetchTalents = async () => {
       if (user?.accountId) {
-        if (activeType === 'My Talents') {
+        if (activeType === "My Talents") {
           // dispatch(fetchTalents());
-        } else if (activeType === 'Current Contacts') {
-        } else if (activeType === 'All Talents') {
-        } else if (activeType === 'Engaged') {
-        } else if (activeType === 'Favorites') {
+        } else if (activeType === "Current Contacts") {
+        } else if (activeType === "All Talents") {
+        } else if (activeType === "Engaged") {
+        } else if (activeType === "Favorites") {
         } else {
-          console.log('No data yet');
+          console.log("No data yet");
         }
       }
     };
@@ -126,12 +126,17 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
     setIsLoading(true);
     if (user !== null) {
       try {
-        const response = await authAxiosInstance.post(
-          `${user.accountId}/invite-to-project`,
+        const response = await campaignAuthAxiosInstance.post(
+          `/invite-to-project`,
           {
             opportunities: selectedTalent,
             projectId: selectedProject,
             talentId: selectedTalentID,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ""}`,
+            },
           }
         );
 
@@ -155,11 +160,11 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
     const searchLocation = selectedLocation.toLowerCase();
 
     if (
-      selectedGender === 'all' &&
-      selectedOppor === 'all' &&
-      selectedLocation === 'all' &&
-      ageRange.start === '' &&
-      ageRange.end === ''
+      selectedGender === "all" &&
+      selectedOppor === "all" &&
+      selectedLocation === "all" &&
+      ageRange.start === "" &&
+      ageRange.end === ""
     ) {
       return talent;
     }
@@ -173,35 +178,35 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
 
     if (isGenderMatch) {
       if (
-        selectedOppor === 'all' &&
-        selectedLocation === 'all' &&
-        ageRange.start === '' &&
-        ageRange.end === ''
+        selectedOppor === "all" &&
+        selectedLocation === "all" &&
+        ageRange.start === "" &&
+        ageRange.end === ""
       ) {
         return isGenderMatch;
       }
       if (
-        selectedOppor !== 'all' &&
-        selectedLocation === 'all' &&
-        ageRange.start === '' &&
-        ageRange.end === ''
+        selectedOppor !== "all" &&
+        selectedLocation === "all" &&
+        ageRange.start === "" &&
+        ageRange.end === ""
       ) {
         return isGenderMatch && isRoleMatch;
       }
       if (
-        selectedOppor !== 'all' &&
-        selectedLocation === 'all' &&
-        ageRange.start !== '' &&
-        ageRange.end !== ''
+        selectedOppor !== "all" &&
+        selectedLocation === "all" &&
+        ageRange.start !== "" &&
+        ageRange.end !== ""
       ) {
         return isGenderMatch && isRoleMatch && isOfAge;
       }
 
       if (
-        selectedOppor !== 'all' &&
-        selectedLocation !== 'all' &&
-        ageRange.start !== '' &&
-        ageRange.end !== ''
+        selectedOppor !== "all" &&
+        selectedLocation !== "all" &&
+        ageRange.start !== "" &&
+        ageRange.end !== ""
       ) {
         return isGenderMatch && isRoleMatch && (isCity || isState) && isOfAge;
       }
@@ -210,7 +215,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   });
 
   switch (activeType) {
-    case 'All Talents':
+    case "All Talents":
       pageTalents = (
         <AllTalents
           gridView={gridView}
@@ -227,7 +232,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
         />
       );
       break;
-    case 'Current Contacts':
+    case "Current Contacts":
       pageTalents = (
         <CurrentContacts
           gridView={gridView}
@@ -244,7 +249,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
         />
       );
       break;
-    case 'Favorites':
+    case "Favorites":
       pageTalents = (
         <FavoriteTalents
           gridView={gridView}
@@ -261,7 +266,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
         />
       );
       break;
-    case 'Engaged':
+    case "Engaged":
       pageTalents = (
         <Engaged
           gridView={gridView}
@@ -278,7 +283,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
         />
       );
       break;
-    case 'My Talents':
+    case "My Talents":
       pageTalents = (
         <MyTalents
           gridView={gridView}
@@ -301,29 +306,29 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
 
   return (
     <>
-      <CardContent className='flex-1 flex flex-col m-0 p-0 mt-8 md:mt-0'>
-        <div className='flex-1'>
-          <div className='flex justify-between flex-col gap-2 lg:flex-row'>
-            <p className='font-semibold text-[18px] '>{activeType}</p>
-            <div className='flex flex-col items-start lg:items-center gap-2 lg:gap-6 lg:flex-row'>
+      <CardContent className="flex-1 flex flex-col m-0 p-0 mt-8 md:mt-0">
+        <div className="flex-1">
+          <div className="flex justify-between flex-col gap-2 lg:flex-row">
+            <p className="font-semibold text-[18px] ">{activeType}</p>
+            <div className="flex flex-col items-start lg:items-center gap-2 lg:gap-6 lg:flex-row">
               <DropdownMenu>
-                <DropdownMenuTrigger className='flex gap-1 items-center'>
+                <DropdownMenuTrigger className="flex gap-1 items-center">
                   <BiSortAlt2 />
-                  Sort: {'  '} Average Rating
+                  Sort: {"  "} Average Rating
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className='bg-white p-3'>
-                  <DropdownMenuItem className='hover:bg-black/10  text-[16px]'>
+                <DropdownMenuContent className="bg-white p-3">
+                  <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
                     Relevance
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator className='bg-bm__beige' />
-                  <DropdownMenuItem className='hover:bg-black/10  text-[16px]'>
+                  <DropdownMenuSeparator className="bg-bm__beige" />
+                  <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
                     Average Rating
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <div className='flex gap-2 md:gap-4 items-center'>
-                <span className='flex items-center gap-1'>
-                  View:{'  '}{' '}
+              <div className="flex gap-2 md:gap-4 items-center">
+                <span className="flex items-center gap-1">
+                  View:{"  "}{" "}
                   {gridView && <TbLayoutGrid onClick={handleViewToggle} />}
                   {!gridView && (
                     <AiOutlineUnorderedList onClick={handleViewToggle} />
@@ -332,15 +337,15 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
               </div>
             </div>
           </div>
-          <Separator className='my-2 bg-bm__beige shrink-0 h-[1px] w-full' />
-          <div className='flex w-full justify-end items-center text-[10px] font-normal'>
+          <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
+          <div className="flex w-full justify-end items-center text-[10px] font-normal">
             1-{resTalents?.length} of {resTalents?.length}
-            <BsChevronDoubleLeft className='mx-4' />
+            <BsChevronDoubleLeft className="mx-4" />
             <BsChevronLeft />
-            <BsChevronRight className='mx-4' />
+            <BsChevronRight className="mx-4" />
             <BsChevronDoubleRight />
           </div>
-          <Separator className='my-2' />
+          <Separator className="my-2" />
           {/* {gridView && (
             <div className='flex w-full justify-center '>
                <div className='flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap '>
@@ -353,12 +358,12 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
           )} */}
           {pageTalents}
         </div>
-        <Separator className='my-2 md:my-4' />
+        <Separator className="my-2 md:my-4" />
         <Pagination
-          first={''}
-          last={''}
-          prev={''}
-          next={''}
+          first={""}
+          last={""}
+          prev={""}
+          next={""}
           currentPage={1}
           count={resTalents?.length || 0}
         />
