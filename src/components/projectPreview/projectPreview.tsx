@@ -190,7 +190,7 @@ const ProjectPreview = ({
               </div>
 
               <div className="pt-2">
-                <p className="py-2 text-[16px] font-normal">
+                <p className="py-2 text-[16px] font-normal capitalize">
                   {selectedProject?.projectCategory || "-"}
                 </p>
                 <p className="py-2 text-[16px] font-normal">
@@ -210,7 +210,7 @@ const ProjectPreview = ({
             <CardContent>
               {selectedProject?.talent.map((talent: any, idx: number) => {
                 return (
-                  <div className="" key={idx}>
+                  <div className="capitalize" key={idx}>
                     <h2>{talent?.opportunities}</h2>
                     {/* <div className="flex justify-between items-center">
                   <h2 className="text-[18px] font-medium capitalize">
