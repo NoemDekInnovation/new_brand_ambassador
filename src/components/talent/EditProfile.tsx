@@ -9,6 +9,8 @@ import Social from "./components/Social";
 import Skills from "./components/Skills";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
+
+
 import {
   AddressProps,
   CertificateProps,
@@ -21,6 +23,8 @@ import { patchAxiosInstance } from "../../api/axios";
 import { fetchUserTalentsData } from "../../redux/talent.slice";
 import { Dispatch, SetStateAction } from "react";
 import { Country, State } from "country-state-city";
+
+
 
 let countryData = Country.getAllCountries();
 let stateData = State.getAllStates();
@@ -47,7 +51,7 @@ export default function EditProfile() {
     { label: "ba", value: "ba" },
     { label: "supervisor", value: "supervisor" },
     { label: "usher", value: "usher" },
-  ];
+  ]
 
   const { user } = useSelector((state: RootState) => state.user);
   const { talentData } = useSelector((state: RootState) => state.talent);
@@ -109,9 +113,16 @@ export default function EditProfile() {
       degree: "",
       grade: "",
       gradYear: "",
-      // _id: '',
-    },
-  ]);
+      }
+])
+  // const [certificate, setCertificate] = useState<CertificateProps[]>([
+  //   {
+  //     certificateName: '',
+  //     organisation: '',
+  //     certYear: '',
+  //     // _id: '',
+  //   },
+  // ]);
 
   const [certificate, setCertificate] = useState<CertificateProps[]>([
     {
@@ -122,22 +133,22 @@ export default function EditProfile() {
     },
   ]);
 
-  const [socials, setSocials] = useState<SocialsProps>({
-    facebook: "",
-    twitter: "",
-    instagram: "",
-    linkedin: "",
-  });
+  // const [socials, setSocials] = useState<SocialsProps>({
+  //   facebook: "",
+  //   twitter: "",
+  //   instagram: "",
+  //   linkedin: "",
+  // });
 
-  const [skillData, setSkillData] = useState<string[]>([]);
+  // const [skillData, setSkillData] = useState<string[]>([]);
 
   const [opportunities, setOpportunites] = useState<string[]>([]) 
   // console.log(opportunities);
    
 
-  const [successModal, setSuccessModal] = useState(false);
+  // const [successModal, setSuccessModal] = useState(false);
 
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const [phn, setPhn]: [E164Number, Dispatch<SetStateAction<E164Number>>] =
     useState("");
@@ -203,6 +214,18 @@ export default function EditProfile() {
       setSkillData((prevSkills) => [...prevSkills, ...talentData.skills]);
     }
   }, [talentData]);
+  const [socials, setSocials] = useState<SocialsProps>({
+    facebook: '',
+    twitter: '',
+    instagram: '',
+    linkedin: '',
+  });
+
+  const [skillData, setSkillData] = useState<string[]>([]);
+
+  const [successModal, setSuccessModal] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const handleStepChange = (step: string) => {
     setCurrentStep(step);
@@ -212,7 +235,7 @@ export default function EditProfile() {
     if (skillData.length < 5) {
       setSkillData([...skillData, id]);
     } else {
-      alert("You can only select up to 5 skills.");
+      alert('You can only select up to 5 skills.');
     }
   };
 
@@ -232,9 +255,9 @@ export default function EditProfile() {
       summary: overView.summary,
       alternatePhone: altPhn || personal.alternatePhone,
       DOB: personal.DOB,
-      gender: personal.gender,
-      nationality: selectedNationality || personal.nationality,
-      origin: selectedOrigin || personal.origin,
+      gender: 'Male',
+      nationality: personal.nationality,
+      origin: personal.origin,
       height: personal.height,
       skinColor: personal.skinColor,
       dressSize: personal.dressSize,
@@ -257,13 +280,13 @@ export default function EditProfile() {
         if (Array.isArray(value)) {
           value.forEach((item, index) => {
             const itemKey = `${newKey}[${index}]`;
-            if (typeof item === "object") {
+            if (typeof item === 'object') {
               handleData(item, itemKey);
             } else {
               formData.append(itemKey, item);
             }
           });
-        } else if (typeof value === "object") {
+        } else if (typeof value === 'object') {
           handleData(value, newKey);
         } else {
           formData.append(newKey, value);
@@ -274,14 +297,14 @@ export default function EditProfile() {
     handleData(payload, null);
 
     // Address information (as an array)
-    formData.append("address[0][street]", address.street);
-    formData.append("address[0][city]", address.city);
-    formData.append("address[0][LGA]", address.LGA);
-    formData.append("address[0][state]", address.state);
-    formData.append("address[0][zipCode]", address.zipCode);
+    formData.append('address[0][street]', address.street);
+    formData.append('address[0][city]', address.city);
+    formData.append('address[0][LGA]', address.LGA);
+    formData.append('address[0][state]', address.state);
+    formData.append('address[0][zipCode]', address.zipCode);
 
     if (overView.profilePic !== null) {
-      formData.append("profilePic", overView.profilePic);
+      formData.append('profilePic', overView.profilePic);
     }
 
     if (user?.accountId !== undefined) {
@@ -291,13 +314,11 @@ export default function EditProfile() {
           formData,
           {
             headers: {
-              Authorization: `Bearer ${user.authKey || ""}`,
+              Authorization: `Bearer ${user.authKey || ''}`,
             },
           }
         );
-        // console.log(response);
-        // console.log(user?.authKey);
-
+        console.log('RESPONSE:', response);
         setSuccessModal(true);
         setTimeout(() => {
           cancelProject();
@@ -312,10 +333,10 @@ export default function EditProfile() {
   return (
     <>
       <div>
-        {currentStep === "overView" && (
+        {currentStep === 'overView' && (
           <MainLayout>
             <Overview
-              next={() => handleStepChange("personal")}
+              next={() => handleStepChange('personal')}
               cancel={cancelProject}
               overView={overView}
               setOverView={setOverView}
@@ -323,11 +344,11 @@ export default function EditProfile() {
             />
           </MainLayout>
         )}
-        {currentStep === "personal" && (
+        {currentStep === 'personal' && (
           <MainLayout>
             <PersonalDetails
-              next={() => handleStepChange("address")}
-              prev={() => handleStepChange("overView")}
+              next={() => handleStepChange('address')}
+              prev={() => handleStepChange('overView')}
               cancel={cancelProject}
               setPersonal={setPersonal}
               personal={personal}
@@ -341,11 +362,11 @@ export default function EditProfile() {
             />
           </MainLayout>
         )}
-        {currentStep === "address" && (
+        {currentStep === 'address' && (
           <MainLayout>
             <Address
-              next={() => handleStepChange("education")}
-              prev={() => handleStepChange("personal")}
+              next={() => handleStepChange('education')}
+              prev={() => handleStepChange('personal')}
               cancel={cancelProject}
               setAddress={setAddress}
               address={address}
@@ -353,11 +374,11 @@ export default function EditProfile() {
             />
           </MainLayout>
         )}
-        {currentStep === "education" && (
+        {currentStep === 'education' && (
           <MainLayout>
             <Education
-              next={() => handleStepChange("experience")}
-              prev={() => handleStepChange("address")}
+              next={() => handleStepChange('experience')}
+              prev={() => handleStepChange('address')}
               cancel={cancelProject}
               setEducation={setEducation}
               education={education}
@@ -367,11 +388,11 @@ export default function EditProfile() {
             />
           </MainLayout>
         )}
-        {currentStep === "experience" && (
+        {currentStep === 'experience' && (
           <MainLayout>
             <Experience
-              next={() => handleStepChange("skills")}
-              prev={() => handleStepChange("education")}
+              next={() => handleStepChange('skills')}
+              prev={() => handleStepChange('education')}
               cancel={cancelProject}
               experiences={experiences}
               setExperiences={setExperiences}
@@ -379,11 +400,11 @@ export default function EditProfile() {
             />
           </MainLayout>
         )}
-        {currentStep === "skills" && (
+        {currentStep === 'skills' && (
           <MainLayout>
             <Skills
-              next={() => handleStepChange("social")}
-              prev={() => handleStepChange("experience")}
+              next={() => handleStepChange('social')}
+              prev={() => handleStepChange('experience')}
               cancel={cancelProject}
               create={() => handleSubmit()}
               talentOptions={talentOptions}
@@ -394,11 +415,11 @@ export default function EditProfile() {
             />
           </MainLayout>
         )}
-        {currentStep === "social" && (
+        {currentStep === 'social' && (
           <MainLayout>
             <Social
-              next={() => handleStepChange("personal")}
-              prev={() => handleStepChange("skills")}
+              next={() => handleStepChange('personal')}
+              prev={() => handleStepChange('skills')}
               cancel={cancelProject}
               socials={socials}
               setSocials={setSocials}

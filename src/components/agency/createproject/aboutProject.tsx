@@ -4,9 +4,12 @@ import ChevBackground from "../../../ui/chevbackground";
 import { Button } from "../../../ui/button";
 import { Card, CardContent } from "../../../ui/card";
 import { Separator } from "../../../ui/seperator";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Textarea } from "../../../ui/textarea";
 import { AboutProjectProps } from "../../../redux/types";
+import Select from "react-select";
+import SelectOption from "../../../libs/select";
+import StateOptions from "../../../libs/stateOptions";
 
 export default function AboutProject({
   next,
@@ -81,7 +84,36 @@ export default function AboutProject({
         [fieldName]: truncatedValue,
       }));
     }
+    checkFormValidity();
   };
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const checkFormValidity = () => {
+    const isFormValid = Object.values(aboutProject).every(
+      (field) => typeof field === "string" && field.trim() !== ""
+    );
+
+    setIsFormValid(isFormValid);
+  };
+
+  useEffect(() => {
+    checkFormValidity();
+  }, [aboutProject]);
+
+  const projectCategoryOptions: any = [
+    { value: "Advertising", label: "Advertising" },
+    { value: "Branding", label: "Branding" },
+    { value: "Content Creation", label: "Content Creation" },
+    { value: "Digital Marketing", label: "Digital Marketing" },
+    { value: "Event", label: "Event" },
+    { value: "Experiential Marketing", label: "Experiential Marketing" },
+    { value: "Influencer Marketing", label: "Influencer Marketing" },
+    { value: "Marketing", label: "Marketing" },
+    { value: "Public Relations", label: "Public Relations" },
+    { value: "Social Media", label: "Social Media" },
+    { value: "Strategy", label: "Strategy" },
+    { value: "Other", label: "Other" },
+  ];
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40 ">
@@ -126,53 +158,34 @@ export default function AboutProject({
                 </div>
               </div>
               <div className="grid md:grid-cols-2 md:gap-6">
-                <div className="relative  z-0 w-full mb-6 group">
-                  {/* <input
-                    type="text"
-                    id="floating_first_name"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    {...register("projectCategory")}
-                  />
-                  {errors.projectCategory && (
-                    <p className="text-red-800 block mt-2">
-                      {errors.projectCategory.message}
-                    </p>
-                  )} */}
-
-                  <input
-                    type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    id="projectCategory"
-                    name="projectCategory"
-                    value={aboutProject.projectCategory}
-                    onChange={(e) => handleInputChange(e, "projectCategory")}
-                    required
-                  />
-
+                <div className="relative w-full mb-2 group">
                   <label
-                    htmlFor="floating_first_name"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    // htmlFor=""
+                    className="text-[14px] text-bm__btn__grey"
                   >
                     Project Category
                   </label>
+                  <SelectOption
+                    // className="py-2.5"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
+                    placeholder="Select Category "
+                    id="projectCategory"
+                    name="projectCategory"
+                    onChange={(e: any) =>
+                      setAboutProject((prevData: AboutProjectProps) => ({
+                        ...prevData,
+                        projectCategory: e.value,
+                      }))
+                    }
+                    required
+                    options={projectCategoryOptions}
+                    defaultValue={aboutProject.projectCategory}
+                    isDisabled={false}
+                  />
                 </div>
               </div>
               <div className="grid md:grid-cols-2 md:gap-6">
                 <div className="relative  z-0 w-full mb-6 group">
-                  {/* <input
-                    type="text"
-                    id="floating_first_name"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    {...register("projectCode")}
-                  />
-                  {errors.projectCode && (
-                    <p className="text-red-800 block mt-2">
-                      {errors.projectCode.message}
-                    </p>
-                  )} */}
                   <input
                     type="text"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -181,6 +194,7 @@ export default function AboutProject({
                     name="projectCode"
                     value={aboutProject.projectCode}
                     onChange={(e) => handleInputChange(e, "projectCode")}
+                    required
                   />
                   <label
                     htmlFor="floating_first_name"
@@ -192,19 +206,6 @@ export default function AboutProject({
               </div>
               <div className="grid md:grid-cols-2 md:gap-6">
                 <div className="relative  z-0 w-full mb-6 group">
-                  {/* <input
-                    type="date"
-                    id="startDate"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    {...register("projectDuration.startDate")}
-                  />
-                  {errors.projectDuration && (
-                    <p className="text-red-800 block mt-2">
-                      {errors.projectDuration.startDate.message}
-                    </p>
-                  )} */}
-
                   <input
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
@@ -213,6 +214,7 @@ export default function AboutProject({
                     name="startDate"
                     value={aboutProject.startDate}
                     onChange={(e) => handleInputChange(e, "startDate")}
+                    required
                   />
 
                   <label
@@ -225,18 +227,6 @@ export default function AboutProject({
                 <div className="flex gap-4 items-center">
                   to
                   <div className="relative z-0 w-full mb-6 group">
-                    {/* <input
-                      type="date"
-                      id="floating_last_name"
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      {...register("=projectDuration.endDate")}
-                    />
-                    {errors.projectDuration && (
-                      <p className="text-red-800 block mt-2">
-                        {errors.projectDuration.endDate.message}
-                      </p>
-                    )} */}
                     <input
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
@@ -245,6 +235,7 @@ export default function AboutProject({
                       name="endDate"
                       value={aboutProject.endDate}
                       onChange={(e) => handleInputChange(e, "endDate")}
+                      required
                     />
                     <label
                       htmlFor="floating_last_name"
@@ -255,49 +246,30 @@ export default function AboutProject({
               </div>
               <div className="grid md:grid-cols-2 md:gap-6">
                 <div className="relative  z-0 w-full mb-6 group">
-                  {/* <input
-                    type="text"
-                    id="floating_first_name"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    {...register("projectLocation")}
-                  />
-                  {errors.projectLocation && (
-                    <p className="text-red-800 block mt-2">
-                      {errors.projectLocation.message}
-                    </p>
-                  )} */}
-                  <input
-                    type="text"
-                    id="projectLocation"
-                    name="projectLocation"
-                    value={aboutProject.projectLocation}
-                    onChange={(e) => handleInputChange(e, "projectLocation")}
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                  />
-                  <label
-                    htmlFor="floating_first_name"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
+                  <label className="text-[14px] text-bm__btn__grey">
                     Location{" "}
                   </label>
+                  <SelectOption
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
+                    id="projectLocation"
+                    name="projectLocation"
+                    defaultValue={aboutProject.projectLocation}
+                    onChange={(e: any) =>
+                      setAboutProject((prevData: AboutProjectProps) => ({
+                        ...prevData,
+                        projectLocation: e.value,
+                      }))
+                    }
+                    placeholder="Select Location"
+                    required
+                    isDisabled={false}
+                    options={StateOptions}
+                  />
                 </div>
               </div>
               <p className="text-[15px] font-medium  mb-3">
                 Project Description
               </p>
-
-              {/* <Textarea
-                placeholder="Describe your project here..."
-                className="min-h-[250px]"
-                {...register("projectDescription")}
-              />
-              {errors.projectDescription && (
-                <p className="text-red-800 block mt-2">
-                  {errors.projectDescription.message}
-                </p>
-              )} */}
               <Textarea
                 placeholder="Describe your project here..."
                 className="min-h-[250px]"
@@ -305,6 +277,7 @@ export default function AboutProject({
                 name="projectDescription"
                 value={aboutProject.projectDescription}
                 onChange={(e) => handleInputChange(e, "projectDescription")}
+                required
               />
               <p className="text-[12px] text-bm__btn__grey mt-3">
                 {250 - aboutProject.projectDescription.length} Characters
@@ -335,6 +308,7 @@ export default function AboutProject({
                   JSON.stringify(aboutProject)
                 );
               }}
+              disabled={!isFormValid}
             >
               Save and Next
             </Button>

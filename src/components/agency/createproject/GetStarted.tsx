@@ -33,19 +33,19 @@ export default function GetStarted({
 
   useEffect(() => {
     if (user?.accountId) {
-      dispatch(fetchdraftproject());
+      // dispatch(fetchdraftproject());
     }
   }, [dispatch, user]);
 
-  useEffect(() => {
-    const draftData = draftProject;
-    setProjectsDropdown(
-      draftData.map((project) => ({
-        label: project.projectTitle,
-        value: project.projectCode,
-      }))
-    );
-  }, [draftProject]);
+  // useEffect(() => {
+  //   const draftData = draftProject;
+  //   setProjectsDropdown(
+  //     draftData.map((project) => ({
+  //       label: project.projectTitle,
+  //       value: project.projectCode,
+  //     }))
+  //   );
+  // }, [draftProject]);
 
   if (!Array.isArray(draftProject)) {
     return <div>Loading...</div>;

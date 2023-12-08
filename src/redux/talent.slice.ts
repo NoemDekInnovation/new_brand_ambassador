@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { TalentProps, editProfile } from "./types";
 import { authAxiosInstance, campaignAuthAxiosInstance } from "../api/axios";
+=======
+import { TalentProps } from "./types";
+import { authAxiosInstance } from "../api/axios";
+>>>>>>> staging
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import { useSession } from "next-auth/react";
 
@@ -43,6 +48,7 @@ export const fetchTalents = createAsyncThunk(
     try {
       const response = await authAxiosInstance(`/all-talents`);
 
+      console.log("checker", response.data);
       return response.data.data;
     } catch (error) {
       throw error;
@@ -116,6 +122,7 @@ export const fetchAgencyTalents = createAsyncThunk(
         });
 
         console.log("checker", response.data);
+<<<<<<< HEAD
         return response.data.data;
       }
     } catch (error) {
@@ -167,6 +174,8 @@ export const fetchAgencyProfile = createAsyncThunk(
         });
 
         console.log("agency", response.data.data);
+=======
+>>>>>>> staging
         return response.data.data;
       }
     } catch (error) {
