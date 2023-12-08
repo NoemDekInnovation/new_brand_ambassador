@@ -66,7 +66,6 @@ export default function Overview({
   };
 
   return (
-<<<<<<< HEAD
     <div className=" bg-[#F3F3F3]/30  px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10 overflow-hidden">
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px]">
         <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
@@ -74,15 +73,6 @@ export default function Overview({
           <Separator className="bg-bm__gler" />
           <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer bg-black/10">
             <div className="flex items-center gap-4 mr-2">
-=======
-    <div className=' bg-[#F3F3F3]/30  px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10 overflow-hidden'>
-      <Card className='bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px]'>
-        <Card className=' p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]'>
-          <p className='text-[15px] font-semibold p-2'>My Account</p>
-          <Separator className='bg-bm__gler' />
-          <div className='flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer'>
-            <div className='flex items-center gap-4 mr-2'>
->>>>>>> staging
               <BiSolidUserDetail />
               <p className='text-[14px] font-normal '>Profile</p>
             </div>
@@ -158,30 +148,18 @@ export default function Overview({
             </p> */}
             <label htmlFor='picture' className='cursor-pointer'>
               <Input
-<<<<<<< HEAD
                 id="picture"
                 type="file"
                 className="pb-4"
                 // ref={fileInputRef}
-=======
-                id='picture'
-                type='file'
-                className='pb-4'
-                ref={fileInputRef}
->>>>>>> staging
                 onChange={handleFileChange}
                 name='profilePic'
                 style={{ display: 'none' }}
               />
 
               <div
-<<<<<<< HEAD
                 // onClick={handleDivClick}
                 className="mt-3 border w-[156px] h-[156px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]"
-=======
-                onClick={handleDivClick}
-                className='mt-3 border w-[156px] h-[156px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]'
->>>>>>> staging
               >
                 {/* Attach or drop photos here */}
                 {inVw ? (
@@ -220,15 +198,9 @@ export default function Overview({
             <Button className='light__btn max-w-[100px]' onClick={cancel}>
               <Link to={'/profile'}>Close</Link>
             </Button>
-<<<<<<< HEAD
             <div className="flex gap-4">
               <Button
                 className="dark__btn"
-=======
-            <div className='flex gap-4'>
-              <Button
-                className='dark__btn'
->>>>>>> staging
                 onClick={() => {
                   create();
                   cancel();
