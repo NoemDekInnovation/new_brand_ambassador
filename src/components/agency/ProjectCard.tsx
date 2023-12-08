@@ -44,6 +44,14 @@ import { campaignAuthAxiosInstance } from "../../api/axios";
 import { TbProgressCheck } from "react-icons/tb";
 import ProjectPreview from "../projectPreview/projectPreview";
 import { ProjectViewCard } from "../projectPreview";
+import { IoShareSocial, IoStarHalf } from "react-icons/io5";
+import { IoIosHeartEmpty } from "react-icons/io";
+
+import girl1 from "../../assets/Rectangle 11 (1).png";
+import girl2 from "../../assets/Gallery=Gallery6.png";
+import girl3 from "../../assets/Profile 1 1.png";
+import girl4 from "../../assets/Profile 2 1.png";
+import girl5 from "../../assets/Rectangle 11 (1).png";
 
 const options: Intl.DateTimeFormatOptions = {
   // year: "numeric",
@@ -214,11 +222,12 @@ export function CurrentProjects({
         setPopUp={() => setPopUp(!popUp)}
         selectedProject={selectedProject}
       />
-      ;
     </>
   );
 }
 
+const dialogSlide = [girl1, girl2, girl5];
+const modalImage = [girl4, girl3, girl4];
 const ProjectCard = ({
   card_title,
   card_content,
@@ -233,6 +242,23 @@ const ProjectCard = ({
   const [isLoading, setIsLoading] = useState(false);
   const [projectModal, setProjectModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [toggleDialog, setToggleDialog] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const handleImageClick = (index: number) => {
+    setCurrentImageIndex(index);
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % dialogSlide.length);
+  };
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex - 1 + dialogSlide.length) % dialogSlide.length
+    );
+  };
 
   const { user } = useSelector((state: RootState) => state.user);
   useEffect(() => {
@@ -325,7 +351,7 @@ const ProjectCard = ({
               </DropdownMenu>
               <div className="flex items-center gap-2">
                 <div className="text-[15px] leading-[18px] font-normal text-[#252525B2]">
-                  View all favourites{" "}
+                  View all{" "}
                 </div>
 
                 <div className="text-[14px] text-[#252525B2]">
@@ -495,6 +521,70 @@ const ProjectCard = ({
           <Separator />
           <div className="">
             Talent has been invited to apply to your project
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={false} onOpenChange={setToggleDialog}>
+        <DialogContent className="bg-white p-0 flex flex-col items-center">
+          <div className="bg-green-300 p-4 w-[1000px] h-full max-h-[80vh]">
+            <div className="flex items-center space-x-3 mt-2 mb-4">
+              <div className="flex items-center space-x-3">
+                <p className="text-[18px] font-medium">Gloria Michael</p>
+                <span className="bg-[#00AB26] h-2 w-2 rounded-full"></span>
+                <div className="border-l border-[#D7D8DA] h-8"></div>
+                <p className="text-[12px] font-medium text-[#252525]">
+                  Ikeja, Lagos
+                </p>
+                <div className="flex items-center space-x-1">
+                  <IoStarHalf />
+                  <div className="border-l border-[#D7D8DA] h-8"></div>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center">
+                  <IoIosHeartEmpty />
+                </div>
+
+                <div className="flex items-center space-x-4">
+                  <div className="hover:bg-black/10 flex items-center">
+                    <IoShareSocial />
+                    <span className="ml-2">Share</span>
+                  </div>
+                  <div className="hover:bg-black/10">Invite</div>
+                </div>
+              </div>
+            </div>
+            <div className="relative w-full max-w-[900px] ">
+              <img
+                src={modalImage[currentImageIndex]}
+                alt={`girl-${currentImageIndex + 1}`}
+                width={600}
+                height={533}
+                className=" h-full w-full"
+                onClick={() => handleImageClick(currentImageIndex)}
+              />
+              <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-row items-center justify-between px-4 mt-2">
+                <button onClick={handlePrevImage} style={{ color: "white" }}>
+                  &lt;
+                </button>
+                <button onClick={handleNextImage} style={{ color: "white" }}>
+                  &gt;
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-row items-center flex-wrap p-0 m-0">
+              {dialogSlide.slice(0, 7).map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`girl-${index + 1}`}
+                  className="h-[80px]"
+                />
+              ))}
+            </div>
           </div>
         </DialogContent>
       </Dialog>

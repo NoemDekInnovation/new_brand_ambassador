@@ -36,6 +36,7 @@ const AllTalents = ({
   successModal,
   projectModal,
   setProjectModal,
+  gap,
 }: {
   gridView: boolean;
   handleInvite: any;
@@ -48,21 +49,23 @@ const AllTalents = ({
   selectedProject: any;
   setSuccessModal: any;
   successModal: any;
-
+  gap?: number;
   projectModal?: any;
   setProjectModal?: any;
 }) => {
   const { talents: resTalents } = useSelector(
     (state: RootState) => state.talent
   );
-  console.log("primp", projectModal, projects);
+
   const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className="relative">
       {gridView && (
         <div className="flex w-full justify-center ">
-          <div className="flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap ">
+          <div
+            className={`flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3 md:gap-x-${gap} mt-2  flex-wrap `}
+          >
             {/* {talents} */}
             {resTalents?.map((_, idx: number) => {
               return (

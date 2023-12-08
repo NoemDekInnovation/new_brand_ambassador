@@ -34,7 +34,7 @@ import {
 } from "@radix-ui/react-dialog";
 import { DialogFooter, DialogHeader } from "../../ui/dialog";
 import {
-  Select,
+  // Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
@@ -52,11 +52,16 @@ import Engaged from "../agency/talents/Engaged";
 import { Input } from "../../ui/input";
 import { SelectGroup, SelectLabel } from "../../ui/select";
 import { TalentType } from "../agency/TalentsView";
-// import AllTalents from "./talents/AllTalents";
-// import CurrentContacts from "./talents/CurrentContacts";
-// import Engaged from "./talents/Engaged";
-// import MyTalents from "./talents/MyTalents";
-// import FavoriteTalents from "./talents/FavoriteTalents";
+import SelectOption from "../../libs/select";
+
+const categoryOptions: any = [
+  { value: "All Talents", label: "All Talent" },
+  { value: "Current Contacts", label: "Current Contacts" },
+  { value: "Favorites", label: "Favorites" },
+  { value: "Engaged", label: "Engaged" },
+  { value: "My Talent", label: "My Talent" },
+  { value: "Invited", label: "Invited" },
+];
 
 const TalentDetailsInfo = ({
   // activeType,
@@ -267,6 +272,7 @@ const TalentDetailsInfo = ({
           selectedProject={selectedProject}
           projectModal={projectModal}
           setProjectModal={setProjectModal}
+          gap={14}
         />
       );
       break;
@@ -348,31 +354,21 @@ const TalentDetailsInfo = ({
     <>
       <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0">
         <div className="flex-1">
-          <div className="flex relative">
+          <div className="flex relative items-center justify-between gap-2">
             <p className="font-semibold text-[18px] ">{activeType}</p>
 
-            <div className="relative h-full bg-green-200">
-              <Select
-                // onValueChange={(e) => setSelectedTalent(e)}
-                onValueChange={(e: TalentType) => onTalentTypeChnage(e)}
+            <div className="relative h-full">
+              <SelectOption
+                className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
+                placeholder="Select Category "
+                id="projectCategory"
+                name="projectCategory"
+                onChange={(e: any) => onTalentTypeChnage(e.value)}
+                required
+                options={categoryOptions}
                 defaultValue={activeType}
-              >
-                <SelectTrigger className="w-[180px] border bg-red-500 h-full   mx-2 rounded-md">
-                  <SelectValue placeholder="" defaultValue={"hekko"} />
-                </SelectTrigger>
-                <SelectContent className="bg-white">
-                  <SelectGroup>
-                    <SelectLabel>Categories</SelectLabel>
-                    <SelectItem value="All Talents">All Talent</SelectItem>
-                    <SelectItem value="Current Contacts">
-                      Current Contacts
-                    </SelectItem>
-                    <SelectItem value="Favorites">Favorites</SelectItem>
-                    <SelectItem value="Engaged">Engaged</SelectItem>
-                    <SelectItem value="My Talents">My Talent</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+                isDisabled={false}
+              />
             </div>
           </div>
           <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
@@ -387,52 +383,45 @@ const TalentDetailsInfo = ({
                 placeholder="Search"
               />
             </div>
-            <div className="flex flex-col items-start lg:items-center gap-2 lg:gap-6 lg:flex-row">
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex gap-1 items-center">
-                  <BiSortAlt2 />
-                  Sort: {"  "} Average Rating
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-white p-3">
-                  <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
-                    Relevance
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator className="bg-bm__beige" />
-                  <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
-                    Average Rating
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <div className="flex gap-2 md:gap-4 items-center">
-                <span className="flex items-center gap-1">
-                  View:{"  "}{" "}
-                  {gridView && <TbLayoutGrid onClick={handleViewToggle} />}
-                  {!gridView && (
-                    <AiOutlineUnorderedList onClick={handleViewToggle} />
-                  )}
-                </span>
+            <div className="flex items-center">
+              <div className="flex flex-col items-start lg:items-center gap-2 whitespace-nowrap lg:gap-6 lg:flex-row mr-2 md:mr-4">
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="flex gap-1 items-center">
+                    <BiSortAlt2 />
+                    Sort: {"  "} Average Rating
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="bg-white p-3">
+                    <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                      Relevance
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator className="bg-bm__beige" />
+                    <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                      Average Rating
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <div className="flex gap-2 md:gap-4 items-center">
+                  <span className="flex items-center gap-1">
+                    View:{"  "}{" "}
+                    {gridView && <TbLayoutGrid onClick={handleViewToggle} />}
+                    {!gridView && (
+                      <AiOutlineUnorderedList onClick={handleViewToggle} />
+                    )}
+                  </span>
+                </div>
+              </div>
+              <div className="flex w-full justify-end items-center text-[10px] font-normal">
+                1-{resTalents?.length} of {resTalents?.length}
+                <BsChevronDoubleLeft className="mx-4" />
+                <BsChevronLeft />
+                <BsChevronRight className="mx-4" />
+                <BsChevronDoubleRight />
               </div>
             </div>
           </div>
           <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
-          <div className="flex w-full justify-end items-center text-[10px] font-normal">
-            1-{resTalents?.length} of {resTalents?.length}
-            <BsChevronDoubleLeft className="mx-4" />
-            <BsChevronLeft />
-            <BsChevronRight className="mx-4" />
-            <BsChevronDoubleRight />
-          </div>
           <Separator className="my-2" />
-          {/* {gridView && (
-            <div className='flex w-full justify-center '>
-               <div className='flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap '>
-                {talents}
-              </div>
-            </div>
-          )}
-          {!gridView && (
-            <div className='flex flex-col w-full gap-3'>{listView}</div>
-          )} */}
+
           {pageTalents}
         </div>
         <Separator className="my-2 md:my-4" />
