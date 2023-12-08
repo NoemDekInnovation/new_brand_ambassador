@@ -14,6 +14,7 @@ import { TbLayoutGrid } from "react-icons/tb";
 import {
   AiOutlineHeart,
   AiOutlineMore,
+  AiOutlineSearch,
   AiOutlineUnorderedList,
 } from "react-icons/ai";
 import { Separator } from "@radix-ui/react-separator";
@@ -48,29 +49,24 @@ import CurrentContacts from "../agency/talents/CurrentContacts";
 import FavoriteTalents from "../agency/talents/FavoriteTalents";
 import MyTalents from "../agency/talents/MyTalents";
 import Engaged from "../agency/talents/Engaged";
+import { Input } from "../../ui/input";
+import { SelectGroup, SelectLabel } from "../../ui/select";
+import { TalentType } from "../agency/TalentsView";
 // import AllTalents from "./talents/AllTalents";
 // import CurrentContacts from "./talents/CurrentContacts";
 // import Engaged from "./talents/Engaged";
 // import MyTalents from "./talents/MyTalents";
 // import FavoriteTalents from "./talents/FavoriteTalents";
 
-type TalentDetailsProps = {
-  activeType:
-    | "All Talents"
-    | "Current Contacts"
-    | "Favorites"
-    | "Engaged"
-    | "My Talents";
-  handleProfilePopUp: (talent: TalentProps) => void;
-};
-
-const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
-  activeType,
+const TalentDetailsInfo = ({
+  // activeType,
   handleProfilePopUp,
+}: {
+  handleProfilePopUp: (talent: TalentProps) => void;
 }) => {
   let pageTalents;
 
-  console.log("activeType", activeType);
+  // console.log("activeType", activeType);
 
   const [gridView, setGridView] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -86,6 +82,13 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   const [selectedTalent, setSelectedTalent] = useState("");
   const [selectedTalentID, setSelectedTalentID] = useState("");
   const [projectModal, setProjectModal] = useState(false);
+  const [activeType, setActiveType] = useState<TalentType>("All Talents");
+
+  const onTalentTypeChnage = (type: TalentType) => {
+    setActiveType(type);
+  };
+
+  console.log("activeType", activeType);
 
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -339,12 +342,51 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
       pageTalents = null;
   }
 
+  // const [talentType];
+
   return (
     <>
-      <CardContent className="flex-1 flex flex-col m-0 p-0 mt-8 md:mt-0">
+      <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0">
         <div className="flex-1">
-          <div className="flex justify-between flex-col gap-2 lg:flex-row">
+          <div className="flex relative">
             <p className="font-semibold text-[18px] ">{activeType}</p>
+
+            <div className="relative h-full bg-green-200">
+              <Select
+                // onValueChange={(e) => setSelectedTalent(e)}
+                onValueChange={(e: TalentType) => onTalentTypeChnage(e)}
+                defaultValue={activeType}
+              >
+                <SelectTrigger className="w-[180px] border bg-red-500 h-full   mx-2 rounded-md">
+                  <SelectValue placeholder="" defaultValue={"hekko"} />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectGroup>
+                    <SelectLabel>Categories</SelectLabel>
+                    <SelectItem value="All Talents">All Talent</SelectItem>
+                    <SelectItem value="Current Contacts">
+                      Current Contacts
+                    </SelectItem>
+                    <SelectItem value="Favorites">Favorites</SelectItem>
+                    <SelectItem value="Engaged">Engaged</SelectItem>
+                    <SelectItem value="My Talents">My Talent</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
+
+          <div className="flex justify-between flex-col gap-2 lg:flex-row">
+            {/* <p className="font-semibold text-[18px] ">{activeType}</p> */}
+
+            <div className="hidden lg:flex items-center border  max-h-[60px]   rounded-md w-full max-w-[500px] px-3 py-1 ">
+              <AiOutlineSearch className="text-[15px] " />
+              <Input
+                className="border-0 focus:border-0 focus:ring-0 focus:outline-none "
+                placeholder="Search"
+              />
+            </div>
             <div className="flex flex-col items-start lg:items-center gap-2 lg:gap-6 lg:flex-row">
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex gap-1 items-center">

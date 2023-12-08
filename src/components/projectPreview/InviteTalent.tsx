@@ -27,11 +27,6 @@ const InviteTalent = ({
   setPopUp: any;
 }) => {
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
-  const [activeType, setActiveType] = useState<TalentType>("All Talents");
-
-  const onTalentTypeChnage = (type: TalentType) => {
-    setActiveType(type);
-  };
 
   const handleProfilePopUp = (talent: any) => {
     // console.log(talent);
@@ -155,11 +150,8 @@ const InviteTalent = ({
             </div>
           </div>
         </div>
-        <Card className=" flex border-0 absolute flex-col p-4 md:p-8 bg-white overflow-y-scroll h-[75vh]  w-[1000px] right-0 top-0 mt-[150px] pl-[50px]">
-          <TalentDetailsInfo
-            activeType={activeType}
-            handleProfilePopUp={handleProfilePopUp}
-          />
+        <Card className=" flex border-0 absolute flex-col p-2 bg-white overflow-y-scroll h-[75vh]  w-[1000px] right-0 top-0 mt-[130px] ">
+          <TalentDetailsInfo handleProfilePopUp={handleProfilePopUp} />
         </Card>
       </Card>
     </div>
