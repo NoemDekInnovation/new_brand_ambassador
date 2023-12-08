@@ -21,17 +21,14 @@ const InviteTalent = ({
   popUp,
   setPopUp,
   select,
+  selectedProject,
 }: {
   select: any;
   popUp: boolean;
   setPopUp: any;
+  selectedProject: any;
 }) => {
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
-  const [activeType, setActiveType] = useState<TalentType>("All Talents");
-
-  const onTalentTypeChnage = (type: TalentType) => {
-    setActiveType(type);
-  };
 
   const handleProfilePopUp = (talent: any) => {
     // console.log(talent);
@@ -55,15 +52,19 @@ const InviteTalent = ({
           />
         </span>
         <div className="flex flex-row items-center p-4">
-          <div className="text-[14px] font-medium capitalize">Project Name</div>
-          <div className="text-[15px] p-0 px-2">|</div>
-
-          <div className="text-[12px] font-medium capitalize">
-            Project category
+          <div className="text-[14px] font-medium capitalize">
+            {selectedProject.projectTitle}
           </div>
           <div className="text-[15px] p-0 px-2">|</div>
 
-          <div className="text-[12px] font-medium capitalize">Project Code</div>
+          <div className="text-[12px] font-medium capitalize">
+            {selectedProject.projectCategory}
+          </div>
+          <div className="text-[15px] p-0 px-2">|</div>
+
+          <div className="text-[12px] font-medium capitalize">
+            {selectedProject.projectCode}
+          </div>
           <div className="text-[15px] p-0 px-2">|</div>
 
           <div className="text-[12px] font-medium capitalize text-green-500">
@@ -155,11 +156,8 @@ const InviteTalent = ({
             </div>
           </div>
         </div>
-        <Card className=" flex border-0 absolute flex-col p-4 md:p-8 bg-white overflow-y-scroll h-[75vh]  w-[1000px] right-0 top-0 mt-[150px] pl-[50px]">
-          <TalentDetailsInfo
-            activeType={activeType}
-            handleProfilePopUp={handleProfilePopUp}
-          />
+        <Card className=" flex border-0 absolute flex-col p-2 bg-white overflow-y-scroll h-[75vh]  w-[1000px] right-0 top-0 mt-[130px] ">
+          <TalentDetailsInfo handleProfilePopUp={handleProfilePopUp} />
         </Card>
       </Card>
     </div>
