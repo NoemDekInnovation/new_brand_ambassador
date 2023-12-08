@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "../../../ui/card";
 import { Button } from "../../../ui/button";
 import { Separator } from "../../../ui/seperator";
@@ -13,6 +13,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { patchAxiosInstance } from "../../../api/axios";
 import { AddressProps } from "../../../redux/types";
+import { useForm, Controller } from "react-hook-form";
+import { State } from "country-state-city"; 
+import Select from "react-select";
+
+
 
 export default function Address({
   next,
@@ -29,13 +34,25 @@ export default function Address({
   setAddress: any;
   address: AddressProps;
 }) {
-  const [error, setError] = useState({
-    street: "",
-    city: "",
-    LGA: "",
-    state: "",
-    zipCode: "",
-  });
+
+    const {
+      register,
+      handleSubmit,
+      control,
+      watch,
+      formState: { errors },
+      setValue,
+      trigger,
+      getValues
+    } = useForm();
+
+  let stateData = State.getAllStates();
+const stateOptions = stateData.map((state) => ({
+  value: state.name,
+  label: state.name
+}))
+
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     fieldName: string
@@ -48,58 +65,7 @@ export default function Address({
     }));
   };
 
-  const handleSaveAndNext = () => {
-    setError({
-      street: "",
-      city: "",
-      LGA: "",
-      state: "",
-      zipCode: "",
-    });
 
-    if (address.street.trim() === "") {
-      setError((prevError) => ({
-        ...prevError,
-        street: "Please enter your street",
-      }));
-      return;
-    }
-
-    if (address.city.trim() === "") {
-      setError((prevError) => ({
-        ...prevError,
-        city: "Please enter your city",
-      }));
-      return;
-    }
-
-    if (address.LGA.trim() === "") {
-      setError((prevError) => ({
-        ...prevError,
-        LGA: "Please enter your LGA",
-      }));
-      return;
-    }
-
-    if (address.state.trim() === "") {
-      setError((prevError) => ({
-        ...prevError,
-        state: "Please enter your state",
-      }));
-      return;
-    }
-
-    if (address.zipCode.trim() === "") {
-      setError((prevError) => ({
-        ...prevError,
-        zipCode: "Please enter your zipCode",
-      }));
-      return;
-    }
-
-        create();
-        next();
-  };
 
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">
@@ -200,9 +166,6 @@ export default function Address({
                 >
                   Street address
                 </label>
-                {error.street && (
-                  <p className="text-red-500 text-sm">{error.street}</p>
-                )}
               </div>
 
               <div className="relative md:col-span-1 z-0 w-full mb-6 group">
@@ -222,9 +185,6 @@ export default function Address({
                 >
                   City
                 </label>
-                {error.city && (
-                  <p className="text-red-500 text-sm">{error.city}</p>
-                )}
               </div>
             </div>
             <div className="grid md:grid-cols-5 md:gap-6">
@@ -245,20 +205,18 @@ export default function Address({
                 >
                   L.G.A
                 </label>
-                {error.LGA && (
-                  <p className="text-red-500 text-sm">{error.LGA}</p>
-                )}
               </div>
 
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
-                <input
+                {/* <input
                   type="text"
-                  name="state"
+                  // name="state"
                   id="state"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  value={address.state}
-                  onChange={(e) => handleInputChange(e, "state")}
+                  // value={address.state}
+                  // onChange={(e) => handleInputChange(e, "state")}
+                  {...register("address[0].state", { required: true })}
                   required
                 />
                 <label
@@ -266,14 +224,30 @@ export default function Address({
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   State
+                </label> */}
+                <Controller
+                  control={control}
+                  name="state"
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={stateOptions}
+                      placeholder="Select State"
+                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    />
+                  )}
+                  rules={{ required: true }}
+                />
+                <label
+                  htmlFor="state"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  State
                 </label>
-                {error.state && (
-                  <p className="text-red-500 text-sm">{error.state}</p>
-                )}
               </div>
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
                 <input
-                  type="text"
+                  type="number"
                   name="zipCode"
                   id="zipCode"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -288,9 +262,6 @@ export default function Address({
                 >
                   Zip Code
                 </label>
-                {error.zipCode && (
-                  <p className="text-red-500 text-sm">{error.zipCode}</p>
-                )}
               </div>
             </div>
           </CardContent>
@@ -306,17 +277,22 @@ export default function Address({
               </Button>
             </div>
             <div className="flex gap-4">
-              <Button className="dark__btn" onClick={next}>
+              <Button
+                className="dark__btn"
+                onClick={() => {
+                  create();
+                  cancel();
+                }}
+              >
                 Save
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
                 // onClick={next}
-                // onClick={() => {
-                //   create();
-                //   next();
-                // }}
-                onClick={handleSaveAndNext}
+                onClick={() => {
+                  create();
+                  next();
+                }}
               >
                 Save and Next
               </Button>

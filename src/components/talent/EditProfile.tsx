@@ -1,108 +1,208 @@
-import React, { useState } from 'react';
-import { MainLayout } from '../Layout';
-import Overview from './components/Overview';
-import PersonalDetails from './components/PersonalDetails';
-import Address from './components/Address';
-import Education from './components/Education';
-import Experience from './components/Experience';
-import Social from './components/Social';
-import Skills from './components/Skills';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
-import { AddressProps, CertificateProps, EducationProps, ExperienceProps, PersonalProps, SocialsProps } from '../../redux/types';
-import { patchAxiosInstance } from '../../api/axios';
+import React, { useEffect, useState } from "react";
+import { MainLayout } from "../Layout";
+import Overview from "./components/Overview";
+import PersonalDetails from "./components/PersonalDetails";
+import Address from "./components/Address";
+import Education from "./components/Education";
+import Experience from "./components/Experience";
+import Social from "./components/Social";
+import Skills from "./components/Skills";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import {
+  AddressProps,
+  CertificateProps,
+  EducationProps,
+  ExperienceProps,
+  PersonalProps,
+  SocialsProps,
+} from "../../redux/types";
+import { patchAxiosInstance } from "../../api/axios";
+import { fetchUserTalentsData } from "../../redux/talent.slice";
+import { Dispatch, SetStateAction } from "react";
+import { Country, State } from "country-state-city";
 
+let countryData = Country.getAllCountries();
+let stateData = State.getAllStates();
+
+const nationalityOptions = countryData.map((country) => ({
+  value: country.name,
+  label: country.name,
+}));
+
+const originOptions = stateData.map((state) => ({
+  value: state.name,
+  label: state.name,
+}));
+// 
 type TalentOption = {
   label: string;
   value: string;
 };
 
-export default function EditProfile() {
+type E164Number = string;
 
+export default function EditProfile() {
   const talentOptions: TalentOption[] = [
-    { label: "Brand Ambassador", value: "brand ambassador" },
-    { label: "Supervisor", value: "supervisor" },
-    { label: "Usher", value: "usher" },
+    { label: "ba", value: "ba" },
+    { label: "supervisor", value: "supervisor" },
+    { label: "usher", value: "usher" },
   ];
 
   const { user } = useSelector((state: RootState) => state.user);
+  const { talentData } = useSelector((state: RootState) => state.talent);
+  console.log(talentData);
+  const dispatch = useDispatch<AppDispatch>();
 
-const cancelProject = () => {};
-const [currentStep, setCurrentStep] = useState("overView");
+  const cancelProject = () => {};
+  const [currentStep, setCurrentStep] = useState("overView");
 
-const [overView, setOverView] = useState({
-  summary: "",
-  profilePic: null as File | null, 
-});
+  const [overView, setOverView] = useState({
+    summary: "",
+    profilePic: null as File | null,
+  });
 
-const [personal, setPersonal] = useState<PersonalProps>({
-  firstName: "",
-  lastName: "",
-  middleName: "",
-  email: "",
-  phone: "",
-  alternatePhone: "",
-  DOB: "",
-  gender: "",
-  origin: "",
-  nationality: "",
-  height: "",
-  skinColor: "",
-  dressSize: "",
-  languages: "",
-});
+  // console.log(overView.profilePic);
+  const [selectedNationality, setSelectedNationality] = useState(null);
+  const [selectedOrigin, setSelectedOrigin] = useState(null);
 
-const [address, setAddress] = useState<AddressProps>({
-  street: "",
-  city: "",
-  LGA: "",
-  state: "",
-  zipCode: "",
-});
+  const [personal, setPersonal] = useState<PersonalProps>({
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    email: "",
+    phone: "",
+    alternatePhone: "",
+    DOB: "",
+    gender: "",
+    origin: "",
+    nationality: "",
+    height: "",
+    skinColor: "",
+    dressSize: "",
+    languages: "",
+  });
 
-const [experiences, setExperiences] = useState<ExperienceProps[]>([
-  {
-    agencyName: "",
-    projectName: "",
-    projectCategory: "",
-    projectDuration: "",
-    salary: "",
-    year: "",
-    // _id: '',
-  },
-]);
+  const [address, setAddress] = useState<AddressProps>({
+    street: "",
+    city: "",
+    LGA: "",
+    state: "",
+    zipCode: "",
+  });
 
-const [education, setEducation] = useState<EducationProps[]>([
-  {
-    institution: "",
-    degree: "",
-    grade: "",
-    gradYear: "",
-    // _id: '',
-  },
-]);
+  const [experiences, setExperiences] = useState<ExperienceProps[]>([
+    {
+      agencyName: "",
+      projectName: "",
+      projectCategory: "",
+      projectDuration: "",
+      salary: "",
+      year: "",
+      // _id: '',
+    },
+  ]);
 
-const [certificate, setCertificate] = useState<CertificateProps[]>([
-  {
-    certificateName: "",
-    organisation: "",
-    certYear: "",
-    // _id: '',
-  },
-]);
+  const [education, setEducation] = useState<EducationProps[]>([
+    {
+      institution: "",
+      degree: "",
+      grade: "",
+      gradYear: "",
+      // _id: '',
+    },
+  ]);
 
-const [socials, setSocials] = useState<SocialsProps>({
-  facebook: "",
-  twitter: "",
-  instagram: "",
-  linkedin: "",
-});
+  const [certificate, setCertificate] = useState<CertificateProps[]>([
+    {
+      certificateName: "",
+      organisation: "",
+      certYear: "",
+      // _id: '',
+    },
+  ]);
 
-const [skillData, setSkillData] = useState<string[]>([]);
+  const [socials, setSocials] = useState<SocialsProps>({
+    facebook: "",
+    twitter: "",
+    instagram: "",
+    linkedin: "",
+  });
 
-const [successModal, setSuccessModal] = useState(false);
+  const [skillData, setSkillData] = useState<string[]>([]);
 
-const [loading, setLoading] = useState(false);
+  const [opportunities, setOpportunites] = useState<string[]>([]) 
+  // console.log(opportunities);
+   
+
+  const [successModal, setSuccessModal] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
+  const [phn, setPhn]: [E164Number, Dispatch<SetStateAction<E164Number>>] =
+    useState("");
+  const [altPhn, setAltPhn]: [
+    E164Number,
+    Dispatch<SetStateAction<E164Number>>
+  ] = useState("");
+
+  const handlePhoneChange = (value: string) => {
+    setPhn(value);
+  };
+
+  const handleAltPhoneChange = (value: string) => {
+    setAltPhn(value);
+  };
+
+  useEffect(() => {
+    // Assuming talentData has the same structure as PersonalProps
+    setPersonal((prevPersonal) => ({
+      ...prevPersonal,
+      ...talentData,
+    }));
+    setOverView((prevOverView) => ({
+      ...prevOverView,
+      ...talentData,
+    }));
+    setAddress((prevAddress) => ({
+      ...prevAddress,
+      ...talentData.address, // Assuming talentData has an 'address' property
+    }));
+    // setExperiences((prevExperiences) => [
+    //   ...prevExperiences,
+    //   ...talentData.experiences,
+    // ]);
+    if (talentData.experiences && Array.isArray(talentData.experiences)) {
+      setExperiences((prevExperiences) => [
+        ...prevExperiences,
+        ...talentData.experiences,
+      ]);
+    }
+    setEducation((prevEducation) => [
+      ...prevEducation,
+      ...talentData.education,
+    ]);
+    // if (talentData.education && Array.isArray(talentData.education)) {
+    //   setEducation((prevEducation) => [
+    //     ...prevEducation,
+    //     ...talentData.education,
+    //   ]);
+    // }
+    // setCertificate((prevCertificates) => [
+    //   ...prevCertificates,
+    //   ...talentData.certificates,
+    // ]);
+    if (talentData.certificates && Array.isArray(talentData.certificates)) {
+      setCertificate((prevCertificates) => [
+        ...prevCertificates,
+        ...talentData.certificates,
+      ]);
+    }
+    // setSkillData((prevSkills) => [...prevSkills, ...talentData.skills]);
+    if (talentData.skills && Array.isArray(talentData.skills)) {
+      setSkillData((prevSkills) => [...prevSkills, ...talentData.skills]);
+    }
+  }, [talentData]);
 
   const handleStepChange = (step: string) => {
     setCurrentStep(step);
@@ -128,90 +228,86 @@ const [loading, setLoading] = useState(false);
       lastName: personal.lastName,
       middleName: personal.middleName,
       email: personal.email,
-      phone: personal.phone,
+      phone: phn || personal.phone,
       summary: overView.summary,
-      alternatePhone: personal.alternatePhone,
+      alternatePhone: altPhn || personal.alternatePhone,
       DOB: personal.DOB,
       gender: personal.gender,
-      nationality: personal.nationality,
-      origin: personal.origin,
+      nationality: selectedNationality || personal.nationality,
+      origin: selectedOrigin || personal.origin,
       height: personal.height,
       skinColor: personal.skinColor,
       dressSize: personal.dressSize,
       languages: [personal.languages],
-      skills: ["tech", "football"],
-      opportunities: talentOptions,
+      skills: skillData,
+      opportunities: opportunities,
       education: education,
       certifications: certificate,
       experience: experiences,
-      socials: {
-        facebook: socials.facebook,
-        twitter: socials.twitter,
-        instagram: socials.instagram,
-        linkedin: socials.linkedin,
-      },
+      socials: socials,
     };
 
-        const formData = new FormData();
+    const formData = new FormData();
 
-        const handleData = (data: any, parentKey: any) => {
-          for (const key in data) {
-            const value = data[key];
-            const newKey = parentKey ? `${parentKey}[${key}]` : key;
+    const handleData = (data: any, parentKey: any) => {
+      for (const key in data) {
+        const value = data[key];
+        const newKey = parentKey ? `${parentKey}[${key}]` : key;
 
-            if (Array.isArray(value)) {
-              value.forEach((item, index) => {
-                const itemKey = `${newKey}[${index}]`;
-                if (typeof item === "object") {
-                  handleData(item, itemKey);
-                } else {
-                  formData.append(itemKey, item);
-                }
-              });
-            } else if (typeof value === "object") {
-              handleData(value, newKey);
+        if (Array.isArray(value)) {
+          value.forEach((item, index) => {
+            const itemKey = `${newKey}[${index}]`;
+            if (typeof item === "object") {
+              handleData(item, itemKey);
             } else {
-              formData.append(newKey, value);
+              formData.append(itemKey, item);
             }
-          }
-        };
-
-        handleData(payload, null);
-
-        // Address information (as an array)
-        formData.append("address[0][street]", address.street);
-        formData.append("address[0][city]", address.city);
-        formData.append("address[0][LGA]", address.LGA);
-        formData.append("address[0][state]", address.state);
-        formData.append("address[0][zipCode]", address.zipCode);
-
-        if(overView.profilePic !== null) {
-          formData.append("profilePic", overView.profilePic)
+          });
+        } else if (typeof value === "object") {
+          handleData(value, newKey);
+        } else {
+          formData.append(newKey, value);
         }
+      }
+    };
 
-        if(user?.accountId !== undefined) {
-          try {
-            const response = await patchAxiosInstance.patch(
-              `/profile-details`,
-              formData,
-              {
-                headers: {
-                  Authorization: `Bearer ${user.authKey || ""}`,
-                },
-              }
-            );
-            setSuccessModal(true)
-            setTimeout(() => {
-              cancelProject();
-            }, 3000);
-            setLoading(false);
-          } catch (error) {
-            setLoading(false);
+    handleData(payload, null);
+
+    // Address information (as an array)
+    formData.append("address[0][street]", address.street);
+    formData.append("address[0][city]", address.city);
+    formData.append("address[0][LGA]", address.LGA);
+    formData.append("address[0][state]", address.state);
+    formData.append("address[0][zipCode]", address.zipCode);
+
+    if (overView.profilePic !== null) {
+      formData.append("profilePic", overView.profilePic);
+    }
+
+    if (user?.accountId !== undefined) {
+      try {
+        const response = await patchAxiosInstance.patch(
+          `/profile-details`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ""}`,
+            },
           }
-        }
-  }
+        );
+        // console.log(response);
+        // console.log(user?.authKey);
 
-
+        setSuccessModal(true);
+        setTimeout(() => {
+          cancelProject();
+        }, 3000);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
+    }
+  };
 
   return (
     <>
@@ -235,6 +331,12 @@ const [loading, setLoading] = useState(false);
               cancel={cancelProject}
               setPersonal={setPersonal}
               personal={personal}
+              handlePhoneChange={handlePhoneChange}
+              handleAltPhoneChange={handleAltPhoneChange}
+              nationalityOptions={nationalityOptions}
+              setSelectedNationality={setSelectedNationality}
+              setSelectedOrigin={setSelectedOrigin}
+              originOptions={originOptions}
               create={() => handleSubmit()}
             />
           </MainLayout>
@@ -271,8 +373,6 @@ const [loading, setLoading] = useState(false);
               next={() => handleStepChange("skills")}
               prev={() => handleStepChange("education")}
               cancel={cancelProject}
-              // experiences={experiences}
-              // setExperiences={setExperiences}
               experiences={experiences}
               setExperiences={setExperiences}
               create={() => handleSubmit()}
@@ -289,6 +389,7 @@ const [loading, setLoading] = useState(false);
               talentOptions={talentOptions}
               skillsData={skillData}
               handleSkillSelect={handleSkillSelect}
+              setOpportunites={setOpportunites}
               handleSkillDelete={handleSkillDelete}
             />
           </MainLayout>

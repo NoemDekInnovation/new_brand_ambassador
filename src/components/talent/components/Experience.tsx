@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "../../../ui/card";
 import { Button } from "../../../ui/button";
 import { Separator } from "../../../ui/seperator";
@@ -17,6 +17,7 @@ import { patchAxiosInstance } from "../../../api/axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { ExperienceProps } from "../../../redux/types";
+import { useForm } from "react-hook-form";
 
 export default function Experience({
   next,
@@ -34,47 +35,16 @@ export default function Experience({
   setExperiences: any;
   experiences: ExperienceProps[];
 }) {
-  const [errors, setErrors] = useState({
-    agencyName: "",
-    projectName: "",
-    projectCategory: "",
-    projectDuration: "",
-    salary: "",
-    year: "",
-  });
 
-  const handleSaveAndNext = () => {
-    const newErrors = {
-      agencyName: "",
-      projectName: "",
-      projectCategory: "",
-      projectDuration: "",
-      salary: "",
-      year: "",
-    };
-    experiences.forEach((experience, index) => {
-      if (!experience.agencyName) {
-        newErrors.agencyName = `Error in experience ${
-          index + 1
-        }: Agency Name is required`;
-      }
-    });
-    // console.log("New Errors:", newErrors); // Log the newErrors object
+  
+  const { talentData } = useSelector((state: RootState) => state.talent);
 
-    // setErrors(newErrors);
 
-    // create();
-    // next();
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      ...newErrors,
-    }));
+const { user } = useSelector((state: RootState) => state.user);
 
-    create();
-    next();
 
-  }
 
+  
   const handleAddExperience = () => {
     // Add a new empty experience object when the "Add Experience" button is clicked
     setExperiences([
@@ -89,6 +59,7 @@ export default function Experience({
     index: number
   ) => {
     const { name, value } = e.target;
+    
 
     const updatedExperiences = [...experiences];
     updatedExperiences[index][name] = value;
@@ -192,17 +163,13 @@ export default function Experience({
                         onChange={(e) => handleInputChange(e, index)}
                         required
                       />
+
                       <label
                         htmlFor="floating_first_name"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                       >
                         Name of Agency{" "}
                       </label>
-                      {errors.agencyName && (
-                        <p className="text-red-500 text-sm">
-                          {errors.agencyName}
-                        </p>
-                      )}
                     </div>
 
                     <div className="relative z-0 w-full mb-6 group">
@@ -266,7 +233,7 @@ export default function Experience({
                   <div className="grid md:grid-cols-2 md:gap-6">
                     <div className="relative  z-0 w-full mb-6 group">
                       <input
-                        type="text"
+                        type="number"
                         name="salary"
                         id="salary"
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -285,7 +252,7 @@ export default function Experience({
 
                     <div className="relative z-0 w-full mb-6 group">
                       <input
-                        type="text"
+                        type="number"
                         name="year"
                         id="year"
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -328,17 +295,21 @@ export default function Experience({
               </Button>
             </div>
             <div className="flex gap-4">
-              <Button className="dark__btn" onClick={next}>
+              <Button
+                className="dark__btn"
+                onClick={() => {
+                  create();
+                  cancel();
+                }}
+              >
                 Save
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
-                // onClick={next}
-                // onClick={() => {
-                //   create();
-                //   next();
-                // }}
-                onClick={handleSaveAndNext}
+                onClick={() => {
+                  create();
+                  next();
+                }}
               >
                 Save and Next
               </Button>

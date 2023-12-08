@@ -10,9 +10,10 @@ import { MdPayments, MdSettings } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { patchAxiosInstance } from "../../../api/axios";
 import { SocialsProps } from "../../../redux/types";
+import { useForm } from "react-hook-form";
 
 export default function Social({
   next,
@@ -29,6 +30,59 @@ export default function Social({
   socials: SocialsProps;
   setSocials: any;
 }) {
+
+// const {
+//   register,
+//   handleSubmit,
+//   watch,
+//   formState: { errors },
+//   setValue,
+//   trigger,
+//   getValues
+// } = useForm();
+
+//   const { talentData } = useSelector((state: RootState) => state.talent);
+// useEffect(() => {
+// if (Object.keys(talentData).length > 0) {
+//   if (talentData && talentData.socials) {
+//     const socials = talentData.socials;
+
+//     setValue("socials.facebook", socials.facebook);
+//     setValue("socials.twitter", socials.twitter);
+//     setValue("socials.instagram", socials.instagram);
+//     setValue("socials.linkedin", socials.linkedin);
+//   }
+// }
+// }, [talentData])
+
+const { user } = useSelector((state: RootState) => state.user);
+
+// const save = async () => {
+//   const validate = await trigger();
+//   if (validate) {
+//     const data = getValues();
+
+//     console.log(data);
+//     try {
+//       // overviewSchema.parse(data);
+
+//       const response = await patchAxiosInstance.patch(
+//         `/profile-details`,
+//         data,
+//         {
+//           headers: {
+//             Authorization: `Bearer ${user.authKey || ""}`,
+//           },
+//         }
+//       );
+//       console.log(response);
+
+//       setTimeout(() => {}, 3000); 
+//     } catch (error) {}
+//   }
+// };
+
+    
     const handleInputChange = (
       e: React.ChangeEvent<HTMLInputElement>,
       fieldName: string
@@ -122,6 +176,7 @@ export default function Social({
                   placeholder=" "
                   value={socials.linkedin}
                   onChange={(e) => handleInputChange(e, "linkedin")}
+                  
                   required
                 />
                 <label
@@ -142,6 +197,7 @@ export default function Social({
                   placeholder=" "
                   value={socials.instagram}
                   onChange={(e) => handleInputChange(e, "instagram")}
+                
                   required
                 />
                 <label
@@ -162,6 +218,7 @@ export default function Social({
                   placeholder=" "
                   value={socials.twitter}
                   onChange={(e) => handleInputChange(e, "twitter")}
+                  
                   required
                 />
                 <label
@@ -182,6 +239,7 @@ export default function Social({
                   placeholder=" "
                   value={socials.facebook}
                   onChange={(e) => handleInputChange(e, "facebook")}
+                 
                   required
                 />
                 <label
@@ -208,7 +266,6 @@ export default function Social({
               <Link to={"/profile"}>
                 <Button
                   className="dark__btn w-fit whitespace-nowrap"
-                  // onClick={next}
                   onClick={() => {
                     create();
                     next();

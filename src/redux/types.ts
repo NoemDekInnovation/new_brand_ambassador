@@ -290,3 +290,18 @@ export type editAdmin = {
   phone: string;
   profilePic: string;
 };
+
+export type editProfile = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  gender: string;
+  langauages: [];
+  profilePic: string;
+  skills: [];
+  opportunities: string;
+  address: [];
+  education: [];
+  certifications: [];
+  experience: []
+};

@@ -38,10 +38,6 @@ export default function Overview({
 
   const [inView, setInView] = useState<File>({} as File);
   const [inVw, setInVw] = useState(false);
-  const [error, setError] = useState<string>("");
-
-  
-
 
   const handleDivClick = () => {
     // Trigger a click event on the hidden input
@@ -58,7 +54,6 @@ export default function Overview({
         [name]: selectedFile[0],
       });
       setInVw(true);
-      
     }
   };
 
@@ -70,30 +65,13 @@ export default function Overview({
     });
   };
 
-  const validateAndProceed = () => {
-    // Validate if the profile picture is missing
-    if (!overView.profilePic) {
-      setError("Please upload a profile picture before proceeding.");
-      return; // Return early if profile picture is missing
-    }
-
-    // Check if the summary is not empty or contains only white spaces
-    if (overView.summary.trim() === "") {
-      setError("Please enter your summary before proceeding.");
-    } else {
-      setError("");
-      // Proceed to the next step
-      next();
-    }
-  };
-
   return (
     <div className=" bg-[#F3F3F3]/30  px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10 overflow-hidden">
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px]">
         <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
           <p className="text-[15px] font-semibold p-2">My Account</p>
           <Separator className="bg-bm__gler" />
-          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer bg-black/10">
             <div className="flex items-center gap-4 mr-2">
               <BiSolidUserDetail />
               <p className="text-[14px] font-normal ">Profile</p>
@@ -111,7 +89,7 @@ export default function Overview({
           </div>
         </Card>
         <div className="flex-1 overflow-y-scroll pr-2">
-          <div className="flex justify-between font-medium text-[12px] my-2 sticky top-0 bg-white z-10">
+          <div className="flex justify-between font-medium text-[12px] my-2 ">
             <div className="relative text-white flex items-center justify-center ">
               <p className="absolute top-[25%]  z-20 text-[16px]">Overview</p>
               <img src={darkUnion} alt="" className=" z-5 w-[300px] h-[50px]" />
@@ -195,7 +173,6 @@ export default function Overview({
                 )}
               </div>
             </label>
-
             <Separator
               className="py-[2px] my-7 bg-[#D7D8DA]
 "
@@ -214,7 +191,6 @@ export default function Overview({
               maxLength={250}
             />
             <p className="text-[10px] mb-7">250 characters</p>
-            {error && <p className="text-red-500">{error}</p>}
           </CardContent>
           {/* <Progress value={14} className='my-2 md:my-7' /> */}
 
@@ -223,15 +199,20 @@ export default function Overview({
               <Link to={"/profile"}>Close</Link>
             </Button>
             <div className="flex gap-4">
-              <Button className="dark__btn" onClick={next}>
+              <Button
+                className="dark__btn"
+                onClick={() => {
+                  create();
+                  cancel();
+                }}
+              >
                 Save
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
                 onClick={() => {
                   create();
-                  // next();
-                  validateAndProceed();
+                  next();
                 }}
               >
                 Save and Next
@@ -240,6 +221,7 @@ export default function Overview({
           </div>
         </div>
       </Card>
+         
     </div>
   );
 }

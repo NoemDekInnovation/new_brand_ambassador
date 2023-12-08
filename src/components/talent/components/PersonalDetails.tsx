@@ -10,10 +10,16 @@ import { MdPayments, MdSettings } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { patchAxiosInstance } from "../../../api/axios";
 import { PersonalProps } from "../../../redux/types";
 import { Progress } from "../../../ui/progress";
+import { useForm, Controller } from "react-hook-form";
+import { Country, State } from "country-state-city";
+import Select from "react-select";
+import PhoneInput from "react-phone-number-input";
+import { Dispatch, SetStateAction } from "react";
+import "react-phone-number-input/style.css";
 
 export default function PersonalDetails({
   next,
@@ -22,30 +28,37 @@ export default function PersonalDetails({
   setPersonal,
   personal,
   create,
+  handlePhoneChange,
+  handleAltPhoneChange,
+  nationalityOptions,
+  originOptions,
+  setSelectedNationality,
+  setSelectedOrigin,
 }: {
   create: () => void;
   next: () => void;
   prev: () => void;
   cancel: () => void;
+  handlePhoneChange: (value: string) => void;
+  handleAltPhoneChange: (value: string) => void;
+  nationalityOptions: any;
+  originOptions: any;
   setPersonal: any;
+  setSelectedNationality: any;
+  setSelectedOrigin: any;
   personal: PersonalProps;
 }) {
-  const [errors, setErrors] = useState({
-    firstName: "",
-    lastName: "",
-    middleName: "",
-    email: "",
-    phone: "",
-    alternatePhone: "",
-    DOB: "",
-    gender: "",
-    origin: "",
-    nationality: "",
-    height: "",
-    skinColor: "",
-    languages: "",
-    dressSize: "",
-  });
+  const skinColorOptions = [
+    "Fair",
+    "Light",
+    "Medium",
+    "Olive",
+    "Dark",
+    // Add more options as needed
+  ];
+
+  const [inputError, setInputError] = useState<string | null>(null);
+  const [heightError, setHeightError] = useState<string | null>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -53,144 +66,82 @@ export default function PersonalDetails({
   ) => {
     const { name, value } = e.target;
 
-    setPersonal((prevData: PersonalProps) => ({
-      ...prevData,
-      [fieldName]: value,
-    }));
+    const isAlphabetic = /^[A-Za-z]+$/.test(value);
+
+    if (isAlphabetic || value === "") {
+      setPersonal((prevData: PersonalProps) => ({
+        ...prevData,
+        [fieldName]: value,
+      }));
+      setInputError(null);
+    } else {
+      setInputError("Please enter only alphabet characters.");
+    }
   };
 
-  const handleSaveAndNext = () => {
-    setErrors({
-      firstName: "",
-      lastName: "",
-      middleName: "",
-      email: "",
-      phone: "",
-      alternatePhone: "",
-      DOB: "",
-      gender: "",
-      origin: "",
-      nationality: "",
-      height: "",
-      skinColor: "",
-      languages: "",
-      dressSize: "",
-    });
+  const handleHeightChange = (event: { target: { value: any; }; }) => {
+    // Get the entered value
+    let inputValue = event.target.value;
 
-    if (personal.firstName.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        firstName: "Please enter your first name",
+    // Remove any non-numeric characters
+    inputValue = inputValue.replace(/[^0-9]/g, "");
+
+    // Update the state with the height in centimeters
+    setPersonal({ ...personal, height: inputValue });
+  };
+
+  const handleSkinColorChange = (event: { target: { value: any; }; }) => {
+    const { value } = event.target;
+    setPersonal({ ...personal, skinColor: value });
+  };
+
+  const handleLanguageChange = (event: { target: { value: any; }; }) => {
+    const { value } = event.target;
+    setPersonal({ ...personal, languages: value }); 
+  };
+
+  // List of languages in Nigeria
+  const nigeriaLanguages = [
+    "Hausa",
+    "Yoruba",
+    "Igbo",
+    "English",
+    // Add more options as needed
+  ];
+
+  const handleDateChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string
+  ) => {
+    const { value } = e.target;
+
+    // Perform additional validation as needed
+    const isValidDate = isValidDateRange(value);
+
+    if (isValidDate) {
+      setPersonal((prevData: PersonalProps) => ({
+        ...prevData,
+        [fieldName]: value,
       }));
-      return;
+      setInputError(null);
+    } else {
+      setInputError("Please select a valid date.");
     }
+  };
 
-    if (personal.lastName.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        lastName: "Please enter your last name",
-      }));
-      return;
-    }
+  const isValidDateRange = (dateString: string): boolean => {
+    // Example: Perform validation to check if the date is within a specific range
+    // You can use a library like date-fns or Moment.js for more advanced date validations
+    return true; // Replace this with your validation logic
+  };
 
-    if (personal.middleName.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        middleName: "Please enter your middle name",
-      }));
-      return;
-    }
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
 
-    if (personal.email.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        email: "Please enter your email",
-      }));
-      return;
-    }
-
-    if (personal.phone.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        phone: "Please enter your phone",
-      }));
-      return;
-    }
-
-    if (personal.alternatePhone.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        alternatePhone: "Please enter your alternatePhone",
-      }));
-      return;
-    }
-
-    if (personal.gender.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        gender: "Please enter your gender",
-      }));
-      return;
-    }
-
-    if (personal.DOB.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        DOB: "Please enter your DOB",
-      }));
-      return;
-    }
-
-    if (personal.origin.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        origin: "Please enter your origin",
-      }));
-      return;
-    }
-
-    if (personal.nationality.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        nationality: "Please enter your nationality",
-      }));
-      return;
-    }
-
-    if (personal.height.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        height: "Please enter your height",
-      }));
-      return;
-    }
-
-    if (personal.skinColor.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        skinColor: "Please enter your skinColor",
-      }));
-      return;
-    }
-
-    if (personal.languages.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        languages: "Please enter your languages",
-      }));
-      return;
-    }
-
-    if (personal.dressSize.trim() === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        dressSize: "Please enter your dressSize",
-      }));
-      return;
-    }
-
-    create();
-    next();
+    setPersonal((prevData: PersonalProps) => ({
+      ...prevData,
+      gender: value,
+    }));
   };
 
   return (
@@ -199,7 +150,7 @@ export default function PersonalDetails({
         <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
           <p className="text-[15px] font-semibold p-2">My Account</p>
           <Separator className="bg-bm__gler" />
-          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer bg-black/10">
             <div className="flex items-center gap-4 mr-2">
               <BiSolidUserDetail />
               <p className="text-[14px] font-normal ">Profile</p>
@@ -283,18 +234,16 @@ export default function PersonalDetails({
                   placeholder=" "
                   value={personal.firstName}
                   onChange={(e) => handleInputChange(e, "firstName")}
-                  required
                 />
+                {inputError && (
+                  <p className="text-red-500 text-sm">{inputError}</p>
+                )}
                 <label
                   htmlFor="firstName"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   First name
                 </label>
-                {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}
-                {errors.firstName && (
-                  <p className="text-red-500 text-sm">{errors.firstName}</p>
-                )}
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
@@ -306,20 +255,17 @@ export default function PersonalDetails({
                   placeholder=" "
                   value={personal.lastName}
                   onChange={(e) => handleInputChange(e, "lastName")}
-                  required
                 />
+                {inputError && (
+                  <p className="text-red-500 text-sm">{inputError}</p>
+                )}
+
                 <label
                   htmlFor="lastName"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Last Name
                 </label>
-                {/* {lastError && (
-                  <p className="text-red-500 text-sm">{lastError}</p>
-                )} */}
-                {errors.lastName && (
-                  <p className="text-red-500 text-sm">{errors.lastName}</p>
-                )}
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
@@ -334,18 +280,16 @@ export default function PersonalDetails({
                   onChange={(e) => handleInputChange(e, "middleName")}
                   required
                 />
+                {inputError && (
+                  <p className="text-red-500 text-sm">{inputError}</p>
+                )}
+
                 <label
                   htmlFor="middleName"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Middle name
                 </label>
-                {/* {middleError && (
-                  <p className="text-red-500 text-sm">{middleError}</p>
-                )} */}
-                {errors.middleName && (
-                  <p className="text-red-500 text-sm">{errors.middleName}</p>
-                )}
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
@@ -358,6 +302,7 @@ export default function PersonalDetails({
                   value={personal.email}
                   onChange={(e) => handleInputChange(e, "email")}
                   required
+                  disabled
                 />
                 <label
                   htmlFor="email"
@@ -365,22 +310,18 @@ export default function PersonalDetails({
                 >
                   Email
                 </label>
-                {errors.email && (
-                  <p className="text-red-500 text-sm">{errors.email}</p>
-                )}
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
               <div className="relative  z-0 w-full mb-6 group">
-                <input
-                  type="tel"
-                  name="phone"
-                  id="phone"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
+                <PhoneInput
+                  placeholder="Enter phone number"
                   value={personal.phone}
-                  onChange={(e) => handleInputChange(e, "phone")}
-                  required
+                  onChange={handlePhoneChange}
+                  defaultCountry="NG"
+                  international
+                  countryCallingCodeEditable={false}
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 />
                 <label
                   htmlFor="phone"
@@ -388,33 +329,24 @@ export default function PersonalDetails({
                 >
                   Phone number
                 </label>
-                {errors.phone && (
-                  <p className="text-red-500 text-sm">{errors.phone}</p>
-                )}
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
-                <input
-                  type="tel"
-                  name="alternatePhone"
-                  id="alternatePhone"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
+                <PhoneInput
+                  placeholder="Enter phone number"
                   value={personal.alternatePhone}
-                  onChange={(e) => handleInputChange(e, "alternatePhone")}
-                  required
+                  onChange={handleAltPhoneChange}
+                  defaultCountry="NG"
+                  international
+                  countryCallingCodeEditable={false}
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 />
                 <label
-                  htmlFor="alternatePhone"
+                  htmlFor="phone"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Alternate number
+                  Phone number
                 </label>
-                {errors.alternatePhone && (
-                  <p className="text-red-500 text-sm">
-                    {errors.alternatePhone}
-                  </p>
-                )}
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
@@ -426,8 +358,8 @@ export default function PersonalDetails({
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   value={personal.DOB}
-                  onChange={(e) => handleInputChange(e, "DOB")}
-                  required
+                  // onChange={(e) => handleInputChange(e, "DOB")}
+                  onChange={(e) => handleDateChange(e, "DOB")}
                 />
                 <label
                   htmlFor="DOB"
@@ -435,66 +367,40 @@ export default function PersonalDetails({
                 >
                   Date of Birth
                 </label>
-                {errors.DOB && (
-                  <p className="text-red-500 text-sm">{errors.DOB}</p>
-                )}
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
-                <input
-                  type="text"
+                <select
                   name="gender"
                   id="gender"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
                   value={personal.gender}
-                  onChange={(e) => handleInputChange(e, "gender")}
+                  // onChange={(e) => handleInputChange(e, "gender")}
+                  onChange={handleSelectChange}
                   required
-                />
+                >
+                  <option value="" disabled selected hidden>
+                    Select Gender
+                  </option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
                 <label
                   htmlFor="gender"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Gender
                 </label>
-                {errors.gender && (
-                  <p className="text-red-500 text-sm">{errors.gender}</p>
-                )}
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
-              <div className="relative  z-0 w-full mb-6 group">
-                <input
-                  type="text"
-                  name="origin"
-                  id="origin"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
-                  value={personal.origin}
-                  onChange={(e) => handleInputChange(e, "origin")}
-                  required
-                />
-                <label
-                  htmlFor="origin"
-                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  State of origin
-                </label>
-                {errors.origin && (
-                  <p className="text-red-500 text-sm">{errors.origin}</p>
-                )}
-              </div>
-
               <div className="relative z-0 w-full mb-6 group">
-                <input
-                  type="text"
-                  name="nationality"
-                  id="nationality"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
-                  value={personal.nationality}
-                  onChange={(e) => handleInputChange(e, "nationality")}
-                  required
+                <Select
+                  defaultValue={"personal.nationality"}
+                  options={nationalityOptions}
+                  onChange={(e: any) => setSelectedNationality(e?.value)}
+                  placeholder="Select Nationality"
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900 bg-red-500 border-gray-300"
                 />
                 <label
                   htmlFor="nationality"
@@ -502,9 +408,22 @@ export default function PersonalDetails({
                 >
                   Nationality
                 </label>
-                {errors.nationality && (
-                  <p className="text-red-500 text-sm">{errors.nationality}</p>
-                )}
+              </div>
+
+              <div className="relative z-0 w-full mb-6 group">
+                <Select
+                  defaultValue={"personal.origin"}
+                  options={originOptions}
+                  onChange={(e: any) => setSelectedOrigin(e?.value)}
+                  placeholder="State of origin"
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900 bg-red-500 border-gray-300"
+                />
+                <label
+                  htmlFor="nationality"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  State of origin
+                </label>
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
@@ -516,22 +435,22 @@ export default function PersonalDetails({
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   value={personal.height}
-                  onChange={(e) => handleInputChange(e, "height")}
+                  onChange={handleHeightChange}
                   required
                 />
+                {heightError && (
+                  <p className="text-red-500 text-sm">{heightError}</p>
+                )}
                 <label
                   htmlFor="height"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Height
                 </label>
-                {errors.height && (
-                  <p className="text-red-500 text-sm">{errors.height}</p>
-                )}
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
-                <input
+                {/* <input
                   type="text"
                   name="skinColor"
                   id="skinColor"
@@ -540,16 +459,31 @@ export default function PersonalDetails({
                   value={personal.skinColor}
                   onChange={(e) => handleInputChange(e, "skinColor")}
                   required
-                />
+                /> */}
+                <select
+                  name="skinColor"
+                  id="skinColor"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  value={personal.skinColor}
+                  // onChange={(e) => handleInputChange(e, "skinColor")}
+                  onChange={handleSkinColorChange}
+                  required
+                >
+                  <option value="" disabled hidden>
+                    Select Skin Color
+                  </option>
+                  {skinColorOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
                 <label
                   htmlFor="skinColor"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Skin color
                 </label>
-                {errors.skinColor && (
-                  <p className="text-red-500 text-sm">{errors.skinColor}</p>
-                )}
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
@@ -562,7 +496,6 @@ export default function PersonalDetails({
                   placeholder=" "
                   value={personal.dressSize}
                   onChange={(e) => handleInputChange(e, "dressSize")}
-                  required
                 />
                 <label
                   htmlFor="dressSize"
@@ -570,31 +503,33 @@ export default function PersonalDetails({
                 >
                   Dress Size
                 </label>
-                {errors.dressSize && (
-                  <p className="text-red-500 text-sm">{errors.dressSize}</p>
-                )}
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
-                <input
-                  type="text"
+                <select
                   name="languages"
                   id="languages"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
                   value={personal.languages}
-                  onChange={(e) => handleInputChange(e, "languages")}
+                  onChange={handleLanguageChange}
                   required
-                />
+                >
+                  <option value="" disabled hidden>
+                    Select Language
+                  </option>
+                  {nigeriaLanguages.map((language) => (
+                    <option key={language} value={language}>
+                      {language}
+                    </option>
+                  ))}
+                </select>
+
                 <label
                   htmlFor="languages"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Languages
                 </label>
-                {errors.languages && (
-                  <p className="text-red-500 text-sm">{errors.languages}</p>
-                )}
               </div>
             </div>
           </CardContent>
@@ -611,17 +546,22 @@ export default function PersonalDetails({
               </Button>
             </div>
             <div className="flex gap-4">
-              <Button className="dark__btn" onClick={next}>
+              <Button
+                className="dark__btn w-fit whitespace-nowrap"
+                onClick={() => {
+                  create();
+                  cancel();
+                }}
+              >
                 Save
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
                 // onClick={next}
-                // onClick={() => {
-                //   create();
-                //   next();
-                // }}
-                onClick={handleSaveAndNext}
+                onClick={() => {
+                  create();
+                  next();
+                }}
               >
                 Save and Next
               </Button>

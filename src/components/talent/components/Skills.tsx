@@ -29,6 +29,7 @@ export default function Skills({
   handleSkillDelete,
   skillsData,
   talentOptions,
+  setOpportunites,
 }: {
   create: () => void;
   next: () => void;
@@ -38,43 +39,45 @@ export default function Skills({
   skillsData: string[];
   handleSkillSelect: (id: any) => void;
   handleSkillDelete: (index: number) => void;
+  setOpportunites: any
 }) {
-    const { loading, skills, error, skillsFetchSucess } = useSelector(
-      (state: any) => state.skills
-    ) as SkillsStateProps;
-    // console.log(skills);
+  const { loading, skills, error, skillsFetchSucess } = useSelector(
+    (state: any) => state.skills
+  ) as SkillsStateProps;
+  // console.log(skills);
 
-    const [inputValue, setInputValue] = useState<string>("");
-    const [filteredOptions, setFilteredOptions] = useState<TalentOption[]>([]);
-    const [isSearching, setIsSearching] = useState<boolean>(false);
-    const [example, setExample] = useState("");
+  const [inputValue, setInputValue] = useState<string>("");
+  const [filteredOptions, setFilteredOptions] = useState<TalentOption[]>([]);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [example, setExample] = useState("");
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value;
-      setInputValue(value);
-      setIsSearching(true);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValue(value);
+    setIsSearching(true);
 
-      if (value) {
-        const searchLower = value.toLowerCase();
-        const filtered = talentOptions.filter((option) =>
-          option.label.toLowerCase().includes(searchLower)
-        );
-        setFilteredOptions(filtered);
-      } else {
-        setFilteredOptions([]);
-      }
-    };
-
-    const handleOptionClick = (value: string) => {
-      setInputValue(value);
-      setIsSearching(false);
+    if (value) {
+      const searchLower = value.toLowerCase();
+      const filtered = talentOptions.filter((option) =>
+        option.label.toLowerCase().includes(searchLower)
+      );
+      setFilteredOptions(filtered);
+    } else {
       setFilteredOptions([]);
-    };
-    const dispatch = useDispatch<AppDispatch>();
+    }
+  };
 
-    useEffect(() => {
-      dispatch(fetchSkills(example));
-    }, [example]);
+  const handleOptionClick = (value: string) => {
+    setInputValue(value);
+    setOpportunites(value)
+    setIsSearching(false);
+    setFilteredOptions([]);
+  };
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchSkills(example));
+  }, [example]);
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">
       {/* <div className='fixed top-0 h-screen w-screen bg-[#F3F3F3]/30 z-[1000] mt-[20vh] px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'> */}
@@ -273,7 +276,13 @@ export default function Skills({
               </Button>
             </div>
             <div className="flex gap-4">
-              <Button className="dark__btn" onClick={next}>
+              <Button
+                className="dark__btn"
+                onClick={() => {
+                  create();
+                  cancel();
+                }}
+              >
                 Save
               </Button>
               <Button

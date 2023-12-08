@@ -15,9 +15,11 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { patchAxiosInstance } from "../../../api/axios";
 import { CertificateProps, EducationProps } from "../../../redux/types";
+import { useForm } from "react-hook-form";
+import { truncateSync } from "fs";
 
 interface EducationDetails {
   institution: string;
@@ -53,6 +55,16 @@ export default function Education({
 }) {
 
 
+
+  const { talentData } = useSelector((state: RootState) => state.talent);
+
+
+
+   const { user } = useSelector((state: RootState) => state.user);
+
+
+
+
    const handleAddEducation = () => {
      // Add a new empty experience object when the "Add Experience" button is clicked
      setEducation([
@@ -71,7 +83,9 @@ export default function Education({
        },
      ]);
    };
-   const handleEduInputChange = (
+
+
+   const InputChange = (
      e: React.ChangeEvent<HTMLInputElement>,
      index: number
    ) => {
@@ -81,6 +95,19 @@ export default function Education({
      updatedEducation[index][name] = value;
      setEducation(updatedEducation);
    };
+
+  const handleEduInputChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    index: number
+  ) => {
+    const { name, value } = e.target;
+
+    const updatedEducation = [...education];
+    updatedEducation[index][name] = value;
+    setEducation(updatedEducation);
+  };
+
+
    const handleCertInputChange = (
      e: React.ChangeEvent<HTMLInputElement>,
      index: number
@@ -188,7 +215,6 @@ export default function Education({
               opportunities.
             </p>
             <Separator className=" my-7 bg-[#D7D8DA]" />
-            
             {education.map((e, index) => (
               <>
                 <div className="mt-2" key={index}>
@@ -202,7 +228,7 @@ export default function Education({
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         value={e.institution}
-                        onChange={(e) => handleEduInputChange(e, index)}
+                        onChange={(e) => InputChange(e, index)}
                         required
                       />
                       <label
@@ -214,16 +240,26 @@ export default function Education({
                     </div>
 
                     <div className="relative z-0 w-full mb-6 group">
-                      <input
-                        type="text"
+                      <select
                         name="degree"
                         id="degree"
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
                         value={e.degree}
                         onChange={(e) => handleEduInputChange(e, index)}
                         required
-                      />
+                      >
+                        <option value="" disabled selected>
+                          Select a Degree
+                        </option>
+                        <option value="Bachelor's">Bachelor's</option>
+                        <option value="Master's">Master's</option>
+                        <option value="PhD">PhD</option>
+                        <option value="SSCE">SSCE</option>
+                        <option value="OND">OND</option>
+                        <option value="NCE">NCE</option>
+                        <option value="HND">HND</option>
+                        <option value="PGD">PGD</option>
+                      </select>
                       <label
                         htmlFor="degree"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -233,17 +269,30 @@ export default function Education({
                     </div>
                   </div>
                   <div className="grid md:grid-cols-2 md:gap-6">
-                    <div className="relative  z-0 w-full mb-6 group">
-                      <input
-                        type="text"
+                
+                    <div className="relative z-0 w-full mb-6 group">
+                      <select
                         name="grade"
                         id="grade"
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
                         value={e.grade}
                         onChange={(e) => handleEduInputChange(e, index)}
                         required
-                      />
+                      >
+                        <option value="" disabled selected>
+                          Select a Grade
+                        </option>
+                        <option value="First Class">First Class</option>
+                        <option value="Second Class Upper">
+                          Second Class Upper
+                        </option>
+                        <option value="Second Class Lower">
+                          Second Class Lower
+                        </option>
+                        <option value="Third Class">Third Class</option>
+                        <option value="Pass">Pass</option>
+                        {/* Add more options as needed */}
+                      </select>
                       <label
                         htmlFor="grade"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -260,7 +309,7 @@ export default function Education({
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         value={e.gradYear}
-                        onChange={(e) => handleEduInputChange(e, index)}
+                        onChange={(e) => InputChange(e, index)}
                         required
                       />
                       <label
@@ -285,6 +334,7 @@ export default function Education({
               </div>
             </Button>
             <Separator className="bg-bm__beige my-7 md:my-6 py-[2px]" />
+
             {certificate.map((c, index) => (
               <>
                 <div className="mt-2" key={index}>
@@ -374,12 +424,17 @@ export default function Education({
               </Button>
             </div>
             <div className="flex gap-4">
-              <Button className="dark__btn" onClick={next}>
+              <Button
+                className="dark__btn"
+                onClick={() => {
+                  create();
+                  cancel();
+                }}
+              >
                 Save
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
-                // onClick={next}
                 onClick={() => {
                   create();
                   next();
