@@ -85,6 +85,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedTalent, setSelectedTalent] = useState("");
   const [selectedTalentID, setSelectedTalentID] = useState("");
+  const [projectModal, setProjectModal] = useState(false);
 
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -127,6 +128,27 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
     fetchTalents();
   }, [activeType]);
 
+  useEffect(() => {
+    setIsLoading(true);
+
+    const fetchProjects = async () => {
+      if (user !== null) {
+        const response = await campaignAuthAxiosInstance(`/projects`, {
+          headers: {
+            Authorization: `Bearer ${user.authKey || ""}`,
+          },
+        });
+        const projects = response?.data?.data.projects.map((project: any) => {
+          return { value: project._id, label: project.projectDescription };
+        });
+
+        setProjects(projects);
+      }
+    };
+    fetchProjects();
+    setIsLoading(false);
+  }, [user?.accountId]);
+
   const handleInvite = async () => {
     setIsLoading(true);
     if (user !== null) {
@@ -146,7 +168,13 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
         );
 
         setIsLoading(false);
-        setSuccessModal(false);
+        // setSuccessModal(false);
+        setProjectModal(!projectModal);
+        setSuccessModal(true);
+
+        return setTimeout(() => {
+          setSuccessModal(false);
+        }, 3000);
       } catch (error) {
         setIsLoading(false);
 
@@ -234,6 +262,8 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
           selectedTalent={selectedTalent}
           setSelectedTalentID={setSelectedTalentID}
           selectedProject={selectedProject}
+          projectModal={projectModal}
+          setProjectModal={setProjectModal}
         />
       );
       break;
