@@ -44,8 +44,6 @@ const ProjectPreview = ({
   selectedProject: any;
   // workDays: [];
 }) => {
-  console.log("rked", selectedProject);
-
   const startDate = new Date(selectedProject?.projectDuration?.startDate);
   const endDate = new Date(selectedProject?.projectDuration?.endDate);
   const formattedStartDate = startDate.toLocaleDateString("en-US", {

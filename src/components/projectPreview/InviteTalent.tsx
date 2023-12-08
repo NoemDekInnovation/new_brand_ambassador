@@ -21,13 +21,17 @@ const InviteTalent = ({
   popUp,
   setPopUp,
   select,
+  selectedProject,
 }: {
   select: any;
   popUp: boolean;
   setPopUp: any;
+  selectedProject: any;
 }) => {
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
   const [activeType, setActiveType] = useState<TalentType>("All Talents");
+
+  console.log("rked", selectedProject);
 
   const onTalentTypeChnage = (type: TalentType) => {
     setActiveType(type);
@@ -55,15 +59,19 @@ const InviteTalent = ({
           />
         </span>
         <div className="flex flex-row items-center p-4">
-          <div className="text-[14px] font-medium capitalize">Project Name</div>
-          <div className="text-[15px] p-0 px-2">|</div>
-
-          <div className="text-[12px] font-medium capitalize">
-            Project category
+          <div className="text-[14px] font-medium capitalize">
+            {selectedProject.projectTitle}
           </div>
           <div className="text-[15px] p-0 px-2">|</div>
 
-          <div className="text-[12px] font-medium capitalize">Project Code</div>
+          <div className="text-[12px] font-medium capitalize">
+            {selectedProject.projectCategory}
+          </div>
+          <div className="text-[15px] p-0 px-2">|</div>
+
+          <div className="text-[12px] font-medium capitalize">
+            {selectedProject.projectCode}
+          </div>
           <div className="text-[15px] p-0 px-2">|</div>
 
           <div className="text-[12px] font-medium capitalize text-green-500">
