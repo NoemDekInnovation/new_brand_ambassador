@@ -30,6 +30,7 @@ export const ProjectViewCard = ({
           popUp={popUp}
           setPopUp={() => setPopUp(!popUp)}
           select={setSelectedComponent}
+          selectedProject={selectedProject}
         />
       )}
       {selectedComponent === 3 && (
