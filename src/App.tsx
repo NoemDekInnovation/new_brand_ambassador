@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import AgencyDashboard from "./components/agency/Dashboard";
 import RequiredAuth from "./components/RequireAuth";
@@ -6,7 +6,7 @@ import "./App.css";
 
 import TalentDashboard from "./components/talent/Dashboard";
 import { RootState } from "./redux/store";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TalentSignUp from "./components/talent/signUp/signup";
@@ -24,6 +24,7 @@ import Profile from "./components/talent/Profile";
 import EditProfile from "./components/talent/EditProfile";
 import AgencyProfile from "./components/agency/profile/agencyprofile";
 import EditAgencyProfile from "./components/agency/profile/editagencyprofile";
+import PreviewPublished from "./components/agency/publishedpreview/PreviewPublished";
 
 function App() {
   const ROLES: {
@@ -35,7 +36,8 @@ function App() {
   };
 
   const { user } = useSelector((state: RootState) => state.user);
-
+  // Check for user in local storage on component mount
+  // const { user } = useSelector((state: RootState) => state.user);
   return (
     <Router>
       <Routes>
@@ -49,6 +51,9 @@ function App() {
             />
           </Route>
         )}
+
+        <Route path="/dashboard" element={<TalentDashboard />} />
+
         {user?.accountId === "talent" && (
           <Route element={<RequiredAuth allowedRoles={[ROLES.Talent]} />}>
             <Route path="/dashboard" element={<TalentDashboard />} />
@@ -79,7 +84,7 @@ function App() {
           element={<NewPassword />}
         />
         <Route path="/" element={<LandingPage />} />
-        <Route path="/profile" element={<AgencyProfile />} />
+        {/* <Route path="/preview" element={<PreviewPublished />} /> */}
       </Routes>
     </Router>
   );

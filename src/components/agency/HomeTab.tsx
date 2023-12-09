@@ -1,7 +1,9 @@
+import React, { useEffect } from "react";
 import ListCard, { TopProjectCard } from "./ListCard";
 import ProjectCard, { CurrentProjects } from "./ProjectCard";
-import circle from "../../assets/Vector.png";
-import plus from "../../assets/plus.png"
+import { AppDispatch, RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTalents } from "../../redux/talent.slice";
 
 const currentProject = {
   isCurrent: true,
@@ -10,13 +12,27 @@ const currentProject = {
 
 const avaibleProject = {
   isCurrent: false,
-  content: [1, 2, 3, 4],
+  content: [1, 2, 3, 4, 5, 6],
 };
 
 const HomeTab = () => {
+  const { talents: resTalents, agencyTalents } = useSelector(
+    (state: RootState) => state.talent
+  );
+
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(fetchTalents());
+  }, [dispatch]);
+
+  const avaibleProject = {
+    isCurrent: false,
+    content: resTalents,
+  };
+
   return (
-    <div className=" bg-bm_card_grey h-full">
-      <div className="px-4 md:px-12 xl:px-40 flex py-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
+    <div className=" bg-bm_card_grey h-full overflow-y-scroll w-[1950px]">
+      <div className="px-4 md:px-12 xl:px-40 flex pt-10 pb-2  md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
         <div className=" space-y-8 flex-1 flex flex-col items-center sm:block">
           <CurrentProjects
             card_content={currentProject}
@@ -26,17 +42,13 @@ const HomeTab = () => {
             card_content={avaibleProject}
             card_title="Leading Talent"
           />
-          <ProjectCard card_content={avaibleProject} card_title="Favorites" />
+          {/* <ProjectCard card_content={avaibleProject} card_title="Favorites" /> */}
         </div>
         <div className="space-y-8 hidden sm:block">
           <ListCard card_title="My Projects" card_width="w-full" />
           <TopProjectCard card_title="Top Projects" card_width="w-full" />
         </div>
-        {/* <img src={circle} width={66} height={66} alt="" /> */}
-        <div className="h-[66px] w-[66px] rounded-[30px] bg-[#93979D] flex items-center justify-center">
-          <img src={circle} alt=""  />
-          <img src={plus} alt=""  /> 
-        </div>
+        {/* <img src={addButton} alt="" /> */}
       </div>
     </div>
   );

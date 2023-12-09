@@ -168,7 +168,7 @@ export default function SignUpDetails() {
   }
 
   const onSubmit = async (data: any) => {
-    localStorage.setItem("userEmail", data.email );
+    localStorage.setItem("userEmail", data.email);
 
     const isError = Object.values(errMsg).every(
       (error) => error === null || error === ""
@@ -198,7 +198,7 @@ export default function SignUpDetails() {
 
         const newAccountResponse = await axiosInstance.post(
           `${url}`,
-          requestData,
+          requestData
         );
 
         if (
@@ -256,7 +256,7 @@ export default function SignUpDetails() {
                     alt="logo"
                     width={300}
                     height={50}
-                  /> 
+                  />
                 </Link>
               </div>
             </div>

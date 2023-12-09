@@ -1,0 +1,157 @@
+import React, { useState } from 'react';
+import { CardContent } from '../../ui/card';
+import { Separator } from '@radix-ui/react-separator';
+
+type TalentType =
+  | 'All Talents'
+  | 'Current Contacts'
+  | 'Favorites'
+  | 'Engaged'
+  | 'My Talents';
+
+type TalentTypeProps = {
+  name: TalentType;
+  count: number;
+  onClick: (name: TalentType) => void;
+  isActive: boolean;
+};
+
+type TalentListProps = {
+  onTalentTypeChnage: (type: TalentType) => void;
+  talentCount: any;
+  // talentCount: Record<TalentType, number>;
+};
+
+const TalentType: React.FC<TalentTypeProps> = ({
+  name,
+  count,
+  isActive,
+  onClick,
+}) => {
+  return (
+    <div
+      className={`flex justify-between p-4 ${isActive ? 'bg-black/10' : ''}`}
+      onClick={() => onClick(name)}
+    >
+      <div className='flex items-center'>
+        <p>{name}</p>
+      </div>
+      <div className='text-white bg-bm__ox__red px-2 rounded-sm'>{count}</div>
+    </div>
+  );
+};
+
+const TalentList: React.FC<TalentListProps> = ({
+  onTalentTypeChnage,
+  talentCount,
+}) => {
+  const [activeTalentType, setActiveTalentType] =
+    useState<TalentType>('All Talents');
+  const handleTalentTypeClick = (
+    type:
+      | 'All Talents'
+      | 'Current Contacts'
+      | 'Favorites'
+      | 'Engaged'
+      | 'My Talents'
+  ) => {
+    onTalentTypeChnage(type);
+    setActiveTalentType(type);
+  };
+
+  return (
+    // <Card>
+    <CardContent className='p-1 flex flex-col justify-center gap-1 border rounded-[6px]'>
+      <div className='gap-4 hover:bg-black/10 cursor-pointer '>
+        {/* <p> All Talents</p> */}
+        <TalentType
+          name='All Talents'
+          count={talentCount['All Talents']}
+          onClick={handleTalentTypeClick}
+          isActive={activeTalentType === 'All Talents'}
+        />
+      </div>
+      <Separator className='bg-bm__beige shrink-0 h-[1px] w-full' />
+      <div className='gap-4 hover:bg-black/10 cursor-pointer'>
+        {/* <p>Current Contacts</p>{' '}
+                      <span className='bg-bm__ox__red text-white px-2'>
+                          {resTalents?.length}
+                      </span> */}
+        <TalentType
+          name='Current Contacts'
+          count={talentCount['Current Contacts']}
+          onClick={handleTalentTypeClick}
+          isActive={activeTalentType === 'Current Contacts'}
+        />
+      </div>
+      <Separator className='bg-bm__beige shrink-0 h-[1px] w-full' />
+      <div className=' gap-4 hover:bg-black/10 cursor-pointer'>
+        {/* <p> Favorites</p> */}
+        <TalentType
+          name='Favorites'
+          count={talentCount['Favorites']}
+          onClick={handleTalentTypeClick}
+          isActive={activeTalentType === 'Favorites'}
+        />
+      </div>
+      <Separator className='bg-bm__beige shrink-0 h-[1px] w-full' />
+      <div className='gap-4 hover:bg-black/10 cursor-pointer'>
+        {/* <p>Engaged</p> */}
+        <TalentType
+          name='Engaged'
+          count={talentCount['Engaged']}
+          onClick={handleTalentTypeClick}
+          isActive={activeTalentType === 'Engaged'}
+        />
+      </div>
+      <Separator className='bg-bm__beige  shrink-0 h-[1px] w-full' />
+      <div className='gap-4 hover:bg-black/10 cursor-pointer'>
+        {/* <p>My Talents</p> */}
+        <TalentType
+          name='My Talents'
+          count={talentCount['My Talents']}
+          onClick={handleTalentTypeClick}
+          isActive={activeTalentType === 'My Talents'}
+        />
+      </div>
+    </CardContent>
+    //</Card>
+  );
+};
+
+export default TalentList;
+
+// {
+/* <CardContent className="p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[210px] border rounded-[6px]">
+  <div className="hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+    <p className="text-[#252525B2] text-[14px] font-normal p-3 mr-3">
+      All Talents
+    </p>
+    <Separator className="bg-[#D7D8DA]" />
+  </div>
+
+  <div className="flex justify-between hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+    <div className=" flex items-center gap-10 ">
+      <p className="text-[#252525B2] text-[14px] font-normal p-3">
+        Current Contacts
+      </p>
+
+      <p className="text-white bg-bm__ox__red px-2 rounded-sm "></p>
+    </div>
+  </div>
+  <Separator className="bg-[#D7D8DA]" />
+
+  <div className=" hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+    <p className="text-[#252525B2] text-[14px] font-normal p-3 mr-3">
+      Favorites
+    </p>
+  </div>
+  <Separator className="bg-[#D7D8DA]" />
+
+  <div className=" hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+    <p className="text-[#252525B2] text-[14px] font-normal p-3 mr-3">
+      Engaged
+    </p>
+  </div>
+// </CardContent> */
+// }

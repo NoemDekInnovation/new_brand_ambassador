@@ -1,86 +1,186 @@
-import React from "react";
 import { Card, CardContent } from "../../../ui/card";
-// import { Separator } from '../../../ui/separator';
-// import { Textarea } from '../../../ui/textarea';
 import { Button } from "../../../ui/button";
-import { Input } from "../../../ui/input";
 import { Separator } from "../../../ui/seperator";
+import union from "../../../assets/Union1.png";
+import subtract from "../../../assets/Subtract.png";
+import subtract2 from "../../../assets/Subtract2.png";
+import subtract4 from "../../../assets/Subtract4.png";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { MdPayments, MdSettings } from "react-icons/md";
-// import { Progress } from '@/components/ui/progress';
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { useEffect, useState } from "react";
+import { patchAxiosInstance } from "../../../api/axios";
+import { SocialsProps } from "../../../redux/types";
+import { useForm } from "react-hook-form";
 
 export default function Social({
   next,
   prev,
   cancel,
+  socials,
+  setSocials,
+  create,
 }: {
+  create: () => void;
   next: () => void;
   prev: () => void;
   cancel: () => void;
+  socials: SocialsProps;
+  setSocials: any;
 }) {
+
+// const {
+//   register,
+//   handleSubmit,
+//   watch,
+//   formState: { errors },
+//   setValue,
+//   trigger,
+//   getValues
+// } = useForm();
+
+//   const { talentData } = useSelector((state: RootState) => state.talent);
+// useEffect(() => {
+// if (Object.keys(talentData).length > 0) {
+//   if (talentData && talentData.socials) {
+//     const socials = talentData.socials;
+
+//     setValue("socials.facebook", socials.facebook);
+//     setValue("socials.twitter", socials.twitter);
+//     setValue("socials.instagram", socials.instagram);
+//     setValue("socials.linkedin", socials.linkedin);
+//   }
+// }
+// }, [talentData])
+
+const { user } = useSelector((state: RootState) => state.user);
+
+// const save = async () => {
+//   const validate = await trigger();
+//   if (validate) {
+//     const data = getValues();
+
+//     console.log(data);
+//     try {
+//       // overviewSchema.parse(data);
+
+//       const response = await patchAxiosInstance.patch(
+//         `/profile-details`,
+//         data,
+//         {
+//           headers: {
+//             Authorization: `Bearer ${user.authKey || ""}`,
+//           },
+//         }
+//       );
+//       console.log(response);
+
+//       setTimeout(() => {}, 3000); 
+//     } catch (error) {}
+//   }
+// };
+
+    
+    const handleInputChange = (
+      e: React.ChangeEvent<HTMLInputElement>,
+      fieldName: string
+    ) => {
+      const { name, value } = e.target;
+
+      setSocials((prevData: SocialsProps) => ({
+        ...prevData,
+        [fieldName]: value,
+      }));
+    };
   return (
-    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 min-h-[70vh] py-10  max-w-fit mx-auto">
+    <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">
       {/* <div className='fixed top-0 h-screen w-screen bg-[#F3F3F3]/30 z-[1000] mt-[20vh] px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'> */}
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px]">
-        <Card className=" p-6 flex flex-col justify-center gap-2  border-bm__beige w-[240px] max-h-[189px] border rounded-[6px]">
-          <p className="text-[15px] font-medium">My Account</p>
+        <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
+          <p className="text-[15px] font-semibold p-2">My Account</p>
           <Separator className="bg-bm__gler" />
-          <div className="flex items-center gap-4 hover:bg-gray-400 transition-colors p-2 transform hover:scale-105 cursor-pointer">
+          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <BiSolidUserDetail />
-            <p className="text-[12px] font-normal">Profile</p>
+            <p className="text-[14px] font-normal ">Profile</p>
           </div>
           <Separator className="bg-bm__gler/50" />
-
-          <div className="flex items-center gap-4  hover:bg-gray-400 transition-colors p-2 transform hover:scale-105 cursor-pointer">
+          <div className="flex items-center gap-4 p-3   hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <MdPayments />
-            <p className="text-[12px] font-normal">Billings & Payments</p>
+            <p className="text-[14px] font-normal">Billings & Payments</p>
           </div>
           <Separator className="bg-bm__gler/50" />
-
-          <div className="flex items-center gap-4  hover:bg-gray-400 transition-colors p-2 transform hover:scale-105 cursor-pointer">
+          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
             <MdSettings />
-            <p className="text-[12px] font-normal">Settings</p>
+            <p className="text-[14px] font-normal">Settings</p>
           </div>
         </Card>
-        <div className="">
+        <div className="flex-1 overflow-y-scroll pr-2">
           <div className="flex justify-between font-medium text-[12px] my-2">
-            <p className="bg-[#D7D8DA] border border-bm__btn__grey p-4 ">
-              Overview
-            </p>
-            <p className="bg-[#D7D8DA] border border-bm__btn__grey p-4 ">
-              Personal Details
-            </p>
-            <p className="bg-[#D7D8DA] border border-bm__btn__grey p-4 ">
-              Address
-            </p>
-            <p className="bg-[#D7D8DA] border border-bm__btn__grey p-4 ">
-              Education & Certification
-            </p>
-            <p className="bg-[#D7D8DA] border border-bm__btn__grey p-4 ">
-              Experience
-            </p>
-            <p className="bg-[#D7D8DA] border border-bm__btn__grey p-4 ">
-              Skills & Opportunities
-            </p>
-            <p className="bg-black text-white p-4">Socials</p>
+            <div className="relative text-black flex items-center justify-center">
+              <p className="absolute top-[25%] text-[16px] z-20">Overview</p>
+              <img src={union} alt="" className=" z-10 w-[300px] h-[50px]" />
+            </div>
+            <div className=" relative text-black flex items-center justify-center">
+              <p className="absolute top-[25%] text-[16px] z-20">
+                {" "}
+                Personal Details
+              </p>
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
+            </div>
+            <div className=" relative text-black flex items-center justify-center">
+              <p className="absolute top-[25%] text-[16px] z-20"> Address</p>
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
+            </div>
+
+            <div className=" relative text-black flex items-center justify-center">
+              <p className="absolute top-[15%] text-[14px]  leading-4 z-20">
+                {" "}
+                Education & <br /> Certification
+              </p>
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
+            </div>
+
+            <div className=" relative text-black flex items-center justify-center">
+              <p className="absolute top-[25%] text-[16px] z-20"> Experience</p>
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
+            </div>
+
+            <div className=" relative text-black flex items-center justify-center">
+              <p className="absolute top-[15%] text-[14px] leading-4 z-20">
+                Skills &<br /> Opportunities
+              </p>
+              <img src={subtract} alt="" className=" z-10 w-[300px] h-[50px]" />
+            </div>
+
+            <div className=" relative text-white flex items-center justify-center">
+              <p className="absolute top-[25%] text-[16px] z-20"> Socials</p>
+              <img
+                src={subtract4}
+                alt=""
+                className=" z-10 w-[300px] h-[50px]"
+              />
+            </div>
           </div>
-          <CardContent className="border rounded-xl  p-3 flex-1 flex flex-col  mt-3">
+          <CardContent className="border rounded-xl  p-8 flex-1 flex flex-col  mt-3">
             <p>Add your social handles to boost your profile.</p>
-            <Separator className=" my-3" />
+            <Separator className=" my-7 bg-[#D7D8DA]" />
             <div className="grid  md:gap-6 mt-4">
               <div className="relative  z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_first_name"
-                  id="floating_first_name"
+                  name="linkedin"
+                  id="linkedin"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
+                  value={socials.linkedin}
+                  onChange={(e) => handleInputChange(e, "linkedin")}
+                  
                   required
                 />
                 <label
-                  htmlFor="floating_first_name"
+                  htmlFor="linkedin"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   LinkedIn profile
@@ -91,16 +191,17 @@ export default function Social({
               <div className="relative  z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_first_name"
-                  id="floating_first_name"
+                  name="instagram"
+                  id="instagram"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
+                  value={socials.instagram}
+                  onChange={(e) => handleInputChange(e, "instagram")}
+                
                   required
                 />
                 <label
-                  htmlFor="floating_first_name"
+                  htmlFor="instagram"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Instagram profile
@@ -111,12 +212,13 @@ export default function Social({
               <div className="relative  z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_first_name"
-                  id="floating_first_name"
+                  name="twitter"
+                  id="twitter"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
+                  value={socials.twitter}
+                  onChange={(e) => handleInputChange(e, "twitter")}
+                  
                   required
                 />
                 <label
@@ -131,12 +233,13 @@ export default function Social({
               <div className="relative  z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="floating_first_name"
-                  id="floating_first_name"
+                  name="facebook"
+                  id="facebook"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  // value={formData.projectDuration.startDate}
-                  // onChange={handleInputChange}
+                  value={socials.facebook}
+                  onChange={(e) => handleInputChange(e, "facebook")}
+                 
                   required
                 />
                 <label
@@ -153,24 +256,36 @@ export default function Social({
           <div className="flex justify-between mt-2">
             <div className="flex gap-4">
               <Button className="light__btn max-w-[100px]" onClick={cancel}>
-                Close
+                <Link to={"/profile"}>Close</Link>
               </Button>
               <Button className="light__btn max-w-[100px]" onClick={prev}>
                 Back
               </Button>
             </div>
-
             <div className="flex gap-4">
+              <Link to={"/profile"}>
+                <Button
+                  className="dark__btn w-fit whitespace-nowrap"
+                  onClick={() => {
+                    create();
+                    next();
+                  }}
+                >
+                  Save
+                </Button>
+              </Link>
+            </div>
+            {/* <div className="flex gap-4">
               <Button className="light__btn" onClick={next}>
                 Create
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
-                onClick={next}
+                // onClick={next}
               >
                 Save and Next
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </Card>
