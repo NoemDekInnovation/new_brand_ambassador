@@ -19,10 +19,7 @@ const PublishedProject = () => {
   const [popUp, setPopUp] = useState(false);
 
   const handleProfilePopUp = (talent: any) => {
-    // console.log(talent);
     setPopUp(!popUp);
-    console.log("worked", popUp);
-    // setSelectedRole(talent);
   };
 
   const [isDialogVisible, setDialogVisible] = useState(false);
@@ -55,7 +52,7 @@ const PublishedProject = () => {
     day: "numeric",
   };
 
-  const talents = publishProject.map((project, idx) => {
+  const talents = publishProject?.map((project, idx) => {
     const formattedLocation = Array.isArray(project.projectLocation)
       ? project.projectLocation.join(", ")
       : "";
