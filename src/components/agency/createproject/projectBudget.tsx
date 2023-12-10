@@ -249,7 +249,7 @@ export default function ProjectBudget({
                             htmlFor="salary"
                             className="absolute text-sm text-gray-500 dark:text-gray-400 transform -translate-y-6 top-3 left-2 bg-white px-1 peer-focus:font-medium duration-300 scale-75 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                           >
-                            &#x20A6;
+                            {/* &#x20A6; */}
                           </label>
                         </div>
                       </div>

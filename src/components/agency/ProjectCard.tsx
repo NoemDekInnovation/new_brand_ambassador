@@ -363,7 +363,7 @@ const ProjectCard = ({
         </CardHeader>
         <Separator className="my-3" />
         <div className="flex justify-between items-center flex-wrap space-x-1 ">
-          {card_content.content.map((talent, idx) => {
+          {card_content.content.slice(0, 5).map((talent, idx) => {
             console.log("talent", projectModal);
 
             return (

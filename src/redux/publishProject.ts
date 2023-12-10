@@ -1,6 +1,6 @@
-import { ProjectProps } from './types';
-import { campaignAuthAxiosInstance } from '../api/axios';
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { ProjectProps } from "./types";
+import { campaignAuthAxiosInstance } from "../api/axios";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export interface PublishProjectsProps {
   loading: boolean;
@@ -10,14 +10,14 @@ export interface PublishProjectsProps {
 
 const initialState: PublishProjectsProps = {
   loading: false,
-  error: '',
+  error: "",
   publishProject: [],
 };
 
 export const fetchpublishproject = createAsyncThunk(
-  'agency/fetchpublishproject',
+  "agency/fetchpublishproject",
   async () => {
-    const user = localStorage.getItem('userData');
+    const user = localStorage.getItem("userData");
 
     try {
       if (user !== null) {
@@ -30,8 +30,7 @@ export const fetchpublishproject = createAsyncThunk(
             },
           }
         );
-        // console.log(response.data.data.projects);
-
+        // console.log("see me", response.data.data?.publishProjects);
         return response.data.data.projects;
       }
     } catch (error) {
@@ -41,26 +40,26 @@ export const fetchpublishproject = createAsyncThunk(
 );
 
 const publishProjects = createSlice({
-  name: 'publish',
+  name: "publish",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchpublishproject.pending, (state) => {
+      .addCase(fetchpublishproject?.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(
-        fetchpublishproject.fulfilled,
+        fetchpublishproject?.fulfilled,
         (state, action: PayloadAction<any>) => {
           state.loading = false;
           state.error = null;
           state.publishProject = action.payload;
         }
       )
-      .addCase(fetchpublishproject.rejected, (state, action) => {
+      .addCase(fetchpublishproject?.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Failde to fetch publish project';
+        state.error = action.error.message || "Failde to fetch publish project";
       });
   },
 });
