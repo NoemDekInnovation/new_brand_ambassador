@@ -138,7 +138,7 @@ const Profile = () => {
                         </div>
                         <Separator className="bg-bm__gler/50" />
 
-                        {talentData?.education?.map(
+                        {/* {talentData?.education?.map(
                           (educationItem: Education, index: number) => (
                             <div key={index}>
                               <p className="text-[12px] font-normal capitalize">
@@ -158,7 +158,35 @@ const Profile = () => {
                         </p>
                         <p className="text-[12px] font-normal capitalize">
                           {talentData?.education[0].gradYear}
-                        </p>
+                        </p> */}
+                        {talentData?.education?.length > 0 &&
+                          talentData.education.map(
+                            (educationItem: Education, index: number) => (
+                              <div key={index}>
+                                <p className="text-[12px] font-normal capitalize">
+                                  {educationItem?.degree}
+                                </p>
+                              </div>
+                            )
+                          )}
+
+                        {talentData?.education?.length > 0 && (
+                          <>
+                            <p className="text-[12px] font-normal capitalize">
+                              {talentData.education[0].institution}
+                            </p>
+                            <p className="text-[12px] font-normal capitalize">
+                              {talentData.education[0].degree}
+                            </p>
+                            <p className="text-[12px] font-normal capitalize">
+                              {talentData.education[0].grade}
+                            </p>
+                            <p className="text-[12px] font-normal capitalize">
+                              {talentData.education[0].gradYear}
+                            </p>
+                          </>
+                        )}
+
                         {talentData?.certifications?.map(
                           (certificationItem: Certification, index: number) => (
                             <div key={index}>

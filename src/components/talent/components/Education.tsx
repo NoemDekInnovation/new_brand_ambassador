@@ -108,16 +108,31 @@ export default function Education({
   };
 
 
-   const handleCertInputChange = (
-     e: React.ChangeEvent<HTMLInputElement>,
-     index: number
-   ) => {
-     const { name, value } = e.target;
+  //  const handleCertInputChange = (
+  //    e: React.ChangeEvent<HTMLInputElement>,
+  //    index: number
+  //  ) => {
+  //    const { name, value } = e.target;
 
-     const updatedCertificate = [...certificate];
-     updatedCertificate[index][name] = value;
-     setCertificate(updatedCertificate);
-   };
+  //    const updatedCertificate = [...certificate];
+  //    updatedCertificate[index][name] = value;
+  //    setCertificate(updatedCertificate);
+  //  };
+
+  const handleCertInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const { name, value } = e.target;
+
+    // Create a deep copy of the certificate at the specified index
+    const updatedCertificate = certificate.map((cert, i) =>
+      i === index ? { ...cert, [name]: value } : cert
+    );
+
+    setCertificate(updatedCertificate);
+  };
+
 
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 overflow-hidden  h-[87.3vh] pt-10">

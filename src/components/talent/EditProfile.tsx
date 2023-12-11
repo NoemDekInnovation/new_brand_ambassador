@@ -126,7 +126,6 @@ export default function EditProfile() {
       certificateName: "",
       organisation: "",
       certYear: "",
-      // _id: '',
     },
   ]);
 
@@ -191,13 +190,13 @@ export default function EditProfile() {
       setExperiences([...talentData.experience]);
     }
     if (talentData.education && Array.isArray(talentData.education)) {
-      setEducation((prevEducation) => [...talentData.education]);
+      setEducation( [...talentData.education]);
     }
-    if (talentData.certificates && Array.isArray(talentData.certificates)) {
-      setCertificate((prevCertificates) => [...talentData.certificates]);
+    if (talentData.certifications && Array.isArray(talentData.certifications)) {
+      setCertificate( [...talentData.certifications]);
     }
     if (talentData.skills && Array.isArray(talentData.skills)) {
-      setSkillData((prevSkills) => [...talentData.skills]);
+      setSkillData( [...talentData.skills]);
     }
   }, [talentData]);
 
@@ -312,7 +311,7 @@ export default function EditProfile() {
               Authorization: `Bearer ${user.authKey || ""}`,
             },
           }
-        );
+        ); 
         // console.log("RESPONSE:", response);
         setSuccessModal(true);
         setTimeout(() => {
