@@ -1,10 +1,14 @@
 import React, { useState } from "react";
-import ProjectPreview from "./projectPreview";
-import InviteTalent from "./InviteTalent";
-import Application from "./Application";
-import Contract from "./Contract";
+// import ProjectPreview from "./projectPreview";
+// import InviteTalent from "./InviteTalent";
+// import Application from "./Application";
+// import Contract from "./Contract";
+import ProfileTab from "./profileTab";
+import ApplicationTab from "./applicationTab";
+import MessageTab from "./messageTab";
+import ContractTab from "./contractTab";
 
-export const ProjectViewCard = ({
+export const ProfileView = ({
   popUp,
   setPopUp,
   selectedProject,
@@ -18,35 +22,34 @@ export const ProjectViewCard = ({
   return (
     <div>
       {selectedComponent === 1 && (
-        <ProjectPreview
+        <ProfileTab
           popUp={popUp}
           setPopUp={() => setPopUp(!popUp)}
           select={setSelectedComponent}
-          selectedProject={selectedProject}
+          //   selectedProject={selectedProject}
         />
       )}
       {selectedComponent === 2 && (
-        <InviteTalent
+        <ApplicationTab
           popUp={popUp}
           setPopUp={() => setPopUp(!popUp)}
           select={setSelectedComponent}
-          selectedProject={selectedProject}
+          //   selectedProject={selectedProject}
         />
       )}
       {selectedComponent === 3 && (
-        <Application
+        <MessageTab
           popUp={popUp}
           setPopUp={() => setPopUp(!popUp)}
           select={setSelectedComponent}
-          selectedProject={selectedProject}
+          //   selectedProject={selectedProject}
         />
       )}
       {selectedComponent === 4 && (
-        <Contract
+        <ContractTab
           popUp={popUp}
           setPopUp={() => setPopUp(!popUp)}
           select={setSelectedComponent}
-          selectedProject={selectedProject}
         />
       )}
     </div>
