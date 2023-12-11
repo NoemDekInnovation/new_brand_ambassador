@@ -44,10 +44,9 @@ const Profile = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const { talentData } = useSelector((state: RootState) => state.talent);
 
-  console.log("talent",talentData);
+  console.log("talent", talentData);
 
-      const dispatch = useDispatch<AppDispatch>(); 
-
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     // const updateTalent = async () => {
@@ -63,22 +62,20 @@ const Profile = () => {
     //   }
     // };
     // updateTalent();
-    dispatch(fetchUserTalentsData())
-
+    dispatch(fetchUserTalentsData());
   }, []);
   // console.log(talentData)
 
   let formattedDOB = "-";
 
-if (talentData.DOB !== undefined) {
-   formattedDOB = new Date(talentData?.DOB).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
+  if (talentData.DOB !== undefined) {
+    formattedDOB = new Date(talentData?.DOB).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
 
-   
   return (
     <MainLayout>
       <div className="flex overflow-hidden bg-bm_card_grey">
@@ -141,7 +138,7 @@ if (talentData.DOB !== undefined) {
                         </div>
                         <Separator className="bg-bm__gler/50" />
 
-                        {/* {talentData?.education?.map(
+                        {talentData?.education?.map(
                           (educationItem: Education, index: number) => (
                             <div key={index}>
                               <p className="text-[12px] font-normal capitalize">
@@ -149,17 +146,19 @@ if (talentData.DOB !== undefined) {
                               </p>
                             </div>
                           )
-                        )} */}
-                        {/* <p className="text-[12px] font-normal capitalize">
+                        )}
+                        <p className="text-[12px] font-normal capitalize">
                           {talentData?.education[0].institution}
                         </p>
                         <p className="text-[12px] font-normal capitalize">
                           {talentData?.education[0].degree}
                         </p>
-                        {/* <p className="text-[12px] font-normal capitalize">
+                        <p className="text-[12px] font-normal capitalize">
                           {talentData?.education[0].grade}
-                        </p> */}
-                        {/* <p className="text-[12px] font-normal capitalize">{talentData?.education[0].gradYear}</p> */}
+                        </p>
+                        <p className="text-[12px] font-normal capitalize">
+                          {talentData?.education[0].gradYear}
+                        </p>
                         {talentData?.certifications?.map(
                           (certificationItem: Certification, index: number) => (
                             <div key={index}>
@@ -383,9 +382,7 @@ if (talentData.DOB !== undefined) {
                             <p className="w-[120px] text-[12px] font-medium">
                               State of Origin:
                             </p>
-                            <p className="capitalize">
-                              {talentData?.origin}
-                            </p>
+                            <p className="capitalize">{talentData?.origin}</p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-medium">
@@ -475,7 +472,7 @@ if (talentData.DOB !== undefined) {
                             <p>Class of 2019</p>
                           </div>
                         </div> */}
-                        {/* {talentData?.education?.map(
+                        {talentData?.education?.map(
                           (educationItem: Education, index: number) => (
                             <div
                               key={index}
@@ -509,7 +506,7 @@ if (talentData.DOB !== undefined) {
                               </div>
                             </div>
                           )
-                        )} */}
+                        )}
 
                         <Separator className="bg-bm__gler/50" />
                         {/* <div className="text-[12px] font-normal gap-2 flex flex-col">
