@@ -133,9 +133,9 @@ export interface PersonalProps {
   nationality: string;
   height: string;
   skinColor: string;
-  languages: string;
+  languages: string[];
   dressSize: string;
-  [key: string]: string;
+  [key: string]: string | string[]; 
 }
 
 export interface AddressProps {
@@ -289,4 +289,19 @@ export type editAdmin = {
   lastName: string;
   phone: string;
   profilePic: string;
+};
+
+export type editProfile = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  gender: string;
+  langauages: [];
+  profilePic: string;
+  skills: [];
+  opportunities: string;
+  address: [];
+  education: [];
+  certifications: [];
+  experience: []
 };
