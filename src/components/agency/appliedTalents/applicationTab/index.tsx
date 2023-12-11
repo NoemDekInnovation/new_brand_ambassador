@@ -26,6 +26,7 @@ export const ProfileView = ({
           popUp={popUp}
           setPopUp={() => setPopUp(!popUp)}
           select={setSelectedComponent}
+          setSelectedComponent={setSelectedComponent}
           //   selectedProject={selectedProject}
         />
       )}
@@ -34,6 +35,7 @@ export const ProfileView = ({
           popUp={popUp}
           setPopUp={() => setPopUp(!popUp)}
           select={setSelectedComponent}
+          setSelectedComponent={setSelectedComponent}
           //   selectedProject={selectedProject}
         />
       )}
@@ -42,6 +44,7 @@ export const ProfileView = ({
           popUp={popUp}
           setPopUp={() => setPopUp(!popUp)}
           select={setSelectedComponent}
+          setSelectedComponent={setSelectedComponent}
           //   selectedProject={selectedProject}
         />
       )}
@@ -50,6 +53,7 @@ export const ProfileView = ({
           popUp={popUp}
           setPopUp={() => setPopUp(!popUp)}
           select={setSelectedComponent}
+          setSelectedComponent={setSelectedComponent}
         />
       )}
     </div>
