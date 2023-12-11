@@ -28,7 +28,7 @@ import { DialogFooter, DialogHeader } from "../../../ui/dialog";
 import { Button } from "../../../ui/button";
 import { authAxiosInstance } from "../../../api/axios";
 import { TalentProps } from "../../../redux/types";
-import TalentCard from "../TalentCard";
+// import TalentCard from "../TalentCard";
 
 import beauty from "../../../assets/beauty.jpg";
 import profile from "../../../assets/Profile 2 1.png";
@@ -52,6 +52,8 @@ import group from "../../../assets/Group.png";
 
 import { IoIosHeartEmpty } from "react-icons/io";
 import { TalentsProps } from "../../../redux/talent.slice";
+import { ProjectViewCard } from "../../projectPreview";
+import ViewApplication from "./viewApplications";
 
 export const TalentList = ({
   talent,
@@ -82,6 +84,30 @@ export const TalentList = ({
 }) => {
   // console.log(talent, "tap");
 
+  function truncateText(text: any, maxLength: any) {
+    if (!text || text.length <= maxLength) {
+      return text;
+    }
+
+    const truncatedText =
+      text
+        .split(" ")
+        .slice(0, maxLength - 1)
+        .join(" ") + "...";
+
+    return truncatedText;
+  }
+
+  // const [selectedTalent, setSelectedTalent] = useState();
+
+  const [popUp, setPopUp] = useState(false);
+  const handleApplyPopUp = (talent: any) => {
+    // setSelectedTalent(talent);
+    console.log("popUp", popUp);
+    setPopUp(!popUp);
+    // setSelectedRole(talent);
+  };
+
   return (
     <div key={index} className="bg-white border rounded flex">
       <div onClick={() => handleProfilePopUp(talent)}>
@@ -111,42 +137,51 @@ export const TalentList = ({
         )}
       </div>
       <div className="p-2 w-full">
-        <div className="flex w-full justify-between">
+        <div className="flex w-full justify-between mb-3">
           <div className="flex items-center gap-3">
             {" "}
             <p className="text-[15px] font-medium">{talent?.fullName}</p>
             <AiOutlineHeart />
           </div>
-          {talent?.metaData?.isActive && (
-            <div className="text-[#00AB26] text-[10px] font-normal">
-              Available
+          <div className="flex items-center">
+            {talent?.metaData?.isActive && (
+              <div className="text-[#00AB26] text-[10px] font-normal">
+                Available
+              </div>
+            )}
+            {!talent?.metaData?.isActive && (
+              <div className="text-[#FF0000] text-[10px] font-normal">
+                Unavailable
+              </div>
+            )}
+            <div className="flex items-center">
+              <div className="text-[15px] p-0 px-2">|</div>
+              <p className="text-[10px] font-normal">Applied</p>
             </div>
-          )}
-          {!talent?.metaData?.isActive && (
-            <div className="text-[#FF0000] text-[10px] font-normal">
-              Unavailable
-            </div>
-          )}
+          </div>
         </div>
         <div className="mb-3">
           {" "}
-          <p className="text-[10px] font-normal"> {talent?.summary || "-"}</p>
-          <div className="flex flex-row text-[8px] font-normal">
+          <p className="text-[12px] font-normal mb-3">
+            {" "}
+            {truncateText(talent?.summary || "-", 20)}
+          </p>
+          <div className="flex flex-row text-[10px] font-normal">
             <p className="border-r border-r-bm__faint__text pr-1 mr-1">
-              {talent?.age}
+              {talent?.age || "-"}
             </p>
             <p className="border-r border-r-bm__faint__text pr-1 mr-1">
-              {talent?.height}
+              {talent?.height || "-"}
             </p>
-            <p>{talent?.address[0]?.city}</p>,
+            <p>{talent?.address[0]?.city}</p>
             <p className="border-r border-r-bm__faint__text pr-1 mr-1">
-              {talent?.address[0]?.state}
+              {talent?.address[0]?.state || "-"}
             </p>
             {talent?.experience[0] && (
-              <p>{talent?.experience[0]?.agencyName},</p>
+              <p>{talent?.experience[0]?.agencyName || "-"}</p>
             )}
             {talent?.experience[1] && (
-              <p>{talent?.experience[1]?.agencyName},</p>
+              <p>{talent?.experience[1]?.agencyName || "-"}</p>
             )}
           </div>
         </div>
@@ -165,17 +200,42 @@ export const TalentList = ({
               Ratings
             </div>
           </div>{" "}
-          <div className="flex gap-4">
-            <button className="light__btn text-[10px]">Share</button>
-            <button className="dark__btn text-[10px]">Invite</button>
-          </div>
+        </div>
+        <div className="flex gap-4 justify-end">
+          <button
+            className="light__btn text-[14px] py-0"
+            style={{ width: "100px" }}
+          >
+            <div className="flex items-center gap-2">
+              <RiStackshareLine
+                style={{
+                  fontSize: "1em",
+                  flex: "none",
+                }}
+              />
+              <span>Share</span>
+            </div>
+          </button>
+          <button
+            className="dark__btn text-[14px] py-0"
+            style={{ whiteSpace: "nowrap", width: "150px" }}
+            onClick={() => handleApplyPopUp(talent)}
+          >
+            View Application
+          </button>
         </div>
       </div>
+      <ViewApplication
+        popUp={popUp}
+        setPopUp={() => setPopUp(!popUp)}
+        select={talent}
+        // selectedProject={selectedProject}
+      />
     </div>
   );
 };
 
-export const TalentGrid = ({
+export const AppliedTalentGrid = ({
   _,
   idx,
   handleInvite,
@@ -257,70 +317,6 @@ export const TalentGrid = ({
     setModal(!modal);
   };
 
-  // return (
-  //   <Dialog open={toggleDialog} onOpenChange={setToggleDialog}>
-  //     <DialogContent className="bg-white p-0 flex flex-col items-center">
-  //       <div className="flex items-center space-x-3 mt-2 mb-4">
-  //         <div className="flex items-center space-x-3">
-  //           <p className="text-[18px] font-medium">Gloria Michael</p>
-  //           <span className="bg-[#00AB26] h-2 w-2 rounded-full"></span>
-  //           <div className="border-l border-[#D7D8DA] h-8"></div>
-  //           <p className="text-[12px] font-medium text-[#252525]">
-  //             Ikeja, Lagos
-  //           </p>
-  //           <div className="flex items-center space-x-1">
-  //             <IoStarHalf />
-  //             <div className="border-l border-[#D7D8DA] h-8"></div>
-  //           </div>
-  //         </div>
-
-  //         <div className="flex items-center space-x-4">
-  //           <div className="flex items-center">
-  //             <IoIosHeartEmpty />
-  //           </div>
-
-  //           <div className="flex items-center space-x-4">
-  //             <div className="hover:bg-black/10 flex items-center">
-  //               <IoShareSocial />
-  //               <span className="ml-2">Share</span>
-  //             </div>
-  //             <div className="hover:bg-black/10">Invite</div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //       <div className="relative">
-  //         <img
-  //           src={modalImage[currentImageIndex]}
-  //           alt={`girl-${currentImageIndex + 1}`}
-  //           width={400}
-  //           height={533}
-  //           className=" h-full w-full"
-  //           onClick={() => handleImageClick(currentImageIndex)}
-  //         />
-  //         <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-row items-center justify-between px-4 mt-2">
-  //           <button onClick={handlePrevImage} style={{ color: "white" }}>
-  //             &lt;
-  //           </button>
-  //           <button onClick={handleNextImage} style={{ color: "white" }}>
-  //             &gt;
-  //           </button>
-  //         </div>
-  //       </div>
-
-  //       <div className="flex flex-row items-center flex-wrap p-0 m-0">
-  //         {dialogSlide.slice(0, 7).map((image, index) => (
-  //           <img
-  //             key={index}
-  //             src={image}
-  //             alt={`girl-${index + 1}`}
-  //             className="h-[80px]"
-  //           />
-  //         ))}
-  //       </div>
-  //     </DialogContent>
-  //   </Dialog>
-  // );
-
   return (
     <>
       <Card className="bg-white h-[262px] w-[196px]">
@@ -339,7 +335,7 @@ export const TalentGrid = ({
               <DropdownMenuTrigger>
                 <AiOutlineMore />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white p-3 space-y-2 shadow-sm rounded-sm border">
+              <DropdownMenuContent className="bg-white p-3 space-y-2 shadow-sm rounded-sm border cursor-pointer">
                 <DropdownMenuItem
                   className="hover:bg-black/10 flex items-center"
                   onClick={() => handleModalPop()}

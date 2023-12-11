@@ -308,7 +308,7 @@ export default function NewProject({
   const [isLoading, setIsLoading] = useState(false);
 
   const [currentStep, setCurrentStep] = useState("getStarted");
-  console.log(currentStep);
+  // console.log(currentStep);
 
   const [aboutProject, setAboutProject] = useState({
     projectTitle: "",
@@ -331,7 +331,7 @@ export default function NewProject({
       salary: "",
     },
   ]);
-  console.log(requiredTalents);
+  // console.log(requiredTalents);
 
   const [workDays, setWorkDays] = useState<DayOfWeek[]>([]);
   const [proposal, setProposal] = useState("");
@@ -355,11 +355,11 @@ export default function NewProject({
     startDate: "",
     endDate: "",
   });
-  console.log(projectPost);
+  // console.log(projectPost);
 
   const handleStepChange = (step: string) => {
     setCurrentStep(step);
-    console.log(step);
+    // console.log(step);
   };
 
   const {
@@ -394,7 +394,7 @@ const submitHandler = async (isDraft: boolean) => {
     };
 
     const formData = new FormData();
-        console.log("FORMDATA", formData);
+        // console.log("FORMDATA", formData);
     appendDataToFormData(payload, formData);
     formData.append("document", document);
 
@@ -410,7 +410,7 @@ const submitHandler = async (isDraft: boolean) => {
           }
         );
 
-        console.log("response", response);
+        // console.log("response", response);
 
         setSuccessModal(true);
         setTimeout(() => {

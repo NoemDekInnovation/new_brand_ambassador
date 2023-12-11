@@ -401,7 +401,7 @@ const TalentDetailsInfo = ({
                   </DropdownMenuContent>
                 </DropdownMenu>
                 <div className="flex gap-2 md:gap-4 items-center">
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1 cursor-pointer">
                     View:{"  "}{" "}
                     {gridView && <TbLayoutGrid onClick={handleViewToggle} />}
                     {!gridView && (

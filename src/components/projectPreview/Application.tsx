@@ -10,19 +10,33 @@ import {
   MdPostAdd,
 } from "react-icons/md";
 import { BsFillCollectionFill } from "react-icons/bs";
-import darkUnion from "../../assets/Union.png";
+// import darkUnion from "../../assets/Union.png";
 import subtract from "../../assets/Subtract.png";
 import subtract2 from "../../assets/Subtract2.png";
+import subtract3 from "../../assets/Subtract3.png";
+import darkUnion from "../../assets/Union1.png";
+import { TalentProps } from "../../redux/types";
+import ApplyDetailsInfo from "./ApplyDetailsInfo";
 
 const Application = ({
   popUp,
   setPopUp,
   select,
+  selectedProject,
 }: {
   select: any;
   popUp: boolean;
   setPopUp: any;
+  selectedProject: any;
 }) => {
+  const [selectedRole, setSelectedRole] = useState<TalentProps>();
+
+  const handleProfilePopUp = (talent: any) => {
+    // console.log(talent);
+    setPopUp(!popUp);
+    setSelectedRole(talent);
+  };
+
   return (
     <div
       className={`fixed z-[1000] bg-black/50  w-[100%] items-center justify-end flex flex-col transition-all duration-1000 inset-0 ${
@@ -39,15 +53,19 @@ const Application = ({
           />
         </span>
         <div className="flex flex-row items-center p-4">
-          <div className="text-[14px] font-medium capitalize">Project Name</div>
-          <div className="text-[15px] p-0 px-2">|</div>
-
-          <div className="text-[12px] font-medium capitalize">
-            Project category
+          <div className="text-[14px] font-medium capitalize">
+            {selectedProject.projectTitle}
           </div>
           <div className="text-[15px] p-0 px-2">|</div>
 
-          <div className="text-[12px] font-medium capitalize">Project Code</div>
+          <div className="text-[12px] font-medium capitalize">
+            {selectedProject.projectCategory}
+          </div>
+          <div className="text-[15px] p-0 px-2">|</div>
+
+          <div className="text-[12px] font-medium capitalize">
+            {selectedProject.projectCode}
+          </div>
           <div className="text-[15px] p-0 px-2">|</div>
 
           <div className="text-[12px] font-medium capitalize text-green-500">
@@ -98,7 +116,7 @@ const Application = ({
               className="relative text-white flex items-center justify-center "
               onClick={() => select(1)}
             >
-              <p className="absolute top-[25%]  z-20 text-[16px]">
+              <p className="absolute top-[25%]  z-20 text-[16px] text-black">
                 Project Overview
               </p>
               <img src={darkUnion} alt="" className=" z-5 w-[300px] h-[45px]" />
@@ -109,6 +127,7 @@ const Application = ({
             >
               <p className="absolute top-[25%] text-[16px] z-20">
                 Invite Talent
+                <span className="text-[14px] font-bold">(30)</span>
               </p>
               <img src={subtract} alt="" className=" z-10 w-[300px] h-[45px]" />
             </div>
@@ -116,17 +135,24 @@ const Application = ({
               className=" relative text-black flex items-center justify-center"
               onClick={() => select(3)}
             >
-              <p className="absolute top-[25%] text-[16px] z-20">
+              <p className="absolute top-[25%] text-[16px] z-20 text-white">
                 {" "}
-                Applications
+                Applications<span className="text-[14px] font-bold">(300)</span>
               </p>
-              <img src={subtract} alt="" className=" z-10 w-[300px] h-[45px]" />
+              <img
+                src={subtract3}
+                alt=""
+                className=" z-10 w-[300px] h-[45px]"
+              />
             </div>
             <div
               className=" relative text-black flex items-center justify-center"
               onClick={() => select(4)}
             >
-              <p className="absolute top-[25%] z-20 text-[16px]"> Contracts</p>
+              <p className="absolute top-[25%] z-20 text-[16px]">
+                {" "}
+                Hire<span className="text-[14px] font-bold">(0)</span>
+              </p>
               <img
                 src={subtract2}
                 alt=""
@@ -135,8 +161,9 @@ const Application = ({
             </div>
           </div>
         </div>
-        <Card className=" border-0 flex absolute flex-col p-4 md:p-8 bg-white overflow-y-scroll h-[75vh]  w-[1000px] right-0 top-0 mt-[150px] pl-[50px]">
-          <div>Application</div>
+        <Card className="flex border-0 absolute flex-col p-2 bg-white overflow-y-scroll h-[75vh]  w-[1000px] right-0 top-0 mt-[130px]">
+          {/* <div>Application</div> */}
+          <ApplyDetailsInfo handleProfilePopUp={handleProfilePopUp} />
         </Card>
       </Card>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Card, CardContent } from "../../../../ui/card";
 // import { Separator } from '../../../ui/separator';
 // import { Textarea } from '../../../ui/textarea';
@@ -16,19 +16,33 @@ import { multerAxiosInstance, patchAxiosInstance } from "../../../../api/axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import Loading from "../../../Loading";
+import PhoneInput from "react-phone-number-input";
+
+type E164Number = string;
+
 
 export default function KeyCompany({
   next,
   cancel,
   keyCompany,
   setKeyCompany,
+  create,
 }: {
   next: () => void;
   cancel: () => void;
-  keyCompany: {};
-  setKeyCompany: React.Dispatch<React.SetStateAction<{}>>;
+  create: () => void;
+  keyCompany: {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+  };
+  // setKeyCompany: React.Dispatch<React.SetStateAction<{}>>;
+  setKeyCompany: any;
 }) {
   const { user } = useSelector((state: RootState) => state.user);
+  const { agencyProfile } = useSelector((state: RootState) => state.talent);
+
 
   const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -38,20 +52,41 @@ export default function KeyCompany({
     phone: "",
     profilePic: null as File | null,
   });
+  const [inputError, setInputError] = useState<string | null>(null);
+  const [phn, setPhn]: [E164Number, Dispatch<SetStateAction<E164Number>>] =
+    useState("");
+
+useEffect(() => {
+  if (agencyProfile) {
+    setEditData({
+      firstName: agencyProfile.firstName || "",
+      lastName: agencyProfile.lastName || "",
+      phone: agencyProfile.phone || "",
+      profilePic: agencyProfile.profilePic || null,
+    });
+    setPhn(agencyProfile.phone || ""); // Set phone state separately if needed    
+  }
+}, [agencyProfile]);
+
+
+
+      const handlePhoneChange = (value: string) => {
+        setPhn(value);
+      };
 
   const handleEditSubmit = async () => {
     setLoading(true);
     const profileData = new FormData();
     profileData.append("firstName", editData.firstName);
     profileData.append("lastName", editData.lastName);
-    profileData.append("phone", editData.phone);
+    profileData.append("phone", phn || editData.phone);
     // profileData.append("profilePic", editData.profilePic);
     if (editData.profilePic !== null) {
       profileData.append("profilePic", editData.profilePic);
     }
 
     if (user?.accountId !== undefined) {
-      console.log("authkey", user.authKey);
+      // console.log("authkey", user.authKey);
       try {
         const response = await patchAxiosInstance.patch(
           `/edit-admin`,
@@ -72,14 +107,23 @@ export default function KeyCompany({
     }
   };
 
+  const isAlphabeticWithSpace = /^[A-Za-z ]*$/;
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("Input changed:", e.target.value);
+    // console.log("Input changed:", e.target.value);
 
     const { name, value } = e.target;
-    setEditData({
-      ...editData,
-      [name]: value,
-    });
+    const isValidInput = isAlphabeticWithSpace.test(value);
+
+    if (isValidInput || value === "") {
+      setEditData({
+        ...editData,
+        [name]: value,
+      });
+      setInputError(null); // Clear the error if input is valid
+    } else {
+      setInputError("Please enter only alphabetic characters.");
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,15 +135,26 @@ export default function KeyCompany({
         ...editData,
         [name]: selectedFiles[0],
       });
+      setInputError(null);
+    } else {
+      setInputError("Please enter only alphabet characters.");
     }
   };
 
-  const imageUrl = editData.profilePic
-    ? URL.createObjectURL(editData.profilePic)
-    : null;
-  console.log("Image URL:", imageUrl);
+  // const imageUrl = editData.profilePic
+  //   ? URL.createObjectURL(editData.profilePic)
+  //   : null;
+  let imageUrl = null;
 
+  if (editData.profilePic !== null) {
+    try {
+      imageUrl = URL.createObjectURL(editData.profilePic);
+    } catch (error) {
+      console.error("Failed to create object URL:", error);
+    }
+  }
 
+  // console.log("Image URL:", imageUrl);
 
   // if (loading) {
   //   return <Loading />
@@ -115,7 +170,7 @@ export default function KeyCompany({
         <Card className=" p-1 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
           <p className="text-[15px] font-semibold p-2">My Account</p>
           <Separator className="bg-bm__gler" />
-          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer bg-black/10">
             <div className="flex items-center gap-4 mr-2">
               <BiSolidUserDetail />
               <p className="text-[14px] font-normal ">Profile</p>
@@ -164,7 +219,6 @@ export default function KeyCompany({
                   style={{ display: "none" }}
                 />
                 <div className="mt-3 border w-[120px] h-[150px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
-                  {/* Attach or drop photos here */}
                   {imageUrl ? (
                     <img
                       src={imageUrl}
@@ -174,6 +228,7 @@ export default function KeyCompany({
                   ) : (
                     "Attach or drop photos here"
                   )}
+                  
                 </div>
               </label>
             </div>
@@ -190,6 +245,9 @@ export default function KeyCompany({
                 onChange={handleInputChange}
                 required
               />
+              {inputError && (
+                <p className="text-red-500 text-sm">{inputError}</p>
+              )}
               <label
                 htmlFor="floating_first_name"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -197,15 +255,12 @@ export default function KeyCompany({
                 First name
               </label>
             </div>
-            <div className="relative z-0 w-full mb-6 group">
+            {/* <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
                 name="middleName"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                // value={formData.projectDuration.endDate}
-                // onChange={handleInputChange}
-
                 required
               />
               <label
@@ -214,7 +269,7 @@ export default function KeyCompany({
               >
                 Middle Name
               </label>
-            </div>
+            </div> */}
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
@@ -228,6 +283,9 @@ export default function KeyCompany({
                 onChange={handleInputChange}
                 required
               />
+              {inputError && (
+                <p className="text-red-500 text-sm">{inputError}</p>
+              )}
               <label
                 htmlFor="floating_last_name"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -244,7 +302,8 @@ export default function KeyCompany({
                 placeholder=" "
                 // value={formData.projectDuration.endDate}
                 // onChange={handleInputChange}
-
+                value={agencyProfile.email}
+                disabled
                 required
               />
               <label
@@ -255,7 +314,7 @@ export default function KeyCompany({
               </label>
             </div>
             <div className="relative z-0 w-full mb-6 group">
-              <input
+              {/* <input
                 type="text"
                 name="phone"
                 id="floating_last_name"
@@ -266,6 +325,15 @@ export default function KeyCompany({
                 value={editData.phone}
                 onChange={handleInputChange}
                 required
+              /> */}
+              <PhoneInput
+                placeholder="Enter phone number"
+                value={editData.phone}
+                onChange={handlePhoneChange}
+                defaultCountry="NG"
+                international
+                countryCallingCodeEditable={false}
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer input-phone-number"
               />
               <label
                 htmlFor="floating_number"
@@ -287,7 +355,10 @@ export default function KeyCompany({
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
-                onClick={next}
+                onClick={() => {
+                  handleEditSubmit();
+                  next();
+                }}
               >
                 Save and Next
               </Button>

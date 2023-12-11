@@ -1,5 +1,5 @@
-import { TalentProps } from "./types";
-import { authAxiosInstance } from "../api/axios";
+import { TalentProps, editProfile } from "./types";
+import { authAxiosInstance, campaignAuthAxiosInstance } from "../api/axios";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import { useSession } from "next-auth/react";
 
@@ -9,6 +9,8 @@ export interface TalentsProps {
   message: string;
   talents: TalentProps[];
   agencyTalents: TalentProps[];
+  talentData: any;
+  agencyProfile: any;
 
   successfulImport: [];
   failedImport: [];
@@ -24,7 +26,8 @@ const initialState: TalentsProps = {
   message: "",
   talents: [],
   agencyTalents: [],
-
+  talentData: {},
+  agencyProfile: {},
   successfulImport: [],
   failedImport: [],
   count: 0,
@@ -37,42 +40,31 @@ const initialState: TalentsProps = {
 export const fetchTalents = createAsyncThunk(
   "categories/fetchTalents",
   async () => {
-    try {
-      const response = await authAxiosInstance(`/all-talents`);
+    const user = localStorage.getItem("userData");
 
-      console.log("checker", response.data);
-      return response.data.data;
+    // try {
+    //   const response = await authAxiosInstance(`/all-talents`)
+
+    //   console.log("checker", response.data);
+    //   return response.data.data;
+    try {
+      if (user !== null) {
+        const parsedUser = JSON.parse(user);
+
+        const response = await authAxiosInstance(`/all-talents`, {
+          headers: {
+            Authorization: `Bearer ${parsedUser.authKey}`,
+          },
+        });
+
+        console.log("checker", response?.data);
+        return response?.data?.data;
+      }
     } catch (error) {
       throw error;
     }
   }
 );
-// export const fetchEngageTalents = createAsyncThunk(
-//   'categories/fetchEngageTalents',
-//   async () => {
-//     const user = localStorage.getItem('userData');
-//     // console.log('tre');
-
-//     try {
-//       if (user !== null) {
-//         const parsedUser = JSON.parse(user);
-//         console.log('tre', user);
-
-//         const response = await authAxiosInstance(`/engaged-talents`, {
-//           headers: {
-//             Authorization: `Bearer ${parsedUser.authKey}`,
-//           },
-//         });
-//         console.log('cost', user);
-
-//         console.log('checker', response.data);
-//         return response.data.data;
-//       }
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
-// );
 
 export const fetchFavoriteTalents = createAsyncThunk(
   "categories/fetchFavoriteTalents",
@@ -89,7 +81,7 @@ export const fetchFavoriteTalents = createAsyncThunk(
           },
         });
 
-        console.log("checker", response.data);
+        // console.log("checker", response.data);
         return response.data.data;
       }
     } catch (error) {
@@ -113,7 +105,58 @@ export const fetchAgencyTalents = createAsyncThunk(
           },
         });
 
-        console.log("checker", response.data);
+        // console.log("checker", response.data);
+        return response.data.data;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+export const fetchUserTalentsData = createAsyncThunk(
+  "fetchusertalentdata",
+  async () => {
+    const user = localStorage.getItem("userData");
+
+    try {
+      if (user !== null) {
+        const parsedUser = JSON.parse(user);
+
+        const response = await campaignAuthAxiosInstance(
+          `/get-talent-profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${parsedUser.authKey}`,
+            },
+          }
+        );
+
+        // console.log("talentprofile", response.data);
+        return response.data.data;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+export const fetchAgencyProfile = createAsyncThunk(
+  "fetchagencyprofile",
+  async () => {
+    const user = localStorage.getItem("userData");
+
+    try {
+      if (user !== null) {
+        const parsedUser = JSON.parse(user);
+
+        const response = await authAxiosInstance(`/get-agency-profile`, {
+          headers: {
+            Authorization: `Bearer ${parsedUser.authKey}`,
+          },
+        });
+
+        // console.log("agency", response.data.data);
         return response.data.data;
       }
     } catch (error) {
@@ -162,13 +205,49 @@ const talents = createSlice({
         (state, action: PayloadAction<any>) => {
           state.loading = false;
           state.agencyTalents = action.payload.talents;
-          // state.prev = action.payload.prev;
-          // state.count = action.payload.count; // Store the count
-          // state.next = action.payload.next;
+          state.prev = action.payload.prev;
+          state.count = action.payload.count; // Store the count
+          state.next = action.payload.next;
         }
       )
       .addCase(
         fetchAgencyTalents.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      )
+      .addCase(fetchUserTalentsData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        fetchUserTalentsData.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.talentData = action.payload;
+        }
+      )
+      .addCase(
+        fetchUserTalentsData.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      )
+      .addCase(fetchAgencyProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        fetchAgencyProfile.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.agencyProfile = action.payload;
+        }
+      )
+      .addCase(
+        fetchAgencyProfile.rejected,
         (state, action: PayloadAction<any>) => {
           state.loading = false;
           state.error = action.payload;

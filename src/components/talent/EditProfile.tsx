@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { MainLayout } from '../Layout';
-import Overview from './components/Overview';
-import PersonalDetails from './components/PersonalDetails';
-import Address from './components/Address';
-import Education from './components/Education';
-import Experience from './components/Experience';
-import Social from './components/Social';
-import Skills from './components/Skills';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import React, { useEffect, useState } from "react";
+import { MainLayout } from "../Layout";
+import Overview from "./components/Overview";
+import PersonalDetails from "./components/PersonalDetails";
+import Address from "./components/Address";
+import Education from "./components/Education";
+import Experience from "./components/Experience";
+import Social from "./components/Social";
+import Skills from "./components/Skills";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+
 import {
   AddressProps,
   CertificateProps,
@@ -16,92 +17,194 @@ import {
   ExperienceProps,
   PersonalProps,
   SocialsProps,
-} from '../../redux/types';
-import { patchAxiosInstance } from '../../api/axios';
+} from "../../redux/types";
+import { patchAxiosInstance } from "../../api/axios";
+import { fetchUserTalentsData } from "../../redux/talent.slice";
+import { Dispatch, SetStateAction } from "react";
+import { Country, State, City } from "country-state-city";
+
+let countryData = Country.getCountryByCode("NG");
+let stateData = State.getStatesOfCountry(countryData?.isoCode);
+let citiData = City.getCitiesOfCountry("NG");
+
+const nationalityOptions = [
+  {
+    value: countryData?.name,
+    label: countryData?.name,
+  },
+];
+
+const originOptions = stateData.map((state: any) => ({
+  value: state.name,
+  label: state.name,
+}));
+
+const cityOptions = citiData?.map((city: any) => ({
+  value: city.name,
+  label: city.name,
+}));
 
 type TalentOption = {
   label: string;
   value: string;
 };
 
-export default function EditProfile({}) {
+type E164Number = string;
+
+export default function EditProfile() {
   const talentOptions: TalentOption[] = [
-    { label: 'Brand Ambassador', value: 'brand ambassador' },
-    { label: 'Supervisor', value: 'supervisor' },
-    { label: 'Usher', value: 'usher' },
+    { label: "ba", value: "ba" },
+    { label: "supervisor", value: "supervisor" },
+    { label: "usher", value: "usher" },
   ];
 
   const { user } = useSelector((state: RootState) => state.user);
+  const { talentData } = useSelector((state: RootState) => state.talent);
 
   const cancelProject = () => {};
-  const [currentStep, setCurrentStep] = useState('overView');
+  const [currentStep, setCurrentStep] = useState("overView");
 
   const [overView, setOverView] = useState({
-    summary: '',
+    summary: "",
     profilePic: null as File | null,
   });
+  console.log("overview", overView);
+
+  // console.log(overView.profilePic);
+  const [selectedNationality, setSelectedNationality] = useState(null);
+  const [selectedOrigin, setSelectedOrigin] = useState(null);
+  const [citiOrigin, setCityOrigin] = useState(null);
 
   const [personal, setPersonal] = useState<PersonalProps>({
-    firstName: '',
-    lastName: '',
-    middleName: '',
-    email: '',
-    phone: '',
-    alternatePhone: '',
-    DOB: '',
-    gender: '',
-    origin: '',
-    nationality: '',
-    height: '',
-    skinColor: '',
-    dressSize: '',
-    languages: '',
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    email: "",
+    phone: "",
+    alternatePhone: "",
+    DOB: "",
+    gender: "",
+    origin: "",
+    nationality: "",
+    height: "",
+    skinColor: "",
+    dressSize: "",
+    languages: [],
   });
+  console.log("lang", personal.languages);
 
   const [address, setAddress] = useState<AddressProps>({
-    street: '',
-    city: '',
-    LGA: '',
-    state: '',
-    zipCode: '',
+    street: "",
+    city: "",
+    LGA: "",
+    state: "",
+    zipCode: "",
   });
 
   const [experiences, setExperiences] = useState<ExperienceProps[]>([
     {
-      agencyName: '',
-      projectName: '',
-      projectCategory: '',
-      projectDuration: '',
-      salary: '',
-      year: '',
-      // _id: '',
+      agencyName: "",
+      projectName: "",
+      projectCategory: "",
+      projectDuration: "",
+      salary: "",
+      year: "",
     },
   ]);
 
   const [education, setEducation] = useState<EducationProps[]>([
     {
-      institution: '',
-      degree: '',
-      grade: '',
-      gradYear: '',
-      // _id: '',
+      institution: "",
+      degree: "",
+      grade: "",
+      gradYear: "",
     },
   ]);
 
   const [certificate, setCertificate] = useState<CertificateProps[]>([
     {
-      certificateName: '',
-      organisation: '',
-      certYear: '',
-      // _id: '',
+      certificateName: "",
+      organisation: "",
+      certYear: "",
     },
   ]);
 
+  const [opportunities, setOpportunites] = useState<string>("");
+  console.log("opp", opportunities);
+
+  const [phn, setPhn]: [E164Number, Dispatch<SetStateAction<E164Number>>] =
+    useState("");
+  const [altPhn, setAltPhn]: [
+    E164Number,
+    Dispatch<SetStateAction<E164Number>>
+  ] = useState("");
+
+  const handlePhoneChange = (value: string) => {
+    setPhn(value);
+  };
+
+  const handleAltPhoneChange = (value: string) => {
+    setAltPhn(value);
+  };
+
+  useEffect(() => {
+    setPersonal((prevPersonal) => ({
+      ...prevPersonal,
+      firstName: talentData.firstName || "",
+      lastName: talentData.lastName || "",
+      middleName: talentData.middleName || "",
+      email: talentData.email || "",
+      phone: talentData.phone || "",
+      gender: talentData.gender || "",
+      alternatePhone: talentData.alternatePhone || "",
+      DOB: talentData.DOB || "",
+      origin: talentData.origin || "",
+      nationality: talentData.nationality || "",
+      height: talentData.height || "",
+      skinColor: talentData.skinColor || "",
+      dressSize: talentData.dressSize || "",
+      languages: talentData.languages || "",
+    }));
+    setOverView((prevOverView) => ({
+      ...prevOverView,
+      summary: talentData.summary,
+      profilePic: talentData.profilePic,
+    }));
+    setAddress((prevAddress) => ({
+      ...prevAddress,
+      street: talentData.address[0]?.street,
+      city: talentData.address[0]?.city,
+      LGA: talentData.address[0]?.LGA,
+      state: talentData.address[0]?.state,
+      zipCode: talentData.address[0]?.zipCode,
+    }));
+    setSocials((prevSocial) => ({
+      ...prevSocial,
+      ...talentData.socials,
+    }));
+    setOpportunites(
+      (prevOpportunities) => (prevOpportunities = talentData.opportunities)
+    );
+
+    if (talentData.experience && Array.isArray(talentData.experience)) {
+      setExperiences([...talentData.experience]);
+    }
+    if (talentData.education && Array.isArray(talentData.education)) {
+      setEducation( [...talentData.education]);
+    }
+    if (talentData.certifications && Array.isArray(talentData.certifications)) {
+      setCertificate( [...talentData.certifications]);
+    }
+    if (talentData.skills && Array.isArray(talentData.skills)) {
+      setSkillData( [...talentData.skills]);
+    }
+  }, [talentData]);
+
   const [socials, setSocials] = useState<SocialsProps>({
-    facebook: '',
-    twitter: '',
-    instagram: '',
-    linkedin: '',
+    facebook: "",
+    twitter: "",
+    instagram: "",
+    linkedin: "",
   });
 
   const [skillData, setSkillData] = useState<string[]>([]);
@@ -118,7 +221,7 @@ export default function EditProfile({}) {
     if (skillData.length < 5) {
       setSkillData([...skillData, id]);
     } else {
-      alert('You can only select up to 5 skills.');
+      alert("You can only select up to 5 skills.");
     }
   };
 
@@ -134,30 +237,25 @@ export default function EditProfile({}) {
       lastName: personal.lastName,
       middleName: personal.middleName,
       email: personal.email,
-      phone: personal.phone,
+      phone: phn || personal.phone,
       summary: overView.summary,
-      alternatePhone: personal.alternatePhone,
+      alternatePhone: altPhn || personal.alternatePhone,
       DOB: personal.DOB,
-      gender: 'Male',
-      nationality: personal.nationality,
-      origin: personal.origin,
+      gender: personal.gender,
+      nationality: selectedNationality || personal.nationality,
+      origin: selectedOrigin || personal.origin,
       height: personal.height,
       skinColor: personal.skinColor,
       dressSize: personal.dressSize,
-      languages: [personal.languages],
-      skills: ['tech', 'football'],
-      opportunities: 'supervisor',
+      languages: personal.languages,
+      skills: skillData,
+      opportunities: opportunities,
       education: education,
       certifications: certificate,
       experience: experiences,
-      socials: {
-        facebook: socials.facebook,
-        twitter: socials.twitter,
-        instagram: socials.instagram,
-        linkedin: socials.linkedin,
-      },
+      socials: socials,
     };
-
+    // console.log(payload);
     const formData = new FormData();
 
     const handleData = (data: any, parentKey: any) => {
@@ -168,13 +266,13 @@ export default function EditProfile({}) {
         if (Array.isArray(value)) {
           value.forEach((item, index) => {
             const itemKey = `${newKey}[${index}]`;
-            if (typeof item === 'object') {
+            if (typeof item === "object") {
               handleData(item, itemKey);
             } else {
               formData.append(itemKey, item);
             }
           });
-        } else if (typeof value === 'object') {
+        } else if (typeof value === "object") {
           handleData(value, newKey);
         } else {
           formData.append(newKey, value);
@@ -185,15 +283,23 @@ export default function EditProfile({}) {
     handleData(payload, null);
 
     // Address information (as an array)
-    formData.append('address[0][street]', address.street);
-    formData.append('address[0][city]', address.city);
-    formData.append('address[0][LGA]', address.LGA);
-    formData.append('address[0][state]', address.state);
-    formData.append('address[0][zipCode]', address.zipCode);
+    formData.append("address[0][street]", address.street);
+    formData.append("address[0][city]", citiOrigin || address.city);
+    formData.append("address[0][LGA]", address.LGA);
+    formData.append("address[0][state]", selectedOrigin || address.state);
+    formData.append("address[0][zipCode]", address.zipCode);
+
+    // if (overView.profilePic !== null && typeof overView.profilePic !== "string") {
+    //   formData.append("profilePic", overView.profilePic);
+    // }
 
     if (overView.profilePic !== null) {
-      formData.append('profilePic', overView.profilePic);
+      if (typeof overView.profilePic !== "string") {
+        formData.append("profilePic", overView.profilePic);
+      }
+      formData.append("profilePic", "");
     }
+    console.log("payload", payload);
 
     if (user?.accountId !== undefined) {
       try {
@@ -202,11 +308,11 @@ export default function EditProfile({}) {
           formData,
           {
             headers: {
-              Authorization: `Bearer ${user.authKey || ''}`,
+              Authorization: `Bearer ${user.authKey || ""}`,
             },
           }
-        );
-        console.log('RESPONSE:', response);
+        ); 
+        // console.log("RESPONSE:", response);
         setSuccessModal(true);
         setTimeout(() => {
           cancelProject();
@@ -221,46 +327,62 @@ export default function EditProfile({}) {
   return (
     <>
       <div>
-        {currentStep === 'overView' && (
+        {currentStep === "overView" && (
           <MainLayout>
             <Overview
-              next={() => handleStepChange('personal')}
+              next={() => handleStepChange("personal")}
               cancel={cancelProject}
               overView={overView}
               setOverView={setOverView}
               create={() => handleSubmit()}
+              handlePhoneChange={handlePhoneChange}
+              talentOptions={talentOptions}
+              setOpportunites={setOpportunites}
+              personal={personal}
+              setPersonal={setPersonal}
+              opportunities={opportunities}
             />
           </MainLayout>
         )}
-        {currentStep === 'personal' && (
+        {currentStep === "personal" && (
           <MainLayout>
             <PersonalDetails
-              next={() => handleStepChange('address')}
-              prev={() => handleStepChange('overView')}
+              next={() => handleStepChange("address")}
+              prev={() => handleStepChange("overView")}
               cancel={cancelProject}
               setPersonal={setPersonal}
               personal={personal}
+              handlePhoneChange={handlePhoneChange}
+              handleAltPhoneChange={handleAltPhoneChange}
+              nationalityOptions={nationalityOptions}
+              setSelectedNationality={setSelectedNationality}
+              setSelectedOrigin={setSelectedOrigin}
+              originOptions={originOptions}
               create={() => handleSubmit()}
             />
           </MainLayout>
         )}
-        {currentStep === 'address' && (
+        {currentStep === "address" && (
           <MainLayout>
             <Address
-              next={() => handleStepChange('education')}
-              prev={() => handleStepChange('personal')}
+              next={() => handleStepChange("education")}
+              prev={() => handleStepChange("personal")}
               cancel={cancelProject}
               setAddress={setAddress}
               address={address}
+              originOptions={originOptions}
+              setSelectedOrigin={setSelectedOrigin}
+              cityOptions={cityOptions}
+              setCityOrigin={setCityOrigin}
               create={() => handleSubmit()}
             />
           </MainLayout>
         )}
-        {currentStep === 'education' && (
+        {currentStep === "education" && (
           <MainLayout>
             <Education
-              next={() => handleStepChange('experience')}
-              prev={() => handleStepChange('address')}
+              next={() => handleStepChange("experience")}
+              prev={() => handleStepChange("address")}
               cancel={cancelProject}
               setEducation={setEducation}
               education={education}
@@ -270,39 +392,38 @@ export default function EditProfile({}) {
             />
           </MainLayout>
         )}
-        {currentStep === 'experience' && (
+        {currentStep === "experience" && (
           <MainLayout>
             <Experience
-              next={() => handleStepChange('skills')}
-              prev={() => handleStepChange('education')}
+              next={() => handleStepChange("skills")}
+              prev={() => handleStepChange("education")}
               cancel={cancelProject}
-              // experiences={experiences}
-              // setExperiences={setExperiences}
               experiences={experiences}
               setExperiences={setExperiences}
               create={() => handleSubmit()}
             />
           </MainLayout>
         )}
-        {currentStep === 'skills' && (
+        {currentStep === "skills" && (
           <MainLayout>
             <Skills
-              next={() => handleStepChange('social')}
-              prev={() => handleStepChange('experience')}
+              next={() => handleStepChange("social")}
+              prev={() => handleStepChange("experience")}
               cancel={cancelProject}
               create={() => handleSubmit()}
               talentOptions={talentOptions}
               skillsData={skillData}
               handleSkillSelect={handleSkillSelect}
+              setOpportunites={setOpportunites}
               handleSkillDelete={handleSkillDelete}
             />
           </MainLayout>
         )}
-        {currentStep === 'social' && (
+        {currentStep === "social" && (
           <MainLayout>
             <Social
-              next={() => handleStepChange('personal')}
-              prev={() => handleStepChange('skills')}
+              next={() => handleStepChange("personal")}
+              prev={() => handleStepChange("skills")}
               cancel={cancelProject}
               socials={socials}
               setSocials={setSocials}
