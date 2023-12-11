@@ -42,17 +42,16 @@ import {
 } from "@radix-ui/react-select";
 import { Button } from "../../ui/button";
 import { authAxiosInstance, campaignAuthAxiosInstance } from "../../api/axios";
-// import Image from "next/image";
 import Logo from "../../assets/beauty.jpg";
-import AllTalents from "../agency/talents/AllTalents";
-import CurrentContacts from "../agency/talents/CurrentContacts";
-import FavoriteTalents from "../agency/talents/FavoriteTalents";
-import MyTalents from "../agency/talents/MyTalents";
-import Engaged from "../agency/talents/Engaged";
 import { Input } from "../../ui/input";
 import { SelectGroup, SelectLabel } from "../../ui/select";
 import { TalentType } from "../agency/TalentsView";
 import SelectOption from "../../libs/select";
+import AllTalents from "../agency/appliedTalents/AllTalents";
+import CurrentContacts from "../agency/appliedTalents/CurrentContacts";
+import FavoriteTalents from "../agency/appliedTalents/FavoriteTalents";
+import Engaged from "../agency/appliedTalents/Engaged";
+import MyTalents from "../agency/appliedTalents/MyTalents";
 
 const categoryOptions: any = [
   { value: "All Talents", label: "All Talent" },
@@ -63,7 +62,7 @@ const categoryOptions: any = [
   { value: "Invited", label: "Invited" },
 ];
 
-const TalentDetailsInfo = ({
+const ApplyDetailsInfo = ({
   // activeType,
   handleProfilePopUp,
 }: {
@@ -92,8 +91,6 @@ const TalentDetailsInfo = ({
   const onTalentTypeChnage = (type: TalentType) => {
     setActiveType(type);
   };
-
-  console.log("activeType", activeType);
 
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -401,7 +398,7 @@ const TalentDetailsInfo = ({
                   </DropdownMenuContent>
                 </DropdownMenu>
                 <div className="flex gap-2 md:gap-4 items-center">
-                  <span className="flex items-center gap-1 cursor-pointer">
+                  <span className="flex items-center gap-1">
                     View:{"  "}{" "}
                     {gridView && <TbLayoutGrid onClick={handleViewToggle} />}
                     {!gridView && (
@@ -438,4 +435,4 @@ const TalentDetailsInfo = ({
   );
 };
 
-export default TalentDetailsInfo;
+export default ApplyDetailsInfo;

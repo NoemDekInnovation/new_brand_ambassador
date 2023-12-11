@@ -37,42 +37,31 @@ const initialState: TalentsProps = {
 export const fetchTalents = createAsyncThunk(
   "categories/fetchTalents",
   async () => {
-    try {
-      const response = await authAxiosInstance(`/all-talents`);
+    const user = localStorage.getItem("userData");
 
-      console.log("checker", response.data);
-      return response.data.data;
+    // try {
+    //   const response = await authAxiosInstance(`/all-talents`)
+
+    //   console.log("checker", response.data);
+    //   return response.data.data;
+    try {
+      if (user !== null) {
+        const parsedUser = JSON.parse(user);
+
+        const response = await authAxiosInstance(`/all-talents`, {
+          headers: {
+            Authorization: `Bearer ${parsedUser.authKey}`,
+          },
+        });
+
+        console.log("checker", response?.data);
+        return response?.data?.data;
+      }
     } catch (error) {
       throw error;
     }
   }
 );
-// export const fetchEngageTalents = createAsyncThunk(
-//   'categories/fetchEngageTalents',
-//   async () => {
-//     const user = localStorage.getItem('userData');
-//     // console.log('tre');
-
-//     try {
-//       if (user !== null) {
-//         const parsedUser = JSON.parse(user);
-//         console.log('tre', user);
-
-//         const response = await authAxiosInstance(`/engaged-talents`, {
-//           headers: {
-//             Authorization: `Bearer ${parsedUser.authKey}`,
-//           },
-//         });
-//         console.log('cost', user);
-
-//         console.log('checker', response.data);
-//         return response.data.data;
-//       }
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
-// );
 
 export const fetchFavoriteTalents = createAsyncThunk(
   "categories/fetchFavoriteTalents",

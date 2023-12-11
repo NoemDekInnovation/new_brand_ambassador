@@ -126,6 +126,7 @@ const InviteTalent = ({
             >
               <p className="absolute text-white top-[25%] text-[16px] z-20">
                 Invite Talent
+                <span className="text-[14px] font-bold">(30)</span>
               </p>
               <img
                 src={subtract3}
@@ -139,7 +140,7 @@ const InviteTalent = ({
             >
               <p className="absolute top-[25%] text-[16px] z-20">
                 {" "}
-                Applications
+                Applications<span className="text-[14px] font-bold">(300)</span>
               </p>
               <img src={subtract} alt="" className=" z-10 w-[300px] h-[45px]" />
             </div>
@@ -147,7 +148,10 @@ const InviteTalent = ({
               className=" relative text-black flex items-center justify-center"
               onClick={() => select(4)}
             >
-              <p className="absolute top-[25%] z-20 text-[16px]"> Contracts</p>
+              <p className="absolute top-[25%] z-20 text-[16px]">
+                {" "}
+                Hire<span className="text-[14px] font-bold">(0)</span>
+              </p>
               <img
                 src={subtract2}
                 alt=""

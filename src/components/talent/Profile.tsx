@@ -44,7 +44,7 @@ const Profile = () => {
       instagram: "",
       linkedin: "",
     },
-    summary: ""
+    summary: "",
   });
 
   useEffect(() => {
@@ -190,7 +190,6 @@ const Profile = () => {
                         <p className="text-[12px] font-normal">IamNoah </p>
                         <p className="text-[12px] font-normal"> IamNoah </p>
                         <p className="text-[12px] font-normal">Noah Omolade </p>
-                        
                       </Card>
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-[240px]  border rounded-[6px]">
                         <p className="text-[15px] font-medium">Languages</p>
