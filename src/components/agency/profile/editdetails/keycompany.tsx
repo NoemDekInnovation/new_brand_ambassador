@@ -219,7 +219,6 @@ useEffect(() => {
                   style={{ display: "none" }}
                 />
                 <div className="mt-3 border w-[120px] h-[150px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
-        
                   {imageUrl ? (
                     <img
                       src={imageUrl}
@@ -229,6 +228,7 @@ useEffect(() => {
                   ) : (
                     "Attach or drop photos here"
                   )}
+                  
                 </div>
               </label>
             </div>

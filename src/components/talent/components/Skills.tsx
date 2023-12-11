@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { useEffect, useState } from "react";
-import { patchAxiosInstance } from "../../../api/axios";
+import { campaignAuthAxiosInstance, patchAxiosInstance } from "../../../api/axios";
 import { SkillsStateProps, fetchSkills } from "../../../redux/skills.slice";
 import { GrFormClose } from "react-icons/gr";
 
@@ -41,15 +41,21 @@ export default function Skills({
   handleSkillDelete: (index: number) => void;
   setOpportunites: any
 }) {
-  const { loading, skills, error, skillsFetchSucess } = useSelector(
+  const { skills, skillsFetchSucess } = useSelector(
     (state: any) => state.skills
   ) as SkillsStateProps;
   console.log(skills);
+  const { user } = useSelector((state: RootState) => state.user);
+
 
   const [inputValue, setInputValue] = useState<string>("");
   const [filteredOptions, setFilteredOptions] = useState<TalentOption[]>([]);
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [example, setExample] = useState("");
+
+
+
+
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -75,7 +81,7 @@ export default function Skills({
   };
   const dispatch = useDispatch<AppDispatch>();
 
-  
+
 
   useEffect(() => {
     dispatch(fetchSkills(example));

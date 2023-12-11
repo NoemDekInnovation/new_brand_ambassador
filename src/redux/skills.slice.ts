@@ -28,7 +28,7 @@ export const fetchSkills = createAsyncThunk(
       `/search-skills?skill=${skill}`,
       {
         headers: {
-          Authorizatiuon: `Bearer ${getUserKey?.authKey || ""}`,
+          Authorization: `Bearer ${getUserKey?.authKey || ""}`,
         },
       }
     );
