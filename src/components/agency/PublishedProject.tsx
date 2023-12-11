@@ -21,7 +21,7 @@ const PublishedProject = () => {
   const handleProfilePopUp = (talent: any) => {
     // console.log(talent);
     setPopUp(!popUp);
-    console.log("worked", popUp);
+    // console.log("worked", popUp);
     // setSelectedRole(talent);
   };
 

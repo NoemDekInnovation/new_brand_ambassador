@@ -20,11 +20,12 @@ import Select from "react-select";
 import PhoneInput from "react-phone-number-input";
 import { Dispatch, SetStateAction } from "react";
 import "react-phone-number-input/style.css";
+import SelectOption from "../../../libs/select";
 
 export default function PersonalDetails({
   next,
   prev,
-  cancel,
+  cancel, 
   setPersonal,
   personal,
   create,
@@ -57,8 +58,12 @@ export default function PersonalDetails({
     // Add more options as needed
   ];
 
+
   const [inputError, setInputError] = useState<string | null>(null);
   const [heightError, setHeightError] = useState<string | null>(null);
+
+ 
+  const isAlphabeticWithSpace = /^[A-Za-z ]*$/;
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -66,9 +71,9 @@ export default function PersonalDetails({
   ) => {
     const { name, value } = e.target;
 
-    const isAlphabetic = /^[A-Za-z]+$/.test(value);
+    const isValidInput = isAlphabeticWithSpace.test(value);
 
-    if (isAlphabetic || value === "") {
+    if (isValidInput || value === "") {
       setPersonal((prevData: PersonalProps) => ({
         ...prevData,
         [fieldName]: value,
@@ -78,6 +83,8 @@ export default function PersonalDetails({
       setInputError("Please enter only alphabet characters.");
     }
   };
+
+  console.log("date", personal.DOB)
 
   const handleHeightChange = (event: { target: { value: any; }; }) => {
     // Get the entered value
@@ -95,25 +102,77 @@ export default function PersonalDetails({
     setPersonal({ ...personal, skinColor: value });
   };
 
-  const handleLanguageChange = (event: { target: { value: any; }; }) => {
-    const { value } = event.target;
-    setPersonal({ ...personal, languages: value }); 
-  };
 
-  // List of languages in Nigeria
+//  const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+//    const selectedOptions = Array.from(
+//      event.target.selectedOptions,
+//      (option: HTMLOptionElement) => option.value
+//    );
+//    setPersonal({ ...personal, languages: selectedOptions });
+//  };
+const handleLanguageChange = (selectedOptions: any) => {
+  const selectedLanguages = selectedOptions.map((option: any) => option.value);
+  setPersonal((prevPersonal: any) => ({
+    ...prevPersonal,
+    languages: selectedLanguages,
+  }));
+};
+
+
+
+
   const nigeriaLanguages = [
-    "Hausa",
-    "Yoruba",
-    "Igbo",
-    "English",
-    // Add more options as needed
-  ];
+    { value: "Hausa", label: "Hausa" },
+    { value: "Yoruba", label: "Yoruba" },
+    { value: "Igbo", label: "Igbo" },
+    { value: "English", label: "English" },
+  ];      
+
+  const languageOptions = nigeriaLanguages.map((language) => ({
+    value: language.value,
+    label: language.label,
+  }));
+
+
+
+  const newLang = personal.languages.map((language) => ({
+    value: language,
+    label: language,
+  }));
+console.log("lang", newLang);
+
+ 
+
+
+
+    const originalDate = new Date(personal.DOB);
+
+    const year = originalDate.getFullYear();
+    const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = originalDate.getDate().toString().padStart(2, "0");
+
+    const formattedDate = personal.DOB !== undefined ? `${year}-${month}-${day}` : "";
+
+      // let formattedDOB = "-";
+
+      // if (personal.DOB !== undefined) {
+      //   formattedDOB = new Date(personal.DOB).toLocaleDateString("en-US", {
+      //     year: "numeric",
+      //     month: "long",
+      //     day: "numeric",
+      //   });
+      // }
+
+    console.log(formattedDate);
+
 
   const handleDateChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     fieldName: string
   ) => {
     const { value } = e.target;
+    
+  
 
     // Perform additional validation as needed
     const isValidDate = isValidDateRange(value);
@@ -143,6 +202,7 @@ export default function PersonalDetails({
       gender: value,
     }));
   };
+  const [selectedLanguages, setSelectedLanguages] = useState([]);     
 
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10 overflow-hidden">
@@ -313,7 +373,7 @@ export default function PersonalDetails({
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
-              <div className="relative  z-0 w-full mb-6 group">
+              {/* <div className="relative  z-0 w-full mb-6 group">
                 <PhoneInput
                   placeholder="Enter phone number"
                   value={personal.phone}
@@ -321,7 +381,7 @@ export default function PersonalDetails({
                   defaultCountry="NG"
                   international
                   countryCallingCodeEditable={false}
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer input-phone-number"
                 />
                 <label
                   htmlFor="phone"
@@ -329,7 +389,7 @@ export default function PersonalDetails({
                 >
                   Phone number
                 </label>
-              </div>
+              </div> */}
 
               <div className="relative z-0 w-full mb-6 group">
                 <PhoneInput
@@ -339,13 +399,13 @@ export default function PersonalDetails({
                   defaultCountry="NG"
                   international
                   countryCallingCodeEditable={false}
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer input-phone-number"
                 />
                 <label
                   htmlFor="phone"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Phone number
+                  Alternate Phone number
                 </label>
               </div>
             </div>
@@ -357,7 +417,7 @@ export default function PersonalDetails({
                   id="DOB"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  value={personal.DOB}
+                  value={formattedDate || ""}
                   // onChange={(e) => handleInputChange(e, "DOB")}
                   onChange={(e) => handleDateChange(e, "DOB")}
                 />
@@ -369,7 +429,7 @@ export default function PersonalDetails({
                 </label>
               </div>
 
-              <div className="relative z-0 w-full mb-6 group">
+              {/* <div className="relative z-0 w-full mb-6 group">
                 <select
                   name="gender"
                   id="gender"
@@ -391,16 +451,23 @@ export default function PersonalDetails({
                 >
                   Gender
                 </label>
-              </div>
+              </div> */}
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
-              <div className="relative z-0 w-full mb-6 group">
-                <Select
-                  defaultValue={"personal.nationality"}
+              <div className="relative w-full mb-6 group">
+                <SelectOption
+                  id="nationality"
+                  name="nationality"
+                  defaultValue={{
+                    value: personal.nationality,
+                    label: personal.nationality,
+                  }}
                   options={nationalityOptions}
                   onChange={(e: any) => setSelectedNationality(e?.value)}
                   placeholder="Select Nationality"
-                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900 bg-red-500 border-gray-300"
+                  required
+                  isDisabled={false}
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
                 />
                 <label
                   htmlFor="nationality"
@@ -410,16 +477,23 @@ export default function PersonalDetails({
                 </label>
               </div>
 
-              <div className="relative z-0 w-full mb-6 group">
-                <Select
-                  defaultValue={"personal.origin"}
+              <div className="relative w-full mb-6 group">
+                <SelectOption
+                  id="origin"
+                  name="origin"
+                  defaultValue={{
+                    value: personal.origin,
+                    label: personal.origin,
+                  }}
                   options={originOptions}
                   onChange={(e: any) => setSelectedOrigin(e?.value)}
                   placeholder="State of origin"
-                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900 bg-red-500 border-gray-300"
+                  required
+                  isDisabled={false}
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
                 />
                 <label
-                  htmlFor="nationality"
+                  htmlFor="origin"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   State of origin
@@ -497,6 +571,9 @@ export default function PersonalDetails({
                   value={personal.dressSize}
                   onChange={(e) => handleInputChange(e, "dressSize")}
                 />
+                {inputError && (
+                  <p className="text-red-500 text-sm">{inputError}</p>
+                )}
                 <label
                   htmlFor="dressSize"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -506,13 +583,16 @@ export default function PersonalDetails({
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
-                <select
+                {/* <SelectOption
+                defaultValue={[nigeriaLanguages]}
+                
                   name="languages"
                   id="languages"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   value={personal.languages}
                   onChange={handleLanguageChange}
-                  required
+                  
+                  required 
                 >
                   <option value="" disabled hidden>
                     Select Language
@@ -522,8 +602,17 @@ export default function PersonalDetails({
                       {language}
                     </option>
                   ))}
-                </select>
-
+                /> */}
+                <Select
+                  defaultValue={newLang}
+                  isMulti
+                  name="languages"
+                  options={languageOptions}
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  classNamePrefix="select"
+                  onChange={handleLanguageChange} 
+                />
+ 
                 <label
                   htmlFor="languages"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"

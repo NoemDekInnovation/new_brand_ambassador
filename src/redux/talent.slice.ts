@@ -92,7 +92,7 @@ export const fetchFavoriteTalents = createAsyncThunk(
           },
         });
 
-        console.log("checker", response.data);
+        // console.log("checker", response.data);
         return response.data.data;
       }
     } catch (error) {
@@ -116,7 +116,7 @@ export const fetchAgencyTalents = createAsyncThunk(
           },
         });
 
-        console.log("checker", response.data);
+        // console.log("checker", response.data);
         return response.data.data;
       }
     } catch (error) {
@@ -143,7 +143,7 @@ export const fetchUserTalentsData = createAsyncThunk(
           }
         );
 
-        console.log("talentprofile", response.data);
+        // console.log("talentprofile", response.data);
         return response.data.data;
       }
     } catch (error) {
@@ -167,7 +167,7 @@ export const fetchAgencyProfile = createAsyncThunk(
           },
         });
 
-        console.log("agency", response.data.data);
+        // console.log("agency", response.data.data);
         return response.data.data;
       }
     } catch (error) {

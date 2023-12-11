@@ -44,6 +44,8 @@ const Profile = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const { talentData } = useSelector((state: RootState) => state.talent);
 
+  console.log("talent",talentData);
+
       const dispatch = useDispatch<AppDispatch>(); 
 
 
@@ -66,14 +68,17 @@ const Profile = () => {
   }, []);
   // console.log(talentData)
 
+  let formattedDOB = "-";
 
-  const formattedDOB = new Date(talentData?.DOB).toLocaleDateString("en-US", {
+if (talentData.DOB !== undefined) {
+   formattedDOB = new Date(talentData?.DOB).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
+}
 
-
+   
   return (
     <MainLayout>
       <div className="flex overflow-hidden bg-bm_card_grey">
@@ -136,7 +141,7 @@ const Profile = () => {
                         </div>
                         <Separator className="bg-bm__gler/50" />
 
-                        {talentData?.education?.map(
+                        {/* {talentData?.education?.map(
                           (educationItem: Education, index: number) => (
                             <div key={index}>
                               <p className="text-[12px] font-normal capitalize">
@@ -144,7 +149,7 @@ const Profile = () => {
                               </p>
                             </div>
                           )
-                        )}
+                        )} */}
                         {/* <p className="text-[12px] font-normal capitalize">
                           {talentData?.education[0].institution}
                         </p>
@@ -376,9 +381,17 @@ const Profile = () => {
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-medium">
+                              State of Origin:
+                            </p>
+                            <p className="capitalize">
+                              {talentData?.origin}
+                            </p>
+                          </div>
+                          <div className="flex items-center">
+                            <p className="w-[120px] text-[12px] font-medium">
                               Height:
                             </p>
-                            <p className="capitalize">{talentData?.height}</p>
+                            <p className="">{talentData?.height}cm</p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-medium">
@@ -462,7 +475,7 @@ const Profile = () => {
                             <p>Class of 2019</p>
                           </div>
                         </div> */}
-                        {talentData?.education?.map(
+                        {/* {talentData?.education?.map(
                           (educationItem: Education, index: number) => (
                             <div
                               key={index}
@@ -483,9 +496,7 @@ const Profile = () => {
                                 <p className="capitalize">
                                   {educationItem?.institution}
                                 </p>
-                                {/* <p className="capitalize">
-                                {educationItem.gradYear}
-                              </p> */}
+
                                 <p className="capitalize">
                                   {new Date(
                                     educationItem?.gradYear
@@ -498,7 +509,7 @@ const Profile = () => {
                               </div>
                             </div>
                           )
-                        )}
+                        )} */}
 
                         <Separator className="bg-bm__gler/50" />
                         {/* <div className="text-[12px] font-normal gap-2 flex flex-col">

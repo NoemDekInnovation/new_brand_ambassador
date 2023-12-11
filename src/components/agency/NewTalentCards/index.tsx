@@ -63,7 +63,7 @@ export default function NewTalentCards({
     height: "",
     skinColor: "",
     dressSize: "",
-    languages: "",
+    languages: [],
   });
 
   const [address, setAddress] = useState<AddressProps>({
@@ -214,7 +214,7 @@ export default function NewTalentCards({
             },
           }
         );
-        console.log(response);
+        // console.log(response);
         setSuccessModal(true);
         setTimeout(() => {
           cancelProject();

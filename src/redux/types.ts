@@ -133,9 +133,9 @@ export interface PersonalProps {
   nationality: string;
   height: string;
   skinColor: string;
-  languages: string;
+  languages: string[];
   dressSize: string;
-  [key: string]: string;
+  [key: string]: string | string[]; 
 }
 
 export interface AddressProps {

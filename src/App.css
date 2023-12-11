@@ -118,3 +118,9 @@ body {
   ); /* Adjust the color and opacity as needed */
   transform: scale(1.05); /* Adjust the scale factor as needed */
 }
+
+.input-phone-number input:focus{
+    outline: none !important;
+    border:none !important;
+    box-shadow: none !important;
+}

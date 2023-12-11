@@ -217,7 +217,7 @@ export default function Education({
             <Separator className=" my-7 bg-[#D7D8DA]" />
             {education.map((e, index) => (
               <>
-                <div className="mt-2" key={index}>
+                <div className="mt-2" key={e.id}>
                   <p>Education {index + 1}</p>
                   <div className="grid md:grid-cols-2 md:gap-6 mt-4">
                     <div className="relative  z-0 w-full mb-6 group">

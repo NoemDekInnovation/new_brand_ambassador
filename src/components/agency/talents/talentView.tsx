@@ -80,7 +80,7 @@ export const TalentList = ({
   setSuccessModal: any;
   successModal: boolean;
 }) => {
-  console.log(talent, "tap");
+  // console.log(talent, "tap");
 
   return (
     <div key={index} className="bg-white border rounded flex">

@@ -70,7 +70,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
 }) => {
   let pageTalents;
 
-  console.log("activeType", activeType);
+  // console.log("activeType", activeType);
 
   const [gridView, setGridView] = useState(true);
   const [isLoading, setIsLoading] = useState(false);

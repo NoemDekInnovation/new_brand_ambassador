@@ -26,7 +26,7 @@ export default function AboutProject({
 }) {
   // const formValues = formInput.getValues()
   // console.log(formValues.projectTitle);
-
+console.log(aboutProject.startDate)
   useEffect(() => {
     const savedAboutProject =
       typeof window !== undefined && localStorage.getItem("aboutProject");

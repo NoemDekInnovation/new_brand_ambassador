@@ -80,7 +80,7 @@ const AgencyProfile = () => {
               <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
                 <p className="text-[15px] font-semibold p-2">My Account</p>
                 <Separator className="bg-bm__gler" />
-                <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+                <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer bg-black/10">
                   <div className="flex items-center gap-4 mr-2">
                     <BiSolidUserDetail />
                     <p className="text-[14px] font-normal ">Profile</p>
@@ -159,12 +159,12 @@ const AgencyProfile = () => {
                               {agencyProfile.lastName}
                             </p>
                           </div>
-                          <div className="flex items-center">
+                          {/* <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               Middle Name:
                             </p>
                             <p className=""></p>
-                          </div>
+                          </div> */}
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               Email Address:
@@ -233,12 +233,25 @@ const AgencyProfile = () => {
                             <p className="w-[120px] text-[12px] font-semibold">
                               Office Address 1:
                             </p>
-                            <p className="">
-                              {agencyProfile.address[0].street}, <br />
-                              {agencyProfile.address[0].city}, <br />
-                              {agencyProfile.address[0].LGA}, <br />
-                              {agencyProfile.address[0].state} <br />
-                              {agencyProfile.address[0].zipCode}
+                            {/* <p className="">
+                              {agencyProfile?.address[0]?.street}, <br />
+                              {agencyProfile?.address[0]?.city}, <br />
+                              {agencyProfile?.address[0]?.LGA}, <br />
+                              {agencyProfile?.address[0]?.state} <br />
+                              {agencyProfile?.address[0]?.zipCode}
+                            </p> */}
+                            <p className=" capitalize">
+                              {agencyProfile &&
+                                agencyProfile.address &&
+                                agencyProfile.address[0] && (
+                                  <>
+                                    {agencyProfile.address[0].street}, <br />
+                                    {agencyProfile.address[0].city}, <br />
+                                    {agencyProfile.address[0].LGA}, <br />
+                                    {agencyProfile.address[0].state} <br />
+                                    {agencyProfile.address[0].zipCode}
+                                  </>
+                                )}
                             </p>
                           </div>
                         </div>

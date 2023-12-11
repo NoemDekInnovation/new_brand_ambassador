@@ -144,7 +144,7 @@ export default function RequiredTalents({
     if (savedRequiredTalent) {
       setRequiredTalents(JSON.parse(savedRequiredTalent));
     }
-    console.log(savedRequiredTalent);
+    // console.log(savedRequiredTalent);
   }, []);
 
   const [repeat, setFormRepeat] = useState([
@@ -154,7 +154,7 @@ export default function RequiredTalents({
   const handleSkillSelect = (id: any, index: number) => {
     setSkillData([...skillData, id]);
     setSkillStore(false);
-    console.log(id);
+    // console.log(id);
     if (id !== null) {
       const updatedExperiences = [...requiredTalents];
       updatedExperiences[index].skills.push(id);

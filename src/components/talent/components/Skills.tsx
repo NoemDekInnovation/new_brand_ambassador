@@ -44,7 +44,7 @@ export default function Skills({
   const { loading, skills, error, skillsFetchSucess } = useSelector(
     (state: any) => state.skills
   ) as SkillsStateProps;
-  // console.log(skills);
+  console.log(skills);
 
   const [inputValue, setInputValue] = useState<string>("");
   const [filteredOptions, setFilteredOptions] = useState<TalentOption[]>([]);
@@ -74,6 +74,8 @@ export default function Skills({
     setFilteredOptions([]);
   };
   const dispatch = useDispatch<AppDispatch>();
+
+  
 
   useEffect(() => {
     dispatch(fetchSkills(example));
@@ -218,52 +220,10 @@ export default function Skills({
                 </div>
               </div>
               <Separator className="bg-bm__beige my-7 md:my-6 py-[2px]" />
-              <p>Opportunities</p>
-              <div className="grid  md:gap-6 mt-4">
-                <div className="relative  z-0 w-full mb-6 group">
-                  <input
-                    type="text"
-                    name="floating_first_name"
-                    id="floating_first_name"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    // value={formData.projectDuration.startDate}
-                    // onChange={handleInputChange}
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label
-                    htmlFor="opportunities"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Type and select the opportunities that you are open to
-                  </label>
-                  {isSearching &&
-                    inputValue &&
-                    filteredOptions.length === 0 && (
-                      <div className="absolute z-10 w-full bg-white py-2 px-4 text-sm text-gray-900">
-                        Not found
-                      </div>
-                    )}
-                  {isSearching && filteredOptions.length > 0 && (
-                    <ul className="absolute z-10 w-full bg-white shadow-md max-h-60 overflow-auto">
-                      {filteredOptions.map((option) => (
-                        <li
-                          key={option.value}
-                          onClick={() => handleOptionClick(option.label)}
-                          className="py-2 px-4 hover:bg-gray-100 cursor-pointer"
-                        >
-                          {option.label}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  {/* <small>Maximun of 5 skills</small> */}
-                </div>
-              </div>
+              {/* <p>Opportunities</p> */}
+              
             </div>
-            <Separator className="bg-bm__beige my-4 md:mb-6" />
+            {/* <Separator className="bg-bm__beige my-4 md:mb-6" /> */}
           </CardContent>
           {/* <Progress value={85} className='my-2 md:my-7' /> */}
           <div className="flex justify-between mt-2">
