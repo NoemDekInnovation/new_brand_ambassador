@@ -34,12 +34,12 @@ const nationalityOptions = [
   },
 ];
 
-const originOptions = stateData.map((state) => ({
+const originOptions = stateData.map((state: any) => ({
   value: state.name,
   label: state.name,
 }));
 
-const cityOptions = citiData?.map((city) => ({
+const cityOptions = citiData?.map((city: any) => ({
   value: city.name,
   label: city.name,
 }));
@@ -130,8 +130,6 @@ export default function EditProfile() {
     },
   ]);
 
-
-
   const [opportunities, setOpportunites] = useState<string>("");
   console.log("opp", opportunities);
 
@@ -153,20 +151,20 @@ export default function EditProfile() {
   useEffect(() => {
     setPersonal((prevPersonal) => ({
       ...prevPersonal,
-      firstName: talentData.firstName,
-      lastName: talentData.lastName,
-      middleName: talentData.middleName,
-      email: talentData.email,
-      phone: talentData.phone,
-      gender: talentData.gender,
-      alternatePhone: talentData.alternatePhone,
-      DOB: talentData.DOB,
-      origin: talentData.origin,
-      nationality: talentData.nationality,
-      height: talentData.height,
-      skinColor: talentData.skinColor,
-      dressSize: talentData.dressSize,
-      languages: talentData.languages
+      firstName: talentData.firstName || "",
+      lastName: talentData.lastName || "",
+      middleName: talentData.middleName || "",
+      email: talentData.email || "",
+      phone: talentData.phone || "",
+      gender: talentData.gender || "",
+      alternatePhone: talentData.alternatePhone || "",
+      DOB: talentData.DOB || "",
+      origin: talentData.origin || "",
+      nationality: talentData.nationality || "",
+      height: talentData.height || "",
+      skinColor: talentData.skinColor || "",
+      dressSize: talentData.dressSize || "",
+      languages: talentData.languages || "",
     }));
     setOverView((prevOverView) => ({
       ...prevOverView,
@@ -179,7 +177,7 @@ export default function EditProfile() {
       city: talentData.address[0]?.city,
       LGA: talentData.address[0]?.LGA,
       state: talentData.address[0]?.state,
-      zipCode: talentData.address[0]?.zipCode
+      zipCode: talentData.address[0]?.zipCode,
     }));
     setSocials((prevSocial) => ({
       ...prevSocial,
@@ -192,20 +190,14 @@ export default function EditProfile() {
     if (talentData.experience && Array.isArray(talentData.experience)) {
       setExperiences([...talentData.experience]);
     }
-    // if (talentData.education && Array.isArray(talentData.education)) {
-    //   setEducation((prevEducation) => [
-    //     ...prevEducation,
-    //     ...talentData.education,
-    //   ]);
-    // }
+    if (talentData.education && Array.isArray(talentData.education)) {
+      setEducation((prevEducation) => [...talentData.education]);
+    }
     if (talentData.certificates && Array.isArray(talentData.certificates)) {
-      setCertificate((prevCertificates) => [
-        ...prevCertificates,
-        ...talentData.certificates,
-      ]);
+      setCertificate((prevCertificates) => [...talentData.certificates]);
     }
     if (talentData.skills && Array.isArray(talentData.skills)) {
-      setSkillData((prevSkills) => [...prevSkills, ...talentData.skills]);
+      setSkillData((prevSkills) => [...talentData.skills]);
     }
   }, [talentData]);
 
@@ -259,7 +251,7 @@ export default function EditProfile() {
       languages: personal.languages,
       skills: skillData,
       opportunities: opportunities,
-      // education: education,
+      education: education,
       certifications: certificate,
       experience: experiences,
       socials: socials,
@@ -308,6 +300,7 @@ export default function EditProfile() {
       }
       formData.append("profilePic", "");
     }
+    console.log("payload", payload);
 
     if (user?.accountId !== undefined) {
       try {
@@ -373,7 +366,7 @@ export default function EditProfile() {
         {currentStep === "address" && (
           <MainLayout>
             <Address
-              next={() => handleStepChange("experience")}
+              next={() => handleStepChange("education")}
               prev={() => handleStepChange("personal")}
               cancel={cancelProject}
               setAddress={setAddress}
@@ -388,7 +381,7 @@ export default function EditProfile() {
         )}
         {currentStep === "education" && (
           <MainLayout>
-            {/* <Education
+            <Education
               next={() => handleStepChange("experience")}
               prev={() => handleStepChange("address")}
               cancel={cancelProject}
@@ -397,9 +390,9 @@ export default function EditProfile() {
               setCertificate={setCertificate}
               certificate={certificate}
               create={() => handleSubmit()}
-            /> */}
+            />
           </MainLayout>
-        )} 
+        )}
         {currentStep === "experience" && (
           <MainLayout>
             <Experience
