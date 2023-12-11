@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "../../../ui/card";
 import { Button } from "../../../ui/button";
 import { Separator } from "../../../ui/seperator";
@@ -13,6 +13,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { patchAxiosInstance } from "../../../api/axios";
 import { AddressProps } from "../../../redux/types";
+import { useForm, Controller } from "react-hook-form";
+import { State } from "country-state-city"; 
+import Select from "react-select";
+import SelectOption from "../../../libs/select";
+
+
 
 export default function Address({
   next,
@@ -20,6 +26,10 @@ export default function Address({
   cancel,
   setAddress,
   address,
+  originOptions,
+  setSelectedOrigin,
+  setCityOrigin,
+  cityOptions,
   create,
 }: {
   create: () => void;
@@ -28,19 +38,39 @@ export default function Address({
   cancel: () => void;
   setAddress: any;
   address: AddressProps;
+  originOptions: any;
+  setSelectedOrigin: any;
+  setCityOrigin: any;
+  cityOptions: any;
 }) {
-    const handleInputChange = (
-      e: React.ChangeEvent<HTMLInputElement>,
-      fieldName: string
-    ) => {
-      const { value } = e.target;
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors },
+    setValue,
+    trigger,
+    getValues,
+  } = useForm();
 
-      setAddress((prevData: AddressProps) => ({
-        ...prevData,
-        [fieldName]: value,
-      }));
-    };
+  let stateData = State.getAllStates();
+  const stateOptions = stateData.map((state) => ({
+    value: state.name,
+    label: state.name,
+  }));
 
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string
+  ) => {
+    const { value } = e.target;
+
+    setAddress((prevData: AddressProps) => ({
+      ...prevData,
+      [fieldName]: value,
+    }));
+  };
 
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">
@@ -144,7 +174,7 @@ export default function Address({
               </div>
 
               <div className="relative md:col-span-1 z-0 w-full mb-6 group">
-                <input
+                {/* <input
                   type="text"
                   name="city"
                   id="city"
@@ -156,6 +186,26 @@ export default function Address({
                 />
                 <label
                   htmlFor="city"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  City
+                </label> */}
+                <SelectOption
+                  id="city"
+                  name="city"
+                  defaultValue={{
+                    value: address.city,
+                    label: address.city 
+                  }}
+                  options={cityOptions}
+                  onChange={(e: any) => setCityOrigin(e?.value)}
+                  placeholder="City"
+                  required
+                  isDisabled={false}
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300"
+                />
+                <label
+                  htmlFor="state"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   City
@@ -183,15 +233,19 @@ export default function Address({
               </div>
 
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
-                <input
-                  type="text"
-                  name="state"
+                <SelectOption
                   id="state"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
-                  value={address.state}
-                  onChange={(e) => handleInputChange(e, "state")}
+                  name="state"
+                  defaultValue={{
+                    value: address.state,
+                    label: address.state
+                  }}
+                  options={originOptions}
+                  onChange={(e: any) => setSelectedOrigin(e?.value)}
+                  placeholder="State of origin"
                   required
+                  isDisabled={false}
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300"
                 />
                 <label
                   htmlFor="state"
@@ -202,7 +256,7 @@ export default function Address({
               </div>
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
                 <input
-                  type="text"
+                  type="number"
                   name="zipCode"
                   id="zipCode"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -232,7 +286,13 @@ export default function Address({
               </Button>
             </div>
             <div className="flex gap-4">
-              <Button className="dark__btn" onClick={next}>
+              <Button
+                className="dark__btn"
+                onClick={() => {
+                  create();
+                  cancel();
+                }}
+              >
                 Save
               </Button>
               <Button

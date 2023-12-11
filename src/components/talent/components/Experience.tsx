@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "../../../ui/card";
 import { Button } from "../../../ui/button";
 import { Separator } from "../../../ui/seperator";
@@ -17,6 +17,7 @@ import { patchAxiosInstance } from "../../../api/axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { ExperienceProps } from "../../../redux/types";
+import { useForm } from "react-hook-form";
 
 export default function Experience({
   next,
@@ -34,26 +35,37 @@ export default function Experience({
   setExperiences: any;
   experiences: ExperienceProps[];
 }) {
-    const handleAddExperience = () => {
-      // Add a new empty experience object when the "Add Experience" button is clicked
-      setExperiences([
-        ...experiences,
-        {
-          /* initialize with empty values */
-        },
-      ]);
-    };
-    const handleInputChange = (
-      e: React.ChangeEvent<HTMLInputElement>,
-      index: number
-    ) => {
-      const { name, value } = e.target;
 
-      const updatedExperiences = [...experiences];
-      updatedExperiences[index][name] = value;
-      setExperiences(updatedExperiences);
-    };
   
+  const { talentData } = useSelector((state: RootState) => state.talent);
+
+
+const { user } = useSelector((state: RootState) => state.user);
+
+
+
+  
+  const handleAddExperience = () => {
+    // Add a new empty experience object when the "Add Experience" button is clicked
+    setExperiences([
+      ...experiences,
+      {
+        /* initialize with empty values */
+      },
+    ]);
+  };
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const { name, value } = e.target;
+    
+
+    const updatedExperiences = [...experiences];
+    updatedExperiences[index][name] = value;
+    setExperiences(updatedExperiences);
+  };
+
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10 overflow-hidden">
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px] ">
@@ -151,6 +163,7 @@ export default function Experience({
                         onChange={(e) => handleInputChange(e, index)}
                         required
                       />
+
                       <label
                         htmlFor="floating_first_name"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -220,7 +233,7 @@ export default function Experience({
                   <div className="grid md:grid-cols-2 md:gap-6">
                     <div className="relative  z-0 w-full mb-6 group">
                       <input
-                        type="text"
+                        type="number"
                         name="salary"
                         id="salary"
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -239,7 +252,7 @@ export default function Experience({
 
                     <div className="relative z-0 w-full mb-6 group">
                       <input
-                        type="text"
+                        type="number"
                         name="year"
                         id="year"
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -282,13 +295,21 @@ export default function Experience({
               </Button>
             </div>
             <div className="flex gap-4">
-              <Button className="dark__btn" onClick={next}>
+              <Button
+                className="dark__btn"
+                onClick={() => {
+                  create();
+                  cancel();
+                }}
+              >
                 Save
               </Button>
               <Button
                 className="dark__btn w-fit whitespace-nowrap"
-                onClick={next}
-        
+                onClick={() => {
+                  create();
+                  next();
+                }}
               >
                 Save and Next
               </Button>

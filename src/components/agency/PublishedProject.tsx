@@ -20,6 +20,8 @@ const PublishedProject = () => {
 
   const handleProfilePopUp = (talent: any) => {
     setPopUp(!popUp);
+    // console.log("worked", popUp);
+    // setSelectedRole(talent);
   };
 
   const [isDialogVisible, setDialogVisible] = useState(false);

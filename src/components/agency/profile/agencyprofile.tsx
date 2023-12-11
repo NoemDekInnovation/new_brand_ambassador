@@ -12,11 +12,18 @@ import { HiOutlineOfficeBuilding } from "react-icons/hi";
 import { MdPayments, MdSettings } from "react-icons/md";
 import addButton from "../../../assets/Add Button.png";
 import { patchAxiosInstance } from "../../../api/axios";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { fetchAgencyProfile } from "../../../redux/talent.slice";
 
 const AgencyProfile = () => {
   const { user } = useSelector((state: RootState) => state.user);
+  const { agencyProfile } = useSelector((state: RootState) => state.talent);
+
+      const dispatch = useDispatch<AppDispatch>(); 
+
+  console.log(agencyProfile);
+
 
   const [profileData, setProfileData] = useState({
     firstName: "",
@@ -41,23 +48,27 @@ const AgencyProfile = () => {
     ],
   });
 
+  
+
   useEffect(() => {
-    const updateProfile = async () => {
-      if (user?.accountId !== undefined) {
-        try {
-          const response = await patchAxiosInstance.get(`/get-agency-profile`, {
-            headers: {
-              Authorization: `Bearer ${user.authKey || ""}`,
-            },
-          });
-          setProfileData(response.data.data);
-          // Handle the response here if needed
-        } catch (error) {
-          // Handle errors here
-        }
-      }
-    };
-    updateProfile();
+    // const updateProfile = async () => {
+    //   if (user?.accountId !== undefined) {
+    //     try {
+    //       const response = await patchAxiosInstance.get(`/get-agency-profile`, {
+    //         headers: {
+    //           Authorization: `Bearer ${user.authKey || ""}`,
+    //         },
+    //       });
+    //       setProfileData(response.data.data);
+    //       console.log(response)
+    //       // Handle the response here if needed
+    //     } catch (error) {
+    //       // Handle errors here
+    //     }
+    //   }
+    // };
+    // updateProfile();
+    dispatch(fetchAgencyProfile())
   }, []);
 
   return (
@@ -69,7 +80,7 @@ const AgencyProfile = () => {
               <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
                 <p className="text-[15px] font-semibold p-2">My Account</p>
                 <Separator className="bg-bm__gler" />
-                <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+                <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer bg-black/10">
                   <div className="flex items-center gap-4 mr-2">
                     <BiSolidUserDetail />
                     <p className="text-[14px] font-normal ">Profile</p>
@@ -107,7 +118,7 @@ const AgencyProfile = () => {
                     <div className="flex-1 flex flex-col gap-2">
                       <div className="flex w-full  justify-between items-center ">
                         <p className="text-[15px] font-bold capitalize">
-                          {profileData.firstName} {profileData.lastName}
+                          {agencyProfile.firstName} {agencyProfile.lastName}
                         </p>
                         <div className="flex items-center gap-2 bg-[#93979D] text-white p-2 rounded-md">
                           <RiEdit2Fill />
@@ -128,11 +139,7 @@ const AgencyProfile = () => {
                         </div>
                         <Separator className="bg-bm__gler/50" />
                         <div className="h-[150px] w-[120px] rounded-md">
-                          <img
-                            src={profileData.profilePic}
-                            alt="img"
-                            className="h-[170px] w-[120px]"
-                          />
+                          <img src={agencyProfile.profilePic} alt="img" />
                         </div>
                         <div className="text-[12px] font-normal gap-2 flex flex-col">
                           <div className="pt-20 flex items-center">
@@ -141,32 +148,34 @@ const AgencyProfile = () => {
                             </p>
                             {/* <p className="">Noah</p> */}
                             <p className="capitalize">
-                              {profileData.firstName}
+                              {agencyProfile.firstName}
                             </p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               Last Name:
                             </p>
-                            <p className="capitalize">{profileData.lastName}</p>
+                            <p className="capitalize">
+                              {agencyProfile.lastName}
+                            </p>
                           </div>
-                          <div className="flex items-center">
+                          {/* <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               Middle Name:
                             </p>
-                            <p className="">Omolola</p>
-                          </div>
+                            <p className=""></p>
+                          </div> */}
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               Email Address:
                             </p>
-                            <p className="">{profileData.email}</p>
+                            <p className="">{agencyProfile.email}</p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               Phone Number:
                             </p>
-                            <p className="">{profileData.phone}</p>
+                            <p className="">{agencyProfile.phone}</p>
                           </div>
                         </div>
                       </Card>
@@ -185,11 +194,7 @@ const AgencyProfile = () => {
                         </div>
                         <Separator className="bg-bm__gler/50" />
                         <div className="h-[150px] w-[120px] rounded-md">
-                          <img
-                            src={profileData.companyLogo}
-                            alt="img"
-                            className="h-[160px] w-[120px]"
-                          />
+                          <img src={agencyProfile.companyLogo} alt="img" />
                         </div>
                         <div className="text-[12px] font-normal gap-2 flex flex-col">
                           <div className="text-[12px] font-normal gap-2 flex flex-col">
@@ -197,13 +202,13 @@ const AgencyProfile = () => {
                               <p className="w-[120px] text-[12px] font-semibold">
                                 Agency Name:
                               </p>
-                              <p className="">{profileData.agencyName}</p>
+                              <p className="">{agencyProfile.agencyName}</p>
                             </div>
                             <div className="flex items-center">
                               <p className="w-[120px] text-[12px] font-semibold">
                                 Agency Type:
                               </p>
-                              <p className="">{profileData.agencyType}</p>
+                              <p className="">{agencyProfile.agencyType}</p>
                             </div>
                             <div className="flex items-center">
                               <p className="w-[120px] text-[12px] font-semibold">
@@ -215,25 +220,38 @@ const AgencyProfile = () => {
                               <p className="w-[120px] text-[12px] font-semibold">
                                 Phone Number:
                               </p>
-                              <p className="">{profileData.officePhone}</p>
+                              <p className="">{agencyProfile.officePhone}</p>
                             </div>
                             <div className="flex items-center">
                               <p className="w-[120px] text-[12px] font-semibold">
                                 Website:
                               </p>
-                              <p className="">{profileData.website}</p>
+                              <p className="">{agencyProfile.website}</p>
                             </div>
                           </div>
                           <div className="flex">
                             <p className="w-[120px] text-[12px] font-semibold">
                               Office Address 1:
                             </p>
-                            <p className="">
-                              {profileData.address[0].street},
-                              {profileData.address[0].city}, <br />
-                              {profileData.address[0].LGA},
-                              {profileData.address[0].state} <br />
-                              {profileData.address[0].zipCode}
+                            {/* <p className="">
+                              {agencyProfile?.address[0]?.street}, <br />
+                              {agencyProfile?.address[0]?.city}, <br />
+                              {agencyProfile?.address[0]?.LGA}, <br />
+                              {agencyProfile?.address[0]?.state} <br />
+                              {agencyProfile?.address[0]?.zipCode}
+                            </p> */}
+                            <p className=" capitalize">
+                              {agencyProfile &&
+                                agencyProfile.address &&
+                                agencyProfile.address[0] && (
+                                  <>
+                                    {agencyProfile.address[0].street}, <br />
+                                    {agencyProfile.address[0].city}, <br />
+                                    {agencyProfile.address[0].LGA}, <br />
+                                    {agencyProfile.address[0].state} <br />
+                                    {agencyProfile.address[0].zipCode}
+                                  </>
+                                )}
                             </p>
                           </div>
                         </div>

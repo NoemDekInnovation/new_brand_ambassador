@@ -18,50 +18,63 @@ import { FaChartPie, FaCrown, FaGraduationCap } from "react-icons/fa";
 import { TiContacts } from "react-icons/ti";
 import { FaLocationDot } from "react-icons/fa6";
 import { PiStackSimpleFill } from "react-icons/pi";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
 import { useEffect, useState } from "react";
 import { patchAxiosInstance } from "../../api/axios";
+import { FaLinkedin, FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
+import { BsTwitter, BsTwitterX } from "react-icons/bs";
+import { fetchUserTalentsData } from "../../redux/talent.slice";
+
+interface Certification {
+  certificateName: string;
+  organisation: string;
+  certYear: number;
+  // Add other properties if needed
+}
+
+interface Education {
+  degree: string;
+  institution: string;
+  grade: string;
+  gradYear: string;
+}
 
 const Profile = () => {
   const { user } = useSelector((state: RootState) => state.user);
+  const { talentData } = useSelector((state: RootState) => state.talent);
 
-  const [talentData, setTalentData] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    profilePic: "",
-    languages: [],
-    skills: [],
-    opportunities: "",
-    address: [],
-    education: [],
-    certifications: [],
-    experience: [],
-    socials: {
-      facebook: "",
-      twitter: "",
-      instagram: "",
-      linkedin: "",
-    },
-    summary: "",
-  });
+  console.log("talent", talentData);
+
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    const updateTalent = async () => {
-      if (user?.accountId !== undefined) {
-        try {
-          const response = await patchAxiosInstance.get(`/get-talent-profile`, {
-            headers: {
-              Authorization: `Bearer ${user.authKey || ""}`,
-            },
-          });
-          setTalentData(response.data.data);
-        } catch (error) {}
-      }
-    };
-    updateTalent();
+    // const updateTalent = async () => {
+    //   if (user?.accountId !== undefined) {
+    //     try {
+    //       const response = await patchAxiosInstance.get(`/get-talent-profile`, {
+    //         headers: {
+    //           Authorization: `Bearer ${user.authKey || ""}`,
+    //         },
+    //       });
+    //       setTalentData(response.data.data);
+    //     } catch (error) {}
+    //   }
+    // };
+    // updateTalent();
+    dispatch(fetchUserTalentsData());
   }, []);
+  // console.log(talentData)
+
+  let formattedDOB = "-";
+
+  if (talentData.DOB !== undefined) {
+    formattedDOB = new Date(talentData?.DOB).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
 
   return (
     <MainLayout>
@@ -72,10 +85,10 @@ const Profile = () => {
               <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
                 <p className="text-[15px] font-semibold p-2">My Account</p>
                 <Separator className="bg-bm__gler" />
-                <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
-                  <div className="flex items-center gap-4 mr-2">
+                <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer bg-black/10">
+                  <div className="flex items-center gap-4 mr-2 w-full h-full">
                     <BiSolidUserDetail />
-                    <p className="text-[14px] font-normal ">Profile</p>
+                    <p className="text-[14px] font-normal">Profile</p>
                   </div>
                 </div>
                 <Separator className="bg-bm__gler/50" />
@@ -89,7 +102,7 @@ const Profile = () => {
                   <p className="text-[14px] font-normal">Settings</p>
                 </div>
               </Card>
-              <div className="flex flex-col">
+              <div className="flex flex-col w-full">
                 <div className="flex justify-between items-center gap-4">
                   <div className="flex items-center gap-4">
                     <div className="bg-black w-fit rounded-[5px] px-1 text-[18px]">
@@ -100,11 +113,6 @@ const Profile = () => {
                       33%
                     </p>
                   </div>
-                  <Link to={"/dashboard"}>
-                    <Button className="border border-black text-[18px] p-3 rounded-[40px] h-[40px] w-[40px]">
-                      x
-                    </Button>
-                  </Link>
                 </div>
 
                 <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700  my-2 mb-7">
@@ -118,7 +126,7 @@ const Profile = () => {
                     <div className=" w-full max-w-[240px] flex flex-col gap-2">
                       {/* <img src="" className='' alt="" /> */}
                       <div className="h-[300px]  rounded-md">
-                        <img src={talentData.profilePic} className="" alt="" />
+                        <img src={talentData?.profilePic} className="" alt="" />
                       </div>
 
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-[240px]  border rounded-[6px]">
@@ -129,23 +137,43 @@ const Profile = () => {
                           </p>
                         </div>
                         <Separator className="bg-bm__gler/50" />
-                        {/* <p className="text-[12px] font-normal">
-                          BSc. Modelling
-                        </p> */}
-                        {talentData.education.map((qualification, index) => (
-                          <p key={index} className="text-[12px] font-normal">
-                            {qualification}
-                          </p>
-                        ))}
 
-                        {/* <p className="text-[12px] font-normal">
-                          Certificate in Dancing
-                        </p> */}
-                        {talentData.certifications.map((certificate, index) => (
-                          <p key={index} className="text-[12px] font-normal">
-                            {certificate}
-                          </p>
-                        ))}
+                        {talentData?.education?.map(
+                          (educationItem: Education, index: number) => (
+                            <div key={index}>
+                              <p className="text-[12px] font-normal capitalize">
+                                {educationItem?.degree}
+                              </p>
+                            </div>
+                          )
+                        )}
+                        <p className="text-[12px] font-normal capitalize">
+                          {talentData?.education[0].institution}
+                        </p>
+                        <p className="text-[12px] font-normal capitalize">
+                          {talentData?.education[0].degree}
+                        </p>
+                        <p className="text-[12px] font-normal capitalize">
+                          {talentData?.education[0].grade}
+                        </p>
+                        <p className="text-[12px] font-normal capitalize">
+                          {talentData?.education[0].gradYear}
+                        </p>
+                        {talentData?.certifications?.map(
+                          (certificationItem: Certification, index: number) => (
+                            <div key={index}>
+                              <p className="text-[12px] font-normal capitalize">
+                                {certificationItem?.certificateName}
+                              </p>
+                              {/* <p className="text-[12px] font-normal">
+                                Organization: {certificationItem.organisation}
+                              </p>
+                              <p className="text-[12px] font-normal">
+                                Certification Year: {certificationItem.certYear}
+                              </p> */}
+                            </div>
+                          )
+                        )}
                       </Card>
 
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-[240px]  border rounded-[6px]">
@@ -153,10 +181,11 @@ const Profile = () => {
                           Work you are open to{" "}
                         </p>
                         <Separator className="bg-bm__gler/50" />
-                        <p className="text-[12px] font-normal">
-                          Usher . In-Store Marketer . Open Market Marketer .
+                        <p className="text-[12px] font-normal capitalize">
+                          {/* Usher . In-Store Marketer . Open Market Marketer .
                           Brand Ambassador . Brand Ambassador Supervisor .
-                          In-Store Supervisor
+                          In-Store Supervisor */}
+                          {talentData?.opportunities}
                         </p>
                       </Card>
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-[240px]  border rounded-[6px]">
@@ -170,9 +199,12 @@ const Profile = () => {
                           Modelling . Singing . Dancing . Paintballing . Catwalk
                           . Leg walk . Pretty
                         </p> */}
-                        {talentData.skills.length > 0 ? (
-                          talentData.skills.map((skill, index) => (
-                            <p key={index} className="text-[12px] font-normal">
+                        {talentData?.skills?.length > 0 ? (
+                          talentData?.skills.map((skill: [], index: number) => (
+                            <p
+                              key={index}
+                              className="text-[12px] font-normal capitalize"
+                            >
                               {skill}
                             </p>
                           ))
@@ -182,15 +214,53 @@ const Profile = () => {
                           </p>
                         )}
                       </Card>
-                      <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-[240px]  border rounded-[6px]">
+
+                      <Card className="p-6 flex flex-col justify-center gap-2 bg-white border-bm__beige w-[240px] border rounded-[6px]">
                         <p className="text-[15px] font-medium">Socials</p>
 
                         <Separator className="bg-bm__gler/50" />
-                        <p className="text-[12px] font-normal">Noah Omolade </p>
-                        <p className="text-[12px] font-normal">IamNoah </p>
-                        <p className="text-[12px] font-normal"> IamNoah </p>
-                        <p className="text-[12px] font-normal">Noah Omolade </p>
+                        <div className="flex items-center py-2">
+                          <FaLinkedin color="#0077b5" size={20} />
+                          <Link
+                            to={`https://www.linkedin.com/in/${talentData?.socials?.linkedin}`}
+                            target="_blank"
+                            className="text-[12px] font-normal ml-2"
+                          >
+                            {talentData?.socials?.linkedin}
+                          </Link>
+                        </div>
+                        <div className="flex items-center py-2">
+                          <FaInstagram color="#e4405f" size={20} />
+                          <Link
+                            to={`https://www.instagram.com/${talentData?.socials?.instagram}`}
+                            target="_blank"
+                            className="text-[12px] font-normal ml-2"
+                          >
+                            {talentData?.socials?.instagram}
+                          </Link>
+                        </div>
+                        <div className="flex items-center py-2">
+                          <BsTwitterX size={20} />
+                          <Link
+                            to={`https://twitter.com/${talentData?.socials?.twitter}`}
+                            target="_blank"
+                            className="text-[12px] font-normal ml-2"
+                          >
+                            {talentData?.socials?.twitter}
+                          </Link>
+                        </div>
+                        <div className="flex items-center py-2">
+                          <FaFacebook color="#1877f2" size={20} />
+                          <Link
+                            to={`https://www.facebook.com/${talentData?.socials?.facebook}`}
+                            target="_blank"
+                            className="text-[12px] font-normal ml-2"
+                          >
+                            {talentData?.socials?.facebook}
+                          </Link>
+                        </div>
                       </Card>
+
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-[240px]  border rounded-[6px]">
                         <p className="text-[15px] font-medium">Languages</p>
 
@@ -198,17 +268,22 @@ const Profile = () => {
                         {/* <p className="text-[12px] font-normal">
                           Yoruba . English . Hausa{" "}
                         </p> */}
-                        {talentData.languages.map((language, index) => (
-                          <p key={index} className="text-[12px] font-normal">
-                            {language}
-                          </p>
-                        ))}
+                        {talentData?.languages?.map(
+                          (language: [], index: number) => (
+                            <p
+                              key={index}
+                              className="text-[12px] font-normal capitalize"
+                            >
+                              {language}
+                            </p>
+                          )
+                        )}
                       </Card>
                     </div>
                     <div className="flex-1 flex flex-col gap-2">
                       <div className="flex w-full  justify-between items-center ">
-                        <p className="text-[16px] font-bold">
-                          {talentData.firstName} {talentData.lastName}
+                        <p className="text-[16px] font-bold capitalize">
+                          {talentData?.firstName} {talentData?.lastName}
                         </p>
                         <div className="flex items-center gap-2 bg-[#93979D] text-white p-2 rounded-md">
                           <RiEdit2Fill />
@@ -222,13 +297,13 @@ const Profile = () => {
                           <p className="text-[15px] font-medium">Overview</p>
                         </div>
                         <Separator className="bg-bm__gler/50" />
-                        <p className="text-[12px] font-normal">
-                          Lorem ipsum dolor sit amet consectetur. Tristique
+                        <p className="text-[12px] font-normal capitalize">
+                          {/* Lorem ipsum dolor sit amet consectetur. Tristique
                           egestas nulla a ac imperdiet in. A dignissim neque
                           risus mattis. Justo sed pretium tristique aliquam.
                           Tempus in elementum arcu suscipit. Neque volutpat
-                          placerat sem sem quis.
-                          {talentData.summary}
+                          placerat sem sem quis. */}
+                          {talentData?.summary}
                         </p>
                       </Card>
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
@@ -244,67 +319,84 @@ const Profile = () => {
                             <p className="w-[120px] text-[12px] font-medium">
                               First Name:
                             </p>
-                            <p className="">{talentData.firstName}</p>
+                            <p className="capitalize">
+                              {talentData?.firstName}
+                            </p>
                           </div>
-                          <div className="flex items-center">
+                          <div className="flex items-center capitalize">
                             <p className="w-[120px] text-[12px] font-medium">
                               Last Name:
                             </p>
-                            <p className="">{talentData.lastName}</p>
+                            <p className="capitalize">{talentData?.lastName}</p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-medium">
                               Middle Name:
                             </p>
-                            <p className="">Omolola</p>
+                            <p className="capitalize">
+                              {talentData?.middleName}
+                            </p>
                           </div>
                           <div className="flex items-center">
-                            <p className="w-[120px] text-[12px] font-medium">
+                            <p className="w-[120px] text-[12px] font-medium capitalize">
                               Date of Birth:
                             </p>
-                            <p className="">-</p>
+                            {/* <p className="capitalize">{talentData.DOB}</p> */}
+                            <p className="capitalize">{formattedDOB}</p>
                           </div>
                           <div className="flex items-center">
-                            <p className="w-[120px] text-[12px] font-medium">
+                            <p className="w-[120px] text-[12px] font-medium capitalize">
                               Email Address:
                             </p>
-                            <p className="">-</p>
+                            <p className="capitalize">{talentData?.email}</p>
                           </div>
                           <div className="flex items-center">
-                            <p className="w-[120px] text-[12px] font-medium">
+                            <p className="w-[120px] text-[12px] font-medium capitalize">
                               Phone Number:
                             </p>
-                            <p className="">-</p>
+                            <p className="capitalize">{talentData.phone}</p>
                           </div>
                           <div className="flex items-center">
-                            <p className="w-[120px] text-[12px] font-medium">
+                            <p className="w-[120px] text-[12px] font-medium capitalize">
                               Alternate Number:
                             </p>
-                            <p className="">-</p>
+                            <p className="capitalize">
+                              {talentData?.alternatePhone}
+                            </p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-medium">
                               Gender:
                             </p>
-                            <p className="">-</p>
+                            <p className="capitalize">{talentData?.gender}</p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-medium">
                               Skin Color:
                             </p>
-                            <p className="">-</p>
+                            <p className="capitalize">
+                              {talentData?.skinColor}
+                            </p>
+                          </div>
+                          <div className="flex items-center">
+                            <p className="w-[120px] text-[12px] font-medium">
+                              State of Origin:
+                            </p>
+                            <p className="capitalize">{talentData?.origin}</p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-medium">
                               Height:
                             </p>
-                            <p className="">-</p>
+                            <p className="">{talentData?.height}cm</p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-medium">
                               Dress Size:
                             </p>
-                            <p className="">-</p>
+                            <p className="capitalize">
+                              {talentData?.dressSize}
+                            </p>
                           </div>
                         </div>
                       </Card>
@@ -336,31 +428,26 @@ const Profile = () => {
                           <p className="text-[15px] font-medium">Address</p>
                         </div>
                         <Separator className="bg-bm__gler/50" />
-
-                        {(talentData.address as string[])?.length > 0 ? (
-                          (talentData.address as string[]).map(
-                            (addressLine, index) => (
-                              <div
-                                key={index}
-                                className="text-[12px] font-normal gap-2 flex flex-col"
-                              >
-                                <div className="flex items-center">
-                                  <p className="text-[12px] font-medium">
-                                    Address {index + 1}
-                                  </p>
-                                </div>
-                                <div className="flex flex-col">
-                                  {addressLine.split(",").map((line, i) => (
-                                    <p key={i} className="text-[12px]">
-                                      {line.trim()}
-                                    </p>
-                                  ))}
-                                </div>
-                              </div>
-                            )
+                        {talentData?.address?.map(
+                          (addressItem: any, index: number) => (
+                            <div key={index}>
+                              <p className="text-[12px] font-normal capitalize">
+                                {addressItem?.street}
+                              </p>
+                              <p className="text-[12px] font-normal capitalize">
+                                {addressItem?.city}
+                              </p>
+                              <p className="text-[12px] font-normal capitalize">
+                                {addressItem?.LGA}
+                              </p>
+                              <p className="text-[12px] font-normal capitalize">
+                                {addressItem?.state}
+                              </p>
+                              <p className="text-[12px] font-normal capitalize">
+                                {addressItem?.zipCode}
+                              </p>
+                            </div>
                           )
-                        ) : (
-                          <p>No address information available</p>
                         )}
                       </Card>
 
@@ -372,7 +459,7 @@ const Profile = () => {
                           </p>
                         </div>
                         <Separator className="bg-bm__gler/50" />
-                        <div className="text-[12px] font-normal gap-2 flex flex-col">
+                        {/* <div className="text-[12px] font-normal gap-2 flex flex-col">
                           <div className="flex items-center">
                             <p className="text-[12px] font-medium">
                               Education 1
@@ -384,9 +471,45 @@ const Profile = () => {
                             <p>University of Ilorin</p>
                             <p>Class of 2019</p>
                           </div>
-                        </div>
+                        </div> */}
+                        {talentData?.education?.map(
+                          (educationItem: Education, index: number) => (
+                            <div
+                              key={index}
+                              className="text-[12px] font-normal gap-2 flex flex-col"
+                            >
+                              <div className="flex items-center">
+                                <p className="text-[12px] font-medium">
+                                  Education {index + 1}
+                                </p>
+                              </div>
+                              <div className="flex flex-col">
+                                <p className="capitalize">
+                                  {educationItem?.degree}
+                                </p>
+                                <p className="capitalize">
+                                  {educationItem?.grade}
+                                </p>
+                                <p className="capitalize">
+                                  {educationItem?.institution}
+                                </p>
+
+                                <p className="capitalize">
+                                  {new Date(
+                                    educationItem?.gradYear
+                                  ).toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                  })}
+                                </p>
+                              </div>
+                            </div>
+                          )
+                        )}
+
                         <Separator className="bg-bm__gler/50" />
-                        <div className="text-[12px] font-normal gap-2 flex flex-col">
+                        {/* <div className="text-[12px] font-normal gap-2 flex flex-col">
                           <div className="flex items-center">
                             <p className="text-[12px] font-medium">
                               Certificate 1
@@ -397,7 +520,32 @@ const Profile = () => {
                             <p>J-Skills School of Dancing</p>
                             <p>2020</p>
                           </div>
-                        </div>
+                        </div> */}
+                        {talentData?.certifications?.map(
+                          (certificationItem: Certification, index: number) => (
+                            <div
+                              key={index}
+                              className="text-[12px] font-normal gap-2 flex flex-col"
+                            >
+                              <div className="flex items-center">
+                                <p className="text-[12px] font-medium">
+                                  Certificate {index + 1}
+                                </p>
+                              </div>
+                              <div className="flex flex-col">
+                                <p className="capitalize">
+                                  {certificationItem?.certificateName}
+                                </p>
+                                <p className="capitalize">
+                                  {certificationItem?.organisation}
+                                </p>
+                                <p className="capitalize">
+                                  {certificationItem?.certYear}
+                                </p>
+                              </div>
+                            </div>
+                          )
+                        )}
                       </Card>
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
                         <div className="flex items-center gap-4">
@@ -412,15 +560,33 @@ const Profile = () => {
                               Experience 1
                             </p>
                           </div>
-                          <div className="flex flex-col">
-                            <p className="">Madison & Park Limited</p>
-                            <p>Nivea Radiant and Beauty</p>
-                            <p>In-Store Project</p>
-
-                            <p>6 Months</p>
-                            <p>10,000 per week</p>
-                            <p>2021</p>
-                          </div>
+                          {talentData?.experience?.map(
+                            (experienceItem: any, index: number) => (
+                              <div key={index} className="flex flex-col">
+                                <p className="capitalize">
+                                  {experienceItem?.agencyName}
+                                </p>
+                                <p className="capitalize">
+                                  {experienceItem?.projectName}
+                                </p>
+                                <p className="capitalize">
+                                  {experienceItem?.projectCategory}
+                                </p>
+                                <p className="capitalize">
+                                  {experienceItem?.projectDuration}
+                                </p>
+                                <p className="capitalize">
+                                  {/* {experienceItem.salary} */}₦
+                                  {parseFloat(
+                                    experienceItem?.salary
+                                  ).toLocaleString("en-US")}
+                                </p>
+                                <p className="capitalize">
+                                  {experienceItem?.year}
+                                </p>
+                              </div>
+                            )
+                          )}
                         </div>
                       </Card>
                     </div>

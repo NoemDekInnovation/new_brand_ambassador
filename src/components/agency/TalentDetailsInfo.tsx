@@ -65,7 +65,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
 }) => {
   let pageTalents;
 
-  console.log("activeType", activeType);
+  // console.log("activeType", activeType);
 
   const [gridView, setGridView] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -103,7 +103,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   const { talents: resTalents } = useSelector(
     (state: RootState) => state.talent
   );
-  console.log(resTalents);
+  // console.log(resTalents);
 
   useEffect(() => {
     const fetchTalents = async () => {
@@ -115,7 +115,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
         } else if (activeType === "Engaged") {
         } else if (activeType === "Favorites") {
         } else {
-          console.log("No data yet");
+          // console.log("No data yet");
         }
       }
     };
