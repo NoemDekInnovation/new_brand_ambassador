@@ -140,7 +140,12 @@ export const TalentList = ({
         <div className="flex w-full justify-between mb-3">
           <div className="flex items-center gap-3">
             {" "}
-            <p className="text-[15px] font-medium">{talent?.fullName}</p>
+            <p
+              className="text-[15px] font-medium cursor-pointer"
+              onClick={() => handleApplyPopUp(talent)}
+            >
+              {talent?.fullName}
+            </p>
             <AiOutlineHeart />
           </div>
           <div className="flex items-center">
@@ -216,13 +221,13 @@ export const TalentList = ({
               <span>Share</span>
             </div>
           </button>
-          <button
+          {/* <button
             className="dark__btn text-[14px] py-0"
             style={{ whiteSpace: "nowrap", width: "150px" }}
             onClick={() => handleApplyPopUp(talent)}
           >
             View Application
-          </button>
+          </button> */}
         </div>
       </div>
       <ViewApplication
