@@ -3,14 +3,15 @@ import { MainLayout } from "../Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import group from "../../assets/Group.jpg";
 import Hometab from "./Hometab";
+import ProjectTab from "./ProjectTab";
 import Footer from "../Footer";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
 const TalentDashboard = () => {
-        const { completeProject } = useSelector(
-          (state: RootState) => state.completeProject
-        );
+  const { completeProject } = useSelector(
+    (state: RootState) => state.completeProject
+  );
   return (
     <MainLayout>
       {" "}
@@ -38,7 +39,9 @@ const TalentDashboard = () => {
           <TabsContent value="home" className="w-full">
             <Hometab />
           </TabsContent>
-          <TabsContent value="projects">Projects</TabsContent>
+          <TabsContent value="projects" className="w-full">
+            <ProjectTab />
+          </TabsContent>
           <TabsContent value="reports">Reports</TabsContent>
         </div>
       </Tabs>
