@@ -20,6 +20,10 @@ import {
   DropdownMenuSeparator,
 } from "../../ui/dropdown-menu";
 import drago from "../../assets/drago.jpg";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { fetchactiveproject } from "../../redux/ActiveProject";
 
 export function TopProjectCard({
   card_title,
@@ -28,6 +32,19 @@ export function TopProjectCard({
   card_width?: string;
   card_title: string;
 }) {
+  const { activeProject } = useSelector(
+    (state: RootState) => state.activeProject
+  );
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchactiveproject());
+  }, [dispatch]);
+
+  // const projects = activeProject.map((project, idx) => {
+  //   if (!Array.isArray(activeProject)) {
+  //     return <div>Loading...</div>;
+  //   }
   return (
     <Card className={`p-2 md:p-4 bg-white w-[240px] ${card_width}`}>
       <CardHeader className="flex-row p-1 justify-between items-center">

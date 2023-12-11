@@ -17,6 +17,7 @@ import { AppDispatch } from "../../../redux/store";
 import { GrFormClose } from "react-icons/gr";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
 import { RequiredTalentsProps } from "../../../redux/types";
+import { ImCancelCircle } from "react-icons/im";
 
 const animatedComponents = makeAnimated();
 
@@ -86,6 +87,7 @@ export default function RequiredTalents({
     const updatedExperiences = [...requiredTalents];
     updatedExperiences[index][name] = value;
     setRequiredTalents(updatedExperiences);
+    checkFormValidity();
   };
 
   const handleChangeTalent = (
@@ -112,7 +114,7 @@ export default function RequiredTalents({
     checkFormValidity();
   };
 
-  const talentOptions = [
+  const talentOptions: any = [
     { label: "Brand Ambassador", value: "ba" },
     { label: "Supervisor", value: "supervisor" },
     { label: "Usher", value: "usher" },
@@ -163,10 +165,27 @@ export default function RequiredTalents({
     checkFormValidity();
   };
 
+  // const handleSkillDelete = (index: number) => {
+  //   const updatedSkillData = [...skillData];
+  //   updatedSkillData.splice(index, 1);
+  //   console.log(updatedSkillData);
+  //   setSkillData(updatedSkillData);
+  // };
+
   const handleSkillDelete = (index: number) => {
-    const updatedSkillData = [...skillData];
-    updatedSkillData.splice(index, 1);
-    setSkillData(updatedSkillData);
+    setSkillData((prevSkillData) => {
+      const updatedSkillData = prevSkillData.filter((_, i) => i !== index);
+      console.log(updatedSkillData);
+      return updatedSkillData;
+    });
+  };
+
+  const handleRemoveTalentType = (indexToRemove: any) => {
+    setRequiredTalents((prevTalents: any) => {
+      const updatedTalents = [...prevTalents];
+      updatedTalents.splice(indexToRemove, 2);
+      return updatedTalents;
+    });
   };
 
   const [formData, setFormData] = useState([
@@ -184,30 +203,19 @@ export default function RequiredTalents({
       setSkillStore(true);
       setTimeout(() => {
         dispatch(reset());
+        console.log("Updated SkillData:", skillData);
       }, 2000);
+      // checkFormValidity();
     }
   }, [skillsFetchSucess]);
-
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>Error: {error}</div>;
-  // }
-
-  // useEffect(() => {
-  //   dispatch(fetchSkills(example));
-  // }, [example]);
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchSkills(example));
       setIsLoading(false);
+      // checkFormValidity();
     };
-
     fetchData();
-    checkFormValidity();
   }, [example, dispatch]);
 
   const [isFormValid, setIsFormValid] = useState(false);
@@ -222,184 +230,11 @@ export default function RequiredTalents({
 
   useEffect(() => {
     checkFormValidity();
-  }, [requiredTalents]);
+  }, [requiredTalents, skillData, example]);
 
   return (
-    // <div className="px-4 pb-4  md:px-12 xl:px-40 ">
-    //   <Card className="p-4 md:p-8 mt-5 bg-white overflow-y-scroll h-[83vh]">
-    //     <ChevBackground
-    //       text="Specify the talent you want and the skills required"
-    //       stage="3"
-    //     />
-    //     <Card className="w-full py-6 my-7">
-    //       <CardContent>
-    //         <p className="text-[12px] font-light">
-    //           Specify the required talent and qualification for your project.
-    //         </p>
-    //         <Separator className="my-3 md:my-8 bg-bm__beige" />
-    //         {/* <p className="text-[15px] font-medium  mb-3">Project Title</p> */}
-    //         <div className="grid md:grid-cols-2 gap-6">
-    //           {formData.map((form, index) => (
-    //             <div key={index} className="">
-    //               <div className="  ">
-    //                 <div className=" mb-6 relative w-full">
-    //                   <div className="relative w-full mb-2 group">
-    //                     <label
-    //                       htmlFor="floating_first_name"
-    //                       className="absolute text-sm text-gray-500 dark:text-gray-400 transform -translate-y-6 top-3 left-2 bg-white px-1"
-    //                     >
-    //                       Select Talent Type
-    //                     </label>
-    //                     <Select
-    //                       options={talentOptions}
-    //                       // {...register()}
-
-    //                       className="mt-4 p-2 rounded-md w-full"
-    //                     />
-    //                   </div>
-    //                   {errors.opportunities && (
-    //                     <p className="text-red-800 block mt-2">
-    //                       {errors.opportunities.message}
-    //                     </p>
-    //                   )}
-    //                   <p className="text-[12px] text-bm__btn__grey pl-2">
-    //                     E.g, Supervisor, Brand Ambassador, Usher, etc.
-    //                   </p>
-    //                 </div>
-    //               </div>
-
-    //               <div className="">
-    //                 <div className="relative z-0 w-full mb-6 group">
-    //                   <input
-    //                     type="qualifications"
-    //                     id="qualifications"
-    //                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-    //                     placeholder=" "
-    //                   />
-    //                   {errors.qualifications && (
-    //                     <p className="text-red-800 block mt-2">
-    //                       {errors.qualifications.message}
-    //                     </p>
-    //                   )}
-
-    //                   <label
-    //                     htmlFor="floating_first_name"
-    //                     className="absolute text-sm text-gray-500 dark:text-gray-400 transform -translate-y-6 top-3 left-2 bg-white px-1 peer-focus:font-medium duration-300 scale-75 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-    //                   >
-    //                     Qualification{" "}
-    //                   </label>
-    //                 </div>
-    //               </div>
-
-    //               <div className="mt-14">
-    //                 <div className="mb-6 relative">
-    //                   <div className="relative  w-full mb-2 group">
-    //                     <label
-    //                       htmlFor="floating_first_name"
-    //                       className="absolute text-sm text-gray-500 dark:text-gray-400 transform -translate-y-6 top-3 left-2 bg-white px-1 mb-6"
-    //                     >
-    //                       Add relevant skills
-    //                     </label>
-    //                     <div className="relative">
-    //                       <div className="flex justify-between">
-    //                         <input
-    //                           type="text"
-    //                           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-    //                           // {...register()}
-    //                           onChange={(e) => {
-    //                             setExample(e.target.value);
-    //                             // dispatch(fetchSkills(e.target.value))
-    //                           }}
-    //                           value={example}
-    //                         />
-    //                         {/* <button onClick={() => {
-    //                           dispatch(fetchSkills(example))
-    //                         }} className="dark__btn max-w-[100px] text-white rounded">search</button> */}
-    //                       </div>
-
-    //                       <label
-    //                         htmlFor="floating_first_name"
-    //                         className="absolute text-sm text-gray-500 dark:text-gray-400 transform -translate-y-6 top-3 left-2 bg-white px-1 mb-6"
-    //                       >
-    //                         Add relevant skills
-    //                       </label>
-
-    //                       <ul className="flex flex-wrap max-w-md">
-    //                         {skillData.map((d, index) => (
-    //                           <li className="p-2 flex items-center" key={index}>
-    //                             <p className="flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 dark__btn max-w-[200px] cursor-pointer">
-    //                               {d}
-    //                               <GrFormClose
-    //                                 className="ml-2 cursor-pointer"
-    //                                 onClick={() => handleSkillDelete(index)}
-    //                               />
-    //                             </p>
-    //                           </li>
-    //                         ))}
-    //                       </ul>
-
-    //                       <div className="relative">
-    //                         <div className="absolute max-h-80 overflow-y-auto bg-white p-2">
-    //                           <ul className="list-none">
-    //                             {skillStore &&
-    //                               skills.results.map((skill, i) => (
-    //                                 <li
-    //                                   className="rounded bg-white px-4 py-2 mb-1 text-gray-800 max-w-xs"
-    //                                   key={i}
-    //                                 >
-    //                                   <button
-    //                                     onClick={() => handleSkillSelect(skill)}
-    //                                     className="ml-2"
-    //                                   >
-    //                                     {skill}
-    //                                   </button>
-    //                                 </li>
-    //                               ))}
-    //                           </ul>
-    //                         </div>
-    //                       </div>
-    //                     </div>
-    //                   </div>
-    //                   {errors.opportunities && (
-    //                     <p className="text-red-800 block mt-2">
-    //                       {errors.opportunities.message}
-    //                     </p>
-    //                   )}
-    //                 </div>
-    //               </div>
-    //             </div>
-    //           ))}
-    //         </div>
-    //         <Button
-    //           onClick={handleAddTalent}
-    //           className="dark__btn max-w-[200px]"
-    //         >
-    //           <div className="flex items-center gap-1">
-    //             <MdOutlineAddCircleOutline className="text-[16px]" />
-    //             Add talent type
-    //           </div>
-    //         </Button>
-    //       </CardContent>
-    //     </Card>
-    //     <div className="flex justify-between">
-    //       <div className="flex whitespace-nowrap gap-4 md:gap-8">
-    //         <Button className="light__btn max-w-[100px]" onClick={cancel}>
-    //           Cancel
-    //         </Button>
-    //         <Button className="light__btn max-w-[100px]" onClick={prev}>
-    //           Back
-    //         </Button>
-    //       </div>
-    //       <div className="flex whitespace-nowrap gap-4 md:gap-8">
-    //         <Button className="dark__btn" onClick={next}>
-    //           Save and Next
-    //         </Button>
-    //       </div>
-    //     </div>
-    //   </Card>
-    // </div>
     <div className="px-4 pb-4  md:px-12 xl:px-40">
-      <Card className="p-4 md:p-8  bg-white overflow-y-scroll h-[83vh]">
+      <Card className="p-4 md:p-8 bg-white overflow-y-scroll h-[83vh]">
         <ChevBackground
           text="Specify the talent you want and the skills required"
           stage="3"
@@ -410,12 +245,18 @@ export default function RequiredTalents({
               Specify the required talent and qualification for your project.
             </p>
             <Separator className="my-3 md:my-8 bg-bm__beige" />
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="flex flex-col w-[800px]">
               {requiredTalents.map((talent, index) => (
                 <div key={index} className="">
+                  <div className="flex justify-end">
+                    <ImCancelCircle
+                      className="cursor-pointer"
+                      onClick={() => handleRemoveTalentType(index)}
+                    />
+                  </div>
                   <div className="  ">
                     <div className=" mb-6 relative w-full">
-                      <div className="relative z-[100] w-full mb-2 group">
+                      <div className="relative z-[50] w-full mb-2 group">
                         <label
                           htmlFor="floating_first_name"
                           className="absolute text-sm text-gray-500 dark:text-gray-400 transform -translate-y-6 top-3 left-2 bg-white px-1"
@@ -424,9 +265,10 @@ export default function RequiredTalents({
                         </label>
                         <Select
                           options={talentOptions}
-                          onChange={(e) => handleChangeTalent(e, index)}
+                          onChange={(e: any) => handleChangeTalent(e, index)}
                           className="mt-4 p-2 rounded-md w-full"
                           required
+                          defaultValue={requiredTalents[index].opportunities}
                         />
                       </div>
                       {errors.opportunities && (
@@ -442,15 +284,6 @@ export default function RequiredTalents({
 
                   <div className="">
                     <div className="relative z-[10] w-full mb-6 group">
-                      {/* <input
-                        type="qualification"
-                        id="qualification"
-                        name="qualification"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        onChange={(e) => handleInputChange(e, index)}
-
-                      /> */}
                       <Select
                         options={qualificationOptions}
                         onChange={(e) => handleChangeQualification(e, index)}
@@ -502,18 +335,10 @@ export default function RequiredTalents({
                           >
                             Add relevant skills
                           </label>
-
-                          {/* <ul className="flex flex-wrap max-w-md">
-                            {skillData.map((d, index) => (
-                              <li className="p-2 flex items-center" key={index}>
-                                <p className="flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 dark__btn max-w-[200px] cursor-pointer">
-                                  {d}
-                                  <GrFormClose className="ml-2 cursor-pointer" onClick={() => handleSkillDelete(index)} />
-                                </p>
-                              </li>
-                            ))}
-                          </ul> */}
-                          <ul className="flex flex-wrap max-w-md">
+                          <ul
+                            key={skillData.length}
+                            className="flex flex-wrap max-w-md"
+                          >
                             {talent?.skills?.map((d, index) => (
                               <li className="p-2 flex items-center" key={index}>
                                 <p className="flex items-center whitespace-nowrap justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 dark__btn max-w-[200px] cursor-pointer">
@@ -526,9 +351,8 @@ export default function RequiredTalents({
                               </li>
                             ))}
                           </ul>
-
                           {selectedIndex === index && (
-                            <div className="relative">
+                            <div className="relative z-50">
                               <div className="absolute max-h-80 overflow-y-auto bg-white p-2">
                                 <ul className="list-none">
                                   {skillStore &&
@@ -571,21 +395,6 @@ export default function RequiredTalents({
             </Button>
           </CardContent>
         </Card>
-        {/* <div className="flex justify-between">
-          <div className="flex whitespace-nowrap gap-4 md:gap-8">
-            <Button className="light__btn max-w-[100px]" onClick={cancel}>
-              Cancel
-            </Button>
-            <Button className="light__btn max-w-[100px]" onClick={prev}>
-              Back
-            </Button>
-          </div>
-          <div className="flex whitespace-nowrap gap-4 md:gap-8">
-            <Button className="dark__btn" onClick={next}>
-              Next
-            </Button>
-          </div>
-        </div> */}
         <div className="flex flex-col md:flex-row md:justify-between">
           <div className="flex flex-col md:flex-row gap-4 md:gap-8 mb-4 md:mb-0">
             <Button

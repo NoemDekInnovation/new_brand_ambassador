@@ -16,7 +16,6 @@ const ActiveProjects = () => {
   if (!Array.isArray(activeProject)) {
     return <div>Loading...</div>;
   }
-  console.log(activeProject);
 
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
@@ -49,11 +48,11 @@ const ActiveProjects = () => {
               Project Code: {project.projectCode}
             </div>
             <div className="text-[15px] p-0 px-2">|</div>
-            <div className="text-[10px] font-medium">300 Brands Ambassador</div>
+            <div className="text-[10px] font-medium">0 Brand Ambassador</div>
             <div className="text-[16px] p-0 px-2">|</div>
             {/* <br className="block md:hidden" /> */}
 
-            <div className="text-[10px] font-medium">50 Supervisor</div>
+            <div className="text-[10px] font-medium">0 Supervisor</div>
           </div>
         </CardContent>
         <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">

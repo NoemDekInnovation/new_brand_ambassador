@@ -14,6 +14,7 @@ import { TbLayoutGrid } from "react-icons/tb";
 import {
   AiOutlineHeart,
   AiOutlineMore,
+  AiOutlineSearch,
   AiOutlineUnorderedList,
 } from "react-icons/ai";
 import { Separator } from "@radix-ui/react-separator";
@@ -33,7 +34,7 @@ import {
 } from "@radix-ui/react-dialog";
 import { DialogFooter, DialogHeader } from "../../ui/dialog";
 import {
-  Select,
+  // Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
@@ -48,25 +49,25 @@ import CurrentContacts from "../agency/talents/CurrentContacts";
 import FavoriteTalents from "../agency/talents/FavoriteTalents";
 import MyTalents from "../agency/talents/MyTalents";
 import Engaged from "../agency/talents/Engaged";
-// import AllTalents from "./talents/AllTalents";
-// import CurrentContacts from "./talents/CurrentContacts";
-// import Engaged from "./talents/Engaged";
-// import MyTalents from "./talents/MyTalents";
-// import FavoriteTalents from "./talents/FavoriteTalents";
+import { Input } from "../../ui/input";
+import { SelectGroup, SelectLabel } from "../../ui/select";
+import { TalentType } from "../agency/TalentsView";
+import SelectOption from "../../libs/select";
 
-type TalentDetailsProps = {
-  activeType:
-    | "All Talents"
-    | "Current Contacts"
-    | "Favorites"
-    | "Engaged"
-    | "My Talents";
-  handleProfilePopUp: (talent: TalentProps) => void;
-};
+const categoryOptions: any = [
+  { value: "All Talents", label: "All Talent" },
+  { value: "Current Contacts", label: "Current Contacts" },
+  { value: "Favorites", label: "Favorites" },
+  { value: "Engaged", label: "Engaged" },
+  { value: "My Talent", label: "My Talent" },
+  { value: "Invited", label: "Invited" },
+];
 
-const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
-  activeType,
+const TalentDetailsInfo = ({
+  // activeType,
   handleProfilePopUp,
+}: {
+  handleProfilePopUp: (talent: TalentProps) => void;
 }) => {
   let pageTalents;
 
@@ -85,6 +86,14 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedTalent, setSelectedTalent] = useState("");
   const [selectedTalentID, setSelectedTalentID] = useState("");
+  const [projectModal, setProjectModal] = useState(false);
+  const [activeType, setActiveType] = useState<TalentType>("All Talents");
+
+  const onTalentTypeChnage = (type: TalentType) => {
+    setActiveType(type);
+  };
+
+  console.log("activeType", activeType);
 
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -127,6 +136,27 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
     fetchTalents();
   }, [activeType]);
 
+  useEffect(() => {
+    setIsLoading(true);
+
+    const fetchProjects = async () => {
+      if (user !== null) {
+        const response = await campaignAuthAxiosInstance(`/projects`, {
+          headers: {
+            Authorization: `Bearer ${user.authKey || ""}`,
+          },
+        });
+        const projects = response?.data?.data.projects.map((project: any) => {
+          return { value: project._id, label: project.projectDescription };
+        });
+
+        setProjects(projects);
+      }
+    };
+    fetchProjects();
+    setIsLoading(false);
+  }, [user?.accountId]);
+
   const handleInvite = async () => {
     setIsLoading(true);
     if (user !== null) {
@@ -146,7 +176,13 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
         );
 
         setIsLoading(false);
-        setSuccessModal(false);
+        // setSuccessModal(false);
+        setProjectModal(!projectModal);
+        setSuccessModal(true);
+
+        return setTimeout(() => {
+          setSuccessModal(false);
+        }, 3000);
       } catch (error) {
         setIsLoading(false);
 
@@ -234,6 +270,9 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
           selectedTalent={selectedTalent}
           setSelectedTalentID={setSelectedTalentID}
           selectedProject={selectedProject}
+          projectModal={projectModal}
+          setProjectModal={setProjectModal}
+          gap={14}
         />
       );
       break;
@@ -309,58 +348,80 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
       pageTalents = null;
   }
 
+  // const [talentType];
+
   return (
     <>
-      <CardContent className="flex-1 flex flex-col m-0 p-0 mt-8 md:mt-0">
+      <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0">
         <div className="flex-1">
-          <div className="flex justify-between flex-col gap-2 lg:flex-row">
+          <div className="flex relative items-center justify-between gap-2">
             <p className="font-semibold text-[18px] ">{activeType}</p>
-            <div className="flex flex-col items-start lg:items-center gap-2 lg:gap-6 lg:flex-row">
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex gap-1 items-center">
-                  <BiSortAlt2 />
-                  Sort: {"  "} Average Rating
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-white p-3">
-                  <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
-                    Relevance
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator className="bg-bm__beige" />
-                  <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
-                    Average Rating
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <div className="flex gap-2 md:gap-4 items-center">
-                <span className="flex items-center gap-1">
-                  View:{"  "}{" "}
-                  {gridView && <TbLayoutGrid onClick={handleViewToggle} />}
-                  {!gridView && (
-                    <AiOutlineUnorderedList onClick={handleViewToggle} />
-                  )}
-                </span>
+
+            <div className="relative h-full">
+              <SelectOption
+                className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
+                placeholder="Select Category "
+                id="projectCategory"
+                name="projectCategory"
+                onChange={(e: any) => onTalentTypeChnage(e.value)}
+                required
+                options={categoryOptions}
+                defaultValue={activeType}
+                isDisabled={false}
+              />
+            </div>
+          </div>
+          <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
+
+          <div className="flex justify-between flex-col gap-2 lg:flex-row">
+            {/* <p className="font-semibold text-[18px] ">{activeType}</p> */}
+
+            <div className="hidden lg:flex items-center border  max-h-[60px]   rounded-md w-full max-w-[500px] px-3 py-1 ">
+              <AiOutlineSearch className="text-[15px] " />
+              <Input
+                className="border-0 focus:border-0 focus:ring-0 focus:outline-none "
+                placeholder="Search"
+              />
+            </div>
+            <div className="flex items-center">
+              <div className="flex flex-col items-start lg:items-center gap-2 whitespace-nowrap lg:gap-6 lg:flex-row mr-2 md:mr-4">
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="flex gap-1 items-center">
+                    <BiSortAlt2 />
+                    Sort: {"  "} Average Rating
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="bg-white p-3">
+                    <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                      Relevance
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator className="bg-bm__beige" />
+                    <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                      Average Rating
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <div className="flex gap-2 md:gap-4 items-center">
+                  <span className="flex items-center gap-1">
+                    View:{"  "}{" "}
+                    {gridView && <TbLayoutGrid onClick={handleViewToggle} />}
+                    {!gridView && (
+                      <AiOutlineUnorderedList onClick={handleViewToggle} />
+                    )}
+                  </span>
+                </div>
+              </div>
+              <div className="flex w-full justify-end items-center text-[10px] font-normal">
+                1-{resTalents?.length} of {resTalents?.length}
+                <BsChevronDoubleLeft className="mx-4" />
+                <BsChevronLeft />
+                <BsChevronRight className="mx-4" />
+                <BsChevronDoubleRight />
               </div>
             </div>
           </div>
           <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
-          <div className="flex w-full justify-end items-center text-[10px] font-normal">
-            1-{resTalents?.length} of {resTalents?.length}
-            <BsChevronDoubleLeft className="mx-4" />
-            <BsChevronLeft />
-            <BsChevronRight className="mx-4" />
-            <BsChevronDoubleRight />
-          </div>
           <Separator className="my-2" />
-          {/* {gridView && (
-            <div className='flex w-full justify-center '>
-               <div className='flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap '>
-                {talents}
-              </div>
-            </div>
-          )}
-          {!gridView && (
-            <div className='flex flex-col w-full gap-3'>{listView}</div>
-          )} */}
+
           {pageTalents}
         </div>
         <Separator className="my-2 md:my-4" />
