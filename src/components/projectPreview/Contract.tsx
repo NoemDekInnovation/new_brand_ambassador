@@ -13,15 +13,19 @@ import { BsFillCollectionFill } from "react-icons/bs";
 import darkUnion from "../../assets/Union.png";
 import subtract from "../../assets/Subtract.png";
 import subtract2 from "../../assets/Subtract2.png";
+import subtract4 from "../../assets/Subtract4.png";
+import union from "../../assets/Union1.png";
 
 const Contract = ({
   popUp,
   setPopUp,
   select,
+  selectedProject,
 }: {
   select: any;
   popUp: boolean;
   setPopUp: any;
+  selectedProject: any;
 }) => {
   return (
     <div
@@ -39,15 +43,20 @@ const Contract = ({
           />
         </span>
         <div className="flex flex-row items-center p-4">
-          <div className="text-[14px] font-medium capitalize">Project Name</div>
-          <div className="text-[15px] p-0 px-2">|</div>
-
-          <div className="text-[12px] font-medium capitalize">
-            Project category
+          <div className="text-[14px] font-medium capitalize">
+            {selectedProject?.projectTitle}
           </div>
           <div className="text-[15px] p-0 px-2">|</div>
 
-          <div className="text-[12px] font-medium capitalize">Project Code</div>
+          <div className="text-[12px] font-medium capitalize">
+            {selectedProject?.projectCategory}
+          </div>
+          <div className="text-[15px] p-0 px-2">|</div>
+
+          <div className="text-[12px] font-medium capitalize">
+            {" "}
+            {selectedProject?.projectCode}
+          </div>
           <div className="text-[15px] p-0 px-2">|</div>
 
           <div className="text-[12px] font-medium capitalize text-green-500">
@@ -98,10 +107,10 @@ const Contract = ({
               className="relative text-white flex items-center justify-center "
               onClick={() => select(1)}
             >
-              <p className="absolute top-[25%]  z-20 text-[16px]">
+              <p className="absolute top-[25%] z-20 text-[16px] text-black">
                 Project Overview
               </p>
-              <img src={darkUnion} alt="" className=" z-5 w-[300px] h-[45px]" />
+              <img src={union} alt="" className=" z-5 w-[300px] h-[45px]" />
             </div>
             <div
               className=" relative text-black flex items-center justify-center"
@@ -109,6 +118,7 @@ const Contract = ({
             >
               <p className="absolute top-[25%] text-[16px] z-20">
                 Invite Talent
+                <span className="text-[14px] font-bold">(30)</span>
               </p>
               <img src={subtract} alt="" className=" z-10 w-[300px] h-[45px]" />
             </div>
@@ -118,7 +128,7 @@ const Contract = ({
             >
               <p className="absolute top-[25%] text-[16px] z-20">
                 {" "}
-                Applications
+                Applications<span className="text-[14px] font-bold">(300)</span>
               </p>
               <img src={subtract} alt="" className=" z-10 w-[300px] h-[45px]" />
             </div>
@@ -126,9 +136,12 @@ const Contract = ({
               className=" relative text-black flex items-center justify-center"
               onClick={() => select(4)}
             >
-              <p className="absolute top-[25%] z-20 text-[16px]"> Contracts</p>
+              <p className="absolute top-[25%] z-20 text-[16px] text-white">
+                {" "}
+                Hire<span className="text-[14px] font-bold">(0)</span>
+              </p>
               <img
-                src={subtract2}
+                src={subtract4}
                 alt=""
                 className=" z-10 w-[300px] h-[45px]"
               />
