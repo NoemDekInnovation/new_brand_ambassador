@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import { Card, CardContent } from "../../../ui/card";
 import { ImAttachment, ImCancelCircle } from "react-icons/im";
 import { Separator } from "../../../ui/seperator";
@@ -11,6 +11,9 @@ import {
 import { GiPaperClip } from "react-icons/gi";
 import { IoMdShare } from "react-icons/io";
 import { Input } from "../../../ui/input";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { patchAxiosInstance } from "../../../api/axios";
 
 const ProjectPreview = ({
   popUp,
@@ -40,29 +43,80 @@ const ProjectPreview = ({
     month: "long",
     day: "numeric",
   });
+console.log("selected", selectedProject)
 
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const { user } = useSelector((state: RootState) => state.user);
+
+
 
   const [selectedFileName, setSelectedFileName] = useState("");
-  const [document, setDocument] = useState<File>({} as File);
+  const [documents, setDocuments] = useState<File[]>([]);
+  const [letterContent, setLetterContent] = useState("");
+
+
+  const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setLetterContent(event.target.value);
+  };
+
+
+ 
+
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files } = e.target;
-    const fileInput = fileInputRef.current;
-    if (fileInput && fileInput.files && fileInput.files.length > 0) {
-      setSelectedFileName(fileInput.files[0].name);
-    }
+    const fileInput = e.target;
+    const selectedFiles = fileInput.files;
 
-    if (files?.length) {
-      const selectedFile = Array.from(files);
-      setDocument(selectedFile[0]);
+    if (selectedFiles) {
+      const filesArray = Array.from(selectedFiles);
+      setDocuments((prevDocuments) => [...prevDocuments, ...filesArray]);
     }
-  };
+    fileInput.value = "";
+  }; 
 
   const handleDivClick = () => {
     // Trigger a click event on the hidden input
     fileInputRef?.current?.click();
   };
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+
+    formData.append("letter", letterContent);
+
+    documents.forEach((file, index) => {
+      formData.append("document", file); 
+    });
+
+    if (user?.accountId !== undefined) {
+      try {
+        const response = await patchAxiosInstance.post(
+          `/project-application/${selectedProject.project._id}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ""}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.error("Error submitting application", error);
+      }
+    }
+  };
+
+  // const handleSendApplication = async () => {
+  //   if (selectedProject?.projectId) {
+  //     await handleSubmit(selectedProject.project._id);
+  //   } else {
+  //     console.error("No project ID available");
+  //   }
+  // };
+
+  // console.log("please",handleSendApplication);
+
+  
 
   return (
     <div
@@ -256,12 +310,29 @@ const ProjectPreview = ({
                   id=""
                   className="w-full border border-bm__beige min-h-[200px]  text-[14px] p-2 "
                   placeholder="Write your application letter ..."
+                  value={letterContent}
+                  onChange={handleTextareaChange}
                 />
                 <small>250 {"  "} Characters</small>
               </ItemCard>{" "}
               <ItemCard title={"Attachments"} red={true}>
                 <p>Add as many attachments as required by the project</p>
                 <Separator className="bg-bm__beige my-4" />
+                {/* <Button
+                  className="w-full mt-4  border p-8 rounded-lg  border-bm_black"
+                  onClick={handleDivClick}
+                >
+                  <div className="flex items-center gap-1">
+                    <ImAttachment className="text-[16px]" />
+                    Attach file
+                  </div>
+                </Button> */}
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                />
                 <Button
                   className="w-full mt-4  border p-8 rounded-lg  border-bm_black"
                   onClick={handleDivClick}
@@ -271,6 +342,16 @@ const ProjectPreview = ({
                     Attach file
                   </div>
                 </Button>
+                {documents.length > 0 && (
+                  <div>
+                    <ul>
+                      {documents.map((file, index) => (
+                        <li key={index}>{file.name}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
                 {/* {selectedProject?.project?.document.map(
                   (_: any, idx: number) => {
                     return (
@@ -302,7 +383,10 @@ const ProjectPreview = ({
                 <button className="light__btn max-w-fit text-[12px] ">
                   Cancel Application
                 </button>
-                <button className="dark__btn max-w-fit text-[12px] ">
+                <button
+                  className="dark__btn max-w-fit text-[12px] "
+                  onClick={handleSubmit}
+                >
                   Send Application
                 </button>
               </div>
