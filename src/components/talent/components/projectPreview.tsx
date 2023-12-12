@@ -43,24 +43,17 @@ const ProjectPreview = ({
     month: "long",
     day: "numeric",
   });
-console.log("selected", selectedProject)
+  console.log("selected", selectedProject);
 
   const { user } = useSelector((state: RootState) => state.user);
-
-
 
   const [selectedFileName, setSelectedFileName] = useState("");
   const [documents, setDocuments] = useState<File[]>([]);
   const [letterContent, setLetterContent] = useState("");
 
-
   const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setLetterContent(event.target.value);
   };
-
-
- 
-
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -73,7 +66,7 @@ console.log("selected", selectedProject)
       setDocuments((prevDocuments) => [...prevDocuments, ...filesArray]);
     }
     fileInput.value = "";
-  }; 
+  };
 
   const handleDivClick = () => {
     // Trigger a click event on the hidden input
@@ -86,7 +79,7 @@ console.log("selected", selectedProject)
     formData.append("letter", letterContent);
 
     documents.forEach((file, index) => {
-      formData.append("document", file); 
+      formData.append("document", file);
     });
 
     if (user?.accountId !== undefined) {
@@ -105,18 +98,6 @@ console.log("selected", selectedProject)
       }
     }
   };
-
-  // const handleSendApplication = async () => {
-  //   if (selectedProject?.projectId) {
-  //     await handleSubmit(selectedProject.project._id);
-  //   } else {
-  //     console.error("No project ID available");
-  //   }
-  // };
-
-  // console.log("please",handleSendApplication);
-
-  
 
   return (
     <div

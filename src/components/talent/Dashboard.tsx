@@ -17,7 +17,7 @@ const TalentDashboard = () => {
       {" "}
       <Tabs defaultValue="home" className="w-full">
         <div className="flex flex-col md:flex-row  justify-between w-full px-4   md:px-12 xl:px-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0">
-          <TabsList className="">
+          <TabsList className="" defaultValue={"projects"}>
             <TabsTrigger value="home">Home</TabsTrigger>
             <TabsTrigger value="projects">Projects</TabsTrigger>
             <TabsTrigger value="reports">Reports</TabsTrigger>
