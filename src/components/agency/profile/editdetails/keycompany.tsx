@@ -55,6 +55,8 @@ export default function KeyCompany({
   const [inputError, setInputError] = useState<string | null>(null);
   const [phn, setPhn]: [E164Number, Dispatch<SetStateAction<E164Number>>] =
     useState("");
+  const [inVw, setInVw] = useState(false);
+
 
 useEffect(() => {
   if (agencyProfile) {
@@ -62,7 +64,7 @@ useEffect(() => {
       firstName: agencyProfile.firstName || "",
       lastName: agencyProfile.lastName || "",
       phone: agencyProfile.phone || "",
-      profilePic: agencyProfile.profilePic || null,
+      profilePic: agencyProfile.profilePic,
     });
     setPhn(agencyProfile.phone || ""); // Set phone state separately if needed    
   }
@@ -82,7 +84,10 @@ useEffect(() => {
     profileData.append("phone", phn || editData.phone);
     // profileData.append("profilePic", editData.profilePic);
     if (editData.profilePic !== null) {
-      profileData.append("profilePic", editData.profilePic);
+      if (typeof editData.profilePic !== "string") {
+        profileData.append("profilePic", editData.profilePic);
+      }
+      profileData.append("profilePic", "")
     }
 
     if (user?.accountId !== undefined) {
@@ -126,20 +131,20 @@ useEffect(() => {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files } = e.target;
 
-    if (files?.length) {
-      const selectedFiles = Array.from(files);
-      setEditData({
-        ...editData,
-        [name]: selectedFiles[0],
-      });
-      setInputError(null);
-    } else {
-      setInputError("Please enter only alphabet characters.");
-    }
-  };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, files } = e.target;
+
+      if (files?.length) {
+        const selectedFiles = Array.from(files);
+       setEditData({
+         ...editData,
+         [name]: selectedFiles[0],
+       });
+        setInVw(true);
+      }
+    };
 
   // const imageUrl = editData.profilePic
   //   ? URL.createObjectURL(editData.profilePic)
@@ -230,6 +235,7 @@ useEffect(() => {
                   )}
                   
                 </div>
+ 
               </label>
             </div>
 

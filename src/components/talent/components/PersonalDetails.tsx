@@ -294,6 +294,7 @@ console.log("lang", newLang);
                   placeholder=" "
                   value={personal.firstName}
                   onChange={(e) => handleInputChange(e, "firstName")}
+                  disabled
                 />
                 {inputError && (
                   <p className="text-red-500 text-sm">{inputError}</p>
@@ -315,6 +316,7 @@ console.log("lang", newLang);
                   placeholder=" "
                   value={personal.lastName}
                   onChange={(e) => handleInputChange(e, "lastName")}
+                  disabled
                 />
                 {inputError && (
                   <p className="text-red-500 text-sm">{inputError}</p>
