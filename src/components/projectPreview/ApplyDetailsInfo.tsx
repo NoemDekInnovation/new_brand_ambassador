@@ -47,11 +47,12 @@ import { Input } from "../../ui/input";
 import { SelectGroup, SelectLabel } from "../../ui/select";
 import { TalentType } from "../agency/TalentsView";
 import SelectOption from "../../libs/select";
-import AllTalents from "../agency/appliedTalents/AllTalents";
+import AllApplications from "../agency/appliedTalents/AllApplications";
 import CurrentContacts from "../agency/appliedTalents/CurrentContacts";
 import FavoriteTalents from "../agency/appliedTalents/FavoriteTalents";
 import Engaged from "../agency/appliedTalents/Engaged";
 import MyTalents from "../agency/appliedTalents/MyTalents";
+import { fetchProjectApplications } from "../../redux/projectApllication.slice";
 
 const categoryOptions: any = [
   { value: "All Talents", label: "All Talent" },
@@ -65,8 +66,10 @@ const categoryOptions: any = [
 const ApplyDetailsInfo = ({
   // activeType,
   handleProfilePopUp,
+  ProjectId,
 }: {
   handleProfilePopUp: (talent: TalentProps) => void;
+  ProjectId: string;
 }) => {
   let pageTalents;
 
@@ -115,6 +118,12 @@ const ApplyDetailsInfo = ({
     (state: RootState) => state.talent
   );
   console.log(resTalents);
+
+  const { projectApplications: applied } = useSelector(
+    (state: RootState) => state.projectApplication
+  );
+
+  console.log("wash", applied);
 
   useEffect(() => {
     const fetchTalents = async () => {
@@ -255,7 +264,7 @@ const ApplyDetailsInfo = ({
   switch (activeType) {
     case "All Talents":
       pageTalents = (
-        <AllTalents
+        <AllApplications
           gridView={gridView}
           successModal={successModal}
           setSuccessModal={setSuccessModal}
@@ -352,8 +361,29 @@ const ApplyDetailsInfo = ({
       <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0">
         <div className="flex-1">
           <div className="flex relative items-center justify-between gap-2">
-            <p className="font-semibold text-[18px] ">{activeType}</p>
-
+            <p className="font-semibold text-[18px] ">My Applications</p>
+            <div className="flex item-center m-0">
+              <button className="light__btn m-0">
+                Shortlisted
+                <span className="text-[16px] font-semibold text-black">
+                  (20)
+                </span>
+              </button>
+              <div className="h-8 w-2 bg-black"></div>
+              <button className="light__btn m-0">
+                Approved
+                <span className="text-[16px] font-semibold text-black">
+                  (20)
+                </span>
+              </button>
+              <div className="h-8 w-2 bg-black"></div>
+              <button className="light__btn m-0">
+                Rejected
+                <span className="text-[16px] font-semibold text-black">
+                  (20)
+                </span>
+              </button>
+            </div>
             <div className="relative h-full">
               <SelectOption
                 className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
