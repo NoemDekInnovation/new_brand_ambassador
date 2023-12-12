@@ -35,7 +35,7 @@ const TalentDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="flex overflow-hidden overflow-y-hidden h-[82vh] mb-2 xl:pl-40 md:pl-12 pl-4">
+        <div className="flex overflow-hidden overflow-y-hidden h-[85.5vh]  xl:pl-40 md:pl-12 pl-4">
           <TabsContent value="home" className="w-full">
             <Hometab />
           </TabsContent>
