@@ -3,6 +3,7 @@ import { ImCancelCircle } from "react-icons/im";
 import { RiStackshareLine } from "react-icons/ri";
 import { Separator } from "../../../../ui/seperator";
 import { Card, CardContent } from "../../../../ui/card";
+import Logo from "../../../../assets/model.jpg";
 
 const ApplicationTab = ({
   popUp,
@@ -78,7 +79,53 @@ const ApplicationTab = ({
           </p>
         </div>
         <Separator className="bg-[#D7D8DA]" />
-        <p>Application</p>
+        <div className="overflow-y-scroll h-[80vh]">
+          <Card className="w-full pt-4 my-3">
+            <CardContent>
+              <div className="flex justify-between items-center">
+                <h2 className="text-[14px] font-normal capitalize">
+                  Application Letter
+                </h2>
+              </div>
+              <Separator className="bg-bm__beige my-6" />
+              <Card className="h-[40vh]">
+                <div className="flex flex-col overflow-y-auto h-[40vh]">
+                  <p className=" capitalize break-words p-4">
+                    Lorem ipsum dolor sit amet consectetur. Viverra mattis vitae
+                    odio in sem non eu elementum. Vehicula ut amet parturient
+                    dui nam sit amet. Luctus mattis mattis viverra eleifend enim
+                    bibendum viverra duis. At et vel elit nibh orci volutpat
+                    diam tempus volutpat. Hendrerit ullamcorper dolor nunc
+                    malesuada laoreet. Id venenatis integer ac et morbi ut
+                    sagittis velit. Pharetra libero dolor eget lacinia.
+                    Tristique leo eu augue lectus a sit et etiam nunc. Consequat
+                    risus sit enim tristique nunc eget molestie. Ac sed vivamus
+                    aliquam egestas at. Ullamcorper tellus facilisi mauris est
+                    id. Hac quam interdum consequat lorem condimentum tincidunt
+                    est. Eu auctor convallis urna est in maecenas nisi senectus.
+                    Netus dui mi at donec pellentesque facilisi lorem tincidunt.
+                  </p>
+                </div>
+              </Card>
+            </CardContent>
+          </Card>
+          <Card className="w-full pt-4 my-3">
+            <CardContent>
+              <div className="flex justify-between items-center">
+                <h2 className="text-[14px] font-normal capitalize">
+                  Attachments
+                </h2>
+              </div>
+              <Separator className="bg-bm__beige my-6" />
+              <Card className="h-[33vh]">
+                <div className="flex items-center p-4 gap-4 ">
+                  <img src={Logo} alt="" className="w-[200px] h-[250px]" />
+                  <img src={Logo} alt="" className="w-[200px] h-[250px]" />
+                </div>
+              </Card>
+            </CardContent>
+          </Card>
+        </div>
       </Card>
     </div>
   );
