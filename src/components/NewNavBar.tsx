@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
@@ -27,10 +27,14 @@ import logoutImg from "../assets/logout.png";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/seperator";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { campaignAuthAxiosInstance } from "../api/axios";
 
 export default function NewNavBar() {
   const user = useSelector((state: RootState) => state.user);
   const [toggleMenubar, setToggleMenubar] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [notifications, setNotifications] = useState<any | null>(null);
+
   const navigate = useNavigate();
 
   // const router = useRouter();
@@ -43,6 +47,34 @@ export default function NewNavBar() {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    const fetchNotifications = async () => {
+      if (user?.user?.accountId !== undefined) {
+        try {
+          const response = await campaignAuthAxiosInstance(
+            "all-notifications",
+            {
+              headers: {
+                Authorization: `Bearer ${user?.user?.authKey || ""}`,
+              },
+            }
+          );
+          setNotifications(response?.data?.notifications);
+        } catch (error) {
+          console.error("Error while fetiching Notifications:", error);
+          // Handle error appropriately (e.g., show a user-friendly message)
+        }
+      }
+    };
+    fetchNotifications();
+    setIsLoading(false);
+  }, [user?.user?.accountId]);
+
+  console.log("notifications,notifications", notifications[0]);
+
   return (
     <div>
       <nav className="flex justify-between px-4  md:px-12 xl:px-40 items-center  text-[12px] font-medium bg-white py-7">
@@ -77,8 +109,64 @@ export default function NewNavBar() {
             />
           </div>
         </div>
-        <div className="hidden  lg:flex items-center ml-8 space-x-5 whitespace-nowrap">
-          <p>Messages</p>
+        <div className="hidden  lg:flex items-center ml-8 space-x-5 whitespace-nowrap relative">
+          <Dialog>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                {" "}
+                <p>
+                  Notifications{" "}
+                  <span className="text-red-900 absolute -top-[0.6PX]">
+                    {notifications?.length}
+                  </span>
+                </p>{" "}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white p-3">
+                {notifications !== null &&
+                  notifications?.map((info: any, idx: number) => {
+                    return (
+                      <>
+                        <DropdownMenuItem
+                          className={`hover:bg-black/10  ${
+                            !info?.messages[0]?.isRead && "bg-black/10"
+                          }`}
+                          key={idx}
+                        >
+                          {info?.messages[0]?.message}{" "}
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator className="bg-bm__beige" />
+                      </>
+                    );
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DialogContent className="bg-[#F3F3F3] max-w-[360px] max-h-[282px] flex flex-col">
+              <DialogHeader>
+                <DialogTitle className="flex items-center justify-center m-3">
+                  <img src={logoutImg} alt="" />
+                </DialogTitle>
+                <DialogDescription className="text-[#252525] font-medium text-[18px] text-center w-[288px] pt-5">
+                  Are you sure you want to logout?
+                </DialogDescription>
+              </DialogHeader>
+              <Separator />
+              <div className="flex justify-between">
+                <button>Cancel</button>
+                <Link
+                  to="/api/auth/signout"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(logout(""));
+                    // signOut();
+                    navigate("/auth/login");
+                  }}
+                  className="inline-block px-6 py-3 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
+                >
+                  Logout
+                </Link>
+              </div>
+            </DialogContent>
+          </Dialog>
           <Dialog>
             <DropdownMenu>
               <DropdownMenuTrigger>
