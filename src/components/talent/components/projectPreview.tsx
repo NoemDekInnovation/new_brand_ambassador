@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Card, CardContent } from "../../../ui/card";
-import { ImCancelCircle } from "react-icons/im";
+import { ImAttachment, ImCancelCircle } from "react-icons/im";
 import { Separator } from "../../../ui/seperator";
 import ItemCard from "./ItemCard";
 import { Button } from "../../../ui/button";
@@ -10,6 +10,7 @@ import {
 } from "../../agency/createproject/projectBudget";
 import { GiPaperClip } from "react-icons/gi";
 import { IoMdShare } from "react-icons/io";
+import { Input } from "../../../ui/input";
 
 const ProjectPreview = ({
   popUp,
@@ -40,19 +41,28 @@ const ProjectPreview = ({
     day: "numeric",
   });
 
-  //   const PstartDate = new Date(selectedProject?.projectPost?.startDate);
-  //   const PendDate = new Date(selectedProject?.projectPost?.endDate);
-  //   const FormattedPstartDate = startDate.toLocaleDateString("en-US", {
-  //     year: "numeric",
-  //     month: "long",
-  //     day: "numeric",
-  //   });
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  //   const FormattedPendDate = endDate.toLocaleDateString("en-US", {
-  //     year: "numeric",
-  //     month: "long",
-  //     day: "numeric",
-  //   });
+  const [selectedFileName, setSelectedFileName] = useState("");
+  const [document, setDocument] = useState<File>({} as File);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    const fileInput = fileInputRef.current;
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      setSelectedFileName(fileInput.files[0].name);
+    }
+
+    if (files?.length) {
+      const selectedFile = Array.from(files);
+      setDocument(selectedFile[0]);
+    }
+  };
+
+  const handleDivClick = () => {
+    // Trigger a click event on the hidden input
+    fileInputRef?.current?.click();
+  };
 
   return (
     <div
@@ -251,10 +261,17 @@ const ProjectPreview = ({
               </ItemCard>{" "}
               <ItemCard title={"Attachments"} red={true}>
                 <p>Add as many attachments as required by the project</p>
-
                 <Separator className="bg-bm__beige my-4" />
-
-                {selectedProject?.project?.document.map(
+                <Button
+                  className="w-full mt-4  border p-8 rounded-lg  border-bm_black"
+                  onClick={handleDivClick}
+                >
+                  <div className="flex items-center gap-1">
+                    <ImAttachment className="text-[16px]" />
+                    Attach file
+                  </div>
+                </Button>
+                {/* {selectedProject?.project?.document.map(
                   (_: any, idx: number) => {
                     return (
                       <a
@@ -269,7 +286,17 @@ const ProjectPreview = ({
                       </a>
                     );
                   }
-                )}
+                )} */}
+
+                <Input
+                  type="file"
+                  className="hidden"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  name="document"
+                  required
+                />
+                {selectedFileName && <p>{selectedFileName}</p>}
               </ItemCard>
               <div className="flex w-full justify-between mb-8">
                 <button className="light__btn max-w-fit text-[12px] ">
