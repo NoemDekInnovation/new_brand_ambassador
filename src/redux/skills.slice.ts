@@ -9,34 +9,33 @@ export interface SkillsStateProps {
   skills: { results: string[] };
   skillsFetchSucess: boolean;
 }
-const localStorageKey = "userData"
-
-const getUserKey: any = localStorage.getItem(localStorageKey);
-console.log("key")
-const userData = JSON.parse(getUserKey); 
-console.log("user",userData)
-  // const { user } = useSelector((state: RootState) => state.user);
 
 // Thunk action to fetch skills data from the API
 
 export const fetchSkills = createAsyncThunk(
   "skills/fetchSkills",
-  async (skill: string) => {
-    
-    
-    const response = await campaignAuthAxiosInstance(
-      `/search-skills?skill=${skill}`,
-      {
-        headers: {
-          Authorization: `Bearer ${getUserKey?.authKey || ""}`,
-        },
-      }
-    );
 
-    
-    return response.data;
+  async (skill: string) => {
+    const user = localStorage.getItem("userData");
+    try {
+      if (user !== null) {
+        const parsedUser = JSON.parse(user);
+        const response = await campaignAuthAxiosInstance(
+          `/search-skills?skill=${skill}`,
+          {
+            headers: {
+              Authorization: `Bearer ${parsedUser.authKey}`,
+            },
+          }
+        );
+
+        return response.data;
+      }
+    } catch (error) {
+      throw error;
+    }
   }
-); 
+);
 
 const initialState: SkillsStateProps = {
   loading: false,
