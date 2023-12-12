@@ -57,7 +57,7 @@ export const fetchTalents = createAsyncThunk(
           },
         });
 
-        console.log("checker", response?.data);
+        // console.log("checker", response?.data);
         return response?.data?.data;
       }
     } catch (error) {

@@ -58,7 +58,7 @@ const ViewApplication = ({
           : "translate-y-[1000px] opacity-0 h-0"
       }`}
     >
-      <Card className="p-4 relative bg-white w-[1280px] h-[95vh]">
+      {/* <Card className="p-4 relative bg-white w-[1280px] h-[95vh]">
         <span className="absolute top-0 right-0 text-sm text-[#6F797A] p-6 flex items-center gap-8">
           <button
             className="light__btn text-[14px] py-0"
@@ -83,20 +83,17 @@ const ViewApplication = ({
           <p className="text-[18px] font-semibold">Talent Name</p>
         </div>
         <Separator className="bg-bm__gler/50" />
-        <div className="flex items-center gap-4 px-7 mt-7">
+        <div className="flex items-center gap-7 px-7 my-7">
           <p className="text-[14px] cursor-pointer hover:underline">Profile</p>
-          {/* {<ProfileTab select={select} popUp={popUp} setPopUp={setPopUp} />} */}
-          <p className="text-[14px] cursor-pointer hover:underline">
+          <p className="text-[14px] cursor-pointer hover:underline bg-red-500 w-[1000px]">
             Application
           </p>
-          {/* {<ApplicationTab select={select} popUp={popUp} setPopUp={setPopUp} />} */}
           <p className="text-[14px] cursor-pointer hover:underline">Messages</p>
-          {/* {<MessageTab select={select} popUp={popUp} setPopUp={setPopUp} />} */}
+
           <p className="text-[14px] cursor-pointer hover:underline">Contract</p>
-          {/* {<ContractTab select={select} popUp={popUp} setPopUp={setPopUp} />} */}
         </div>
         <Separator className="bg-[#D7D8DA]" />
-      </Card>
+      </Card> */}
       <ProfileView popUp={popUp} setPopUp={setPopUp} selectedProject={null} />
     </div>
   );
