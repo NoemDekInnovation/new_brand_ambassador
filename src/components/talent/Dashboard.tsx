@@ -17,7 +17,7 @@ const TalentDashboard = () => {
       {" "}
       <Tabs defaultValue="home" className="w-full">
         <div className="flex flex-col md:flex-row  justify-between w-full px-4   md:px-12 xl:px-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0">
-          <TabsList className="">
+          <TabsList className="" defaultValue={"projects"}>
             <TabsTrigger value="home">Home</TabsTrigger>
             <TabsTrigger value="projects">Projects</TabsTrigger>
             <TabsTrigger value="reports">Reports</TabsTrigger>
@@ -35,7 +35,7 @@ const TalentDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="flex overflow-hidden overflow-y-hidden h-[82vh] mb-2 xl:pl-40 md:pl-12 pl-4">
+        <div className="flex overflow-hidden overflow-y-hidden h-[85.5vh]  xl:pl-40 md:pl-12 pl-4">
           <TabsContent value="home" className="w-full">
             <Hometab />
           </TabsContent>

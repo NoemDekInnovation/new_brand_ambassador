@@ -71,8 +71,6 @@ const TalentDetailsInfo = ({
 }) => {
   let pageTalents;
 
-  // console.log("activeType", activeType);
-
   const [gridView, setGridView] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [popUp, setPopUp] = useState(false);
@@ -92,8 +90,6 @@ const TalentDetailsInfo = ({
   const onTalentTypeChnage = (type: TalentType) => {
     setActiveType(type);
   };
-
-  console.log("activeType", activeType);
 
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -141,14 +137,21 @@ const TalentDetailsInfo = ({
 
     const fetchProjects = async () => {
       if (user !== null) {
-        const response = await campaignAuthAxiosInstance(`/projects`, {
-          headers: {
-            Authorization: `Bearer ${user.authKey || ""}`,
-          },
-        });
-        const projects = response?.data?.data.projects.map((project: any) => {
-          return { value: project._id, label: project.projectDescription };
-        });
+        const response = await campaignAuthAxiosInstance(
+          `/published-projects`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ""}`,
+            },
+          }
+        );
+
+        const projects = response?.data?.data.publishedProjects.map(
+          (project: any) => {
+            return { value: project._id, label: project.projectTitle };
+          }
+        );
+        console.log(response.data.data, projects);
 
         setProjects(projects);
       }

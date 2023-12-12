@@ -91,12 +91,15 @@
   @apply bg-inherit w-full px-6 py-1 border-2 border-yellow-300 text-yellow-300 hover:bg-white/70 rounded-md;
 }
 
+.outlined__red__btn {
+  @apply bg-inherit w-full px-6 py-1 border-2 border-red-700 text-red-700 hover:bg-white/70 rounded-md;
+}
 .dark__base__btn {
   @apply text-bm__btn__grey w-full px-6 py-1  hover:text-bm__btn__grey/70 rounded-md;
 }
 
 .ox__btn {
-  @apply  w-full px-6 py-1 text-white rounded-md;
+  @apply w-full px-6 py-1 text-white rounded-md;
 }
 
 /* styles.css */
@@ -119,8 +122,8 @@ body {
   transform: scale(1.05); /* Adjust the scale factor as needed */
 }
 
-.input-phone-number input:focus{
-    outline: none !important;
-    border:none !important;
-    box-shadow: none !important;
+.input-phone-number input:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }

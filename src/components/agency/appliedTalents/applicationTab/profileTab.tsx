@@ -10,8 +10,10 @@ const ProfileTab = ({
   popUp,
   setPopUp,
   select,
+  setSelectedComponent,
 }: //   selectedProject,
 {
+  setSelectedComponent: any;
   select: any;
   popUp: boolean;
   setPopUp: any;
@@ -52,12 +54,30 @@ const ProfileTab = ({
         </div>
         <Separator className="bg-bm__gler/50" />
         <div className="flex items-center gap-4 px-7 mt-7">
-          <p className="text-[12px] cursor-pointer hover:underline">Profile</p>
-          <p className="text-[12px] cursor-pointer hover:underline">
+          <p
+            className="text-[12px] cursor-pointer hover:underline"
+            onClick={() => setSelectedComponent(1)}
+          >
+            Profile
+          </p>
+          <p
+            className="text-[12px] cursor-pointer hover:underline"
+            onClick={() => setSelectedComponent(2)}
+          >
             Application
           </p>
-          <p className="text-[12px] cursor-pointer hover:underline">Messages</p>
-          <p className="text-[12px] cursor-pointer hover:underline">Contract</p>
+          <p
+            className="text-[12px] cursor-pointer hover:underline"
+            onClick={() => setSelectedComponent(3)}
+          >
+            Messages
+          </p>
+          <p
+            className="text-[12px] cursor-pointer hover:underline"
+            onClick={() => setSelectedComponent(4)}
+          >
+            Contract
+          </p>
         </div>
         <Separator className="bg-[#D7D8DA]" />
         <TalProfile />
