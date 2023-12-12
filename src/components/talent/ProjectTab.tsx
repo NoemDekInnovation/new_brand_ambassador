@@ -9,6 +9,7 @@ import { Separator } from "../../ui/seperator";
 import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
 import { Label } from "../../ui/label";
 import { Input } from "../../ui/input";
+import Invitations from "./components/Invitations";
 
 type ProjectType =
   | "Available Projects"
@@ -46,7 +47,7 @@ const Hometab = () => {
       projects = "Current Project";
       break;
     case "Invitations":
-      projects = "Invitations";
+      projects = <Invitations />;
       break;
     case "My Applications":
       projects = "My Applications";
