@@ -5,6 +5,15 @@ import published from "../../assets/Published Projects.png";
 import draft from "../../assets/Draft Projects.png";
 import { CardContent } from "../../ui/card";
 import { Separator } from "../../ui/seperator";
+import col from "../../assets/Collaterals Talent.png"
+import group from "../../assets/Group Talent.png"
+import outlet from "../../assets/Outlets Talent.png"
+import Product from "../../assets/Products Talent.png"
+import Report from "../../assets/Reports.png"
+import talentPost from "../../assets/Talent Post.png"
+
+
+
 type ProjectType =
   | "Available Projects"
   | "Current Project"
@@ -18,6 +27,7 @@ type ProjectTypeProps = {
   count?: number;
   onClick: (name: ProjectType) => void;
   isActive: boolean;
+  image: string;
 };
 
 type ProjectListProps = {
@@ -64,6 +74,7 @@ const ProjectType: React.FC<ProjectTypeProps> = ({
   count,
   onClick,
   isActive,
+  image,
 }) => {
   const backgroundColor = getProjectColor(name);
   return (
@@ -72,6 +83,7 @@ const ProjectType: React.FC<ProjectTypeProps> = ({
       onClick={() => onClick(name)}
     >
       <div className="flex items-center">
+        <img src={image} alt={name} className="mr-2" />
         <p className="ml-4">{name}</p>
       </div>
       {/* <div className="text-white bg-bm__ox__red px-2 rounded-sm">{count}</div> */}
@@ -107,6 +119,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
         <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Available Projects"
+            image={talentPost}
             // count={projectCount["Available Projects"]}
             onClick={handleProjectTypeClick}
             isActive={activeProjectType === "Available Projects"}
@@ -116,6 +129,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
         <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Current Project"
+            image={group}
             count={projectCount["Current Project"]}
             onClick={handleProjectTypeClick}
             isActive={activeProjectType === "Current Project"}
@@ -125,6 +139,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
         <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Invitations"
+            image={Product}
             count={projectCount["Invitations"]}
             onClick={handleProjectTypeClick}
             isActive={activeProjectType === "Invitations"}
@@ -134,6 +149,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
         <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="My Applications"
+            image={col}
             // count={projectCount["My Applications"]}
             onClick={handleProjectTypeClick}
             isActive={activeProjectType === "My Applications"}
@@ -143,6 +159,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
         <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Saved Projects"
+            image={outlet}
             // count={projectCount["Saved Projects"]}
             onClick={handleProjectTypeClick}
             isActive={activeProjectType === "Saved Projects"}
@@ -152,6 +169,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
         <div className="gap-4 hover:bg-black/10 cursor-pointer">
           <ProjectType
             name="Completed Projects"
+            image={Report}
             // count={projectCount["Completed Projects"]}
             onClick={handleProjectTypeClick}
             isActive={activeProjectType === "Completed Projects"}
