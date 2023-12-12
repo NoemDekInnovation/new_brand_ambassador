@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Separator } from "../../../ui/seperator";
 import { Card } from "../../../ui/card";
 import Logo from "../../../assets/beauty.jpg";
@@ -26,7 +26,10 @@ import {
 } from "@radix-ui/react-select";
 import { DialogFooter, DialogHeader } from "../../../ui/dialog";
 import { Button } from "../../../ui/button";
-import { authAxiosInstance } from "../../../api/axios";
+import {
+  authAxiosInstance,
+  campaignAuthAxiosInstance,
+} from "../../../api/axios";
 import { TalentProps } from "../../../redux/types";
 // import TalentCard from "../TalentCard";
 
@@ -54,6 +57,8 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { TalentsProps } from "../../../redux/talent.slice";
 import { ProjectViewCard } from "../../projectPreview";
 import ViewApplication from "./viewApplications";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 export const TalentList = ({
   talent,
@@ -68,7 +73,8 @@ export const TalentList = ({
   selectedProject,
   setSuccessModal,
   successModal,
-}: {
+}: // setProjects,
+{
   talent: any;
   index: number;
   handleInvite: any;
@@ -81,6 +87,7 @@ export const TalentList = ({
   setSelectedTalentID: any;
   setSuccessModal: any;
   successModal: boolean;
+  // setProjects: any;
 }) => {
   // console.log(talent, "tap");
 
@@ -107,6 +114,76 @@ export const TalentList = ({
     setPopUp(!popUp);
     // setSelectedRole(talent);
   };
+
+  const [isShortlisted, setShortlisted] = useState(false);
+  // const [projectId, setProjectId] = useState("");
+
+  const handleShortlistClick = () => {
+    // Perform shortlisting logic here, if needed
+    // For demonstration purposes, just toggle the state
+    setShortlisted(true);
+  };
+
+  // const [projectId, setProjectId] = useState();
+
+  // const { user } = useSelector((state: RootState) => state.user);
+  // useEffect(() => {
+  //   // setIsLoading(true);
+
+  //   const fetchProjects = async () => {
+  //     if (user !== null) {
+  //       const response = await campaignAuthAxiosInstance(`/projects`, {
+  //         headers: {
+  //           Authorization: `Bearer ${user.authKey || ""}`,
+  //         },
+  //       });
+  //       const projects = response?.data?.data.projects.map((project: any) => {
+  //         console.log("i said", project._id, project);
+  //         return { value: project._id, label: project.projectDescription };
+  //       });
+
+  //       setProjects(projects);
+  //       setProjectId(projects[0]._id);
+  //     }
+  //   };
+  //   fetchProjects();
+  //   // setIsLoading(false);
+  // }, [user?.accountId]);
+
+  // const id = projects._id;
+  // console.log("id", id);
+
+  // const projectId = "615f2b3b1a5b9e0016c9b0a5";
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     //  setLoading(true);
+  //     try {
+  //       const user = localStorage.getItem("userData");
+  //       if (user !== null) {
+  //         const parsedUser = JSON.parse(user);
+  //         const response = await authAxiosInstance.get(
+  //           `/project-applications/${projectId}`,
+  //           {
+  //             headers: {
+  //               Authorization: `Bearer ${parsedUser.authKey}`,
+  //             },
+  //           }
+  //         );
+  //         console.log("my", response.data);
+  //         //  setProjectApplications(response.data.data.projectApplications);
+  //       }
+  //     } catch (error) {
+  //       //  setError(error.message || "An error occurred");
+  //     } finally {
+  //       //  setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [projectId]);
+
+  // console.log("helloooooo");
 
   return (
     <div key={index} className="bg-white border rounded flex">
@@ -161,7 +238,7 @@ export const TalentList = ({
             )}
             <div className="flex items-center">
               <div className="text-[15px] p-0 px-2">|</div>
-              <p className="text-[10px] font-normal">Applied</p>
+              <p className="text-[10px] font-normal">Brand Ambassador</p>
             </div>
           </div>
         </div>
@@ -221,19 +298,32 @@ export const TalentList = ({
               <span>Share</span>
             </div>
           </button>
-          {/* <button
-            className="dark__btn text-[14px] py-0"
+          <button
+            className="light__btn text-[14px] py-0"
             style={{ whiteSpace: "nowrap", width: "150px" }}
-            onClick={() => handleApplyPopUp(talent)}
+            // onClick={() => handleApplyPopUp(talent)}
           >
-            View Application
-          </button> */}
+            Approve Hire
+          </button>
+          <button
+            className={`dark__btn text-[14px] py-0 ${
+              isShortlisted ? "bg-green-500 text-black" : ""
+            }`}
+            style={{ whiteSpace: "nowrap", width: "150px" }}
+            // onClick={() => handleApplyPopUp(talent)}
+            // style={buttonStyle}
+            onClick={handleShortlistClick}
+            disabled={isShortlisted}
+          >
+            {isShortlisted ? "Shortlisted" : "Shortlist"}
+          </button>
         </div>
       </div>
       <ViewApplication
         popUp={popUp}
         setPopUp={() => setPopUp(!popUp)}
         select={talent}
+
         // selectedProject={selectedProject}
       />
     </div>

@@ -10,6 +10,7 @@ import publishProjectSlice from "./publishProject";
 import activeProjectSlice from "./ActiveProject";
 import completeProject from "./completeProject";
 import draftProjectSlice from "./draftProject.slice";
+import ProjectApplicationSlice from "./projectApllication.slice";
 import talentInviteReducer from "./talentInvitations.slice";
 
 const store = configureStore({
@@ -27,6 +28,7 @@ const store = configureStore({
     draftProject: draftProjectSlice,
     activeProject: activeProjectSlice,
     projects: activeProjectSlice,
+    projectApplication: ProjectApplicationSlice,
   },
 });
 

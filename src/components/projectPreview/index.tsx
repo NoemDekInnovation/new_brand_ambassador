@@ -8,10 +8,14 @@ export const ProjectViewCard = ({
   popUp,
   setPopUp,
   selectedProject,
+  id,
+  setId,
 }: {
   popUp: boolean;
   setPopUp: any;
   selectedProject: any;
+  id: any;
+  setId: any;
 }) => {
   const [selectedComponent, setSelectedComponent] = useState(1);
 
@@ -39,6 +43,7 @@ export const ProjectViewCard = ({
           setPopUp={() => setPopUp(!popUp)}
           select={setSelectedComponent}
           selectedProject={selectedProject}
+          // setId={setId}
         />
       )}
       {selectedComponent === 4 && (
