@@ -93,7 +93,7 @@ export default function Skills({
         <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
           <p className="text-[15px] font-semibold p-2">My Account</p>
           <Separator className="bg-bm__gler" />
-          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer bg-black/10">
             <div className="flex items-center gap-4 mr-2">
               <BiSolidUserDetail />
               <p className="text-[14px] font-normal ">Profile</p>
@@ -227,7 +227,6 @@ export default function Skills({
               </div>
               <Separator className="bg-bm__beige my-7 md:my-6 py-[2px]" />
               {/* <p>Opportunities</p> */}
-              
             </div>
             {/* <Separator className="bg-bm__beige my-4 md:mb-6" /> */}
           </CardContent>

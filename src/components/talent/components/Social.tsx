@@ -101,7 +101,7 @@ const { user } = useSelector((state: RootState) => state.user);
         <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
           <p className="text-[15px] font-semibold p-2">My Account</p>
           <Separator className="bg-bm__gler" />
-          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer bg-black/10">
             <BiSolidUserDetail />
             <p className="text-[14px] font-normal ">Profile</p>
           </div>
@@ -176,7 +176,6 @@ const { user } = useSelector((state: RootState) => state.user);
                   placeholder=" "
                   value={socials.linkedin}
                   onChange={(e) => handleInputChange(e, "linkedin")}
-                  
                   required
                 />
                 <label
@@ -197,7 +196,6 @@ const { user } = useSelector((state: RootState) => state.user);
                   placeholder=" "
                   value={socials.instagram}
                   onChange={(e) => handleInputChange(e, "instagram")}
-                
                   required
                 />
                 <label
@@ -218,7 +216,6 @@ const { user } = useSelector((state: RootState) => state.user);
                   placeholder=" "
                   value={socials.twitter}
                   onChange={(e) => handleInputChange(e, "twitter")}
-                  
                   required
                 />
                 <label
@@ -239,7 +236,6 @@ const { user } = useSelector((state: RootState) => state.user);
                   placeholder=" "
                   value={socials.facebook}
                   onChange={(e) => handleInputChange(e, "facebook")}
-                 
                   required
                 />
                 <label
