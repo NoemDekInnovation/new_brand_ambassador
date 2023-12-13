@@ -12,7 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { useEffect, useState } from "react";
 import { campaignAuthAxiosInstance, patchAxiosInstance } from "../../../api/axios";
-import { SkillsStateProps, fetchSkills } from "../../../redux/skills.slice";
+import {
+  SkillsStateProps,
+  fetchSkills,
+  reset,
+} from "../../../redux/skills.slice";
 import { GrFormClose } from "react-icons/gr";
 
 type TalentOption = {
@@ -44,7 +48,7 @@ export default function Skills({
   const { skills, skillsFetchSucess } = useSelector(
     (state: any) => state.skills
   ) as SkillsStateProps;
-  console.log(skills);
+
   const { user } = useSelector((state: RootState) => state.user);
 
 
@@ -52,40 +56,34 @@ export default function Skills({
   const [filteredOptions, setFilteredOptions] = useState<TalentOption[]>([]);
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [example, setExample] = useState("");
+  const [skillStore, setSkillStore] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(true);
 
 
 
 
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setInputValue(value);
-    setIsSearching(true);
-
-    if (value) {
-      const searchLower = value.toLowerCase();
-      const filtered = talentOptions.filter((option) =>
-        option.label.toLowerCase().includes(searchLower)
-      );
-      setFilteredOptions(filtered);
-    } else {
-      setFilteredOptions([]);
-    }
-  };
-
-  const handleOptionClick = (value: string) => {
-    setInputValue(value);
-    setOpportunites(value)
-    setIsSearching(false);
-    setFilteredOptions([]);
-  };
   const dispatch = useDispatch<AppDispatch>();
 
+useEffect(() => {
+  if (skillsFetchSucess) {
+      setSkillStore(true);
+      setTimeout(() => {
+        dispatch(reset());
+      }, 2000)
+  }
+}, [skillsFetchSucess])
 
-
-  useEffect(() => {
-    dispatch(fetchSkills(example));
-  }, [example]);
+  // useEffect(() => {
+  //   dispatch(fetchSkills(example));
+  // }, [example]);
+    useEffect(() => {
+      const fetchData = async () => {
+        await dispatch(fetchSkills(example));
+        setIsLoading(false);
+        // checkFormValidity();
+      };
+      fetchData();
+    }, [example, dispatch]);
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">
       {/* <div className='fixed top-0 h-screen w-screen bg-[#F3F3F3]/30 z-[1000] mt-[20vh] px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'> */}
@@ -170,8 +168,8 @@ export default function Skills({
                 <div className="relative  z-0 w-full mb-6 group">
                   <input
                     type="text"
-                    name="floating_first_name"
-                    id="floating_first_name"
+                    name="example"
+                    id="example"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     // value={formData.projectDuration.startDate}
@@ -180,7 +178,7 @@ export default function Skills({
                     onChange={(e) => {
                       setExample(e.target.value);
                     }}
-                    value={example}
+                    // value={example}
                   />
                   <label
                     htmlFor="skills"
@@ -205,7 +203,7 @@ export default function Skills({
                   <div className="relative">
                     <div className="flex gap-2 lg:justify-between font-medium text-[12px] my-2 flex-wrap">
                       <ul className="list-none">
-                        {skills.results.map((skill, index) => (
+                        {skillStore && skills.results.map((skill, index) => (
                           <li
                             className="rounded bg-white px-4 py-2 mb-1 text-gray-800 max-w-xs"
                             key={index}
