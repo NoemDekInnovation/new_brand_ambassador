@@ -22,7 +22,7 @@ import { Button } from "../../../ui/button";
 import { TbProgressCheck } from "react-icons/tb";
 import { DialogOverlay } from "@radix-ui/react-dialog";
 
-const AllTalents = ({
+const AllApplications = ({
   gridView,
   handleInvite,
   setSelectedProject,
@@ -260,4 +260,4 @@ const AllTalents = ({
   );
 };
 
-export default AllTalents;
+export default AllApplications;

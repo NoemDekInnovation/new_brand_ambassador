@@ -140,7 +140,7 @@ export default function Education({
         <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
           <p className="text-[15px] font-semibold p-2">My Account</p>
           <Separator className="bg-bm__gler" />
-          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+          <div className="flex items-center gap-4 p-3  hover:bg-black/10 transform hover:scale-105 cursor-pointer bg-black/10">
             <div className="flex items-center gap-4 mr-2">
               <BiSolidUserDetail />
               <p className="text-[14px] font-normal ">Profile</p>
@@ -284,7 +284,6 @@ export default function Education({
                     </div>
                   </div>
                   <div className="grid md:grid-cols-2 md:gap-6">
-                
                     <div className="relative z-0 w-full mb-6 group">
                       <select
                         name="grade"

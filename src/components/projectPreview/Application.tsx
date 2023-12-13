@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Card, CardContent } from "../../ui/card";
 import { Dialog, DialogContent, Overlay } from "@radix-ui/react-dialog";
 import { TbMap2, TbProgressCheck } from "react-icons/tb";
@@ -17,25 +17,34 @@ import subtract3 from "../../assets/Subtract3.png";
 import darkUnion from "../../assets/Union1.png";
 import { TalentProps } from "../../redux/types";
 import ApplyDetailsInfo from "./ApplyDetailsInfo";
+import { AnyCnameRecord } from "dns";
+import { AppDispatch } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { fetchProjectApplications } from "../../redux/projectApllication.slice";
 
 const Application = ({
   popUp,
   setPopUp,
   select,
   selectedProject,
-}: {
+}: // setId,
+{
   select: any;
   popUp: boolean;
   setPopUp: any;
   selectedProject: any;
+  // setId: any;
 }) => {
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
-
+  const dispatch = useDispatch<AppDispatch>();
   const handleProfilePopUp = (talent: any) => {
     // console.log(talent);
     setPopUp(!popUp);
     setSelectedRole(talent);
   };
+  useEffect(() => {
+    dispatch(fetchProjectApplications(selectedProject._id));
+  }, []);
 
   return (
     <div
@@ -163,7 +172,10 @@ const Application = ({
         </div>
         <Card className="flex border-0 absolute flex-col p-2 bg-white overflow-y-scroll h-[75vh]  w-[1000px] right-0 top-0 mt-[130px]">
           {/* <div>Application</div> */}
-          <ApplyDetailsInfo handleProfilePopUp={handleProfilePopUp} />
+          <ApplyDetailsInfo
+            handleProfilePopUp={handleProfilePopUp}
+            ProjectId={selectedProject._id}
+          />
         </Card>
       </Card>
     </div>

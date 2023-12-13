@@ -52,6 +52,7 @@ import girl2 from "../../assets/Gallery=Gallery6.png";
 import girl3 from "../../assets/Profile 1 1.png";
 import girl4 from "../../assets/Profile 2 1.png";
 import girl5 from "../../assets/Rectangle 11 (1).png";
+import { fetchProjectApplications } from "../../redux/projectApllication.slice";
 
 const options: Intl.DateTimeFormatOptions = {
   // year: "numeric",
@@ -72,6 +73,8 @@ export function CurrentProjects({
   const dispatch = useDispatch<AppDispatch>();
 
   const [selectedProject, setSelectedProject] = useState();
+  // const [selectedProjectId, setSelectedProjectId] = useState();
+  const [id, setId] = useState<string>();
 
   const [popUp, setPopUp] = useState(false);
   const handleProfilePopUp = (project: any) => {
@@ -221,6 +224,8 @@ export function CurrentProjects({
         popUp={popUp}
         setPopUp={() => setPopUp(!popUp)}
         selectedProject={selectedProject}
+        id={id}
+        setId={setId}
       />
     </>
   );
@@ -261,6 +266,7 @@ const ProjectCard = ({
   };
 
   const { user } = useSelector((state: RootState) => state.user);
+  const [projectId, setProjectId] = useState<string | null>(null);
   useEffect(() => {
     setIsLoading(true);
 
@@ -272,11 +278,12 @@ const ProjectCard = ({
           },
         });
         const projects = response?.data?.data.projects.map((project: any) => {
-          console.log(project._id, project);
+          console.log("i said", project._id, project);
           return { value: project._id, label: project.projectDescription };
         });
 
         setProjects(projects);
+        setProjectId(projects[0]._id);
       }
     };
     fetchProjects();
