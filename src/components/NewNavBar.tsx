@@ -31,6 +31,7 @@ import { campaignAuthAxiosInstance } from "../api/axios";
 import NavPreview from "./talent/components/navPreview";
 import { fetchpublishproject } from "../redux/publishProject";
 import { fetchTalentInvitations } from "../redux/talentInvitations.slice";
+import ProjectPreview from "./talent/components/projectPreview";
 
 export default function NewNavBar() {
   const user = useSelector((state: RootState) => state.user);
@@ -88,15 +89,17 @@ export default function NewNavBar() {
   }, [dispatch]);
 
   const handleProfilePopUp = (info: any) => {
-    console.log(info);
+    const projectId = info?.messages[0]?.message.substring(37, 61).trim();
+    // console.log("pro2", projectId);
     const appliedInvite = talentInvitations?.invitations.filter(
       (project: any, idx: number) => {
-        return project?._id === info._id;
+        console.log("pro3", project?.project?._id, projectId);
+        return project?.project?._id === projectId;
       }
     );
-    console.log(appliedInvite);
-
+    setSelectedProject(appliedInvite[0]);
     setPopUp(!popUp);
+    console.log("pro", appliedInvite);
   };
 
   console.log(talentInvitations?.invitations);
@@ -327,13 +330,14 @@ export default function NewNavBar() {
           </div>
         </div>
       </div>
-      <NavPreview
+      <ProjectPreview
         popUp={popUp}
         close={() => setApply(false)}
         setApply={() => setApply(true)}
         setPopUp={() => setPopUp(!popUp)}
         selectedProject={selectedProject}
         apply={apply}
+        // projectId={project?._id}
       />
     </>
   );
