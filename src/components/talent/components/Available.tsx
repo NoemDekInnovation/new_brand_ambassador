@@ -13,10 +13,14 @@ import ProjectPreview from "./projectPreview";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchTalentInvitations } from "../../../redux/talentInvitations.slice";
+import { Input } from "../../../ui/input";
+
 
 const Available = () => {
   const [selectedProject, setSelectedProject] = useState();
   const [popUp, setPopUp] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [projectsPerPage, setProjectsPerPage] = useState(10); 
 
   const handleProfilePopUp = (project: any) => {
     setSelectedProject(project);
@@ -41,14 +45,31 @@ const Available = () => {
 
     dispatch(fetchTalentInvitations());
   }, []);
+  const { searchTerm } = useSelector(
+    (state: RootState) => state.allTalentProject
+  );
 
-  console.log(allProjects.projects);
+  // console.log(allProjects.projects);
+
+  const filteredProjects = allProjects?.projects?.filter((project: any) =>
+    project.projectTitle.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const indexOfLastProject = currentPage * projectsPerPage;
+  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
+  const currentProjects = filteredProjects?.slice(
+    indexOfFirstProject,
+    indexOfLastProject
+  );
+
+  const totalPages = Math.ceil(filteredProjects?.length / projectsPerPage);
+
 
   return (
     <>
       <div>
         <div className="overflow-y-scroll h-[63vh]">
-          {allProjects?.projects?.map((project: any, idx: number) => {
+          {currentProjects?.map((project: any, idx: number) => {
             return (
               <div
                 key={idx}
@@ -157,13 +178,25 @@ const Available = () => {
             <div className="">First</div>
 
             <div className="flex gap-8 text-bm_black/75 text-[14px]">
-              <BiChevronLeft />
+              <BiChevronLeft
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                className={`cursor-pointer ${
+                  currentPage === 1 ? "text-gray-400" : ""
+                }`}
+              />
               <p className="text-[10px]">Back</p>
 
               <p className="text-[10px]">1 - 4 of 4</p>
 
               <p className="text-[10px]">Next</p>
-              <BiChevronRight />
+              <BiChevronRight
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
+                className={`cursor-pointer ${
+                  currentPage === totalPages ? "text-gray-400" : ""
+                }`}
+              />
               <p className="text-[10px]">Last</p>
             </div>
           </div>
