@@ -147,8 +147,6 @@ const ApplyDetailsInfo = ({
     (state: RootState) => state.projectApplication
   );
 
-  console.log("wash", applied);
-
   useEffect(() => {
     const fetchTalents = async () => {
       if (user?.accountId) {
@@ -386,148 +384,141 @@ const ApplyDetailsInfo = ({
 
   return (
     <>
-      <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0">
-        <div className="flex-1">
-          <div className="flex relative items-center justify-between gap-2">
-            <p className="font-semibold text-[18px] ">All Applications</p>
-            <div className="flex item-center m-0">
-              <button className="light__btn m-0">
-                Shortlisted
-                <span className="text-[16px] font-semibold text-black">
-                  (20)
-                </span>
-              </button>
-              <div className="h-8 w-2 bg-black"></div>
-              <button className="light__btn m-0">
-                Approved
-                <span className="text-[16px] font-semibold text-black">
-                  (20)
-                </span>
-              </button>
-              <div className="h-8 w-2 bg-black"></div>
-              <button className="light__btn m-0">
-                Rejected
-                <span className="text-[16px] font-semibold text-black">
-                  (20)
-                </span>
-              </button>
-            </div>
-            <div className="relative h-full">
-              <SelectOption
-                className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
-                placeholder="Select Category "
-                id="projectCategory"
-                name="projectCategory"
-                onChange={(e: any) => onTalentTypeChnage(e.value)}
-                required
-                options={appOptions}
-                defaultValue={activeType}
-                isDisabled={false}
-              />
-            </div>
+      {/* <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0"> */}
+      <div className="flex-1">
+        <div className="flex relative items-center gap-20">
+          <div className="relative h-full">
+            <SelectOption
+              className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
+              placeholder="Select Category "
+              id="projectCategory"
+              name="projectCategory"
+              onChange={(e: any) => onTalentTypeChnage(e.value)}
+              required
+              options={appOptions}
+              defaultValue={activeType}
+              isDisabled={false}
+            />
           </div>
-          <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
-
-          <div className="flex justify-between flex-col gap-2 lg:flex-row items-center">
-            <Checkbox />
-            <div className="relative h-full">
-              <SelectOption
-                className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
-                placeholder="Actions"
-                id="projectCategory"
-                name="projectCategory"
-                onChange={(e: any) => onTalentTypeChnage(e.value)}
-                required
-                options={actionOptions}
-                defaultValue={activeType}
-                isDisabled={false}
-              />
-            </div>{" "}
-            <div className="relative h-full">
-              <SelectOption
-                className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
-                placeholder="Talent type"
-                id="projectCategory"
-                name="projectCategory"
-                onChange={(e: any) => onTalentTypeChnage(e.value)}
-                required
-                options={talentOptions}
-                defaultValue={activeType}
-                isDisabled={false}
-              />
-            </div>
-            <RadioGroup defaultValue="Male" className="flex">
-              <div className="flex items-center space-x-2">
-                <Label htmlFor="r1">Gender:</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Male" id="r2" />
-                <Label htmlFor="r2">Male</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Female" id="r3" />
-                <Label htmlFor="r3">Female</Label>
-              </div>
-            </RadioGroup>
-            {/* <p className="font-semibold text-[18px] ">{activeType}</p> */}
-            <div className="hidden lg:flex items-center border  max-h-[60px]   rounded-md w-full max-w-[300px] px-3 py-1 ">
-              <AiOutlineSearch className="text-[15px] " />
-              <Input
-                className="border-0 focus:border-0 focus:ring-0 focus:outline-none "
-                placeholder="Search"
-              />
-            </div>
-            <div className="flex items-center">
-              <div className="flex flex-col items-start lg:items-center gap-2 whitespace-nowrap lg:gap-6 lg:flex-row mr-2 md:mr-4">
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="flex gap-1 items-center">
-                    <BiSortAlt2 />
-                    Sort: {"  "} Average Rating
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="bg-white p-3">
-                    <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
-                      Relevance
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator className="bg-bm__beige" />
-                    <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
-                      Average Rating
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <div className="flex gap-2 md:gap-4 items-center">
-                  <span className="flex items-center gap-1">
-                    View:{"  "}{" "}
-                    {gridView && <TbLayoutGrid onClick={handleViewToggle} />}
-                    {!gridView && (
-                      <AiOutlineUnorderedList onClick={handleViewToggle} />
-                    )}
-                  </span>
-                </div>
-              </div>
-            </div>
+          <div className="flex item-center m-0">
+            <button className="light__btn m-0">
+              Shortlisted
+              <span className="text-[16px] font-semibold text-black">(20)</span>
+            </button>
+            <div className="h-8 w-2 bg-black"></div>
+            <button className="light__btn m-0">
+              Approved
+              <span className="text-[16px] font-semibold text-black">(20)</span>
+            </button>
+            <div className="h-8 w-2 bg-black"></div>
+            <button className="light__btn m-0">
+              Rejected
+              <span className="text-[16px] font-semibold text-black">(20)</span>
+            </button>
           </div>
-          <div className="flex w-full justify-end items-center text-[10px] font-normal">
-            1-{resTalents?.length} of {resTalents?.length}
-            <BsChevronDoubleLeft className="mx-4" />
-            <BsChevronLeft />
-            <BsChevronRight className="mx-4" />
-            <BsChevronDoubleRight />
-          </div>
-          <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
-          <Separator className="my-2" />
-
-          {pageTalents}
         </div>
-        <Separator className="my-2 md:my-4" />
-        <Pagination
-          first={""}
-          last={""}
-          prev={""}
-          next={""}
-          currentPage={1}
-          count={resTalents?.length || 0}
-        />
-      </CardContent>
+        <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
+
+        <div className="flex justify-between flex-col gap-2 lg:flex-row items-center">
+          <Checkbox />
+          <div className="relative h-full">
+            <SelectOption
+              className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
+              placeholder="Actions"
+              id="projectCategory"
+              name="projectCategory"
+              onChange={(e: any) => onTalentTypeChnage(e.value)}
+              required
+              options={actionOptions}
+              defaultValue={activeType}
+              isDisabled={false}
+            />
+          </div>{" "}
+          <div className="relative h-full">
+            <SelectOption
+              className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
+              placeholder="Talent type"
+              id="projectCategory"
+              name="projectCategory"
+              onChange={(e: any) => onTalentTypeChnage(e.value)}
+              required
+              options={talentOptions}
+              defaultValue={activeType}
+              isDisabled={false}
+            />
+          </div>
+          <RadioGroup defaultValue="Male" className="flex">
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="r1">Gender:</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="Male" id="r2" />
+              <Label htmlFor="r2">Male</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="Female" id="r3" />
+              <Label htmlFor="r3">Female</Label>
+            </div>
+          </RadioGroup>
+          {/* <p className="font-semibold text-[18px] ">{activeType}</p> */}
+          <div className="hidden lg:flex items-center border  max-h-[60px]   rounded-md w-full max-w-[300px] px-3 py-1 ">
+            <AiOutlineSearch className="text-[15px] " />
+            <Input
+              className="border-0 focus:border-0 focus:ring-0 focus:outline-none "
+              placeholder="Search"
+            />
+          </div>
+          <div className="flex items-center">
+            <div className="flex flex-col items-start lg:items-center gap-2 whitespace-nowrap lg:gap-6 lg:flex-row mr-2 md:mr-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex gap-1 items-center">
+                  <BiSortAlt2 />
+                  Sort: {"  "} Average Rating
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-white p-3">
+                  <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                    Relevance
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-bm__beige" />
+                  <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                    Average Rating
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <div className="flex gap-2 md:gap-4 items-center">
+                <span className="flex items-center gap-1">
+                  View:{"  "}{" "}
+                  {gridView && <TbLayoutGrid onClick={handleViewToggle} />}
+                  {!gridView && (
+                    <AiOutlineUnorderedList onClick={handleViewToggle} />
+                  )}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex w-full justify-end items-center text-[10px] font-normal">
+          1-{resTalents?.length} of {resTalents?.length}
+          <BsChevronDoubleLeft className="mx-4" />
+          <BsChevronLeft />
+          <BsChevronRight className="mx-4" />
+          <BsChevronDoubleRight />
+        </div>
+        <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
+        <Separator className="my-2" />
+
+        {pageTalents}
+      </div>
+      <Separator className="my-2 md:my-4" />
+      <Pagination
+        first={""}
+        last={""}
+        prev={""}
+        next={""}
+        currentPage={1}
+        count={resTalents?.length || 0}
+      />
+      {/* </CardContent> */}
     </>
   );
 };

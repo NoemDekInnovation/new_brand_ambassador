@@ -358,7 +358,7 @@ const TalentDetailsInfo = ({
       <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0">
         <div className="flex-1">
           <div className="flex relative items-center justify-between gap-2">
-            <p className="font-semibold text-[18px] ">{activeType}</p>
+            {/* <p className="font-semibold text-[18px] ">{activeType}</p> */}
 
             <div className="relative h-full">
               <SelectOption
