@@ -52,7 +52,11 @@ import CurrentContacts from "../agency/appliedTalents/CurrentContacts";
 import FavoriteTalents from "../agency/appliedTalents/FavoriteTalents";
 import Engaged from "../agency/appliedTalents/Engaged";
 import MyTalents from "../agency/appliedTalents/MyTalents";
-import { fetchProjectApplications } from "../../redux/projectApllication.slice";
+
+import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
+import { Label } from "../../ui/label";
+import { Checkbox } from "../../ui/checkbox";
+import { fetchApplications } from "../../redux/applicantions.slice";
 
 const categoryOptions: any = [
   { value: "All Talents", label: "All Talent" },
@@ -61,6 +65,26 @@ const categoryOptions: any = [
   { value: "Engaged", label: "Engaged" },
   { value: "My Talent", label: "My Talent" },
   { value: "Invited", label: "Invited" },
+];
+
+const appOptions: any = [
+  { value: "All Applications", label: "All Applications" },
+  { value: "My Talent", label: "My Talent" },
+  { value: "Favorites", label: "Favorites" },
+  { value: "Current Contacts", label: "Current Contacts" },
+  { value: "Engaged", label: "Engaged" },
+  { value: "Invited", label: "Invited" },
+];
+
+const actionOptions: any = [
+  { value: "Shortlist", label: "Shortlist" },
+  { value: "Approve Hire", label: "Approve Hire" },
+  { value: "Send Message", label: "Send Message" },
+];
+
+const talentOptions: any = [
+  { value: "Ba", label: "Ba" },
+  { value: " Supervisor", label: "Supervisor" },
 ];
 
 const ApplyDetailsInfo = ({
@@ -92,7 +116,7 @@ const ApplyDetailsInfo = ({
   const [activeType, setActiveType] = useState<TalentType>("All Talents");
 
   const onTalentTypeChnage = (type: TalentType) => {
-    setActiveType(type);
+    // setActiveType(type);
   };
 
   const { user } = useSelector((state: RootState) => state.user);
@@ -143,6 +167,10 @@ const ApplyDetailsInfo = ({
   }, [activeType]);
 
   useEffect(() => {
+    dispatch(fetchApplications(ProjectId));
+  }, []);
+
+  useEffect(() => {
     setIsLoading(true);
 
     const fetchProjects = async () => {
@@ -153,7 +181,7 @@ const ApplyDetailsInfo = ({
           },
         });
         const projects = response?.data?.data.projects.map((project: any) => {
-          return { value: project._id, label: project.projectDescription };
+          return { value: project._id, label: project?.projectTitle };
         });
 
         setProjects(projects);
@@ -361,7 +389,7 @@ const ApplyDetailsInfo = ({
       <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0">
         <div className="flex-1">
           <div className="flex relative items-center justify-between gap-2">
-            <p className="font-semibold text-[18px] ">My Applications</p>
+            <p className="font-semibold text-[18px] ">All Applications</p>
             <div className="flex item-center m-0">
               <button className="light__btn m-0">
                 Shortlisted
@@ -392,7 +420,7 @@ const ApplyDetailsInfo = ({
                 name="projectCategory"
                 onChange={(e: any) => onTalentTypeChnage(e.value)}
                 required
-                options={categoryOptions}
+                options={appOptions}
                 defaultValue={activeType}
                 isDisabled={false}
               />
@@ -400,10 +428,49 @@ const ApplyDetailsInfo = ({
           </div>
           <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
 
-          <div className="flex justify-between flex-col gap-2 lg:flex-row">
+          <div className="flex justify-between flex-col gap-2 lg:flex-row items-center">
+            <Checkbox />
+            <div className="relative h-full">
+              <SelectOption
+                className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
+                placeholder="Actions"
+                id="projectCategory"
+                name="projectCategory"
+                onChange={(e: any) => onTalentTypeChnage(e.value)}
+                required
+                options={actionOptions}
+                defaultValue={activeType}
+                isDisabled={false}
+              />
+            </div>{" "}
+            <div className="relative h-full">
+              <SelectOption
+                className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
+                placeholder="Talent type"
+                id="projectCategory"
+                name="projectCategory"
+                onChange={(e: any) => onTalentTypeChnage(e.value)}
+                required
+                options={talentOptions}
+                defaultValue={activeType}
+                isDisabled={false}
+              />
+            </div>
+            <RadioGroup defaultValue="Male" className="flex">
+              <div className="flex items-center space-x-2">
+                <Label htmlFor="r1">Gender:</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="Male" id="r2" />
+                <Label htmlFor="r2">Male</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="Female" id="r3" />
+                <Label htmlFor="r3">Female</Label>
+              </div>
+            </RadioGroup>
             {/* <p className="font-semibold text-[18px] ">{activeType}</p> */}
-
-            <div className="hidden lg:flex items-center border  max-h-[60px]   rounded-md w-full max-w-[500px] px-3 py-1 ">
+            <div className="hidden lg:flex items-center border  max-h-[60px]   rounded-md w-full max-w-[300px] px-3 py-1 ">
               <AiOutlineSearch className="text-[15px] " />
               <Input
                 className="border-0 focus:border-0 focus:ring-0 focus:outline-none "
@@ -437,14 +504,14 @@ const ApplyDetailsInfo = ({
                   </span>
                 </div>
               </div>
-              <div className="flex w-full justify-end items-center text-[10px] font-normal">
-                1-{resTalents?.length} of {resTalents?.length}
-                <BsChevronDoubleLeft className="mx-4" />
-                <BsChevronLeft />
-                <BsChevronRight className="mx-4" />
-                <BsChevronDoubleRight />
-              </div>
             </div>
+          </div>
+          <div className="flex w-full justify-end items-center text-[10px] font-normal">
+            1-{resTalents?.length} of {resTalents?.length}
+            <BsChevronDoubleLeft className="mx-4" />
+            <BsChevronLeft />
+            <BsChevronRight className="mx-4" />
+            <BsChevronDoubleRight />
           </div>
           <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
           <Separator className="my-2" />

@@ -57,7 +57,23 @@ const AllApplications = ({
     (state: RootState) => state.talent
   );
 
+  const { applications } = useSelector(
+    (state: RootState) => state.applications
+  );
+
   const [isLoading, setIsLoading] = useState(false);
+
+  console.log(applications?.projectApplications[0]?.applications);
+
+  const tap = applications?.projectApplications[0]?.applications.map(
+    (talent: any) => {
+      return talent.talent;
+    }
+  );
+
+  console.log(tap, "res", resTalents);
+
+  // console.log(applications?.projectApplications[0]?.applications[0].talent);
 
   return (
     <div className="relative">
@@ -67,7 +83,7 @@ const AllApplications = ({
             className={`flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3 md:gap-x-${gap} mt-2  flex-wrap `}
           >
             {/* {talents} */}
-            {resTalents?.map((_, idx: number) => {
+            {tap?.map((_: any, idx: number) => {
               return (
                 <AppliedTalentGrid
                   _={_}
