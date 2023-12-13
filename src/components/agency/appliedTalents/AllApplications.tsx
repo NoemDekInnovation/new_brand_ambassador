@@ -1,7 +1,7 @@
 import { AppliedTalentGrid, TalentList } from "./talentView";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -58,22 +58,23 @@ const AllApplications = ({
   );
 
   const { applications } = useSelector(
-    (state: RootState) => state.applications
+    (state: RootState) => state?.applications
   );
+
+  const [talentData, setTalentData] = useState<any>([]);
+
+  useEffect(() => {
+    if (applications !== null && applications.length !== 0) {
+      const apps = applications?.projectApplications[0]?.applications || [];
+      setTalentData(
+        apps.map((talent: any) => {
+          return talent?.talent;
+        })
+      );
+    }
+  }, [applications]);
 
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log(applications?.projectApplications[0]?.applications);
-
-  const tap = applications?.projectApplications[0]?.applications.map(
-    (talent: any) => {
-      return talent.talent;
-    }
-  );
-
-  console.log(tap, "res", resTalents);
-
-  // console.log(applications?.projectApplications[0]?.applications[0].talent);
 
   return (
     <div className="relative">
@@ -83,7 +84,7 @@ const AllApplications = ({
             className={`flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3 md:gap-x-${gap} mt-2  flex-wrap `}
           >
             {/* {talents} */}
-            {tap?.map((_: any, idx: number) => {
+            {talentData?.map((_: any, idx: number) => {
               return (
                 <AppliedTalentGrid
                   _={_}
