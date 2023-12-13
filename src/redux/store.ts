@@ -12,6 +12,7 @@ import completeProject from "./completeProject";
 import draftProjectSlice from "./draftProject.slice";
 import ProjectApplicationSlice from "./projectApllication.slice";
 import talentInviteReducer from "./talentInvitations.slice";
+import allTalentProjectReducer from "./talent/allProjects.slice";
 
 const store = configureStore({
   reducer: {
@@ -28,6 +29,7 @@ const store = configureStore({
     draftProject: draftProjectSlice,
     activeProject: activeProjectSlice,
     projects: activeProjectSlice,
+    allTalentProject: allTalentProjectReducer,
     projectApplication: ProjectApplicationSlice,
   },
 });

@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CurrentProject } from "./components/CurrentProject";
 import AvailableProjects from "./components/AvailableProjects";
 import { MyApplication } from "./components/MyApplication";
 import { AgencyCard } from "./components/AgencyCard";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { fetchAllProjects } from "../../redux/talent/allProjects.slice";
 
 const Hometab = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchAllProjects());
+  }, []);
   return (
     <div className="bg-bm_card_grey  h-full overflow-y-scroll">
       <div className="pr-4 md:pr-12 xl:pr-40 flex pt-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
