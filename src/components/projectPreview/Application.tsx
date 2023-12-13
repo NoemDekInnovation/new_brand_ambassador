@@ -54,7 +54,7 @@ const Application = ({
           : "translate-y-[1000px] opacity-0 h-0"
       }`}
     >
-      <Card className="p-4 relative bg-white w-[90vw] h-[95vh]">
+      <Card className="p-4 relative bg-white w-[85vw] h-[95vh]">
         <span className="absolute top-0 right-0 text-sm text-[#6F797A] p-8">
           <ImCancelCircle
             className="w-[20px] h-[20px] cursor-pointer"
@@ -120,7 +120,7 @@ const Application = ({
             </div>
           </Card>
 
-          <div className="flex absolute flex-row justify-start items-start font-medium text-[12px] my-2 max-w-[970px] right-5 -top-2 cursor-pointer">
+          <div className="flex absolute flex-row justify-start items-start font-medium text-[12px] my-2  w-full max-w-[82%] right-5 -top-2 cursor-pointer">
             <div
               className="relative text-white flex items-center justify-center "
               onClick={() => select(1)}
@@ -128,7 +128,7 @@ const Application = ({
               <p className="absolute top-[25%]  z-20 text-[16px] text-black">
                 Project Overview
               </p>
-              <img src={darkUnion} alt="" className=" z-5 w-[300px] h-[45px]" />
+              <img src={darkUnion} alt="" className=" z-5 w-[350px] h-[45px]" />
             </div>
             <div
               className=" relative text-black flex items-center justify-center"
@@ -138,7 +138,7 @@ const Application = ({
                 Invite Talent
                 <span className="text-[14px] font-bold">(30)</span>
               </p>
-              <img src={subtract} alt="" className=" z-10 w-[300px] h-[45px]" />
+              <img src={subtract} alt="" className=" z-10 w-[350px] h-[45px]" />
             </div>
             <div
               className=" relative text-black flex items-center justify-center"
@@ -151,7 +151,7 @@ const Application = ({
               <img
                 src={subtract3}
                 alt=""
-                className=" z-10 w-[300px] h-[45px]"
+                className=" z-10 w-[350px] h-[45px]"
               />
             </div>
             <div
@@ -165,7 +165,7 @@ const Application = ({
               <img
                 src={subtract2}
                 alt=""
-                className=" z-10 w-[300px] h-[45px]"
+                className=" z-10 w-[350px] h-[45px]"
               />
             </div>
           </div>

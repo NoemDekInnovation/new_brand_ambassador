@@ -35,16 +35,15 @@ const InviteTalent = ({
     setPopUp(!popUp);
     setSelectedRole(talent);
   };
-
   return (
     <div
-      className={`fixed z-[1000] bg-black/50  w-[100%] items-center justify-end flex flex-col transition-all duration-1000 inset-0 ${
+      className={`fixed z-[1000] bg-black/50 w-[100%] items-center justify-end flex flex-col transition-all duration-1000 inset-0 ${
         popUp
           ? "translate-y-0 opacity-100 h-[100vh] -bottom-5"
           : "translate-y-[1000px] opacity-0 h-0"
       }`}
     >
-      <Card className="p-4 relative bg-white w-[1280px] h-[95vh]">
+      <Card className="p-4 relative bg-white w-[85vw] h-[95vh] ">
         <span className="absolute top-0 right-0 text-sm text-[#6F797A] p-8">
           <ImCancelCircle
             className="w-[20px] h-[20px] cursor-pointer"
@@ -110,7 +109,7 @@ const InviteTalent = ({
             </div>
           </Card>
 
-          <div className="flex absolute flex-row justify-start items-start font-medium text-[12px] my-2 max-w-[970px] right-5 -top-2 cursor-pointer">
+          <div className="flex absolute flex-row justify-start items-start font-medium text-[12px] my-2  w-full max-w-[82%] right-5 -top-2 cursor-pointer">
             <div
               className="relative text-black flex items-center justify-center "
               onClick={() => select(1)}
@@ -118,7 +117,7 @@ const InviteTalent = ({
               <p className="absolute top-[25%]  z-20 text-[16px]">
                 Project Overview
               </p>
-              <img src={darkUnion} alt="" className=" z-5 w-[300px] h-[45px]" />
+              <img src={darkUnion} alt="" className=" z-5 w-[350px] h-[45px]" />
             </div>
             <div
               onClick={() => select(2)}
@@ -131,7 +130,7 @@ const InviteTalent = ({
               <img
                 src={subtract3}
                 alt=""
-                className=" z-10 w-[300px] h-[45px]"
+                className=" z-10 w-[350px] h-[45px]"
               />
             </div>
             <div
@@ -142,7 +141,7 @@ const InviteTalent = ({
                 {" "}
                 Applications<span className="text-[14px] font-bold">(300)</span>
               </p>
-              <img src={subtract} alt="" className=" z-10 w-[300px] h-[45px]" />
+              <img src={subtract} alt="" className=" z-10 w-[350px] h-[45px]" />
             </div>
             <div
               className=" relative text-black flex items-center justify-center"
@@ -155,12 +154,12 @@ const InviteTalent = ({
               <img
                 src={subtract2}
                 alt=""
-                className=" z-10 w-[300px] h-[45px]"
+                className=" z-10 w-[350px] h-[45px]"
               />
             </div>
           </div>
         </div>
-        <Card className=" flex border-0 absolute flex-col p-2 bg-white overflow-y-scroll h-[75vh]  w-[1000px] right-0 top-0 mt-[130px] ">
+        <Card className=" flex border-0 absolute flex-col p-2 bg-white overflow-y-scroll h-[75vh] w-full max-w-[83%] right-0 top-0 mt-[130px] ">
           <TalentDetailsInfo handleProfilePopUp={handleProfilePopUp} />
         </Card>
       </Card>

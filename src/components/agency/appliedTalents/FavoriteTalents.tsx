@@ -62,7 +62,7 @@ const FavoriteTalents = ({
           </div>
         </div>
       )}
-      {!gridView && (
+      {/* {!gridView && (
         <div className="flex flex-col w-full gap-3">
           {resTalents?.map((_, idx: number) => {
             return (
@@ -84,7 +84,7 @@ const FavoriteTalents = ({
           })}
         </div>
         // <div className='flex flex-col w-full gap-3'>{listView}</div>
-      )}
+      )} */}
     </>
   );
 };
