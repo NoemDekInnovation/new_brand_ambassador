@@ -218,7 +218,7 @@ export const TalentList = ({
           <div className="flex items-center gap-3">
             {" "}
             <p
-              className="text-[15px] font-medium cursor-pointer"
+              className="text-[15px] font-medium cursor-pointer capitalize"
               onClick={() => handleApplyPopUp(talent)}
             >
               {talent?.fullName}
@@ -244,19 +244,19 @@ export const TalentList = ({
         </div>
         <div className="mb-3">
           {" "}
-          <p className="text-[12px] font-normal mb-3">
+          <p className="text-[12px] font-normal mb-3 ">
             {" "}
             {truncateText(talent?.summary || "-", 20)}
           </p>
           <div className="flex flex-row text-[10px] font-normal">
-            <p className="border-r border-r-bm__faint__text pr-1 mr-1">
+            <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
               {talent?.age || "-"}
             </p>
-            <p className="border-r border-r-bm__faint__text pr-1 mr-1">
+            <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
               {talent?.height || "-"}
             </p>
-            <p>{talent?.address[0]?.city}</p>
-            <p className="border-r border-r-bm__faint__text pr-1 mr-1">
+            <p className="capitalize`">{talent?.address[0]?.city}</p>
+            <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
               {talent?.address[0]?.state || "-"}
             </p>
             {talent?.experience[0] && (
@@ -296,6 +296,11 @@ export const TalentList = ({
                 }}
               />
               <span>Share</span>
+            </div>
+          </button>
+          <button className="light__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
+            <div className="flex items-center gap-2">
+              <span>Send Offer</span>
             </div>
           </button>
           <button
@@ -585,14 +590,14 @@ export const AppliedTalentGrid = ({
         </div>
         <div className="px-1">
           <div className="flex items-center gap-3 whitespace-nowrap px-2 py-1">
-            <p className="text-[12px] font-medium">{_.fullName}</p>
+            <p className="text-[12px] font-medium capitalize">{_.fullName}</p>
             <span className="bg-[#00AB26] h-2 w-2 rounded-full"></span>
           </div>
           <Separator />
           <div className="flex items-center gap-2 whitespace-nowrap px-2 py-1">
             <div className="flex items-center gap-2">
               <IoLocationSharp />
-              <p className="text-[8px] font-medium leading-3 text-[#252525]">
+              <p className="text-[8px] font-medium leading-3 capitalize text-[#252525]">
                 {_.address[0]?.city} {_.address[0]?.state}
               </p>
             </div>
