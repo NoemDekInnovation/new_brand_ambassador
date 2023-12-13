@@ -19,13 +19,15 @@ const NavPreview = ({
   apply,
   close,
   setApply,
-}: {
+}: // projectId,
+{
   setApply: any;
   close: any;
   apply: boolean;
   popUp: boolean;
   setPopUp: any;
   selectedProject: any;
+  // projectId: string;
 }) => {
   const startDate = new Date(selectedProject?.projectDuration?.startDate);
   const endDate = new Date(selectedProject?.projectDuration?.endDate);

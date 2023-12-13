@@ -173,7 +173,7 @@ export default function Address({
                 </label>
               </div>
 
-              <div className="relative md:col-span-1 z-0 w-full mb-6 group">
+              <div className="relative md:col-span-1  w-full mb-6 group">
                 {/* <input
                   type="text"
                   name="city"
@@ -202,7 +202,7 @@ export default function Address({
                   placeholder="City"
                   required
                   isDisabled={false}
-                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300"
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
                 />
                 <label
                   htmlFor="state"
@@ -245,7 +245,7 @@ export default function Address({
                   placeholder="State of origin"
                   required
                   isDisabled={false}
-                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300"
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
                 />
                 <label
                   htmlFor="state"
