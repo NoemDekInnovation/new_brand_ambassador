@@ -5,14 +5,12 @@ import published from "../../assets/Published Projects.png";
 import draft from "../../assets/Draft Projects.png";
 import { CardContent } from "../../ui/card";
 import { Separator } from "../../ui/seperator";
-import col from "../../assets/Collaterals Talent.png"
-import group from "../../assets/Group Talent.png"
-import outlet from "../../assets/Outlets Talent.png"
-import Product from "../../assets/Products Talent.png"
-import Report from "../../assets/Reports.png"
-import talentPost from "../../assets/Talent Post.png"
-
-
+import col from "../../assets/Collaterals Talent.png";
+import group from "../../assets/Group Talent.png";
+import outlet from "../../assets/Outlets Talent.png";
+import Product from "../../assets/Products Talent.png";
+import Report from "../../assets/Reports.png";
+import talentPost from "../../assets/Talent Post.png";
 
 type ProjectType =
   | "Available Projects"
@@ -58,12 +56,16 @@ enum projectColors {
   red = "bg-[#800000]",
 }
 
-const getProjectColor = (type: ProjectType): string => {
+const getProjectColor = (type: ProjectType, isActive: boolean): string => {
+  console.log("Project Type:", type);
+  console.log("Is Invitation Clicked:", isActive);
+
   switch (type) {
     case "Current Project":
-      return projectColors.red;
+      return projectColors.black;
     case "Invitations":
-      return projectColors.green;
+      // return projectColors.black;
+      return isActive ? projectColors.black : projectColors.green;
     default:
       return "";
   }
@@ -76,7 +78,7 @@ const ProjectType: React.FC<ProjectTypeProps> = ({
   isActive,
   image,
 }) => {
-  const backgroundColor = getProjectColor(name);
+  const backgroundColor = getProjectColor(name, isActive);
   return (
     <div
       className={`flex justify-between p-4 ${isActive ? "bg-black/10" : ""}`}

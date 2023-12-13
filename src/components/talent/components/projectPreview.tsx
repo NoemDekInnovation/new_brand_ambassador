@@ -33,8 +33,10 @@ const ProjectPreview = ({
   setPopUp: any;
   selectedProject: any;
 }) => {
-  const startDate = new Date(selectedProject?.projectDuration?.startDate);
-  const endDate = new Date(selectedProject?.projectDuration?.endDate);
+  const startDate = new Date(
+    selectedProject?.project?.projectDuration?.startDate
+  );
+  const endDate = new Date(selectedProject?.project?.projectDuration?.endDate);
   const formattedStartDate = startDate.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -46,7 +48,6 @@ const ProjectPreview = ({
     month: "long",
     day: "numeric",
   });
-  console.log("selected", selectedProject);
 
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -150,10 +151,22 @@ const ProjectPreview = ({
       <Card className="p-4 relative bg-white w-[90VW] h-[95vh] overflow-hidden md:p-10">
         <div className="flex justify-between">
           <div className="flex gap-2">
-            <h2>Project Name</h2>
-            <h2>Project Category</h2>
-            <h2>Project Code</h2>
-            <h2>Closes: Nov 28, 2023</h2>
+            <h2 className="capitalize font-bold text-[16px]">
+              {selectedProject?.project?.projectTitle}
+            </h2>
+            <div className="h-6 w-[1px] bg-black"></div>
+            <h2 className="capitalize font-semibold text-[14px]">
+              {selectedProject?.project?.projectCategory}
+            </h2>
+            <div className="h-6 w-[1px] bg-black"></div>
+            <h2 className="capitalize font-semibold text-[14px]">
+              {" "}
+              {selectedProject?.project?.projectCode}
+            </h2>
+            <div className="h-6 w-[1px] bg-black font-semibold "></div>
+            <h2 className="font-semibold text-[14px]">
+              Closes: {formattedEndDate}
+            </h2>
           </div>
           <div className="flex gap-2">
             {!apply && (

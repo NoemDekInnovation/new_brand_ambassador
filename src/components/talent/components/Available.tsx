@@ -13,10 +13,14 @@ import ProjectPreview from "./projectPreview";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchTalentInvitations } from "../../../redux/talentInvitations.slice";
+import { Input } from "../../../ui/input";
+
 
 const Available = () => {
   const [selectedProject, setSelectedProject] = useState();
   const [popUp, setPopUp] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [projectsPerPage, setProjectsPerPage] = useState(10); 
 
   const handleProfilePopUp = (project: any) => {
     setSelectedProject(project);
@@ -41,103 +45,122 @@ const Available = () => {
 
     dispatch(fetchTalentInvitations());
   }, []);
+  const { searchTerm } = useSelector(
+    (state: RootState) => state.allTalentProject
+  );
 
-  console.log(allProjects.projects);
+  // console.log(allProjects.projects);
+
+  const filteredProjects = allProjects?.projects?.filter((project: any) =>
+    project.projectTitle.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const indexOfLastProject = currentPage * projectsPerPage;
+  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
+  const currentProjects = filteredProjects?.slice(
+    indexOfFirstProject,
+    indexOfLastProject
+  );
+
+  const totalPages = Math.ceil(filteredProjects?.length / projectsPerPage);
+
 
   return (
     <>
       <div>
-        {allProjects?.projects?.map((project: any, idx: number) => {
-          return (
-            <div
-              key={idx}
-              className="border rounded mb-4 p-3 hover:bg-black/10 transition-all duration-300 cursor-pointer"
-            >
-              <div className="flex w-full">
-                <CardContent className="p-0 space-y-1 flex-1">
-                  <div className="flex space-x-2">
-                    <img src={drago} alt="" width={18} height={18} />
-                    <p className="border-r px-2 text-[12px]">Cool Ltd.</p>
+        <div className="overflow-y-scroll h-[63vh]">
+          {currentProjects?.map((project: any, idx: number) => {
+            return (
+              <div
+                key={idx}
+                className="border rounded mb-4 p-3 hover:bg-black/10 transition-all duration-300 cursor-pointer "
+              >
+                <div className="flex w-full">
+                  <CardContent className="p-0 space-y-1 flex-1">
+                    <div className="flex space-x-2">
+                      <img src={drago} alt="" width={18} height={18} />
+                      <p className="border-r px-2 text-[12px]">Cool Ltd.</p>
 
-                    <p className="text-green-900 text-[10px] flex items-center gap-1">
-                      {" "}
-                      <GoChecklist className="text-[13px]" />
-                      Verified
+                      <p className="text-green-900 text-[10px] flex items-center gap-1">
+                        {" "}
+                        <GoChecklist className="text-[13px]" />
+                        Verified
+                      </p>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <h3
+                        className="font-medium text-[15px] "
+                        onClick={() => handleProfilePopUp(project)}
+                      >
+                        {project?.projectTitle}
+
+                        <span className="text-[10px] mx-1">(In-store)</span>
+                      </h3>
+                      <CiHeart />
+                    </div>
+                    <p className="font-normal text-[10px] text-[#252525]">
+                      {project?.projectDescription}
+                    </p>
+                  </CardContent>
+                  <div className="flex text-[10px]">
+                    <p className="border-r h-fit border-bm__beige pr-3 mr-3">
+                      Published: {"  "}
+                      <Moment format="MMM D, yyy ">
+                        {project?.projectPost?.startDate}
+                      </Moment>
+                    </p>
+                    <p className=" h-fit text-bm__ox__red">
+                      Closes:{" "}
+                      <Moment format="MMM D, yyy ">
+                        {project?.projectPost?.endDate}
+                      </Moment>
                     </p>
                   </div>
-                  <div className="flex gap-2 items-center">
-                    <h3
-                      className="font-medium text-[15px] "
-                      onClick={() => handleProfilePopUp(project)}
+                </div>
+                <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
+                  <div className="flex md:space-x-2 text-bm__grey__text text-[10px] h-full flex-wrap  ">
+                    {project?.workingDays.map((_: any, idx: number) => {
+                      return (
+                        <div key={idx} className="capitalize">
+                          {_},
+                        </div>
+                      );
+                    })}
+                    <div className="text-[11px] p-0  pb-1 px-1">.</div>
+                    <div className="">
+                      <Moment format="D MMM ">
+                        {project?.projectDuration?.startDate}
+                      </Moment>
+                      {"  "}-{"   "}
+                      <Moment format="D MMM ">
+                        {project?.projectDuration?.endDate}
+                      </Moment>
+                    </div>
+                    <div className="text-[11px] p-0  pb-1 px-1">.</div>
+                    {project?.projectLocation.map((_: any, idx: number) => {
+                      return (
+                        <div key={idx} className="capitalize">
+                          {_},
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {project.status === "notApplied" && (
+                    <button
+                      className="dark__btn max-w-fit text-[12px] mt-2 "
+                      onClick={() => {
+                        handleProfilePopUp(project);
+                        setApply(true);
+                      }}
                     >
-                      {project?.projectTitle}
-
-                      <span className="text-[10px] mx-1">(In-store)</span>
-                    </h3>
-                    <CiHeart />
-                  </div>
-                  <p className="font-normal text-[10px] text-[#252525]">
-                    {project?.projectDescription}
-                  </p>
-                </CardContent>
-                <div className="flex text-[10px]">
-                  <p className="border-r h-fit border-bm__beige pr-3 mr-3">
-                    Published: {"  "}
-                    <Moment format="MMM D, yyy ">
-                      {project?.projectPost?.startDate}
-                    </Moment>
-                  </p>
-                  <p className=" h-fit text-bm__ox__red">
-                    Closes:{" "}
-                    <Moment format="MMM D, yyy ">
-                      {project?.projectPost?.endDate}
-                    </Moment>
-                  </p>
-                </div>
+                      Apply
+                    </button>
+                  )}
+                </CardFooter>
               </div>
-              <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
-                <div className="flex md:space-x-2 text-bm__grey__text text-[10px] h-full flex-wrap  ">
-                  {project?.workingDays.map((_: any, idx: number) => {
-                    return (
-                      <div key={idx} className="capitalize">
-                        {_},
-                      </div>
-                    );
-                  })}
-                  <div className="text-[11px] p-0  pb-1 px-1">.</div>
-                  <div className="">
-                    <Moment format="D MMM ">
-                      {project?.projectDuration?.startDate}
-                    </Moment>
-                    {"  "}-{"   "}
-                    <Moment format="D MMM ">
-                      {project?.projectDuration?.endDate}
-                    </Moment>
-                  </div>
-                  <div className="text-[11px] p-0  pb-1 px-1">.</div>
-                  {project?.projectLocation.map((_: any, idx: number) => {
-                    return (
-                      <div key={idx} className="capitalize">
-                        {_},
-                      </div>
-                    );
-                  })}
-                </div>
-                {project.status === "notApplied" && (
-                  <button
-                    className="dark__btn max-w-fit text-[12px] mt-2 "
-                    onClick={() => {
-                      handleProfilePopUp(project);
-                      setApply(true);
-                    }}
-                  >
-                    Apply
-                  </button>
-                )}
-              </CardFooter>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
         <Separator className="my-2 bg-[#d7d8da]" />
         <div className="flex justify-between mt-3 items-center">
           <div className="flex items-center">
@@ -155,13 +178,25 @@ const Available = () => {
             <div className="">First</div>
 
             <div className="flex gap-8 text-bm_black/75 text-[14px]">
-              <BiChevronLeft />
+              <BiChevronLeft
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                className={`cursor-pointer ${
+                  currentPage === 1 ? "text-gray-400" : ""
+                }`}
+              />
               <p className="text-[10px]">Back</p>
 
               <p className="text-[10px]">1 - 4 of 4</p>
 
               <p className="text-[10px]">Next</p>
-              <BiChevronRight />
+              <BiChevronRight
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
+                className={`cursor-pointer ${
+                  currentPage === totalPages ? "text-gray-400" : ""
+                }`}
+              />
               <p className="text-[10px]">Last</p>
             </div>
           </div>

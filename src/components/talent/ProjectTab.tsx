@@ -122,7 +122,7 @@ const Hometab = () => {
   }, []);
 
   return (
-    <div className="bg-bm_card_grey  h-full overflow-y-scroll">
+    <div className="bg-bm_card_grey">
       <div className="pr-4 md:pr-12 xl:pr-40 ">
         <div className="flex pt-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start bg-white p-6">
           <div className="space-y-8 hidden sm:block">
@@ -133,7 +133,7 @@ const Hometab = () => {
 
             <div className="">
               <Card>
-                <CardContent className="py-3 md:py-6 space-y-3">
+                <CardContent className="py-3 md:py-6 space-y-3 overflow-y-scroll h-[35vh]">
                   <div className="flex flex-col">
                     <p className="text-[14px] font-semibold mb-2">Category</p>
                     <Separator className="bg-bm__beige" />

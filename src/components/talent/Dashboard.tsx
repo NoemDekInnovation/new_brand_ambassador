@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MainLayout } from "../Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import group from "../../assets/Group.jpg";
@@ -12,15 +12,33 @@ const TalentDashboard = () => {
   const { completeProject } = useSelector(
     (state: RootState) => state.completeProject
   );
+
+  const [defaultTab, setDefaultTab] = useState("home");
+
   return (
     <MainLayout>
       {" "}
       <Tabs defaultValue="home" className="w-full">
         <div className="flex flex-col md:flex-row  justify-between w-full px-4   md:px-12 xl:px-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0">
           <TabsList className="" defaultValue={"projects"}>
-            <TabsTrigger value="home">Home</TabsTrigger>
-            <TabsTrigger value="projects">Projects</TabsTrigger>
-            <TabsTrigger value="reports">Reports</TabsTrigger>
+            <TabsTrigger
+              value="home"
+              className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+            >
+              Home
+            </TabsTrigger>
+            <TabsTrigger
+              value="projects"
+              className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+            >
+              Projects
+            </TabsTrigger>
+            <TabsTrigger
+              value="reports"
+              className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+            >
+              Reports
+            </TabsTrigger>
           </TabsList>
           <div className="flex">
             <div className="flex items-center gap-2 mr-6">

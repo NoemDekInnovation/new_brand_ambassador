@@ -72,11 +72,13 @@ export const TalentList = ({
   setSelectedTalentID,
   selectedProject,
   setSuccessModal,
+  ProjectId,
   successModal,
 }: // setProjects,
 {
   talent: any;
   index: number;
+  ProjectId: string;
   handleInvite: any;
   setSelectedProject: any;
   projects: any;
@@ -124,66 +126,38 @@ export const TalentList = ({
     setShortlisted(true);
   };
 
-  // const [projectId, setProjectId] = useState();
+  var formdata = new FormData();
 
-  // const { user } = useSelector((state: RootState) => state.user);
-  // useEffect(() => {
-  //   // setIsLoading(true);
+  var requestOptions = {
+    method: "GET",
+    body: formdata,
+    redirect: "follow",
+  };
 
-  //   const fetchProjects = async () => {
-  //     if (user !== null) {
-  //       const response = await campaignAuthAxiosInstance(`/projects`, {
-  //         headers: {
-  //           Authorization: `Bearer ${user.authKey || ""}`,
-  //         },
-  //       });
-  //       const projects = response?.data?.data.projects.map((project: any) => {
-  //         console.log("i said", project._id, project);
-  //         return { value: project._id, label: project.projectDescription };
-  //       });
+  const handleListing = () => {
+    try {
+    } catch (error) {}
+  };
+  const user = useSelector((state: RootState) => state.user);
 
-  //       setProjects(projects);
-  //       setProjectId(projects[0]._id);
-  //     }
-  //   };
-  //   fetchProjects();
-  //   // setIsLoading(false);
-  // }, [user?.accountId]);
-
-  // const id = projects._id;
-  // console.log("id", id);
-
-  // const projectId = "615f2b3b1a5b9e0016c9b0a5";
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     //  setLoading(true);
-  //     try {
-  //       const user = localStorage.getItem("userData");
-  //       if (user !== null) {
-  //         const parsedUser = JSON.parse(user);
-  //         const response = await authAxiosInstance.get(
-  //           `/project-applications/${projectId}`,
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${parsedUser.authKey}`,
-  //             },
-  //           }
-  //         );
-  //         console.log("my", response.data);
-  //         //  setProjectApplications(response.data.data.projectApplications);
-  //       }
-  //     } catch (error) {
-  //       //  setError(error.message || "An error occurred");
-  //     } finally {
-  //       //  setLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [projectId]);
-
-  // console.log("helloooooo");
+  const fetchNotifications = async (status: string) => {
+    if (user?.user?.accountId !== undefined) {
+      try {
+        const response = await campaignAuthAxiosInstance(
+          `/add-shortlist/${talent._id}/${ProjectId}?status=${status}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.user?.authKey || ""}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.error("Error while fetiching Notifications:", error);
+      }
+    }
+  };
+  // fetchNotifications();
+  // setIsLoading(false);
 
   return (
     <div key={index} className="bg-white border rounded flex">
@@ -218,7 +192,7 @@ export const TalentList = ({
           <div className="flex items-center gap-3">
             {" "}
             <p
-              className="text-[15px] font-medium cursor-pointer"
+              className="text-[15px] font-medium cursor-pointer capitalize"
               onClick={() => handleApplyPopUp(talent)}
             >
               {talent?.fullName}
@@ -244,19 +218,19 @@ export const TalentList = ({
         </div>
         <div className="mb-3">
           {" "}
-          <p className="text-[12px] font-normal mb-3">
+          <p className="text-[12px] font-normal mb-3 ">
             {" "}
             {truncateText(talent?.summary || "-", 20)}
           </p>
           <div className="flex flex-row text-[10px] font-normal">
-            <p className="border-r border-r-bm__faint__text pr-1 mr-1">
+            <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
               {talent?.age || "-"}
             </p>
-            <p className="border-r border-r-bm__faint__text pr-1 mr-1">
+            <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
               {talent?.height || "-"}
             </p>
-            <p>{talent?.address[0]?.city}</p>
-            <p className="border-r border-r-bm__faint__text pr-1 mr-1">
+            <p className="capitalize`">{talent?.address[0]?.city}</p>
+            <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
               {talent?.address[0]?.state || "-"}
             </p>
             {talent?.experience[0] && (
@@ -298,10 +272,16 @@ export const TalentList = ({
               <span>Share</span>
             </div>
           </button>
+          <button className="light__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
+            <div className="flex items-center gap-2">
+              <span>Send Offer</span>
+            </div>
+          </button>
           <button
             className="light__btn text-[14px] py-0"
             style={{ whiteSpace: "nowrap", width: "150px" }}
             // onClick={() => handleApplyPopUp(talent)}
+            onClick={() => fetchNotifications("approvedHire")}
           >
             Approve Hire
           </button>
@@ -312,7 +292,7 @@ export const TalentList = ({
             style={{ whiteSpace: "nowrap", width: "150px" }}
             // onClick={() => handleApplyPopUp(talent)}
             // style={buttonStyle}
-            onClick={handleShortlistClick}
+            onClick={() => fetchNotifications("shortlisted")}
             disabled={isShortlisted}
           >
             {isShortlisted ? "Shortlisted" : "Shortlist"}
@@ -585,14 +565,14 @@ export const AppliedTalentGrid = ({
         </div>
         <div className="px-1">
           <div className="flex items-center gap-3 whitespace-nowrap px-2 py-1">
-            <p className="text-[12px] font-medium">{_.fullName}</p>
+            <p className="text-[12px] font-medium capitalize">{_.fullName}</p>
             <span className="bg-[#00AB26] h-2 w-2 rounded-full"></span>
           </div>
           <Separator />
           <div className="flex items-center gap-2 whitespace-nowrap px-2 py-1">
             <div className="flex items-center gap-2">
               <IoLocationSharp />
-              <p className="text-[8px] font-medium leading-3 text-[#252525]">
+              <p className="text-[8px] font-medium leading-3 capitalize text-[#252525]">
                 {_.address[0]?.city} {_.address[0]?.state}
               </p>
             </div>

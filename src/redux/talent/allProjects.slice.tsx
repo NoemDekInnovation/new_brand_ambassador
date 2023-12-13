@@ -6,12 +6,14 @@ export interface talentInvitationsProps {
   loading: boolean;
   error: string | null;
   allProjects: any;
+  searchTerm: string;
 }
 
 const initialState: talentInvitationsProps = {
   loading: false,
   error: "",
   allProjects: [],
+  searchTerm: "",
 };
 
 export const fetchAllProjects = createAsyncThunk(
@@ -39,7 +41,11 @@ export const fetchAllProjects = createAsyncThunk(
 const allProjects = createSlice({
   name: "projects",
   initialState,
-  reducers: {},
+  reducers: {
+    setSearchTerm: (state, action: PayloadAction<string>) => {
+      state.searchTerm = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllProjects.pending, (state) => {
@@ -60,5 +66,14 @@ const allProjects = createSlice({
       });
   },
 });
+
+export const {
+  setSearchTerm,
+  // setFilter,
+  // setCurrentPage,
+  // setPageSize,
+  // clearSearchAndFilter,
+} = allProjects.actions;
+
 
 export default allProjects.reducer;
