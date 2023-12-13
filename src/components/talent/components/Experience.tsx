@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Card, CardContent } from "../../../ui/card";
 import { Button } from "../../../ui/button";
 import { Separator } from "../../../ui/seperator";
@@ -8,7 +8,9 @@ import subtract2 from "../../../assets/Subtract2.png";
 import subtract3 from "../../../assets/Subtract3.png";
 import { BiSolidUserDetail } from "react-icons/bi";
 import {
+  MdClose,
   MdOutlineAddCircleOutline,
+  MdOutlineRemoveCircleOutline,
   MdPayments,
   MdSettings,
 } from "react-icons/md";
@@ -17,7 +19,7 @@ import { patchAxiosInstance } from "../../../api/axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { ExperienceProps } from "../../../redux/types";
-import { useForm } from "react-hook-form";
+
 
 export default function Experience({
   next,
@@ -50,19 +52,37 @@ const { user } = useSelector((state: RootState) => state.user);
     setExperiences([
       ...experiences,
       {
-        /* initialize with empty values */
+        agencyName: "",
+        projectName: "",
+        projectCategory: "", // Initialize with an empty string or any default value
+        projectDuration: "",
+        salary: "",
+        year: "",
+        // Add other properties as needed
       },
     ]);
   };
+
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     index: number
   ) => {
     const { name, value } = e.target;
-    
 
+    setExperiences((prevExperience: any) => {
+      const updatedExperience = [...prevExperience];
+      updatedExperience[index] = {
+        ...updatedExperience[index],
+        [name]: value,
+      };
+      return updatedExperience;
+    });
+  };
+
+  const handleRemoveExperience = (index: number) => {
+    // Remove the experience entry at the specified index
     const updatedExperiences = [...experiences];
-    updatedExperiences[index][name] = value;
+    updatedExperiences.splice(index, 1);
     setExperiences(updatedExperiences);
   };
 
@@ -192,7 +212,7 @@ const { user } = useSelector((state: RootState) => state.user);
                     </div>
                   </div>
                   <div className="grid md:grid-cols-2 md:gap-6">
-                    <div className="relative  z-0 w-full mb-6 group">
+                    {/* <div className="relative  z-0 w-full mb-6 group">
                       <input
                         type="text"
                         name="projectCategory"
@@ -209,7 +229,30 @@ const { user } = useSelector((state: RootState) => state.user);
                       >
                         Category of project
                       </label>
+                    </div> */}
+                    <div className="relative z-0 w-full mb-6 group">
+                      <select
+                        name="projectCategory"
+                        id="projectCategory"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        value={experience.projectCategory}
+                        onChange={(e) => handleInputChange(e, index)}
+                        required
+                      >
+                        <option value="" disabled>
+                          Select a category
+                        </option>
+                        <option value="open-market">Open-market</option>
+                        <option value="in-store">In-store</option>
+                      </select>
+                      <label
+                        htmlFor="projectCategory"
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        Category of project
+                      </label>
                     </div>
+
 
                     <div className="relative z-0 w-full mb-6 group">
                       <input
@@ -270,6 +313,17 @@ const { user } = useSelector((state: RootState) => state.user);
                     </div>
                   </div>
                 </div>
+                <Button
+                  className="dark__btn max-w-[180px] whitespace-nowrap flex items-center gap-2"
+                  onClick={() => handleRemoveExperience(index)}
+                >
+                  <div className="flex items-center gap-1">
+                    {/* <MdOutlineRemoveCircleOutline className="text-[20px]" /> */}
+                    <MdClose className="text-[20px]" />
+                    <span className="truncate">Remove Experience</span>
+                  </div>
+                </Button>
+
                 <Separator className=" my-5 bg-[#D7D8DA]" />
               </>
             ))}

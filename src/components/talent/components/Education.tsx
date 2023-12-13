@@ -7,7 +7,9 @@ import subtract2 from "../../../assets/Subtract2.png";
 import subtract3 from "../../../assets/Subtract3.png";
 import { BiSolidUserDetail } from "react-icons/bi";
 import {
+  MdClose,
   MdOutlineAddCircleOutline,
+  MdOutlineRemoveCircleOutline,
   MdPayments,
   MdSettings,
 } from "react-icons/md";
@@ -56,11 +58,6 @@ export default function Education({
 
 
 
-  const { talentData } = useSelector((state: RootState) => state.talent);
-
-
-
-   const { user } = useSelector((state: RootState) => state.user);
 
 
 
@@ -96,16 +93,35 @@ export default function Education({
      setEducation(updatedEducation);
    };
 
+  // const handleEduInputChange = (
+  //   e: React.ChangeEvent<HTMLSelectElement>,
+  //   index: number
+  // ) => {
+  //   const { name, value } = e.target;
+
+  //   const updatedEducation = [...education];
+  //   updatedEducation[index][name] = value;
+  //   setEducation(updatedEducation);
+  // };
   const handleEduInputChange = (
     e: React.ChangeEvent<HTMLSelectElement>,
     index: number
   ) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
 
+    // Create a shallow copy of the education array
     const updatedEducation = [...education];
-    updatedEducation[index][name] = value;
+
+    // Create a new object with the updated degree property
+    updatedEducation[index] = {
+      ...updatedEducation[index],
+      degree: value,
+    };
+
+    // Update the state with the new array
     setEducation(updatedEducation);
   };
+
 
 
   //  const handleCertInputChange = (
@@ -131,6 +147,22 @@ export default function Education({
     );
 
     setCertificate(updatedCertificate);
+  };
+
+  const handleRemoveEducation = (index: number) => {
+    setEducation((prevEducation: EducationProps[]) => {
+      const updatedEducation = [...prevEducation];
+      updatedEducation.splice(index, 1);
+      return updatedEducation;
+    });
+  };
+
+  const handleRemoveCertification = (index: number) => {
+    setCertificate((prevCertificate: CertificateProps[]) => {
+      const updatedCertificate = [...prevCertificate];
+      updatedCertificate.splice(index, 1);
+      return updatedCertificate;
+    });
   };
 
 
@@ -266,7 +298,9 @@ export default function Education({
                         <option value="" disabled selected>
                           Select a Degree
                         </option>
-                        <option value="Bachelor's">Bachelor's</option>
+                        <option value="Bachelor's Degree">
+                          Bachelor's Degree
+                        </option>
                         <option value="Master's">Master's</option>
                         <option value="PhD">PhD</option>
                         <option value="SSCE">SSCE</option>
@@ -335,9 +369,17 @@ export default function Education({
                     </div>
                   </div>
                 </div>
+                <Button
+                  className="dark__btn max-w-[180px] whitespace-nowrap flex items-center gap-2"
+                  onClick={() => handleRemoveEducation(index)}
+                >
+                  <MdClose className="text-[20px]" />
+                  <span className="truncate">Remove Education</span>
+                </Button>
               </>
             ))}
             <Separator className="bg-bm__beige my-4 md:mb-6" />
+
             <Button
               className="dark__btn max-w-[140px] whitespace-nowrap"
               onClick={handleAddEducation}
@@ -413,6 +455,13 @@ export default function Education({
                     </div>
                   </div>
                 </div>
+                <Button
+                  className="dark__btn max-w-[180px] whitespace-nowrap flex items-center gap-2"
+                  onClick={() => handleRemoveCertification(index)}
+                >
+                  <MdClose className="text-[20px]" />
+                  <span className="truncate">Remove Certification</span>
+                </Button>
               </>
             ))}
             <Separator className="bg-bm__beige my-4 md:mb-6" />

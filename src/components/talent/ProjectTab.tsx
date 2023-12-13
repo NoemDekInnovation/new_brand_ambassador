@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CurrentProject } from "./components/CurrentProject";
 import AvailableProjects from "./components/AvailableProjects";
 import { MyApplication } from "./components/MyApplication";
@@ -10,6 +10,10 @@ import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
 import { Label } from "../../ui/label";
 import { Input } from "../../ui/input";
 import Invitations from "./components/Invitations";
+import { fetchTalentInvitations } from "../../redux/talentInvitations.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { fetchAllProjects } from "../../redux/talent/allProjects.slice";
 
 type ProjectType =
   | "Available Projects"
@@ -29,10 +33,14 @@ const Hometab = () => {
   const [selectedLocation, setSelectedLocation] = useState("all");
   const [ageRange, setAgeRange] = useState({ start: "", end: "" });
 
+  const { talentInvitations } = useSelector(
+    (state: RootState) => state.talentInvite
+  );
+
   const projectCount = {
     "Available Projects": 0,
     "Current Project": 0,
-    Invitations: 0,
+    Invitations: talentInvitations?.invitations?.length || 0,
     "My Applications": 0,
     "Saved Projects": 0,
     "Completed Projects": 0,
@@ -104,6 +112,14 @@ const Hometab = () => {
       return alert("Please fill a category");
     }
   };
+
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    setIsLoading(true);
+
+    dispatch(fetchAllProjects());
+    dispatch(fetchTalentInvitations());
+  }, []);
 
   return (
     <div className="bg-bm_card_grey  h-full overflow-y-scroll">

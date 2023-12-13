@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchTalentInvitations } from "../../../redux/talentInvitations.slice";
 
-const AllInvitations = () => {
+const Available = () => {
   const [selectedProject, setSelectedProject] = useState();
   const [popUp, setPopUp] = useState(false);
 
@@ -27,6 +27,10 @@ const AllInvitations = () => {
   const { talentInvitations } = useSelector(
     (state: RootState) => state.talentInvite
   );
+
+  const { allProjects } = useSelector(
+    (state: RootState) => state.allTalentProject
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [projects, setProjects] = useState();
   const [apply, setApply] = useState(false);
@@ -38,10 +42,12 @@ const AllInvitations = () => {
     dispatch(fetchTalentInvitations());
   }, []);
 
+  console.log(allProjects.projects);
+
   return (
     <>
       <div>
-        {talentInvitations?.invitations?.map((project: any, idx: number) => {
+        {allProjects?.projects?.map((project: any, idx: number) => {
           return (
             <div
               key={idx}
@@ -64,34 +70,34 @@ const AllInvitations = () => {
                       className="font-medium text-[15px] "
                       onClick={() => handleProfilePopUp(project)}
                     >
-                      {project?.project?.projectTitle}
+                      {project?.projectTitle}
 
                       <span className="text-[10px] mx-1">(In-store)</span>
                     </h3>
                     <CiHeart />
                   </div>
                   <p className="font-normal text-[10px] text-[#252525]">
-                    {project?.project?.projectDescription}
+                    {project?.projectDescription}
                   </p>
                 </CardContent>
                 <div className="flex text-[10px]">
                   <p className="border-r h-fit border-bm__beige pr-3 mr-3">
                     Published: {"  "}
                     <Moment format="MMM D, yyy ">
-                      {project?.project?.projectPost?.startDate}
+                      {project?.projectPost?.startDate}
                     </Moment>
                   </p>
                   <p className=" h-fit text-bm__ox__red">
                     Closes:{" "}
                     <Moment format="MMM D, yyy ">
-                      {project?.project?.projectPost?.endDate}
+                      {project?.projectPost?.endDate}
                     </Moment>
                   </p>
                 </div>
               </div>
               <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
                 <div className="flex md:space-x-2 text-bm__grey__text text-[10px] h-full flex-wrap  ">
-                  {project?.project?.workingDays.map((_: any, idx: number) => {
+                  {project?.workingDays.map((_: any, idx: number) => {
                     return (
                       <div key={idx} className="capitalize">
                         {_},
@@ -101,23 +107,21 @@ const AllInvitations = () => {
                   <div className="text-[11px] p-0  pb-1 px-1">.</div>
                   <div className="">
                     <Moment format="D MMM ">
-                      {project?.project?.projectDuration?.startDate}
+                      {project?.projectDuration?.startDate}
                     </Moment>
                     {"  "}-{"   "}
                     <Moment format="D MMM ">
-                      {project?.project?.projectDuration?.endDate}
+                      {project?.projectDuration?.endDate}
                     </Moment>
                   </div>
                   <div className="text-[11px] p-0  pb-1 px-1">.</div>
-                  {project?.project?.projectLocation.map(
-                    (_: any, idx: number) => {
-                      return (
-                        <div key={idx} className="capitalize">
-                          {_},
-                        </div>
-                      );
-                    }
-                  )}
+                  {project?.projectLocation.map((_: any, idx: number) => {
+                    return (
+                      <div key={idx} className="capitalize">
+                        {_},
+                      </div>
+                    );
+                  })}
                 </div>
                 {project.status === "notApplied" && (
                   <button
@@ -175,4 +179,4 @@ const AllInvitations = () => {
   );
 };
 
-export default AllInvitations;
+export default Available;

@@ -170,7 +170,7 @@ const Profile = () => {
                             )
                           )}
 
-                        {talentData?.education?.length > 0 && (
+                        {/* {talentData?.education?.length > 0 && (
                           <>
                             <p className="text-[12px] font-normal capitalize">
                               {talentData.education[0].institution}
@@ -185,7 +185,7 @@ const Profile = () => {
                               {talentData.education[0].gradYear}
                             </p>
                           </>
-                        )}
+                        )} */}
 
                         {talentData?.certifications?.map(
                           (certificationItem: Certification, index: number) => (
@@ -583,14 +583,14 @@ const Profile = () => {
                         </div>
                         <Separator className="bg-bm__gler/50" />
                         <div className="text-[12px] font-normal gap-2 flex flex-col">
-                          <div className="flex items-center">
-                            <p className="text-[12px] font-medium">
-                              Experience 1
-                            </p>
-                          </div>
                           {talentData?.experience?.map(
                             (experienceItem: any, index: number) => (
                               <div key={index} className="flex flex-col">
+                                <div className="flex items-center">
+                                  <p className="text-[12px] font-medium">
+                                    Experience {index + 1}
+                                  </p>
+                                </div>
                                 <p className="capitalize">
                                   {experienceItem?.agencyName}
                                 </p>
