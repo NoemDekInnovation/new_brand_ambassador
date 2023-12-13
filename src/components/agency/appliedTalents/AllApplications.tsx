@@ -21,6 +21,7 @@ import {
 import { Button } from "../../../ui/button";
 import { TbProgressCheck } from "react-icons/tb";
 import { DialogOverlay } from "@radix-ui/react-dialog";
+import { TalentProps } from "../../../redux/types";
 
 const AllApplications = ({
   gridView,
@@ -28,7 +29,7 @@ const AllApplications = ({
   setSelectedProject,
   projects,
   setSelectedTalent,
-  handleProfilePopUp,
+  // handleProfilePopUp,
   selectedTalent,
   setSelectedTalentID,
   selectedProject,
@@ -37,13 +38,15 @@ const AllApplications = ({
   projectModal,
   setProjectModal,
   gap,
+  ProjectId,
 }: {
+  ProjectId: string;
   gridView: boolean;
   handleInvite: any;
   setSelectedProject: any;
   projects: any;
   setSelectedTalent: any;
-  handleProfilePopUp: any;
+  // handleProfilePopUp: any;
   selectedTalent: any;
   setSelectedTalentID: any;
   selectedProject: any;
@@ -61,12 +64,24 @@ const AllApplications = ({
     (state: RootState) => state?.applications
   );
 
+  const [popUp, setPopUp] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<TalentProps>();
   const [talentData, setTalentData] = useState<any>([]);
 
   useEffect(() => {
-    if (applications !== null && applications.length !== 0) {
+    console.log(applications);
+
+    if (applications !== null && applications?.length !== 0) {
+      if (applications?.shortlists && applications?.shortlists?.length >= 0) {
+        const app =
+          applications?.shortlists?.map((talent: any) => {
+            return talent?.talent;
+          }) || [];
+        return setTalentData(app);
+      }
+
       const apps = applications?.projectApplications[0]?.applications || [];
-      setTalentData(
+      return setTalentData(
         apps.map((talent: any) => {
           return talent?.talent;
         })
@@ -74,8 +89,15 @@ const AllApplications = ({
     }
   }, [applications]);
 
+  console.log(talentData, "gab");
+
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleProfilePopUp = (talent: any) => {
+    // console.log(talent);
+    setPopUp(!popUp);
+    setSelectedRole(talent);
+  };
   return (
     <div className="relative">
       {gridView && (
@@ -109,13 +131,14 @@ const AllApplications = ({
       )}
       {!gridView && (
         <div className="flex flex-col w-full gap-3">
-          {resTalents?.map((_, idx: number) => {
+          {talentData?.map((_: any, idx: number) => {
             return (
               <TalentList
                 talent={_}
                 index={idx}
                 handleInvite={""}
                 setSelectedProject={""}
+                ProjectId={ProjectId}
                 projects={""}
                 setSelectedTalent={""}
                 handleProfilePopUp={() => {}}
