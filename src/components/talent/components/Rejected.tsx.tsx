@@ -125,9 +125,6 @@ const RejectedInvitations = () => {
                       }
                     )}{" "}
                   </div>
-                  <button className="dark__btn max-w-fit text-[12px] mt-2 ">
-                    Apply
-                  </button>
                 </CardFooter>
               </div>
             )
