@@ -149,16 +149,16 @@ export default function EditProfile() {
     setAltPhn(value);
   };
 
-  function capitalizeFirstLetter(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  // function capitalizeFirstLetter(string: string) {
+  //   return string.charAt(0).toUpperCase() + string.slice(1);
+  // }
 
   useEffect(() => {
     setPersonal((prevPersonal) => ({
       ...prevPersonal,
-      firstName: capitalizeFirstLetter(talentData.firstName) || "",
-      lastName: capitalizeFirstLetter(talentData.lastName) || "",
-      middleName: capitalizeFirstLetter(talentData.middleName) || "",
+      firstName: talentData.firstName || "",
+      lastName: talentData.lastName || "",
+      middleName: talentData.middleName || "",
       email: talentData.email || "",
       phone: talentData.phone || "",
       gender: talentData.gender || "",
@@ -168,12 +168,12 @@ export default function EditProfile() {
       nationality: talentData.nationality || "",
       height: talentData.height || "",
       skinColor: talentData.skinColor || "",
-      dressSize: capitalizeFirstLetter(talentData.dressSize) || "",
+      dressSize: talentData.dressSize || "",
       languages: talentData.languages || "",
-    }));
+    })); 
     setOverView((prevOverView) => ({
       ...prevOverView,
-      summary: capitalizeFirstLetter(talentData.summary),
+      summary: talentData.summary,
       profilePic: talentData.profilePic,
     }));
     setAddress((prevAddress) => ({

@@ -173,7 +173,7 @@ export default function Address({
                 </label>
               </div>
 
-              <div className="relative md:col-span-1 z-0 w-full mb-6 group">
+              <div className="relative md:col-span-1  w-full mb-6 group">
                 {/* <input
                   type="text"
                   name="city"
