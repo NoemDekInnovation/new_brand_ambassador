@@ -35,7 +35,7 @@ const Contract = ({
           : "translate-y-[1000px] opacity-0 h-0"
       }`}
     >
-      <Card className="p-4 relative bg-white w-[1280px] h-[95vh]">
+      <Card className="p-4 relative bg-white w-[85vw] h-[95vh]">
         <span className="absolute top-0 right-0 text-sm text-[#6F797A] p-8">
           <ImCancelCircle
             className="w-[20px] h-[20px] cursor-pointer"
@@ -102,7 +102,7 @@ const Contract = ({
             </div>
           </Card>
 
-          <div className="flex absolute flex-row justify-start items-start font-medium text-[12px] my-2 max-w-[970px] right-5 -top-2 cursor-pointer">
+          <div className="flex absolute flex-row justify-start items-start font-medium text-[12px] my-2  w-full max-w-[82%] right-5 -top-2 cursor-pointer">
             <div
               className="relative text-white flex items-center justify-center "
               onClick={() => select(1)}
@@ -110,7 +110,7 @@ const Contract = ({
               <p className="absolute top-[25%] z-20 text-[16px] text-black">
                 Project Overview
               </p>
-              <img src={union} alt="" className=" z-5 w-[300px] h-[45px]" />
+              <img src={union} alt="" className=" z-5 w-[350px] h-[45px]" />
             </div>
             <div
               className=" relative text-black flex items-center justify-center"
@@ -120,7 +120,7 @@ const Contract = ({
                 Invite Talent
                 <span className="text-[14px] font-bold">(30)</span>
               </p>
-              <img src={subtract} alt="" className=" z-10 w-[300px] h-[45px]" />
+              <img src={subtract} alt="" className=" z-10 w-[350px] h-[45px]" />
             </div>
             <div
               className=" relative text-black flex items-center justify-center"
@@ -130,7 +130,7 @@ const Contract = ({
                 {" "}
                 Applications<span className="text-[14px] font-bold">(300)</span>
               </p>
-              <img src={subtract} alt="" className=" z-10 w-[300px] h-[45px]" />
+              <img src={subtract} alt="" className=" z-10 w-[350px] h-[45px]" />
             </div>
             <div
               className=" relative text-black flex items-center justify-center"
@@ -143,12 +143,12 @@ const Contract = ({
               <img
                 src={subtract4}
                 alt=""
-                className=" z-10 w-[300px] h-[45px]"
+                className=" z-10 w-[350px] h-[45px]"
               />
             </div>
           </div>
         </div>
-        <Card className=" flex absolute flex-col border-0 p-4 md:p-8 bg-white overflow-y-scroll h-[75vh]  w-[1000px] right-0 top-0 mt-[150px] pl-[50px]">
+        <Card className=" flex absolute flex-col border-0 p-4 md:p-8 bg-white overflow-y-scroll h-[75vh]  w-full max-w-[83%] right-0 top-0 mt-[150px] pl-[50px]">
           <div className="">Contracts</div>
         </Card>
       </Card>
