@@ -17,7 +17,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { AppDispatch, RootState } from "../redux/store";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "../ui/input";
 import logo from "../assets/download-logo.png";
@@ -29,9 +29,14 @@ import { Separator } from "../ui/seperator";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { campaignAuthAxiosInstance } from "../api/axios";
 import NavPreview from "./talent/components/navPreview";
+import { fetchpublishproject } from "../redux/publishProject";
+import { fetchTalentInvitations } from "../redux/talentInvitations.slice";
 
 export default function NewNavBar() {
   const user = useSelector((state: RootState) => state.user);
+  const { talentInvitations } = useSelector(
+    (state: RootState) => state.talentInvite
+  );
   const [toggleMenubar, setToggleMenubar] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState<any | null>(null);
@@ -43,7 +48,7 @@ export default function NewNavBar() {
   const navigate = useNavigate();
 
   // const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const handleToggle = () => {
     setToggleMenubar(!toggleMenubar);
   };
@@ -77,6 +82,24 @@ export default function NewNavBar() {
     fetchNotifications();
     setIsLoading(false);
   }, [user?.user?.accountId]);
+
+  useEffect(() => {
+    dispatch(fetchTalentInvitations());
+  }, [dispatch]);
+
+  const handleProfilePopUp = (info: any) => {
+    console.log(info);
+    const appliedInvite = talentInvitations?.invitations.filter(
+      (project: any, idx: number) => {
+        return project?._id === info._id;
+      }
+    );
+    console.log(appliedInvite);
+
+    setPopUp(!popUp);
+  };
+
+  console.log(talentInvitations?.invitations);
 
   return (
     <>
@@ -135,7 +158,7 @@ export default function NewNavBar() {
                               !info?.messages[0]?.isRead && "bg-black/10"
                             }`}
                             key={idx}
-                            onClick={() => setPopUp(!popUp)}
+                            onClick={() => handleProfilePopUp(info)}
                           >
                             {info?.messages[0]?.message}{" "}
                           </DropdownMenuItem>
