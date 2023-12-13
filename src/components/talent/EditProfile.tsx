@@ -58,6 +58,8 @@ export default function EditProfile() {
     { label: "usher", value: "usher" },
   ];
 
+
+
   const { user } = useSelector((state: RootState) => state.user);
   const { talentData } = useSelector((state: RootState) => state.talent);
 
@@ -147,12 +149,16 @@ export default function EditProfile() {
     setAltPhn(value);
   };
 
+  function capitalizeFirstLetter(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   useEffect(() => {
     setPersonal((prevPersonal) => ({
       ...prevPersonal,
-      firstName: talentData.firstName || "",
-      lastName: talentData.lastName || "",
-      middleName: talentData.middleName || "",
+      firstName: capitalizeFirstLetter(talentData.firstName) || "",
+      lastName: capitalizeFirstLetter(talentData.lastName) || "",
+      middleName: capitalizeFirstLetter(talentData.middleName) || "",
       email: talentData.email || "",
       phone: talentData.phone || "",
       gender: talentData.gender || "",
@@ -162,17 +168,17 @@ export default function EditProfile() {
       nationality: talentData.nationality || "",
       height: talentData.height || "",
       skinColor: talentData.skinColor || "",
-      dressSize: talentData.dressSize || "",
+      dressSize: capitalizeFirstLetter(talentData.dressSize) || "",
       languages: talentData.languages || "",
     }));
     setOverView((prevOverView) => ({
       ...prevOverView,
-      summary: talentData.summary,
+      summary: capitalizeFirstLetter(talentData.summary),
       profilePic: talentData.profilePic,
     }));
     setAddress((prevAddress) => ({
       ...prevAddress,
-      street: talentData.address[0]?.street,
+      street:   talentData.address[0]?.street,
       city: talentData.address[0]?.city,
       LGA: talentData.address[0]?.LGA,
       state: talentData.address[0]?.state,

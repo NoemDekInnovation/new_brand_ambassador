@@ -202,7 +202,7 @@ export default function Address({
                   placeholder="City"
                   required
                   isDisabled={false}
-                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300"
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
                 />
                 <label
                   htmlFor="state"
@@ -245,7 +245,7 @@ export default function Address({
                   placeholder="State of origin"
                   required
                   isDisabled={false}
-                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300"
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
                 />
                 <label
                   htmlFor="state"
