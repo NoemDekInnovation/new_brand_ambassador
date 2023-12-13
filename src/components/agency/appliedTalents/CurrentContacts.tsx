@@ -64,7 +64,7 @@ const CurrentContacts = ({
           </div>
         </div>
       )}
-      {!gridView && (
+      {/* {!gridView && (
         <div className="flex flex-col w-full gap-3">
           {resTalents?.map((_: TalentProps, idx: number) => {
             return (
@@ -86,7 +86,7 @@ const CurrentContacts = ({
           })}
         </div>
         // <div className='flex flex-col w-full gap-3'>{listView}</div>
-      )}
+      )} */}
     </>
   );
 };

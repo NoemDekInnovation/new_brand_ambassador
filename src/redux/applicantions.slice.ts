@@ -5,32 +5,44 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export interface ApplicationsProps {
   loading: boolean;
   error: string | null;
+  approvalStatus: string;
   applications: any;
 }
 
 const initialState: ApplicationsProps = {
   loading: false,
   error: "",
+  approvalStatus: "",
   applications: [],
 };
 
 export const fetchApplications = createAsyncThunk(
   "talents/Applications",
-  async (project: string) => {
+  async ({ id, status }: { id: string; status?: string }) => {
     const user = localStorage.getItem("userData");
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
+        if (status !== undefined && status !== null) {
+          const response = await campaignAuthAxiosInstance(
+            `/shortlist-filter?project=${id}&status=${status}`,
+            {
+              headers: {
+                Authorization: `Bearer ${parsedUser.authKey}`,
+              },
+            }
+          );
+          return response.data.data;
+        }
+
         const response = await campaignAuthAxiosInstance(
-          `/project-applications/${project}`,
+          `/project-applications/${id}`,
           {
             headers: {
               Authorization: `Bearer ${parsedUser.authKey}`,
             },
           }
         );
-
-        console.log(response);
 
         return response.data;
       }
@@ -40,10 +52,39 @@ export const fetchApplications = createAsyncThunk(
   }
 );
 
+// export const filterApplications = createAsyncThunk(
+//   "talents/Applications",
+//   async ({ id, status }: { id: string; status: string }) => {
+//     const user = localStorage.getItem("userData");
+//     try {
+//       if (user !== null) {
+//         const parsedUser = JSON.parse(user);
+//         const response = await campaignAuthAxiosInstance(
+//           `/shortlist-filter?project=${id}&status=${status}`,
+//           {
+//             headers: {
+//               Authorization: `Bearer ${parsedUser.authKey}`,
+//             },
+//           }
+//         );
+//         console.log(response);
+
+//         return response.data;
+//       }
+//     } catch (error) {
+//       throw error;
+//     }
+//   }
+// );
+
 const Applications = createSlice({
   name: "talents",
   initialState,
-  reducers: {},
+  reducers: {
+    setApproval: (state, action: PayloadAction<string>) => {
+      state.approvalStatus = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchApplications.pending, (state) => {
@@ -64,5 +105,7 @@ const Applications = createSlice({
       });
   },
 });
+
+export const { setApproval } = Applications.actions;
 
 export default Applications.reducer;
