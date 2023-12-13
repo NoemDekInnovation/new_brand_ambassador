@@ -34,42 +34,16 @@ import AllInvitations from "./AllInvitations";
 import AppliedInvitations from "./AppliedInvitiations";
 import NotAppliedInvitations from "./NotApplied";
 import RejectedInvitations from "./Rejected.tsx";
-import ProjectPreview from "./projectPreview";
-
-const card_content = {
-  isCurrent: false,
-  content: [1, 2, 3, 4, 5],
-};
 
 type InviteType = "All Invitations" | "Applied" | "Not Applied" | "Rejected";
 
 export default function Invitations({}) {
-  const { user } = useSelector((state: RootState) => state.user);
+  const { talentInvitations } = useSelector(
+    (state: RootState) => state.talentInvite
+  );
+
   const [isLoading, setIsLoading] = useState(false);
-  const [projects, setProjects] = useState();
   const [invites, setInvites] = useState<InviteType>("All Invitations");
-
-  useEffect(() => {
-    setIsLoading(true);
-
-    const fetchProjects = async () => {
-      if (user?.accountId !== undefined) {
-        try {
-          const response = await campaignAuthAxiosInstance("", {
-            headers: {
-              Authorization: `Bearer ${user.authKey || ""}`,
-            },
-          });
-          setProjects(response?.data?.data.projects);
-        } catch (error) {
-          console.error("Error while fetiching projects:", error);
-          // Handle error appropriately (e.g., show a user-friendly message)
-        }
-      }
-    };
-    fetchProjects();
-    setIsLoading(false);
-  }, [user?.accountId]);
 
   const handleInviteChange = (type: InviteType) => {
     setInvites(type);
@@ -94,6 +68,39 @@ export default function Invitations({}) {
       inviteList = null;
   }
 
+  let applied;
+  let notApplied;
+  let rejected;
+
+  useEffect(() => {
+    const inviteLength = talentInvitations?.invitations?.map(
+      (project: any, idx: number) => {
+        if (project?.status === "applied") {
+          console.log(project);
+        }
+        return;
+      }
+    );
+    applied = [...inviteLength];
+  }, []);
+
+  const appliedInvite = talentInvitations?.invitations.filter(
+    (project: any, idx: number) => {
+      return project?.status === "applied";
+    }
+  );
+
+  const notAppliedInvite = talentInvitations?.invitations.filter(
+    (project: any, idx: number) => {
+      return project?.status === "notApplied";
+    }
+  );
+
+  const rejectedInvite = talentInvitations?.invitations.filter(
+    (project: any, idx: number) => {
+      return project?.status === "rejected";
+    }
+  );
   return (
     <>
       <Card className="p-2 md:p-4 pt-0 md:pt-0 bg-white border-0">
@@ -116,7 +123,9 @@ export default function Invitations({}) {
               }`}
             >
               All Invitations{" "}
-              <span className="text-[12px] font-bold">(15)</span>
+              <span className="text-[12px] font-bold">
+                ({talentInvitations?.invitations?.length})
+              </span>
             </p>
             <p
               onClick={() => handleInviteChange("Applied")}
@@ -127,7 +136,10 @@ export default function Invitations({}) {
               "bg-black/10 transition-all duration-300 "
             }`}
             >
-              Applied <span className="text-[12px] font-bold">(20)</span>
+              Applied{" "}
+              <span className="text-[12px] font-bold">
+                ({appliedInvite.length})
+              </span>
             </p>
             <p
               onClick={() => handleInviteChange("Not Applied")}
@@ -138,7 +150,11 @@ export default function Invitations({}) {
               "bg-black/10 transition-all duration-300 "
             }`}
             >
-              Not Applied <span className="text-[12px] font-bold">(20)</span>
+              Not Applied{" "}
+              <span className="text-[12px] font-bold">
+                {" "}
+                ({notAppliedInvite.length})
+              </span>
             </p>
             <p
               onClick={() => handleInviteChange("Rejected")}
@@ -149,7 +165,10 @@ export default function Invitations({}) {
             }
             `}
             >
-              Rejected <span className="text-[12px] font-bold">(20)</span>
+              Rejected{" "}
+              <span className="text-[12px] font-bold">
+                ({rejectedInvite.length})
+              </span>
             </p>
           </div>
         </CardHeader>
