@@ -26,12 +26,13 @@ import {
 import { Input } from "../../../ui/input";
 import { CiHeart } from "react-icons/ci";
 import { GoChecklist } from "react-icons/go";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { campaignAuthAxiosInstance } from "../../../api/axios";
 import { RootState } from "../../../redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AllInvitations from "./AllInvitations";
 import Available from "./Available";
+import { setSearchTerm } from "../../../redux/talent/allProjects.slice";
 
 const card_content = {
   isCurrent: false,
@@ -64,6 +65,14 @@ export default function AvailableProjects({}) {
     fetchProjects();
     setIsLoading(false);
   }, [user?.accountId]);
+
+  const dispatch = useDispatch();
+
+
+  const handleSearchTermChange = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearchTerm(e.target.value));
+    // dispatch(setCurrentPage(1)); // Resets current page when search term changes
+  };
 
   return (
     <Card className="p-2 md:p-4 pt-0 md:pt-0 bg-white border-0">
@@ -99,6 +108,7 @@ export default function AvailableProjects({}) {
             <Input
               className="focus:border-0 focus:ring-0 focus:outline-none border max-w-[600px] h-[24px] px-[6px] py-[14px]"
               placeholder="Search"
+              onChange={handleSearchTermChange}
             />
           </div>
 
