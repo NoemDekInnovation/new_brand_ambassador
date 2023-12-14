@@ -252,7 +252,7 @@ const Profile = () => {
                           <Link
                             to={`https://www.linkedin.com/in/${talentData?.socials?.linkedin}`}
                             target="_blank"
-                            className="text-[12px] font-normal ml-2"
+                            className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                           >
                             {talentData?.socials?.linkedin}
                           </Link>
@@ -262,7 +262,7 @@ const Profile = () => {
                           <Link
                             to={`https://www.instagram.com/${talentData?.socials?.instagram}`}
                             target="_blank"
-                            className="text-[12px] font-normal ml-2"
+                            className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                           >
                             {talentData?.socials?.instagram}
                           </Link>
@@ -272,7 +272,7 @@ const Profile = () => {
                           <Link
                             to={`https://twitter.com/${talentData?.socials?.twitter}`}
                             target="_blank"
-                            className="text-[12px] font-normal ml-2"
+                            className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                           >
                             {talentData?.socials?.twitter}
                           </Link>
@@ -282,7 +282,7 @@ const Profile = () => {
                           <Link
                             to={`https://www.facebook.com/${talentData?.socials?.facebook}`}
                             target="_blank"
-                            className="text-[12px] font-normal ml-2"
+                            className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                           >
                             {talentData?.socials?.facebook}
                           </Link>

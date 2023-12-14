@@ -1,24 +1,27 @@
-import React, { useRef, useState } from 'react';
-import { Card, CardContent } from '../../../ui/card';
+import React, { useRef, useState } from "react";
+import { Card, CardContent } from "../../../ui/card";
 // import { Separator } from '../../../ui/separator';
 // import { Textarea } from '../../../ui/textarea';
-import { Button } from '../../../ui/button';
-import { Input } from '../../../ui/input';
+import { Button } from "../../../ui/button";
+import { Input } from "../../../ui/input";
 // import { Progress } from '@/components/ui/progress';
-import { Separator } from '../../../ui/seperator';
-import darkUnion from '../../../assets/Union.png';
-import subtract from '../../../assets/Subtract.png';
-import subtract2 from '../../../assets/Subtract2.png';
-import { BiSolidUserDetail } from 'react-icons/bi';
-import { MdPayments, MdSettings } from 'react-icons/md';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store';
-import { patchAxiosInstance } from '../../../api/axios';
-import { Textarea } from '../../../ui/textarea';
-import { Progress } from '@radix-ui/react-progress';
+import { Separator } from "../../../ui/seperator";
+import darkUnion from "../../../assets/Union.png";
+import subtract from "../../../assets/Subtract.png";
+import subtract2 from "../../../assets/Subtract2.png";
+import { BiSolidUserDetail } from "react-icons/bi";
+import { MdPayments, MdSettings } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { patchAxiosInstance } from "../../../api/axios";
+import { Textarea } from "../../../ui/textarea";
+import { Progress } from "@radix-ui/react-progress";
 import PhoneInput from "react-phone-number-input";
-import { PersonalProps } from '../../../redux/types';
+import { PersonalProps } from "../../../redux/types";
+import { useToast } from "../../../ui/use-toast";
+import createProject from "../../../assets/created-project.png";
+import { Required } from "../../Required";
 
 type TalentOption = {
   label: string;
@@ -39,7 +42,7 @@ export default function Overview({
   setOpportunites,
 }: {
   create: () => void;
-  next: () => void; 
+  next: () => void;
   cancel: () => void;
   handlePhoneChange: (value: string) => void;
   talentOptions: TalentOption[];
@@ -60,6 +63,8 @@ export default function Overview({
   // const [inputValue, setInputValue] = useState<string>("");
   const [filteredOptions, setFilteredOptions] = useState<TalentOption[]>([]);
   const [isSearching, setIsSearching] = useState<boolean>(false);
+
+  const { toast } = useToast();
 
   const handleOptionClick = (value: string) => {
     // setInputValue(value);
@@ -85,14 +90,14 @@ export default function Overview({
     }
   };
 
-    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const { value } = e.target;
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
 
-      setPersonal((prevData: PersonalProps) => ({
-        ...prevData,
-        gender: value,
-      }));
-    };
+    setPersonal((prevData: PersonalProps) => ({
+      ...prevData,
+      gender: value,
+    }));
+  };
 
   const handleDivClick = () => {
     // Trigger a click event on the hidden input
@@ -206,26 +211,32 @@ export default function Overview({
                 id="picture"
                 type="file"
                 className="pb-4"
-                // ref={fileInputRef}
                 onChange={handleFileChange}
                 name="profilePic"
                 style={{ display: "none" }}
               />
+              <div className="mt-3 text-[18px] font-light text-[#93979DB2] relative">
+                <Required>Profile Picture</Required>
+                <div className="border w-[156px] h-[156px] relative">
+                  {overView.profilePic !== "" && !inVw ? (
+                    <img
+                      src={overView?.profilePic}
+                      className="w-full h-full object-cover"
+                      alt=""
+                    />
+                  ) : inVw ? (
+                    <img
+                      src={URL.createObjectURL(overView?.profilePic)}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    "Attach or drop photos here"
+                  )}
+                </div>
+              </div>
 
-              <div
-                // onClick={handleDivClick}
-                className="mt-3 border w-[156px] h-[156px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]"
-              >
-                {/* Attach or drop photos here */}
-                {/* {inVw ? (
-                  <img
-                    src={URL.createObjectURL(overView?.profilePic)}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  "Attach or drop photos here"
-                )} */}
+              {/* <div className="border w-[156px] h-[156px] relative">
                 {overView.profilePic !== "" && !inVw ? (
                   <img
                     src={overView?.profilePic}
@@ -241,7 +252,7 @@ export default function Overview({
                 ) : (
                   "Attach or drop photos here"
                 )}
-              </div>
+              </div> */}
             </label>
 
             <Separator
@@ -264,7 +275,7 @@ export default function Overview({
                   htmlFor="phone"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Phone number
+                  <Required className="text-[20px]">Phone numbers</Required>
                 </label>
               </div>
 
@@ -289,7 +300,9 @@ export default function Overview({
                     htmlFor="opportunities"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
-                    Type and select the opportunities that you are open to
+                    <Required className="text-[20px]">
+                      Type and select the opportunities that you are open to
+                    </Required>
                   </label>
                   {isSearching &&
                     opportunities &&
@@ -333,7 +346,7 @@ export default function Overview({
                   htmlFor="gender"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Gender
+                  <Required className="text-[20px]">Gender</Required>
                 </label>
               </div>
             </div>
@@ -361,9 +374,15 @@ export default function Overview({
             </Button>
             <div className="flex gap-4">
               <Button
+                variant="outline"
                 className="dark__btn"
                 onClick={() => {
                   create();
+                  setTimeout(() => {
+                    toast({
+                      description: "Changes Saved",
+                    });
+                  }, 2000);
                   cancel();
                 }}
               >

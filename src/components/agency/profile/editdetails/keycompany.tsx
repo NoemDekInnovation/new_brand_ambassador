@@ -9,7 +9,7 @@ import { BiSolidUserDetail } from "react-icons/bi";
 import { MdPayments, MdSettings } from "react-icons/md";
 import darkUnion from "../../../../assets/long_union.png";
 import subtract from "../../../../assets/long_Subtract.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { Progress } from '@/components/ui/progress';
 import addButton from "../../../../assets/Add Button.png";
 import { multerAxiosInstance, patchAxiosInstance } from "../../../../api/axios";
@@ -17,9 +17,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import Loading from "../../../Loading";
 import PhoneInput from "react-phone-number-input";
+import { useToast } from "../../../../ui/use-toast";
 
 type E164Number = string;
-
 
 export default function KeyCompany({
   next,
@@ -43,7 +43,6 @@ export default function KeyCompany({
   const { user } = useSelector((state: RootState) => state.user);
   const { agencyProfile } = useSelector((state: RootState) => state.talent);
 
-
   const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [editData, setEditData] = useState({
@@ -51,30 +50,30 @@ export default function KeyCompany({
     lastName: "",
     phone: "",
     profilePic: null as File | null,
+    // profilePic: null as File | null,
   });
   const [inputError, setInputError] = useState<string | null>(null);
   const [phn, setPhn]: [E164Number, Dispatch<SetStateAction<E164Number>>] =
     useState("");
   const [inVw, setInVw] = useState(false);
 
+  const { toast } = useToast();
 
-useEffect(() => {
-  if (agencyProfile) {
-    setEditData({
-      firstName: agencyProfile.firstName || "",
-      lastName: agencyProfile.lastName || "",
-      phone: agencyProfile.phone || "",
-      profilePic: agencyProfile.profilePic,
-    });
-    setPhn(agencyProfile.phone || ""); // Set phone state separately if needed    
-  }
-}, [agencyProfile]);
+  useEffect(() => {
+    if (agencyProfile) {
+      setEditData({
+        firstName: agencyProfile.firstName || "",
+        lastName: agencyProfile.lastName || "",
+        phone: agencyProfile.phone || "",
+        profilePic: agencyProfile.profilePic,
+      });
+      setPhn(agencyProfile.phone || ""); // Set phone state separately if needed
+    }
+  }, [agencyProfile]);
 
-
-
-      const handlePhoneChange = (value: string) => {
-        setPhn(value);
-      };
+  const handlePhoneChange = (value: string) => {
+    setPhn(value);
+  };
 
   const handleEditSubmit = async () => {
     setLoading(true);
@@ -87,7 +86,7 @@ useEffect(() => {
       if (typeof editData.profilePic !== "string") {
         profileData.append("profilePic", editData.profilePic);
       }
-      profileData.append("profilePic", "")
+      profileData.append("profilePic", "");
     }
 
     if (user?.accountId !== undefined) {
@@ -131,20 +130,18 @@ useEffect(() => {
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
 
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, files } = e.target;
-
-      if (files?.length) {
-        const selectedFiles = Array.from(files);
-       setEditData({
-         ...editData,
-         [name]: selectedFiles[0],
-       });
-        setInVw(true);
-      }
-    };
+    if (files?.length) {
+      const selectedFiles = Array.from(files);
+      setEditData({
+        ...editData,
+        [name]: selectedFiles[0],
+      });
+      setInVw(true);
+    }
+  };
 
   // const imageUrl = editData.profilePic
   //   ? URL.createObjectURL(editData.profilePic)
@@ -169,6 +166,7 @@ useEffect(() => {
 
   // }
 
+  const navigate = useNavigate();
   return (
     <div className=" bg-[#F3F3F3]/30  px-4 md:px-12 xl:px-40 pt-10 mx-auto p-24 pb-0 overflow-hidden">
       <Card className="bg-white h-[85vh] p-2 md:p-4 flex justify-between gap-[24px] overflow-hidden ">
@@ -224,21 +222,28 @@ useEffect(() => {
                   style={{ display: "none" }}
                 />
                 <div className="mt-3 border w-[120px] h-[150px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
-                  {imageUrl ? (
+                  {editData.profilePic !== null && !inVw ? (
                     <img
-                      src={imageUrl}
+                      src={agencyProfile?.profilePic}
                       alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : inVw ? (
+                    <img
+                      src={
+                        editData.profilePic !== null
+                          ? URL.createObjectURL(editData.profilePic)
+                          : ""
+                      }
+                      alt=""
                       className="w-full h-full object-cover"
                     />
                   ) : (
                     "Attach or drop photos here"
                   )}
-                  
                 </div>
- 
               </label>
             </div>
-
             <div className="relative  z-0 w-full mb-6 group">
               <input
                 type="text"
@@ -356,7 +361,19 @@ useEffect(() => {
               <Button className="light__btn max-w-[100px]">Cancel</Button>
             </Link>
             <div className="flex gap-4">
-              <Button className="dark__btn" onClick={handleEditSubmit}>
+              <Button
+                className="dark__btn"
+                onClick={() => {
+                  handleEditSubmit();
+                  setTimeout(() => {
+                    toast({
+                      description: "Changes Saved",
+
+                    });
+                    navigate("/profile");
+                  }, 2000);
+                }}
+              >
                 Save
               </Button>
               <Button
