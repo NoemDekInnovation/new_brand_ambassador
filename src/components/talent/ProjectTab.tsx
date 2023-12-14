@@ -14,6 +14,7 @@ import { fetchTalentInvitations } from "../../redux/talentInvitations.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { fetchAllProjects } from "../../redux/talent/allProjects.slice";
+import ApplicationsScreen from "./components/ApplicationsScreen";
 
 type ProjectType =
   | "Available Projects"
@@ -58,7 +59,7 @@ const Hometab = () => {
       projects = <Invitations />;
       break;
     case "My Applications":
-      projects = "My Applications";
+      projects = <ApplicationsScreen />;
       break;
     case "Saved Projects":
       projects = "Saved Projects";
