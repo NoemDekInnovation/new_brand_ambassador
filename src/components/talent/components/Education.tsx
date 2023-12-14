@@ -22,6 +22,8 @@ import { patchAxiosInstance } from "../../../api/axios";
 import { CertificateProps, EducationProps } from "../../../redux/types";
 import { useForm } from "react-hook-form";
 import { truncateSync } from "fs";
+import { useToast } from "../../../ui/use-toast";
+import { Required } from "../../Required";
 
 interface EducationDetails {
   institution: string;
@@ -45,7 +47,7 @@ export default function Education({
   setCertificate,
   certificate,
   create,
-}: { 
+}: {
   create: () => void;
   next: () => void;
   prev: () => void;
@@ -55,43 +57,37 @@ export default function Education({
   setCertificate: any;
   certificate: CertificateProps[];
 }) {
+  const { toast } = useToast();
 
+  const handleAddEducation = () => {
+    // Add a new empty experience object when the "Add Experience" button is clicked
+    setEducation([
+      ...education,
+      {
+        /* initialize with empty values */
+      },
+    ]);
+  };
+  const handleAddCertification = () => {
+    // Add a new empty experience object when the "Add Experience" button is clicked
+    setCertificate([
+      ...certificate,
+      {
+        /* initialize with empty values */
+      },
+    ]);
+  };
 
+  const InputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const { name, value } = e.target;
 
-
-
-
-
-   const handleAddEducation = () => {
-     // Add a new empty experience object when the "Add Experience" button is clicked
-     setEducation([
-       ...education,
-       {
-         /* initialize with empty values */
-       },
-     ]);
-   };
-   const handleAddCertification = () => {
-     // Add a new empty experience object when the "Add Experience" button is clicked
-     setCertificate([
-       ...certificate,
-       {
-         /* initialize with empty values */
-       },
-     ]);
-   };
-
-
-   const InputChange = (
-     e: React.ChangeEvent<HTMLInputElement>,
-     index: number
-   ) => {
-     const { name, value } = e.target;
-
-     const updatedEducation = [...education];
-     updatedEducation[index][name] = value;
-     setEducation(updatedEducation);
-   };
+    const updatedEducation = [...education];
+    updatedEducation[index][name] = value;
+    setEducation(updatedEducation);
+  };
 
   // const handleEduInputChange = (
   //   e: React.ChangeEvent<HTMLSelectElement>,
@@ -121,8 +117,6 @@ export default function Education({
     // Update the state with the new array
     setEducation(updatedEducation);
   };
-
-
 
   //  const handleCertInputChange = (
   //    e: React.ChangeEvent<HTMLInputElement>,
@@ -164,7 +158,6 @@ export default function Education({
       return updatedCertificate;
     });
   };
-
 
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 overflow-hidden  h-[87.3vh] pt-10">
@@ -264,8 +257,20 @@ export default function Education({
             <Separator className=" my-7 bg-[#D7D8DA]" />
             {education.map((e, index) => (
               <>
-                <div className="mt-2" key={e.id}>
-                  <p>Education {index + 1}</p>
+                <div className="mt-2 " key={e.id}>
+                  <div className="flex items-center justify-between">
+                    <Required className="text-[20px]">
+                      Education {index + 1}
+                    </Required>
+
+                    <div
+                      className="max-w-[30px] flex items-center justify-center cursor-pointer"
+                      onClick={() => handleRemoveEducation(index)}
+                    >
+                      <MdClose className="text-[20px]" />
+                    </div>
+                  </div>
+
                   <div className="grid md:grid-cols-2 md:gap-6 mt-4">
                     <div className="relative  z-0 w-full mb-6 group">
                       <input
@@ -369,13 +374,13 @@ export default function Education({
                     </div>
                   </div>
                 </div>
-                <Button
+                {/* <Button
                   className="dark__btn max-w-[180px] whitespace-nowrap flex items-center gap-2"
                   onClick={() => handleRemoveEducation(index)}
                 >
                   <MdClose className="text-[20px]" />
                   <span className="truncate">Remove Education</span>
-                </Button>
+                </Button> */}
               </>
             ))}
             <Separator className="bg-bm__beige my-4 md:mb-6" />
@@ -393,8 +398,25 @@ export default function Education({
 
             {certificate.map((c, index) => (
               <>
-                <div className="mt-2" key={index}>
-                  <p>Certification {index + 1}</p>
+                <div className="mt-2 relative" key={index}>
+                  {/* <div className="flex items-center">
+                    <div className="absolute top-1 left-[110px] bg-red-500 w-2 h-2 rounded-full"></div>
+                    <p>Certification {index + 1}</p>
+                  </div> */}
+                  {/* <p>Certification {index + 1}</p> */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <Required className="text-[20px]">
+                        Certification {index + 1}
+                      </Required>
+                    </div>
+                    <div
+                      className="max-w-[30px] flex items-center justify-center cursor-pointer"
+                      onClick={() => handleRemoveCertification(index)}
+                    >
+                      <MdClose className="text-[20px]" />
+                    </div>
+                  </div>
                   <div className="grid  md:gap-6 mt-4">
                     <div className="relative  z-0 w-full mb-6 group">
                       <input
@@ -455,13 +477,13 @@ export default function Education({
                     </div>
                   </div>
                 </div>
-                <Button
+                {/* <Button
                   className="dark__btn max-w-[180px] whitespace-nowrap flex items-center gap-2"
                   onClick={() => handleRemoveCertification(index)}
                 >
                   <MdClose className="text-[20px]" />
                   <span className="truncate">Remove Certification</span>
-                </Button>
+                </Button> */}
               </>
             ))}
             <Separator className="bg-bm__beige my-4 md:mb-6" />
@@ -488,9 +510,15 @@ export default function Education({
             </div>
             <div className="flex gap-4">
               <Button
+                variant="default"
                 className="dark__btn"
                 onClick={() => {
                   create();
+                  setTimeout(() => {
+                    toast({
+                      description: "Changes Saved",
+                    });
+                  }, 2000);
                   cancel();
                 }}
               >
