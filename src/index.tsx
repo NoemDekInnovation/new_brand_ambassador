@@ -7,6 +7,8 @@ import { RecoilRoot } from "recoil";
 import { AuthProvider } from "./context/AuthProvider";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { Toaster } from "../src/ui/toaster";
+
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -16,6 +18,7 @@ root.render(
     <RecoilRoot>
       <AuthProvider>
         <Provider store={store}>
+          <Toaster />
           <App />
         </Provider>
       </AuthProvider>

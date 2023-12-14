@@ -14,11 +14,11 @@ import { RootState } from "../../../redux/store";
 import { patchAxiosInstance } from "../../../api/axios";
 import { AddressProps } from "../../../redux/types";
 import { useForm, Controller } from "react-hook-form";
-import { State } from "country-state-city"; 
+import { State } from "country-state-city";
 import Select from "react-select";
 import SelectOption from "../../../libs/select";
-
-
+import { useToast } from "../../../ui/use-toast";
+import { Required } from "../../Required";
 
 export default function Address({
   next,
@@ -43,22 +43,13 @@ export default function Address({
   setCityOrigin: any;
   cityOptions: any;
 }) {
-  const {
-    register,
-    handleSubmit,
-    control,
-    watch,
-    formState: { errors },
-    setValue,
-    trigger,
-    getValues,
-  } = useForm();
-
   let stateData = State.getAllStates();
   const stateOptions = stateData.map((state) => ({
     value: state.name,
     label: state.name,
   }));
+
+  const { toast } = useToast();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -169,7 +160,7 @@ export default function Address({
                   htmlFor="street"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Street address
+                  <Required className="text-[20px]">Street address</Required>
                 </label>
               </div>
 
@@ -205,10 +196,10 @@ export default function Address({
                   className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
                 />
                 <label
-                  htmlFor="state"
-                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  htmlFor="city"
+                  className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 top-2 left-2 -z-1 origin-[0] peer-focus:font-medium  transform -translate-y-6 scale-75 peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  City
+                  <Required className="text-[20px]">City</Required>
                 </label>
               </div>
             </div>
@@ -228,7 +219,7 @@ export default function Address({
                   htmlFor="LGA"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  L.G.A
+                  <Required className="text-[20px]">L.G.A</Required>
                 </label>
               </div>
 
@@ -251,7 +242,7 @@ export default function Address({
                   htmlFor="state"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  State
+                  <Required className="text-[20px]">State</Required>
                 </label>
               </div>
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
@@ -269,8 +260,11 @@ export default function Address({
                   htmlFor="zipCode"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
+                  <Required className="text-[20px]">
+
                   Zip Code
-                </label>
+                  </Required>
+                                 </label>
               </div>
             </div>
           </CardContent>
@@ -287,9 +281,15 @@ export default function Address({
             </div>
             <div className="flex gap-4">
               <Button
+                variant="outline"
                 className="dark__btn"
                 onClick={() => {
                   create();
+                  setTimeout(() => {
+                    toast({
+                      description: "Changes Saved",
+                    });
+                  }, 2000);
                   cancel();
                 }}
               >

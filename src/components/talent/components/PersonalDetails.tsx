@@ -21,11 +21,13 @@ import PhoneInput from "react-phone-number-input";
 import { Dispatch, SetStateAction } from "react";
 import "react-phone-number-input/style.css";
 import SelectOption from "../../../libs/select";
+import { useToast } from "../../../ui/use-toast";
+import { Required } from "../../Required";
 
 export default function PersonalDetails({
   next,
   prev,
-  cancel, 
+  cancel,
   setPersonal,
   personal,
   create,
@@ -58,11 +60,11 @@ export default function PersonalDetails({
     // Add more options as needed
   ];
 
-
   const [inputError, setInputError] = useState<string | null>(null);
   const [heightError, setHeightError] = useState<string | null>(null);
 
- 
+  const { toast } = useToast();
+
   const isAlphabeticWithSpace = /^[A-Za-z ]*$/;
 
   const handleInputChange = (
@@ -84,9 +86,9 @@ export default function PersonalDetails({
     }
   };
 
-  console.log("date", personal.DOB)
+  console.log("date", personal.DOB);
 
-  const handleHeightChange = (event: { target: { value: any; }; }) => {
+  const handleHeightChange = (event: { target: { value: any } }) => {
     // Get the entered value
     let inputValue = event.target.value;
 
@@ -97,82 +99,72 @@ export default function PersonalDetails({
     setPersonal({ ...personal, height: inputValue });
   };
 
-  const handleSkinColorChange = (event: { target: { value: any; }; }) => {
+  const handleSkinColorChange = (event: { target: { value: any } }) => {
     const { value } = event.target;
     setPersonal({ ...personal, skinColor: value });
   };
 
-
-//  const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-//    const selectedOptions = Array.from(
-//      event.target.selectedOptions,
-//      (option: HTMLOptionElement) => option.value
-//    );
-//    setPersonal({ ...personal, languages: selectedOptions });
-//  };
-const handleLanguageChange = (selectedOptions: any) => {
-  const selectedLanguages = selectedOptions.map((option: any) => option.value);
-  setPersonal((prevPersonal: any) => ({
-    ...prevPersonal,
-    languages: selectedLanguages,
-  }));
-};
-
-
-
+  //  const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //    const selectedOptions = Array.from(
+  //      event.target.selectedOptions,
+  //      (option: HTMLOptionElement) => option.value
+  //    );
+  //    setPersonal({ ...personal, languages: selectedOptions });
+  //  };
+  const handleLanguageChange = (selectedOptions: any) => {
+    const selectedLanguages = selectedOptions.map(
+      (option: any) => option.value
+    );
+    setPersonal((prevPersonal: any) => ({
+      ...prevPersonal,
+      languages: selectedLanguages,
+    }));
+  };
 
   const nigeriaLanguages = [
     { value: "Hausa", label: "Hausa" },
     { value: "Yoruba", label: "Yoruba" },
     { value: "Igbo", label: "Igbo" },
     { value: "English", label: "English" },
-  ];      
+  ];
 
   const languageOptions = nigeriaLanguages.map((language) => ({
     value: language.value,
     label: language.label,
   }));
 
-
-
   const newLang = personal.languages.map((language) => ({
     value: language,
     label: language,
   }));
-console.log("lang", newLang);
+  console.log("lang", newLang);
 
- 
+  const originalDate = new Date(personal.DOB);
 
+  const year = originalDate.getFullYear();
+  const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
+  const day = originalDate.getDate().toString().padStart(2, "0");
 
+  const formattedDate =
+    personal.DOB !== undefined ? `${year}-${month}-${day}` : "";
 
-    const originalDate = new Date(personal.DOB);
+  // let formattedDOB = "-";
 
-    const year = originalDate.getFullYear();
-    const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
-    const day = originalDate.getDate().toString().padStart(2, "0");
+  // if (personal.DOB !== undefined) {
+  //   formattedDOB = new Date(personal.DOB).toLocaleDateString("en-US", {
+  //     year: "numeric",
+  //     month: "long",
+  //     day: "numeric",
+  //   });
+  // }
 
-    const formattedDate = personal.DOB !== undefined ? `${year}-${month}-${day}` : "";
-
-      // let formattedDOB = "-";
-
-      // if (personal.DOB !== undefined) {
-      //   formattedDOB = new Date(personal.DOB).toLocaleDateString("en-US", {
-      //     year: "numeric",
-      //     month: "long",
-      //     day: "numeric",
-      //   });
-      // }
-
-    console.log(formattedDate);
-
+  console.log(formattedDate);
 
   const handleDateChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     fieldName: string
   ) => {
     const { value } = e.target;
-    
-  
 
     // Perform additional validation as needed
     const isValidDate = isValidDateRange(value);
@@ -202,7 +194,7 @@ console.log("lang", newLang);
       gender: value,
     }));
   };
-  const [selectedLanguages, setSelectedLanguages] = useState([]);     
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
 
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10 overflow-hidden">
@@ -303,7 +295,7 @@ console.log("lang", newLang);
                   htmlFor="firstName"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  First name
+                  <Required className="text-[20px]">First name</Required>
                 </label>
               </div>
 
@@ -326,7 +318,7 @@ console.log("lang", newLang);
                   htmlFor="lastName"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Last Name
+                  <Required className="text-[20px]">Last Name</Required>
                 </label>
               </div>
             </div>
@@ -370,7 +362,7 @@ console.log("lang", newLang);
                   htmlFor="email"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Email
+                  <Required className="text-[20px]">Email</Required>
                 </label>
               </div>
             </div>
@@ -427,7 +419,7 @@ console.log("lang", newLang);
                   htmlFor="DOB"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Date of Birth
+                  <Required className="text-[20px]">Date of Birth</Required>
                 </label>
               </div>
 
@@ -475,7 +467,7 @@ console.log("lang", newLang);
                   htmlFor="nationality"
                   className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 top-2 left-2 -z-1 origin-[0] peer-focus:font-medium  transform -translate-y-6 scale-75 peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Nationality
+                  <Required className="text-[20px]">Nationality</Required>
                 </label>
               </div>
 
@@ -498,7 +490,7 @@ console.log("lang", newLang);
                   htmlFor="origin"
                   className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 top-2 left-2 -z-1 origin-[0] peer-focus:font-medium  transform -translate-y-6 scale-75 peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  State of origin
+                  <Required className="text-[20px]">State of origin</Required>
                 </label>
               </div>
             </div>
@@ -619,7 +611,11 @@ console.log("lang", newLang);
                   htmlFor="languages"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
+                  <Required className="text-[20px]">
                   Languages
+
+                  </Required>
+
                 </label>
               </div>
             </div>
@@ -638,9 +634,15 @@ console.log("lang", newLang);
             </div>
             <div className="flex gap-4">
               <Button
+                variant="outline"
                 className="dark__btn w-fit whitespace-nowrap"
                 onClick={() => {
                   create();
+                  setTimeout(() => {
+                    toast({
+                      description: "Changes Saved",
+                    });
+                  }, 2000);
                   cancel();
                 }}
               >

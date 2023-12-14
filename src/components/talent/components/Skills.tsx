@@ -11,13 +11,21 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { useEffect, useState } from "react";
-import { campaignAuthAxiosInstance, patchAxiosInstance } from "../../../api/axios";
+import {
+  campaignAuthAxiosInstance,
+  patchAxiosInstance,
+} from "../../../api/axios";
 import {
   SkillsStateProps,
   fetchSkills,
   reset,
 } from "../../../redux/skills.slice";
 import { GrFormClose } from "react-icons/gr";
+import { useToast } from "../../../ui/use-toast";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+
+const animatedComponents = makeAnimated();
 
 type TalentOption = {
   label: string;
@@ -34,6 +42,7 @@ export default function Skills({
   skillsData,
   talentOptions,
   setOpportunites,
+  setSkillData,
 }: {
   create: () => void;
   next: () => void;
@@ -41,17 +50,19 @@ export default function Skills({
   cancel: () => void;
   talentOptions: TalentOption[];
   skillsData: string[];
+  setSkillData: any;
   handleSkillSelect: (id: any) => void;
   handleSkillDelete: (index: number) => void;
-  setOpportunites: any
+  setOpportunites: any;
 }) {
   const { skills, skillsFetchSucess } = useSelector(
     (state: any) => state.skills
   ) as SkillsStateProps;
 
   const { user } = useSelector((state: RootState) => state.user);
+  const { toast } = useToast();
 
-
+  console.log("skillsData", setSkillData);
   const [inputValue, setInputValue] = useState<string>("");
   const [filteredOptions, setFilteredOptions] = useState<TalentOption[]>([]);
   const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -59,31 +70,34 @@ export default function Skills({
   const [skillStore, setSkillStore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
 
-
-
-
   const dispatch = useDispatch<AppDispatch>();
 
-useEffect(() => {
-  if (skillsFetchSucess) {
+  useEffect(() => {
+    if (skillsFetchSucess) {
       setSkillStore(true);
       setTimeout(() => {
         dispatch(reset());
-      }, 2000)
-  }
-}, [skillsFetchSucess])
+      }, 2000);
+    }
+  }, [skillsFetchSucess]);
 
   // useEffect(() => {
   //   dispatch(fetchSkills(example));
   // }, [example]);
-    useEffect(() => {
-      const fetchData = async () => {
-        await dispatch(fetchSkills(example));
-        setIsLoading(false);
-        // checkFormValidity();
-      };
-      fetchData();
-    }, [example, dispatch]);
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchSkills(example));
+      setIsLoading(false);
+      // checkFormValidity();
+    };
+    fetchData();
+  }, [example, dispatch]);
+
+  const skillsOptions = skills.results.map((skill, index) => ({
+    label: skill,
+    value: index,
+  }));
+
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">
       {/* <div className='fixed top-0 h-screen w-screen bg-[#F3F3F3]/30 z-[1000] mt-[20vh] px-4 md:px-12 xl:px-40 min-h-[70vh] py-10'> */}
@@ -166,7 +180,7 @@ useEffect(() => {
               <p>Skills</p>
               <div className="grid  md:gap-6 mt-4">
                 <div className="relative  z-0 w-full mb-6 group">
-                  <input
+                  {/* <input
                     type="text"
                     name="example"
                     id="example"
@@ -179,14 +193,41 @@ useEffect(() => {
                       setExample(e.target.value);
                     }}
                     // value={example}
+                  /> */}
+                  <Select
+                    isMulti
+                    name="example"
+                    id="example"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                    placeholder="Type and select your skills"
+                    options={skills.results.map((skill, index) => ({
+                      label: skill,
+                      value: index,
+                    }))}
+                    value={skillsData.map((data, index) => ({
+                      label: data,
+                      value: index,
+                    }))}
+                    onChange={(selectedOptions) => {
+                      const selectedSkills = selectedOptions.map(
+                        (option) => option.label
+                      );
+                      // setSkillData(selectedSkills);
+                      if (selectedSkills.length <= 5) {
+                        setSkillData(selectedSkills);
+                      } else {
+                        console.warn("You can select a maximum of 5 skills.");
+                      }
+                    }}
                   />
+
                   <label
                     htmlFor="skills"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Type and select your skills
                   </label>
-                  <ul className="flex flex-wrap max-w-md">
+                  {/* <ul className="flex flex-wrap max-w-md">
                     {skillsData.map((data, index) => (
                       <li className="p-2 flex items-center " key={index}>
                         <p className="flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 dark__btn max-w-[200px] cursor-pointer">
@@ -198,28 +239,29 @@ useEffect(() => {
                         </p>
                       </li>
                     ))}
-                  </ul>
+                  </ul> */}
 
-                  <div className="relative">
+                  {/* <div className="relative">
                     <div className="flex gap-2 lg:justify-between font-medium text-[12px] my-2 flex-wrap">
                       <ul className="list-none">
-                        {skillStore && skills.results.map((skill, index) => (
-                          <li
-                            className="rounded bg-white px-4 py-2 mb-1 text-gray-800 max-w-xs"
-                            key={index}
-                          >
-                            <button
-                              onClick={() => handleSkillSelect(skill)}
-                              disabled={skillsData.length >= 5}
-                              className="ml-2"
+                        {skillStore &&
+                          skills.results.map((skill, index) => (
+                            <li
+                              className="rounded bg-white px-4 py-2 mb-1 text-gray-800 max-w-xs"
+                              key={index}
                             >
-                              {skill}
-                            </button>
-                          </li>
-                        ))}
+                              <button
+                                onClick={() => handleSkillSelect(skill)}
+                                disabled={skillsData.length >= 5}
+                                className="ml-2"
+                              >
+                                {skill}
+                              </button>
+                            </li>
+                          ))}
                       </ul>
                     </div>
-                  </div>
+                  </div> */}
                   <small>Maximun of 5 skills</small>
                 </div>
               </div>
@@ -240,9 +282,16 @@ useEffect(() => {
             </div>
             <div className="flex gap-4">
               <Button
+                variant="outline"
                 className="dark__btn"
                 onClick={() => {
                   create();
+                  setTimeout(() => {
+                    toast({
+                      description: "Changes Saved",
+                    });
+                  }, 2000);
+
                   cancel();
                 }}
               >
