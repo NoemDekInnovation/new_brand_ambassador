@@ -101,7 +101,7 @@ const ApplyDetailsInfo = ({
 }) => {
   let pageTalents;
 
-  type AppProps = "shortlisted" | "rejected" | "hired" | "All";
+  type AppProps = "shortlisted" | "rejected" | "approvedHire" | "All";
   // console.log("activeType", activeType);
 
   const [gridView, setGridView] = useState(true);
@@ -311,6 +311,7 @@ const ApplyDetailsInfo = ({
           selectedProject={selectedProject}
           projectModal={projectModal}
           ProjectId={ProjectId}
+          appStatus={appStatus}
           setProjectModal={setProjectModal}
           gap={14}
         />
@@ -397,38 +398,47 @@ const ApplyDetailsInfo = ({
       <div className="flex relative items-center justify-between gap-2">
         <div className="flex gap-3 md:gap-6">
           <p className="font-semibold text-[18px] ">All Applications</p>
-          <div className="flex item-center m-0">
+          <div className="flex item-center m-0 border rounded-md">
             <button
-              className="light__btn m-0"
-              onClick={() =>
+              className={`${
+                appStatus === "shortlisted" ? "bg-[#DCDDDF]" : ""
+              } px-4 gap-2 transistion-all duration-1000`}
+              onClick={() => {
                 dispatch(
                   fetchApplications({ id: ProjectId, status: "shortlisted" })
-                )
-              }
+                );
+                setAppStatus("shortlisted");
+              }}
             >
               Shortlisted
               <span className="text-[16px] font-semibold text-black">(20)</span>
             </button>
-            <div className="h-8 w-2 bg-black"></div>
+            <div className="h-8 w-1 bg-black"></div>
             <button
-              className="light__btn m-0"
-              onClick={() =>
+              className={`${
+                appStatus === "approvedHire" ? "bg-[#DCDDDF]" : ""
+              } px-4 gap-2 transistion-all duration-1000`}
+              onClick={() => {
                 dispatch(
-                  fetchApplications({ id: ProjectId, status: "approveHire" })
-                )
-              }
+                  fetchApplications({ id: ProjectId, status: "approvedHire" })
+                );
+                setAppStatus("approvedHire");
+              }}
             >
-              Approved
+              Approve Hire
               <span className="text-[16px] font-semibold text-black">(20)</span>
             </button>
-            <div className="h-8 w-2 bg-black"></div>
+            <div className="h-8 w-1 bg-black"></div>
             <button
-              className="light__btn m-0"
-              onClick={() =>
+              className={`${
+                appStatus === "rejected" ? "bg-[#DCDDDF]" : ""
+              } px-4 gap-2 transistion-all duration-1000`}
+              onClick={() => {
                 dispatch(
                   fetchApplications({ id: ProjectId, status: "rejected" })
-                )
-              }
+                );
+                setAppStatus("rejected");
+              }}
             >
               Rejected
               <span className="text-[16px] font-semibold text-black">(20)</span>

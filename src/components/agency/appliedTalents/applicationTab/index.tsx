@@ -7,6 +7,7 @@ import ProfileTab from "./profileTab";
 import ApplicationTab from "./applicationTab";
 import MessageTab from "./messageTab";
 import ContractTab from "./contractTab";
+// import ContractTab from "./ContractTab";
 
 export const ProfileView = ({
   popUp,

@@ -7,6 +7,7 @@ export interface ApplicationsProps {
   error: string | null;
   approvalStatus: string;
   applications: any;
+  status: "shortlisted" | "rejected" | "hired" | "All";
 }
 
 const initialState: ApplicationsProps = {
@@ -14,6 +15,7 @@ const initialState: ApplicationsProps = {
   error: "",
   approvalStatus: "",
   applications: [],
+  status: "All",
 };
 
 export const fetchApplications = createAsyncThunk(
@@ -82,6 +84,9 @@ const Applications = createSlice({
   initialState,
   reducers: {
     setApproval: (state, action: PayloadAction<string>) => {
+      state.approvalStatus = action.payload;
+    },
+    setApprovalStatus: (state, action: PayloadAction<string>) => {
       state.approvalStatus = action.payload;
     },
   },
