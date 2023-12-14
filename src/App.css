@@ -75,6 +75,10 @@
   @apply padding flex justify-center items-center space-x-20;
 }
 
+.dark___btn {
+  @apply bg-bm__btn__grey w-full px-6 py-1 text-white hover:bg-bm__btn__grey/70 rounded-md;
+}
+
 .dark__btn {
   @apply bg-bm__btn__grey w-full px-6 py-1 text-white hover:bg-bm__btn__grey/70 rounded-md;
 }

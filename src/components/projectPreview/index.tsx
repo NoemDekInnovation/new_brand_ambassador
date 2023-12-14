@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import ProjectPreview from "./projectPreview";
 import InviteTalent from "./InviteTalent";
 import Application from "./Application";
-import Contract from "./Contract";
+import Hire from "./Hire";
+
+type ProjectDetailsProps = {
+  activeType: "ProjectPreview" | "InviteTalent" | "Application" | "Contract";
+};
 
 export const ProjectViewCard = ({
   popUp,
@@ -10,14 +14,46 @@ export const ProjectViewCard = ({
   selectedProject,
   id,
   setId,
-}: {
+}: // activeType,
+{
   popUp: boolean;
   setPopUp: any;
   selectedProject: any;
   id: any;
   setId: any;
+  // activeType: any;
 }) => {
   const [selectedComponent, setSelectedComponent] = useState(1);
+
+  // let projects;
+  // switch (activeType) {
+  //   case "ProjectPreview":
+  //     projects = (
+  //       <ProjectPreview
+  //         selectedProject={selectedProject}
+  //         id={id}
+  //         setId={setId}
+  //       />
+  //     );
+  //     break;
+  //   case "InviteTalent":
+  //     projects = (
+  //       <InviteTalent selectedProject={selectedProject} id={id} setId={setId} />
+  //     );
+  //     break;
+  //   case "Application":
+  //     projects = (
+  //       <Application selectedProject={selectedProject} id={id} setId={setId} />
+  //     );
+  //     break;
+  //   case "Contract":
+  //     projects = (
+  //       <Contract selectedProject={selectedProject} id={id} setId={setId} />
+  //     );
+  //     break;
+  //   default:
+  //     projects = null;
+  // }
 
   return (
     <div>
@@ -47,7 +83,7 @@ export const ProjectViewCard = ({
         />
       )}
       {selectedComponent === 4 && (
-        <Contract
+        <Hire
           popUp={popUp}
           setPopUp={() => setPopUp(!popUp)}
           select={setSelectedComponent}
