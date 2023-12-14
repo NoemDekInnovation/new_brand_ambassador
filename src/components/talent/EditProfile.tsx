@@ -170,7 +170,7 @@ export default function EditProfile() {
       skinColor: talentData.skinColor || "",
       dressSize: talentData.dressSize || "",
       languages: talentData.languages || "",
-    })); 
+    }));
     setOverView((prevOverView) => ({
       ...prevOverView,
       summary: talentData.summary,
@@ -422,6 +422,7 @@ export default function EditProfile() {
               handleSkillSelect={handleSkillSelect}
               setOpportunites={setOpportunites}
               handleSkillDelete={handleSkillDelete}
+              setSkillData={setSkillData}
             />
           </MainLayout>
         )}

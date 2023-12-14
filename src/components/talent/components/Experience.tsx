@@ -19,6 +19,8 @@ import { patchAxiosInstance } from "../../../api/axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { ExperienceProps } from "../../../redux/types";
+import { useToast } from "../../../ui/use-toast";
+
 
 
 export default function Experience({
@@ -45,6 +47,7 @@ export default function Experience({
 const { user } = useSelector((state: RootState) => state.user);
 
 
+  const { toast } = useToast();
 
   
   const handleAddExperience = () => {
@@ -353,6 +356,11 @@ const { user } = useSelector((state: RootState) => state.user);
                 className="dark__btn"
                 onClick={() => {
                   create();
+                                    setTimeout(() => {
+                                      toast({
+                                        description: "Changes Saved",
+                                      });
+                                    }, 2000);
                   cancel();
                 }}
               >

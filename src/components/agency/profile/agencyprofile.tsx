@@ -22,7 +22,7 @@ const AgencyProfile = () => {
 
       const dispatch = useDispatch<AppDispatch>(); 
 
-  console.log(agencyProfile);
+  console.log("agencyProfile",agencyProfile);
 
 
   const [profileData, setProfileData] = useState({
@@ -165,12 +165,12 @@ const AgencyProfile = () => {
                             </p>
                             <p className=""></p>
                           </div> */}
-                          <div className="flex items-center">
+                          {/* <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               Email Address:
                             </p>
                             <p className="">{agencyProfile.email}</p>
-                          </div>
+                          </div> */}
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               Phone Number:
@@ -214,7 +214,7 @@ const AgencyProfile = () => {
                               <p className="w-[120px] text-[12px] font-semibold">
                                 Email Address:
                               </p>
-                              <p className="">-</p>
+                              <p className="">{agencyProfile.email}</p>
                             </div>
                             <div className="flex items-center">
                               <p className="w-[120px] text-[12px] font-semibold">
