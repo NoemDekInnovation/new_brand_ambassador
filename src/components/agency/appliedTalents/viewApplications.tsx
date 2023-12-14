@@ -35,7 +35,7 @@ import { RiStackshareLine } from "react-icons/ri";
 import ProfileTab from "./applicationTab/profileTab";
 import ApplicationTab from "./applicationTab/applicationTab";
 import MessageTab from "./applicationTab/messageTab";
-import ContractTab from "./applicationTab/contractTab";
+// import ContractTab from "./applicationTab/contractTab";
 import { ProfileView } from "./applicationTab";
 
 const ViewApplication = ({

@@ -411,14 +411,14 @@ const ApplyDetailsInfo = ({
             </button>
             <div className="h-8 w-2 bg-black"></div>
             <button
-              className="light__btn m-0"
+              className="light__btn m-0 whitespace-nowrap"
               onClick={() =>
                 dispatch(
-                  fetchApplications({ id: ProjectId, status: "approveHire" })
+                  fetchApplications({ id: ProjectId, status: "approvedHire" })
                 )
               }
             >
-              Approved
+              Approve Hire
               <span className="text-[16px] font-semibold text-black">(20)</span>
             </button>
             <div className="h-8 w-2 bg-black"></div>

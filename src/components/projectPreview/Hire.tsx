@@ -16,7 +16,7 @@ import subtract2 from "../../assets/Subtract2.png";
 import subtract4 from "../../assets/Subtract4.png";
 import union from "../../assets/Union1.png";
 
-const Contract = ({
+const Hire = ({
   popUp,
   setPopUp,
   select,
@@ -74,13 +74,6 @@ const Contract = ({
             </div>
             <Separator className="bg-bm__gler/50" />
             <div className="flex items-center gap-4 p-2   hover:bg-black/10 transform hover:scale-105 cursor-pointer">
-              <MdFamilyRestroom />
-
-              <p className="text-[14px] font-normal">Talents</p>
-            </div>
-            <Separator className="bg-bm__gler/50" />
-
-            <div className="flex items-center gap-4 p-2   hover:bg-black/10 transform hover:scale-105 cursor-pointer">
               <MdOutlineProductionQuantityLimits />
 
               <p className="text-[14px] font-normal">Products</p>
@@ -98,7 +91,7 @@ const Contract = ({
             <Separator className="bg-bm__gler/50" />
             <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
               <ImStatsDots />
-              <p className="text-[14px] font-normal">Reports</p>
+              <p className="text-[14px] font-normal">Contract</p>
             </div>
           </Card>
 
@@ -156,4 +149,4 @@ const Contract = ({
   );
 };
 
-export default Contract;
+export default Hire;

@@ -25,6 +25,7 @@ import EditProfile from "./components/talent/EditProfile";
 import AgencyProfile from "./components/agency/profile/agencyprofile";
 import EditAgencyProfile from "./components/agency/profile/editagencyprofile";
 import PreviewPublished from "./components/agency/publishedpreview/PreviewPublished";
+import Contract from "./components/agency/contract/Contract";
 
 function App() {
   const ROLES: {
@@ -84,6 +85,7 @@ function App() {
           element={<NewPassword />}
         />
         <Route path="/" element={<LandingPage />} />
+        <Route path="/contract" element={<Contract />} />
         {/* <Route path="/preview" element={<PreviewPublished />} /> */}
       </Routes>
     </Router>
