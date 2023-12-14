@@ -63,6 +63,7 @@ import { RootState } from "../../../redux/store";
 export const TalentList = ({
   talent,
   index,
+  appStatus,
   handleInvite,
   setSelectedProject,
   projects,
@@ -82,6 +83,7 @@ export const TalentList = ({
   handleInvite: any;
   setSelectedProject: any;
   projects: any;
+  appStatus: string;
   setSelectedTalent: any;
   handleProfilePopUp: (talent: TalentProps) => void;
   selectedTalent: any;
@@ -272,31 +274,54 @@ export const TalentList = ({
               <span>Share</span>
             </div>
           </button>
-          <button className="light__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
-            <div className="flex items-center gap-2">
-              <span>Send Offer</span>
-            </div>
-          </button>
-          <button
-            className="light__btn text-[14px] py-0"
-            style={{ whiteSpace: "nowrap", width: "150px" }}
-            // onClick={() => handleApplyPopUp(talent)}
-            onClick={() => fetchApplications("approvedHire")}
-          >
-            Approve Hire
-          </button>
-          <button
-            className={`dark__btn text-[14px] py-0 ${
-              isShortlisted ? "bg-green-500 text-black" : ""
-            }`}
-            style={{ whiteSpace: "nowrap", width: "150px" }}
-            // onClick={() => handleApplyPopUp(talent)}
-            // style={buttonStyle}
-            onClick={() => fetchApplications("shortlisted")}
-            disabled={isShortlisted}
-          >
-            {isShortlisted ? "Shortlisted" : "Shortlist"}
-          </button>
+          {appStatus === "shortlisted" && (
+            <button
+              className="border rounded-md border-red-500 text-red-500 text-[14px] py-0"
+              style={{ whiteSpace: "nowrap", width: "150px" }}
+              // onClick={() => handleApplyPopUp(talent)}
+              onClick={() => fetchApplications("rejected")}
+            >
+              Reject{" "}
+            </button>
+          )}
+          {appStatus === "shortlisted" && (
+            <button className="light__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
+              <div className="flex items-center gap-2">
+                <span>Send Offer</span>
+              </div>
+            </button>
+          )}
+          {appStatus === "approvedHire" && (
+            <button className="dark__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
+              <div className="flex items-center gap-2">
+                <span>Send Offer</span>
+              </div>
+            </button>
+          )}
+          {appStatus === "shortlisted" && (
+            <button
+              className="dark__btn text-[14px] py-0"
+              style={{ whiteSpace: "nowrap", width: "150px" }}
+              // onClick={() => handleApplyPopUp(talent)}
+              onClick={() => fetchApplications("approvedHire")}
+            >
+              Approve Hire
+            </button>
+          )}
+          {appStatus === "rejected" && (
+            <button
+              className={`dark__btn text-[14px] py-0 ${
+                isShortlisted ? "bg-green-500 text-black" : ""
+              }`}
+              style={{ whiteSpace: "nowrap", width: "150px" }}
+              // onClick={() => handleApplyPopUp(talent)}
+              // style={buttonStyle}
+              onClick={() => fetchApplications("shortlisted")}
+              disabled={isShortlisted}
+            >
+              {isShortlisted ? "Shortlisted" : "Shortlist"}
+            </button>
+          )}{" "}
         </div>
       </div>
       <ViewApplication

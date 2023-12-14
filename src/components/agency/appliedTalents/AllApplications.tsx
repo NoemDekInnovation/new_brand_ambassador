@@ -37,10 +37,12 @@ const AllApplications = ({
   successModal,
   projectModal,
   setProjectModal,
+  appStatus,
   gap,
   ProjectId,
 }: {
   ProjectId: string;
+  appStatus: string;
   gridView: boolean;
   handleInvite: any;
   setSelectedProject: any;
@@ -147,6 +149,7 @@ const AllApplications = ({
                 selectedProject={""}
                 setSuccessModal={""}
                 successModal={true}
+                appStatus={appStatus}
               />
             );
           })}
