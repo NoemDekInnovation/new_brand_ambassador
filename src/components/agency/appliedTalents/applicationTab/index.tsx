@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import ProfileTab from "./profileTab";
 import ApplicationTab from "./applicationTab";
 import MessageTab from "./messageTab";
-import ContractTab from "./ContractTab";
+import ContractTab from "./contractTab";
 
 export const ProfileView = ({
   popUp,
