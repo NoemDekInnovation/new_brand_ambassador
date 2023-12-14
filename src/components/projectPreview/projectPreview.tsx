@@ -31,6 +31,7 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { campaignAuthAxiosInstance } from "../../api/axios";
+import Contract from "../agency/contract/Contract";
 
 const ProjectPreview = ({
   popUp,
@@ -44,6 +45,7 @@ const ProjectPreview = ({
   selectedProject: any;
   // workDays: [];
 }) => {
+  const [activePreview, setActivePreview] = useState("Project Post");
   const startDate = new Date(selectedProject?.projectDuration?.startDate);
   const endDate = new Date(selectedProject?.projectDuration?.endDate);
   const formattedStartDate = startDate.toLocaleDateString("en-US", {
@@ -110,241 +112,270 @@ const ProjectPreview = ({
         <div className="flex items-center gap-4 relative">
           <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[230px] max-h-[270px] border rounded-[6px]">
             {/* <Separator className="bg-bm__gler" /> */}
-            <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+            <div
+              className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer"
+              onClick={() => {
+                setActivePreview("Project Post");
+              }}
+            >
               <div className="flex items-center gap-4 mr-2">
                 <MdPostAdd />
                 <p className="text-[14px] font-normal ">Project Post</p>
               </div>
             </div>
             <Separator className="bg-bm__gler/50" />
-            <div className="flex items-center gap-4 p-2   hover:bg-black/10 transform hover:scale-105 cursor-pointer">
-              <MdFamilyRestroom />
-
-              <p className="text-[14px] font-normal">Talents</p>
-            </div>
-            <Separator className="bg-bm__gler/50" />
-
-            <div className="flex items-center gap-4 p-2   hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+            <div
+              className="flex items-center gap-4 p-2   hover:bg-black/10 transform hover:scale-105 cursor-pointer"
+              onClick={() => {
+                setActivePreview("Products");
+              }}
+            >
               <MdOutlineProductionQuantityLimits />
 
               <p className="text-[14px] font-normal">Products</p>
             </div>
             <Separator className="bg-bm__gler/50" />
-            <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+            <div
+              className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer"
+              onClick={() => {
+                setActivePreview("Collaterals");
+              }}
+            >
               <BsFillCollectionFill />
               <p className="text-[14px] font-normal">Collaterals</p>
             </div>
             <Separator className="bg-bm__gler/50" />
-            <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+            <div
+              className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer"
+              onClick={() => {
+                setActivePreview("Outlets");
+              }}
+            >
               <TbMap2 />
               <p className="text-[14px] font-normal">Outlets</p>
             </div>
             <Separator className="bg-bm__gler/50" />
-            <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+            <div
+              className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer"
+              onClick={() => {
+                setActivePreview("Contracts");
+              }}
+            >
               <ImStatsDots />
-              <p className="text-[14px] font-normal">Reports</p>
+              <p className="text-[14px] font-normal">Contract</p>
             </div>
           </Card>
-
-          <div className="flex absolute flex-row justify-start items-start font-medium text-[12px] my-2  w-full max-w-[82%] right-5 -top-2 cursor-pointer">
-            <div
-              onClick={() => select(1)}
-              className="relative text-white flex items-center justify-center "
-            >
-              <p className="absolute top-[25%]  z-20 text-[16px]">
-                Project Overview
-              </p>
-              <img src={darkUnion} alt="" className=" z-5 w-[350px] h-[45px]" />
+          {activePreview === "Project Post" && (
+            <div className=" flex absolute flex-row justify-start items-start font-medium text-[12px] my-2  w-full max-w-[82%] right-5 -top-2 cursor-pointer">
+              <div
+                onClick={() => select(1)}
+                className="relative text-white flex items-center justify-center "
+              >
+                <p className="absolute top-[25%]  z-20 text-[16px]">
+                  Project Overview
+                </p>
+                <img
+                  src={darkUnion}
+                  alt=""
+                  className=" z-5 w-[350px] h-[45px]"
+                />
+              </div>
+              <div
+                onClick={() => select(2)}
+                className=" relative text-black flex items-center justify-center"
+              >
+                <p className="absolute top-[25%] text-[16px] z-20">
+                  Invite Talent
+                  <span className="text-[14px] font-bold">(30)</span>
+                </p>
+                <img
+                  src={subtract}
+                  alt=""
+                  className=" z-10 w-[350px] h-[45px]"
+                />
+              </div>
+              <div
+                onClick={() => select(3)}
+                className=" relative text-black flex items-center justify-center"
+              >
+                <p className="absolute top-[25%] text-[16px] z-20">
+                  {" "}
+                  Applications
+                  <span className="text-[14px] font-bold">(300)</span>
+                </p>
+                <img
+                  src={subtract}
+                  alt=""
+                  className=" z-10 w-[350px] h-[45px]"
+                />
+              </div>
+              <div
+                onClick={() => select(4)}
+                className=" relative text-black flex items-center justify-center"
+              >
+                <p className="absolute top-[25%] z-20 text-[16px]">
+                  {" "}
+                  Hire<span className="text-[14px] font-bold">(0)</span>
+                </p>
+                <img
+                  src={subtract2}
+                  alt=""
+                  className=" z-10 w-[350px] h-[45px]"
+                />
+              </div>
             </div>
-            <div
-              onClick={() => select(2)}
-              className=" relative text-black flex items-center justify-center"
-            >
-              <p className="absolute top-[25%] text-[16px] z-20">
-                Invite Talent
-                <span className="text-[14px] font-bold">(30)</span>
-              </p>
-              <img src={subtract} alt="" className=" z-10 w-[350px] h-[45px]" />
-            </div>
-            <div
-              onClick={() => select(3)}
-              className=" relative text-black flex items-center justify-center"
-            >
-              <p className="absolute top-[25%] text-[16px] z-20">
-                {" "}
-                Applications<span className="text-[14px] font-bold">(300)</span>
-              </p>
-              <img src={subtract} alt="" className=" z-10 w-[350px] h-[45px]" />
-            </div>
-            <div
-              onClick={() => select(4)}
-              className=" relative text-black flex items-center justify-center"
-            >
-              <p className="absolute top-[25%] z-20 text-[16px]">
-                {" "}
-                Hire<span className="text-[14px] font-bold">(0)</span>
-              </p>
-              <img
-                src={subtract2}
-                alt=""
-                className=" z-10 w-[350px] h-[45px]"
-              />
-            </div>
-          </div>
+          )}
         </div>
-        <Card className=" flex absolute flex-col p-4 md:p-8 bg-white overflow-y-scroll h-[75vh]  w-full max-w-[83%] right-0 top-0 mt-[150px] pl-[50px]">
-          {/* <div>
-          <h1>Project Title</h1>
-        </div> */}{" "}
-          <Card className="w-full pt-2 my-3">
-            <CardContent>
-              <div className="flex justify-between items-center">
-                <h2 className="text-[18px] font-medium capitalize">
-                  {selectedProject?.projectTitle}
-                </h2>
-              </div>
-
-              <div className="pt-2">
-                <p className="py-2 text-[16px] font-normal capitalize">
-                  {selectedProject?.projectCategory || "-"}
-                </p>
-                <p className="py-2 text-[16px] font-normal">
-                  {selectedProject?.projectCode || "-"}
-                </p>
-                <Separator className="bg-bm__beige my-3" />
-                <div className="flex flex-col overflow-y-auto h-[10vh]">
-                  <p className=" capitalize overflow-hidden break-words">
-                    Project Description:
-                    {selectedProject?.projectDescription || "-"}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="w-full pt-4 my-3">
-            <CardContent>
-              {selectedProject?.talent.map((talent: any, idx: number) => {
-                return (
-                  <div className="capitalize" key={idx}>
-                    <h2>{talent?.opportunities}</h2>
-                    {/* <div className="flex justify-between items-center">
+        {activePreview === "Project Post" && (
+          <Card className=" flex absolute flex-col p-4 md:p-8 bg-white overflow-y-scroll h-[75vh]  w-full max-w-[83%] right-0 top-0 mt-[150px] pl-[50px]">
+            <Card className="w-full pt-2 my-3">
+              <CardContent>
+                <div className="flex justify-between items-center">
                   <h2 className="text-[18px] font-medium capitalize">
-                    {_.talentType || "-"}
+                    {selectedProject?.projectTitle}
                   </h2>
-                </div> */}
-                    <div className="pt-4">
-                      <p className=" capitalize text-[16px] font-normal">
-                        {/* <p>BSc.</p> */}
-                        {talent?.qualifications || "-"}
-                      </p>
-                      <Separator className="bg-bm__beige my-3" />
-                    </div>
-                    <div className="pt-2">
-                      <p>Skills</p>
-                      <div className="py-3 flex gap-6 max-w-3xl flex-wrap">
-                        {talent?.skills.map((skill: string, idx: number) => {
-                          return (
-                            <div className="" key={idx}>
-                              <Button className="light__btn max-w-fit capitalize">
-                                {skill}
-                              </Button>
-                            </div>
-                          );
-                        })}
-                      </div>
-                      <Separator className="bg-bm__beige my-2" />
-                    </div>
-                    <div className="pt-2">
-                      <p>Budget</p>
-                      <div className="flex justify-between items-center">
-                        {(talent?.salary && (
-                          <div className="pt-2 flex gap-6 max-w-3xl capitalize">
-                            {talent?.salary} {talent?.paymentOptions}
-                          </div>
-                        )) ||
-                          "-"}{" "}
-                      </div>
-                    </div>
-                    <Separator className="bg-bm__beige my-4 py-[2px]" />
-                  </div>
-                );
-              })}
-              {/* <Separator className="bg-bm__beige my-4 py-[2px]" /> */}
-            </CardContent>
-          </Card>
-          <Card className="w-full pt-4 my-3">
-            <CardContent>
-              <div className="flex justify-between items-center">
-                <h2 className="text-[18px] font-medium capitalize">
-                  {formattedStartDate} to {formattedEndDate}
-                </h2>
-              </div>
+                </div>
 
-              <Separator className="bg-bm__beige my-4" />
-              <div className="py-3">
-                <p>Working Days</p>
-                <div className="pt-2 flex gap-4 max-w-3xl mt-2 mb-4 cursor-pointer flex-wrap">
-                  {daysOfWeekx.map(({ label, value }: DayObject, index) => (
-                    <div
-                      key={index}
-                      className={` rounded-md p-2 px-3 mb-4 capitalize font-semibold 
+                <div className="pt-2">
+                  <p className="py-2 text-[16px] font-normal capitalize">
+                    {selectedProject?.projectCategory || "-"}
+                  </p>
+                  <p className="py-2 text-[16px] font-normal">
+                    {selectedProject?.projectCode || "-"}
+                  </p>
+                  <Separator className="bg-bm__beige my-3" />
+                  <div className="flex flex-col overflow-y-auto h-[10vh]">
+                    <p className=" capitalize overflow-hidden break-words">
+                      Project Description:
+                      {selectedProject?.projectDescription || "-"}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="w-full pt-4 my-3">
+              <CardContent>
+                {selectedProject?.talent.map((talent: any, idx: number) => {
+                  return (
+                    <div className="capitalize" key={idx}>
+                      <h2>{talent?.opportunities}</h2>
+
+                      <div className="pt-4">
+                        <p className=" capitalize text-[16px] font-normal">
+                          {talent?.qualifications || "-"}
+                        </p>
+                        <Separator className="bg-bm__beige my-3" />
+                      </div>
+                      <div className="pt-2">
+                        <p>Skills</p>
+                        <div className="py-3 flex gap-6 max-w-3xl flex-wrap">
+                          {talent?.skills.map((skill: string, idx: number) => {
+                            return (
+                              <div className="" key={idx}>
+                                <Button className="light__btn max-w-fit capitalize">
+                                  {skill}
+                                </Button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <Separator className="bg-bm__beige my-2" />
+                      </div>
+                      <div className="pt-2">
+                        <p>Budget</p>
+                        <div className="flex justify-between items-center">
+                          {(talent?.salary && (
+                            <div className="pt-2 flex gap-6 max-w-3xl capitalize">
+                              {talent?.salary} {talent?.paymentOptions}
+                            </div>
+                          )) ||
+                            "-"}{" "}
+                        </div>
+                      </div>
+                      <Separator className="bg-bm__beige my-4 py-[2px]" />
+                    </div>
+                  );
+                })}
+              </CardContent>
+            </Card>
+            <Card className="w-full pt-4 my-3">
+              <CardContent>
+                <div className="flex justify-between items-center">
+                  <h2 className="text-[18px] font-medium capitalize">
+                    {formattedStartDate} to {formattedEndDate}
+                  </h2>
+                </div>
+
+                <Separator className="bg-bm__beige my-4" />
+                <div className="py-3">
+                  <p>Working Days</p>
+                  <div className="pt-2 flex gap-4 max-w-3xl mt-2 mb-4 cursor-pointer flex-wrap">
+                    {daysOfWeekx.map(({ label, value }: DayObject, index) => (
+                      <div
+                        key={index}
+                        className={` rounded-md p-2 px-3 mb-4 capitalize font-semibold 
                         ${
                           selectedProject?.workingDays.includes(value)
                             ? "bg-[#252525] text-white"
                             : "bg-bm_card_grey"
                         }`}
-                    >
-                      {label}
-                    </div>
-                  ))}
+                      >
+                        {label}
+                      </div>
+                    ))}
+                  </div>
+                  <Separator className="bg-bm__beige my-2" />
+                </div>
+                <div className="pt-2">
+                  <p className="mb-2">Location</p>
+                  <div className="py-2 flex gap-6 max-w-3xl flex-wrap">
+                    {(selectedProject?.projectLocation !== undefined && (
+                      <Button className="light__btn  max-w-fit capitalize">
+                        {selectedProject?.projectLocation}
+                      </Button>
+                    )) ||
+                      "-"}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="w-full pt-4 my-3">
+              <CardContent>
+                <div className="flex justify-between items-center">
+                  <h2 className="text-[18px] font-medium capitalize">
+                    Application Requiremnts
+                  </h2>
+                </div>
+                <Separator className="bg-bm__beige my-3" />
+                <div className="flex flex-col overflow-y-auto h-[10vh]">
+                  <p className=" capitalize overflow-hidden break-words">
+                    Application requirements:{" "}
+                    {selectedProject?.projectRequirements || "-"}
+                  </p>
                 </div>
                 <Separator className="bg-bm__beige my-2" />
-              </div>
-              <div className="pt-2">
-                <p className="mb-2">Location</p>
-                <div className="py-2 flex gap-6 max-w-3xl flex-wrap">
-                  {(selectedProject?.projectLocation !== undefined && (
-                    <Button className="light__btn  max-w-fit capitalize">
-                      {selectedProject?.projectLocation}
-                    </Button>
-                  )) ||
-                    "-"}
+              </CardContent>
+            </Card>
+            <Card className="w-full py-4 my-3">
+              <CardContent>
+                <div className="flex flex-col mb-4 gap-2">
+                  <p>Posted On</p>
+                  {FormattedPstartDate}
                 </div>
-                {/* <Separator className="bg-bm__beige my-2" /> */}
-              </div>
-            </CardContent>
+                <div className="flex flex-col gap-2">
+                  <p>Closed On</p>
+                  {FormattedPendDate}
+                </div>
+              </CardContent>
+            </Card>
           </Card>
-          <Card className="w-full pt-4 my-3">
-            <CardContent>
-              <div className="flex justify-between items-center">
-                <h2 className="text-[18px] font-medium capitalize">
-                  Application Requiremnts
-                </h2>
-              </div>
-              <Separator className="bg-bm__beige my-3" />
-              <div className="flex flex-col overflow-y-auto h-[10vh]">
-                <p className=" capitalize overflow-hidden break-words">
-                  Application requirements:{" "}
-                  {selectedProject?.projectRequirements || "-"}
-                </p>
-              </div>
-              <Separator className="bg-bm__beige my-2" />
-            </CardContent>
-          </Card>
-          <Card className="w-full py-4 my-3">
-            <CardContent>
-              <div className="flex flex-col mb-4 gap-2">
-                <p>Posted On</p>
-                {FormattedPstartDate}
-              </div>
-              <div className="flex flex-col gap-2">
-                <p>Closed On</p>
-                {FormattedPendDate}
-              </div>
-            </CardContent>
-          </Card>
-          {/*  */}
-        </Card>
+        )}
+
+        {activePreview === "Contracts" && (
+          <div className="absolute w-full max-w-[83%] right-0 top-0 mt-[50px]">
+            <Contract />
+          </div>
+        )}
       </Card>
     </div>
   );

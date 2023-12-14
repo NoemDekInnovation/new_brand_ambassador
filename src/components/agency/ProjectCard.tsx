@@ -95,7 +95,7 @@ export function CurrentProjects({
     return (
       <>
         <Card
-          className=" bg-white p-2 mx-3 rounded-md md:w-[234px] shadow-md cursor-pointer"
+          className=" bg-white p-2 mx-3 rounded-md w-full md:w-[234px] shadow-md cursor-pointer mb-4"
           key={idx}
           onClick={() => handleProfilePopUp(project)}
         >

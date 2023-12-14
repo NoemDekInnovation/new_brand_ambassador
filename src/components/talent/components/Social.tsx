@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { patchAxiosInstance } from "../../../api/axios";
 import { SocialsProps } from "../../../redux/types";
 import { useForm } from "react-hook-form";
+import { Required } from "../../Required";
 
 export default function Social({
   next,
@@ -182,7 +183,7 @@ const { user } = useSelector((state: RootState) => state.user);
                   htmlFor="linkedin"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  LinkedIn profile
+                  <Required className="text-[20px]">LinkedIn profile</Required>
                 </label>
               </div>
             </div>{" "}
@@ -202,8 +203,8 @@ const { user } = useSelector((state: RootState) => state.user);
                   htmlFor="instagram"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Instagram profile
-                </label>
+                  <Required className="text-[20px]">Instagram profile</Required>
+                                  </label>
               </div>
             </div>{" "}
             <div className="grid  md:gap-6 mt-4">

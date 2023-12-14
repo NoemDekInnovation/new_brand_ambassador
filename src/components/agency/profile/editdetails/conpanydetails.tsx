@@ -12,9 +12,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import { patchAxiosInstance } from "../../../../api/axios";
 import PhoneInput from "react-phone-number-input";
-import {Country,  State, City } from "country-state-city";
+import { Country, State, City } from "country-state-city";
 import SelectOption from "../../../../libs/select";
-
 
 type E164Number = string;
 
@@ -29,13 +28,33 @@ export default function CompanyDetails({
 }) {
   const { user } = useSelector((state: RootState) => state.user);
   const { agencyProfile } = useSelector((state: RootState) => state.talent);
+  console.log("agencyPro", agencyProfile);
 
-useEffect(() => {
-  if (agencyProfile) {
-    setCompanyProfile({
+  useEffect(() => {
+    // if (agencyProfile) {
+    //   setCompanyProfile({
+    //     agencyType: agencyProfile.agencyType || "",
+    //     officePhone: agencyProfile.officePhone || "",
+    //     companyLogo: agencyProfile.companyLogo,
+    //     website: agencyProfile.website || "",
+    //     address: agencyProfile.address || [
+    //       {
+    //         street: "",
+    //         city: "",
+    //         LGA: "",
+    //         state: "",
+    //         zipCode: "",
+    //       },
+    //     ],
+    //   });
+
+    //   setPhn(agencyProfile.officePhone || "");
+    // }
+    setCompanyProfile((prev) => ({
+      ...prev,
       agencyType: agencyProfile.agencyType || "",
-      officePhone: agencyProfile.officePhone || "",
-      companyLogo: agencyProfile.companyLogo || null,
+      officePhone: agencyProfile.officePhone || setPhn,
+      companyLogo: agencyProfile.companyLogo,
       website: agencyProfile.website || "",
       address: agencyProfile.address || [
         {
@@ -46,11 +65,8 @@ useEffect(() => {
           zipCode: "",
         },
       ],
-    });
-
-    setPhn(agencyProfile.officePhone || "");
-  }
-}, [agencyProfile]);
+    }));
+  }, [agencyProfile]);
 
   const [loading, setLoading] = useState(false);
   const [companyProfile, setCompanyProfile] = useState({
@@ -72,32 +88,32 @@ useEffect(() => {
     useState("");
   const [selectedOrigin, setSelectedOrigin] = useState(null);
   const [citiOrigin, setCityOrigin] = useState(null);
-
+  const [inVw, setInVw] = useState(false);
 
   const handlePhoneChange = (value: string) => {
     setPhn(value);
   };
 
-let countryData = Country.getCountryByCode("NG");
+  let countryData = Country.getCountryByCode("NG");
   let stateData = State.getStatesOfCountry(countryData?.isoCode);
   let citiData = City.getCitiesOfCountry("NG");
-
 
   const originOptions = stateData.map((state) => ({
     value: state.name,
     label: state.name,
   }));
 
-  const cityOptions = citiData?.map((city) => ({
-    value: city.name,
-    label: city.name,
-  })) || [];
+  const cityOptions =
+    citiData?.map((city) => ({
+      value: city.name,
+      label: city.name,
+    })) || [];
 
   const handleEditCompany = async () => {
     setLoading(true);
     const companyData = new FormData();
     companyData.append("agencyType", companyProfile.agencyType);
-    companyData.append("officePhone",phn || companyProfile.officePhone);
+    companyData.append("officePhone", phn || companyProfile.officePhone);
     if (companyProfile.companyLogo !== null) {
       companyData.append("companyLogo", companyProfile.companyLogo);
     }
@@ -106,7 +122,10 @@ let countryData = Country.getCountryByCode("NG");
       companyData.append(`address[${index}][street]`, address.street);
       companyData.append(`address[${index}][city]`, citiOrigin || address.city);
       companyData.append(`address[${index}][LGA]`, address.LGA);
-      companyData.append(`address[${index}][state]`,selectedOrigin || address.state);
+      companyData.append(
+        `address[${index}][state]`,
+        selectedOrigin || address.state
+      );
       companyData.append(`address[${index}][zipCode]`, address.zipCode);
     });
 
@@ -125,7 +144,7 @@ let countryData = Country.getCountryByCode("NG");
       } catch (error) {
         setLoading(false);
       }
-    } 
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -166,20 +185,19 @@ let countryData = Country.getCountryByCode("NG");
         ...companyProfile,
         [name]: selectedFiles[0],
       });
-      // console.log("Updated Company Profile:", companyProfile);
+      setInVw(true);
     }
   };
 
+  let imageUrl = null;
 
-    let imageUrl = null;
-
-    if (companyProfile.companyLogo !== null) { 
-      try {
-        imageUrl = URL.createObjectURL(companyProfile.companyLogo);
-      } catch (error) {
-        console.error("Failed to create object URL:", error);
-      }
+  if (companyProfile.companyLogo !== null) {
+    try {
+      imageUrl = URL.createObjectURL(companyProfile?.companyLogo);
+    } catch (error) {
+      console.error("Failed to create object URL:", error);
     }
+  }
 
   // console.log("Image URL:", imageUrl);
 
@@ -243,15 +261,41 @@ let countryData = Country.getCountryByCode("NG");
                 />
                 <div className="mt-3 border w-[120px] h-[150px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
                   {/* Attach or drop photos here */}
-                  {imageUrl ? (
+                  {companyProfile.companyLogo !== null && !inVw ? (
                     <img
-                      src={imageUrl}
+                      src={agencyProfile?.companyLogo}
                       alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : inVw ? (
+                    <img
+                      src={
+                        companyProfile.companyLogo !== null
+                          ? URL.createObjectURL(companyProfile.companyLogo)
+                          : ""
+                      }
+                      alt=""
                       className="w-full h-full object-cover"
                     />
                   ) : (
                     "Attach or drop photos here"
                   )}
+                  {/* {companyProfile.companyLogo !== "" & !inVw ? (
+                    <img 
+                    src={companyProfile?.companyLogo}
+                      className="w-full h-full object-cover"
+                      alt=""
+                    />
+                  ) : inVw ? (
+                    <img 
+                    src={URL.createObjectURL(companyProfile?.companyLogo)}
+                    alt=""
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    "Attach or drop photos here"
+                  )
+                } */}
                 </div>
               </label>
             </div>
@@ -279,14 +323,13 @@ let countryData = Country.getCountryByCode("NG");
               <input
                 type="text"
                 name="agencyType"
-                id="agencyType" 
+                id="agencyType"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 // value={formData.projectDuration.endDate}
                 // onChange={handleInputChange}
                 value={companyProfile.agencyType}
                 onChange={handleInputChange}
-                disabled
                 required
               />
               {/* <Controller
@@ -340,6 +383,26 @@ let countryData = Country.getCountryByCode("NG");
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Agency Type
+              </label>
+            </div>
+            <div className="relative z-0 w-full mb-6 group">
+              <input
+                type="text"
+                name="email"
+                id="floating_last_name"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                // value={formData.projectDuration.endDate}
+                // onChange={handleInputChange}
+                value={agencyProfile.email}
+                disabled
+                required
+              />
+              <label
+                htmlFor="floating_email"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Email
               </label>
             </div>
             {/* <div className="relative z-0 w-full mb-6 group">
@@ -477,17 +540,20 @@ let countryData = Country.getCountryByCode("NG");
                 <SelectOption
                   id="city"
                   name="city"
-                  defaultValue={"companyProfile.address[0].city"}
+                  defaultValue={{
+                    value: agencyProfile?.address[0]?.city,
+                    label: agencyProfile?.address[0]?.city,
+                  }}
                   options={cityOptions}
                   onChange={(e: any) => setCityOrigin(e?.value)}
                   placeholder="City"
                   required
                   isDisabled={false}
-                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300"
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
                 />
                 <label
                   htmlFor="floating_first_name"
-                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 top-2 left-2 -z-1 origin-[0] peer-focus:font-medium  transform -translate-y-6 scale-75 peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   City
                 </label>
@@ -516,21 +582,23 @@ let countryData = Country.getCountryByCode("NG");
               </div>
 
               <div className="relative  md:col-span-2  w-full mb-6 group">
-             
                 <SelectOption
                   id="origin"
                   name="origin"
-                  defaultValue={"companyProfile.address[0].state"}
+                  defaultValue={{
+                    value: agencyProfile?.address[0]?.state,
+                    label: agencyProfile?.address[0]?.state,
+                  }}
                   options={originOptions}
                   onChange={(e: any) => setSelectedOrigin(e?.value)}
                   placeholder="State of origin"
                   required
                   isDisabled={false}
-                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300"
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
                 />
                 <label
                   htmlFor="floating_first_name"
-                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 top-2 left-2 -z-1 origin-[0] peer-focus:font-medium  transform -translate-y-6 scale-75 peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   State
                 </label>

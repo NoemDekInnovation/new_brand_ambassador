@@ -37,10 +37,12 @@ const AllApplications = ({
   successModal,
   projectModal,
   setProjectModal,
+  appStatus,
   gap,
   ProjectId,
 }: {
   ProjectId: string;
+  appStatus: string;
   gridView: boolean;
   handleInvite: any;
   setSelectedProject: any;
@@ -101,9 +103,9 @@ const AllApplications = ({
   return (
     <div className="relative">
       {gridView && (
-        <div className="flex w-full justify-center ">
+        <div className="flex w-full justify-start">
           <div
-            className={`flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3 md:gap-x-${gap} mt-2  flex-wrap `}
+            className={`flex justify-start md:justify-start space-y-4 md:space-y-0 gap-3 md:gap-x-${gap} mt-2  flex-wrap `}
           >
             {/* {talents} */}
             {talentData?.map((_: any, idx: number) => {
@@ -147,6 +149,7 @@ const AllApplications = ({
                 selectedProject={""}
                 setSuccessModal={""}
                 successModal={true}
+                appStatus={appStatus}
               />
             );
           })}

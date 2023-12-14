@@ -67,7 +67,7 @@ const Dashboard = () => {
   return (
     <AgencyLayout>
       <Tabs defaultValue={defaultTab} className="w-full">
-        <div className="flex flex-col lg:flex-row  justify-between w-full px-4 md:px-12 xl:px-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0  overflow-x-scroll md:overflow-x-hidden overflow-y-hidden">
+        <div className="flex flex-col md:flex-row   justify-between w-full px-4 md:px-12 xl:px-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0  overflow-x-auto  md:overflow-x-hidden overflow-y-hidden">
           <TabsList className="mb-4">
             <TabsTrigger
               value="home"
