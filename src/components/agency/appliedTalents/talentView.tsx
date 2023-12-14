@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Separator } from "../../../ui/seperator";
-import { Card } from "../../../ui/card";
+import { Card, CardContent } from "../../../ui/card";
 import Logo from "../../../assets/beauty.jpg";
 
 import {
@@ -59,6 +59,19 @@ import { ProjectViewCard } from "../../projectPreview";
 import ViewApplication from "./viewApplications";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../../ui/alert-dialog";
+import { Input } from "../../../ui/input";
+import SelectOption from "../../../libs/select";
 
 export const TalentList = ({
   talent,
@@ -108,6 +121,15 @@ export const TalentList = ({
 
     return truncatedText;
   }
+
+  const appOptions: any = [
+    { value: "All Applications", label: "All Applications" },
+    { value: "My Talent", label: "My Talent" },
+    { value: "Favorites", label: "Favorites" },
+    { value: "Current Contacts", label: "Current Contacts" },
+    { value: "Engaged", label: "Engaged" },
+    { value: "Invited", label: "Invited" },
+  ];
 
   // const [selectedTalent, setSelectedTalent] = useState();
 
@@ -287,14 +309,164 @@ export const TalentList = ({
           {appStatus === "shortlisted" && (
             <button className="light__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
               <div className="flex items-center gap-2">
-                <span>Send Offer</span>
+                <AlertDialog>
+                  <AlertDialogTrigger className="">
+                    <span>Send Offer</span>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="z-[4000] bg-white ">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Send Contract Offer</AlertDialogTitle>
+                      <Separator className="bg-bm__beige my-4" />
+                      <SelectOption
+                        id="origin"
+                        name="origin"
+                        defaultValue={"companyProfile.address[0].state"}
+                        options={appOptions}
+                        onChange={"set"}
+                        placeholder="State of origin"
+                        required
+                        isDisabled={false}
+                        className="w-[100px]"
+                      />
+                      {/* <p>DropDown</p> */}
+                      <Separator className="bg-bm__beige my-4" />
+                      <AlertDialogDescription>
+                        <div className=" h-[65vh]">
+                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA]">
+                            <CardContent>
+                              <div className="flex justify-between items-center">
+                                <h2 className="text-[14px] font-normal capitalize">
+                                  Contract Name
+                                </h2>
+                              </div>
+                              <Separator className="bg-bm__beige my-4" />
+                              <Card className="h-[23vh] border-[#93979D]">
+                                <div className="flex flex-col overflow-y-auto h-[23vh]">
+                                  <p className=" capitalize break-words p-4">
+                                    Lorem ipsum dolor sit amet consectetur.
+                                    Viverra mattis vitae odio in sem non eu
+                                    elementum. Vehicula ut amet parturient dui
+                                    nam sit amet. Luctus mattis mattis viverra
+                                    eleifend enim bibendum viverra duis. At et
+                                    vel elit nibh orci volutpat diam tempus
+                                    volutpat. Hendrerit ullamcorper dolor nunc
+                                    malesuada laoreet. Id venenatis integer ac
+                                    et morbi ut sagittis velit. Pharetra libero
+                                    dolor eget lacinia. Tristique leo eu augue
+                                    lectus a sit et etiam nunc. Consequat risus
+                                    sit enim tristique nunc eget molestie. Ac
+                                    sed vivamus aliquam egestas at. Ullamcorper
+                                    tellus facilisi mauris est id. Hac quam
+                                    interdum consequat lorem condimentum
+                                    tincidunt est. Eu auctor convallis urna est
+                                    in maecenas nisi senectus. Netus dui mi at
+                                    donec pellentesque facilisi lorem tincidunt.
+                                  </p>
+                                </div>
+                              </Card>
+                            </CardContent>
+                          </Card>
+                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA]">
+                            <CardContent>
+                              <div className="flex justify-between items-center">
+                                <h2 className="text-[14px] font-normal capitalize">
+                                  Attachments
+                                </h2>
+                              </div>
+                              <Separator className="bg-bm__beige my-6" />
+                              <Card className="h-[23vh] border-0"></Card>
+                            </CardContent>
+                          </Card>
+                        </div>
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>
+                        <Button className="dark___btn">Cancel</Button>
+                      </AlertDialogCancel>
+                      <AlertDialogAction>
+                        <Button className="dark___btn">Send Offer</Button>
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </button>
           )}
           {appStatus === "approvedHire" && (
             <button className="dark__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
               <div className="flex items-center gap-2">
-                <span>Send Offer</span>
+                {/* <span>Send Offer</span> */}
+                <AlertDialog>
+                  <AlertDialogTrigger className="">
+                    <span>Send Offer</span>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="z-[4000] bg-white ">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Send Contract Offer</AlertDialogTitle>
+                      <Separator className="bg-bm__beige my-4" />
+                      <select />
+                      <Separator className="bg-bm__beige my-4" />
+                      <AlertDialogDescription>
+                        <div className=" h-[65vh]">
+                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA]">
+                            <CardContent>
+                              <div className="flex justify-between items-center">
+                                <h2 className="text-[14px] font-normal capitalize">
+                                  Contract Name
+                                </h2>
+                              </div>
+                              <Separator className="bg-bm__beige my-4" />
+                              <Card className="h-[23vh] border-[#93979D]">
+                                <div className="flex flex-col overflow-y-auto h-[23vh]">
+                                  <p className=" capitalize break-words p-4">
+                                    Lorem ipsum dolor sit amet consectetur.
+                                    Viverra mattis vitae odio in sem non eu
+                                    elementum. Vehicula ut amet parturient dui
+                                    nam sit amet. Luctus mattis mattis viverra
+                                    eleifend enim bibendum viverra duis. At et
+                                    vel elit nibh orci volutpat diam tempus
+                                    volutpat. Hendrerit ullamcorper dolor nunc
+                                    malesuada laoreet. Id venenatis integer ac
+                                    et morbi ut sagittis velit. Pharetra libero
+                                    dolor eget lacinia. Tristique leo eu augue
+                                    lectus a sit et etiam nunc. Consequat risus
+                                    sit enim tristique nunc eget molestie. Ac
+                                    sed vivamus aliquam egestas at. Ullamcorper
+                                    tellus facilisi mauris est id. Hac quam
+                                    interdum consequat lorem condimentum
+                                    tincidunt est. Eu auctor convallis urna est
+                                    in maecenas nisi senectus. Netus dui mi at
+                                    donec pellentesque facilisi lorem tincidunt.
+                                  </p>
+                                </div>
+                              </Card>
+                            </CardContent>
+                          </Card>
+                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA]">
+                            <CardContent>
+                              <div className="flex justify-between items-center">
+                                <h2 className="text-[14px] font-normal capitalize">
+                                  Attachments
+                                </h2>
+                              </div>
+                              <Separator className="bg-bm__beige my-6" />
+                              <Card className="h-[23vh] border-0"></Card>
+                            </CardContent>
+                          </Card>
+                        </div>
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>
+                        <Button className="dark___btn">Cancel</Button>
+                      </AlertDialogCancel>
+                      <AlertDialogAction>
+                        <Button className="dark___btn">Send Offer</Button>
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </button>
           )}

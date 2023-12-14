@@ -76,7 +76,7 @@
 }
 
 .dark___btn {
-  @apply bg-bm__btn__grey w-full px-6 py-1 text-white hover:bg-bm__btn__grey/70 rounded-md;
+  @apply bg-bm__btn__grey w-full px-4 py-1 text-white hover:bg-bm__btn__grey/70 rounded-md;
 }
 
 .dark__btn {
