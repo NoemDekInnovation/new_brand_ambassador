@@ -140,7 +140,7 @@ export const TalentList = ({
   };
   const user = useSelector((state: RootState) => state.user);
 
-  const fetchNotifications = async (status: string) => {
+  const fetchApplications = async (status: string) => {
     if (user?.user?.accountId !== undefined) {
       try {
         const response = await campaignAuthAxiosInstance(
@@ -156,7 +156,7 @@ export const TalentList = ({
       }
     }
   };
-  // fetchNotifications();
+  // fetchApplications();
   // setIsLoading(false);
 
   return (
@@ -281,7 +281,7 @@ export const TalentList = ({
             className="light__btn text-[14px] py-0"
             style={{ whiteSpace: "nowrap", width: "150px" }}
             // onClick={() => handleApplyPopUp(talent)}
-            onClick={() => fetchNotifications("approvedHire")}
+            onClick={() => fetchApplications("approvedHire")}
           >
             Approve Hire
           </button>
@@ -292,7 +292,7 @@ export const TalentList = ({
             style={{ whiteSpace: "nowrap", width: "150px" }}
             // onClick={() => handleApplyPopUp(talent)}
             // style={buttonStyle}
-            onClick={() => fetchNotifications("shortlisted")}
+            onClick={() => fetchApplications("shortlisted")}
             disabled={isShortlisted}
           >
             {isShortlisted ? "Shortlisted" : "Shortlist"}
