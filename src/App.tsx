@@ -85,7 +85,7 @@ function App() {
           element={<NewPassword />}
         />
         <Route path="/" element={<LandingPage />} />
-        <Route path="/contract" element={<Contract />} />
+        {/* <Route path="/contract" element={<Contract />} /> */}
         {/* <Route path="/preview" element={<PreviewPublished />} /> */}
       </Routes>
     </Router>
