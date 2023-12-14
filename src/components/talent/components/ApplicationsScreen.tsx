@@ -34,8 +34,15 @@ import AllInvitations from "./AllInvitations";
 import AppliedInvitations from "./AppliedInvitiations";
 import NotAppliedInvitations from "./NotApplied";
 import RejectedInvitations from "./Rejected.tsx";
+import ContractOffers from "./ContractOffers";
+import AcceptOffers from "./AcceptOffers";
+import DeclinedOffers from "./DeclinedOffers";
 
-type InviteType = "All Invitations" | "Applied" | "Not Applied" | "Rejected";
+type ApplicationType =
+  | "Contract Offers"
+  | "Applied"
+  | "Accepted Offers"
+  | "Declined Offer";
 
 export default function ApplicationsScreen({}) {
   const { talentInvitations } = useSelector(
@@ -43,29 +50,29 @@ export default function ApplicationsScreen({}) {
   );
 
   const [isLoading, setIsLoading] = useState(false);
-  const [invites, setInvites] = useState<InviteType>("All Invitations");
+  const [applications, setApplications] = useState<ApplicationType>("Applied");
 
-  const handleInviteChange = (type: InviteType) => {
-    setInvites(type);
+  const handleInviteChange = (type: ApplicationType) => {
+    setApplications(type);
   };
 
-  let inviteList;
+  let applicationList;
 
-  switch (invites) {
-    case "All Invitations":
-      inviteList = <AllInvitations />;
-      break;
+  switch (applications) {
     case "Applied":
-      inviteList = <AppliedInvitations />;
+      applicationList = <AppliedInvitations />;
       break;
-    case "Not Applied":
-      inviteList = <NotAppliedInvitations />;
+    case "Contract Offers":
+      applicationList = <ContractOffers />;
       break;
-    case "Rejected":
-      inviteList = <RejectedInvitations />;
+    case "Accepted Offers":
+      applicationList = <AcceptOffers />;
+      break;
+    case "Declined Offer":
+      applicationList = <DeclinedOffers />;
       break;
     default:
-      inviteList = null;
+      applicationList = null;
   }
 
   let applied;
@@ -113,26 +120,13 @@ export default function ApplicationsScreen({}) {
         </CardHeader>
         <Separator className="my-2 bg-[#D7D8DA]" />
         <CardHeader className="flex-row p-1 justify-between items-center ">
-          <div className="flex border border-bm__beige w-full">
-            {/* <p
-              onClick={() => handleInviteChange("All Invitations")}
-              className={`px-4 py-1 border-r border-bm__beige text-[12px] font-medium text-center cursor-pointer
-              hover:bg-black/10 transition-all duration-300 ${
-                invites === "All Invitations" &&
-                "bg-black/10 transition-all duration-300 "
-              }`}
-            >
-              All Invitations{" "}
-              <span className="text-[12px] font-bold">
-                ({talentInvitations?.invitations?.length})
-              </span>
-            </p> */}
+          <div className="flex border border-bm__beige w-fit">
             <p
               onClick={() => handleInviteChange("Applied")}
               className={`px-4 py-1 border-r border-bm__beige text-[12px] font-medium text-center cursor-pointer
              hover:bg-black/10 transition-all duration-300 
             ${
-              invites === "Applied" &&
+              applications === "Applied" &&
               "bg-black/10 transition-all duration-300 "
             }`}
             >
@@ -141,26 +135,11 @@ export default function ApplicationsScreen({}) {
                 ({appliedInvite.length})
               </span>
             </p>
-            {/* <p
-              onClick={() => handleInviteChange("Not Applied")}
-              className={`px-4 py-1 border-r border-bm__beige text-[12px] font-medium text-center cursor-pointer
-             hover:bg-black/10 transition-all duration-300 
-            ${
-              invites === "Not Applied" &&
-              "bg-black/10 transition-all duration-300 "
-            }`}
-            >
-              Not Applied{" "}
-              <span className="text-[12px] font-bold">
-                {" "}
-                ({notAppliedInvite.length})
-              </span>
-            </p> */}
             <p
-              onClick={() => handleInviteChange("Rejected")}
-              className={`px-4 py-1 text-[12px] font-medium  cursor-pointer  hover:bg-black/10 transition-all duration-300
+              onClick={() => handleInviteChange("Contract Offers")}
+              className={`px-4 py-1 text-[12px] font-medium  border-r border-bm__beige  cursor-pointer  hover:bg-black/10 transition-all duration-300
             ${
-              invites === "Rejected" &&
+              applications === "Contract Offers" &&
               "bg-black/10 transition-all duration-300 "
             }
             `}
@@ -171,10 +150,10 @@ export default function ApplicationsScreen({}) {
               </span>
             </p>
             <p
-              onClick={() => handleInviteChange("Rejected")}
-              className={`px-4 py-1 text-[12px] font-medium  cursor-pointer  hover:bg-black/10 transition-all duration-300
+              onClick={() => handleInviteChange("Accepted Offers")}
+              className={`px-4 py-1 text-[12px] font-medium  border-r border-bm__beige  cursor-pointer  hover:bg-black/10 transition-all duration-300
             ${
-              invites === "Rejected" &&
+              applications === "Accepted Offers" &&
               "bg-black/10 transition-all duration-300 "
             }
             `}
@@ -185,15 +164,15 @@ export default function ApplicationsScreen({}) {
               </span>
             </p>{" "}
             <p
-              onClick={() => handleInviteChange("Rejected")}
+              onClick={() => handleInviteChange("Declined Offer")}
               className={`px-4 py-1 text-[12px] font-medium  cursor-pointer  hover:bg-black/10 transition-all duration-300
             ${
-              invites === "Rejected" &&
+              applications === "Declined Offer" &&
               "bg-black/10 transition-all duration-300 "
             }
             `}
             >
-              Rejected Offers {"  "}
+              Declined Offers {"  "}
               <span className="text-[12px] font-bold">
                 ({rejectedInvite.length})
               </span>
@@ -240,7 +219,7 @@ export default function ApplicationsScreen({}) {
           </div>
         </CardHeader>
         <Separator className="my-2 bg-[#D7D8DA]" />
-        {inviteList}
+        {applicationList}
       </Card>
     </>
   );
