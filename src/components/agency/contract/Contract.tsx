@@ -1,4 +1,11 @@
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import React, {
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+  ChangeEvent,
+} from "react";
+import axios from "axios";
 import { Card, CardContent } from "../../../ui/card";
 import { Dialog, DialogContent, Overlay } from "@radix-ui/react-dialog";
 import { TbMap2, TbProgressCheck } from "react-icons/tb";
@@ -26,52 +33,108 @@ import {
 } from "../../../ui/alert-dialog";
 import { Input } from "../../../ui/input";
 import { Textarea } from "../../../ui/textarea";
+import { authAxiosInstance } from "../../../api/axios";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 const Contract = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [selectedFileNames, setSelectedFileNames] = useState<string[]>([]);
+  const [selectedFileNames, setSelectedFileNames] = useState("");
+  //  const [documents, setDocuments] = useState<File[]>([]);
+  // const [selectedFileNames, setSelectedFileNames] = useState<string[]>([]);
   const [documents, setDocuments] = useState<File[]>([]);
+  const [offerName, setOfferName] = useState("");
+  const [offerDescription, setOfferDescription] = useState("");
 
-  useEffect(() => {
-    const savedDocuments = localStorage.getItem("documents");
+  // useEffect(() => {
+  //   const savedDocuments = localStorage.getItem("documents");
 
-    if (savedDocuments) {
-      const parsedDocuments: File[] = JSON.parse(savedDocuments);
-      setDocuments(parsedDocuments);
-      setSelectedFileNames(parsedDocuments.map((file) => file.name));
+  //   if (savedDocuments) {
+  //     const parsedDocuments: File[] = JSON.parse(savedDocuments);
+  //     setDocuments(parsedDocuments);
+  //     setSelectedFileNames(parsedDocuments.map((file) => file.name));
+  //   }
+  // }, []);
+
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { files } = e.target;
+
+  //   if (files?.length) {
+  //     const selectedFiles = Array.from(files);
+  //     setSelectedFileNames(selectedFiles.map((file) => file.name));
+  //     setDocuments(selectedFiles);
+  //   }
+  // };
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const fileInput = e.target;
+    const selectedFiles = fileInput.files;
+
+    if (selectedFiles) {
+      const filesArray = Array.from(selectedFiles);
+      setDocuments((prev) => [...prev, ...filesArray]);
     }
-  }, []);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-
-    if (files?.length) {
-      const selectedFiles = Array.from(files);
-      setSelectedFileNames(selectedFiles.map((file) => file.name));
-      setDocuments(selectedFiles);
-    }
+    fileInput.value = "";
   };
-
   const handleDivClick = () => {
     fileInputRef?.current?.click();
   };
 
   //
-  useEffect(() => {
-    // Save selected documents to local storage
-    localStorage.setItem("documents", JSON.stringify(documents));
+  // useEffect(() => {
+  //   // Save selected documents to local storage
+  //   localStorage.setItem("documents", JSON.stringify(documents));
 
-    // Read files as data URLs
-    documents.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const dataURL = e.target?.result as string;
-        console.log(dataURL); // Do something with the dataURL
-      };
-      reader.readAsDataURL(file);
+  //   // Read files as data URLs
+  //   documents.forEach((file) => {
+  //     const reader = new FileReader();
+  //     reader.onload = (e) => {
+  //       const dataURL = e.target?.result as string;
+  //       console.log(dataURL); // Do something with the dataURL
+  //     };
+  //     reader.readAsDataURL(file);
+  //   });
+  // }, [documents]);
+
+  const handleOnOfferChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setOfferName(event.target.value);
+  };
+  const handleOnDescriptionChange = (
+    event: ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setOfferDescription(event.target.value);
+  };
+
+  const user = useSelector((state: RootState) => state.user);
+  const id = "653be48055125474a87dabf4";
+
+  const handleSave = async () => {
+    const formData = new FormData();
+    formData.append("offerName", offerName);
+    formData.append("offerDescription", offerDescription);
+    documents.forEach((file, index) => {
+      formData.append("document", file);
     });
-  }, [documents]);
+
+    if (!user?.user !== undefined) {
+      try {
+        const response = await authAxiosInstance.post(
+          `/create-offer/${id}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.user?.authKey || ""}`,
+            },
+          }
+        );
+        console.log("Response:", response.data);
+        return response.data;
+      } catch (error) {
+        // Handle errors
+        console.error("Error:", error);
+      }
+    }
+  };
 
   return (
     <div>
@@ -100,11 +163,18 @@ const Contract = () => {
                         </div>
                         <Separator className="bg-bm__beige my-6" />
                         <div className="mb-4">
-                          <Input placeholder="Contract Offer Name" />
+                          <Input
+                            placeholder="Contract Offer Name"
+                            onChange={handleOnOfferChange}
+                          />
                         </div>
                         <Card className="h-[23vh]">
                           <div className="flex flex-col overflow-y-auto h-[23vh]">
-                            <textarea className=" capitalize break-words p-4 h-[23vh]" />
+                            <textarea
+                              className=" break-words p-4 h-[23vh]"
+                              placeholder="Describe the offer details here..."
+                              onChange={handleOnDescriptionChange}
+                            />
                           </div>
                           <small>250 characters</small>
                         </Card>
@@ -130,18 +200,15 @@ const Contract = () => {
                           </Button>
                           <Input
                             type="file"
-                            className="hidden"
+                            // className="hidden"
+                            style={{ display: "none" }}
                             ref={fileInputRef}
                             onChange={handleFileChange}
                             name="document"
                             required
-                            multiple
+                            // multiple
                           />
-                          {selectedFileNames && (
-                            <p>
-                              Selected Files: {selectedFileNames.join(", ")}
-                            </p>
-                          )}
+                          {selectedFileNames && <p>{selectedFileNames}</p>}
                         </Card>
                       </CardContent>
                     </Card>
@@ -153,7 +220,9 @@ const Contract = () => {
                   <Button className="dark___btn">Cancel</Button>
                 </AlertDialogCancel>
                 <AlertDialogAction>
-                  <Button className="dark___btn">Save</Button>
+                  <Button className="dark___btn" onClick={handleSave}>
+                    Save
+                  </Button>
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
