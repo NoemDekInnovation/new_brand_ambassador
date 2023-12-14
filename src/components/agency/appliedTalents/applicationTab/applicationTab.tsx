@@ -103,7 +103,6 @@ const ApplicationTab = ({
                     aliquam egestas at. Ullamcorper tellus facilisi mauris est
                     id. Hac quam interdum consequat lorem condimentum tincidunt
                     est. Eu auctor convallis urna est in maecenas nisi senectus.
-                    Netus dui mi at donec pellentesque facilisi lorem tincidunt.
                   </p>
                 </div>
               </Card>
