@@ -11,9 +11,6 @@ import {
   MdPostAdd,
 } from "react-icons/md";
 import { BsFillCollectionFill } from "react-icons/bs";
-import darkUnion from "../../assets/Union.png";
-import subtract from "../../assets/Subtract.png";
-import subtract2 from "../../assets/Subtract2.png";
 import { Button } from "../../../ui/button";
 import { RiStackshareLine } from "react-icons/ri";
 import {
