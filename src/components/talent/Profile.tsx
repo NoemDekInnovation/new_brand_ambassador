@@ -382,7 +382,7 @@ const Profile = () => {
                             <p className="w-[120px] text-[12px] font-medium capitalize">
                               Phone Number:
                             </p>
-                            <p className="capitalize">{talentData.phone}</p>
+                            <p className="capitalize">{talentData?.phone}</p>
                           </div>
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-medium capitalize">
