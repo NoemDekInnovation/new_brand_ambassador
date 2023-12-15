@@ -142,6 +142,9 @@ export const TalentList = ({
   };
 
   const [isShortlisted, setShortlisted] = useState(false);
+  const [offers, setOffers] = useState([]);
+  const [offerSelectorList, setOfferSelectorList] = useState([]);
+  const [selectedOffer, setSelectedOffer] = useState<any>(null);
   // const [projectId, setProjectId] = useState("");
 
   const handleShortlistClick = () => {
@@ -180,8 +183,53 @@ export const TalentList = ({
       }
     }
   };
+
+  function capitalizeFirstLetter(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  const fetchContractOffers = async () => {
+    if (user?.user?.accountId !== undefined) {
+      try {
+        const response = await campaignAuthAxiosInstance(
+          `/offers/${ProjectId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.user?.authKey || ""}`,
+            },
+          }
+        );
+        const offers = response.data.data.projectOffers;
+        setOffers(offers);
+
+        setOfferSelectorList(
+          offers.map((offer: any) => {
+            return {
+              label: capitalizeFirstLetter(offer?.offerName),
+              value: capitalizeFirstLetter(offer?.offerName),
+            };
+          })
+        );
+      } catch (error) {
+        console.error("Error while fetiching Notifications:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchContractOffers();
+  }, []);
   // fetchApplications();
   // setIsLoading(false);
+
+  const handleSelection = (value: any) => {
+    const offerInfo = offers.filter((offer) => offer !== value.toLowerCase());
+    console.log(offerInfo);
+    setSelectedOffer(offerInfo);
+  };
+  if (selectedOffer !== null) {
+    console.log(selectedOffer[0].offerName, "hello world");
+  }
 
   return (
     <div key={index} className="bg-white border rounded flex">
@@ -319,7 +367,7 @@ export const TalentList = ({
                     <AlertDialogHeader>
                       <AlertDialogTitle>Send Contract Offer</AlertDialogTitle>
                       <Separator className="bg-bm__beige my-4" />
-                      <SelectOption
+                      {/* <SelectOption
                         id="origin"
                         name="origin"
                         defaultValue={"companyProfile.address[0].state"}
@@ -328,8 +376,8 @@ export const TalentList = ({
                         placeholder="State of origin"
                         required
                         isDisabled={false}
-                        className="w-[100px]"
-                      />
+                        className="w-[100px] bg-orange-400"
+                      /> */}
                       {/* <p>DropDown</p> */}
                       <Separator className="bg-bm__beige my-4" />
                       <AlertDialogDescription>
@@ -409,7 +457,18 @@ export const TalentList = ({
                     <AlertDialogHeader>
                       <AlertDialogTitle>Send Contract Offer</AlertDialogTitle>
                       <Separator className="bg-bm__beige my-4" />
-                      <select />
+                      <SelectOption
+                        id="origin"
+                        name="origin"
+                        defaultValue={"companyProfile.address[0].state"}
+                        options={offerSelectorList}
+                        onChange={(e: any) => handleSelection(e.value)}
+                        placeholder="Select contract offer"
+                        required
+                        isDisabled={false}
+                        className="max-w-[400px]"
+                      />
+                      {/* <p>DropDown</p> */}
                       <Separator className="bg-bm__beige my-4" />
                       <AlertDialogDescription>
                         <div className=" h-[65vh]">
@@ -417,6 +476,10 @@ export const TalentList = ({
                             <CardContent>
                               <div className="flex justify-between items-center">
                                 <h2 className="text-[14px] font-normal capitalize">
+                                  {selectedOffer !== null &&
+                                    capitalizeFirstLetter(
+                                      selectedOffer[0].offerName || ""
+                                    )}{" "}
                                   Contract Name
                                 </h2>
                               </div>
@@ -424,24 +487,10 @@ export const TalentList = ({
                               <Card className="h-[23vh] border-[#93979D]">
                                 <div className="flex flex-col overflow-y-auto h-[23vh]">
                                   <p className=" capitalize break-words p-4">
-                                    Lorem ipsum dolor sit amet consectetur.
-                                    Viverra mattis vitae odio in sem non eu
-                                    elementum. Vehicula ut amet parturient dui
-                                    nam sit amet. Luctus mattis mattis viverra
-                                    eleifend enim bibendum viverra duis. At et
-                                    vel elit nibh orci volutpat diam tempus
-                                    volutpat. Hendrerit ullamcorper dolor nunc
-                                    malesuada laoreet. Id venenatis integer ac
-                                    et morbi ut sagittis velit. Pharetra libero
-                                    dolor eget lacinia. Tristique leo eu augue
-                                    lectus a sit et etiam nunc. Consequat risus
-                                    sit enim tristique nunc eget molestie. Ac
-                                    sed vivamus aliquam egestas at. Ullamcorper
-                                    tellus facilisi mauris est id. Hac quam
-                                    interdum consequat lorem condimentum
-                                    tincidunt est. Eu auctor convallis urna est
-                                    in maecenas nisi senectus. Netus dui mi at
-                                    donec pellentesque facilisi lorem tincidunt.
+                                    {selectedOffer !== null &&
+                                      capitalizeFirstLetter(
+                                        selectedOffer[0].offerDescription || ""
+                                      )}
                                   </p>
                                 </div>
                               </Card>
@@ -453,6 +502,10 @@ export const TalentList = ({
                                 <h2 className="text-[14px] font-normal capitalize">
                                   Attachments
                                 </h2>
+                                {selectedOffer !== null &&
+                                  capitalizeFirstLetter(
+                                    selectedOffer[0].offerName || ""
+                                  )}
                               </div>
                               <Separator className="bg-bm__beige my-6" />
                               <Card className="h-[23vh] border-0"></Card>
