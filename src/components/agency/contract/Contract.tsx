@@ -108,10 +108,9 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
             },
           }
         );
-        // Handle response if needed
       } catch (error) {
         console.error("Error submitting form:", error);
-        setErros("An error occurred while saving. Please try again."); // Set error message
+        setErros("An error occurred while saving. Please try again."); 
       } finally {
         setLoading(false);
       }

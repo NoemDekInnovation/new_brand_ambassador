@@ -245,11 +245,11 @@ const AgencyProfile = () => {
                                 agencyProfile.address &&
                                 agencyProfile.address[0] && (
                                   <>
-                                    {agencyProfile.address[0].street}, <br />
-                                    {agencyProfile.address[0].city}, <br />
-                                    {agencyProfile.address[0].LGA}, <br />
-                                    {agencyProfile.address[0].state} <br />
-                                    {agencyProfile.address[0].zipCode}
+                                    {agencyProfile?.address[0]?.street}, <br />
+                                    {agencyProfile?.address[0]?.city}, <br />
+                                    {agencyProfile?.address[0]?.LGA}, <br />
+                                    {agencyProfile?.address[0]?.state} <br />
+                                    {agencyProfile?.address[0]?.zipCode}
                                   </>
                                 )}
                             </p>
