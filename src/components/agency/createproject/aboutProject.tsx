@@ -26,7 +26,7 @@ export default function AboutProject({
 }) {
   // const formValues = formInput.getValues()
   // console.log(formValues.projectTitle);
-// console.log(aboutProject.startDate)
+  // console.log(aboutProject.startDate)
   useEffect(() => {
     const savedAboutProject =
       typeof window !== undefined && localStorage.getItem("aboutProject");
@@ -55,7 +55,8 @@ export default function AboutProject({
       const currentDate = new Date();
 
       // Get the selected date
-      const selectedDate = new Date(value + "T00:00:00");
+      const selectedDate =
+        fieldName === "startDate" ? currentDate : new Date(value + "T00:00:00");
 
       if (selectedDate < currentDate) {
         // Display an error message
