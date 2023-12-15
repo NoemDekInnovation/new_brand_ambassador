@@ -22,7 +22,7 @@ const AgencyProfile = () => {
 
       const dispatch = useDispatch<AppDispatch>(); 
 
-  console.log("agencyProfile",agencyProfile);
+  // console.log("agencyProfile",agencyProfile);
 
 
   const [profileData, setProfileData] = useState({

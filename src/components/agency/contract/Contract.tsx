@@ -39,7 +39,7 @@ import { RootState } from "../../../redux/store";
 
 const Contract = ({ selectedProject }: {selectedProject: any}) => {
   const user = useSelector((state: RootState) => state.user);
-  console.log("id", selectedProject._id);
+  // console.log("id", selectedProject._id);
 
   const [selectedFileName, setSelectedFileName] = useState("");
   const [offerName, setOfferName] = useState("");

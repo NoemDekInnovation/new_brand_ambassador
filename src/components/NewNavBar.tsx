@@ -75,7 +75,7 @@ export default function NewNavBar() {
           );
           setNotifications(response?.data?.notifications);
         } catch (error) {
-          console.error("Error while fetiching Notifications:", error);
+          // console.error("Error while fetiching Notifications:", error);
           // Handle error appropriately (e.g., show a user-friendly message)
         }
       }
@@ -93,16 +93,16 @@ export default function NewNavBar() {
     // console.log("pro2", projectId);
     const appliedInvite = talentInvitations?.invitations.filter(
       (project: any, idx: number) => {
-        console.log("pro3", project?.project?._id, projectId);
+        // console.log("pro3", project?.project?._id, projectId);
         return project?.project?._id === projectId;
       }
     );
     setSelectedProject(appliedInvite[0]);
     setPopUp(!popUp);
-    console.log("pro", appliedInvite);
+    // console.log("pro", appliedInvite);
   };
 
-  console.log(talentInvitations?.invitations);
+  // console.log(talentInvitations?.invitations);
 
   return (
     <>

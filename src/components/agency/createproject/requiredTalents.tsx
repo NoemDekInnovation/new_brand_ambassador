@@ -175,7 +175,7 @@ export default function RequiredTalents({
   const handleSkillDelete = (index: number) => {
     setSkillData((prevSkillData) => {
       const updatedSkillData = prevSkillData.filter((_, i) => i !== index);
-      console.log(updatedSkillData);
+      // console.log(updatedSkillData);
       return updatedSkillData;
     });
   };
@@ -203,7 +203,7 @@ export default function RequiredTalents({
       setSkillStore(true);
       setTimeout(() => {
         dispatch(reset());
-        console.log("Updated SkillData:", skillData);
+        // console.log("Updated SkillData:", skillData);
       }, 2000);
       // checkFormValidity();
     }

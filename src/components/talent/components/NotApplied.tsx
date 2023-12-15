@@ -14,7 +14,7 @@ import { fetchTalentInvitations } from "../../../redux/talentInvitations.slice";
 import { Separator } from "../../../ui/seperator";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 
-const NotAppliedInvitations = () => {
+const NotAppliedInvitations = ({ invitations }: { invitations: any }) => {
   const [selectedProject, setSelectedProject] = useState();
   const [popUp, setPopUp] = useState(false);
 
@@ -42,7 +42,7 @@ const NotAppliedInvitations = () => {
     <>
       <div>
         <div className="overflow-y-scroll h-[57vh]">
-          {talentInvitations?.invitations?.map((project: any, idx: number) => {
+          {invitations?.map((project: any, idx: number) => {
             return (
               project.status === "notApplied" && (
                 <div

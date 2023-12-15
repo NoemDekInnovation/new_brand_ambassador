@@ -93,7 +93,7 @@ export default function TalentsView({
     (state: RootState) => state.talent
   );
 
-  console.log("change", resTalents);
+  // console.log("change", resTalents);
 
   const talentCount = {
     "All Talents": resTalents.length || 0,
@@ -127,7 +127,7 @@ export default function TalentsView({
           );
           setProjects(response?.data?.data.projects);
         } catch (error) {
-          console.error("Error while fetiching projects:", error);
+          // console.error("Error while fetiching projects:", error);
           // Handle error appropriately (e.g., show a user-friendly message)
         }
       }
@@ -246,7 +246,7 @@ export default function TalentsView({
       } catch (error) {
         setIsLoading(false);
 
-        console.log(error);
+        // console.log(error);
       }
     }
   };

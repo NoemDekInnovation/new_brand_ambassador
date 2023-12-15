@@ -44,7 +44,7 @@ const Profile = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const { talentData } = useSelector((state: RootState) => state.talent);
 
-  console.log("talent", talentData);
+  // console.log("talent", talentData);
 
   const dispatch = useDispatch<AppDispatch>();
 

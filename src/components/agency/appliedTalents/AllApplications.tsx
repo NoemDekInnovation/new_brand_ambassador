@@ -71,7 +71,7 @@ const AllApplications = ({
   const [talentData, setTalentData] = useState<any>([]);
 
   useEffect(() => {
-    console.log(applications);
+    // console.log(applications);
 
     if (applications !== null && applications?.length !== 0) {
       if (applications?.shortlists && applications?.shortlists?.length >= 0) {
