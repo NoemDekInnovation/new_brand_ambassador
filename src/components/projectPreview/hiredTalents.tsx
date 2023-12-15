@@ -62,237 +62,173 @@ import {
   setApproval,
 } from "../../redux/applicantions.slice";
 import { Empty } from "../Empty";
+import { RiStackshareLine } from "react-icons/ri";
 
-// const categoryOptions: any = [
-//   { value: "All Talents", label: "All Talent" },
-//   { value: "Current Contacts", label: "Current Contacts" },
-//   { value: "Favorites", label: "Favorites" },
-//   { value: "Engaged", label: "Engaged" },
-//   { value: "My Talent", label: "My Talent" },
-//   { value: "Invited", label: "Invited" },
-// ];
+function truncateText(text: any, maxLength: any) {
+  if (!text || text.length <= maxLength) {
+    return text;
+  }
 
-// const appOptions: any = [
-//   { value: "All Applications", label: "All Applications" },
-//   { value: "My Talent", label: "My Talent" },
-//   { value: "Favorites", label: "Favorites" },
-//   { value: "Current Contacts", label: "Current Contacts" },
-//   { value: "Engaged", label: "Engaged" },
-//   { value: "Invited", label: "Invited" },
-// ];
+  const truncatedText =
+    text
+      .split(" ")
+      .slice(0, maxLength - 1)
+      .join(" ") + "...";
 
-// const actionOptions: any = [
-//   { value: "Shortlist", label: "Shortlist" },
-//   { value: "Approve Hire", label: "Approve Hire" },
-//   { value: "Send Message", label: "Send Message" },
-// ];
+  return truncatedText;
+}
 
-// const talentOptions: any = [
-//   { value: "Ba", label: "Ba" },
-//   { value: " Supervisor", label: "Supervisor" },
-// ];
+const HireTalents = ({
+  handleProfilePopUp,
+  talent,
+  index,
+  popUp,
+  setPopUp,
+}: // ProjectId,
 
-//   // activeType,
-//   handleProfilePopUp,
-//   ProjectId,
-// }: {
-//   handleProfilePopUp: (talent: TalentProps) => void;
-//   ProjectId: string;
-// }) => {
-//   let pageTalents;
+{
+  handleProfilePopUp: (talent: TalentProps) => void;
+  talent: any;
+  index: number;
+  popUp: boolean;
+  setPopUp: any;
+  // ProjectId: string;
+}) => {
+  const handleApplyPopUp = (talent: any) => {
+    // setSelectedTalent(talent);
+    // console.log("popUp", popUp);
+    setPopUp(!popUp);
+    // setSelectedRole(talent);
+  };
 
-//   type AppProps = "shortlisted" | "rejected" | "approvedHire" | "All";
-//   // console.log("activeType", activeType);
-
-//   const [gridView, setGridView] = useState(true);
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [popUp, setPopUp] = useState(false);
-//   const [selectedGender, setSelectedGender] = useState("all");
-//   const [selectedOppor, setSelectedOppor] = useState("all");
-//   const [selectedLocation, setSelectedLocation] = useState("all");
-//   const [ageRange, setAgeRange] = useState({ start: "", end: "" });
-//   const [selectedRole, setSelectedRole] = useState<TalentProps>();
-//   const [projects, setProjects] = useState<ProjectProps[]>();
-//   const [successModal, setSuccessModal] = useState(false);
-//   const [selectedProject, setSelectedProject] = useState("");
-//   const [selectedTalent, setSelectedTalent] = useState("");
-//   const [selectedTalentID, setSelectedTalentID] = useState("");
-//   const [projectModal, setProjectModal] = useState(false);
-//   const [activeType, setActiveType] = useState<TalentType>("All Talents");
-//   const [appStatus, setAppStatus] = useState<AppProps>("All");
-
-// const filteredTalents = resTalents?.filter((talent, idx) => {
-//   const talentgender = talent?.gender;
-//   const talentRole = talent?.opportunities;
-//   const talentAge = talent?.age;
-//   const talentAddress = talent?.address[0];
-//   // const size = sellers..toLowerCase();
-//   // const search = searchTerm.toLowerCase();
-//   const searchLocation = selectedLocation.toLowerCase();
-
-//   if (
-//     selectedGender === "all" &&
-//     selectedOppor === "all" &&
-//     selectedLocation === "all" &&
-//     ageRange.start === "" &&
-//     ageRange.end === ""
-//   ) {
-//     return talent;
-//   }
-//   const isGenderMatch = selectedGender === talentgender;
-//   const isRoleMatch = selectedOppor === talentRole;
-//   const isOfAge =
-//     talentAge >= parseInt(ageRange.start) &&
-//     talentAge <= parseInt(ageRange.end);
-//   const isCity = talentAddress?.city.includes(searchLocation);
-//   const isState = talentAddress?.state.includes(searchLocation);
-
-//   if (isGenderMatch) {
-//     if (
-//       selectedOppor === "all" &&
-//       selectedLocation === "all" &&
-//       ageRange.start === "" &&
-//       ageRange.end === ""
-//     ) {
-//       return isGenderMatch;
-//     }
-//     if (
-//       selectedOppor !== "all" &&
-//       selectedLocation === "all" &&
-//       ageRange.start === "" &&
-//       ageRange.end === ""
-//     ) {
-//       return isGenderMatch && isRoleMatch;
-//     }
-//     if (
-//       selectedOppor !== "all" &&
-//       selectedLocation === "all" &&
-//       ageRange.start !== "" &&
-//       ageRange.end !== ""
-//     ) {
-//       return isGenderMatch && isRoleMatch && isOfAge;
-//     }
-
-//     if (
-//       selectedOppor !== "all" &&
-//       selectedLocation !== "all" &&
-//       ageRange.start !== "" &&
-//       ageRange.end !== ""
-//     ) {
-//       return isGenderMatch && isRoleMatch && (isCity || isState) && isOfAge;
-//     }
-//   }
-//   return talent;
-// });
-
-// switch (activeType) {
-//   case "All Talents":
-//     pageTalents = (
-//       <AllApplications
-//         gridView={gridView}
-//         successModal={successModal}
-//         setSuccessModal={setSuccessModal}
-//         handleInvite={handleInvite}
-//         setSelectedProject={setSelectedProject}
-//         projects={projects}
-//         setSelectedTalent={setSelectedTalent}
-//         // handleProfilePopUp={handleProfilePopUp}
-//         selectedTalent={selectedTalent}
-//         setSelectedTalentID={setSelectedTalentID}
-//         selectedProject={selectedProject}
-//         projectModal={projectModal}
-//         ProjectId={ProjectId}
-//         appStatus={appStatus}
-//         setProjectModal={setProjectModal}
-//         gap={14}
-//       />
-//     );
-//     break;
-//   // case "Current Contacts":
-//   //   pageTalents = (
-//   //     <CurrentContacts
-//   //       gridView={gridView}
-//   //       successModal={successModal}
-//   //       setSuccessModal={setSuccessModal}
-//   //       handleInvite={handleInvite}
-//   //       setSelectedProject={setSelectedProject}
-//   //       projects={projects}
-//   //       setSelectedTalent={setSelectedTalent}
-//   //       handleProfilePopUp={handleProfilePopUp}
-//   //       selectedTalent={selectedTalent}
-//   //       setSelectedTalentID={setSelectedTalentID}
-//   //       selectedProject={selectedProject}
-//   //     />
-//   //   );
-//   //   break;
-//   // case "Favorites":
-//   //   pageTalents = (
-//   //     <FavoriteTalents
-//   //       gridView={gridView}
-//   //       successModal={successModal}
-//   //       setSuccessModal={setSuccessModal}
-//   //       handleInvite={handleInvite}
-//   //       setSelectedProject={setSelectedProject}
-//   //       projects={projects}
-//   //       setSelectedTalent={setSelectedTalent}
-//   //       handleProfilePopUp={handleProfilePopUp}
-//   //       selectedTalent={selectedTalent}
-//   //       setSelectedTalentID={setSelectedTalentID}
-//   //       selectedProject={selectedProject}
-//   //     />
-//   //   );
-//   //   break;
-//   // case "Engaged":
-//   //   pageTalents = (
-//   //     <Engaged
-//   //       gridView={gridView}
-//   //       successModal={successModal}
-//   //       setSuccessModal={setSuccessModal}
-//   //       handleInvite={handleInvite}
-//   //       setSelectedProject={setSelectedProject}
-//   //       projects={projects}
-//   //       setSelectedTalent={setSelectedTalent}
-//   //       handleProfilePopUp={handleProfilePopUp}
-//   //       selectedTalent={selectedTalent}
-//   //       setSelectedTalentID={setSelectedTalentID}
-//   //       selectedProject={selectedProject}
-//   //     />
-//   //   );
-//   //   break;
-//   // case "My Talents":
-//   //   pageTalents = (
-//   //     <MyTalents
-//   //       gridView={gridView}
-//   //       successModal={successModal}
-//   //       setSuccessModal={setSuccessModal}
-//   //       handleInvite={handleInvite}
-//   //       setSelectedProject={setSelectedProject}
-//   //       projects={projects}
-//   //       setSelectedTalent={setSelectedTalent}
-//   //       handleProfilePopUp={handleProfilePopUp}
-//   //       selectedTalent={selectedTalent}
-//   //       setSelectedTalentID={setSelectedTalentID}
-//   //       selectedProject={selectedProject}
-//   //     />
-//   //   );
-//   //   break;
-//   default:
-//     pageTalents = null;
-// }
-
-const HireTalents = () => {
+  // const [popUp, setPopUp] = useState(false);
+  //  const [selectedTalent, setSelectedTalent] = useState(talent);
+  //  const [selectedRole, setSelectedRole] = useState(talent.role);
   return (
     <>
-      <Separator className="bg-bm__gler/50" />
-      {/* <div className="overflow-y-scroll h-[80vh]"> */}
       <Card className="w-full pt-4 my-3 overflow-y-scroll h-[80vh]">
         <CardContent>
           {/* <Card className="h-[40vh]"> */}
           <div className="flex flex-col overflow-y-auto h-[40vh]">
-            <p className=" capitalize break-words p-4">
-              <Empty children />
-            </p>
+            <div key={index} className="bg-white border rounded flex">
+              {/* <div onClick={() => handleProfilePopUp(talent)}>
+                  {talent.profilePic === "" && (
+                    <img
+                      src={Logo}
+                      alt=""
+                      width={260}
+                      height={260}
+                      style={{
+                        borderRadius: 5,
+                        height: 108,
+                        width: 86,
+                      }}
+                      className=" hover:grayscale-0 grayscale "
+                    />
+                  )}
+                  {talent.profilePic && (
+                    <img
+                      src={talent.profilePic}
+                      alt=""
+                      width={260}
+                      height={260}
+                      style={{ borderRadius: 5 }}
+                      className=" hover:grayscale-0 grayscale  w-[196px] h-[162px] object-cover"
+                    />
+                  )}
+                </div> */}
+              <div className="p-2 w-full">
+                <div className="flex w-full justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    {" "}
+                    <p
+                      className="text-[15px] font-medium cursor-pointer capitalize"
+                      onClick={() => handleApplyPopUp(talent)}
+                    >
+                      {talent?.fullName}
+                    </p>
+                    <AiOutlineHeart />
+                  </div>
+                  <div className="flex items-center">
+                    {talent?.metaData?.isActive && (
+                      <div className="text-[#00AB26] text-[10px] font-normal">
+                        Available
+                      </div>
+                    )}
+                    {!talent?.metaData?.isActive && (
+                      <div className="text-[#FF0000] text-[10px] font-normal">
+                        Unavailable
+                      </div>
+                    )}
+                    <div className="flex items-center">
+                      <div className="text-[15px] p-0 px-2">|</div>
+                      <p className="text-[10px] font-normal">
+                        Brand Ambassador
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="mb-3">
+                  {" "}
+                  <p className="text-[12px] font-normal mb-3 ">
+                    {" "}
+                    {truncateText(talent?.summary || "-", 20)}
+                  </p>
+                  <div className="flex flex-row text-[10px] font-normal">
+                    <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
+                      {talent?.age || "-"}
+                    </p>
+                    <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
+                      {talent?.height || "-"}
+                    </p>
+                    <p className="capitalize`">{talent?.address[0]?.city}</p>
+                    <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
+                      {talent?.address[0]?.state || "-"}
+                    </p>
+                    {talent?.experience[0] && (
+                      <p>{talent?.experience[0]?.agencyName || "-"}</p>
+                    )}
+                    {talent?.experience[1] && (
+                      <p>{talent?.experience[1]?.agencyName || "-"}</p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex w-full justify-between">
+                  <div className="flex items-center gap-2 whitespace-nowrap ">
+                    <div className=" border-r-2 pr-2 text-[10px] font-bold">
+                      <span className="text-bm__ox__red text-[12px] font-semibold">
+                        97% {"  "}
+                      </span>
+                      Work Success
+                    </div>
+                    <div className="text-[10px] font-bold">
+                      <span className="text-bm__ox__red text-[12px] font-semibold">
+                        4.5 {"  "}
+                      </span>
+                      Ratings
+                    </div>
+                  </div>{" "}
+                </div>
+                <div className="flex gap-4 justify-end">
+                  <button
+                    className="light__btn text-[14px] py-0"
+                    style={{ width: "100px" }}
+                  >
+                    <div className="flex items-center gap-2">
+                      <RiStackshareLine
+                        style={{
+                          fontSize: "1em",
+                          flex: "none",
+                        }}
+                      />
+                      <span>Share</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
+          {/* </Card> */}
         </CardContent>
       </Card>
     </>

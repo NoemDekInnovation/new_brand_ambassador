@@ -3,6 +3,7 @@ import ProjectPreview from "./projectPreview";
 import InviteTalent from "./InviteTalent";
 import Application from "./Application";
 import Hire from "./Hire";
+import { TalentProps } from "../../redux/types";
 
 type ProjectDetailsProps = {
   activeType: "ProjectPreview" | "InviteTalent" | "Application" | "Contract";
@@ -14,16 +15,22 @@ export const ProjectViewCard = ({
   selectedProject,
   id,
   setId,
-}: // activeType,
+}: // talent,
+// index,
+// activeType,
 {
   popUp: boolean;
   setPopUp: any;
   selectedProject: any;
   id: any;
   setId: any;
+  // talent: any;
+  // index: number;
   // activeType: any;
 }) => {
   const [selectedComponent, setSelectedComponent] = useState(1);
+  const [index, setIndex] = useState(0);
+  const [talent, setTalent] = useState();
 
   // let projects;
   // switch (activeType) {
@@ -88,6 +95,8 @@ export const ProjectViewCard = ({
           setPopUp={() => setPopUp(!popUp)}
           select={setSelectedComponent}
           selectedProject={selectedProject}
+          index={index}
+          talent={talent}
         />
       )}
     </div>

@@ -24,11 +24,15 @@ const Hire = ({
   setPopUp,
   select,
   selectedProject,
+  index,
+  talent,
 }: {
   select: any;
   popUp: boolean;
   setPopUp: any;
   selectedProject: any;
+  index: number;
+  talent: any;
 }) => {
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
   const [activePreview, setActivePreview] = useState("Project Post");
@@ -187,12 +191,15 @@ const Hire = ({
           )}
         </div>
         {activePreview === "Project Post" && (
-          <Card className=" flex absolute flex-col border-0 p-4 md:p-8 bg-white overflow-y-scroll h-[75vh]  w-full max-w-[83%] right-0 top-0 mt-[150px] pl-[50px]">
-            <Card className="flex border-0 absolute flex-col p-2 bg-white overflow-y-scroll h-[75vh]  w-full max-w-[83%] right-0 top-0 mt-[130px]">
-              {/* <div>Application</div> */}
+          <Card className=" ">
+            <Card className="flex border-0 absolute flex-col p-2 bg-white w-full max-w-[83%] right-0 top-0 mt-[130px]">
               <HireTalents
-              // handleProfilePopUp={handleProfilePopUp}
-              // ProjectId={selectedProject._id}
+                handleProfilePopUp={handleProfilePopUp}
+                // ProjectId={selectedProject._id}
+                index={index}
+                talent={talent}
+                popUp={popUp}
+                setPopUp={setPopUp}
               />
             </Card>
           </Card>
