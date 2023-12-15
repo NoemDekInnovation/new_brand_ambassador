@@ -87,7 +87,6 @@ const ProjectPreview = ({
           <ImCancelCircle
             onClick={() => {
               setPopUp(false);
-              window.location.reload();
             }}
           />
         </span>
