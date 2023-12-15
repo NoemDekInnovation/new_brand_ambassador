@@ -283,7 +283,7 @@ const ProjectCard = ({
         });
 
         setProjects(projects);
-        setProjectId(projects[0]._id);
+        setProjectId(projects[0]?._id);
       }
     };
     fetchProjects();

@@ -30,8 +30,7 @@ export const fetchpublishproject = createAsyncThunk(
             },
           }
         );
-        // console.log("see me", response.data.data?.publishProjects);
-        return response.data.data.projects;
+        return response?.data?.data?.publishedProjects;
       }
     } catch (error) {
       throw error;

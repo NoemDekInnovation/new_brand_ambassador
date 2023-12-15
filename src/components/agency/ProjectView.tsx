@@ -181,17 +181,17 @@ export default function ProjectsView({
   const dispatch = useDispatch<AppDispatch>();
 
   const projectCount = {
-    Active: activeProject.length || 0,
-    Published: publishProject.length || 0,
-    Completed: completeProject.length || 0,
-    Drafts: draftProject.length || 0,
+    Active: activeProject?.length || 0,
+    Published: publishProject?.length || 0,
+    Completed: completeProject?.length || 0,
+    Drafts: draftProject?.length || 0,
   };
 
   useEffect(() => {
     dispatch(fetchactiveproject());
-    // dispatch(fetchcompleteproject());
-    // dispatch(fetchdraftproject());
-    // dispatch(fetchpublishproject());
+    dispatch(fetchcompleteproject());
+    dispatch(fetchdraftproject());
+    dispatch(fetchpublishproject());
   }, [dispatch]);
 
   const handleProjectTypeChange = (type: ProjectType) => {
