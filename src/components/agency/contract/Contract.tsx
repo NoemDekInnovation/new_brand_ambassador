@@ -238,7 +238,6 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
                     Save
                   </Button>
                   <OfferModal isOpen={isModalOpen} onClose={closeModal} />
-                  {/* {errors && <p className="text-red-500">{errors}</p>} */}
                 </>
               </AlertDialogFooter>
             </AlertDialogContent>
