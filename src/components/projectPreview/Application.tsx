@@ -161,7 +161,9 @@ const Application = ({
               >
                 <p className="absolute top-[25%] text-[16px] z-20">
                   Invite Talent
-                  <span className="text-[14px] font-bold">(30)</span>
+                  <span className="text-[14px] font-bold">
+                    (30)
+                    </span>
                 </p>
                 <img
                   src={subtract}
