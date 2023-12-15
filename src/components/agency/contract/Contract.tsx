@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import axios from "axios";
 import { Card, CardContent } from "../../../ui/card";
-import { Dialog, DialogContent, Overlay } from "@radix-ui/react-dialog";
+// import { Dialog, DialogContent, Overlay } from "@radix-ui/react-dialog";
 import { TbMap2, TbProgressCheck } from "react-icons/tb";
 import { ImAttachment, ImCancelCircle, ImStatsDots } from "react-icons/im";
 import { Separator } from "../../../ui/seperator";
@@ -37,8 +37,10 @@ import { authAxiosInstance, patchAxiosInstance } from "../../../api/axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { Empty } from "../../Empty";
+import { useToast } from "../../../ui/use-toast";
+import OfferModal from "../../../libs/OfferModal";
 
-const Contract = ({ selectedProject }: {selectedProject: any}) => {
+const Contract = ({ selectedProject }: { selectedProject: any }) => {
   const user = useSelector((state: RootState) => state.user);
   // console.log("id", selectedProject._id);
 
@@ -47,6 +49,13 @@ const Contract = ({ selectedProject }: {selectedProject: any}) => {
   const [documents, setDocuments] = useState<File[]>([]);
   const [offerDesc, setOfferDesc] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [errors, setErros] = useState("");
+  
+
+ 
+
+  const { toast } = useToast();
 
   const handleOfferNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setOfferName(event.target.value);
@@ -74,32 +83,7 @@ const Contract = ({ selectedProject }: {selectedProject: any}) => {
     fileInputRef?.current?.click();
   };
 
-  // const handleSubmit = async () => {
-  //   setLoading(true);
 
-  //   const formData = new FormData();
-
-  //   formData.append("offerName", offerName);
-  //   formData.append("offerDescription", offerDesc);
-
-  //   documents.forEach((file, index) => {
-  //     formData.append("document", file);
-  //   });
-
-  //   if (user?.user !== undefined) {
-  //     try {
-  //       const response = await patchAxiosInstance.post(
-  //         `/create-offer/${selectedProject.project._id}`,
-  //         formData,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${user?.user?.authKey || ""}`,
-  //           },
-  //         }
-  //       );
-  //     } catch (error) {}
-  //   }
-  // };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -127,14 +111,23 @@ const Contract = ({ selectedProject }: {selectedProject: any}) => {
         // Handle response if needed
       } catch (error) {
         console.error("Error submitting form:", error);
+        setErros("An error occurred while saving. Please try again."); // Set error message
       } finally {
         setLoading(false);
       }
     }
   };
 
+   const handleSave = () => {
+     handleSubmit();
+     setTimeout(() => {
+       setModalOpen(true);
+     }, 2000);
+   };
 
-
+   const closeModal = () => {
+     setModalOpen(false);
+   };
 
   return (
     <div>
@@ -235,11 +228,19 @@ const Contract = ({ selectedProject }: {selectedProject: any}) => {
                 <AlertDialogCancel>
                   <Button className="dark___btn">Cancel</Button>
                 </AlertDialogCancel>
-                <AlertDialogAction>
-                  <Button className="dark___btn" onClick={() => handleSubmit()}>
+                <>
+                  {/* <Button className="dark___btn" onClick={() => handleSubmit()}>
+                    Save
+                  </Button> */}
+                  <Button
+                    className="bg-bm__btn__grey text-white hover:bg-bm__btn__grey/70 px-4 py-1"
+                    onClick={handleSave}
+                  >
                     Save
                   </Button>
-                </AlertDialogAction>
+                  <OfferModal isOpen={isModalOpen} onClose={closeModal} />
+                  {errors && <p className="text-red-500">{errors}</p>}
+                </>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
