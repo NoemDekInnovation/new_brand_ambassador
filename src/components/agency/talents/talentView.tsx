@@ -256,6 +256,7 @@ export const TalentGrid = ({
     setSelectedTalentID(_._id);
     setModal(!modal);
   };
+  
 
   // return (
   //   <Dialog open={toggleDialog} onOpenChange={setToggleDialog}>
