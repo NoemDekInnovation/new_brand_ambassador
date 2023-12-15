@@ -89,6 +89,8 @@ const { user } = useSelector((state: RootState) => state.user);
     setExperiences(updatedExperiences);
   };
 
+  
+
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10 overflow-hidden">
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px] ">
@@ -173,7 +175,15 @@ const { user } = useSelector((state: RootState) => state.user);
             {experiences.map((experience, index) => (
               <>
                 <div className="mt-2" key={index}>
-                  <p>Experience {index + 1}</p>
+                  <div className="flex items-center justify-between">
+                    <p>Experience {index + 1}</p>
+                    <div
+                      className="max-w-[30px] flex items-center justify-center cursor-pointer"
+                      onClick={() => handleRemoveExperience(index)}
+                    >
+                      <MdClose className="text-[20px]" />
+                    </div>
+                  </div>
                   <div className="grid md:grid-cols-2 md:gap-6 mt-4">
                     <div className="relative  z-0 w-full mb-6 group">
                       <input
@@ -256,7 +266,6 @@ const { user } = useSelector((state: RootState) => state.user);
                       </label>
                     </div>
 
-
                     <div className="relative z-0 w-full mb-6 group">
                       <input
                         type="email"
@@ -316,16 +325,16 @@ const { user } = useSelector((state: RootState) => state.user);
                     </div>
                   </div>
                 </div>
-                <Button
+                {/* <Button
                   className="dark__btn max-w-[180px] whitespace-nowrap flex items-center gap-2"
                   onClick={() => handleRemoveExperience(index)}
                 >
                   <div className="flex items-center gap-1">
-                    {/* <MdOutlineRemoveCircleOutline className="text-[20px]" /> */}
+                   
                     <MdClose className="text-[20px]" />
                     <span className="truncate">Remove Experience</span>
                   </div>
-                </Button>
+                </Button> */}
 
                 <Separator className=" my-5 bg-[#D7D8DA]" />
               </>
@@ -356,11 +365,11 @@ const { user } = useSelector((state: RootState) => state.user);
                 className="dark__btn"
                 onClick={() => {
                   create();
-                                    setTimeout(() => {
-                                      toast({
-                                        description: "Changes Saved",
-                                      });
-                                    }, 2000);
+                  setTimeout(() => {
+                    toast({
+                      description: "Changes Saved",
+                    });
+                  }, 2000);
                   cancel();
                 }}
               >

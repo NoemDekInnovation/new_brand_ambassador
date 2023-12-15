@@ -57,6 +57,9 @@ const AllTalents = ({
     (state: RootState) => state.talent
   );
 
+// console.log("project", projects)
+  
+
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -205,6 +208,7 @@ const AllTalents = ({
                   <SelectContent className="bg-white z-[3000]">
                     <SelectItem value="supervisor">Supervisor</SelectItem>
                     <SelectItem value="usher">Usher</SelectItem>
+                    <SelectItem value="brand ambassador">Brand Ambassador</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
