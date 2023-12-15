@@ -92,6 +92,9 @@ export function CurrentProjects({
       return <div>Loading...</div>;
     }
 
+
+    
+
     return (
       <>
         <Card
@@ -289,6 +292,7 @@ const ProjectCard = ({
     fetchProjects();
     setIsLoading(false);
   }, [user?.accountId]);
+  
 
   // console.log(
   //   "projects,projects",
