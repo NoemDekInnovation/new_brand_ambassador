@@ -125,7 +125,17 @@ const ApplyDetailsInfo = ({
     // setActiveType(type);
   };
 
+  const dispatch = useDispatch<AppDispatch>();
+
   const { user } = useSelector((state: RootState) => state.user);
+  const { talents: resTalents } = useSelector(
+    (state: RootState) => state.talent
+  );
+  console.log(resTalents);
+
+  const { projectApplications: applied } = useSelector(
+    (state: RootState) => state.projectApplication
+  );
 
   const handleLocationChange = (e: any) => {
     setSelectedLocation(e.target.value);
@@ -142,16 +152,6 @@ const ApplyDetailsInfo = ({
   const handleViewToggle = () => {
     setGridView(!gridView);
   };
-
-  const dispatch = useDispatch<AppDispatch>();
-  const { talents: resTalents } = useSelector(
-    (state: RootState) => state.talent
-  );
-  console.log(resTalents);
-
-  const { projectApplications: applied } = useSelector(
-    (state: RootState) => state.projectApplication
-  );
 
   useEffect(() => {
     const fetchTalents = async () => {
@@ -397,7 +397,15 @@ const ApplyDetailsInfo = ({
       {/* <div className="flex-1"> */}
       <div className="flex relative items-center justify-between gap-2">
         <div className="flex gap-3 md:gap-6">
-          <p className="font-semibold text-[18px] ">All Applications</p>
+          <p
+            className="font-semibold text-[18px] "
+            onClick={() => {
+              dispatch(fetchApplications({ id: ProjectId }));
+              setAppStatus("All");
+            }}
+          >
+            All Applications
+          </p>
           <div className="flex item-center m-0 border rounded-md">
             <button
               className={`${
