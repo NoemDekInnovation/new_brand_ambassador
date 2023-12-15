@@ -92,9 +92,6 @@ export function CurrentProjects({
       return <div>Loading...</div>;
     }
 
-
-    
-
     return (
       <>
         <Card
@@ -292,7 +289,6 @@ const ProjectCard = ({
     fetchProjects();
     setIsLoading(false);
   }, [user?.accountId]);
-  
 
   // console.log(
   //   "projects,projects",
@@ -484,6 +480,9 @@ const ProjectCard = ({
               <SelectContent className="bg-white">
                 <SelectItem value="supervisor">Supervisor</SelectItem>
                 <SelectItem value="usher">Usher</SelectItem>
+                <SelectItem value="brand ambassador">
+                  Brand Ambassador
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>

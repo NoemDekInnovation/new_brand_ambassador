@@ -495,14 +495,14 @@ export const TalentGrid = ({
         </div>
         <div className="px-1">
           <div className="flex items-center gap-3 whitespace-nowrap px-2 py-1">
-            <p className="text-[12px] font-medium">{_.fullName}</p>
+            <p className="text-[12px] font-medium capitalize">{_.fullName}</p>
             <span className="bg-[#00AB26] h-2 w-2 rounded-full"></span>
           </div>
           <Separator />
           <div className="flex items-center gap-2 whitespace-nowrap px-2 py-1">
             <div className="flex items-center gap-2">
               <IoLocationSharp />
-              <p className="text-[8px] font-medium leading-3 text-[#252525]">
+              <p className="text-[10px] font-medium leading-3 text-[#252525] capitalize">
                 {_.address[0]?.city} {_.address[0]?.state}
               </p>
             </div>
