@@ -24,10 +24,10 @@ import { DropdownMenuSeparator } from "../../ui/dropdown-menu";
 import { PiWarningFill } from "react-icons/pi";
 
 export default function PreviewBoard() {
-//   const { failedImport, successfulImport } = useSelector(
-//     (state: RootState) => state.talent
-//   );
-//   console.log(failedImport, successfulImport);
+  const { failedImport, successfulImport } = useSelector(
+    (state: RootState) => state.talent 
+  );
+  // console.log("fail", failedImport, "sucess", successfulImport); 
 
   return (
     <>
@@ -42,6 +42,7 @@ export default function PreviewBoard() {
                   : "-"}{" "} */}
                 Successful Uploads
               </p>
+              <p>{successfulImport?.length || 0} Successful Uploads</p>
             </div>
             <Separator className="my-3" />
             <Table>
@@ -59,7 +60,7 @@ export default function PreviewBoard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {/* {successfulImport?.map(({ data, idx }) => {
+                {successfulImport?.map(({ data, idx }) => {
                   return (
                     <TableRow key={idx}>
                       <TableCell className="font-medium">
@@ -75,7 +76,7 @@ export default function PreviewBoard() {
                       <TableCell>{data["DATE OF BIRTH"]}</TableCell>
                     </TableRow>
                   );
-                })} */}
+                })}
               </TableBody>
             </Table>
           </div>
@@ -83,7 +84,7 @@ export default function PreviewBoard() {
         <div className="mt-5: md:mt-10">
           <div className="flex justify-between w-full">
             <p>Failed Uploads</p>
-            {/* <p>{failedImport.length} Failed Uploads</p> */}
+            <p>{failedImport?.length || 0} Failed Uploads</p>
           </div>
           <Separator className="my-3" />
           <Table>
@@ -98,6 +99,7 @@ export default function PreviewBoard() {
                 <TableHead>Alternative Number</TableHead>
                 <TableHead>Gender</TableHead>
                 <TableHead>Date of Birth</TableHead>
+                {/* <TableHead>Error Message</TableHead> */}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -158,6 +160,7 @@ export default function PreviewBoard() {
           <Button className="dark__btn max-w-[150px]">Save</Button>
         </div>
       </div>
-    </>
-  );
+          
+    </>
+  );
 }

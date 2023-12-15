@@ -57,8 +57,8 @@ enum projectColors {
 }
 
 const getProjectColor = (type: ProjectType, isActive: boolean): string => {
-  console.log("Project Type:", type);
-  console.log("Is Invitation Clicked:", isActive);
+  // console.log("Project Type:", type);
+  // console.log("Is Invitation Clicked:", isActive);
 
   switch (type) {
     case "Current Project":

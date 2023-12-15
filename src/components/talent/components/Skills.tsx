@@ -62,7 +62,7 @@ export default function Skills({
   const { user } = useSelector((state: RootState) => state.user);
   const { toast } = useToast();
 
-  console.log("skillsData", setSkillData);
+  // console.log("skillsData", setSkillData);
   const [inputValue, setInputValue] = useState<string>("");
   const [filteredOptions, setFilteredOptions] = useState<TalentOption[]>([]);
   const [isSearching, setIsSearching] = useState<boolean>(false);

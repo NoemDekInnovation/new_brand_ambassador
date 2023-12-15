@@ -29,7 +29,7 @@ export default function GetStarted({
   const [projectsDropdown, setProjectsDropdown] = useState<
     { label: string; value: string }[]
   >([]);
-  console.log(draftProject);
+  // console.log(draftProject);
 
   useEffect(() => {
     if (user?.accountId) {

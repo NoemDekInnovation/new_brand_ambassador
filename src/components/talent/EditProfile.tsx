@@ -70,7 +70,7 @@ export default function EditProfile() {
     summary: "",
     profilePic: null as File | null,
   });
-  console.log("overview", overView);
+  // console.log("overview", overView);
 
   // console.log(overView.profilePic);
   const [selectedNationality, setSelectedNationality] = useState(null);
@@ -132,7 +132,7 @@ export default function EditProfile() {
   ]);
 
   const [opportunities, setOpportunites] = useState<string>("");
-  console.log("opp", opportunities);
+  // console.log("opp", opportunities);
 
   const [phn, setPhn]: [E164Number, Dispatch<SetStateAction<E164Number>>] =
     useState("");

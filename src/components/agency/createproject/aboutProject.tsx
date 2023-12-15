@@ -26,14 +26,14 @@ export default function AboutProject({
 }) {
   // const formValues = formInput.getValues()
   // console.log(formValues.projectTitle);
-console.log(aboutProject.startDate)
+// console.log(aboutProject.startDate)
   useEffect(() => {
     const savedAboutProject =
       typeof window !== undefined && localStorage.getItem("aboutProject");
     if (savedAboutProject) {
       setAboutProject(JSON.parse(savedAboutProject));
     }
-    console.log(savedAboutProject);
+    // console.log(savedAboutProject);
   }, []);
 
   const handleInputChange = (

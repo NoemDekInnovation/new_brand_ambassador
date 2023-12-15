@@ -86,7 +86,7 @@ export default function PersonalDetails({
     }
   };
 
-  console.log("date", personal.DOB);
+  // console.log("date", personal.DOB);
 
   const handleHeightChange = (event: { target: { value: any } }) => {
     // Get the entered value
@@ -137,7 +137,7 @@ export default function PersonalDetails({
     value: language,
     label: language,
   }));
-  console.log("lang", newLang);
+  // console.log("lang", newLang);
 
   const originalDate = new Date(personal.DOB);
 

@@ -28,7 +28,7 @@ export default function CompanyDetails({
 }) {
   const { user } = useSelector((state: RootState) => state.user);
   const { agencyProfile } = useSelector((state: RootState) => state.talent);
-  console.log("agencyPro", agencyProfile);
+  // console.log("agencyPro", agencyProfile);
 
   useEffect(() => {
     // if (agencyProfile) {

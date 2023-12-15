@@ -27,7 +27,7 @@ interface ProjectApplicationsState {
   loading: boolean;
   error: string | null;
   projectApplications: ProjectApplication[];
-  failedImport: any[]; // Adjust based on your actual type
+  failedImport: { data: any; message: string }[]; // Adjust based on your actual type
   successfulImport: any[]; // Adjust based on your actual type
 }
 
@@ -60,8 +60,10 @@ export const fetchProjectApplications = createAsyncThunk(
             },
           }
         );
-        console.log("my", response);
+        // console.log("my", response);
         return response.data.data.projectApplications;
+        console.log("my", response.data.data);
+        return response.data.data;
       }
     } catch (error) {
       throw error;
@@ -91,10 +93,10 @@ const projectApplications = createSlice({
       })
       .addCase(
         fetchProjectApplications.fulfilled,
-        (state, action: PayloadAction<FetchProjectApplicationsResponse>) => {
+        (state, action: PayloadAction<any>) => {
           state.loading = false;
           state.error = null;
-          state.projectApplications = action.payload.data.projectApplications; // Updated property name
+          state.projectApplications = action.payload.projectApplications; // Updated property name
         }
       )
       .addCase(fetchProjectApplications.rejected, (state, action) => {
