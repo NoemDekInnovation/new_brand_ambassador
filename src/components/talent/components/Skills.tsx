@@ -59,6 +59,7 @@ export default function Skills({
     (state: any) => state.skills
   ) as SkillsStateProps;
 
+
   const { user } = useSelector((state: RootState) => state.user);
   const { toast } = useToast();
 
@@ -69,8 +70,20 @@ export default function Skills({
   const [example, setExample] = useState("");
   const [skillStore, setSkillStore] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedIndex, setIndex] = useState(0);
+
+
 
   const dispatch = useDispatch<AppDispatch>();
+  const skillOptions =
+    skillStore &&
+    skills.results.map((skill) => ({ label: skill, value: skill }));
+
+const handleInputChange = (newValue: any) => {
+  setExample(newValue);
+  // Additional logic if needed
+};
+  
 
   useEffect(() => {
     if (skillsFetchSucess) {
@@ -81,9 +94,7 @@ export default function Skills({
     }
   }, [skillsFetchSucess]);
 
-  // useEffect(() => {
-  //   dispatch(fetchSkills(example));
-  // }, [example]);
+
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchSkills(example));
@@ -93,10 +104,8 @@ export default function Skills({
     fetchData();
   }, [example, dispatch]);
 
-  const skillsOptions = skills.results.map((skill, index) => ({
-    label: skill,
-    value: index,
-  }));
+
+
 
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">
@@ -200,20 +209,20 @@ export default function Skills({
                     id="example"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
                     placeholder="Type and select your skills"
-                    options={skills.results.map((skill, index) => ({
+                    options={skills?.results?.map((skill, index) => ({
                       label: skill,
                       value: index,
                     }))}
-                    value={skillsData.map((data, index) => ({
+                    value={skillsData?.map((data, index) => ({
                       label: data,
                       value: index,
                     }))}
                     onChange={(selectedOptions) => {
-                      const selectedSkills = selectedOptions.map(
+                      const selectedSkills = selectedOptions?.map(
                         (option) => option.label
                       );
                       // setSkillData(selectedSkills);
-                      if (selectedSkills.length <= 5) {
+                      if (selectedSkills?.length <= 5) {
                         setSkillData(selectedSkills);
                       } else {
                         console.warn("You can select a maximum of 5 skills.");
@@ -221,6 +230,18 @@ export default function Skills({
                     }}
                   />
 
+                  <input
+                    type="text"
+                    name="example"
+                    id="example"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    onChange={(e) => {
+                      setExample(e.target.value);
+                      // handleInputChange(e, index);
+                    }}
+
+                    // value={example}
+                  />
                   <label
                     htmlFor="skills"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -270,6 +291,7 @@ export default function Skills({
             </div>
             {/* <Separator className="bg-bm__beige my-4 md:mb-6" /> */}
           </CardContent>
+
           {/* <Progress value={85} className='my-2 md:my-7' /> */}
           <div className="flex justify-between mt-2">
             <div className="flex gap-4">

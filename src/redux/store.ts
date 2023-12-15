@@ -14,8 +14,11 @@ import ProjectApplicationSlice from "./projectApllication.slice";
 import talentInviteReducer from "./talentInvitations.slice";
 import allTalentProjectReducer from "./talent/allProjects.slice";
 import applicationsReducer from "./applicantions.slice";
+import contractOfferReducer from "./contract-offer";
+
 const store = configureStore({
   reducer: {
+    contractOffer: contractOfferReducer,
     talentInvite: talentInviteReducer,
     user: userReducer,
     engagedtalent: engagetalentReducer,
