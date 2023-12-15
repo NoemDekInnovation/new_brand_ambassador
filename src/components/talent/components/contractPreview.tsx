@@ -71,10 +71,10 @@ const ContractPreview = ({
       );
       break;
     case "Application":
-      contractCard = <ApplicationCard />;
+      contractCard = <ApplicationCard selectedProject={selectedProject} />;
       break;
     case "Contract Offer":
-      contractCard = <ContractOfferCard />;
+      contractCard = <ContractOfferCard selectedProject={selectedProject} />;
       break;
 
     default:
