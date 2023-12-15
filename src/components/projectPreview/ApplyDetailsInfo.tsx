@@ -153,6 +153,8 @@ const ApplyDetailsInfo = ({
     setGridView(!gridView);
   };
 
+
+
   useEffect(() => {
     const fetchTalents = async () => {
       if (user?.accountId) {
@@ -163,7 +165,7 @@ const ApplyDetailsInfo = ({
         } else if (activeType === "Engaged") {
         } else if (activeType === "Favorites") {
         } else {
-          console.log("No data yet");
+          // console.log("No data yet");
         }
       }
     };
@@ -225,7 +227,7 @@ const ApplyDetailsInfo = ({
       } catch (error) {
         setIsLoading(false);
 
-        console.log(error);
+        // console.log(error);
       }
     }
   };

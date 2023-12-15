@@ -40,7 +40,12 @@ import nivea from "../../../assets/IMG_2641 1.png";
 import blue2 from "../../../assets/Profile 1 1.png";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { useState } from "react";
-import { IoLocationSharp, IoShareSocial, IoStarHalf } from "react-icons/io5";
+import {
+  IoDocumentAttachOutline,
+  IoLocationSharp,
+  IoShareSocial,
+  IoStarHalf,
+} from "react-icons/io5";
 import { RiStackshareLine } from "react-icons/ri";
 import girl1 from "../../../assets/Rectangle 11 (1).png";
 import girl2 from "../../../assets/Gallery=Gallery6.png";
@@ -136,7 +141,7 @@ export const TalentList = ({
   const [popUp, setPopUp] = useState(false);
   const handleApplyPopUp = (talent: any) => {
     // setSelectedTalent(talent);
-    console.log("popUp", popUp);
+    // console.log("popUp", popUp);
     setPopUp(!popUp);
     // setSelectedRole(talent);
   };
@@ -230,6 +235,30 @@ export const TalentList = ({
   if (selectedOffer !== null) {
     console.log(selectedOffer[0].offerName, "hello world");
   }
+
+  const offerHandler = async () => {
+    console.log("feed more", selectedOffer[0].offerName);
+    const payload = {
+      offerName: selectedOffer[0]?.offerName,
+      offerDescription: selectedOffer[0]?.offerDescription,
+      documentUrl: selectedOffer[0]?.document,
+    };
+    if (user?.user?.accountId !== undefined) {
+      try {
+        const response = await campaignAuthAxiosInstance.post(
+          `/contract-offer/${talent._id}/${ProjectId}`,
+          payload,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.user?.authKey || ""}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.error("Error while fetiching Notifications:", error);
+      }
+    }
+  };
 
   return (
     <div key={index} className="bg-white border rounded flex">
@@ -485,7 +514,7 @@ export const TalentList = ({
                               </div>
                               <Separator className="bg-bm__beige my-4" />
                               <Card className="h-[23vh] border-[#93979D]">
-                                <div className="flex flex-col overflow-y-auto h-[23vh]">
+                                <div className="flex flex-col overflow-y-auto ">
                                   <p className=" capitalize break-words p-4">
                                     {selectedOffer !== null &&
                                       capitalizeFirstLetter(
@@ -496,19 +525,28 @@ export const TalentList = ({
                               </Card>
                             </CardContent>
                           </Card>
-                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA]">
+                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA] max-h-fit max-h-[23vh]">
                             <CardContent>
                               <div className="flex justify-between items-center">
                                 <h2 className="text-[14px] font-normal capitalize">
                                   Attachments
                                 </h2>
+                              </div>
+                              <div className="flex mt-4">
                                 {selectedOffer !== null &&
-                                  capitalizeFirstLetter(
-                                    selectedOffer[0].offerName || ""
+                                  selectedOffer[0].document.map(
+                                    (doc: string, idx: number) => {
+                                      return (
+                                        <a href={doc} key={idx} className="">
+                                          <IoDocumentAttachOutline className="text-[40px] md:text-[100px]" />
+                                          {doc}
+                                        </a>
+                                      );
+                                    }
                                   )}
                               </div>
                               <Separator className="bg-bm__beige my-6" />
-                              <Card className="h-[23vh] border-0"></Card>
+                              {/* <Card className="h-[23vh] border-0"></Card> */}
                             </CardContent>
                           </Card>
                         </div>
@@ -518,9 +556,14 @@ export const TalentList = ({
                       <AlertDialogCancel>
                         <Button className="dark___btn">Cancel</Button>
                       </AlertDialogCancel>
-                      <AlertDialogAction>
-                        <Button className="dark___btn">Send Offer</Button>
-                      </AlertDialogAction>
+                      {/* <AlertDialogAction> */}
+                      <Button
+                        className="dark___btn max-w-fit"
+                        onClick={offerHandler}
+                      >
+                        Send Offer
+                      </Button>
+                      {/* </AlertDialogAction> */}
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>

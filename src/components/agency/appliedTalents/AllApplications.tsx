@@ -71,6 +71,8 @@ const AllApplications = ({
   const [talentData, setTalentData] = useState<any>([]);
 
   useEffect(() => {
+    // console.log(applications);
+
     if (applications !== null && applications?.length !== 0) {
       console.log(
         "zEEK IS blue",

@@ -278,7 +278,7 @@ const ProjectCard = ({
           },
         });
         const projects = response?.data?.data.projects.map((project: any) => {
-          console.log("i said", project._id, project);
+          // console.log("i said", project._id, project);
           return { value: project._id, label: project.projectDescription };
         });
 
@@ -290,12 +290,12 @@ const ProjectCard = ({
     setIsLoading(false);
   }, [user?.accountId]);
 
-  console.log(
-    "projects,projects",
-    selectedProject,
-    selectedTalent,
-    selectedTalentID
-  );
+  // console.log(
+  //   "projects,projects",
+  //   selectedProject,
+  //   selectedTalent,
+  //   selectedTalentID
+  // );
 
   const handleInvite = async () => {
     setIsLoading(true);

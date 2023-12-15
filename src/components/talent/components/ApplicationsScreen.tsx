@@ -51,25 +51,41 @@ export default function ApplicationsScreen({}) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [applications, setApplications] = useState<ApplicationType>("Applied");
+    const [searchQuery, setSearchQuery] = useState("");
+
 
   const handleInviteChange = (type: ApplicationType) => {
     setApplications(type);
   };
 
+  const filteredInvitations = talentInvitations?.invitations.filter(
+    (project: any) => {
+      // Check if project and project.name are defined before calling toLowerCase()
+      return (
+        project?.project?.projectTitle &&
+        project?.project?.projectTitle
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      );
+    }
+  );
+
   let applicationList;
 
   switch (applications) {
     case "Applied":
-      applicationList = <AppliedInvitations />;
+      applicationList = (
+        <AppliedInvitations invitations={filteredInvitations} />
+      );
       break;
     case "Contract Offers":
-      applicationList = <ContractOffers />;
+      applicationList = <ContractOffers invitations={filteredInvitations} />;
       break;
     case "Accepted Offers":
-      applicationList = <AcceptOffers />;
+      applicationList = <AcceptOffers invitations={filteredInvitations} />; 
       break;
-    case "Declined Offer":
-      applicationList = <DeclinedOffers />;
+    case "Declined Offer": 
+      applicationList = <DeclinedOffers invitations={filteredInvitations} />;
       break;
     default:
       applicationList = null;
@@ -83,7 +99,7 @@ export default function ApplicationsScreen({}) {
     const inviteLength = talentInvitations?.invitations?.map(
       (project: any, idx: number) => {
         if (project?.status === "applied") {
-          console.log(project);
+          // console.log(project);
         }
         return;
       }
@@ -186,6 +202,8 @@ export default function ApplicationsScreen({}) {
               <Input
                 className="focus:border-0 focus:ring-0 focus:outline-none border max-w-[600px] h-[24px] px-[6px] py-[14px]"
                 placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
 

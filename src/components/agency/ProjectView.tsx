@@ -170,7 +170,7 @@ export default function ProjectsView({
           fileData // Pass the FormData object directly
         );
         setIsLoading(false);
-        console.log(response);
+        // console.log(response);
         setTalentFile({} as File);
       }
     } catch (error: any) {
