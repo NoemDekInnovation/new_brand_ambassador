@@ -546,7 +546,6 @@ export const TalentList = ({
                                   )}
                               </div>
                               <Separator className="bg-bm__beige my-6" />
-                              {/* <Card className="h-[23vh] border-0"></Card> */}
                             </CardContent>
                           </Card>
                         </div>

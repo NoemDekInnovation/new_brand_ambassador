@@ -89,7 +89,7 @@ export const fetchActiveProject = createAsyncThunk(
   "activeProject/fetchActiveProject",
   async (url: string) => {
     const response = await authAxiosInstance(`/${url}/active-projects`);
-    return response.data as Data;
+    return response?.data as Data;
   }
 );
 
@@ -97,7 +97,7 @@ export const fetchPublishProject = createAsyncThunk(
   "publishProject/fetchPublishProject",
   async () => {
     const response = await authAxiosInstance(`/published-projects`);
-    return response.data as Data;
+    return response?.data as Data;
   }
 );
 
@@ -105,7 +105,7 @@ export const fetchCompleteProject = createAsyncThunk(
   `completeProject/fetchCompleteProject`,
   async (url: string) => {
     const response = await authAxiosInstance(`/${url}/completed-projects`);
-    return response.data as Data;
+    return response?.data as Data;
   }
 );
 
@@ -113,7 +113,7 @@ export const fetchDraftProject = createAsyncThunk(
   `draftProject/fetchDraftProject`,
   async (url: string) => {
     const response = await authAxiosInstance(`/${url}/draft-projects`);
-    return response.data as Data;
+    return response?.data as Data;
   }
 );
 

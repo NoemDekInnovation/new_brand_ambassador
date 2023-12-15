@@ -29,8 +29,7 @@ export const fetchcompleteproject = createAsyncThunk(
             },
           }
         );
-
-        return response.data.data.projects;
+        return response.data.data.completedProjects;
       }
     } catch (error) {
       throw error;

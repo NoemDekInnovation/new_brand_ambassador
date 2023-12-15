@@ -1,6 +1,30 @@
+import { useEffect, useRef } from "react";
 import create from "../assets/created-project.png";
 
 const OfferModal = ({ isOpen, onClose }: { isOpen: any; onClose: any }) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      // Check if the click is outside the modal content
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    // Attach the event listener when the modal is open
+    if (isOpen) {
+      document.addEventListener("click", handleOutsideClick);
+    }
+
+    // Detach the event listener when the modal is closed
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [isOpen, onClose]);
   return (
     <div
       className={`fixed inset-0 overflow-y-auto ${
@@ -8,18 +32,12 @@ const OfferModal = ({ isOpen, onClose }: { isOpen: any; onClose: any }) => {
       }`}
     >
       <div className="flex items-center justify-center min-h-screen">
-        <div className="bg-white p-6 rounded shadow-lg w-96">
+        <div ref={modalRef} className="bg-white p-6 rounded shadow-lg w-96">
           <div className="text-center mb-4">
             <img src={create} alt="Project Created" className="mb-4 mx-auto" />
-            <h2 className="text-2xl font-semibold">Offer Created!</h2>
-          </div>
-          <div className="mt-6 text-center">
-            <button
-              onClick={onClose}
-              className="dark___btn px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded"
-            >
-              Close
-            </button>
+            <h2 className="text-2xl font-semibold">
+              Contract Created Successfully!
+            </h2>
           </div>
         </div>
       </div>
