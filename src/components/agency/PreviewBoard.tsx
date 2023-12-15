@@ -24,10 +24,10 @@ import { DropdownMenuSeparator } from "../../ui/dropdown-menu";
 import { PiWarningFill } from "react-icons/pi";
 
 export default function PreviewBoard() {
-//   const { failedImport, successfulImport } = useSelector(
-//     (state: RootState) => state.talent
-//   );
-//   console.log(failedImport, successfulImport);
+  const { failedImport, successfulImport } = useSelector(
+    (state: RootState) => state.talent
+  );
+  console.log(failedImport, successfulImport);
 
   return (
     <>
@@ -101,23 +101,25 @@ export default function PreviewBoard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {/* {failedImport.map(({ data, idx }) => {
-                return (
-                  <TableRow key={idx}>
-                    <TableCell className="font-medium">
-                      {data["FIRST NAME"]}
-                    </TableCell>
-                    <TableCell> {data["FIRST NAME"]}</TableCell>
-                    <TableCell> {data["LAST NAME"]}</TableCell>
-                    <TableCell> {data["MIDDLE NAME"]}</TableCell>
-                    <TableCell>{data["PROFILE OVERVIEW"]}</TableCell>
-                    <TableCell> {data["EMAIL"]}</TableCell>
-                    <TableCell> {data["TELEPHONE NUMBER"]}</TableCell>
-                    <TableCell> {data["GENDER"]}</TableCell>
-                    <TableCell>{data["DATE OF BIRTH"]}</TableCell>
-                  </TableRow>
-                );
-              })} */}
+              {failedImport.map(
+                ({ talent, idx }: { talent: any; idx: number }) => {
+                  return (
+                    <TableRow key={idx}>
+                      <TableCell className="font-medium">
+                        {talent?.data["FIRST NAME"]}
+                      </TableCell>
+                      <TableCell> {talent?.data["FIRST NAME"]}</TableCell>
+                      <TableCell> {talent?.data["LAST NAME"]}</TableCell>
+                      <TableCell> {talent?.data["MIDDLE NAME"]}</TableCell>
+                      <TableCell>{talent?.data["PROFILE OVERVIEW"]}</TableCell>
+                      <TableCell> {talent?.data["EMAIL"]}</TableCell>
+                      <TableCell> {talent?.data["TELEPHONE NUMBER"]}</TableCell>
+                      <TableCell> {talent?.data["GENDER"]}</TableCell>
+                      <TableCell>{talent?.data["DATE OF BIRTH"]}</TableCell>
+                    </TableRow>
+                  );
+                }
+              )}
             </TableBody>
           </Table>
         </div>
@@ -158,6 +160,7 @@ export default function PreviewBoard() {
           <Button className="dark__btn max-w-[150px]">Save</Button>
         </div>
       </div>
-    </>
-  );
+          
+    </>
+  );
 }

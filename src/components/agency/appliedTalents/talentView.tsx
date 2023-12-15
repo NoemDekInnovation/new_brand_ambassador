@@ -296,7 +296,7 @@ export const TalentList = ({
               <span>Share</span>
             </div>
           </button>
-          {appStatus === "shortlisted" && (
+          {appStatus === "shortlisted" || appStatus === "All" ? (
             <button
               className="border rounded-md border-red-500 text-red-500 text-[14px] py-0"
               style={{ whiteSpace: "nowrap", width: "150px" }}
@@ -305,8 +305,10 @@ export const TalentList = ({
             >
               Reject{" "}
             </button>
+          ) : (
+            ""
           )}
-          {appStatus === "shortlisted" && (
+          {appStatus === "shortlisted" ? (
             <button className="light__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
               <div className="flex items-center gap-2">
                 <AlertDialog>
@@ -392,8 +394,10 @@ export const TalentList = ({
                 </AlertDialog>
               </div>
             </button>
+          ) : (
+            ""
           )}
-          {appStatus === "approvedHire" && (
+          {appStatus === "approvedHire" ? (
             <button className="dark__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
               <div className="flex items-center gap-2">
                 {/* <span>Send Offer</span> */}
@@ -469,8 +473,10 @@ export const TalentList = ({
                 </AlertDialog>
               </div>
             </button>
+          ) : (
+            ""
           )}
-          {appStatus === "shortlisted" && (
+          {appStatus === "shortlisted" ? (
             <button
               className="dark__btn text-[14px] py-0"
               style={{ whiteSpace: "nowrap", width: "150px" }}
@@ -479,8 +485,22 @@ export const TalentList = ({
             >
               Approve Hire
             </button>
+          ) : (
+            ""
           )}
-          {appStatus === "rejected" && (
+          {appStatus === "All" ? (
+            <button
+              className="light__btn text-[14px] py-0"
+              style={{ whiteSpace: "nowrap", width: "150px" }}
+              // onClick={() => handleApplyPopUp(talent)}
+              onClick={() => fetchApplications("approvedHire")}
+            >
+              Approve Hire
+            </button>
+          ) : (
+            ""
+          )}
+          {appStatus === "rejected" || appStatus === "All" ? (
             <button
               className={`dark__btn text-[14px] py-0 ${
                 isShortlisted ? "bg-green-500 text-black" : ""
@@ -493,6 +513,8 @@ export const TalentList = ({
             >
               {isShortlisted ? "Shortlisted" : "Shortlist"}
             </button>
+          ) : (
+            ""
           )}{" "}
         </div>
       </div>
