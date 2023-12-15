@@ -74,6 +74,13 @@ const AllApplications = ({
     // console.log(applications);
 
     if (applications !== null && applications?.length !== 0) {
+      console.log(
+        "zEEK IS blue",
+        applications?.data?.projectApplications.map((talent: any) => {
+          return talent?.talent;
+        })
+      );
+
       if (applications?.shortlists && applications?.shortlists?.length >= 0) {
         const app =
           applications?.shortlists?.map((talent: any) => {
@@ -82,7 +89,7 @@ const AllApplications = ({
         return setTalentData(app);
       }
 
-      const apps = applications?.projectApplications[0]?.applications || [];
+      const apps = applications?.data?.projectApplications || [];
       return setTalentData(
         apps.map((talent: any) => {
           return talent?.talent;
@@ -100,6 +107,7 @@ const AllApplications = ({
     setPopUp(!popUp);
     setSelectedRole(talent);
   };
+  // return <div className="">Dope</div>;
   return (
     <div className="relative">
       {gridView && (

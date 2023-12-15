@@ -217,6 +217,8 @@ export default function TalentsView({
             },
           }
         );
+
+        // console.log("rest real", response?.data?.failedToImport);
         setIsLoading(false);
         dispatch(setFailedImport(response.data.failedToImport));
         dispatch(setSuccessImport(response.data.successfullyImported));

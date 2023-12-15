@@ -103,40 +103,23 @@ export default function PreviewBoard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {failedImport?.map(({ data, idx }) => {
+              {/* {failedImport.map(({ data, idx }) => {
                 return (
                   <TableRow key={idx}>
+                    <TableCell className="font-medium">
+                      {data["FIRST NAME"]}
+                    </TableCell>
                     <TableCell> {data["FIRST NAME"]}</TableCell>
                     <TableCell> {data["LAST NAME"]}</TableCell>
                     <TableCell> {data["MIDDLE NAME"]}</TableCell>
                     <TableCell>{data["PROFILE OVERVIEW"]}</TableCell>
                     <TableCell> {data["EMAIL"]}</TableCell>
                     <TableCell> {data["TELEPHONE NUMBER"]}</TableCell>
-                    <TableCell>{data["ALTERNATIVE NUMBER"] || "-"}</TableCell>
                     <TableCell> {data["GENDER"]}</TableCell>
                     <TableCell>{data["DATE OF BIRTH"]}</TableCell>
-                    
                   </TableRow>
                 );
-              })}
-
-              {/* <TableCell className="font-medium">
-                      {data["FIRST NAME"]}
-                    </TableCell> */}
-              {/* {failedImport?.map(({data, idx}) => (
-                <TableRow key={idx}>
-                  <TableCell className="font-medium">
-                    {data["FIRST NAME"]}
-                  </TableCell>
-                  <TableCell>{data["LAST NAME"]}</TableCell>
-                  <TableCell>{data["MIDDLE NAME"]}</TableCell>
-                  <TableCell>{data["PROFILE OVERVIEW"]}</TableCell>
-                  <TableCell>{data["EMAIL"]}</TableCell>
-                  <TableCell>{data["TELEPHONE NUMBER"]}</TableCell>
-                  <TableCell>{data["GENDER"]}</TableCell>
-                  <TableCell>{data["DATE OF BIRTH"]}</TableCell>
-                </TableRow>
-              ))} */}
+              })} */}
             </TableBody>
           </Table>
         </div>
