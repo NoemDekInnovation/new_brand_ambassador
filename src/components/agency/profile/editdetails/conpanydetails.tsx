@@ -438,7 +438,8 @@ export default function CompanyDetails({
               /> */}
               <PhoneInput
                 placeholder="Enter phone number"
-                value={companyProfile.officePhone}
+                // value={companyProfile?.officePhone}
+                value={String(companyProfile?.officePhone) || ""}
                 onChange={handlePhoneChange}
                 defaultCountry="NG"
                 international
@@ -488,7 +489,8 @@ export default function CompanyDetails({
               /> */}
               <PhoneInput
                 placeholder="Enter phone number"
-                value={companyProfile.officePhone}
+                // value={companyProfile.officePhone}
+                value={String(companyProfile?.officePhone) || ""}
                 onChange={handlePhoneChange}
                 defaultCountry="NG"
                 international
@@ -512,7 +514,7 @@ export default function CompanyDetails({
                   placeholder=" "
                   // value={formData.projectDuration.startDate}
                   // onChange={handleInputChange}
-                  value={companyProfile.address[0].street}
+                  value={companyProfile?.address[0]?.street}
                   onChange={handleInputChange}
                   required
                 />
@@ -569,7 +571,7 @@ export default function CompanyDetails({
                   placeholder=" "
                   // value={formData.projectDuration.startDate}
                   // onChange={handleInputChange}
-                  value={companyProfile.address[0].LGA}
+                  value={companyProfile?.address[0]?.LGA}
                   onChange={handleInputChange}
                   required
                 />
@@ -612,7 +614,7 @@ export default function CompanyDetails({
                   placeholder=" "
                   // value={formData.projectDuration.endDate}
                   // onChange={handleInputChange}
-                  value={companyProfile.address[0].zipCode}
+                  value={companyProfile?.address[0]?.zipCode}
                   onChange={handleInputChange}
                   required
                 />
