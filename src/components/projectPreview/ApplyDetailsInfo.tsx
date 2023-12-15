@@ -153,15 +153,7 @@ const ApplyDetailsInfo = ({
     setGridView(!gridView);
   };
 
-  const dispatch = useDispatch<AppDispatch>();
-  const { talents: resTalents } = useSelector(
-    (state: RootState) => state.talent
-  );
-  // console.log(resTalents);
 
-  const { projectApplications: applied } = useSelector(
-    (state: RootState) => state.projectApplication
-  );
 
   useEffect(() => {
     const fetchTalents = async () => {
