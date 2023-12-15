@@ -84,15 +84,16 @@ const HireTalents = ({
   index,
   popUp,
   setPopUp,
-}: // ProjectId,
-
-{
+  ProjectId,
+  setTalent,
+}: {
   handleProfilePopUp: (talent: TalentProps) => void;
   talent: any;
   index: number;
   popUp: boolean;
   setPopUp: any;
-  // ProjectId: string;
+  ProjectId: string;
+  setTalent: any;
 }) => {
   const handleApplyPopUp = (talent: any) => {
     // setSelectedTalent(talent);
@@ -101,42 +102,69 @@ const HireTalents = ({
     // setSelectedRole(talent);
   };
 
-  // const [popUp, setPopUp] = useState(false);
-  //  const [selectedTalent, setSelectedTalent] = useState(talent);
-  //  const [selectedRole, setSelectedRole] = useState(talent.role);
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const id = ProjectId;
+  console.log("id", id);
+  const user = useSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    const fetchHired = async () => {
+      if (user?.user !== undefined) {
+        try {
+          const response = await campaignAuthAxiosInstance(
+            `/hired-talent/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${user?.user?.authKey || ""}`,
+              },
+            }
+          );
+          console.log("see", response?.data?.data?.hiredTalent[0]?.talent);
+          setTalent(response?.data?.data?.hiredTalent[0]?.talent);
+        } catch (error) {
+          // console.error("Error while fetiching Notifications:", error);
+          // Handle error appropriately (e.g., show a user-friendly message)
+        }
+      }
+    };
+    fetchHired();
+    // setIsLoading(false);
+  }, [id, user]);
   return (
     <>
       <Card className="w-full pt-4 my-3 overflow-y-scroll h-[80vh]">
         <CardContent>
           {/* <Card className="h-[40vh]"> */}
           <div className="flex flex-col overflow-y-auto h-[40vh]">
+            {/* {talent?.talent?.map((index: number) => ( */}
             <div key={index} className="bg-white border rounded flex">
-              {/* <div onClick={() => handleProfilePopUp(talent)}>
-                  {talent.profilePic === "" && (
-                    <img
-                      src={Logo}
-                      alt=""
-                      width={260}
-                      height={260}
-                      style={{
-                        borderRadius: 5,
-                        height: 108,
-                        width: 86,
-                      }}
-                      className=" hover:grayscale-0 grayscale "
-                    />
-                  )}
-                  {talent.profilePic && (
-                    <img
-                      src={talent.profilePic}
-                      alt=""
-                      width={260}
-                      height={260}
-                      style={{ borderRadius: 5 }}
-                      className=" hover:grayscale-0 grayscale  w-[196px] h-[162px] object-cover"
-                    />
-                  )}
-                </div> */}
+              <div onClick={() => handleProfilePopUp(talent)}>
+                {talent?.profilePic === "" && (
+                  <img
+                    src={Logo}
+                    alt=""
+                    width={260}
+                    height={260}
+                    style={{
+                      borderRadius: 5,
+                      height: 108,
+                      width: 86,
+                    }}
+                    className=" hover:grayscale-0 grayscale "
+                  />
+                )}
+                {talent?.profilePic && (
+                  <img
+                    src={talent?.profilePic}
+                    alt=""
+                    width={260}
+                    height={260}
+                    style={{ borderRadius: 5 }}
+                    className=" hover:grayscale-0 grayscale  w-[196px] h-[162px] object-cover"
+                  />
+                )}
+              </div>
               <div className="p-2 w-full">
                 <div className="flex w-full justify-between mb-3">
                   <div className="flex items-center gap-3">
@@ -181,7 +209,7 @@ const HireTalents = ({
                     <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
                       {talent?.height || "-"}
                     </p>
-                    <p className="capitalize`">{talent?.address[0]?.city}</p>
+                    {/* <p className="capitalize`">{talent?.address[0]?.city}</p> */}
                     <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
                       {talent?.address[0]?.state || "-"}
                     </p>
@@ -227,6 +255,7 @@ const HireTalents = ({
                 </div>
               </div>
             </div>
+            {/* ))} */}
           </div>
           {/* </Card> */}
         </CardContent>

@@ -97,6 +97,7 @@ export const ProjectViewCard = ({
           selectedProject={selectedProject}
           index={index}
           talent={talent}
+          setTalent={setTalent}
         />
       )}
     </div>
