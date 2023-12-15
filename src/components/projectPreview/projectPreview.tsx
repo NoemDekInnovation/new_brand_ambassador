@@ -375,7 +375,7 @@ const ProjectPreview = ({
 
         {activePreview === "Contracts" && (
           <div className="absolute w-full max-w-[83%] right-0 top-0 mt-[50px]">
-            <Contract />
+            <Contract selectedProject={selectedProject} />
           </div>
         )}
       </Card>
