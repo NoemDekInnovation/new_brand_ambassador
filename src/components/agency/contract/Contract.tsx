@@ -36,6 +36,7 @@ import { Textarea } from "../../../ui/textarea";
 import { authAxiosInstance, patchAxiosInstance } from "../../../api/axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import { Empty } from "../../Empty";
 
 const Contract = ({ selectedProject }: {selectedProject: any}) => {
   const user = useSelector((state: RootState) => state.user);
@@ -254,18 +255,7 @@ const Contract = ({ selectedProject }: {selectedProject: any}) => {
           {/* <Card className="h-[40vh]"> */}
           <div className="flex flex-col overflow-y-auto h-[40vh]">
             <p className=" capitalize break-words p-4">
-              Lorem ipsum dolor sit amet consectetur. Viverra mattis vitae odio
-              in sem non eu elementum. Vehicula ut amet parturient dui nam sit
-              amet. Luctus mattis mattis viverra eleifend enim bibendum viverra
-              duis. At et vel elit nibh orci volutpat diam tempus volutpat.
-              Hendrerit ullamcorper dolor nunc malesuada laoreet. Id venenatis
-              integer ac et morbi ut sagittis velit. Pharetra libero dolor eget
-              lacinia. Tristique leo eu augue lectus a sit et etiam nunc.
-              Consequat risus sit enim tristique nunc eget molestie. Ac sed
-              vivamus aliquam egestas at. Ullamcorper tellus facilisi mauris est
-              id. Hac quam interdum consequat lorem condimentum tincidunt est.
-              Eu auctor convallis urna est in maecenas nisi senectus. Netus dui
-              mi at donec pellentesque facilisi lorem tincidunt.
+              <Empty children />
             </p>
           </div>
         </CardContent>
