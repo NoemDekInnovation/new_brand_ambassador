@@ -32,6 +32,7 @@ import NavPreview from "./talent/components/navPreview";
 import { fetchpublishproject } from "../redux/publishProject";
 import { fetchTalentInvitations } from "../redux/talentInvitations.slice";
 import ProjectPreview from "./talent/components/projectPreview";
+import { log } from "console";
 
 export default function NewNavBar() {
   const user = useSelector((state: RootState) => state.user);
@@ -41,6 +42,7 @@ export default function NewNavBar() {
   const [toggleMenubar, setToggleMenubar] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState<any | null>(null);
+  const [offers, setOffers] = useState<any | null>(null);
   const [popUp, setPopUp] = useState(false);
   const [selectedProject, setSelectedProject] = useState();
   const [projects, setProjects] = useState();
@@ -57,6 +59,21 @@ export default function NewNavBar() {
   const capitalizeFirstLetter = (str: string | undefined): string => {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  const fetchOffers = async () => {
+    if (user?.user?.accountId !== undefined) {
+      try {
+        const response = await campaignAuthAxiosInstance("get-talent-offers", {
+          headers: {
+            Authorization: `Bearer ${user?.user?.authKey || ""}`,
+          },
+        });
+        setOffers(response?.data.data.offers);
+      } catch (error) {
+        console.error("Error while fetiching Notifications:", error);
+      }
+    }
   };
 
   useEffect(() => {
@@ -80,6 +97,7 @@ export default function NewNavBar() {
         }
       }
     };
+    fetchOffers();
     fetchNotifications();
     setIsLoading(false);
   }, [user?.user?.accountId]);
@@ -93,16 +111,14 @@ export default function NewNavBar() {
     // console.log("pro2", projectId);
     const appliedInvite = talentInvitations?.invitations.filter(
       (project: any, idx: number) => {
-        console.log("pro3", project?.project?._id, projectId);
         return project?.project?._id === projectId;
       }
     );
     setSelectedProject(appliedInvite[0]);
     setPopUp(!popUp);
-    console.log("pro", appliedInvite);
   };
 
-  console.log(talentInvitations?.invitations);
+  console.log(offers);
 
   return (
     <>
@@ -152,6 +168,26 @@ export default function NewNavBar() {
                   </p>{" "}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-white p-3">
+                  {notifications !== null &&
+                    notifications?.map((info: any, idx: number) => {
+                      return (
+                        <>
+                          <DropdownMenuItem
+                            className={`hover:bg-black/10  ${
+                              !info?.messages[0]?.isRead && "bg-black/10"
+                            }`}
+                            key={idx}
+                            onClick={() => handleProfilePopUp(info)}
+                          >
+                            {info?.messages[0]?.message}{" "}
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator className="bg-bm__beige" />
+                        </>
+                      );
+                    })}
+                </DropdownMenuContent>
+                <DropdownMenuContent className="bg-white p-3">
+                  <p>Offers</p>
                   {notifications !== null &&
                     notifications?.map((info: any, idx: number) => {
                       return (
@@ -276,8 +312,6 @@ export default function NewNavBar() {
 
         <div
           className={`flex flex-col lg:hidden  space-y-5 transition-all duration-200 ${
-            
-
             toggleMenubar
               ? "opacity-100 h-100"
               : "-translate-y-[1000px] opacity-0 h-0"
