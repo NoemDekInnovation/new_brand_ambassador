@@ -108,10 +108,9 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
             },
           }
         );
-        // Handle response if needed
       } catch (error) {
         console.error("Error submitting form:", error);
-        setErros("An error occurred while saving. Please try again."); // Set error message
+        setErros("An error occurred while saving. Please try again."); 
       } finally {
         setLoading(false);
       }
@@ -239,7 +238,7 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
                     Save
                   </Button>
                   <OfferModal isOpen={isModalOpen} onClose={closeModal} />
-                  {errors && <p className="text-red-500">{errors}</p>}
+                  {/* {errors && <p className="text-red-500">{errors}</p>} */}
                 </>
               </AlertDialogFooter>
             </AlertDialogContent>
