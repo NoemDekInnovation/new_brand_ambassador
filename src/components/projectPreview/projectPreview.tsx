@@ -85,8 +85,9 @@ const ProjectPreview = ({
       <Card className="p-4 relative bg-white w-[85vw] h-[95vh]">
         <span className="absolute top-0 right-0 text-sm text-[#6F797A] p-8">
           <ImCancelCircle
-            className="w-[20px] h-[20px] cursor-pointer"
-            onClick={setPopUp}
+            onClick={() => {
+              setPopUp(false);
+            }}
           />
         </span>
         <div className="flex flex-row items-center p-4">
@@ -373,7 +374,7 @@ const ProjectPreview = ({
 
         {activePreview === "Contracts" && (
           <div className="absolute w-full max-w-[83%] right-0 top-0 mt-[50px]">
-            <Contract />
+            <Contract selectedProject={selectedProject} />
           </div>
         )}
       </Card>
