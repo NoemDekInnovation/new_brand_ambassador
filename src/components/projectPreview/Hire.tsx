@@ -16,6 +16,8 @@ import subtract2 from "../../assets/Subtract2.png";
 import subtract4 from "../../assets/Subtract4.png";
 import union from "../../assets/Union1.png";
 import Contract from "../agency/contract/Contract";
+import HireTalents from "./hiredTalents";
+import { TalentProps } from "../../redux/types";
 
 const Hire = ({
   popUp,
@@ -28,7 +30,12 @@ const Hire = ({
   setPopUp: any;
   selectedProject: any;
 }) => {
+  const [selectedRole, setSelectedRole] = useState<TalentProps>();
   const [activePreview, setActivePreview] = useState("Project Post");
+  const handleProfilePopUp = (talent: any) => {
+    setPopUp(!popUp);
+    setSelectedRole(talent);
+  };
 
   return (
     <div
@@ -181,7 +188,13 @@ const Hire = ({
         </div>
         {activePreview === "Project Post" && (
           <Card className=" flex absolute flex-col border-0 p-4 md:p-8 bg-white overflow-y-scroll h-[75vh]  w-full max-w-[83%] right-0 top-0 mt-[150px] pl-[50px]">
-            <div className="">Contracts</div>
+            <Card className="flex border-0 absolute flex-col p-2 bg-white overflow-y-scroll h-[75vh]  w-full max-w-[83%] right-0 top-0 mt-[130px]">
+              {/* <div>Application</div> */}
+              <HireTalents
+              // handleProfilePopUp={handleProfilePopUp}
+              // ProjectId={selectedProject._id}
+              />
+            </Card>
           </Card>
         )}
         {activePreview === "Contracts" && (

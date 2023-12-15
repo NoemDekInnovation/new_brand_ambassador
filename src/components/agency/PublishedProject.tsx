@@ -55,7 +55,7 @@ const PublishedProject = () => {
   };
 
   const talents = publishProject?.map((project, idx) => {
-    const formattedLocation = Array.isArray(project.projectLocation)
+    const formattedLocation = Array.isArray(project?.projectLocation)
       ? project.projectLocation.join(", ")
       : "";
 
@@ -72,16 +72,16 @@ const PublishedProject = () => {
           <CardContent className="p-0 space-y-1">
             <h3 className="font-medium text-[15px] capitalize">
               {/* Project Name {"  "}(in-store){" "} */}
-              {project.projectTitle}
+              {project?.projectTitle}
             </h3>
             <p className="font-normal text-[15px] capitalize">
               {/* This is the project description.. this is the project description */}
-              {project.projectDescription}
+              {project?.projectDescription}
             </p>
             <div className="flex md:space-x-2 text-[#800000] text-[10px] font-medium items-center flex-wrap">
               <div className="text-[10px] font-medium capitalize">
                 {/* Project Code: NIV23 */}
-                Project Code: {project.projectCode}
+                Project Code: {project?.projectCode}
               </div>
               <div className="text-[15px] p-0 px-2">|</div>
               <div className="text-[10px] font-medium">
@@ -100,7 +100,7 @@ const PublishedProject = () => {
             <div className="flex md:space-x-2 text-bm__grey__text text-[10px] h-full flex-wrap  ">
               <div className=" font-normal text-[8px] capitalize">
                 {/* Mon, Wed, Fri {"  "} */}
-                {formatWorkingDays(project.workingDays)} {"  "}
+                {formatWorkingDays(project?.workingDays)} {"  "}
               </div>
               <div className="text-[10px] pb-1 font-black">.</div>
 
@@ -109,12 +109,11 @@ const PublishedProject = () => {
             "
               >
                 {/* Nov 30 - December 30 */}
-                {new Date(project.projectDuration.startDate).toLocaleDateString(
-                  "en-US",
-                  options
-                )}{" "}
+                {new Date(
+                  project.projectDuration?.startDate
+                ).toLocaleDateString("en-US", options)}{" "}
                 {" - "}
-                {new Date(project.projectDuration.endDate).toLocaleDateString(
+                {new Date(project.projectDuration?.endDate).toLocaleDateString(
                   "en-US",
                   options
                 )}
