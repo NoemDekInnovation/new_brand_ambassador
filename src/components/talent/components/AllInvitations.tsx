@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchTalentInvitations } from "../../../redux/talentInvitations.slice";
 
-const AllInvitations = () => {
+const AllInvitations = ({ invitations }: { invitations: any}) => {
   const [selectedProject, setSelectedProject] = useState();
   const [popUp, setPopUp] = useState(false);
 
@@ -42,7 +42,7 @@ const AllInvitations = () => {
     <>
       <div>
         <div className="overflow-y-scroll h-[57vh]">
-          {talentInvitations?.invitations?.map((project: any, idx: number) => {
+          {invitations?.map((project: any, idx: number) => {
             return (
               <div
                 key={idx}

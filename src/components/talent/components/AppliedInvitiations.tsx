@@ -13,7 +13,7 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchTalentInvitations } from "../../../redux/talentInvitations.slice";
 import { Separator } from "../../../ui/seperator";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
-const AppliedInvitations = () => {
+const AppliedInvitations = ({ invitations }: { invitations: any }) => {
   const [selectedProject, setSelectedProject] = useState();
   const [popUp, setPopUp] = useState(false);
 
@@ -22,7 +22,7 @@ const AppliedInvitations = () => {
     setPopUp(!popUp);
     // setSelectedRole(talent);
   };
-  console.log(popUp);
+  // console.log(popUp);
 
   const { talentInvitations } = useSelector(
     (state: RootState) => state.talentInvite
@@ -42,7 +42,7 @@ const AppliedInvitations = () => {
     <>
       <div>
         <div className="overflow-y-scroll h-[57vh]">
-          {talentInvitations?.invitations?.map((project: any, idx: number) => {
+          {invitations?.map((project: any, idx: number) => {
             return (
               project.status === "applied" && (
                 <div

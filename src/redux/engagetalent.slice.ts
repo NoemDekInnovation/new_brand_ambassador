@@ -39,7 +39,7 @@ export const fetchEngageTalents = createAsyncThunk(
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
-        console.log('tre', parsedUser.authKey);
+        // console.log('tre', parsedUser.authKey);
 
         const response = await campaignAuthAxiosInstance(`/engaged-talents`, {
           headers: {

@@ -89,7 +89,7 @@ export default function Login() {
       if (response.status === 200) {
         // Successful authentication
 
-        console.log(response.data);
+        // console.log(response.data);
 
         let details = {
           firstName: response.data.data.firstName,

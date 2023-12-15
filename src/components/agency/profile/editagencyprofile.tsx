@@ -65,7 +65,7 @@ const EditAgencyProfile = () => {
       }
 
       if (user?.accountId !== undefined) {
-        console.log("authkey", user.authKey);
+        // console.log("authkey", user.authKey);
         try {
           const response = await patchAxiosInstance.patch(
             `/edit-admin`,
