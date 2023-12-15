@@ -70,7 +70,7 @@ export default function EditProfile() {
     summary: "",
     profilePic: null as File | null,
   });
-  console.log("overview", overView);
+  // console.log("overview", overView);
 
   // console.log(overView.profilePic);
   const [selectedNationality, setSelectedNationality] = useState(null);
@@ -132,7 +132,7 @@ export default function EditProfile() {
   ]);
 
   const [opportunities, setOpportunites] = useState<string>("");
-  console.log("opp", opportunities);
+  // console.log("opp", opportunities);
 
   const [phn, setPhn]: [E164Number, Dispatch<SetStateAction<E164Number>>] =
     useState("");
@@ -178,11 +178,11 @@ export default function EditProfile() {
     }));
     setAddress((prevAddress) => ({
       ...prevAddress,
-      street:   talentData.address[0]?.street,
-      city: talentData.address[0]?.city,
-      LGA: talentData.address[0]?.LGA,
-      state: talentData.address[0]?.state,
-      zipCode: talentData.address[0]?.zipCode,
+      street:   talentData?.address[0]?.street,
+      city: talentData?.address[0]?.city,
+      LGA: talentData?.address[0]?.LGA,
+      state: talentData?.address[0]?.state,
+      zipCode: talentData?.address[0]?.zipCode,
     }));
     setSocials((prevSocial) => ({
       ...prevSocial,
@@ -290,9 +290,9 @@ export default function EditProfile() {
 
     // Address information (as an array)
     formData.append("address[0][street]", address.street);
-    formData.append("address[0][city]", citiOrigin || address.city);
+    formData.append("address[0][city]", citiOrigin || address?.city);
     formData.append("address[0][LGA]", address.LGA);
-    formData.append("address[0][state]", selectedOrigin || address.state);
+    formData.append("address[0][state]", selectedOrigin || address?.state);
     formData.append("address[0][zipCode]", address.zipCode);
 
     // if (overView.profilePic !== null && typeof overView.profilePic !== "string") {

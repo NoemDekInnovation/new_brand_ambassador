@@ -16,7 +16,7 @@ import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import ContractPreview from "./contractPreview";
 import { fetchTalentOffers } from "../../../redux/contract-offer";
 
-const ContractOffers = () => {
+const ContractOffers = ({ invitations }: { invitations: any }) => {
   const [selectedProject, setSelectedProject] = useState();
   const [popUp, setPopUp] = useState(false);
 

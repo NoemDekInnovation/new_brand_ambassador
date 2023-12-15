@@ -141,7 +141,7 @@ export const TalentList = ({
   const [popUp, setPopUp] = useState(false);
   const handleApplyPopUp = (talent: any) => {
     // setSelectedTalent(talent);
-    console.log("popUp", popUp);
+    // console.log("popUp", popUp);
     setPopUp(!popUp);
     // setSelectedRole(talent);
   };
@@ -546,7 +546,6 @@ export const TalentList = ({
                                   )}
                               </div>
                               <Separator className="bg-bm__beige my-6" />
-                              {/* <Card className="h-[23vh] border-0"></Card> */}
                             </CardContent>
                           </Card>
                         </div>

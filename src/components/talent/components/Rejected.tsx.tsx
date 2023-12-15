@@ -14,7 +14,7 @@ import { fetchTalentInvitations } from "../../../redux/talentInvitations.slice";
 import { Separator } from "../../../ui/seperator";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 
-const RejectedInvitations = () => {
+const RejectedInvitations = ({ invitations }: { invitations: any }) => {
   const [selectedProject, setSelectedProject] = useState();
   const [popUp, setPopUp] = useState(false);
 
@@ -23,7 +23,7 @@ const RejectedInvitations = () => {
     setPopUp(!popUp);
     // setSelectedRole(talent);
   };
-  console.log(popUp);
+  // console.log(popUp);
 
   const { talentInvitations } = useSelector(
     (state: RootState) => state.talentInvite
@@ -43,9 +43,9 @@ const RejectedInvitations = () => {
     <>
       <div>
         <div className="overflow-y-scroll h-[57vh]">
-          {talentInvitations?.invitations?.map((project: any, idx: number) => {
+          {invitations?.map((project: any, idx: number) => {
             return (
-              project.status === "rejected" && (
+              project.status === "rejected" && ( 
                 <div
                   key={idx}
                   className="border rounded mb-4 p-3 hover:bg-black/10 transition-all duration-300 cursor-pointer"

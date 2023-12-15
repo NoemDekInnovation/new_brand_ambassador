@@ -22,14 +22,11 @@ export const fetchdraftproject = createAsyncThunk(
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
-        const response = await campaignAuthAxiosInstance(
-          `/published-projects`,
-          {
-            headers: {
-              Authorization: `Bearer ${parsedUser.authKey}`,
-            },
-          }
-        );
+        const response = await campaignAuthAxiosInstance(`/draft-projects`, {
+          headers: {
+            Authorization: `Bearer ${parsedUser.authKey}`,
+          },
+        });
         // console.log(response.data.data.projects);
 
         return response.data.data.projects;

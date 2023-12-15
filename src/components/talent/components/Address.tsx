@@ -152,7 +152,7 @@ export default function Address({
                   id="street"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  value={address.street}
+                  value={address?.street}
                   onChange={(e) => handleInputChange(e, "street")}
                   required
                 />
@@ -185,8 +185,8 @@ export default function Address({
                   id="city"
                   name="city"
                   defaultValue={{
-                    value: address.city,
-                    label: address.city,
+                    value: address?.city,
+                    label: address?.city,
                   }}
                   options={cityOptions}
                   onChange={(e: any) => setCityOrigin(e?.value)}
@@ -211,7 +211,7 @@ export default function Address({
                   id="LGA"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  value={address.LGA}
+                  value={address?.LGA}
                   onChange={(e) => handleInputChange(e, "LGA")}
                   required
                 />
@@ -228,8 +228,8 @@ export default function Address({
                   id="state"
                   name="state"
                   defaultValue={{
-                    value: address.state,
-                    label: address.state,
+                    value: address?.state,
+                    label: address?.state,
                   }}
                   options={originOptions}
                   onChange={(e: any) => setSelectedOrigin(e?.value)}
@@ -252,7 +252,7 @@ export default function Address({
                   id="zipCode"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  value={address.zipCode}
+                  value={address?.zipCode}
                   onChange={(e) => handleInputChange(e, "zipCode")}
                   required
                 />

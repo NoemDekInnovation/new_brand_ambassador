@@ -216,7 +216,7 @@ const Dashboard = () => {
           <div className="flex">
             <div className="flex items-center gap-2 mr-6">
               <div className="text-white bg-bm__niv px-2 rounded-sm">
-                {activeProject.length || 0}
+                {activeProject?.length || 0}
               </div>
               <p className="font-medium text-xs leading-[18px]">
                 Active Projects
@@ -224,7 +224,7 @@ const Dashboard = () => {
             </div>
             <div className="flex items-center gap-2">
               <div className="text-white bg-black px-2 rounded-sm">
-                {completeProject.length || 0}
+                {completeProject?.length || 0}
               </div>
               <p className="font-medium text-xs leading-[18px]">
                 Completed Projects

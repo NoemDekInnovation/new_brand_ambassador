@@ -80,6 +80,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedTalent, setSelectedTalent] = useState("");
   const [selectedTalentID, setSelectedTalentID] = useState("");
+  const [projectModal, setProjectModal] = useState(false)
 
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -229,8 +230,10 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
           selectedTalent={selectedTalent}
           setSelectedTalentID={setSelectedTalentID}
           selectedProject={selectedProject}
+          projectModal={projectModal}
+          setProjectModal={setProjectModal} 
         />
-      );
+      ); 
       break;
     case "Current Contacts":
       pageTalents = (

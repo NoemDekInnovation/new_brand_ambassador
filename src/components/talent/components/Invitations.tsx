@@ -26,14 +26,16 @@ import {
 import { Input } from "../../../ui/input";
 import { CiHeart } from "react-icons/ci";
 import { GoChecklist } from "react-icons/go";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { campaignAuthAxiosInstance } from "../../../api/axios";
 import { RootState } from "../../../redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AllInvitations from "./AllInvitations";
 import AppliedInvitations from "./AppliedInvitiations";
 import NotAppliedInvitations from "./NotApplied";
 import RejectedInvitations from "./Rejected.tsx";
+
+
 
 type InviteType = "All Invitations" | "Applied" | "Not Applied" | "Rejected";
 
@@ -42,27 +44,51 @@ export default function Invitations({}) {
     (state: RootState) => state.talentInvite
   );
 
+
+  
+
+
+
   const [isLoading, setIsLoading] = useState(false);
   const [invites, setInvites] = useState<InviteType>("All Invitations");
+    const [searchQuery, setSearchQuery] = useState("");
+
 
   const handleInviteChange = (type: InviteType) => {
     setInvites(type);
   };
 
+
+
+const filteredInvitations = talentInvitations?.invitations.filter(
+  (project: any) => {
+    // Check if project and project.name are defined before calling toLowerCase()
+    return (
+      project?.project?.projectTitle &&
+      project?.project?.projectTitle
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    );
+  }
+);
+
+
+    
+
   let inviteList;
 
   switch (invites) {
     case "All Invitations":
-      inviteList = <AllInvitations />;
+      inviteList = <AllInvitations invitations={filteredInvitations} />;
       break;
     case "Applied":
-      inviteList = <AppliedInvitations />;
+      inviteList = <AppliedInvitations invitations={filteredInvitations} />;
       break;
     case "Not Applied":
-      inviteList = <NotAppliedInvitations />;
+      inviteList = <NotAppliedInvitations invitations={filteredInvitations} />;
       break;
     case "Rejected":
-      inviteList = <RejectedInvitations />;
+      inviteList = <RejectedInvitations invitations={filteredInvitations} />;
       break;
     default:
       inviteList = null;
@@ -76,7 +102,7 @@ export default function Invitations({}) {
     const inviteLength = talentInvitations?.invitations?.map(
       (project: any, idx: number) => {
         if (project?.status === "applied") {
-          console.log(project);
+          // console.log(project);
         }
         return;
       }
@@ -179,6 +205,8 @@ export default function Invitations({}) {
               <Input
                 className="focus:border-0 focus:ring-0 focus:outline-none border max-w-[600px] h-[24px] px-[6px] py-[14px]"
                 placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
 

@@ -113,7 +113,7 @@ const TalentDetailsInfo = ({
   const { talents: resTalents } = useSelector(
     (state: RootState) => state.talent
   );
-  console.log(resTalents);
+  // console.log(resTalents);
 
   useEffect(() => {
     const fetchTalents = async () => {
@@ -125,7 +125,7 @@ const TalentDetailsInfo = ({
         } else if (activeType === "Engaged") {
         } else if (activeType === "Favorites") {
         } else {
-          console.log("No data yet");
+          // console.log("No data yet");
         }
       }
     };
@@ -151,7 +151,7 @@ const TalentDetailsInfo = ({
             return { value: project._id, label: project.projectTitle };
           }
         );
-        console.log(response.data.data, projects);
+        // console.log(response.data.data, projects);
 
         setProjects(projects);
       }
@@ -189,7 +189,7 @@ const TalentDetailsInfo = ({
       } catch (error) {
         setIsLoading(false);
 
-        console.log(error);
+        // console.log(error);
       }
     }
   };

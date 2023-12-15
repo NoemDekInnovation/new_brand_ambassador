@@ -92,7 +92,7 @@ export default function NewNavBar() {
           );
           setNotifications(response?.data?.notifications);
         } catch (error) {
-          console.error("Error while fetiching Notifications:", error);
+          // console.error("Error while fetiching Notifications:", error);
           // Handle error appropriately (e.g., show a user-friendly message)
         }
       }
@@ -117,8 +117,6 @@ export default function NewNavBar() {
     setSelectedProject(appliedInvite[0]);
     setPopUp(!popUp);
   };
-
-  console.log(offers);
 
   return (
     <>

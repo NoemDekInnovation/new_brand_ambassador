@@ -16,6 +16,7 @@ import TalentDetailsInfo from "./TalentDetailsInfo";
 import { useState } from "react";
 import { TalentProps } from "../../redux/types";
 import { TalentType } from "../agency/TalentsView";
+import Contract from "../agency/contract/Contract";
 
 const InviteTalent = ({
   popUp,
@@ -29,6 +30,7 @@ const InviteTalent = ({
   selectedProject: any;
 }) => {
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
+  const [activePreview, setActivePreview] = useState("Project Post");
 
   const handleProfilePopUp = (talent: any) => {
     // console.log(talent);
@@ -73,88 +75,130 @@ const InviteTalent = ({
         <div className="flex items-center gap-4 relative">
           <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[230px] max-h-[270px] border rounded-[6px]">
             {/* <Separator className="bg-bm__gler" /> */}
-            <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+            <div
+              className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer"
+              onClick={() => {
+                setActivePreview("Project Post");
+              }}
+            >
               <div className="flex items-center gap-4 mr-2">
                 <MdPostAdd />
                 <p className="text-[14px] font-normal ">Project Post</p>
               </div>
             </div>
             <Separator className="bg-bm__gler/50" />
-            <div className="flex items-center gap-4 p-2   hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+            <div
+              className="flex items-center gap-4 p-2   hover:bg-black/10 transform hover:scale-105 cursor-pointer"
+              onClick={() => {
+                setActivePreview("Products");
+              }}
+            >
               <MdOutlineProductionQuantityLimits />
 
               <p className="text-[14px] font-normal">Products</p>
             </div>
             <Separator className="bg-bm__gler/50" />
-            <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+            <div
+              className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer"
+              onClick={() => {
+                setActivePreview("Collaterals");
+              }}
+            >
               <BsFillCollectionFill />
               <p className="text-[14px] font-normal">Collaterals</p>
             </div>
             <Separator className="bg-bm__gler/50" />
-            <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+            <div
+              className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer"
+              onClick={() => {
+                setActivePreview("Outlets");
+              }}
+            >
               <TbMap2 />
               <p className="text-[14px] font-normal">Outlets</p>
             </div>
             <Separator className="bg-bm__gler/50" />
-            <div className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer">
+            <div
+              className="flex items-center gap-4 p-2  hover:bg-black/10 transform hover:scale-105 cursor-pointer"
+              onClick={() => {
+                setActivePreview("Contracts");
+              }}
+            >
               <ImStatsDots />
               <p className="text-[14px] font-normal">Contract</p>
             </div>
           </Card>
-
-          <div className="flex absolute flex-row justify-start items-start font-medium text-[12px] my-2  w-full max-w-[82%] right-5 -top-2 cursor-pointer">
-            <div
-              className="relative text-black flex items-center justify-center "
-              onClick={() => select(1)}
-            >
-              <p className="absolute top-[25%]  z-20 text-[16px]">
-                Project Overview
-              </p>
-              <img src={darkUnion} alt="" className=" z-5 w-[350px] h-[45px]" />
+          {activePreview === "Project Post" && (
+            <div className="flex absolute flex-row justify-start items-start font-medium text-[12px] my-2  w-full max-w-[82%] right-5 -top-2 cursor-pointer">
+              <div
+                className="relative text-black flex items-center justify-center "
+                onClick={() => select(1)}
+              >
+                <p className="absolute top-[25%]  z-20 text-[16px]">
+                  Project Overview
+                </p>
+                <img
+                  src={darkUnion}
+                  alt=""
+                  className=" z-5 w-[350px] h-[45px]"
+                />
+              </div>
+              <div
+                onClick={() => select(2)}
+                className=" relative text-black flex items-center justify-center"
+              >
+                <p className="absolute text-white top-[25%] text-[16px] z-20">
+                  Invite Talent
+                  <span className="text-[14px] font-bold">(30)</span>
+                </p>
+                <img
+                  src={subtract3}
+                  alt=""
+                  className=" z-10 w-[350px] h-[45px]"
+                />
+              </div>
+              <div
+                onClick={() => select(3)}
+                className=" relative text-black flex items-center justify-center"
+              >
+                <p className="absolute top-[25%] text-[16px] z-20">
+                  {" "}
+                  Applications
+                  <span className="text-[14px] font-bold">(300)</span>
+                </p>
+                <img
+                  src={subtract}
+                  alt=""
+                  className=" z-10 w-[350px] h-[45px]"
+                />
+              </div>
+              <div
+                className=" relative text-black flex items-center justify-center"
+                onClick={() => select(4)}
+              >
+                <p className="absolute top-[25%] z-20 text-[16px]">
+                  {" "}
+                  Hire<span className="text-[14px] font-bold">(0)</span>
+                </p>
+                <img
+                  src={subtract2}
+                  alt=""
+                  className=" z-10 w-[350px] h-[45px]"
+                />
+              </div>
             </div>
-            <div
-              onClick={() => select(2)}
-              className=" relative text-black flex items-center justify-center"
-            >
-              <p className="absolute text-white top-[25%] text-[16px] z-20">
-                Invite Talent
-                <span className="text-[14px] font-bold">(30)</span>
-              </p>
-              <img
-                src={subtract3}
-                alt=""
-                className=" z-10 w-[350px] h-[45px]"
-              />
-            </div>
-            <div
-              onClick={() => select(3)}
-              className=" relative text-black flex items-center justify-center"
-            >
-              <p className="absolute top-[25%] text-[16px] z-20">
-                {" "}
-                Applications<span className="text-[14px] font-bold">(300)</span>
-              </p>
-              <img src={subtract} alt="" className=" z-10 w-[350px] h-[45px]" />
-            </div>
-            <div
-              className=" relative text-black flex items-center justify-center"
-              onClick={() => select(4)}
-            >
-              <p className="absolute top-[25%] z-20 text-[16px]">
-                {" "}
-                Hire<span className="text-[14px] font-bold">(0)</span>
-              </p>
-              <img
-                src={subtract2}
-                alt=""
-                className=" z-10 w-[350px] h-[45px]"
-              />
-            </div>
-          </div>
+          )}
         </div>
-        <Card className=" flex border-0 absolute flex-col p-2 bg-white overflow-y-scroll h-[75vh] w-full max-w-[83%] right-0 top-0 mt-[130px] ">
-          <TalentDetailsInfo handleProfilePopUp={handleProfilePopUp} />
-        </Card>
+        {activePreview === "Project Post" && (
+          <Card className=" flex border-0 absolute flex-col p-2 bg-white overflow-y-scroll h-[75vh] w-full max-w-[83%] right-0 top-0 mt-[130px] ">
+            <TalentDetailsInfo handleProfilePopUp={handleProfilePopUp} />
+          </Card>
+        )}
+        {activePreview === "Contracts" && (
+          <div className="absolute w-full max-w-[83%] right-0 top-0 mt-[50px]">
+            <Contract selectedProject={selectedProject} />
+          </div>
+        )}
       </Card>
     </div>
   );
