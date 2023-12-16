@@ -73,6 +73,14 @@ const ProjectPreview = ({
     month: "long",
     day: "numeric",
   });
+
+        const { talents: resTalents } = useSelector(
+          (state: RootState) => state.talent
+        );
+
+                const { applications } = useSelector(
+                  (state: RootState) => state?.applications
+                );
   // const [selectedProject, setSelectedProject] = useState("");
   return (
     <div
@@ -187,7 +195,9 @@ const ProjectPreview = ({
               >
                 <p className="absolute top-[25%] text-[16px] z-20">
                   Invite Talent
-                  <span className="text-[14px] font-bold">(30)</span>
+                  <span className="text-[14px] font-bold">
+                    {/* (30) */}({resTalents?.length || 0})
+                  </span>
                 </p>
                 <img
                   src={subtract}
@@ -202,7 +212,10 @@ const ProjectPreview = ({
                 <p className="absolute top-[25%] text-[16px] z-20">
                   {" "}
                   Applications
-                  <span className="text-[14px] font-bold">(300)</span>
+                  <span className="text-[14px] font-bold">
+                    ({applications?.data?.projectApplications?.length || 0})
+                    {/* (300) */}
+                  </span>
                 </p>
                 <img
                   src={subtract}
