@@ -17,6 +17,8 @@ import { useState } from "react";
 import { TalentProps } from "../../redux/types";
 import { TalentType } from "../agency/TalentsView";
 import Contract from "../agency/contract/Contract";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const InviteTalent = ({
   popUp,
@@ -31,6 +33,14 @@ const InviteTalent = ({
 }) => {
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
   const [activePreview, setActivePreview] = useState("Project Post");
+
+    const { talents: resTalents } = useSelector(
+      (state: RootState) => state.talent
+    );
+
+            const { applications } = useSelector(
+              (state: RootState) => state?.applications
+            );
 
   const handleProfilePopUp = (talent: any) => {
     // console.log(talent);
@@ -149,7 +159,9 @@ const InviteTalent = ({
               >
                 <p className="absolute text-white top-[25%] text-[16px] z-20">
                   Invite Talent
-                  <span className="text-[14px] font-bold">(30)</span>
+                  <span className="text-[14px] font-bold">
+                    {/* (30) */}({resTalents?.length || 0})
+                  </span>
                 </p>
                 <img
                   src={subtract3}
@@ -164,7 +176,10 @@ const InviteTalent = ({
                 <p className="absolute top-[25%] text-[16px] z-20">
                   {" "}
                   Applications
-                  <span className="text-[14px] font-bold">(300)</span>
+                  <span className="text-[14px] font-bold">
+                    ({applications?.data?.projectApplications?.length || 0})
+                    {/* (300) */}
+                  </span>
                 </p>
                 <img
                   src={subtract}

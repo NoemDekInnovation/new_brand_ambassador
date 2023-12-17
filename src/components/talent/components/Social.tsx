@@ -7,7 +7,7 @@ import subtract2 from "../../../assets/Subtract2.png";
 import subtract4 from "../../../assets/Subtract4.png";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { MdPayments, MdSettings } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useEffect, useState } from "react";
@@ -82,6 +82,17 @@ const { user } = useSelector((state: RootState) => state.user);
 //     } catch (error) {}
 //   }
 // };
+const navigate = useNavigate();
+
+const handleSave = () => {
+  create();
+
+  // Introduce a delay of 2 seconds before navigating to the profile
+  setTimeout(() => {
+    next();
+    navigate("/profile");
+  }, 2000);
+};
 
     
     const handleInputChange = (
@@ -204,7 +215,7 @@ const { user } = useSelector((state: RootState) => state.user);
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   <Required className="text-[20px]">Instagram profile</Required>
-                                  </label>
+                </label>
               </div>
             </div>{" "}
             <div className="grid  md:gap-6 mt-4">
@@ -263,10 +274,11 @@ const { user } = useSelector((state: RootState) => state.user);
               <Link to={"/profile"}>
                 <Button
                   className="dark__btn w-fit whitespace-nowrap"
-                  onClick={() => {
-                    create();
-                    next();
-                  }}
+                  // onClick={() => {
+                  //   create();
+                  //   next();
+                  // }}
+                  onClick={handleSave}
                 >
                   Save
                 </Button>

@@ -1,7 +1,15 @@
 import { useEffect, useRef } from "react";
 import create from "../assets/created-project.png";
 
-const OfferModal = ({ isOpen, onClose }: { isOpen: any; onClose: any }) => {
+const OfferModal = ({
+  isOpen,
+  onClose,
+  statusMessage,
+}: {
+  isOpen: any;
+  onClose: any;
+  statusMessage: string;
+}) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,7 +44,8 @@ const OfferModal = ({ isOpen, onClose }: { isOpen: any; onClose: any }) => {
           <div className="text-center mb-4">
             <img src={create} alt="Project Created" className="mb-4 mx-auto" />
             <h2 className="text-2xl font-semibold">
-              Contract Created Successfully!
+              {/* Contract Created Successfully! */}
+              {statusMessage}
             </h2>
           </div>
         </div>

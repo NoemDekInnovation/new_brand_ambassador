@@ -61,6 +61,7 @@ import {
   // filterApplications,
   setApproval,
 } from "../../redux/applicantions.slice";
+import { any } from "zod";
 
 const categoryOptions: any = [
   { value: "All Talents", label: "All Talent" },
@@ -137,6 +138,13 @@ const ApplyDetailsInfo = ({
     (state: RootState) => state.projectApplication
   );
 
+  
+
+
+
+ 
+
+
   const handleLocationChange = (e: any) => {
     setSelectedLocation(e.target.value);
   };
@@ -176,6 +184,8 @@ const ApplyDetailsInfo = ({
     dispatch(fetchApplications({ id: ProjectId }));
     // dispatch(filterApplications({ id: ProjectId, status: "shortlisted" }));
   }, []);
+
+  
 
   useEffect(() => {
     setIsLoading(true);
@@ -451,7 +461,10 @@ const ApplyDetailsInfo = ({
               }}
             >
               Rejected
-              <span className="text-[16px] font-semibold text-black">(20)</span>
+              <span className="text-[16px] font-semibold text-black">
+                (20)
+                
+                </span>
             </button>
           </div>
         </div>
@@ -579,3 +592,5 @@ const ApplyDetailsInfo = ({
 };
 
 export default ApplyDetailsInfo;
+
+

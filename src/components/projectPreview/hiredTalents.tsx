@@ -190,8 +190,9 @@ const HireTalents = ({
                     )}
                     <div className="flex items-center">
                       <div className="text-[15px] p-0 px-2">|</div>
-                      <p className="text-[10px] font-normal">
-                        Brand Ambassador
+                      <p className="text-[10px] font-normal capitalize">
+                        {/* Brand Ambassador */}
+                        {talent?.opportunities}
                       </p>
                     </div>
                   </div>

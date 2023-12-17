@@ -50,7 +50,8 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
   const [offerDesc, setOfferDesc] = useState("");
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [errors, setErros] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
+
   
 
  
@@ -108,25 +109,41 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
             },
           }
         );
-      } catch (error) {
+        setStatusMessage(response.data.message || "Success");
+      } catch (error: any) {
         console.error("Error submitting form:", error);
-        setErros("An error occurred while saving. Please try again."); 
+        if (error.response && error.response.status === 400) {
+          // Extract and display the specific error message from the API response
+          setStatusMessage(error.response.data.message || "Bad Request");
+        } else {
+          // Display a generic error message for other error scenarios
+          setStatusMessage("An error occurred while saving. Please try again.");
+        }
+
       } finally {
         setLoading(false);
       }
     }
   };
 
-   const handleSave = () => {
-     handleSubmit();
+  useEffect(() => {
+    // Open the modal after the status message is set
+    if (statusMessage) {
+      setModalOpen(true);
+    }
+  }, [statusMessage]);
+
+
+   const handleSave = async () => {
+      await handleSubmit();
      setTimeout(() => {
        setModalOpen(true);
      }, 2000);
    };
 
-   const closeModal = () => {
-     setModalOpen(false);
-   };
+
+
+   
 
   return (
     <div>
@@ -237,7 +254,11 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
                   >
                     Save
                   </Button>
-                  <OfferModal isOpen={isModalOpen} onClose={closeModal} />
+                  <OfferModal
+                    isOpen={isModalOpen}
+                    onClose={() => setModalOpen(false)}
+                    statusMessage={statusMessage}
+                  />
                 </>
               </AlertDialogFooter>
             </AlertDialogContent>
