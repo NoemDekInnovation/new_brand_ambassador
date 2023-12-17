@@ -77,6 +77,7 @@ import {
 } from "../../../ui/alert-dialog";
 import { Input } from "../../../ui/input";
 import SelectOption from "../../../libs/select";
+import OfferModal from "../../../libs/OfferModal";
 
 export const TalentList = ({
   talent,
@@ -150,6 +151,8 @@ export const TalentList = ({
   const [offers, setOffers] = useState([]);
   const [offerSelectorList, setOfferSelectorList] = useState([]);
   const [selectedOffer, setSelectedOffer] = useState<any>(null);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
   // const [projectId, setProjectId] = useState("");
 
   const handleShortlistClick = () => {
@@ -254,11 +257,34 @@ export const TalentList = ({
             },
           }
         );
-      } catch (error) {
+        setStatusMessage(response.data.message || "Success");
+
+      } catch (error: any) {
         console.error("Error while fetiching Notifications:", error);
+        if (error.response && error.response.status === 400) {
+          // Extract and display the specific error message from the API response
+          setStatusMessage(error.response.data.message || "Bad Request");
+        } else {
+          // Display a generic error message for other error scenarios
+          setStatusMessage("An error occurred while saving. Please try again.");
+        }
       }
     }
   };
+
+    useEffect(() => {
+      // Open the modal after the status message is set
+      if (statusMessage) {
+        setModalOpen(true);
+      }
+    }, [statusMessage]);
+
+    const handleOffer = async () => {
+      await offerHandler();
+      setTimeout(() => {
+        setModalOpen(true)
+      }, 2000);
+    }
 
   return (
     <div key={index} className="bg-white border rounded flex">
@@ -558,10 +584,15 @@ export const TalentList = ({
                       {/* <AlertDialogAction> */}
                       <Button
                         className="dark___btn max-w-fit"
-                        onClick={offerHandler}
+                        onClick={handleOffer}
                       >
                         Send Offer
                       </Button>
+                      <OfferModal
+                        isOpen={isModalOpen}
+                        onClose={() => setModalOpen(false)}
+                        statusMessage={statusMessage}
+                      />
                       {/* </AlertDialogAction> */}
                     </AlertDialogFooter>
                   </AlertDialogContent>
