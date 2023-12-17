@@ -109,7 +109,7 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
             },
           }
         );
-                setStatusMessage(response.data.message || "Success");
+        setStatusMessage(response.data.message || "Success");
       } catch (error: any) {
         console.error("Error submitting form:", error);
         if (error.response && error.response.status === 400) {

@@ -131,6 +131,13 @@ export default function EditProfile() {
     },
   ]);
 
+    const [socials, setSocials] = useState<SocialsProps>({
+      facebook: "",
+      twitter: "",
+      instagram: "",
+      linkedin: "",
+    });
+
   const [opportunities, setOpportunites] = useState<string>("");
   // console.log("opp", opportunities);
 
@@ -176,14 +183,23 @@ export default function EditProfile() {
       summary: talentData.summary,
       profilePic: talentData.profilePic,
     }));
+    // setAddress((prevAddress) => ({
+    //   ...prevAddress,
+    //   street:   talentData?.address[0]?.street,
+    //   city: talentData?.address[0]?.city,
+    //   LGA: talentData?.address[0]?.LGA,
+    //   state: talentData?.address[0]?.state,
+    //   zipCode: talentData?.address[0]?.zipCode,
+    // }));
     setAddress((prevAddress) => ({
       ...prevAddress,
-      street:   talentData?.address[0]?.street,
-      city: talentData?.address[0]?.city,
-      LGA: talentData?.address[0]?.LGA,
-      state: talentData?.address[0]?.state,
-      zipCode: talentData?.address[0]?.zipCode,
+      street: talentData?.address?.[0]?.street || "",
+      city: talentData?.address?.[0]?.city || "",
+      LGA: talentData?.address?.[0]?.LGA || "",
+      state: talentData?.address?.[0]?.state || "",
+      zipCode: talentData?.address?.[0]?.zipCode || "",
     }));
+
     setSocials((prevSocial) => ({
       ...prevSocial,
       ...talentData.socials,
@@ -206,12 +222,7 @@ export default function EditProfile() {
     }
   }, [talentData]);
 
-  const [socials, setSocials] = useState<SocialsProps>({
-    facebook: "",
-    twitter: "",
-    instagram: "",
-    linkedin: "",
-  });
+
 
   const [skillData, setSkillData] = useState<string[]>([]);
 

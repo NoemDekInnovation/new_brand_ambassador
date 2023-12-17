@@ -25,6 +25,7 @@ import { patchAxiosInstance } from "../../api/axios";
 import { FaLinkedin, FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
 import { BsTwitter, BsTwitterX } from "react-icons/bs";
 import { fetchUserTalentsData } from "../../redux/talent.slice";
+import { AddressProps } from "../../redux/types";
 
 interface Certification {
   certificateName: string;
@@ -457,22 +458,22 @@ const Profile = () => {
                         </div>
                         <Separator className="bg-bm__gler/50" />
                         {talentData?.address?.map(
-                          (addressItem: any, index: number) => (
+                          (addressItem: AddressProps, index: number) => (
                             <div key={index}>
                               <p className="text-[12px] font-normal capitalize">
-                                {addressItem?.street}
+                                {addressItem?.street ?? ""}
                               </p>
                               <p className="text-[12px] font-normal capitalize">
-                                {addressItem?.city}
+                                {addressItem?.city ?? ""}
                               </p>
                               <p className="text-[12px] font-normal capitalize">
-                                {addressItem?.LGA}
+                                {addressItem?.LGA ?? ""}
                               </p>
                               <p className="text-[12px] font-normal capitalize">
-                                {addressItem?.state}
+                                {addressItem?.state ?? ""}
                               </p>
                               <p className="text-[12px] font-normal capitalize">
-                                {addressItem?.zipCode}
+                                {addressItem?.zipCode ?? ""}
                               </p>
                             </div>
                           )
