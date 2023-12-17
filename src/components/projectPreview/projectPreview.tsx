@@ -45,6 +45,10 @@ const ProjectPreview = ({
   selectedProject: any;
   // workDays: [];
 }) => {
+  const { talents: resTalents } = useSelector(
+    (state: RootState) => state.talent
+  );
+
   const [activePreview, setActivePreview] = useState("Project Post");
   const startDate = new Date(selectedProject?.projectDuration?.startDate);
   const endDate = new Date(selectedProject?.projectDuration?.endDate);
@@ -187,7 +191,9 @@ const ProjectPreview = ({
               >
                 <p className="absolute top-[25%] text-[16px] z-20">
                   Invite Talent
-                  <span className="text-[14px] font-bold">(30)</span>
+                  <span className="text-[14px] font-bold">
+                    ({resTalents?.length || 0})
+                  </span>
                 </p>
                 <img
                   src={subtract}

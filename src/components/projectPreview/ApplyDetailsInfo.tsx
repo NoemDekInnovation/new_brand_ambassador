@@ -153,8 +153,6 @@ const ApplyDetailsInfo = ({
     setGridView(!gridView);
   };
 
-
-
   useEffect(() => {
     const fetchTalents = async () => {
       if (user?.accountId) {
@@ -398,8 +396,8 @@ const ApplyDetailsInfo = ({
       {/* <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0"> */}
       {/* <div className="flex-1"> */}
       <div className="flex relative items-center justify-between gap-2">
-        <div className="flex gap-3 md:gap-6">
-          <p
+        <div className="flex gap-3 md:gap-8">
+          {/* <p
             className="font-semibold text-[18px] "
             onClick={() => {
               dispatch(fetchApplications({ id: ProjectId }));
@@ -407,7 +405,21 @@ const ApplyDetailsInfo = ({
             }}
           >
             All Applications
-          </p>
+          </p> */}
+          <div className="relative h-full">
+            <SelectOption
+              className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
+              placeholder="Select Category "
+              id="projectCategory"
+              name="projectCategory"
+              onChange={(e: any) => onTalentTypeChnage(e.value)}
+              required
+              options={appOptions}
+              defaultValue={activeType}
+              isDisabled={false}
+            />
+          </div>
+          <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
           <div className="flex item-center m-0 border rounded-md">
             <button
               className={`${
@@ -423,7 +435,7 @@ const ApplyDetailsInfo = ({
               Shortlisted
               <span className="text-[16px] font-semibold text-black">(20)</span>
             </button>
-            <div className="h-8 w-1 bg-black"></div>
+            <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
             <button
               className={`${
                 appStatus === "approvedHire" ? "bg-[#DCDDDF]" : ""
@@ -435,10 +447,10 @@ const ApplyDetailsInfo = ({
                 setAppStatus("approvedHire");
               }}
             >
-              Approve Hire
+              Approved Hire
               <span className="text-[16px] font-semibold text-black">(20)</span>
             </button>
-            <div className="h-8 w-1 bg-black"></div>
+            <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
             <button
               className={`${
                 appStatus === "rejected" ? "bg-[#DCDDDF]" : ""
@@ -455,7 +467,7 @@ const ApplyDetailsInfo = ({
             </button>
           </div>
         </div>
-        <div className="relative h-full">
+        {/* <div className="relative h-full">
           <SelectOption
             className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
             placeholder="Select Category "
@@ -467,7 +479,7 @@ const ApplyDetailsInfo = ({
             defaultValue={activeType}
             isDisabled={false}
           />
-        </div>
+        </div> */}
       </div>
 
       {/* <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0"> */}

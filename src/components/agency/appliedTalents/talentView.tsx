@@ -77,6 +77,7 @@ import {
 } from "../../../ui/alert-dialog";
 import { Input } from "../../../ui/input";
 import SelectOption from "../../../libs/select";
+import SendOfferModal from "../../../libs/sendOffer";
 
 export const TalentList = ({
   talent,
@@ -562,6 +563,7 @@ export const TalentList = ({
                       >
                         Send Offer
                       </Button>
+
                       {/* </AlertDialogAction> */}
                     </AlertDialogFooter>
                   </AlertDialogContent>
@@ -578,7 +580,7 @@ export const TalentList = ({
               // onClick={() => handleApplyPopUp(talent)}
               onClick={() => fetchApplications("approvedHire")}
             >
-              Approve Hire
+              Approved Hire
             </button>
           ) : (
             ""
@@ -590,7 +592,7 @@ export const TalentList = ({
               // onClick={() => handleApplyPopUp(talent)}
               onClick={() => fetchApplications("approvedHire")}
             >
-              Approve Hire
+              Approved Hire
             </button>
           ) : (
             ""
