@@ -32,6 +32,7 @@ import {
   RequiredTalentsProps,
 } from "../../../redux/types";
 import { DayObject, daysOfWeek } from "./projectBudget";
+import PostProjectModal from "../../../libs/postProject";
 
 export default function ProjectDetails({
   next,
@@ -81,24 +82,6 @@ export default function ProjectDetails({
       navigate("/dashboard");
     };
     return (
-      // <Card className="w-full pt-4 my-7">
-      //   <CardContent>
-      //     <div className="flex justify-between items-center">
-      //       <h2 className="text-[15px] font-medium leading-[22.5px]">
-      //         {title}
-      //       </h2>
-      //       {/* <AiOutlineEdit className="text-[16px] rounded-md " /> */}
-      //       <a
-      //         onClick={handleClick}
-      //         className="text-[16px] rounded-md cursor-pointer"
-      //       >
-      //         <AiOutlineEdit />
-      //       </a>
-      //     </div>
-      //     {/* <Separator /> */}
-      //     {children}
-      //   </CardContent>
-      // </Card>
       <Card className="w-full pt-4 my-7">
         <CardContent>
           <div className="flex justify-between items-center">
@@ -177,8 +160,12 @@ export default function ProjectDetails({
   });
 
   const formattedDateRange = `${formattedStartDate} to ${formattedEndDate}`;
-  // const projectTitle = formData.projectTitle
-  // const projectDescription = formData.projectDescription
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const closeModal = () => {
+    // Close the modal and perform any additional actions
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
@@ -189,10 +176,11 @@ export default function ProjectDetails({
           </h3>
           <button
             className="dark__btn w-full sm:w-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mt-2 sm:mt-0"
-            onClick={() => submit(false)}
+            onClick={() => submit(true)}
           >
             Post this project
           </button>
+          <PostProjectModal isOpen={isModalOpen} onClose={closeModal} />
         </div>
 
         <InfoCard

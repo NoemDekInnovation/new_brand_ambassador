@@ -1,6 +1,6 @@
-import { TalentProps } from './types';
-import { authAxiosInstance, campaignAuthAxiosInstance } from '../api/axios';
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { TalentProps } from "./types";
+import { authAxiosInstance, campaignAuthAxiosInstance } from "../api/axios";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export interface TalentsProps {
   loading: boolean;
@@ -19,23 +19,23 @@ export interface TalentsProps {
 }
 const initialState: TalentsProps = {
   loading: false,
-  error: '',
-  message: '',
+  error: "",
+  message: "",
   talents: [],
 
   successfulImport: [],
   failedImport: [],
   count: 0,
-  prev: '',
-  next: '',
-  prevProducts: '',
-  nextProducts: '',
+  prev: "",
+  next: "",
+  prevProducts: "",
+  nextProducts: "",
 };
 
 export const fetchEngageTalents = createAsyncThunk(
-  'talents/fetchEngageTalents',
+  "talents/fetchEngageTalents",
   async () => {
-    const user = localStorage.getItem('userData');
+    const user = localStorage.getItem("userData");
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
@@ -46,7 +46,7 @@ export const fetchEngageTalents = createAsyncThunk(
             Authorization: `Bearer ${parsedUser.authKey}`,
           },
         });
-        // console.log('cost', user);
+        console.log("cost", response?.data?.data);
 
         return response.data.data.talentsWhoHaveWorked;
       }
@@ -54,27 +54,27 @@ export const fetchEngageTalents = createAsyncThunk(
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        console.error('Response Error:', error.response.data);
-        throw new Error('Failed to fetch engaged talents. Please try again.');
+        console.error("Response Error:", error.response.data);
+        throw new Error("Failed to fetch engaged talents. Please try again.");
       } else if (error.request) {
         // The request was made but no response was received
-        console.error('Request Error:', error.request);
+        console.error("Request Error:", error.request);
         throw new Error(
-          'No response received. Please check your network connection.'
+          "No response received. Please check your network connection."
         );
       } else {
         // Something happened in setting up the request that triggered an Error
-        console.error('General Error:', error.message);
+        console.error("General Error:", error.message);
         throw new Error(
-          'An unexpected error occurred. Please try again later.'
+          "An unexpected error occurred. Please try again later."
         );
       }
     }
   }
 );
 
-const talents = createSlice({
-  name: 'fetchEngageTalents',
+const engagedTalents = createSlice({
+  name: "fetchEngageTalents",
   initialState,
   reducers: {
     setUser: (state, action) => {
@@ -113,5 +113,6 @@ const talents = createSlice({
   },
 });
 
-export default talents.reducer;
-export const { setUser, setSuccessImport, setFailedImport } = talents.actions;
+export default engagedTalents.reducer;
+export const { setUser, setSuccessImport, setFailedImport } =
+  engagedTalents.actions;

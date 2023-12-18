@@ -52,10 +52,6 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
 
-  
-
- 
-
   const { toast } = useToast();
 
   const handleOfferNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -83,8 +79,6 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
     // Trigger a click event on the hidden input
     fileInputRef?.current?.click();
   };
-
-
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -119,7 +113,6 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
           // Display a generic error message for other error scenarios
           setStatusMessage("An error occurred while saving. Please try again.");
         }
-
       } finally {
         setLoading(false);
       }
@@ -133,17 +126,12 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
     }
   }, [statusMessage]);
 
-
-   const handleSave = async () => {
-      await handleSubmit();
-     setTimeout(() => {
-       setModalOpen(true);
-     }, 2000);
-   };
-
-
-
-   
+  const handleSave = async () => {
+    await handleSubmit();
+    setTimeout(() => {
+      setModalOpen(true);
+    }, 2000);
+  };
 
   return (
     <div>
@@ -199,6 +187,9 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
                           </h2>
                         </div>
                         <Separator className="bg-bm__beige my-6" />
+                        <small className="text-bm__btn__grey">
+                          Please attach only PDF files
+                        </small>
                         <Card className="h-[10vh]">
                           <Input
                             type="file"

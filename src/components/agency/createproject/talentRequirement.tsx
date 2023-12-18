@@ -138,25 +138,29 @@ export default function TalentRequirement({
             <p className="text-[12px] text-bm__btn__grey mt-3">
               {250 - proposal.length} Characters remaining
             </p>
-
-            <Button
-              className="light__btn max-w-[200px] mt-4"
-              onClick={handleDivClick}
-            >
-              <div className="flex items-center gap-1">
-                <ImAttachment className="text-[16px]" />
-                Attach file
-              </div>
-            </Button>
-            <Input
-              type="file"
-              className="hidden"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              name="document"
-              required
-            />
-            {selectedFileName && <p>{selectedFileName}</p>}
+            <div className="flex flex-col mt-4">
+              <small className="text-bm__btn__grey">
+                Please attach only PDF files
+              </small>
+              <Button
+                className="light__btn max-w-[200px] mt-2"
+                onClick={handleDivClick}
+              >
+                <div className="flex items-center gap-1">
+                  <ImAttachment className="text-[16px]" />
+                  Attach file
+                </div>
+              </Button>
+              <Input
+                type="file"
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                name="document"
+                required
+              />
+              {selectedFileName && <p>{selectedFileName}</p>}
+            </div>
           </CardContent>
         </Card>
 
