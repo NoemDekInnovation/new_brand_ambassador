@@ -256,7 +256,6 @@ export const TalentGrid = ({
     setSelectedTalentID(_._id);
     setModal(!modal);
   };
-  
 
   // return (
   //   <Dialog open={toggleDialog} onOpenChange={setToggleDialog}>
@@ -321,6 +320,15 @@ export const TalentGrid = ({
   //     </DialogContent>
   //   </Dialog>
   // );
+  const truncateWords = (text: string, maxWords: number) => {
+    const words = text.split(" ");
+    const truncated = words.slice(0, maxWords).join(" ");
+
+    return truncated + (words.length > maxWords ? "..." : "");
+  };
+
+  const cityState = `${_.address[0]?.city} ${_.address[0]?.state}`;
+  const truncatedCityState = truncateWords(cityState, 3);
 
   return (
     <>
@@ -503,7 +511,7 @@ export const TalentGrid = ({
             <div className="flex items-center gap-2">
               <IoLocationSharp />
               <p className="text-[10px] font-medium leading-3 text-[#252525] capitalize">
-                {_.address[0]?.city} {_.address[0]?.state}
+                {truncatedCityState}
               </p>
             </div>
             <div className="w-[1px] h-3 bg-[#D7D8DA]"></div>

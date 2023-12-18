@@ -33,6 +33,7 @@ import { fetchpublishproject } from "../redux/publishProject";
 import { fetchTalentInvitations } from "../redux/talentInvitations.slice";
 import ProjectPreview from "./talent/components/projectPreview";
 import { log } from "console";
+import BadgeAvatars from "../ui/avatar";
 
 export default function NewNavBar() {
   const user = useSelector((state: RootState) => state.user);
@@ -237,12 +238,22 @@ export default function NewNavBar() {
                 <DropdownMenuTrigger>
                   {" "}
                   <div className="flex items-center space-x-2 ml-4">
-                    <img
-                      src={user?.user?.profilePic || avatar}
+                    {/* <img
+                      src={user?.user?.profilePic || <BadgeAvatars />}
                       width={40}
                       height={40}
                       alt=""
-                    />
+                    /> */}
+                    {user?.user?.profilePic ? (
+                      <img
+                        src={user?.user?.profilePic}
+                        width={40}
+                        height={40}
+                        alt=""
+                      />
+                    ) : (
+                      <BadgeAvatars />
+                    )}
                     <div className="flex flex-col w-[47px] h-[30px]">
                       <p className="text-[12px] font-normal">
                         {capitalizeFirstLetter(

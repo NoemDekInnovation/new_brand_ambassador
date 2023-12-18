@@ -18,8 +18,8 @@ import darkUnion from "../../assets/Union1.png";
 import { TalentProps } from "../../redux/types";
 import ApplyDetailsInfo from "./ApplyDetailsInfo";
 import { AnyCnameRecord } from "dns";
-import { AppDispatch } from "../../redux/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchProjectApplications } from "../../redux/projectApllication.slice";
 import Contract from "../agency/contract/Contract";
 
@@ -48,6 +48,16 @@ const Application = ({
   useEffect(() => {
     dispatch(fetchProjectApplications(selectedProject._id));
   }, []);
+  
+      const { talents: resTalents } = useSelector(
+        (state: RootState) => state.talent
+      );
+
+        const { applications } = useSelector(
+          (state: RootState) => state?.applications
+        );
+
+
 
   return (
     <div
@@ -162,8 +172,8 @@ const Application = ({
                 <p className="absolute top-[25%] text-[16px] z-20">
                   Invite Talent
                   <span className="text-[14px] font-bold">
-                    (30)
-                    </span>
+                    {/* (30) */}({resTalents?.length || 0})
+                  </span>
                 </p>
                 <img
                   src={subtract}
@@ -178,7 +188,10 @@ const Application = ({
                 <p className="absolute top-[25%] text-[16px] z-20 text-white">
                   {" "}
                   Applications
-                  <span className="text-[14px] font-bold">(300)</span>
+                  <span className="text-[14px] font-bold">
+                   
+                    ({applications?.data?.projectApplications?.length || 0})
+                  </span>
                 </p>
                 <img
                   src={subtract3}

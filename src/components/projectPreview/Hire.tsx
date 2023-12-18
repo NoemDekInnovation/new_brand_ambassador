@@ -18,6 +18,8 @@ import union from "../../assets/Union1.png";
 import Contract from "../agency/contract/Contract";
 import HireTalents from "./hiredTalents";
 import { TalentProps } from "../../redux/types";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const Hire = ({
   popUp,
@@ -42,6 +44,14 @@ const Hire = ({
     setPopUp(!popUp);
     setSelectedRole(talent);
   };
+
+  const { talents: resTalents } = useSelector(
+    (state: RootState) => state.talent
+  );
+
+  const { applications } = useSelector(
+    (state: RootState) => state?.applications
+  );
 
   return (
     <div
@@ -152,7 +162,9 @@ const Hire = ({
               >
                 <p className="absolute top-[25%] text-[16px] z-20">
                   Invite Talent
-                  <span className="text-[14px] font-bold">(30)</span>
+                  <span className="text-[14px] font-bold">
+                    {/* (30) */}({resTalents?.length || 0})
+                  </span>
                 </p>
                 <img
                   src={subtract}
@@ -167,7 +179,10 @@ const Hire = ({
                 <p className="absolute top-[25%] text-[16px] z-20">
                   {" "}
                   Applications
-                  <span className="text-[14px] font-bold">(300)</span>
+                  <span className="text-[14px] font-bold">
+                    ({applications?.data?.projectApplications?.length || 0})
+                    {/* (300) */}
+                  </span>
                 </p>
                 <img
                   src={subtract}
@@ -181,7 +196,11 @@ const Hire = ({
               >
                 <p className="absolute top-[25%] z-20 text-[16px] text-white">
                   {" "}
-                  Hire<span className="text-[14px] font-bold">(0)</span>
+                  Hire
+                  <span className="text-[14px] font-bold">
+                    (0)
+                    {/* ({talent?.length || 0}) */}
+                  </span>
                 </p>
                 <img
                   src={subtract4}

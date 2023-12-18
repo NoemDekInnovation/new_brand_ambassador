@@ -63,8 +63,10 @@ const AllApplications = ({
   );
 
   const { applications } = useSelector(
-    (state: RootState) => state?.applications
-  );
+    (state: RootState) => state?.applications 
+  ); 
+
+  
 
   const [popUp, setPopUp] = useState(false);
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
@@ -128,7 +130,7 @@ const AllApplications = ({
                   projects={projects}
                   setSelectedTalent={setSelectedTalent}
                   handleProfilePopUp={handleProfilePopUp}
-                  selectedTalent={selectedTalent}
+                  selectedTalent={selectedTalent} 
                   setSelectedTalentID={setSelectedTalentID}
                   selectedProject={selectedProject}
                   setSuccessModal={setSuccessModal}

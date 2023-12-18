@@ -16,7 +16,7 @@ export interface userProps {
   user: USERProps | null;
 }
 
-const localStorageKey = "userData"; 
+const localStorageKey = "userData";
 
 const storedUserData = localStorage.getItem(localStorageKey);
 
@@ -27,7 +27,7 @@ const initialState: userProps = {
   // user: { firstName: "", role: "", accountId: "" },
   user: storedUserData
     ? JSON.parse(storedUserData)
-    : { firstName: "", role: "", accountId: "" },
+    : { firstName: "", role: "", accountId: "", profilePic: "" },
 };
 
 const userSlice = createSlice({
