@@ -6,37 +6,32 @@ import { useNavigate, useLocation } from "react-router-dom";
 import backgroundImage from "../../assets/auth__background.jpeg";
 
 export default function VerifyEmail() {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    const navigate = useNavigate();
-    const location = useLocation();
+  const [email, setEmail] = useState("");
 
-  const [email, setEmail] = useState('');
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const token = searchParams.get("token");
 
-    useEffect(() => {
-        const localEmail = localStorage.getItem('userEmail');
-        const searchParams = new URLSearchParams(location.search);
-        const token = searchParams.get('token');
+    const handleVerification = async () => {
+      if (token) {
+        try {
+          await axiosInstance(`/verify-email?token=${token}`);
+          // Redirect to login page after a delay
+          setTimeout(() => {
+            navigate("/auth/login");
+          }, 3000);
+        } catch (error) {
+          // Handle errors, e.g., display an error message
+          console.error("Verification failed:", error);
+        }
+      }
+    };
 
-        const handleVerification = async () => {
-          if (localEmail && token) {
-            try {
-              await axiosInstance(
-                `/verify-email?token=${token}`
-              );
-              // Redirect to login page after a delay
-              setTimeout(() => {
-                navigate('/auth/login');
-              }, 3000);
-            } catch (error) {
-              // Handle errors, e.g., display an error message
-              console.error('Verification failed:', error);
-            }
-          }
-        };
-    
-        handleVerification();
-      }, [navigate]);
-
+    handleVerification();
+  }, [navigate]);
 
   return (
     <div className="auth__layout">
