@@ -38,11 +38,13 @@ const Hometab = () => {
     (state: RootState) => state.talentInvite
   );
 
+
+
   const projectCount = {
     "Available Projects": 0,
     "Current Project": 0,
     Invitations: talentInvitations?.invitations?.length || 0,
-    "My Applications": 0,
+    "My Applications": talentInvitations?.invitations?.length || 0,
     "Saved Projects": 0,
     "Completed Projects": 0,
   };

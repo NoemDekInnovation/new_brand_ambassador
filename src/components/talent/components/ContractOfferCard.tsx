@@ -5,6 +5,7 @@ import { RootState } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import { campaignAuthAxiosInstance } from "../../../api/axios";
 import { ImAttachment } from "react-icons/im";
+import OfferModal from "../../../libs/OfferModal";
 
 const ContractOfferCard = ({ selectedProject }: { selectedProject: any }) => {
   const {
@@ -14,6 +15,8 @@ const ContractOfferCard = ({ selectedProject }: { selectedProject: any }) => {
 
   const [details, setDetails] = useState<any>(null);
   const [offersx, setOffers] = useState<any | null>(null);
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [statusMessage, setStatusMessage] = useState("");
 
   useEffect(() => {
     const filteredApplications = offers.filter((application: any) => {
@@ -45,6 +48,8 @@ const ContractOfferCard = ({ selectedProject }: { selectedProject: any }) => {
     }
   };
 
+
+
   useEffect(() => {
     fetchOffers();
   }, []);
@@ -60,11 +65,37 @@ const ContractOfferCard = ({ selectedProject }: { selectedProject: any }) => {
             },
           }
         );
-      } catch (error) {
+        setStatusMessage(response.data.message || "Success");
+      } catch (error: any) {
         console.error("Error while fetiching Notifications:", error);
+                if (error.response && error.response.status === 400) {
+                  // Extract and display the specific error message from the API response
+                  setStatusMessage(
+                    error.response.data.message || "Bad Request"
+                  );
+                } else {
+                  // Display a generic error message for other error scenarios
+                  setStatusMessage(
+                    "An error occurred while saving. Please try again."
+                  );
+                }
       }
     }
   };
+
+        useEffect(() => {
+          // Open the modal after the status message is set
+          if (statusMessage) {
+            setModalOpen(true);
+          }
+        }, [statusMessage]);
+
+            const handleOffer = async () => {
+              await acceptOffer("accepted");
+              setTimeout(() => {
+                setModalOpen(true);
+              }, 2000);
+            };
 
   return (
     <>
@@ -103,10 +134,16 @@ const ContractOfferCard = ({ selectedProject }: { selectedProject: any }) => {
         </div>
         <div
           className="dark__btn cursor-pointer max-w-fit"
-          onClick={() => acceptOffer("accepted")}
+          // onClick={() => acceptOffer("accepted")}
+          onClick={handleOffer}
         >
           Accept
         </div>
+        <OfferModal
+          isOpen={isModalOpen}
+          onClose={() => setModalOpen(false)}
+          statusMessage={statusMessage}
+        />
       </div>
     </>
   );

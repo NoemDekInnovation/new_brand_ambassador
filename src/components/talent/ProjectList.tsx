@@ -66,6 +66,8 @@ const getProjectColor = (type: ProjectType, isActive: boolean): string => {
     case "Invitations":
       // return projectColors.black;
       return isActive ? projectColors.black : projectColors.green;
+      case "My Applications": 
+      return isActive ? projectColors.black : projectColors.green;
     default:
       return "";
   }
@@ -152,7 +154,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
           <ProjectType
             name="My Applications"
             image={col}
-            // count={projectCount["My Applications"]}
+            count={projectCount["My Applications"]}
             onClick={handleProjectTypeClick}
             isActive={activeProjectType === "My Applications"}
           />
