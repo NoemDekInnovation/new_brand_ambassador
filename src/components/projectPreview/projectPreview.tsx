@@ -45,6 +45,10 @@ const ProjectPreview = ({
   selectedProject: any;
   // workDays: [];
 }) => {
+  // const { talents: resTalents } = useSelector(
+  //   (state: RootState) => state.talent
+  // );
+
   const [activePreview, setActivePreview] = useState("Project Post");
   const startDate = new Date(selectedProject?.projectDuration?.startDate);
   const endDate = new Date(selectedProject?.projectDuration?.endDate);
@@ -74,13 +78,13 @@ const ProjectPreview = ({
     day: "numeric",
   });
 
-        const { talents: resTalents } = useSelector(
-          (state: RootState) => state.talent
-        );
+  const { talents: resTalents } = useSelector(
+    (state: RootState) => state.talent
+  );
 
-                const { applications } = useSelector(
-                  (state: RootState) => state?.applications
-                );
+  const { applications } = useSelector(
+    (state: RootState) => state?.applications
+  );
   // const [selectedProject, setSelectedProject] = useState("");
   return (
     <div

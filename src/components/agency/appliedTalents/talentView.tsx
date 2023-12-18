@@ -77,6 +77,7 @@ import {
 } from "../../../ui/alert-dialog";
 import { Input } from "../../../ui/input";
 import SelectOption from "../../../libs/select";
+import SendOfferModal from "../../../libs/sendOffer";
 import OfferModal from "../../../libs/OfferModal";
 
 export const TalentList = ({
@@ -258,7 +259,6 @@ export const TalentList = ({
           }
         );
         setStatusMessage(response.data.message || "Success");
-
       } catch (error: any) {
         console.error("Error while fetiching Notifications:", error);
         if (error.response && error.response.status === 400) {
@@ -272,19 +272,19 @@ export const TalentList = ({
     }
   };
 
-    useEffect(() => {
-      // Open the modal after the status message is set
-      if (statusMessage) {
-        setModalOpen(true);
-      }
-    }, [statusMessage]);
-
-    const handleOffer = async () => {
-      await offerHandler();
-      setTimeout(() => {
-        setModalOpen(true)
-      }, 2000);
+  useEffect(() => {
+    // Open the modal after the status message is set
+    if (statusMessage) {
+      setModalOpen(true);
     }
+  }, [statusMessage]);
+
+  const handleOffer = async () => {
+    await offerHandler();
+    setTimeout(() => {
+      setModalOpen(true);
+    }, 2000);
+  };
 
   return (
     <div key={index} className="bg-white border rounded flex">
@@ -551,7 +551,7 @@ export const TalentList = ({
                               </Card>
                             </CardContent>
                           </Card>
-                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA] max-h-fit max-h-[23vh]">
+                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA] max-h-fit">
                             <CardContent>
                               <div className="flex justify-between items-center">
                                 <h2 className="text-[14px] font-normal capitalize">
@@ -609,7 +609,7 @@ export const TalentList = ({
               // onClick={() => handleApplyPopUp(talent)}
               onClick={() => fetchApplications("approvedHire")}
             >
-              Approve Hire
+              Approved Hire
             </button>
           ) : (
             ""
@@ -621,7 +621,7 @@ export const TalentList = ({
               // onClick={() => handleApplyPopUp(talent)}
               onClick={() => fetchApplications("approvedHire")}
             >
-              Approve Hire
+              Approved Hire
             </button>
           ) : (
             ""
