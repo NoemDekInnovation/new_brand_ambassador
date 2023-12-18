@@ -138,13 +138,6 @@ const ApplyDetailsInfo = ({
     (state: RootState) => state.projectApplication
   );
 
-  
-
-
-
- 
-
-
   const handleLocationChange = (e: any) => {
     setSelectedLocation(e.target.value);
   };
@@ -182,8 +175,6 @@ const ApplyDetailsInfo = ({
     dispatch(fetchApplications({ id: ProjectId }));
     // dispatch(filterApplications({ id: ProjectId, status: "shortlisted" }));
   }, []);
-
-  
 
   useEffect(() => {
     setIsLoading(true);
@@ -443,7 +434,7 @@ const ApplyDetailsInfo = ({
               }}
             >
               Shortlisted
-              <span className="text-[16px] font-semibold text-black">(20)</span>
+              <span className="text-[16px] font-semibold text-black">(0)</span>
             </button>
             <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
             <button
@@ -458,7 +449,7 @@ const ApplyDetailsInfo = ({
               }}
             >
               Approved Hire
-              <span className="text-[16px] font-semibold text-black">(20)</span>
+              <span className="text-[16px] font-semibold text-black">(0)</span>
             </button>
             <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
             <button
@@ -473,10 +464,7 @@ const ApplyDetailsInfo = ({
               }}
             >
               Rejected
-              <span className="text-[16px] font-semibold text-black">
-                (20)
-                
-                </span>
+              <span className="text-[16px] font-semibold text-black">(0)</span>
             </button>
           </div>
         </div>
@@ -604,5 +592,3 @@ const ApplyDetailsInfo = ({
 };
 
 export default ApplyDetailsInfo;
-
-
