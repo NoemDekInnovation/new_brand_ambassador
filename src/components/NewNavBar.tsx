@@ -261,8 +261,12 @@ export default function NewNavBar() {
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-white p-3">
-                  <DropdownMenuItem className="hover:bg-black/10">
-                    <Link to="/profile">Profile</Link>
+                  <DropdownMenuItem className="hover:bg-black/10 block">
+                    <Link to="/profile">
+                      <div>
+                        Profile
+                      </div>
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator className="bg-bm__beige" />
                   <DropdownMenuItem className="hover:bg-black/10">
