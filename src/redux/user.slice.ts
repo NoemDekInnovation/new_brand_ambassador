@@ -6,6 +6,7 @@ export interface USERProps {
   accountId: string;
   authKey: string;
   agencyName: string;
+  companyLogo: string;
   profilePic: string;
 }
 
@@ -27,7 +28,13 @@ const initialState: userProps = {
   // user: { firstName: "", role: "", accountId: "" },
   user: storedUserData
     ? JSON.parse(storedUserData)
-    : { firstName: "", role: "", accountId: "", profilePic: "" },
+    : {
+        firstName: "",
+        role: "",
+        accountId: "",
+        companyLogo: "",
+        profilePic: "",
+      },
 };
 
 const userSlice = createSlice({
@@ -53,6 +60,7 @@ const userSlice = createSlice({
         accountId: "",
         authKey: "",
         agencyName: "",
+        companyLogo: "",
         profilePic: "",
       };
 

@@ -57,8 +57,7 @@ const AllTalents = ({
     (state: RootState) => state.talent
   );
 
-// console.log("project", projects)
-  
+  // console.log("project", projects)
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,7 +66,7 @@ const AllTalents = ({
       {gridView && (
         <div className="flex w-full justify-center ">
           <div
-            className={`flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3 md:gap-x-${gap} mt-2  flex-wrap `}
+            className={`flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3 md:gap-x-${gap} mt-2  flex-wrap  w-full overflow-y-scroll h-[550px]`}
           >
             {/* {talents} */}
             {resTalents?.map((_, idx: number) => {
@@ -121,7 +120,7 @@ const AllTalents = ({
           <div className=" p-4 h-screen fixed inset-0 bg-black/20 z-[2000]">
             <DialogContent className="sm:max-w-[425px] bg-[#fff] z-[2000]">
               <DialogHeader>
-                <DialogTitle className="text-[18px] flex items-center gap-2">
+                <DialogTitle className="text-[18px] flex items-center gap-2 cursor-pointer">
                   <div className="">
                     <svg
                       className="h-[18px]"
@@ -178,7 +177,7 @@ const AllTalents = ({
                   <SelectTrigger className="w-full bg-white  h-[46px]">
                     <SelectValue placeholder="Select project" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white z-[3000]">
+                  <SelectContent className="bg-white z-[3000] overflow-y-scroll h-[40vh]">
                     {projects !== undefined &&
                       projects.map(
                         (
@@ -208,7 +207,9 @@ const AllTalents = ({
                   <SelectContent className="bg-white z-[3000]">
                     <SelectItem value="supervisor">Supervisor</SelectItem>
                     <SelectItem value="usher">Usher</SelectItem>
-                    <SelectItem value="brand ambassador">Brand Ambassador</SelectItem>
+                    <SelectItem value="brand ambassador">
+                      Brand Ambassador
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>

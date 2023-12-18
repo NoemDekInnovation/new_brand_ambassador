@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { CardContent } from '../../ui/card';
-import { Separator } from '@radix-ui/react-separator';
+import React, { useState } from "react";
+import { CardContent } from "../../ui/card";
+import { Separator } from "@radix-ui/react-separator";
 
 type TalentType =
-  | 'All Talents'
-  | 'Current Contacts'
-  | 'Favorites'
-  | 'Engaged'
-  | 'My Talents';
+  | "All Talents"
+  | "Current Contacts"
+  | "Favorites"
+  | "Engaged"
+  | "My Talents";
 
 type TalentTypeProps = {
   name: TalentType;
@@ -30,13 +30,13 @@ const TalentType: React.FC<TalentTypeProps> = ({
 }) => {
   return (
     <div
-      className={`flex justify-between p-4 ${isActive ? 'bg-black/10' : ''}`}
+      className={`flex justify-between p-4 ${isActive ? "bg-black/10" : ""}`}
       onClick={() => onClick(name)}
     >
-      <div className='flex items-center'>
+      <div className="flex items-center">
         <p>{name}</p>
       </div>
-      <div className='text-white bg-bm__ox__red px-2 rounded-sm'>{count}</div>
+      <div className="text-white bg-bm__ox__red px-2 rounded-sm">{count}</div>
     </div>
   );
 };
@@ -46,14 +46,14 @@ const TalentList: React.FC<TalentListProps> = ({
   talentCount,
 }) => {
   const [activeTalentType, setActiveTalentType] =
-    useState<TalentType>('All Talents');
+    useState<TalentType>("All Talents");
   const handleTalentTypeClick = (
     type:
-      | 'All Talents'
-      | 'Current Contacts'
-      | 'Favorites'
-      | 'Engaged'
-      | 'My Talents'
+      | "All Talents"
+      | "Current Contacts"
+      | "Favorites"
+      | "Engaged"
+      | "My Talents"
   ) => {
     onTalentTypeChnage(type);
     setActiveTalentType(type);
@@ -61,57 +61,57 @@ const TalentList: React.FC<TalentListProps> = ({
 
   return (
     // <Card>
-    <CardContent className='p-1 flex flex-col justify-center gap-1 border rounded-[6px]'>
-      <div className='gap-4 hover:bg-black/10 cursor-pointer '>
+    <CardContent className="p-1 flex flex-col justify-center gap-1 border rounded-[6px]">
+      <div className="gap-4 hover:bg-black/10 cursor-pointer ">
         {/* <p> All Talents</p> */}
         <TalentType
-          name='All Talents'
-          count={talentCount['All Talents']}
+          name="All Talents"
+          count={talentCount["All Talents"]}
           onClick={handleTalentTypeClick}
-          isActive={activeTalentType === 'All Talents'}
+          isActive={activeTalentType === "All Talents"}
         />
       </div>
-      <Separator className='bg-bm__beige shrink-0 h-[1px] w-full' />
-      <div className='gap-4 hover:bg-black/10 cursor-pointer'>
+      <Separator className="bg-bm__beige shrink-0 h-[1px] w-full" />
+      <div className="gap-4 hover:bg-black/10 cursor-pointer">
         {/* <p>Current Contacts</p>{' '}
                       <span className='bg-bm__ox__red text-white px-2'>
                           {resTalents?.length}
                       </span> */}
         <TalentType
-          name='Current Contacts'
-          count={talentCount['Current Contacts']}
+          name="Current Contacts"
+          count={talentCount["Current Contacts"]}
           onClick={handleTalentTypeClick}
-          isActive={activeTalentType === 'Current Contacts'}
+          isActive={activeTalentType === "Current Contacts"}
         />
       </div>
-      <Separator className='bg-bm__beige shrink-0 h-[1px] w-full' />
-      <div className=' gap-4 hover:bg-black/10 cursor-pointer'>
+      <Separator className="bg-bm__beige shrink-0 h-[1px] w-full" />
+      <div className=" gap-4 hover:bg-black/10 cursor-pointer">
         {/* <p> Favorites</p> */}
         <TalentType
-          name='Favorites'
-          count={talentCount['Favorites']}
+          name="Favorites"
+          count={talentCount["Favorites"]}
           onClick={handleTalentTypeClick}
-          isActive={activeTalentType === 'Favorites'}
+          isActive={activeTalentType === "Favorites"}
         />
       </div>
-      <Separator className='bg-bm__beige shrink-0 h-[1px] w-full' />
-      <div className='gap-4 hover:bg-black/10 cursor-pointer'>
+      <Separator className="bg-bm__beige shrink-0 h-[1px] w-full" />
+      <div className="gap-4 hover:bg-black/10 cursor-pointer">
         {/* <p>Engaged</p> */}
         <TalentType
-          name='Engaged'
-          count={talentCount['Engaged']}
+          name="Engaged"
+          count={talentCount["Engaged"]}
           onClick={handleTalentTypeClick}
-          isActive={activeTalentType === 'Engaged'}
+          isActive={activeTalentType === "Engaged"}
         />
       </div>
-      <Separator className='bg-bm__beige  shrink-0 h-[1px] w-full' />
-      <div className='gap-4 hover:bg-black/10 cursor-pointer'>
+      <Separator className="bg-bm__beige  shrink-0 h-[1px] w-full" />
+      <div className="gap-4 hover:bg-black/10 cursor-pointer">
         {/* <p>My Talents</p> */}
         <TalentType
-          name='My Talents'
-          count={talentCount['My Talents']}
+          name="My Talents"
+          count={talentCount["My Talents"]}
           onClick={handleTalentTypeClick}
-          isActive={activeTalentType === 'My Talents'}
+          isActive={activeTalentType === "My Talents"}
         />
       </div>
     </CardContent>

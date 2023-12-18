@@ -38,7 +38,7 @@ const MyTalents = ({
     <>
       {gridView && (
         <div className="flex w-full justify-center ">
-          <div className="flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap ">
+          <div className="flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap overflow-y-scroll h-[550px] w-full ">
             {/* {talents} */}
             {resTalents?.map((_, idx: number) => {
               return (

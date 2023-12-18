@@ -53,7 +53,6 @@ import girl3 from "../../assets/Profile 1 1.png";
 import girl4 from "../../assets/Profile 2 1.png";
 import girl5 from "../../assets/Rectangle 11 (1).png";
 import { fetchProjectApplications } from "../../redux/projectApllication.slice";
-import { fetchpublishproject } from "../../redux/publishProject";
 
 const options: Intl.DateTimeFormatOptions = {
   // year: "numeric",
@@ -68,12 +67,8 @@ export function CurrentProjects({
   card_title: string;
   card_content: { isCurrent: boolean; content: number[] };
 }) {
-  // const { activeProject } = useSelector(
-  //   (state: RootState) => state.activeProject
-  // );
-
-  const { publishProject } = useSelector(
-    (state: RootState) => state.publishProject
+  const { activeProject } = useSelector(
+    (state: RootState) => state.activeProject
   );
   const dispatch = useDispatch<AppDispatch>();
 
@@ -89,21 +84,13 @@ export function CurrentProjects({
   };
 
   useEffect(() => {
-    // dispatch(fetchactiveproject());
-    dispatch(fetchpublishproject());
+    dispatch(fetchactiveproject());
   }, [dispatch]);
 
-  const projects = publishProject.map((project, idx) => {
-    if (!Array.isArray(publishProject)) {
+  const projects = activeProject.map((project, idx) => {
+    if (!Array.isArray(activeProject)) {
       return <div>Loading...</div>;
     }
-
-    const truncateWords = (text: string, maxWords: number) => {
-      const words = text.split(" ");
-      const truncated = words.slice(0, maxWords).join(" ");
-
-      return truncated + (words.length > maxWords ? "..." : "");
-    };
 
     return (
       <>
@@ -116,8 +103,9 @@ export function CurrentProjects({
             {/* Project Name */}
             {project.projectTitle}
           </p>
-          <p className="text-[10px] leading-4 font-normal capitalize ">
-            {truncateWords(project.projectDescription, 5)}
+          <p className="text-[10px] leading-4 font-normal capitalize">
+            {/* This is the project description.. this is the project description */}
+            {project.projectDescription}
           </p>
           <Separator className="my-1" />
           <div className="">
@@ -132,6 +120,13 @@ export function CurrentProjects({
                 0 Supervisors
               </p>
             </div>
+            {/* <div className="flex items-center py-2">
+            <p className="font-medium text-[10px] text-bm__niv">Ambassadors</p>
+            <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
+            <p className="font-medium text-[10px] text-bm__niv ml-2">
+              0 Supervisors
+            </p>
+          </div> */}
           </div>
           <Separator className="my-1" />
           <div className="py-2">
@@ -284,7 +279,7 @@ const ProjectCard = ({
         });
         const projects = response?.data?.data.projects.map((project: any) => {
           // console.log("i said", project._id, project);
-          return { value: project._id, label: project.projectDescription };
+          return { value: project._id, label: project.projectTitle };
         });
 
         setProjects(projects);
@@ -375,7 +370,7 @@ const ProjectCard = ({
         </CardHeader>
         <Separator className="my-3" />
         <div className="flex justify-between items-center flex-wrap space-x-1 ">
-          {card_content.content?.slice(0, 6).map((talent, idx) => {
+          {card_content.content?.slice(0, 5).map((talent, idx) => {
             return (
               <TalentGrid
                 _={talent}
@@ -455,7 +450,7 @@ const ProjectCard = ({
               <SelectTrigger className="w-full bg-white  h-[46px]">
                 <SelectValue placeholder="Select project" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className="bg-white overflow-y-scroll h-[40vh]">
                 {projects !== undefined &&
                   projects.map(
                     (
