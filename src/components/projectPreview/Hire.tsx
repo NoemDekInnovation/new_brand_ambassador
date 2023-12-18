@@ -45,13 +45,13 @@ const Hire = ({
     setSelectedRole(talent);
   };
 
-          const { talents: resTalents } = useSelector(
-            (state: RootState) => state.talent
-          );
+  const { talents: resTalents } = useSelector(
+    (state: RootState) => state.talent
+  );
 
-                  const { applications } = useSelector(
-                    (state: RootState) => state?.applications
-                  );
+  const { applications } = useSelector(
+    (state: RootState) => state?.applications
+  );
 
   return (
     <div
@@ -196,8 +196,9 @@ const Hire = ({
               >
                 <p className="absolute top-[25%] z-20 text-[16px] text-white">
                   {" "}
-                  Hire<span className="text-[14px] font-bold">
-                    {/* (0) */}
+                  Hire
+                  <span className="text-[14px] font-bold">
+                    (0)
                     {/* ({talent?.length || 0}) */}
                   </span>
                 </p>
