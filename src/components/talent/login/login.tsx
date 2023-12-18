@@ -98,9 +98,10 @@ export default function Login() {
           authKey: response.data.data.accessToken,
           agencyName: response.data.data.agencyName,
           profilePic: response.data.data.profilePic,
+          companyLogo: response.data.data.companyLogo,
         };
 
-        // console.log(details, "details");
+        console.log(details, "details");
 
         setSuccessModal(true);
         setError("");

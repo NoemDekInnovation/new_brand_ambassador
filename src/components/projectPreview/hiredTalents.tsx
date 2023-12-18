@@ -101,11 +101,10 @@ const HireTalents = ({
     setPopUp(!popUp);
     // setSelectedRole(talent);
   };
-
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const id = ProjectId;
-  console.log("id", id);
+
   const user = useSelector((state: RootState) => state.user);
 
   useEffect(() => {

@@ -237,16 +237,10 @@ export default function NewNavBar() {
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   {" "}
-                  <div className="flex items-center space-x-2 ml-4">
-                    {/* <img
-                      src={user?.user?.profilePic || <BadgeAvatars />}
-                      width={40}
-                      height={40}
-                      alt=""
-                    /> */}
-                    {user?.user?.profilePic ? (
+                  <div className="flex items-center space-x-2 ml-4 max-h-[40px]">
+                    {user?.user?.companyLogo || user?.user?.profilePic ? (
                       <img
-                        src={user?.user?.profilePic}
+                        src={user?.user?.companyLogo || user?.user?.profilePic}
                         width={40}
                         height={40}
                         alt=""
@@ -274,9 +268,7 @@ export default function NewNavBar() {
                 <DropdownMenuContent className="bg-white p-3">
                   <DropdownMenuItem className="hover:bg-black/10 block">
                     <Link to="/profile">
-                      <div>
-                        Profile
-                      </div>
+                      <div>Profile</div>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator className="bg-bm__beige" />

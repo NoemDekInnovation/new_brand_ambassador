@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Card, CardContent } from "../../ui/card";
 import { Dialog, DialogContent, Overlay } from "@radix-ui/react-dialog";
 import { TbMap2, TbProgressCheck } from "react-icons/tb";
@@ -20,6 +20,11 @@ import HireTalents from "./hiredTalents";
 import { TalentProps } from "../../redux/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { campaignAuthAxiosInstance } from "../../api/axios";
+
+interface TalentData {
+  talent: any[]; // Replace 'any[]' with the actual type of your talent data
+}
 
 const Hire = ({
   popUp,
@@ -52,6 +57,38 @@ const Hire = ({
   const { applications } = useSelector(
     (state: RootState) => state?.applications
   );
+
+  const user = useSelector((state: RootState) => state.user);
+  const id = selectedProject?._id;
+  console.log(`id: ${id}`);
+  const [talentLength, setTalentLength] = useState([]);
+
+  useEffect(() => {
+    const fetchHired = async () => {
+      if (user?.user !== undefined) {
+        try {
+          const response = await campaignAuthAxiosInstance(
+            `/hired-talent/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${user?.user?.authKey || ""}`,
+              },
+            }
+          );
+          // console.log("see", response?.data?.data?.hiredTalent[0]);
+          setTalent(response?.data?.data?.hiredTalent[0]?.talent || []);
+        } catch (error) {
+          // console.error("Error while fetiching Notifications:", error);
+          // Handle error appropriately (e.g., show a user-friendly message)
+        }
+      }
+    };
+    fetchHired();
+    // setIsLoading(false);
+  }, [id, user]);
+
+  const numberOfHired = talentLength?.length || 0;
+  console.log(numberOfHired);
 
   return (
     <div
@@ -198,8 +235,7 @@ const Hire = ({
                   {" "}
                   Hire
                   <span className="text-[14px] font-bold">
-                    (0)
-                    {/* ({talent?.length || 0}) */}
+                    ({numberOfHired}){/* ({talent?.length || 0}) */}
                   </span>
                 </p>
                 <img
