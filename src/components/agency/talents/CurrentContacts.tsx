@@ -1,8 +1,9 @@
 import { TalentGrid, TalentList } from "./talentView";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
 import { TalentProps } from "../../../redux/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchEngageTalents } from "../../../redux/engagetalent.slice";
 
 const CurrentContacts = ({
   gridView,
@@ -33,7 +34,19 @@ const CurrentContacts = ({
     (state: RootState) => state.engagedtalent
   );
 
+  const dispatch = useDispatch<AppDispatch>()
+  
+
+  console.log("current", resTalents)
+
   const [projectModal, setProjectModal] = useState(false);
+
+  useEffect(() => {
+      console.log("Dispatching fetchEngageTalents");
+    dispatch(fetchEngageTalents())
+  }, [dispatch])
+
+
 
   return (
     <>
@@ -44,6 +57,7 @@ const CurrentContacts = ({
             {resTalents?.map((_: TalentProps, idx: number) => {
               return (
                 <TalentGrid
+                key={idx}
                   modal={projectModal}
                   setModal={() => setProjectModal}
                   _={_}
@@ -69,6 +83,7 @@ const CurrentContacts = ({
           {resTalents?.map((_: TalentProps, idx: number) => {
             return (
               <TalentList
+              key={idx}
                 talent={_}
                 index={idx}
                 handleInvite={""}
