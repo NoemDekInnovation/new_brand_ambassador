@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardFooter } from "../../ui/card";
 import { DropdownMenu, DropdownMenuTrigger } from "../../ui/dropdown-menu";
 import { BiSortAlt2 } from "react-icons/bi";
@@ -28,10 +28,14 @@ type ProjectDetailsProps = {
 };
 
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
+    
+
+    
+
   let projects;
   switch (activeType) {
     case "Active":
-      projects = <ActiveProjects />;
+      projects = <ActiveProjects  />;
       break;
     case "Published":
       projects = <PublishedProject />;
@@ -63,6 +67,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
     (state: RootState) => state.draftProject
   );
 
+
+  
+
   const projectsToRender =
     activeType === "Active"
       ? activeProject?.length || 0
@@ -71,6 +78,12 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
       : activeType === "Completed"
       ? completeProject?.length || 0
       : draftProject?.length || 0;
+
+
+
+
+
+
 
   return (
     <CardContent className=" flex-1">

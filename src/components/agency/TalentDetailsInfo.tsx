@@ -149,7 +149,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
         console.log(error);
       }
     }
-  };
+  }; 
 
   const filteredTalents = resTalents?.filter((talent, idx) => {
     const talentgender = talent?.gender;

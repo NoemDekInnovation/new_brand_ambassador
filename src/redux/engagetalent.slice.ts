@@ -7,7 +7,7 @@ export interface TalentsProps {
   error: string | null;
   message: string;
   talents: any;
-  // talents: TalentProps[] | null;
+  talentEngaged: any; // New property for talentEngaged
 
   successfulImport: [];
   failedImport: [];
@@ -22,6 +22,7 @@ const initialState: TalentsProps = {
   error: "",
   message: "",
   talents: [],
+  talentEngaged: [], // Initial value for talentEngaged
 
   successfulImport: [],
   failedImport: [],
@@ -39,31 +40,32 @@ export const fetchEngageTalents = createAsyncThunk(
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
-        // console.log('tre', parsedUser.authKey);
 
         const response = await campaignAuthAxiosInstance(`/engaged-talents`, {
           headers: {
             Authorization: `Bearer ${parsedUser.authKey}`,
           },
         });
-        console.log("cost", response?.data?.data);
 
-        return response.data.data.talentsWhoHaveWorked;
+        const talentsCurrentlyOnProject =
+          response?.data?.data?.talentsCurrentlyOnProject;
+        const talentEngaged = response?.data?.data?.talentEngaged;
+
+        console.log("cost", talentsCurrentlyOnProject);
+        console.log("engage", talentEngaged);
+
+        return { talentsCurrentlyOnProject, talentEngaged };
       }
     } catch (error: any) {
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         console.error("Response Error:", error.response.data);
         throw new Error("Failed to fetch engaged talents. Please try again.");
       } else if (error.request) {
-        // The request was made but no response was received
         console.error("Request Error:", error.request);
         throw new Error(
           "No response received. Please check your network connection."
         );
       } else {
-        // Something happened in setting up the request that triggered an Error
         console.error("General Error:", error.message);
         throw new Error(
           "An unexpected error occurred. Please try again later."
@@ -78,13 +80,16 @@ const engagedTalents = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.talents = action.payload;
+      state.talents = action.payload.talentsCurrentlyOnProject;
     },
     setFailedImport: (state, action) => {
       state.failedImport = action.payload;
     },
     setSuccessImport: (state, action) => {
       state.successfulImport = action.payload;
+    },
+    setTalentEngaged: (state, action) => {
+      state.talentEngaged = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -97,10 +102,15 @@ const engagedTalents = createSlice({
         fetchEngageTalents.fulfilled,
         (state, action: PayloadAction<any>) => {
           state.loading = false;
-          state.talents = action.payload.talents;
-          state.prev = action.payload.prev;
-          state.count = action.payload.count; // Store the count
-          state.next = action.payload.next;
+          state.talents = action.payload.talentsCurrentlyOnProject;
+          state.prev = action.payload.talentsCurrentlyOnProject;
+          state.count = action.payload.talentsCurrentlyOnProject.length;
+          state.next = action.payload.talentsCurrentlyOnProject;
+          state.talentEngaged = action.payload.talentEngaged
+
+          // Dispatch the setTalentEngaged action to update the state with talentEngaged
+        const { talentEngaged } = action.payload;
+          engagedTalents.actions.setTalentEngaged({ payload: talentEngaged });
         }
       )
       .addCase(
@@ -114,5 +124,5 @@ const engagedTalents = createSlice({
 });
 
 export default engagedTalents.reducer;
-export const { setUser, setSuccessImport, setFailedImport } =
+export const { setUser, setSuccessImport, setFailedImport, setTalentEngaged } =
   engagedTalents.actions;

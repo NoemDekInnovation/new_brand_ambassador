@@ -1,7 +1,10 @@
 import { TalentGrid, TalentList } from "./talentView";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { useEffect, useState } from "react";
+import { fetchAgencyTalents } from "../../../redux/talent.slice";
+import { TalentProps } from "../../../redux/types";
+import { fetchAgencyTalentss } from "../../../redux/agencyTalent.slice";
 
 const MyTalents = ({
   gridView,
@@ -28,9 +31,19 @@ const MyTalents = ({
   setSuccessModal: any;
   successModal: any;
 }) => {
-  const { agencyTalents: resTalents } = useSelector(
-    (state: RootState) => state.talent
-  );
+
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchAgencyTalentss()); 
+  }, [dispatch])
+
+    const { agencyTalents: resTalents } = useSelector(
+      (state: RootState) => state.agency
+    );
+
+  console.log("my talent", resTalents);
 
   const [projectModal, setProjectModal] = useState(false);
 
@@ -40,7 +53,7 @@ const MyTalents = ({
         <div className="flex w-full justify-center ">
           <div className="flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap overflow-y-scroll h-[550px] w-full ">
             {/* {talents} */}
-            {resTalents?.map((_, idx: number) => {
+            {resTalents?.map((_: TalentProps, idx: number) => {
               return (
                 <TalentGrid
                   modal={projectModal}
@@ -65,7 +78,7 @@ const MyTalents = ({
       )}
       {!gridView && (
         <div className="flex flex-col w-full gap-3">
-          {resTalents?.map((_, idx: number) => {
+          {resTalents?.map((_: TalentProps, idx: number) => {
             return (
               <TalentList
                 talent={_}

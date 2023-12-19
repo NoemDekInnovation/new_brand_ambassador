@@ -16,6 +16,7 @@ import allTalentProjectReducer from "./talent/allProjects.slice";
 import applicationsReducer from "./applicantions.slice";
 import contractOfferReducer from "./contract-offer";
 import hireSlice from "./hire.slice";
+import agencyReducer from "./agencyTalent.slice";
 
 const store = configureStore({
   reducer: {
@@ -37,6 +38,7 @@ const store = configureStore({
     projectApplication: ProjectApplicationSlice,
     applications: applicationsReducer,
     hire: hireSlice,
+    agency: agencyReducer,
   },
 });
 

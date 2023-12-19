@@ -92,7 +92,7 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
       formData.append("document", file);
     });
 
-    if (user?.user?.accountId !== undefined) {
+    if (user?.user?.accountId !== undefined) { 
       try {
         const response = await patchAxiosInstance.post(
           `/create-offer/${selectedProject._id}`,

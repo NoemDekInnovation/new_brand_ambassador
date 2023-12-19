@@ -53,6 +53,7 @@ import { Input } from "../../ui/input";
 import { SelectGroup, SelectLabel } from "../../ui/select";
 import { TalentType } from "../agency/TalentsView";
 import SelectOption from "../../libs/select";
+import OfferModal from "../../libs/OfferModal";
 
 const categoryOptions: any = [
   { value: "All Talents", label: "All Talent" },
@@ -86,6 +87,7 @@ const TalentDetailsInfo = ({
   const [selectedTalentID, setSelectedTalentID] = useState("");
   const [projectModal, setProjectModal] = useState(false);
   const [activeType, setActiveType] = useState<TalentType>("All Talents");
+  const [success, setSuccess] = useState(false); // State for the success modal
 
   const onTalentTypeChnage = (type: TalentType) => {
     setActiveType(type);
@@ -261,22 +263,29 @@ const TalentDetailsInfo = ({
   switch (activeType) {
     case "All Talents":
       pageTalents = (
-        <AllTalents
-          gridView={gridView}
-          successModal={successModal}
-          setSuccessModal={setSuccessModal}
-          handleInvite={handleInvite}
-          setSelectedProject={setSelectedProject}
-          projects={projects}
-          setSelectedTalent={setSelectedTalent}
-          handleProfilePopUp={handleProfilePopUp}
-          selectedTalent={selectedTalent}
-          setSelectedTalentID={setSelectedTalentID}
-          selectedProject={selectedProject}
-          projectModal={projectModal}
-          setProjectModal={setProjectModal}
-          gap={14}
-        />
+        <>
+          <AllTalents
+            gridView={gridView}
+            successModal={successModal}
+            setSuccessModal={setSuccessModal}
+            handleInvite={handleInvite}
+            setSelectedProject={setSelectedProject}
+            projects={projects}
+            setSelectedTalent={setSelectedTalent}
+            handleProfilePopUp={handleProfilePopUp}
+            selectedTalent={selectedTalent}
+            setSelectedTalentID={setSelectedTalentID}
+            selectedProject={selectedProject}
+            projectModal={projectModal}
+            setProjectModal={setProjectModal}
+            gap={14}
+          />
+          <OfferModal
+            isOpen={successModal}
+            onClose={() => setSuccessModal(false)}
+            statusMessage="Talent Invited"
+          />
+        </>
       );
       break;
     case "Current Contacts":
@@ -294,6 +303,7 @@ const TalentDetailsInfo = ({
           setSelectedTalentID={setSelectedTalentID}
           selectedProject={selectedProject}
         />
+        
       );
       break;
     case "Favorites":
