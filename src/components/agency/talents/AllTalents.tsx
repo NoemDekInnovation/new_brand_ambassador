@@ -72,6 +72,7 @@ const AllTalents = ({
             {resTalents?.map((_, idx: number) => {
               return (
                 <TalentGrid
+                key={idx}
                   _={_}
                   modal={projectModal}
                   setModal={setProjectModal}
@@ -97,6 +98,7 @@ const AllTalents = ({
           {resTalents?.map((_, idx: number) => {
             return (
               <TalentList
+              key={idx}
                 talent={_}
                 index={idx}
                 handleInvite={""}

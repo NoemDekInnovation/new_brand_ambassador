@@ -1,7 +1,9 @@
 import { TalentGrid, TalentList } from "./talentView";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { useEffect, useState } from "react";
+import { fetchFavoriteTalents } from "../../../redux/talent.slice";
+import { fetchFavouriteProjects } from "../../../redux/favourite.slice";
 
 const FavoriteTalents = ({
   gridView,
@@ -31,17 +33,28 @@ const FavoriteTalents = ({
   const { talents: resTalents } = useSelector(
     (state: RootState) => state.talent
   );
-  const [projectModal, setProjectModal] = useState(false);
 
+  const { favourites } = useSelector((state: RootState) => state.favouriteProject)
+  console.log("fav", favourites);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchFavouriteProjects())
+  }, [dispatch])
+
+  const [projectModal, setProjectModal] = useState(false);
+ 
   return (
     <>
       {gridView && (
         <div className="flex w-full justify-center ">
           <div className="flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap overflow-y-scroll h-[550px] w-full ">
             {/* {talents} */}
-            {resTalents?.map((_, idx: number) => {
+            {favourites?.map((_, idx: number) => {
               return (
                 <TalentGrid
+                key={idx}
                   _={_}
                   modal={projectModal}
                   setModal={() => setProjectModal}
@@ -64,9 +77,10 @@ const FavoriteTalents = ({
       )}
       {!gridView && (
         <div className="flex flex-col w-full gap-3">
-          {resTalents?.map((_, idx: number) => {
+          {favourites?.map((_, idx: number) => {
             return (
               <TalentList
+              key={idx}
                 talent={_}
                 index={idx}
                 handleInvite={""}
