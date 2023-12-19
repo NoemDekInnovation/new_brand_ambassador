@@ -22,12 +22,18 @@ import {
 import { AiOutlineImport } from "react-icons/ai";
 import { DropdownMenuSeparator } from "../../ui/dropdown-menu";
 import { PiWarningFill } from "react-icons/pi";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../../ui/hover-card";
 
 export default function PreviewBoard() {
   const { failedImport, successfulImport } = useSelector(
-    (state: RootState) => state.talent 
+    (state: RootState) => state.talent
   );
-  // console.log("fail", failedImport, "sucess", successfulImport); 
+
+  console.log("fail", failedImport, "sucess", successfulImport);
 
   return (
     <>
@@ -66,12 +72,15 @@ export default function PreviewBoard() {
                       <TableCell className="font-medium">
                         {data["FIRST NAME"]}
                       </TableCell>
-                      <TableCell> {data["FIRST NAME"]}</TableCell>
                       <TableCell> {data["LAST NAME"]}</TableCell>
                       <TableCell> {data["MIDDLE NAME"]}</TableCell>
                       <TableCell>{data["PROFILE OVERVIEW"]}</TableCell>
                       <TableCell> {data["EMAIL"]}</TableCell>
                       <TableCell> {data["TELEPHONE NUMBER"]}</TableCell>
+                      <TableCell>
+                        {" "}
+                        {data["ALTERNATIVE NUMBER"] || "-"}
+                      </TableCell>
                       <TableCell> {data["GENDER"]}</TableCell>
                       <TableCell>{data["DATE OF BIRTH"]}</TableCell>
                     </TableRow>
@@ -103,23 +112,51 @@ export default function PreviewBoard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {/* {failedImport.map(({ data, idx }) => {
+              {failedImport.map(({ data, message, idx }) => {
                 return (
-                  <TableRow key={idx}>
-                    <TableCell className="font-medium">
-                      {data["FIRST NAME"]}
-                    </TableCell>
-                    <TableCell> {data["FIRST NAME"]}</TableCell>
-                    <TableCell> {data["LAST NAME"]}</TableCell>
-                    <TableCell> {data["MIDDLE NAME"]}</TableCell>
-                    <TableCell>{data["PROFILE OVERVIEW"]}</TableCell>
-                    <TableCell> {data["EMAIL"]}</TableCell>
-                    <TableCell> {data["TELEPHONE NUMBER"]}</TableCell>
-                    <TableCell> {data["GENDER"]}</TableCell>
-                    <TableCell>{data["DATE OF BIRTH"]}</TableCell>
-                  </TableRow>
+                  <>
+                    <TableRow key={idx} className="cursor-pointer">
+                      <TableCell className="font-medium">
+                        <HoverCard>
+                          <HoverCardTrigger>
+                            {data["FIRST NAME"] || "-"}
+                          </HoverCardTrigger>
+                          <HoverCardContent>{message}</HoverCardContent>
+                        </HoverCard>
+                      </TableCell>{" "}
+                      <TableCell>
+                        <HoverCard>
+                          <HoverCardTrigger>
+                            {data["LAST NAME"] || "-"}{" "}
+                          </HoverCardTrigger>
+                          <HoverCardContent>{message}</HoverCardContent>
+                        </HoverCard>
+                      </TableCell>
+                      <TableCell> {data["MIDDLE NAME"] || "-"}</TableCell>
+                      <TableCell>
+                        {data["PROFILE OVERVIEW"] !== "nil"
+                          ? data["PROFILE OVERVIEW"] || "-"
+                          : "-"}
+                      </TableCell>
+                      <TableCell> {data["EMAIL"] || "-"}</TableCell>
+                      <TableCell> {data["TELEPHONE NUMBER"] || "-"}</TableCell>
+                      <TableCell>
+                        {" "}
+                        {data["ALTERNATIVE NUMBER"] || "-"}
+                      </TableCell>
+                      <TableCell> {data["GENDER"] || "-"}</TableCell>
+                      <TableCell>
+                        <HoverCard>
+                          <HoverCardTrigger>
+                            {data["DATE OF BIRTH"] || "-"}
+                          </HoverCardTrigger>
+                          <HoverCardContent>{message}</HoverCardContent>
+                        </HoverCard>
+                      </TableCell>
+                    </TableRow>
+                  </>
                 );
-              })} */}
+              })}
             </TableBody>
           </Table>
         </div>
