@@ -19,17 +19,24 @@ const initialState: favouriteProjectProp = {
 
 export const fetchFavouriteProjects = createAsyncThunk(
   "favourite/fetchFavouriteProjects",
-  async (url: string) => {
+  async () => {
     // console.log(url);
+    const user = localStorage.getItem("userData");
+
 
     try {
-      if (url !== undefined) {
-        const response = await authAxiosInstance(`/${url}/favorites-filter`);
+      if (user !== null) {
+        const parsedUser = JSON.parse(user);
+        const response = await authAxiosInstance(`/favorites-filter`, {
+          headers: {
+            Authorization: `Bearer ${parsedUser.authKey}`,
+          },
+        });
 
         // console.log(response);
-        // console.log(response.data.favorites);
+        console.log("response", response?.data?.data?.favorites);
 
-        return response.data.favorites;
+        return response?.data?.data?.favorites;
       }
     } catch (error) {
       throw error;

@@ -160,12 +160,9 @@ export default function ProjectDetails({
   });
 
   const formattedDateRange = `${formattedStartDate} to ${formattedEndDate}`;
-  const [isModalOpen, setIsModalOpen] = useState(false);
+    
 
-  const closeModal = () => {
-    // Close the modal and perform any additional actions
-    setIsModalOpen(false);
-  };
+  
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
@@ -176,11 +173,11 @@ export default function ProjectDetails({
           </h3>
           <button
             className="dark__btn w-full sm:w-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mt-2 sm:mt-0"
-            onClick={() => submit(true)}
+            onClick={() => submit(false)}
           >
             Post this project
           </button>
-          <PostProjectModal isOpen={isModalOpen} onClose={closeModal} />
+
         </div>
 
         <InfoCard

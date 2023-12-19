@@ -210,7 +210,7 @@ const InviteTalent = ({
           )}
         </div>
         {activePreview === "Project Post" && (
-          <Card className=" flex border-0 absolute flex-col p-2 bg-white overflow-y-scroll h-[75vh] w-full max-w-[83%] right-0 top-0 mt-[130px] ">
+          <Card className=" flex border-0 absolute flex-col p-2 bg-white w-full max-w-[83%] right-0 top-0 mt-[130px] ">
             <TalentDetailsInfo handleProfilePopUp={handleProfilePopUp} />
           </Card>
         )}

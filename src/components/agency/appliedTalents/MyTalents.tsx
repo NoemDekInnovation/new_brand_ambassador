@@ -2,6 +2,7 @@ import { AppliedTalentGrid, TalentList } from "./talentView";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useState } from "react";
+import { TalentProps } from "../../../redux/types";
 
 const MyTalents = ({
   gridView,
@@ -40,7 +41,7 @@ const MyTalents = ({
         <div className="flex w-full justify-center ">
           <div className="flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap ">
             {/* {talents} */}
-            {resTalents?.map((_, idx: number) => {
+            {resTalents?.map((_: TalentProps, idx: number) => {
               return (
                 <AppliedTalentGrid
                   modal={projectModal}

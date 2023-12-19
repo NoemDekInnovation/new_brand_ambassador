@@ -1,7 +1,9 @@
 import { TalentGrid, TalentList } from "./talentView";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { useEffect, useState } from "react";
+import { TalentProps } from "../../../redux/types";
+import { fetchEngageTalents } from "../../../redux/engagetalent.slice";
 
 const Engaged = ({
   gridView,
@@ -28,9 +30,29 @@ const Engaged = ({
   setSuccessModal: any;
   successModal: any;
 }) => {
+
+  
   const { talents: resTalents } = useSelector(
-    (state: RootState) => state.talent
-  );
+    (state: RootState) => state.engagedtalent
+  ); 
+
+    const {talentEngaged }= useSelector(
+      (state: RootState) => state.engagedtalent
+    );
+
+
+
+
+
+  const dispatch = useDispatch<AppDispatch>();
+
+
+    useEffect(() => {
+      console.log("Dispatching fetchEngageTalents");
+      dispatch(fetchEngageTalents());
+    }, [dispatch]);
+
+  console.log("work", talentEngaged);
   const [projectModal, setProjectModal] = useState(false);
 
   return (
@@ -39,9 +61,10 @@ const Engaged = ({
         <div className="flex w-full justify-center ">
           <div className="flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap overflow-y-scroll h-[550px] w-full ">
             {/* {talents} */}
-            {resTalents?.map((_, idx: number) => {
+            {talentEngaged?.map((_: TalentProps, idx: number) => {
               return (
                 <TalentGrid
+                key={idx}
                   _={_}
                   modal={projectModal}
                   setModal={() => setProjectModal}
@@ -64,7 +87,7 @@ const Engaged = ({
       )}
       {!gridView && (
         <div className="flex flex-col w-full gap-3">
-          {resTalents?.map((_, idx: number) => {
+          {talentEngaged?.map((_: TalentProps, idx: number) => {
             return (
               <TalentList
                 talent={_}

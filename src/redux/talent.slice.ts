@@ -8,7 +8,7 @@ export interface TalentsProps {
   error: string | null;
   message: string;
   talents: TalentProps[];
-  agencyTalents: TalentProps[];
+  agencyTalents: any;
   talentData: any;
   agencyProfile: any;
 
@@ -99,14 +99,17 @@ export const fetchAgencyTalents = createAsyncThunk(
       if (user !== null) {
         const parsedUser = JSON.parse(user);
 
-        const response = await authAxiosInstance(`/agency-talent`, {
-          headers: {
-            Authorization: `Bearer ${parsedUser.authKey}`,
-          },
-        });
+        const response = await authAxiosInstance(
+          `/agency-talent`,
+          {
+            headers: {
+              Authorization: `Bearer ${parsedUser.authKey}`,
+            },
+          }
+        );
 
-        // console.log("checker", response.data);
-        return response.data.data;
+        console.log("checker", response?.data?.data?.talent);
+        return response?.data?.data?.talent;
       }
     } catch (error) {
       throw error;
