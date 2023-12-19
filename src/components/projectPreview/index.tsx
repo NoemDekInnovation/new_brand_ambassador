@@ -4,9 +4,10 @@ import InviteTalent from "./InviteTalent";
 import Application from "./Application";
 import Hire from "./Hire";
 import { TalentProps } from "../../redux/types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { campaignAuthAxiosInstance } from "../../api/axios";
+// import { fetchHire } from "../../redux/hire.slice";
 
 type ProjectDetailsProps = {
   activeType: "ProjectPreview" | "InviteTalent" | "Application" | "Contract";
@@ -39,6 +40,10 @@ export const ProjectViewCard = ({
   const user = useSelector((state: RootState) => state.user);
 
   const [talentLength, setTalentLength] = useState([]);
+  // useEffect(() => {
+  //   useDispatch(fetchProjectApplications(projectId: string));
+  //   // dispatch(filterApplications({ id: ProjectId, status: "shortlisted" }));
+  // }, []);
 
   useEffect(() => {
     const fetchHired = async () => {
