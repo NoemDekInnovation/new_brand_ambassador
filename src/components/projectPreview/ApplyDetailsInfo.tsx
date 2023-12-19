@@ -565,7 +565,7 @@ const ApplyDetailsInfo = ({
             </div>
           </div>
         </div>
-        <div className="flex w-full justify-end items-center text-[10px] font-normal">
+        <div className="flex w-full justify-end items-center text-[10px] font-normal ">
           1-{resTalents?.length} of {resTalents?.length}
           <BsChevronDoubleLeft className="mx-4" />
           <BsChevronLeft />

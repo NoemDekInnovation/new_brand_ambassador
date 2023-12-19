@@ -52,7 +52,8 @@ export const ProjectViewCard = ({
               },
             }
           );
-          setTalentLength(response?.data?.data?.hiredTalent);
+          // console.log(response.data.data);
+          setTalentLength(response.data.data.hiredTalent);
         } catch (error) {
           // console.error("Error while fetiching Notifications:", error);
           // Handle error appropriately (e.g., show a user-friendly message)
@@ -66,12 +67,17 @@ export const ProjectViewCard = ({
   const numberOfHired = talentLength?.length || 0;
   // console.log("me", talentLength);
 
+  const handleClose = () => {
+    setPopUp(false);
+    setSelectedComponent(1);
+  };
+
   return (
     <div>
       {selectedComponent === 1 && (
         <ProjectPreview
           popUp={popUp}
-          setPopUp={() => setPopUp(!popUp)}
+          setPopUp={() => handleClose()}
           select={setSelectedComponent}
           selectedProject={selectedProject}
           numberOfHired={numberOfHired}
@@ -80,7 +86,7 @@ export const ProjectViewCard = ({
       {selectedComponent === 2 && (
         <InviteTalent
           popUp={popUp}
-          setPopUp={() => setPopUp(!popUp)}
+          setPopUp={() => handleClose()}
           select={setSelectedComponent}
           selectedProject={selectedProject}
           numberOfHired={numberOfHired}
@@ -89,7 +95,7 @@ export const ProjectViewCard = ({
       {selectedComponent === 3 && (
         <Application
           popUp={popUp}
-          setPopUp={() => setPopUp(!popUp)}
+          setPopUp={() => handleClose()}
           select={setSelectedComponent}
           selectedProject={selectedProject}
           numberOfHired={numberOfHired}
@@ -100,7 +106,7 @@ export const ProjectViewCard = ({
       {selectedComponent === 4 && (
         <Hire
           popUp={popUp}
-          setPopUp={() => setPopUp(!popUp)}
+          setPopUp={() => handleClose()}
           select={setSelectedComponent}
           selectedProject={selectedProject}
           index={index}
