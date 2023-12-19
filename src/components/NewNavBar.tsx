@@ -239,12 +239,20 @@ export default function NewNavBar() {
                   {" "}
                   <div className="flex items-center space-x-2 ml-4 max-h-[40px]">
                     {user?.user?.companyLogo || user?.user?.profilePic ? (
-                      <img
-                        src={user?.user?.companyLogo || user?.user?.profilePic}
-                        width={40}
-                        height={40}
-                        alt=""
-                      />
+                      <div
+                        className="rounded-full overflow-hidden"
+                        style={{ width: "50px", height: "50px" }}
+                      >
+                        <img
+                          src={
+                            user?.user?.companyLogo || user?.user?.profilePic
+                          }
+                          width={40}
+                          height={40}
+                          alt=""
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                     ) : (
                       <BadgeAvatars />
                     )}

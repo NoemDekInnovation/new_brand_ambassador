@@ -38,11 +38,13 @@ const ProjectPreview = ({
   setPopUp,
   select,
   selectedProject,
+  numberOfHired,
 }: {
   select: any;
   popUp: boolean;
   setPopUp: any;
   selectedProject: any;
+  numberOfHired: number;
   // workDays: [];
 }) => {
   // const { talents: resTalents } = useSelector(
@@ -233,7 +235,10 @@ const ProjectPreview = ({
               >
                 <p className="absolute top-[25%] z-20 text-[16px]">
                   {" "}
-                  Hire<span className="text-[14px] font-bold">(0)</span>
+                  Hire
+                  <span className="text-[14px] font-bold">
+                    ({numberOfHired})
+                  </span>
                 </p>
                 <img
                   src={subtract2}
