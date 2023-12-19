@@ -53,6 +53,7 @@ import girl3 from "../../assets/Profile 1 1.png";
 import girl4 from "../../assets/Profile 2 1.png";
 import girl5 from "../../assets/Rectangle 11 (1).png";
 import { fetchProjectApplications } from "../../redux/projectApllication.slice";
+import { fetchpublishproject } from "../../redux/publishProject";
 
 const options: Intl.DateTimeFormatOptions = {
   // year: "numeric",
@@ -67,8 +68,8 @@ export function CurrentProjects({
   card_title: string;
   card_content: { isCurrent: boolean; content: number[] };
 }) {
-  const { activeProject } = useSelector(
-    (state: RootState) => state.activeProject
+  const { publishProject } = useSelector(
+    (state: RootState) => state.publishProject
   );
   const dispatch = useDispatch<AppDispatch>();
 
@@ -84,13 +85,20 @@ export function CurrentProjects({
   };
 
   useEffect(() => {
-    dispatch(fetchactiveproject());
+    dispatch(fetchpublishproject());
   }, [dispatch]);
 
-  const projects = activeProject.map((project, idx) => {
-    if (!Array.isArray(activeProject)) {
+  const projects = publishProject.map((project, idx) => {
+    if (!Array.isArray(publishProject)) {
       return <div>Loading...</div>;
     }
+
+    const truncateWords = (text: string, maxWords: number) => {
+      const words = text.split(" ");
+      const truncated = words.slice(0, maxWords).join(" ");
+
+      return truncated + (words.length > maxWords ? "..." : "");
+    };
 
     return (
       <>
@@ -105,7 +113,7 @@ export function CurrentProjects({
           </p>
           <p className="text-[10px] leading-4 font-normal capitalize">
             {/* This is the project description.. this is the project description */}
-            {project.projectDescription}
+            {truncateWords(project.projectDescription, 5)}
           </p>
           <Separator className="my-1" />
           <div className="">
@@ -162,7 +170,7 @@ export function CurrentProjects({
           </CardTitle>
         </CardHeader>
         <Separator className="my-2" />
-        <div className="max-w-[1200px] h-[168px]">
+        <div className="max-w-[1200px] h-[180px]">
           <Carousel
             additionalTransfrom={0}
             partialVisible={true}

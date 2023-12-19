@@ -42,7 +42,7 @@ const HomeTab = () => {
             card_content={avaibleProject}
             card_title="Leading Talent"
           />
-          {/* <ProjectCard card_content={avaibleProject} card_title="Favorites" /> */}
+          <ProjectCard card_content={avaibleProject} card_title="Favorites" />
         </div>
         <div className="space-y-8 hidden sm:block">
           <ListCard card_title="My Projects" card_width="w-full" />
