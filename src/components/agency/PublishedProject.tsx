@@ -67,7 +67,11 @@ const PublishedProject = () => {
           onClick={handleProfilePopUp}
         >
           <span className="absolute top-0 right-0 text-sm text-[#800000] pr-2 pt-2">
-            Closes on 25th Nov 2023
+            Closes on{" "}
+            {new Date(project.projectDuration?.endDate).toLocaleDateString(
+              "en-US",
+              options
+            )}
           </span>
           <CardContent className="p-0 space-y-1">
             <h3 className="font-medium text-[15px] capitalize">
@@ -85,14 +89,14 @@ const PublishedProject = () => {
               </div>
               <div className="text-[15px] p-0 px-2">|</div>
               <div className="text-[10px] font-medium">
-                300 Brands Ambassador Applications
+                0 Brands Ambassador Applications
                 {}
               </div>
               <div className="text-[16px] p-0 px-2">|</div>
               {/* <br className="block md:hidden" /> */}
 
               <div className="text-[10px] font-medium">
-                50 Supervisor Applications
+                0 Supervisor Applications
               </div>
             </div>
           </CardContent>
