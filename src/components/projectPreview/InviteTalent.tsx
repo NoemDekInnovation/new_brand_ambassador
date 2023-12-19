@@ -25,22 +25,24 @@ const InviteTalent = ({
   setPopUp,
   select,
   selectedProject,
+  numberOfHired,
 }: {
   select: any;
   popUp: boolean;
   setPopUp: any;
   selectedProject: any;
+  numberOfHired: number;
 }) => {
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
   const [activePreview, setActivePreview] = useState("Project Post");
 
-    const { talents: resTalents } = useSelector(
-      (state: RootState) => state.talent
-    );
+  const { talents: resTalents } = useSelector(
+    (state: RootState) => state.talent
+  );
 
-            const { applications } = useSelector(
-              (state: RootState) => state?.applications
-            );
+  const { applications } = useSelector(
+    (state: RootState) => state?.applications
+  );
 
   const handleProfilePopUp = (talent: any) => {
     // console.log(talent);
@@ -193,7 +195,10 @@ const InviteTalent = ({
               >
                 <p className="absolute top-[25%] z-20 text-[16px]">
                   {" "}
-                  Hire<span className="text-[14px] font-bold">(0)</span>
+                  Hire
+                  <span className="text-[14px] font-bold">
+                    ({numberOfHired})
+                  </span>
                 </p>
                 <img
                   src={subtract2}

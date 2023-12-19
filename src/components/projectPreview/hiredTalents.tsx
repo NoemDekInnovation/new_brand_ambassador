@@ -119,7 +119,6 @@ const HireTalents = ({
               },
             }
           );
-          console.log("see", response?.data?.data?.hiredTalent[0]?.talent);
           setTalent(response?.data?.data?.hiredTalent[0]?.talent);
         } catch (error) {
           // console.error("Error while fetiching Notifications:", error);
