@@ -45,7 +45,7 @@ export const fetchApplications = createAsyncThunk(
             },
           }
         );
-
+        console.log("ahhh", response.data);
         return response.data;
       }
     } catch (error) {

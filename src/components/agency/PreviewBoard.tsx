@@ -163,9 +163,9 @@ export default function PreviewBoard() {
         <Separator className="bg-bm__beige my-4" />
         <div className="flex justify-between">
           <Dialog>
-            <DialogTrigger className="light__btn max-w-[150px]">
+            {/* <DialogTrigger className="light__btn max-w-[150px]">
               Close
-            </DialogTrigger>
+            </DialogTrigger> */}
 
             <DialogContent className="w-full max-w-[360px] p-2 md:p-6 shadow-md bg-white">
               <DialogHeader className="p-0">
@@ -194,7 +194,7 @@ export default function PreviewBoard() {
               </div>
             </DialogContent>
           </Dialog>
-          <Button className="dark__btn max-w-[150px]">Save</Button>
+          {/* <Button className="dark__btn max-w-[150px]">Save</Button> */}
         </div>
       </div>
           
