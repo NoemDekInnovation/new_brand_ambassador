@@ -53,6 +53,7 @@ import group from "../../../assets/Group.png";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { TalentsProps } from "../../../redux/talent.slice";
 
+
 export const TalentList = ({
   talent,
   index,
@@ -344,6 +345,7 @@ export const TalentGrid = ({
           </div>
           <div className="absolute top-1 rounded-l-md right-0  z-50 bg-white flex  justify-between items-center    w-[54px] h-[30px] px-2">
             <AiOutlineHeart />
+            {/* <HeartIcon talentId={setSelectedTalentID(_._id)} /> */}
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <AiOutlineMore />
