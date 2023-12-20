@@ -59,7 +59,8 @@ const Hire = ({
   const { applications } = useSelector(
     (state: RootState) => state?.applications
   );
-  console.log("come", numberOfHired);
+
+  const { hiredTalent } = useSelector((state: RootState) => state?.hire);
   return (
     <div
       className={`fixed z-[1000] bg-black/50  w-[100%] items-center justify-end flex flex-col transition-all duration-1000 inset-0 ${
@@ -205,7 +206,7 @@ const Hire = ({
                   {" "}
                   Hire
                   <span className="text-[14px] font-bold">
-                    ({numberOfHired})
+                    ({hiredTalent.length})
                   </span>
                 </p>
                 <img

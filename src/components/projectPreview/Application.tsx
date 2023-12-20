@@ -50,7 +50,6 @@ const Application = ({
   useEffect(() => {
     dispatch(fetchProjectApplications(selectedProject._id));
   }, []);
-  console.log();
 
   const { talents: resTalents } = useSelector(
     (state: RootState) => state.talent
@@ -59,6 +58,7 @@ const Application = ({
   const { applications } = useSelector(
     (state: RootState) => state?.applications
   );
+  const { hiredTalent } = useSelector((state: RootState) => state?.hire);
 
   return (
     <div
@@ -207,7 +207,7 @@ const Application = ({
                   {" "}
                   Hire
                   <span className="text-[14px] font-bold">
-                    ({numberOfHired})
+                    ({hiredTalent.length})
                   </span>
                 </p>
                 <img
