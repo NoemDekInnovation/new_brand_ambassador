@@ -58,6 +58,7 @@ import { Label } from "../../ui/label";
 import { Checkbox } from "../../ui/checkbox";
 import {
   fetchApplications,
+  filterApplications,
   // filterApplications,
   setApproval,
 } from "../../redux/applicantions.slice";
@@ -132,7 +133,12 @@ const ApplyDetailsInfo = ({
   const { talents: resTalents } = useSelector(
     (state: RootState) => state.talent
   );
-  console.log(resTalents);
+
+  const { applications } = useSelector(
+    (state: RootState) => state?.applications
+  );
+
+  console.log(applications?.data);
 
   const { projectApplications: applied } = useSelector(
     (state: RootState) => state.projectApplication
@@ -428,13 +434,16 @@ const ApplyDetailsInfo = ({
               } px-4 gap-2 transistion-all duration-1000`}
               onClick={() => {
                 dispatch(
-                  fetchApplications({ id: ProjectId, status: "shortlisted" })
+                  filterApplications({ id: ProjectId, status: "shortlisted" })
                 );
                 setAppStatus("shortlisted");
               }}
             >
               Shortlisted
-              <span className="text-[16px] font-semibold text-black">(0)</span>
+              <span className="text-[16px] font-semibold text-black">
+                {" "}
+                ({applications?.data?.totalShortlists})
+              </span>
             </button>
             <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
             <button
@@ -443,13 +452,16 @@ const ApplyDetailsInfo = ({
               } px-4 gap-2 transistion-all duration-1000`}
               onClick={() => {
                 dispatch(
-                  fetchApplications({ id: ProjectId, status: "approvedHire" })
+                  filterApplications({ id: ProjectId, status: "approvedHire" })
                 );
                 setAppStatus("approvedHire");
               }}
             >
               Approved Hire
-              <span className="text-[16px] font-semibold text-black">(0)</span>
+              <span className="text-[16px] font-semibold text-black">
+                {" "}
+                ({applications?.data?.totalApprovedHires})
+              </span>
             </button>
             <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
             <button
@@ -458,29 +470,18 @@ const ApplyDetailsInfo = ({
               } px-4 gap-2 transistion-all duration-1000`}
               onClick={() => {
                 dispatch(
-                  fetchApplications({ id: ProjectId, status: "rejected" })
+                  filterApplications({ id: ProjectId, status: "rejected" })
                 );
                 setAppStatus("rejected");
               }}
             >
               Rejected
-              <span className="text-[16px] font-semibold text-black">(0)</span>
+              <span className="text-[16px] font-semibold text-black">
+                ({applications?.data?.totalRejected})
+              </span>
             </button>
           </div>
         </div>
-        {/* <div className="relative h-full">
-          <SelectOption
-            className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
-            placeholder="Select Category "
-            id="projectCategory"
-            name="projectCategory"
-            onChange={(e: any) => onTalentTypeChnage(e.value)}
-            required
-            options={appOptions}
-            defaultValue={activeType}
-            isDisabled={false}
-          />
-        </div> */}
       </div>
 
       {/* <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0"> */}
