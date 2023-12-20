@@ -5,8 +5,10 @@ import Application from "./Application";
 import Hire from "./Hire";
 import { TalentProps } from "../../redux/types";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { AppDispatch, RootState } from "../../redux/store";
 import { campaignAuthAxiosInstance } from "../../api/axios";
+import { fetchApplications } from "../../redux/applicantions.slice";
+import { fetchHiredTalent } from "../../redux/hire.slice";
 // import { fetchHire } from "../../redux/hire.slice";
 
 type ProjectDetailsProps = {
@@ -38,6 +40,7 @@ export const ProjectViewCard = ({
   const Id = selectedProject?._id;
   // console.log(`id: ${id}`);
   const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch<AppDispatch>();
 
   const [talentLength, setTalentLength] = useState([]);
   // useEffect(() => {
@@ -76,6 +79,11 @@ export const ProjectViewCard = ({
     setPopUp(false);
     setSelectedComponent(1);
   };
+
+  useEffect(() => {
+    dispatch(fetchApplications({ id: selectedProject?._id }));
+    dispatch(fetchHiredTalent({ id: selectedProject?._id }));
+  }, [popUp]);
 
   return (
     <div>
