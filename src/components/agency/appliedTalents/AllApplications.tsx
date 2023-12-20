@@ -62,43 +62,60 @@ const AllApplications = ({
     (state: RootState) => state.talent
   );
 
-  const { applications } = useSelector(
-    (state: RootState) => state?.applications 
-  ); 
+  const { applications, applicationsQuery } = useSelector(
+    (state: RootState) => state?.applications
+  );
 
-  
+  console.log(applications);
 
   const [popUp, setPopUp] = useState(false);
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
   const [talentData, setTalentData] = useState<any>([]);
+  const [talentDataType, setTalentDataType] = useState<any>([]);
 
   useEffect(() => {
     // console.log(applications);
+    if (appStatus === "All") {
+      if (applications !== null && applications?.length !== 0) {
+        if (applications?.shortlists && applications?.shortlists?.length >= 0) {
+          const app =
+            applications?.shortlists?.map((talent: any) => {
+              return talent?.talent;
+            }) || [];
+          return setTalentData(app);
+        }
 
-    if (applications !== null && applications?.length !== 0) {
-      console.log(
-        "zEEK IS blue",
-        applications?.data?.projectApplications.map((talent: any) => {
-          return talent?.talent;
-        })
-      );
-
-      if (applications?.shortlists && applications?.shortlists?.length >= 0) {
-        const app =
-          applications?.shortlists?.map((talent: any) => {
+        const apps = applications?.data?.projectApplications || [];
+        return setTalentData(
+          apps.map((talent: any) => {
             return talent?.talent;
-          }) || [];
-        return setTalentData(app);
+          })
+        );
       }
-
-      const apps = applications?.data?.projectApplications || [];
-      return setTalentData(
-        apps.map((talent: any) => {
-          return talent?.talent;
-        })
-      );
     }
-  }, [applications]);
+
+    if (appStatus !== "All") {
+      if (applicationsQuery !== null && applicationsQuery?.length !== 0) {
+        if (
+          applicationsQuery?.shortlists &&
+          applicationsQuery?.shortlists?.length >= 0
+        ) {
+          const app =
+            applicationsQuery?.shortlists?.map((talent: any) => {
+              return talent?.talent;
+            }) || [];
+          return setTalentData(app);
+        }
+
+        const apps = applications?.data?.projectApplications || [];
+        return setTalentData(
+          apps.map((talent: any) => {
+            return talent?.talent;
+          })
+        );
+      }
+    }
+  }, [applications, applicationsQuery]);
 
   console.log(talentData, "gab");
 
@@ -130,7 +147,7 @@ const AllApplications = ({
                   projects={projects}
                   setSelectedTalent={setSelectedTalent}
                   handleProfilePopUp={handleProfilePopUp}
-                  selectedTalent={selectedTalent} 
+                  selectedTalent={selectedTalent}
                   setSelectedTalentID={setSelectedTalentID}
                   selectedProject={selectedProject}
                   setSuccessModal={setSuccessModal}

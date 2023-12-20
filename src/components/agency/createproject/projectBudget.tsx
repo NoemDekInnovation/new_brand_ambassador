@@ -226,14 +226,14 @@ export default function ProjectBudget({
                         </Label>
                       </div>
                     </RadioGroup>
-                    <div className="pt-2">
+                    <div className="pt-8">
                       <div className="">
                         <div className="relative z-0 w-full mb-6 group">
                           <input
                             type="salary"
                             id="salary"
                             name="salary"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 peer "
                             placeholder=" "
                             value={requiredTalents[index].salary || ""}
                             onChange={(e) => handleInputChange(e, index)}
@@ -249,7 +249,7 @@ export default function ProjectBudget({
                             htmlFor="salary"
                             className="absolute text-sm text-gray-500 dark:text-gray-400 transform -translate-y-6 top-3 left-2 bg-white px-1 peer-focus:font-medium duration-300 scale-75 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                           >
-                            {/* &#x20A6; */}
+                            {/* &#x20A6; */}Amount
                           </label>
                         </div>
                       </div>
