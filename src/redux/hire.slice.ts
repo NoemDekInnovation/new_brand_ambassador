@@ -19,14 +19,14 @@ export interface ProjectApplication {
 // const initialState = {
 //   loading: false,
 //   error: null as string | null,
-//   projectApplications: [], // Updated property name based on the provided response structure
+//   hiredTalent: [], // Updated property name based on the provided response structure
 //   failedImport: [],
 //   successfulImport: [],
 // };
 interface ProjectApplicationsState {
   loading: boolean;
   error: string | null;
-  projectApplications: ProjectApplication[];
+  hiredTalent: ProjectApplication[];
   failedImport: { data: any; message: string }[]; // Adjust based on your actual type
   successfulImport: any[]; // Adjust based on your actual type
 }
@@ -34,36 +34,36 @@ interface ProjectApplicationsState {
 const initialState: ProjectApplicationsState = {
   loading: false,
   error: null,
-  projectApplications: [],
+  hiredTalent: [],
   failedImport: [],
   successfulImport: [],
 };
 
 interface FetchProjectApplicationsResponse {
   data: {
-    projectApplications: ProjectApplication[]; // Adjust based on your actual response structure
+    hiredTalent: ProjectApplication[]; // Adjust based on your actual response structure
   };
 }
 
-export const fetchProjectApplications = createAsyncThunk(
-  "projectApplications/fetchProjectApplications",
-  async (projectId: string) => {
+export const fetchHiredTalent = createAsyncThunk(
+  "hiredTalent/fetchHiredTalent",
+  async ({ id }: { id: string }) => {
     const user = localStorage.getItem("userData");
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
-        const response = await authAxiosInstance.get(
-          `/hired-talent/${projectId}`,
+        const response = await campaignAuthAxiosInstance(
+          `/hired-talent/${id}`,
           {
             headers: {
               Authorization: `Bearer ${parsedUser.authKey}`,
             },
           }
         );
-        // console.log("my", response);
-        return response.data.data.projectApplications;
-        console.log("my", response.data.data);
+        console.log("my", response);
         return response.data.data;
+
+        // return response.data.data;
       }
     } catch (error) {
       throw error;
@@ -71,12 +71,12 @@ export const fetchProjectApplications = createAsyncThunk(
   }
 );
 
-const projectApplications = createSlice({
-  name: "projectapplications",
+const hiredTalent = createSlice({
+  name: "hiredTalent",
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.projectApplications = action.payload;
+      state.hiredTalent = action.payload;
     },
     setFailedImport: (state, action) => {
       state.failedImport = action.payload;
@@ -87,23 +87,23 @@ const projectApplications = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProjectApplications.pending, (state) => {
+      .addCase(fetchHiredTalent.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(
-        fetchProjectApplications.fulfilled,
+        fetchHiredTalent.fulfilled,
         (state, action: PayloadAction<any>) => {
           state.loading = false;
           state.error = null;
-          state.projectApplications = action.payload.projectApplications; // Updated property name
+          state.hiredTalent = action.payload.hiredTalent; // Updated property name
         }
       )
-      .addCase(fetchProjectApplications.rejected, (state, action) => {
+      .addCase(fetchHiredTalent.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "An error occurred";
       });
   },
 });
 
-export default projectApplications.reducer;
+export default hiredTalent.reducer;
