@@ -250,6 +250,7 @@ export default function CompanyDetails({
           </div>
           <CardContent className="border rounded-xl  p-8 flex-1 flex flex-col  mt-3 ">
             <div className="pb-8">
+              <small className="text-gray-500">Attach your company logo</small>
               <label htmlFor="picture" className="cursor-pointer">
                 <Input
                   id="picture"
@@ -474,36 +475,7 @@ export default function CompanyDetails({
                 Website
               </label>
             </div>
-            <div className="relative z-0 w-full mb-6 group">
-              {/* <input
-                type="text"
-                name="floating_last_name"
-                id="floating_last_name"
-                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                // value={formData.projectDuration.endDate}
-                // onChange={handleInputChange}
-                value={companyProfile.officePhone}
-                onChange={handleInputChange}
-                required
-              /> */}
-              <PhoneInput
-                placeholder="Enter phone number"
-                // value={companyProfile.officePhone}
-                value={String(companyProfile?.officePhone) || ""}
-                onChange={handlePhoneChange}
-                defaultCountry="NG"
-                international
-                countryCallingCodeEditable={false}
-                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer input-phone-number"
-              />
-              <label
-                htmlFor="floating_last_name"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Phone Number
-              </label>
-            </div>
+
             <div className="grid md:grid-cols-5 md:gap-6 mt-4">
               <div className="relative md:col-span-4  z-0 w-full mb-6 group">
                 <input
@@ -526,19 +498,31 @@ export default function CompanyDetails({
                 </label>
               </div>
 
-              <div className="relative md:col-span-1  w-full mb-6 group">
-                {/* <input
-                  type="text"
-                  name="address.city"
-                  id="floating_first_name"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
-                  // value={formData.projectDuration.endDate}
-                  // onChange={handleInputChange}
-                  value={companyProfile.address[0].city}
-                  onChange={handleInputChange}
+              <div className="relative  md:col-span-1  w-full mb-6 group">
+                <SelectOption
+                  id="origin"
+                  name="origin"
+                  defaultValue={{
+                    value: agencyProfile?.address[0]?.state,
+                    label: agencyProfile?.address[0]?.state,
+                  }}
+                  options={originOptions}
+                  onChange={(e: any) => setSelectedOrigin(e?.value)}
+                  placeholder="State of origin"
                   required
-                /> */}
+                  isDisabled={false}
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
+                />
+                <label
+                  htmlFor="floating_first_name"
+                  className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 top-2 left-2 -z-1 origin-[0] peer-focus:font-medium  transform -translate-y-6 scale-75 peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  State
+                </label>
+              </div>
+            </div>
+            <div className="grid md:grid-cols-5 md:gap-6">
+              <div className="relative md:col-span-1  w-full mb-6 group">
                 <SelectOption
                   id="city"
                   name="city"
@@ -560,8 +544,6 @@ export default function CompanyDetails({
                   City
                 </label>
               </div>
-            </div>
-            <div className="grid md:grid-cols-5 md:gap-6">
               <div className="relative md:col-span-1  z-0 w-full mb-6 group">
                 <input
                   type="text"
@@ -580,29 +562,6 @@ export default function CompanyDetails({
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   LGA
-                </label>
-              </div>
-
-              <div className="relative  md:col-span-2  w-full mb-6 group">
-                <SelectOption
-                  id="origin"
-                  name="origin"
-                  defaultValue={{
-                    value: agencyProfile?.address[0]?.state,
-                    label: agencyProfile?.address[0]?.state,
-                  }}
-                  options={originOptions}
-                  onChange={(e: any) => setSelectedOrigin(e?.value)}
-                  placeholder="State of origin"
-                  required
-                  isDisabled={false}
-                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
-                />
-                <label
-                  htmlFor="floating_first_name"
-                  className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 top-2 left-2 -z-1 origin-[0] peer-focus:font-medium  transform -translate-y-6 scale-75 peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  State
                 </label>
               </div>
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">

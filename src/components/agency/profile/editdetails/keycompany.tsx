@@ -49,12 +49,17 @@ export default function KeyCompany({
     firstName: "",
     lastName: "",
     phone: "",
+    alternatePhone: "",
     profilePic: null as File | null,
     // profilePic: null as File | null,
   });
   const [inputError, setInputError] = useState<string | null>(null);
   const [phn, setPhn]: [E164Number, Dispatch<SetStateAction<E164Number>>] =
     useState("");
+  const [altPhn, setAltPhn]: [
+    E164Number,
+    Dispatch<SetStateAction<E164Number>>
+  ] = useState("");
   const [inVw, setInVw] = useState(false);
 
   const { toast } = useToast();
@@ -66,13 +71,19 @@ export default function KeyCompany({
         lastName: agencyProfile.lastName || "",
         phone: agencyProfile.phone || "",
         profilePic: agencyProfile.profilePic,
+        alternatePhone: agencyProfile.alternatePhone || "",
       });
-      setPhn(agencyProfile.phone || ""); // Set phone state separately if needed
+      setPhn(agencyProfile.phone || "");
+      setAltPhn(agencyProfile.alternatePhone || ""); // Set phone state separately if needed
     }
   }, [agencyProfile]);
 
   const handlePhoneChange = (value: string) => {
     setPhn(value);
+  };
+
+  const handleAltPhoneChange = (value: string) => {
+    setAltPhn(value);
   };
 
   const handleEditSubmit = async () => {
@@ -81,6 +92,7 @@ export default function KeyCompany({
     profileData.append("firstName", editData.firstName);
     profileData.append("lastName", editData.lastName);
     profileData.append("phone", phn || editData.phone);
+    profileData.append("alternatePhone", altPhn || editData.alternatePhone);
     // profileData.append("profilePic", editData.profilePic);
     if (editData.profilePic !== null) {
       if (typeof editData.profilePic !== "string") {
@@ -266,21 +278,6 @@ export default function KeyCompany({
                 First name
               </label>
             </div>
-            {/* <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                name="middleName"
-                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label
-                htmlFor="floating_middle_name"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Middle Name
-              </label>
-            </div> */}
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
@@ -325,18 +322,6 @@ export default function KeyCompany({
               </label>
             </div>
             <div className="relative z-0 w-full mb-6 group">
-              {/* <input
-                type="text"
-                name="phone"
-                id="floating_last_name"
-                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                // value={formData.projectDuration.endDate}
-                // onChange={handleInputChange}
-                value={editData.phone}
-                onChange={handleInputChange}
-                required
-              /> */}
               <PhoneInput
                 placeholder="Enter phone number"
                 value={editData.phone}
@@ -351,6 +336,24 @@ export default function KeyCompany({
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Phone Number
+              </label>
+            </div>
+            <div className="relative z-0 w-full mb-6 group">
+              <PhoneInput
+                placeholder="Enter phone number"
+                // value={companyProfile.officePhone}
+                value={editData?.alternatePhone}
+                onChange={handleAltPhoneChange}
+                defaultCountry="NG"
+                international
+                countryCallingCodeEditable={false}
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer input-phone-number"
+              />
+              <label
+                htmlFor="floating_last_name"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Alternate Phone Number
               </label>
             </div>
           </CardContent>
@@ -368,7 +371,6 @@ export default function KeyCompany({
                   setTimeout(() => {
                     toast({
                       description: "Changes Saved",
-
                     });
                     navigate("/profile");
                   }, 2000);

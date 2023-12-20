@@ -74,7 +74,6 @@ export default function TalentRequirement({
       const selectedFile = Array.from(files);
       setDocument(selectedFile[0]);
     }
-    checkFormValidity();
   };
 
   const handleDivClick = () => {
@@ -93,7 +92,6 @@ export default function TalentRequirement({
         setProposal(inputValue);
       }
     }
-    checkFormValidity();
   };
 
   const [isFormValid, setIsFormValid] = useState(false);
@@ -180,11 +178,7 @@ export default function TalentRequirement({
             </Button>
           </div>
           <div className="flex flex-col md:flex-row md:whitespace-nowrap md:gap-8">
-            <Button
-              className="dark__btn"
-              onClick={next}
-              disabled={!isFormValid}
-            >
+            <Button className="dark__btn" onClick={next}>
               Review Project Post
             </Button>
           </div>

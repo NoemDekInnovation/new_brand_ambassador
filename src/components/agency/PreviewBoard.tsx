@@ -90,7 +90,7 @@ export default function PreviewBoard() {
             </Table>
           </div>
         </div>
-        <div className="mt-5: md:mt-10">
+        <div className="mt-5: md:mt-10 ">
           <div className="flex justify-between w-full">
             <p>Failed Uploads</p>
             <p>{failedImport?.length || 0} Failed Uploads</p>
