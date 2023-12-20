@@ -20,10 +20,9 @@ const AgencyProfile = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const { agencyProfile } = useSelector((state: RootState) => state.talent);
 
-      const dispatch = useDispatch<AppDispatch>(); 
+  const dispatch = useDispatch<AppDispatch>();
 
   // console.log("agencyProfile",agencyProfile);
-
 
   const [profileData, setProfileData] = useState({
     firstName: "",
@@ -48,8 +47,6 @@ const AgencyProfile = () => {
     ],
   });
 
-  
-
   useEffect(() => {
     // const updateProfile = async () => {
     //   if (user?.accountId !== undefined) {
@@ -68,7 +65,7 @@ const AgencyProfile = () => {
     //   }
     // };
     // updateProfile();
-    dispatch(fetchAgencyProfile())
+    dispatch(fetchAgencyProfile());
   }, []);
 
   return (
@@ -138,11 +135,11 @@ const AgencyProfile = () => {
                           <RiEdit2Fill className="cursor-pointer" />
                         </div>
                         <Separator className="bg-bm__gler/50" />
-                        <div className="h-[150px] w-[120px] rounded-md">
+                        <div className="h-[170px] w-[120px] rounded-md">
                           <img src={agencyProfile.profilePic} alt="img" />
                         </div>
                         <div className="text-[12px] font-normal gap-2 flex flex-col">
-                          <div className="pt-20 flex items-center">
+                          <div className="pt-5 flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               First Name:
                             </p>
@@ -159,23 +156,18 @@ const AgencyProfile = () => {
                               {agencyProfile.lastName}
                             </p>
                           </div>
-                          {/* <div className="flex items-center">
-                            <p className="w-[120px] text-[12px] font-semibold">
-                              Middle Name:
-                            </p>
-                            <p className=""></p>
-                          </div> */}
-                          {/* <div className="flex items-center">
-                            <p className="w-[120px] text-[12px] font-semibold">
-                              Email Address:
-                            </p>
-                            <p className="">{agencyProfile.email}</p>
-                          </div> */}
+
                           <div className="flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               Phone Number:
                             </p>
                             <p className="">{agencyProfile.phone}</p>
+                          </div>
+                          <div className="flex items-center">
+                            <p className="w-[120px] text-[12px] font-semibold">
+                              Alt Phone Number:
+                            </p>
+                            <p className="">{agencyProfile.alternatePhone}</p>
                           </div>
                         </div>
                       </Card>
@@ -193,7 +185,7 @@ const AgencyProfile = () => {
                           <RiEdit2Fill />
                         </div>
                         <Separator className="bg-bm__gler/50" />
-                        <div className="h-[150px] w-[120px] rounded-md">
+                        <div className="h-[170px] w-[120px] rounded-md">
                           <img src={agencyProfile.companyLogo} alt="img" />
                         </div>
                         <div className="text-[12px] font-normal gap-2 flex flex-col">
@@ -205,7 +197,7 @@ const AgencyProfile = () => {
                               <p className="">{agencyProfile.agencyName}</p>
                             </div>
                             <div className="flex items-center">
-                              <p className="w-[120px] text-[12px] font-semibold">
+                              <p className="w-[120px] text-[12px] font-semibold capitalize">
                                 Agency Type:
                               </p>
                               <p className="">{agencyProfile.agencyType}</p>
@@ -218,7 +210,7 @@ const AgencyProfile = () => {
                             </div>
                             <div className="flex items-center">
                               <p className="w-[120px] text-[12px] font-semibold">
-                                Phone Number:
+                                Office Number:
                               </p>
                               <p className="">{agencyProfile.officePhone}</p>
                             </div>
@@ -233,21 +225,14 @@ const AgencyProfile = () => {
                             <p className="w-[120px] text-[12px] font-semibold">
                               Office Address 1:
                             </p>
-                            {/* <p className="">
-                              {agencyProfile?.address[0]?.street}, <br />
-                              {agencyProfile?.address[0]?.city}, <br />
-                              {agencyProfile?.address[0]?.LGA}, <br />
-                              {agencyProfile?.address[0]?.state} <br />
-                              {agencyProfile?.address[0]?.zipCode}
-                            </p> */}
                             <p className=" capitalize">
                               {agencyProfile &&
                                 agencyProfile.address &&
                                 agencyProfile.address[0] && (
                                   <>
-                                    {agencyProfile?.address[0]?.street}, <br />
+                                    {agencyProfile?.address[0]?.street},
                                     {agencyProfile?.address[0]?.city}, <br />
-                                    {agencyProfile?.address[0]?.LGA}, <br />
+                                    {agencyProfile?.address[0]?.LGA},
                                     {agencyProfile?.address[0]?.state} <br />
                                     {agencyProfile?.address[0]?.zipCode}
                                   </>
