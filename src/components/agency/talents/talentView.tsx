@@ -327,7 +327,7 @@ export const TalentGrid = ({
     return truncated + (words.length > maxWords ? "..." : "");
   };
 
-  const cityState = `${_.address?.city} ${_.address?.state}`;
+  const cityState = `${_?.address?.city} ${_?.address?.state}`;
   const truncatedCityState = truncateWords(cityState, 3);
 
   return (

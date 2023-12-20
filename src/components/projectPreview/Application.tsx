@@ -50,6 +50,7 @@ const Application = ({
   useEffect(() => {
     dispatch(fetchProjectApplications(selectedProject._id));
   }, []);
+  console.log();
 
   const { talents: resTalents } = useSelector(
     (state: RootState) => state.talent

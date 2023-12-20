@@ -8,6 +8,7 @@ export interface ApplicationsProps {
   approvalStatus: string;
   applications: any;
   status: "shortlisted" | "rejected" | "hired" | "All";
+  applicationsQuery: any;
 }
 
 const initialState: ApplicationsProps = {
@@ -15,6 +16,7 @@ const initialState: ApplicationsProps = {
   error: "",
   approvalStatus: "",
   applications: [],
+  applicationsQuery: [],
   status: "All",
 };
 
@@ -54,30 +56,30 @@ export const fetchApplications = createAsyncThunk(
   }
 );
 
-// export const filterApplications = createAsyncThunk(
-//   "talents/Applications",
-//   async ({ id, status }: { id: string; status: string }) => {
-//     const user = localStorage.getItem("userData");
-//     try {
-//       if (user !== null) {
-//         const parsedUser = JSON.parse(user);
-//         const response = await campaignAuthAxiosInstance(
-//           `/shortlist-filter?project=${id}&status=${status}`,
-//           {
-//             headers: {
-//               Authorization: `Bearer ${parsedUser.authKey}`,
-//             },
-//           }
-//         );
-//         console.log(response);
-
-//         return response.data;
-//       }
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
-// );
+export const filterApplications = createAsyncThunk(
+  "talents/filterApplications",
+  async ({ id, status }: { id: string; status?: string }) => {
+    const user = localStorage.getItem("userData");
+    try {
+      if (user !== null) {
+        const parsedUser = JSON.parse(user);
+        if (status !== undefined && status !== null) {
+          const response = await campaignAuthAxiosInstance(
+            `/shortlist-filter?project=${id}&status=${status}`,
+            {
+              headers: {
+                Authorization: `Bearer ${parsedUser.authKey}`,
+              },
+            }
+          );
+          return response.data.data;
+        }
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 
 const Applications = createSlice({
   name: "talents",
@@ -105,6 +107,22 @@ const Applications = createSlice({
         }
       )
       .addCase(fetchApplications.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failde to fetch publish project";
+      })
+      .addCase(filterApplications.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        filterApplications.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.error = null;
+          state.applicationsQuery = action.payload;
+        }
+      )
+      .addCase(filterApplications.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failde to fetch publish project";
       });

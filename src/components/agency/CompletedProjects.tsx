@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { fetchcompleteproject } from "../../redux/completeProject";
 
-
 const CompletedProjects = () => {
   const { completeProject } = useSelector(
     (state: RootState) => state.completeProject
@@ -19,7 +18,6 @@ const CompletedProjects = () => {
     return <div>Loading...</div>;
   }
 
-
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "long",
@@ -30,17 +28,19 @@ const CompletedProjects = () => {
     return workingDays?.join(", ") || "";
   };
 
-
   const talents = completeProject.map((project, idx) => {
     const formattedLocation = Array.isArray(project.projectLocation)
       ? project.projectLocation.join(", ")
       : "";
-   
 
     return (
       <Card className="p-4 relative hover:bg-black/10 cursor-pointer" key={idx}>
         <span className="absolute top-0 right-0 text-sm  pr-2 pt-2">
-          Completed on 25th Nov 2023
+          Completed on{" "}
+          {new Date(project.projectDuration.endDate).toLocaleDateString(
+            "en-US",
+            options
+          )}
         </span>
         <CardContent className="p-0 space-y-1">
           <h3 className="font-medium text-[15px] capitalize">
@@ -58,13 +58,13 @@ const CompletedProjects = () => {
             </div>
             <div className="text-[15px] p-0 px-2">|</div>
             <div className="text-[10px] font-medium">
-              300 Brands Ambassador Applications
+              0 Brands Ambassador Applications
             </div>
             <div className="text-[16px] p-0 px-2">|</div>
             {/* <br className="block md:hidden" /> */}
 
             <div className="text-[10px] font-medium">
-              50 Supervisor Applications
+              0 Supervisor Applications
             </div>
           </div>
         </CardContent>
