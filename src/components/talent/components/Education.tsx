@@ -78,16 +78,30 @@ export default function Education({
     ]);
   };
 
+  // const InputChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>,
+  //   index: number
+  // ) => {
+  //   const { name, value } = e.target;
+
+  //   const updatedEducation = [...education];
+  //   updatedEducation[index][name] = value;
+  //   setEducation(updatedEducation);
+  // };
   const InputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
     const { name, value } = e.target;
 
-    const updatedEducation = [...education];
-    updatedEducation[index][name] = value;
+    // Create a deep copy of the education array
+    const updatedEducation = education.map((edu, i) =>
+      i === index ? { ...edu, [name]: value } : edu
+    );
+
     setEducation(updatedEducation);
   };
+
 
   // const handleEduInputChange = (
   //   e: React.ChangeEvent<HTMLSelectElement>,
