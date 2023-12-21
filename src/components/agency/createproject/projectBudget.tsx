@@ -18,24 +18,24 @@ export interface DayObject {
 }
 
 export const daysOfWeek: DayObject[] = [
-  { value: "Sun", label: "S" },
-  { value: "Mon", label: "M" },
-  { value: "Tue", label: "T" },
-  { value: "Wed", label: "W" },
-  { value: "Thur", label: "T" },
-  { value: "Fri", label: "F" },
-  { value: "Sat", label: "S" },
+  { value: "sun", label: "S" },
+  { value: "mon", label: "M" },
+  { value: "tue", label: "T" },
+  { value: "wed", label: "W" },
+  { value: "thur", label: "T" },
+  { value: "fri", label: "F" },
+  { value: "sat", label: "S" },
 ];
 
-export const daysOfWeekx: DayObject[] = [
-  { value: "sundays", label: "S" },
-  { value: "mondays", label: "M" },
-  { value: "tuesdays", label: "T" },
-  { value: "wednesdays", label: "W" },
-  { value: "thursdays", label: "T" },
-  { value: "fridays", label: "F" },
-  { value: "saturdays", label: "S" },
-];
+// export const daysOfWeekx: DayObject[] = [
+//   { value: "sundays", label: "S" },
+//   { value: "mondays", label: "M" },
+//   { value: "tuesdays", label: "T" },
+//   { value: "wednesdays", label: "W" },
+//   { value: "thursdays", label: "T" },
+//   { value: "fridays", label: "F" },
+//   { value: "saturdays", label: "S" },
+// ];
 
 export default function ProjectBudget({
   next,

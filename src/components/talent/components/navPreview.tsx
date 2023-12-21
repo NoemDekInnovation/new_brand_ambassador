@@ -6,7 +6,7 @@ import ItemCard from "./ItemCard";
 import { Button } from "../../../ui/button";
 import {
   DayObject,
-  daysOfWeekx,
+  daysOfWeek,
 } from "../../agency/createproject/projectBudget";
 import { GiPaperClip } from "react-icons/gi";
 import { IoMdShare } from "react-icons/io";

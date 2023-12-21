@@ -20,7 +20,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import {
   DayObject,
   daysOfWeek,
-  daysOfWeekx,
+  // daysOfWeekx,
 } from "../agency/createproject/projectBudget";
 import {
   AboutProjectProps,
@@ -334,7 +334,7 @@ const ProjectPreview = ({
                 <div className="py-3">
                   <p>Working Days</p>
                   <div className="pt-2 flex gap-4 max-w-3xl mt-2 mb-4 cursor-pointer flex-wrap">
-                    {daysOfWeekx.map(({ label, value }: DayObject, index) => (
+                    {daysOfWeek.map(({ label, value }: DayObject, index) => (
                       <div
                         key={index}
                         className={` rounded-md p-2 px-3 mb-4 capitalize font-semibold 
