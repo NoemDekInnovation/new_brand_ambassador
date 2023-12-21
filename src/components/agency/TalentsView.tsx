@@ -95,32 +95,31 @@ export default function TalentsView({
     (state: RootState) => state.talent
   );
 
-    const { talents: current } = useSelector(
-      (state: RootState) => state.engagedtalent
-    );
+  const { talents: current } = useSelector(
+    (state: RootState) => state.engagedtalent
+  );
 
-        const { talentEngaged } = useSelector(
-          (state: RootState) => state.engagedtalent
-        );
+  const { talentEngaged } = useSelector(
+    (state: RootState) => state.engagedtalent
+  );
 
   const { favourites: fav } = useSelector(
     (state: RootState) => state.favouriteProject
   );
 
-      const { agencyTalents: myTalent } = useSelector(
-        (state: RootState) => state.agency
-      );
+  const { agencyTalents: myTalent } = useSelector(
+    (state: RootState) => state.agency
+  );
 
-
-            const talentEngagedLength = talentEngaged?.length;
+  const talentEngagedLength = talentEngaged?.length;
 
   // console.log("change", resTalents);
- 
+
   const talentCount = {
     "All Talents": resTalents?.length || 0,
     "Current Contacts": current?.length || 0,
-    "Favorites": fav?.length || 0,
-    "Engaged": talentEngagedLength || 0,
+    Favorites: fav?.length || 0,
+    Engaged: talentEngagedLength || 0,
     "My Talents": myTalent?.length || 0,
   };
 
@@ -131,7 +130,7 @@ export default function TalentsView({
   useEffect(() => {
     setIsLoading(true);
     dispatch(fetchTalents());
-    dispatch(fetchEngageTalents());
+    // dispatch(fetchEngageTalents());
     dispatch(fetchFavouriteProjects());
     dispatch(fetchAgencyTalentss());
     // dispatch(fetchEngageTalents());

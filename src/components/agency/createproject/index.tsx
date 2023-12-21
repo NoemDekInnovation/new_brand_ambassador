@@ -342,7 +342,6 @@ export default function NewProject({
   const [proposal, setProposal] = useState("");
   const [projectName, setProjectName] = useState("");
   const [document, setDocument] = useState("");
-  const [successModal, setSuccessModal] = useState(false);
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [statusMessage, setStatusMessage] = useState("");
@@ -441,7 +440,7 @@ export default function NewProject({
         const responseMessage = response.data.message || "Success";
         handleModalOpen(responseMessage);
 
-          setSuccessModal(true);
+          // setSuccessModal(true);
           setTimeout(() => {
             cancelProject();
           }, 3000);

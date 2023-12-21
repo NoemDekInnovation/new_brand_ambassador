@@ -297,17 +297,7 @@ export default function ProjectDetails({
           </div>
           <Separator className="bg-bm__beige my-2" />
 
-          <div className="flex gap-4 mt-4">
-            {/* <button className="border rounded-md p-2 ">
-
-              Brand Ambassador Requirements.pdf
-            </button>
-            {document}
-            <button className="border rounded-md p-2 "> this
-              Supervisor Requirements.pdf
-
-            </button> */}
-          </div>
+          <div className="flex gap-4 mt-4"></div>
         </InfoCard>
         <InfoCard
           title="Tell us the period for this project post"
@@ -375,9 +365,6 @@ export default function ProjectDetails({
             <Button className="dark__btn" onClick={() => submit(false)}>
               Post this project{" "}
             </Button>
-            {/* <Button className="dark__btn" onClick={() => console.log("submit")}>
-              Post this project{" "}
-            </Button> */}
           </div>
         </div>
       </Card>

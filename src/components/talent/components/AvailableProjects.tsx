@@ -68,7 +68,6 @@ export default function AvailableProjects({}) {
 
   const dispatch = useDispatch();
 
-
   const handleSearchTermChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchTerm(e.target.value));
     // dispatch(setCurrentPage(1)); // Resets current page when search term changes
