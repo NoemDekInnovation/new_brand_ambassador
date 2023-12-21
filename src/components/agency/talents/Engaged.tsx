@@ -30,29 +30,20 @@ const Engaged = ({
   setSuccessModal: any;
   successModal: any;
 }) => {
+  // const { talents: resTalents } = useSelector(
+  //   (state: RootState) => state.engagedtalent
+  // );
 
-  
-  const { talents: resTalents } = useSelector(
+  const { talentEngaged } = useSelector(
     (state: RootState) => state.engagedtalent
-  ); 
-
-    const {talentEngaged }= useSelector(
-      (state: RootState) => state.engagedtalent
-    );
-
-
-
-
+  );
 
   const dispatch = useDispatch<AppDispatch>();
 
+  useEffect(() => {
+    dispatch(fetchEngageTalents(false));
+  }, [dispatch]);
 
-    useEffect(() => {
-      console.log("Dispatching fetchEngageTalents");
-      dispatch(fetchEngageTalents());
-    }, [dispatch]);
-
-  console.log("work", talentEngaged);
   const [projectModal, setProjectModal] = useState(false);
 
   return (
@@ -64,7 +55,7 @@ const Engaged = ({
             {talentEngaged?.map((_: TalentProps, idx: number) => {
               return (
                 <TalentGrid
-                key={idx}
+                  key={idx}
                   _={_}
                   modal={projectModal}
                   setModal={() => setProjectModal}

@@ -341,7 +341,6 @@ export default function NewProject({
   const [proposal, setProposal] = useState("");
   const [projectName, setProjectName] = useState("");
   const [document, setDocument] = useState("");
-  const [successModal, setSuccessModal] = useState(false);
 
   const clearLocalStorage = () => {
     localStorage.removeItem("aboutProject");
@@ -416,7 +415,7 @@ export default function NewProject({
 
           // console.log("response", response);
 
-          setSuccessModal(true);
+          // setSuccessModal(true);
           setTimeout(() => {
             cancelProject();
           }, 3000);

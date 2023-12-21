@@ -35,26 +35,24 @@ const initialState: TalentsProps = {
 
 export const fetchEngageTalents = createAsyncThunk(
   "talents/fetchEngageTalents",
-  async () => {
+  async (status: boolean) => {
     const user = localStorage.getItem("userData");
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
 
-        const response = await campaignAuthAxiosInstance(`/engaged-talents`, {
-          headers: {
-            Authorization: `Bearer ${parsedUser.authKey}`,
-          },
-        });
+        const response = await campaignAuthAxiosInstance(
+          `/engaged-talents?status=${status}`,
+          {
+            headers: {
+              Authorization: `Bearer ${parsedUser.authKey}`,
+            },
+          }
+        );
 
-        const talentsCurrentlyOnProject =
-          response?.data?.data?.talentsCurrentlyOnProject;
-        const talentEngaged = response?.data?.data?.talentEngaged;
+        console.log("check", response?.data?.data?.talent);
 
-        console.log("cost", talentsCurrentlyOnProject);
-        console.log("engage", talentEngaged);
-
-        return { talentsCurrentlyOnProject, talentEngaged };
+        return response?.data?.data?.talent;
       }
     } catch (error: any) {
       if (error.response) {
@@ -74,6 +72,8 @@ export const fetchEngageTalents = createAsyncThunk(
     }
   }
 );
+
+
 
 const engagedTalents = createSlice({
   name: "fetchEngageTalents",
@@ -102,15 +102,15 @@ const engagedTalents = createSlice({
         fetchEngageTalents.fulfilled,
         (state, action: PayloadAction<any>) => {
           state.loading = false;
-          state.talents = action.payload.talentsCurrentlyOnProject;
-          state.prev = action.payload.talentsCurrentlyOnProject;
-          state.count = action.payload.talentsCurrentlyOnProject.length;
-          state.next = action.payload.talentsCurrentlyOnProject;
-          state.talentEngaged = action.payload.talentEngaged
+          state.talents = action.payload;
+          state.prev = action.payload;
+          state.count = action.payload.talent?.length;
+          state.next = action.payload;
+          // state.talentEngaged = action.payload;
 
           // Dispatch the setTalentEngaged action to update the state with talentEngaged
-        const { talentEngaged } = action.payload;
-          engagedTalents.actions.setTalentEngaged({ payload: talentEngaged });
+          // const { talentEngaged } = action.payload;
+          // engagedTalents.actions.setTalentEngaged({ payload: talentEngaged });
         }
       )
       .addCase(

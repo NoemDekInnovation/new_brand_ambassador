@@ -28,7 +28,7 @@ export const fetchAllProjects = createAsyncThunk(
             Authorization: `Bearer ${parsedUser.authKey}`,
           },
         });
-        // console.log("response", response);
+        // console.log("response", response.data.data.availableProjects);
 
         return response.data.data;
       }
@@ -74,6 +74,5 @@ export const {
   // setPageSize,
   // clearSearchAndFilter,
 } = allProjects.actions;
-
 
 export default allProjects.reducer;
