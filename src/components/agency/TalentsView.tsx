@@ -111,6 +111,10 @@ export default function TalentsView({
         (state: RootState) => state.agency
       );
 
+const { engageTalents } = useSelector(
+  (state: RootState) => state.currentengage
+);
+
 
             const talentEngagedLength = talentEngaged?.length;
 
@@ -119,9 +123,9 @@ export default function TalentsView({
   const talentCount = {
     "All Talents": resTalents?.length || 0,
     "Current Contacts": current?.length || 0,
-    "Favorites": fav?.length || 0,
-    "Engaged": talentEngagedLength || 0,
-    "My Talents": myTalent?.length || 0,
+    Favorites: fav?.length || 0,
+    "Engaged": engageTalents?.length || 0,
+    "My Talents": myTalent?.length || 0, 
   };
 
   const onTalentTypeChnage = (type: TalentType) => {
@@ -131,7 +135,7 @@ export default function TalentsView({
   useEffect(() => {
     setIsLoading(true);
     dispatch(fetchTalents());
-    dispatch(fetchEngageTalents());
+    // dispatch(fetchEngageTalents());
     dispatch(fetchFavouriteProjects());
     dispatch(fetchAgencyTalentss());
     // dispatch(fetchEngageTalents());

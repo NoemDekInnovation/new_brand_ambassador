@@ -82,7 +82,7 @@ export const TalentList = ({
   setSuccessModal: any;
   successModal: boolean;
 }) => {
-  console.log(talent, "tap");
+  console.log("talent", talent);
 
   return (
     <div key={index} className="bg-white border rounded flex">
@@ -116,7 +116,7 @@ export const TalentList = ({
         <div className="flex w-full justify-between">
           <div className="flex items-center gap-3">
             {" "}
-            <p className="text-[15px] font-medium">{talent?.fullName}</p>
+            <p className="text-[15px] font-medium">{talent?.firstName}</p>
             <AiOutlineHeart />
           </div>
           {talent?.metaData?.isActive && (
@@ -210,8 +210,8 @@ export const TalentGrid = ({
 }) => {
   // const slides = [beauty, profile, blue, nivea, blue2];
   const slides =
-    _.profilePic !== ""
-      ? [_.profilePic]
+    _?.talent?.profilePic !== ""
+      ? [_?.talent?.profilePic]
       : [beauty, profile, blue, nivea, blue2];
   const dialogSlide = [girl1, girl2, girl5];
   const modalImage = [girl4, girl3, girl4];
@@ -333,9 +333,15 @@ export const TalentGrid = ({
   };
 
   // const cityState = `${_?.address[0]?.city} ${_?.address[0]?.state}`;
-  const cityState = _?.address?.[0]?.city
-    ? `${_?.address[0].city} ${_?.address[0].state}`
+  // const cityState = _?.talent?.address?.[0]?.talent?.city
+  //   ? `${_?talent?.address[0].city} ${_?.talent?.address[0].state}`
+  //   : "N/A";
+
+  const cityState = _.talent?.address?.[0]?.city
+    ? `${_.talent?.address[0].city} ${_.talent?.address[0].state}`
     : "N/A";
+ 
+
   const truncatedCityState = truncateWords(cityState, 3);
 
   return (
@@ -399,7 +405,7 @@ export const TalentGrid = ({
                           <div className="flex items-center space-x-1">
                             <img src={Age} alt="" />
                             <div className="text-[8px] font-medium">
-                              {_.DOB} years
+                              {_.talent?.DOB} years
                             </div>
                           </div>
                           <div className="flex items-center space-x-1">
@@ -512,7 +518,7 @@ export const TalentGrid = ({
         </div>
         <div className="px-1">
           <div className="flex items-center gap-3 whitespace-nowrap px-2 py-1">
-            <p className="text-[12px] font-medium capitalize">{_.fullName}</p>
+            <p className="text-[12px] font-medium capitalize">{_.talent?.fullName}</p>
             <span className="bg-[#00AB26] h-2 w-2 rounded-full"></span>
           </div>
           <Separator />

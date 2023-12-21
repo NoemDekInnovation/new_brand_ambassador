@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import { useEffect, useState } from "react";
 import { TalentProps } from "../../../redux/types";
 import { fetchEngageTalents } from "../../../redux/engagetalent.slice";
+import { fetchCurrentEngageTalents } from "../../../redux/currentengage.slice";
 
 const Engaged = ({
   gridView,
@@ -32,16 +33,12 @@ const Engaged = ({
 }) => {
 
   
-  const { talents: resTalents } = useSelector(
-    (state: RootState) => state.engagedtalent
-  ); 
-
-    const {talentEngaged }= useSelector(
-      (state: RootState) => state.engagedtalent
-    );
 
 
 
+
+
+const { engageTalents } = useSelector((state: RootState) => state.currentengage)
 
 
   const dispatch = useDispatch<AppDispatch>();
@@ -49,10 +46,14 @@ const Engaged = ({
 
     useEffect(() => {
       console.log("Dispatching fetchEngageTalents");
-      dispatch(fetchEngageTalents());
+      // dispatch(fetchEngageTalents(false));
+        // dispatch(fetchEngageTalents({ status: false }));
+            dispatch(fetchCurrentEngageTalents({ status: false }));
+
+
     }, [dispatch]);
 
-  console.log("work", talentEngaged);
+  console.log("worked", engageTalents);
   const [projectModal, setProjectModal] = useState(false);
 
   return (
@@ -61,10 +62,10 @@ const Engaged = ({
         <div className="flex w-full justify-center ">
           <div className="flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap overflow-y-scroll h-[550px] w-full ">
             {/* {talents} */}
-            {talentEngaged?.map((_: TalentProps, idx: number) => {
+            {engageTalents?.map((_: TalentProps, idx: number) => {
               return (
                 <TalentGrid
-                key={idx}
+                  key={idx}
                   _={_}
                   modal={projectModal}
                   setModal={() => setProjectModal}
@@ -87,7 +88,7 @@ const Engaged = ({
       )}
       {!gridView && (
         <div className="flex flex-col w-full gap-3">
-          {talentEngaged?.map((_: TalentProps, idx: number) => {
+          {engageTalents?.map((_: TalentProps, idx: number) => {
             return (
               <TalentList
                 talent={_}

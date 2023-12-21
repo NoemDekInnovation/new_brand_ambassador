@@ -34,6 +34,9 @@ const CurrentContacts = ({
     (state: RootState) => state.engagedtalent
   );
 
+
+
+
   const dispatch = useDispatch<AppDispatch>()
   
 
@@ -43,8 +46,10 @@ const CurrentContacts = ({
 
   useEffect(() => {
       console.log("Dispatching fetchEngageTalents");
-    dispatch(fetchEngageTalents())
-  }, [dispatch])
+    // dispatch(fetchEngageTalents(true))
+      dispatch(fetchEngageTalents({ status: true }));
+
+  }, [dispatch])   
 
 
 
