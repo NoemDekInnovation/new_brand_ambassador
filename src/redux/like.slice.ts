@@ -11,7 +11,7 @@ export const addFavorites = createAsyncThunk(
       if (user !== null) {
         const parsedUser = JSON.parse(user);
 
-        const response = await authAxiosInstance.post(
+        const response = await campaignAuthAxiosInstance(
           "/add-favorites",
           {
             headers: {
@@ -19,7 +19,7 @@ export const addFavorites = createAsyncThunk(
             },
           }
         );
-
+        console.log("addsss", response)
         return response?.data;
       }
     } catch (error: any) {
@@ -37,7 +37,7 @@ export const removeFavorites = createAsyncThunk(
       if (user !== null) {
         const parsedUser = JSON.parse(user);
 
-        const response = await authAxiosInstance.post(
+        const response = await authAxiosInstance.get(
           "/remove-favorites",
           {
             headers: {
