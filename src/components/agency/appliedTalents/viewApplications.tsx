@@ -20,7 +20,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import {
   DayObject,
   daysOfWeek,
-  daysOfWeekx,
+  // daysOfWeekx,
 } from "../../agency/createproject/projectBudget";
 import {
   AboutProjectProps,
