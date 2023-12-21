@@ -48,6 +48,7 @@ export default function ProjectDetails({
   submit,
   setProjectPost,
   edit,
+  onModalOpen,
 }: // formData
 //   setDefault,
 {
@@ -64,6 +65,7 @@ export default function ProjectDetails({
   projectName: any;
   setProjectPost: any;
   edit: (string: string) => void;
+  onModalOpen: any
   // formData: aboutProjectSchemaType
   //   setDefault: Dispatch<SetStateAction<string>>;
 }) {
