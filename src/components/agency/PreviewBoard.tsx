@@ -51,6 +51,54 @@ export default function PreviewBoard() {
               <p>{successfulImport?.length || 0} Successful Uploads</p>
             </div>
             <Separator className="my-3" />
+            <div className="max-h-[300px] overflow-y-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>First Name</TableHead>
+                    <TableHead>Last Name</TableHead>
+                    <TableHead>Middle Name</TableHead>
+                    <TableHead>Profile Overview</TableHead>
+                    <TableHead>Email Address</TableHead>
+                    <TableHead>Telephone Number</TableHead>
+                    <TableHead>Alternative Number</TableHead>
+                    <TableHead>Gender</TableHead>
+                    <TableHead>Date of Birth</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {successfulImport?.map(({ data, idx }) => {
+                    return (
+                      <TableRow key={idx}>
+                        <TableCell className="font-medium">
+                          {data["FIRST NAME"]}
+                        </TableCell>
+                        <TableCell> {data["LAST NAME"]}</TableCell>
+                        <TableCell> {data["MIDDLE NAME"]}</TableCell>
+                        <TableCell>{data["PROFILE OVERVIEW"]}</TableCell>
+                        <TableCell> {data["EMAIL"]}</TableCell>
+                        <TableCell> {data["TELEPHONE NUMBER"]}</TableCell>
+                        <TableCell>
+                          {" "}
+                          {data["ALTERNATIVE NUMBER"] || "-"}
+                        </TableCell>
+                        <TableCell> {data["GENDER"]}</TableCell>
+                        <TableCell>{data["DATE OF BIRTH"]}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </div>
+          </div>
+        </div>
+        <div className="mt-5: md:mt-10 ">
+          <div className="flex justify-between w-full">
+            <p>Failed Uploads</p>
+            <p>{failedImport?.length || 0} Failed Uploads</p>
+          </div>
+          <Separator className="my-3" />
+          <div className="max-h-[300px] overflow-y-auto">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -63,102 +111,61 @@ export default function PreviewBoard() {
                   <TableHead>Alternative Number</TableHead>
                   <TableHead>Gender</TableHead>
                   <TableHead>Date of Birth</TableHead>
+                  {/* <TableHead>Error Message</TableHead> */}
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {successfulImport?.map(({ data, idx }) => {
+                {failedImport.map(({ data, message, idx }) => {
                   return (
-                    <TableRow key={idx}>
-                      <TableCell className="font-medium">
-                        {data["FIRST NAME"]}
-                      </TableCell>
-                      <TableCell> {data["LAST NAME"]}</TableCell>
-                      <TableCell> {data["MIDDLE NAME"]}</TableCell>
-                      <TableCell>{data["PROFILE OVERVIEW"]}</TableCell>
-                      <TableCell> {data["EMAIL"]}</TableCell>
-                      <TableCell> {data["TELEPHONE NUMBER"]}</TableCell>
-                      <TableCell>
-                        {" "}
-                        {data["ALTERNATIVE NUMBER"] || "-"}
-                      </TableCell>
-                      <TableCell> {data["GENDER"]}</TableCell>
-                      <TableCell>{data["DATE OF BIRTH"]}</TableCell>
-                    </TableRow>
+                    <>
+                      <TableRow key={idx} className="cursor-pointer">
+                        <TableCell className="font-medium">
+                          <HoverCard>
+                            <HoverCardTrigger>
+                              {data["FIRST NAME"] || "-"}
+                            </HoverCardTrigger>
+                            <HoverCardContent>{message}</HoverCardContent>
+                          </HoverCard>
+                        </TableCell>{" "}
+                        <TableCell>
+                          <HoverCard>
+                            <HoverCardTrigger>
+                              {data["LAST NAME"] || "-"}{" "}
+                            </HoverCardTrigger>
+                            <HoverCardContent>{message}</HoverCardContent>
+                          </HoverCard>
+                        </TableCell>
+                        <TableCell> {data["MIDDLE NAME"] || "-"}</TableCell>
+                        <TableCell>
+                          {data["PROFILE OVERVIEW"] !== "nil"
+                            ? data["PROFILE OVERVIEW"] || "-"
+                            : "-"}
+                        </TableCell>
+                        <TableCell> {data["EMAIL"] || "-"}</TableCell>
+                        <TableCell>
+                          {" "}
+                          {data["TELEPHONE NUMBER"] || "-"}
+                        </TableCell>
+                        <TableCell>
+                          {" "}
+                          {data["ALTERNATIVE NUMBER"] || "-"}
+                        </TableCell>
+                        <TableCell> {data["GENDER"] || "-"}</TableCell>
+                        <TableCell>
+                          <HoverCard>
+                            <HoverCardTrigger>
+                              {data["DATE OF BIRTH"] || "-"}
+                            </HoverCardTrigger>
+                            <HoverCardContent>{message}</HoverCardContent>
+                          </HoverCard>
+                        </TableCell>
+                      </TableRow>
+                    </>
                   );
                 })}
               </TableBody>
             </Table>
           </div>
-        </div>
-        <div className="mt-5: md:mt-10 ">
-          <div className="flex justify-between w-full">
-            <p>Failed Uploads</p>
-            <p>{failedImport?.length || 0} Failed Uploads</p>
-          </div>
-          <Separator className="my-3" />
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>First Name</TableHead>
-                <TableHead>Last Name</TableHead>
-                <TableHead>Middle Name</TableHead>
-                <TableHead>Profile Overview</TableHead>
-                <TableHead>Email Address</TableHead>
-                <TableHead>Telephone Number</TableHead>
-                <TableHead>Alternative Number</TableHead>
-                <TableHead>Gender</TableHead>
-                <TableHead>Date of Birth</TableHead>
-                {/* <TableHead>Error Message</TableHead> */}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {failedImport.map(({ data, message, idx }) => {
-                return (
-                  <>
-                    <TableRow key={idx} className="cursor-pointer">
-                      <TableCell className="font-medium">
-                        <HoverCard>
-                          <HoverCardTrigger>
-                            {data["FIRST NAME"] || "-"}
-                          </HoverCardTrigger>
-                          <HoverCardContent>{message}</HoverCardContent>
-                        </HoverCard>
-                      </TableCell>{" "}
-                      <TableCell>
-                        <HoverCard>
-                          <HoverCardTrigger>
-                            {data["LAST NAME"] || "-"}{" "}
-                          </HoverCardTrigger>
-                          <HoverCardContent>{message}</HoverCardContent>
-                        </HoverCard>
-                      </TableCell>
-                      <TableCell> {data["MIDDLE NAME"] || "-"}</TableCell>
-                      <TableCell>
-                        {data["PROFILE OVERVIEW"] !== "nil"
-                          ? data["PROFILE OVERVIEW"] || "-"
-                          : "-"}
-                      </TableCell>
-                      <TableCell> {data["EMAIL"] || "-"}</TableCell>
-                      <TableCell> {data["TELEPHONE NUMBER"] || "-"}</TableCell>
-                      <TableCell>
-                        {" "}
-                        {data["ALTERNATIVE NUMBER"] || "-"}
-                      </TableCell>
-                      <TableCell> {data["GENDER"] || "-"}</TableCell>
-                      <TableCell>
-                        <HoverCard>
-                          <HoverCardTrigger>
-                            {data["DATE OF BIRTH"] || "-"}
-                          </HoverCardTrigger>
-                          <HoverCardContent>{message}</HoverCardContent>
-                        </HoverCard>
-                      </TableCell>
-                    </TableRow>
-                  </>
-                );
-              })}
-            </TableBody>
-          </Table>
         </div>
         <Separator className="bg-bm__beige my-4" />
         <div className="flex justify-between">
