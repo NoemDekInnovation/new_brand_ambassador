@@ -135,11 +135,11 @@ const AgencyProfile = () => {
                           <RiEdit2Fill className="cursor-pointer" />
                         </div>
                         <Separator className="bg-bm__gler/50" />
-                        <div className="h-[170px] w-[120px] rounded-md">
+                        <div className="h-[150px] w-[120px] rounded-md">
                           <img src={agencyProfile.profilePic} alt="img" />
                         </div>
-                        <div className="text-[12px] font-normal gap-2 flex flex-col">
-                          <div className="pt-5 flex items-center">
+                        <div className="text-[12px] font-normal gap-2 flex flex-col mt-4">
+                          <div className="pt-10 flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               First Name:
                             </p>
