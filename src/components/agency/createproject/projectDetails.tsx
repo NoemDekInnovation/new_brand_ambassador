@@ -48,6 +48,7 @@ export default function ProjectDetails({
   submit,
   setProjectPost,
   edit,
+  onModalOpen,
 }: // formData
 //   setDefault,
 {
@@ -64,6 +65,7 @@ export default function ProjectDetails({
   projectName: any;
   setProjectPost: any;
   edit: (string: string) => void;
+  onModalOpen: any
   // formData: aboutProjectSchemaType
   //   setDefault: Dispatch<SetStateAction<string>>;
 }) {
@@ -160,9 +162,6 @@ export default function ProjectDetails({
   });
 
   const formattedDateRange = `${formattedStartDate} to ${formattedEndDate}`;
-    
-
-  
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
@@ -177,7 +176,6 @@ export default function ProjectDetails({
           >
             Post this project
           </button>
-
         </div>
 
         <InfoCard
