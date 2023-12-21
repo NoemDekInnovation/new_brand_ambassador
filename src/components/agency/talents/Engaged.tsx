@@ -1,4 +1,4 @@
-import { TalentGrid, TalentList } from "./talentView";
+import { TalentGrid, TalentGrids, TalentList } from "./talentView";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { useEffect, useState } from "react";
@@ -64,7 +64,7 @@ const { engageTalents } = useSelector((state: RootState) => state.currentengage)
             {/* {talents} */}
             {engageTalents?.map((_: TalentProps, idx: number) => {
               return (
-                <TalentGrid
+                <TalentGrids
                   key={idx}
                   _={_}
                   modal={projectModal}

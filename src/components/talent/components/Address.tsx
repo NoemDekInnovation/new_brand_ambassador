@@ -163,67 +163,7 @@ export default function Address({
                   <Required className="text-[20px]">Street address</Required>
                 </label>
               </div>
-
-              <div className="relative md:col-span-1  w-full mb-6 group">
-                {/* <input
-                  type="text"
-                  name="city"
-                  id="city"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
-                  value={address.city}
-                  onChange={(e) => handleInputChange(e, "city")}
-                  required
-                />
-                <label
-                  htmlFor="city"
-                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  City
-                </label> */}
-                <SelectOption
-                  id="city"
-                  name="city"
-                  defaultValue={{
-                    value: address?.city,
-                    label: address?.city,
-                  }}
-                  options={cityOptions}
-                  onChange={(e: any) => setCityOrigin(e?.value)}
-                  placeholder="City"
-                  required
-                  isDisabled={false}
-                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
-                />
-                <label
-                  htmlFor="city"
-                  className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 top-2 left-2 -z-1 origin-[0] peer-focus:font-medium  transform -translate-y-6 scale-75 peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  <Required className="text-[20px]">City</Required>
-                </label>
-              </div>
-            </div>
-            <div className="grid md:grid-cols-5 md:gap-6">
-              <div className="relative md:col-span-1  z-0 w-full mb-6 group">
-                <input
-                  type="text"
-                  name="LGA"
-                  id="LGA"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
-                  value={address?.LGA}
-                  onChange={(e) => handleInputChange(e, "LGA")}
-                  required
-                />
-                <label
-                  htmlFor="LGA"
-                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  <Required className="text-[20px]">L.G.A</Required>
-                </label>
-              </div>
-
-              <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
+              <div className="relative  md:col-span-1 z-0 w-full mb-6 group">
                 <SelectOption
                   id="state"
                   name="state"
@@ -245,6 +185,48 @@ export default function Address({
                   <Required className="text-[20px]">State</Required>
                 </label>
               </div>
+            </div>
+            <div className="grid md:grid-cols-5 md:gap-6">
+              <div className="relative md:col-span-1  w-full mb-6 group">
+                <SelectOption
+                  id="city"
+                  name="city"
+                  defaultValue={{
+                    value: address?.city,
+                    label: address?.city,
+                  }}
+                  options={cityOptions}
+                  onChange={(e: any) => setCityOrigin(e?.value)}
+                  placeholder="City"
+                  required
+                  isDisabled={false}
+                  className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
+                />
+                <label
+                  htmlFor="city"
+                  className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 top-2 left-2 -z-1 origin-[0] peer-focus:font-medium  transform -translate-y-6 scale-75 peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  <Required className="text-[20px]">City</Required>
+                </label>
+              </div>
+              <div className="relative md:col-span-1  z-0 w-full mb-6 group">
+                <input
+                  type="text"
+                  name="LGA"
+                  id="LGA"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  value={address?.LGA}
+                  onChange={(e) => handleInputChange(e, "LGA")}
+                  required
+                />
+                <label
+                  htmlFor="LGA"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  <Required className="text-[20px]">L.G.A</Required>
+                </label>
+              </div>
               <div className="relative  md:col-span-2 z-0 w-full mb-6 group">
                 <input
                   type="number"
@@ -260,11 +242,8 @@ export default function Address({
                   htmlFor="zipCode"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  <Required className="text-[20px]">
-
-                  Zip Code
-                  </Required>
-                                 </label>
+                  <Required className="text-[20px]">Zip Code</Required>
+                </label>
               </div>
             </div>
           </CardContent>

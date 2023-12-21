@@ -12,7 +12,7 @@ import completeProject from "./completeProject";
 import draftProjectSlice from "./draftProject.slice";
 import ProjectApplicationSlice from "./projectApllication.slice";
 import talentInviteReducer from "./talentInvitations.slice";
-import allTalentProjectReducer from "./talent/allProjects.slice";
+import allTalentProject from "./talent/allProjects.slice";
 import applicationsReducer from "./applicantions.slice";
 import contractOfferReducer from "./contract-offer";
 import hireSlice from "./hire.slice";
@@ -36,7 +36,7 @@ const store = configureStore({
     draftProject: draftProjectSlice,
     activeProject: activeProjectSlice,
     projects: activeProjectSlice,
-    allTalentProject: allTalentProjectReducer,
+    allTalentProject: allTalentProject,
     projectApplication: ProjectApplicationSlice,
     applications: applicationsReducer,
     hire: hireSlice,

@@ -78,6 +78,8 @@ export const fetchEngageTalents = createAsyncThunk(
   }
 );
 
+
+
 const engagedTalents = createSlice({
   name: "fetchEngageTalents",
   initialState,
@@ -112,8 +114,8 @@ const engagedTalents = createSlice({
           state.talentEngaged = action.payload
 
           // Dispatch the setTalentEngaged action to update the state with talentEngaged
-        const { talentEngaged } = action.payload;
-          engagedTalents.actions.setTalentEngaged({ payload: talentEngaged });
+          // const { talentEngaged } = action.payload;
+          // engagedTalents.actions.setTalentEngaged({ payload: talentEngaged });
         }
       )
       .addCase(
