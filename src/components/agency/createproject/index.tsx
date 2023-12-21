@@ -269,6 +269,7 @@ import {
   multerAxiosInstance,
   patchAxiosInstance,
 } from "../../../api/axios";
+import OfferModal from "../../../libs/OfferModal";
 // import Loading from "../../../components/l";
 
 const aboutProjectSchema = z.object({
@@ -341,7 +342,9 @@ export default function NewProject({
   const [proposal, setProposal] = useState("");
   const [projectName, setProjectName] = useState("");
   const [document, setDocument] = useState("");
-  const [successModal, setSuccessModal] = useState(false);
+
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [statusMessage, setStatusMessage] = useState("");
 
   const clearLocalStorage = () => {
     localStorage.removeItem("aboutProject");
@@ -375,6 +378,24 @@ export default function NewProject({
   } = useForm<aboutProjectSchemaType>({
     resolver: zodResolver(aboutProjectSchema),
   });
+
+  const openModal = (message: string) => {
+    setStatusMessage(message);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleModalOpen = (message: string) => {
+    openModal(message);
+
+    // Automatically close the modal after a delay (e.g., 3000 milliseconds)
+    setTimeout(() => {
+      closeModal();
+    }, 3000);
+  };
 
   const submitHandler = async (isDraft: boolean) => {
     try {
@@ -415,8 +436,11 @@ export default function NewProject({
           );
 
           // console.log("response", response);
+        setStatusMessage(response.data.message || "Success");
+        const responseMessage = response.data.message || "Success";
+        handleModalOpen(responseMessage);
 
-          setSuccessModal(true);
+          // setSuccessModal(true);
           setTimeout(() => {
             cancelProject();
           }, 3000);
@@ -425,8 +449,15 @@ export default function NewProject({
           // Handle error appropriately (e.g., show a user-friendly message)
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Unexpected error:", error);
+      if (error.response && error.response.status === 400) {
+        // Extract and display the specific error message from the API response
+        setStatusMessage(error.response.data.message || "Bad Request");
+      } else {
+        // Display a generic error message for other error scenarios
+        setStatusMessage("An error occurred while saving. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -457,6 +488,13 @@ export default function NewProject({
       }
     }
   };
+
+    useEffect(() => {
+      // Open the modal after the status message is set
+      if (statusMessage) {
+        setModalOpen(true);
+      }
+    }, [statusMessage]);
 
   return (
     <>
@@ -520,6 +558,8 @@ export default function NewProject({
         )}
 
         {currentStep === "projectDetails" && (
+          <>
+          
           <ProjectDetails
             prev={() => handleStepChange("talentRequirement")}
             cancel={cancelProject}
@@ -533,7 +573,11 @@ export default function NewProject({
             projectName={projectName}
             submit={submitHandler}
             edit={handleStepChange}
+            onModalOpen={handleModalOpen} 
           />
+                <OfferModal isOpen={isModalOpen} onClose={closeModal} statusMessage={statusMessage} />
+          </>
+
         )}
       </div>
     </>

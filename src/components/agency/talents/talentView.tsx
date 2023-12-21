@@ -52,6 +52,7 @@ import group from "../../../assets/Group.png";
 
 import { IoIosHeartEmpty } from "react-icons/io";
 import { TalentsProps } from "../../../redux/talent.slice";
+import HeartIcon from "../../../libs/HeartIcon";
 
 
 export const TalentList = ({
@@ -81,7 +82,7 @@ export const TalentList = ({
   setSuccessModal: any;
   successModal: boolean;
 }) => {
-  // console.log(talent, "tap");
+  console.log(talent, "tap");
 
   return (
     <div key={index} className="bg-white border rounded flex">
@@ -258,6 +259,9 @@ export const TalentGrid = ({
     setModal(!modal);
   };
 
+    
+
+
   // return (
   //   <Dialog open={toggleDialog} onOpenChange={setToggleDialog}>
   //     <DialogContent className="bg-white p-0 flex flex-col items-center">
@@ -328,7 +332,10 @@ export const TalentGrid = ({
     return truncated + (words.length > maxWords ? "..." : "");
   };
 
-  const cityState = `${_?.address?.city} ${_?.address?.state}`;
+  // const cityState = `${_?.address[0]?.city} ${_?.address[0]?.state}`;
+  const cityState = _?.address?.[0]?.city
+    ? `${_?.address[0].city} ${_?.address[0].state}`
+    : "N/A";
   const truncatedCityState = truncateWords(cityState, 3);
 
   return (
@@ -344,8 +351,8 @@ export const TalentGrid = ({
             </button>
           </div>
           <div className="absolute top-1 rounded-l-md right-0  z-50 bg-white flex  justify-between items-center    w-[54px] h-[30px] px-2">
-            <AiOutlineHeart />
-            {/* <HeartIcon talentId={setSelectedTalentID(_._id)} /> */}
+            {/* <AiOutlineHeart /> */}
+            <HeartIcon selectedTalentID={_._id} />
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <AiOutlineMore />

@@ -34,19 +34,16 @@ const CurrentContacts = ({
     (state: RootState) => state.engagedtalent
   );
 
-  const dispatch = useDispatch<AppDispatch>()
-  
+  const dispatch = useDispatch<AppDispatch>();
 
-  console.log("current", resTalents)
+  console.log("current", resTalents);
 
   const [projectModal, setProjectModal] = useState(false);
 
   useEffect(() => {
-      console.log("Dispatching fetchEngageTalents");
-    dispatch(fetchEngageTalents())
-  }, [dispatch])
-
-
+    // console.log("Dispatching fetchEngageTalents");
+    dispatch(fetchEngageTalents(true));
+  }, [dispatch]);
 
   return (
     <>
@@ -57,7 +54,7 @@ const CurrentContacts = ({
             {resTalents?.map((_: TalentProps, idx: number) => {
               return (
                 <TalentGrid
-                key={idx}
+                  key={idx}
                   modal={projectModal}
                   setModal={() => setProjectModal}
                   _={_}
@@ -83,7 +80,7 @@ const CurrentContacts = ({
           {resTalents?.map((_: TalentProps, idx: number) => {
             return (
               <TalentList
-              key={idx}
+                key={idx}
                 talent={_}
                 index={idx}
                 handleInvite={""}
