@@ -1,9 +1,10 @@
-import { TalentGrid, TalentList } from "./talentView";
+import { TalentGrid, TalentGrids, TalentList } from "./talentView";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { useEffect, useState } from "react";
 import { TalentProps } from "../../../redux/types";
 import { fetchEngageTalents } from "../../../redux/engagetalent.slice";
+import { fetchCurrentEngageTalents } from "../../../redux/currentengage.slice";
 
 const Engaged = ({
   gridView,
@@ -30,20 +31,29 @@ const Engaged = ({
   setSuccessModal: any;
   successModal: any;
 }) => {
-  // const { talents: resTalents } = useSelector(
-  //   (state: RootState) => state.engagedtalent
-  // );
 
-  const { talentEngaged } = useSelector(
-    (state: RootState) => state.engagedtalent
-  );
+  
+
+
+
+
+
+const { engageTalents } = useSelector((state: RootState) => state.currentengage)
+
 
   const dispatch = useDispatch<AppDispatch>();
 
-  useEffect(() => {
-    dispatch(fetchEngageTalents(false));
-  }, [dispatch]);
 
+    useEffect(() => {
+      console.log("Dispatching fetchEngageTalents");
+      // dispatch(fetchEngageTalents(false));
+        // dispatch(fetchEngageTalents({ status: false }));
+            dispatch(fetchCurrentEngageTalents({ status: false }));
+
+
+    }, [dispatch]);
+
+  console.log("worked", engageTalents);
   const [projectModal, setProjectModal] = useState(false);
 
   return (
@@ -52,9 +62,9 @@ const Engaged = ({
         <div className="flex w-full justify-center ">
           <div className="flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap overflow-y-scroll h-[550px] w-full ">
             {/* {talents} */}
-            {talentEngaged?.map((_: TalentProps, idx: number) => {
+            {engageTalents?.map((_: TalentProps, idx: number) => {
               return (
-                <TalentGrid
+                <TalentGrids
                   key={idx}
                   _={_}
                   modal={projectModal}
@@ -78,7 +88,7 @@ const Engaged = ({
       )}
       {!gridView && (
         <div className="flex flex-col w-full gap-3">
-          {talentEngaged?.map((_: TalentProps, idx: number) => {
+          {engageTalents?.map((_: TalentProps, idx: number) => {
             return (
               <TalentList
                 talent={_}

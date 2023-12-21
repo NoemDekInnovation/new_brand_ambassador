@@ -99,7 +99,7 @@ const AgencyProfile = () => {
                   <div className="bg-black w-fit rounded-[5px] px-1 text-[18px]">
                     <BiSolidUserDetail className="text-white w-fit" />
                   </div>
-                  <p className="text-[16px] font-bold">Profile</p>
+                  <p className="text-[16px] font-bold">Profile</p> 
                   <p className="ml-20 bg-bm__ox__red px-2 text-white rounded-md">
                     60%
                   </p>

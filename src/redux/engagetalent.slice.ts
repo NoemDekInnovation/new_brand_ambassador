@@ -17,6 +17,8 @@ export interface TalentsProps {
   prev: string | null;
   next: string | null;
 }
+
+
 const initialState: TalentsProps = {
   loading: false,
   error: "",
@@ -33,10 +35,14 @@ const initialState: TalentsProps = {
   nextProducts: "",
 };
 
+
+
 export const fetchEngageTalents = createAsyncThunk(
-  "talents/fetchEngageTalents",
-  async (status: boolean) => {
+  "talents/fetchTalents",
+  async (params: { status: boolean }, { rejectWithValue }) => {
+    const { status } = params;
     const user = localStorage.getItem("userData");
+
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
@@ -50,24 +56,23 @@ export const fetchEngageTalents = createAsyncThunk(
           }
         );
 
-        console.log("check", response?.data?.data?.talent);
-
         return response?.data?.data?.talent;
       }
     } catch (error: any) {
       if (error.response) {
         console.error("Response Error:", error.response.data);
-        throw new Error("Failed to fetch engaged talents. Please try again.");
+        return rejectWithValue(error.response.data);
       } else if (error.request) {
         console.error("Request Error:", error.request);
-        throw new Error(
-          "No response received. Please check your network connection."
-        );
+        return rejectWithValue({
+          message:
+            "No response received. Please check your network connection.",
+        });
       } else {
         console.error("General Error:", error.message);
-        throw new Error(
-          "An unexpected error occurred. Please try again later."
-        );
+        return rejectWithValue({
+          message: "An unexpected error occurred. Please try again later.",
+        });
       }
     }
   }
@@ -80,7 +85,7 @@ const engagedTalents = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.talents = action.payload.talentsCurrentlyOnProject;
+      state.talents = action.payload;
     },
     setFailedImport: (state, action) => {
       state.failedImport = action.payload;
@@ -104,9 +109,9 @@ const engagedTalents = createSlice({
           state.loading = false;
           state.talents = action.payload;
           state.prev = action.payload;
-          state.count = action.payload.talent?.length;
+          state.count = action.payload;
           state.next = action.payload;
-          // state.talentEngaged = action.payload;
+          state.talentEngaged = action.payload
 
           // Dispatch the setTalentEngaged action to update the state with talentEngaged
           // const { talentEngaged } = action.payload;

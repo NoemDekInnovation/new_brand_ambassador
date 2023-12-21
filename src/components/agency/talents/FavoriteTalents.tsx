@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import { useEffect, useState } from "react";
 import { fetchFavoriteTalents } from "../../../redux/talent.slice";
 import { fetchFavouriteProjects } from "../../../redux/favourite.slice";
+import { favProp } from "../../../redux/types";
 
 const FavoriteTalents = ({
   gridView,
@@ -51,7 +52,7 @@ const FavoriteTalents = ({
         <div className="flex w-full justify-center ">
           <div className="flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap overflow-y-scroll h-[550px] w-full ">
             {/* {talents} */}
-            {favourites?.map((_, idx: number) => {
+            {favourites?.map((_: favProp, idx: number) => {
               return (
                 <TalentGrid
                 key={idx}
