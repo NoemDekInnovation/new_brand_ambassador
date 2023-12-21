@@ -337,8 +337,8 @@ export const TalentGrid = ({
   //   ? `${_?talent?.address[0].city} ${_?.talent?.address[0].state}`
   //   : "N/A";
 
-  const cityState = _.talent?.address?.[0]?.city
-    ? `${_.talent?.address[0].city} ${_.talent?.address[0].state}`
+  const cityState = _?.address?.[0]?.city
+    ? `${_.address[0].city} ${_?.address[0].state}`
     : "N/A";
  
 
@@ -405,7 +405,7 @@ export const TalentGrid = ({
                           <div className="flex items-center space-x-1">
                             <img src={Age} alt="" />
                             <div className="text-[8px] font-medium">
-                              {_?.talent?.talent?.DOB} years
+                              {_?.DOB} years
                             </div>
                           </div>
                           <div className="flex items-center space-x-1">
@@ -518,7 +518,7 @@ export const TalentGrid = ({
         </div>
         <div className="px-1">
           <div className="flex items-center gap-3 whitespace-nowrap px-2 py-1">
-            <p className="text-[12px] font-medium capitalize">{_.talent?.fullName}</p>
+            <p className="text-[12px] font-medium capitalize">{_?.fullName}</p>
             <span className="bg-[#00AB26] h-2 w-2 rounded-full"></span>
           </div>
           <Separator />
