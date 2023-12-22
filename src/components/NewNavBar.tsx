@@ -79,6 +79,7 @@ export default function NewNavBar() {
 
   useEffect(() => {
     setIsLoading(true);
+    console.log("helpe");
 
     const fetchNotifications = async () => {
       if (user?.user?.accountId !== undefined) {
@@ -91,6 +92,7 @@ export default function NewNavBar() {
               },
             }
           );
+          console.log(response?.data);
           setNotifications(response?.data?.notifications);
         } catch (error) {
           // console.error("Error while fetiching Notifications:", error);
@@ -166,7 +168,9 @@ export default function NewNavBar() {
                     </span>
                   </p>{" "}
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-white p-3">
+
+                <DropdownMenuContent className="bg-white p-3 max-w-[200px]">
+                  <p>Invites</p>
                   {notifications !== null &&
                     notifications?.map((info: any, idx: number) => {
                       return (
@@ -184,8 +188,7 @@ export default function NewNavBar() {
                         </>
                       );
                     })}
-                </DropdownMenuContent>
-                <DropdownMenuContent className="bg-white p-3">
+                  <Separator className="bg-bm__beige my-6" />
                   <p>Offers</p>
                   {notifications !== null &&
                     notifications?.map((info: any, idx: number) => {
