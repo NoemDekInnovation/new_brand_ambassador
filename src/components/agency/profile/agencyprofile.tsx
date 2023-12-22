@@ -68,6 +68,39 @@ const AgencyProfile = () => {
     dispatch(fetchAgencyProfile());
   }, []);
 
+  const calculateCompletionPercentage = () => {
+    const totalFields = 12; 
+    let completedFields = 0;
+
+
+    if (agencyProfile.firstName) completedFields++;
+    if (agencyProfile.lastName) completedFields++;
+    if (agencyProfile.profilePic) completedFields++;
+    if (agencyProfile.phone) completedFields++;
+    if (agencyProfile.alternatePhone) completedFields++;
+    if (agencyProfile.companyLogo) completedFields++;
+    if (agencyProfile.agencyName) completedFields++;
+    if (agencyProfile.agencyType) completedFields++;
+    if (agencyProfile.email) completedFields++;
+    if (agencyProfile.officePhone) completedFields++;
+    if (agencyProfile.website) completedFields++;
+    if (
+      agencyProfile.address &&
+      agencyProfile.address[0] &&
+      agencyProfile.address[0].street &&
+      agencyProfile.address[0].city &&
+      agencyProfile.address[0].LGA &&
+      agencyProfile.address[0].state &&
+      agencyProfile.address[0].zipCode
+    ) {
+      completedFields++;
+    }
+
+    const completionPercentage = (completedFields / totalFields) * 100;
+
+    return completionPercentage;
+  };
+
   return (
     <MainLayout>
       <div className="flex overflow-hidden  bg-bm_card_gray">
@@ -99,15 +132,17 @@ const AgencyProfile = () => {
                   <div className="bg-black w-fit rounded-[5px] px-1 text-[18px]">
                     <BiSolidUserDetail className="text-white w-fit" />
                   </div>
-                  <p className="text-[16px] font-bold">Profile</p> 
+                  <p className="text-[16px] font-bold">Profile</p>
                   <p className="ml-20 bg-bm__ox__red px-2 text-white rounded-md">
-                    60%
+                    {/* 60% */}
+                    {calculateCompletionPercentage()}%
                   </p>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700  my-2 mb-7">
                   <div
                     className="bg-bm__ox__red h-1.5 rounded-full "
-                    style={{ width: "33%" }}
+                    // style={{ width: "33%" }}
+                    style={{ width: `${calculateCompletionPercentage()}%` }}
                   ></div>
                 </div>
                 <div className="w-full overflow-y-scroll pr-2">
