@@ -48,6 +48,7 @@ export default function ProjectDetails({
   submit,
   setProjectPost,
   edit,
+  onModalOpen,
 }: // formData
 //   setDefault,
 {
@@ -64,6 +65,7 @@ export default function ProjectDetails({
   projectName: any;
   setProjectPost: any;
   edit: (string: string) => void;
+  onModalOpen: any
   // formData: aboutProjectSchemaType
   //   setDefault: Dispatch<SetStateAction<string>>;
 }) {
@@ -160,9 +162,6 @@ export default function ProjectDetails({
   });
 
   const formattedDateRange = `${formattedStartDate} to ${formattedEndDate}`;
-    
-
-  
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
@@ -177,7 +176,6 @@ export default function ProjectDetails({
           >
             Post this project
           </button>
-
         </div>
 
         <InfoCard
@@ -299,17 +297,7 @@ export default function ProjectDetails({
           </div>
           <Separator className="bg-bm__beige my-2" />
 
-          <div className="flex gap-4 mt-4">
-            {/* <button className="border rounded-md p-2 ">
-
-              Brand Ambassador Requirements.pdf
-            </button>
-            {document}
-            <button className="border rounded-md p-2 "> this
-              Supervisor Requirements.pdf
-
-            </button> */}
-          </div>
+          <div className="flex gap-4 mt-4"></div>
         </InfoCard>
         <InfoCard
           title="Tell us the period for this project post"
@@ -377,9 +365,6 @@ export default function ProjectDetails({
             <Button className="dark__btn" onClick={() => submit(false)}>
               Post this project{" "}
             </Button>
-            {/* <Button className="dark__btn" onClick={() => console.log("submit")}>
-              Post this project{" "}
-            </Button> */}
           </div>
         </div>
       </Card>

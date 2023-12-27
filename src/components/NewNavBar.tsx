@@ -168,9 +168,7 @@ export default function NewNavBar() {
                     </span>
                   </p>{" "}
                 </DropdownMenuTrigger>
-
-                <DropdownMenuContent className="bg-white p-3 max-w-[200px]">
-                  <p>Invites</p>
+                {/* <DropdownMenuContent className="bg-white p-3">
                   {notifications !== null &&
                     notifications?.map((info: any, idx: number) => {
                       return (
@@ -188,7 +186,55 @@ export default function NewNavBar() {
                         </>
                       );
                     })}
-                  <Separator className="bg-bm__beige my-6" />
+                </DropdownMenuContent> */}
+                <DropdownMenuContent className="bg-white p-3">
+                  <p>Notifications</p>
+                  {/* {notifications !== null &&
+                    notifications.map((notification: any, idx: number) => (
+                      <div key={idx}>
+                        {notification.messages.map(
+                          (message: any, messageIdx: number) => (
+                            <React.Fragment key={messageIdx}>
+                              <DropdownMenuItem
+                                className={`hover:bg-black/10  ${
+                                  !message.isRead && "bg-black/10"
+                                }`}
+                                onClick={() => handleProfilePopUp(notification)}
+                              >
+                                {message.message}
+                              </DropdownMenuItem>
+                              {messageIdx !==
+                                notification.messages.length - 1 && (
+                                <DropdownMenuSeparator className="bg-bm__beige" />
+                              )}
+                            </React.Fragment>
+                          )
+                        )}
+                      </div>
+                    ))} */}
+                  {notifications !== null &&
+                    notifications.map((notification: any, idx: number) => (
+                      <div key={idx}>
+                        {notification.messages.map(
+                          (message: any, messageIdx: number) => (
+                            <React.Fragment key={messageIdx}>
+                              <DropdownMenuItem
+                                className={`hover:bg-black/10  ${
+                                  !message.isRead && "bg-black/10"
+                                }`}
+                                onClick={() => handleProfilePopUp(notification)}
+                              >
+                                {message.message}
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator className="bg-bm__beige" />
+                            </React.Fragment>
+                          )
+                        )}
+                      </div>
+                    ))}
+                </DropdownMenuContent>
+
+                {/* <DropdownMenuContent className="bg-white p-3">
                   <p>Offers</p>
                   {notifications !== null &&
                     notifications?.map((info: any, idx: number) => {
@@ -207,7 +253,35 @@ export default function NewNavBar() {
                         </>
                       );
                     })}
-                </DropdownMenuContent>
+                </DropdownMenuContent> */}
+                {/* <DropdownMenuContent className="bg-white p-3">
+                  <p>Offers</p>
+                  {notifications !== null &&
+                    notifications.map((notification: any, idx: number) => (
+                      <div key={idx}>
+                        {notification.messages
+                          .filter((message: any) =>
+                            message.message.includes("has offered you")
+                          )
+                          .map((message: any, messageIdx: number) => (
+                            <React.Fragment key={messageIdx}>
+                              <DropdownMenuItem
+                                className={`hover:bg-black/10  ${
+                                  !message.isRead && "bg-black/10"
+                                }`}
+                                onClick={() => handleProfilePopUp(notification)}
+                              >
+                                {message.message}
+                              </DropdownMenuItem>
+                              {messageIdx <
+                                notification.messages.length - 1 && (
+                                <DropdownMenuSeparator className="bg-bm__beige" />
+                              )}
+                            </React.Fragment>
+                          ))}
+                      </div>
+                    ))}
+                </DropdownMenuContent> */}
               </DropdownMenu>
               <DialogContent className="bg-[#F3F3F3] max-w-[360px] max-h-[282px] flex flex-col">
                 <DialogHeader>

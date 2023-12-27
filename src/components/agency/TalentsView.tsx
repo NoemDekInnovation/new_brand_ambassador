@@ -51,6 +51,7 @@ import {} from "../../redux/talent.slice";
 import { fetchEngageTalents } from "../../redux/engagetalent.slice";
 import { fetchAgencyTalentss } from "../../redux/agencyTalent.slice";
 import { fetchFavouriteProjects } from "../../redux/favourite.slice";
+import { fetchCurrentEngageTalents } from "../../redux/currentengage.slice";
 
 export type TalentType =
   | "All Talents"
@@ -95,13 +96,13 @@ export default function TalentsView({
     (state: RootState) => state.talent
   );
 
-    const { talents: current } = useSelector(
-      (state: RootState) => state.engagedtalent
-    );
+  const { talents: current } = useSelector(
+    (state: RootState) => state.engagedtalent
+  );
 
-        const { talentEngaged } = useSelector(
-          (state: RootState) => state.engagedtalent
-        );
+  const { talentEngaged } = useSelector(
+    (state: RootState) => state.engagedtalent
+  );
 
   const { favourites: fav } = useSelector(
     (state: RootState) => state.favouriteProject
@@ -111,17 +112,21 @@ export default function TalentsView({
         (state: RootState) => state.agency
       );
 
+const { engageTalents } = useSelector(
+  (state: RootState) => state.currentengage
+);
+
 
             const talentEngagedLength = talentEngaged?.length;
 
   // console.log("change", resTalents);
- 
+
   const talentCount = {
     "All Talents": resTalents?.length || 0,
     "Current Contacts": current?.length || 0,
-    "Favorites": fav?.length || 0,
-    "Engaged": talentEngagedLength || 0,
-    "My Talents": myTalent?.length || 0,
+    Favorites: fav?.length || 0,
+    "Engaged": engageTalents?.length || 0,
+    "My Talents": myTalent?.length || 0, 
   };
 
   const onTalentTypeChnage = (type: TalentType) => {
@@ -131,7 +136,10 @@ export default function TalentsView({
   useEffect(() => {
     setIsLoading(true);
     dispatch(fetchTalents());
-    dispatch(fetchEngageTalents());
+    // dispatch(fetchEngageTalents());
+    // dispatch(fetchEngageTalents());
+      dispatch(fetchEngageTalents({ status: true }));
+       dispatch(fetchCurrentEngageTalents({ status: false }));
     dispatch(fetchFavouriteProjects());
     dispatch(fetchAgencyTalentss());
     // dispatch(fetchEngageTalents());

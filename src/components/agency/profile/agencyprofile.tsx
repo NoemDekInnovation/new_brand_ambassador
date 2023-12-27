@@ -99,7 +99,7 @@ const AgencyProfile = () => {
                   <div className="bg-black w-fit rounded-[5px] px-1 text-[18px]">
                     <BiSolidUserDetail className="text-white w-fit" />
                   </div>
-                  <p className="text-[16px] font-bold">Profile</p>
+                  <p className="text-[16px] font-bold">Profile</p> 
                   <p className="ml-20 bg-bm__ox__red px-2 text-white rounded-md">
                     60%
                   </p>
@@ -135,11 +135,11 @@ const AgencyProfile = () => {
                           <RiEdit2Fill className="cursor-pointer" />
                         </div>
                         <Separator className="bg-bm__gler/50" />
-                        <div className="h-[170px] w-[120px] rounded-md">
+                        <div className="h-[150px] w-[120px] rounded-md">
                           <img src={agencyProfile.profilePic} alt="img" />
                         </div>
-                        <div className="text-[12px] font-normal gap-2 flex flex-col">
-                          <div className="pt-5 flex items-center">
+                        <div className="text-[12px] font-normal gap-2 flex flex-col mt-4">
+                          <div className="pt-10 flex items-center">
                             <p className="w-[120px] text-[12px] font-semibold">
                               First Name:
                             </p>

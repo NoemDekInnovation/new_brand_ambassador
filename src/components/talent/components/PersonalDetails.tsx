@@ -60,6 +60,20 @@ export default function PersonalDetails({
     // Add more options as needed
   ];
 
+const dressSizeOptions = [
+  "6",
+  "8",
+  "10",
+  "12", // Female dress sizes
+  "S",
+  "M",
+  "L",
+  "XL", // Male dress sizes
+];
+
+
+
+
   const [inputError, setInputError] = useState<string | null>(null);
   const [heightError, setHeightError] = useState<string | null>(null);
 
@@ -103,6 +117,12 @@ export default function PersonalDetails({
     const { value } = event.target;
     setPersonal({ ...personal, skinColor: value });
   };
+
+  const handleDressSizeChange = (event: { target: { value: any } }) => {
+    const { value } = event.target;
+    setPersonal({ ...personal, dressSize: value });
+  };
+
 
   //  const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
   //    const selectedOptions = Array.from(
@@ -542,7 +562,7 @@ export default function PersonalDetails({
                   </option>
                   {skinColorOptions.map((option) => (
                     <option key={option} value={option}>
-                      {option}
+                      &nbsp; {option} &nbsp;
                     </option>
                   ))}
                 </select>
@@ -556,18 +576,30 @@ export default function PersonalDetails({
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
               <div className="relative  z-0 w-full mb-6 group">
-                <input
-                  type="text"
+              
+
+                <select
                   name="dressSize"
                   id="dressSize"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900
+                bg-transparent border-0 border-b-2 border-gray-300
+                appearance-none dark:text-white dark:border-gray-600
+                dark:focus:border-blue-500 focus:outline-none focus:ring-0
+                focus:border-blue-600 peer"
                   value={personal.dressSize}
-                  onChange={(e) => handleInputChange(e, "dressSize")}
-                />
-                {inputError && (
-                  <p className="text-red-500 text-sm">{inputError}</p>
-                )}
+                  onChange={handleDressSizeChange}
+                  required
+                >
+                  <option value="" disabled hidden>
+                    Select Dress Size
+                  </option>
+                  {dressSizeOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {/* {option} */}
+                      &nbsp; {option} &nbsp;
+                    </option>
+                  ))}
+                </select>
                 <label
                   htmlFor="dressSize"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -611,11 +643,7 @@ export default function PersonalDetails({
                   htmlFor="languages"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  <Required className="text-[20px]">
-                  Languages
-
-                  </Required>
-
+                  <Required className="text-[20px]">Languages</Required>
                 </label>
               </div>
             </div>

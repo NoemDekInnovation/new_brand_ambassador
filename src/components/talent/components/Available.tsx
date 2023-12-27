@@ -15,12 +15,11 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchTalentInvitations } from "../../../redux/talentInvitations.slice";
 import { Input } from "../../../ui/input";
 
-
 const Available = () => {
   const [selectedProject, setSelectedProject] = useState();
   const [popUp, setPopUp] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [projectsPerPage, setProjectsPerPage] = useState(10); 
+  const [projectsPerPage, setProjectsPerPage] = useState(10);
 
   const handleProfilePopUp = (project: any) => {
     setSelectedProject(project);
@@ -49,10 +48,9 @@ const Available = () => {
     (state: RootState) => state.allTalentProject
   );
 
-  // console.log(allProjects.projects);
-
-  const filteredProjects = allProjects?.projects?.filter((project: any) =>
-    project.projectTitle.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProjects = allProjects?.availableProjects?.filter(
+    (project: any) =>
+      project.projectTitle.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const indexOfLastProject = currentPage * projectsPerPage;
@@ -63,7 +61,6 @@ const Available = () => {
   );
 
   const totalPages = Math.ceil(filteredProjects?.length / projectsPerPage);
-
 
   return (
     <>
