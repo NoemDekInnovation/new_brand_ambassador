@@ -117,8 +117,6 @@ const AllApplications = ({
     }
   }, [applications, applicationsQuery]);
 
-  console.log(talentData, "gab");
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleProfilePopUp = (talent: any) => {

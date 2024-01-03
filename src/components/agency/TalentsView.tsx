@@ -108,16 +108,15 @@ export default function TalentsView({
     (state: RootState) => state.favouriteProject
   );
 
-      const { agencyTalents: myTalent } = useSelector(
-        (state: RootState) => state.agency
-      );
+  const { agencyTalents: myTalent } = useSelector(
+    (state: RootState) => state.agency
+  );
 
-const { engageTalents } = useSelector(
-  (state: RootState) => state.currentengage
-);
+  const { engageTalents } = useSelector(
+    (state: RootState) => state.currentengage
+  );
 
-
-            const talentEngagedLength = talentEngaged?.length;
+  const talentEngagedLength = talentEngaged?.length;
 
   // console.log("change", resTalents);
 
@@ -125,8 +124,8 @@ const { engageTalents } = useSelector(
     "All Talents": resTalents?.length || 0,
     "Current Contacts": current?.length || 0,
     Favorites: fav?.length || 0,
-    "Engaged": engageTalents?.length || 0,
-    "My Talents": myTalent?.length || 0, 
+    Engaged: engageTalents?.length || 0,
+    "My Talents": myTalent?.length || 0,
   };
 
   const onTalentTypeChnage = (type: TalentType) => {
@@ -136,15 +135,10 @@ const { engageTalents } = useSelector(
   useEffect(() => {
     setIsLoading(true);
     dispatch(fetchTalents());
-    // dispatch(fetchEngageTalents());
-    // dispatch(fetchEngageTalents());
-      dispatch(fetchEngageTalents({ status: true }));
-       dispatch(fetchCurrentEngageTalents({ status: false }));
+    dispatch(fetchEngageTalents({ status: true }));
+    dispatch(fetchCurrentEngageTalents({ status: false }));
     dispatch(fetchFavouriteProjects());
     dispatch(fetchAgencyTalentss());
-    // dispatch(fetchEngageTalents());
-    // dispatch(fetchAgencyTalents());
-    // dispatch(fetchFavoriteTalents());
 
     const fetchProjects = async () => {
       if (user?.accountId !== undefined) {

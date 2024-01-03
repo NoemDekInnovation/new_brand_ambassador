@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import ActiveProject, { fetchactiveproject } from "../../redux/ActiveProject";
 import { Card, CardContent, CardFooter } from "../../ui/card";
-const ActiveProjects = () => {
+
+const ActiveProjects = ({ searchQuery }: { searchQuery: string }) => {
   const { activeProject } = useSelector(
     (state: RootState) => state.activeProject
   );
@@ -27,7 +28,15 @@ const ActiveProjects = () => {
     return workingDays?.join(", ") || "";
   };
 
-  const talents = activeProject.map((project, idx) => {
+  const filteredProjects = activeProject?.filter((project: any) => {
+    // Check if project and project.name are defined before calling toLowerCase()
+    return (
+      project?.projectTitle &&
+      project?.projectTitle.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
+  const projects = filteredProjects.map((project, idx) => {
     const formattedLocation = Array.isArray(project.projectLocation)
       ? project.projectLocation.join(", ")
       : "";
@@ -88,7 +97,7 @@ const ActiveProjects = () => {
       </Card>
     );
   });
-  return <div className="flex flex-col w-full gap-2">{talents}</div>;
+  return <div className="flex flex-col w-full gap-2">{projects}</div>;
 };
 
 export default ActiveProjects;

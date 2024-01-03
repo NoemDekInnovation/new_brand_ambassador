@@ -128,13 +128,6 @@ export function CurrentProjects({
                 0 Supervisors
               </p>
             </div>
-            {/* <div className="flex items-center py-2">
-            <p className="font-medium text-[10px] text-bm__niv">Ambassadors</p>
-            <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
-            <p className="font-medium text-[10px] text-bm__niv ml-2">
-              0 Supervisors
-            </p>
-          </div> */}
           </div>
           <Separator className="my-1" />
           <div className="py-2">
