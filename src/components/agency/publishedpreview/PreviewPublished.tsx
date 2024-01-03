@@ -1,6 +1,5 @@
 import React, { ReactNode, useState } from "react";
 import { Card } from "../../../ui/card";
-import { Dialog, DialogContent, Overlay } from "@radix-ui/react-dialog";
 import { TbMap2, TbProgressCheck } from "react-icons/tb";
 import { ImCancelCircle } from "react-icons/im";
 import { Separator } from "../../../ui/seperator";
@@ -9,42 +8,6 @@ import { BsFillCollectionFill } from "react-icons/bs";
 import darkUnion from "../../../assets/Union.png";
 import subtract from "../../../assets/Subtract.png";
 import subtract2 from "../../../assets/Subtract2.png";
-import { Button } from "../../../ui/button";
-import { useNavigate } from "react-router-dom";
-
-import { AiOutlineEdit } from "react-icons/ai";
-import { DayObject, daysOfWeek } from "../createproject/projectBudget";
-import {
-  AboutProjectProps,
-  ProjectPostProps,
-  RequiredTalentsProps,
-} from "../../../redux/types";
-
-// interface InfoCardProps {
-//   title: string;
-//   children: ReactNode;
-// }
-
-// function InfoCard({ title, children }: InfoCardProps): JSX.Element {
-//   // Function implementation goes here
-
-//   return <div>{children || null}</div>;
-// }
-
-// // }
-
-// interface PreviewPublishedProps {
-//   next: () => void;
-//   cancel: () => void;
-//   aboutProject: AboutProjectProps;
-//   requiredTalents: RequiredTalentsProps[];
-//   workDays: string[];
-//   proposal: string;
-//   document: any;
-//   projectPost: any;
-//   projectName: any;
-//   setProjectPost: any;
-// }
 
 const PreviewPublished = ({
   popUp,
@@ -53,140 +16,6 @@ const PreviewPublished = ({
   popUp: boolean;
   setPopUp: any;
 }) => {
-  //   next,
-  //   cancel,
-  //   aboutProject,
-  //   document,
-  //   requiredTalents,
-  //   proposal,
-  //   workDays,
-  //   projectPost,
-  //   projectName,
-  //   setProjectPost,
-  // }: {
-  //   next?: () => void;
-  //   cancel: () => void;
-  //   aboutProject: AboutProjectProps;
-  //   requiredTalents: RequiredTalentsProps[];
-  //   workDays: string[];
-  //   proposal: string;
-  //   document: any;
-  //   projectPost: any;
-  //   projectName: any;
-  //   setProjectPost: any;
-  // }) => {
-  // edit?: () => void;
-  // const next = () => {};
-  // const cancel = () => {};
-  // const aboutProject = {
-  //   projectTitle: "Project Title",
-  //   projectCategory: "Project Category",
-  //   projectCode: "Project Code",
-  //   projectDescription: "Project Description",
-  //   projectLocation: "Project Location",
-  //   startDate: "",
-  //   endDate: "",
-  // };
-  // const requiredTalents = [
-  //   {
-  //     opportunities: "Opportunities",
-  //     talentType: "Talent Type",
-  //     qualifications: "Qualifications",
-  //     skills: ["Skill 1", "Skill 2", "Skill 3"],
-  //     salary: "Salary",
-  //     paymentOptions: "Payment Options",
-  //   },
-  // ];
-
-  // const workDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  // const proposal = "Proposal";
-  // const document = "Document";
-  // const projectPost = {
-  //   startDate: "",
-  //   endDate: "",
-  // };
-  // const projectName = "Project Name";
-  // const setProjectPost: any = () => {};
-  // const setOverView = () => {};
-
-  // function InfoCard({
-  //   title,
-  //   children,
-  //   edit,
-  // }: {
-  //   title: string;
-  //   children: ReactNode;
-  //   edit?: () => void;
-  // {
-  //   const navigate = useNavigate();
-  //   const handleClick = () => {
-  //     // Navigate to the desired page
-  //     navigate("/dashboard");
-  //   };
-  //   const handleInputChange = (
-  //     e: React.ChangeEvent<HTMLInputElement>,
-  //     fieldName: string
-  //   ) => {
-  //     const { value } = e.target;
-
-  //     // setProjectPost((prevData: ProjectPostProps) => ({
-  //     //   ...prevData,
-  //     //   [fieldName]: value,
-  //     // }));
-  //     if (fieldName === "startDate" || fieldName === "endDate") {
-  //       // Get the current date
-  //       const currentDate = new Date();
-
-  //       // Get the selected date
-  //       const selectedDate = new Date(value + "T00:00:00");
-
-  //       if (selectedDate < currentDate) {
-  //         // Display an error message
-  //         console.error("Selected date cannot be in the past");
-  //         // Optionally, you can set an error state to display a message in your UI
-  //       } else if (
-  //         fieldName === "endDate" &&
-  //         selectedDate <= new Date(aboutProject.startDate + "T00:00:00")
-  //       ) {
-  //         // Display an error message
-  //         console.error("End date cannot be before or equal to start date");
-  //         // Optionally, you can set an error state to display a message in your UI
-  //       } else {
-  //         // No error, update the state with truncated value
-  //         const truncatedValue = value.slice(0, 250);
-  //         setProjectPost((prevData: AboutProjectProps) => ({
-  //           ...prevData,
-  //           [fieldName]: truncatedValue,
-  //         }));
-  //       }
-  //     } else {
-  //       // For other fields, update the state directly with truncated value
-  //       const truncatedValue = value.slice(0, 250);
-  //       setProjectPost((prevData: AboutProjectProps) => ({
-  //         ...prevData,
-  //         [fieldName]: truncatedValue,
-  //       }));
-  //     }
-  //   };
-
-  //   const startDate = new Date(aboutProject.startDate);
-  //   const endDate = new Date(aboutProject.endDate);
-
-  //   const formattedStartDate = startDate.toLocaleDateString("en-US", {
-  //     year: "numeric",
-  //     month: "long",
-  //     day: "numeric",
-  //   });
-
-  //   const formattedEndDate = endDate.toLocaleDateString("en-US", {
-  //     year: "numeric",
-  //     month: "long",
-  //     day: "numeric",
-  //   });
-
-  //   const formattedDateRange = `${formattedStartDate} to ${formattedEndDate}`;
-  // const [popUp, setPopUp] = useState(false);
-
   return (
     <div
       className={`fixed z-[1000] bg-black/50  w-[100%] items-center justify-end flex flex-col transition-all duration-1000 inset-0 ${

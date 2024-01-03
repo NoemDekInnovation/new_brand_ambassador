@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { fetchcompleteproject } from "../../redux/completeProject";
 
-const CompletedProjects = () => {
+const CompletedProjects = ({ searchQuery }: { searchQuery: string }) => {
   const { completeProject } = useSelector(
     (state: RootState) => state.completeProject
   );
@@ -28,7 +28,15 @@ const CompletedProjects = () => {
     return workingDays?.join(", ") || "";
   };
 
-  const talents = completeProject.map((project, idx) => {
+  const filteredProjects = completeProject?.filter((project: any) => {
+    // Check if project and project.name are defined before calling toLowerCase()
+    return (
+      project?.projectTitle &&
+      project?.projectTitle.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
+  const projects = filteredProjects.map((project, idx) => {
     const formattedLocation = Array.isArray(project.projectLocation)
       ? project.projectLocation.join(", ")
       : "";
@@ -99,7 +107,7 @@ const CompletedProjects = () => {
     );
   });
 
-  return <>{talents}</>;
+  return <>{projects}</>;
 };
 
 export default CompletedProjects;

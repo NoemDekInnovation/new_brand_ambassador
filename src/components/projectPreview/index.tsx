@@ -21,32 +21,22 @@ export const ProjectViewCard = ({
   selectedProject,
   id,
   setId,
-}: // talent,
-// index,
-// activeType,
-{
+}: {
   popUp: boolean;
   setPopUp: any;
   selectedProject: any;
   id: any;
   setId: any;
-  // talent: any;
-  // index: number;
-  // activeType: any;
 }) => {
   const [selectedComponent, setSelectedComponent] = useState(1);
   const [index, setIndex] = useState(0);
   const [talent, setTalent] = useState();
   const Id = selectedProject?._id;
-  // console.log(`id: ${id}`);
+
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
 
   const [talentLength, setTalentLength] = useState([]);
-  // useEffect(() => {
-  //   useDispatch(fetchProjectApplications(projectId: string));
-  //   // dispatch(filterApplications({ id: ProjectId, status: "shortlisted" }));
-  // }, []);
 
   useEffect(() => {
     const fetchHired = async () => {
@@ -60,7 +50,6 @@ export const ProjectViewCard = ({
               },
             }
           );
-          // console.log(response.data.data);
           setTalentLength(response.data.data.hiredTalent);
         } catch (error) {
           // console.error("Error while fetiching Notifications:", error);
@@ -69,11 +58,9 @@ export const ProjectViewCard = ({
       }
     };
     fetchHired();
-    // setIsLoading(false);
   }, [id, user]);
 
   const numberOfHired = talentLength?.length || 0;
-  // console.log("me", talentLength);
 
   const handleClose = () => {
     setPopUp(false);

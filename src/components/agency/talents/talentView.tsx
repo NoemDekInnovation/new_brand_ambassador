@@ -54,7 +54,6 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { TalentsProps } from "../../../redux/talent.slice";
 import HeartIcon from "../../../libs/HeartIcon";
 
-
 export const TalentList = ({
   talent,
   index,
@@ -116,7 +115,9 @@ export const TalentList = ({
         <div className="flex w-full justify-between">
           <div className="flex items-center gap-3">
             {" "}
-            <p className="text-[15px] font-medium">{talent?.talent?.firstName}</p>
+            <p className="text-[15px] font-medium">
+              {talent?.talent?.firstName}
+            </p>
             <AiOutlineHeart />
           </div>
           {talent?.metaData?.isActive && (
@@ -259,9 +260,6 @@ export const TalentGrid = ({
     setModal(!modal);
   };
 
-    
-
-
   // return (
   //   <Dialog open={toggleDialog} onOpenChange={setToggleDialog}>
   //     <DialogContent className="bg-white p-0 flex flex-col items-center">
@@ -340,7 +338,6 @@ export const TalentGrid = ({
   const cityState = _?.address?.[0]?.city
     ? `${_.address[0].city} ${_?.address[0].state}`
     : "N/A";
- 
 
   const truncatedCityState = truncateWords(cityState, 3);
 
@@ -395,7 +392,7 @@ export const TalentGrid = ({
                   <img
                     src={s}
                     alt=""
-                    className="z-50 hover:grayscale-0 grayscale  w-[196px] h-[262px]object-cover"
+                    className="z-50 hover:grayscale-0 grayscale  w-[196px] h-[262px] object-cover"
                     style={{ borderRadius: 5 }}
                   />
                   {hoveredIndex === index && (

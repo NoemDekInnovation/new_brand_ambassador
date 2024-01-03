@@ -28,23 +28,21 @@ type ProjectDetailsProps = {
 };
 
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
-    
-
-    
+  const [searchQuery, setSearchQuery] = useState("");
 
   let projects;
   switch (activeType) {
     case "Active":
-      projects = <ActiveProjects  />;
+      projects = <ActiveProjects searchQuery={searchQuery} />;
       break;
     case "Published":
-      projects = <PublishedProject />;
+      projects = <PublishedProject searchQuery={searchQuery} />;
       break;
     case "Completed":
-      projects = <CompletedProjects />;
+      projects = <CompletedProjects searchQuery={searchQuery} />;
       break;
     case "Drafts":
-      projects = <DraftsProjects />;
+      projects = <DraftsProjects searchQuery={searchQuery} />;
       break;
     default:
       projects = null;
@@ -67,9 +65,6 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
     (state: RootState) => state.draftProject
   );
 
-
-  
-
   const projectsToRender =
     activeType === "Active"
       ? activeProject?.length || 0
@@ -78,12 +73,6 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
       : activeType === "Completed"
       ? completeProject?.length || 0
       : draftProject?.length || 0;
-
-
-
-
-
-
 
   return (
     <CardContent className=" flex-1">
@@ -105,6 +94,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
           <Input
             className="border-0 focus:border-0 focus:ring-0 focus:outline-none flex-1"
             placeholder="Search Project"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
         <div className="flex justify-end items-center text-[10px] font-normal ">

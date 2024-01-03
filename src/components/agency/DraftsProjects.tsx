@@ -4,7 +4,7 @@ import { fetchdraftproject } from "../../redux/draftProject.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 
-const DraftsProjects = () => {
+const DraftsProjects = ({ searchQuery }: { searchQuery: string }) => {
   const { draftProject } = useSelector(
     (state: RootState) => state.draftProject
   );
@@ -26,7 +26,15 @@ const DraftsProjects = () => {
     day: "numeric",
   };
 
-  const talents = draftProject.map((project, idx) => {
+  const filteredProjects = draftProject?.filter((project: any) => {
+    // Check if project and project.name are defined before calling toLowerCase()
+    return (
+      project?.projectTitle &&
+      project?.projectTitle.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
+  const projects = filteredProjects.map((project, idx) => {
     const isEvenIndex = idx % 2 === 0;
     const editedTimestamp = isEvenIndex
       ? "June 2nd, 2023 | 2:00 PM"
@@ -100,7 +108,7 @@ const DraftsProjects = () => {
     );
   });
 
-  return <div>{talents}</div>;
+  return <div>{projects}</div>;
 };
 
 export default DraftsProjects;

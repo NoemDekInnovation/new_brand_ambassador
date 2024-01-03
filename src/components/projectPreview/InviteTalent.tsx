@@ -143,57 +143,54 @@ const InviteTalent = ({
             </div>
           </Card>
           {activePreview === "Project Post" && (
-            <div className="flex absolute flex-row justify-start items-start font-medium text-[12px] my-2  w-full max-w-[82%] right-5 -top-2 cursor-pointer">
+            <div className=" flex absolute flex-row justify-between items-start font-medium text-[12px] my-2  w-full max-w-[82%] right-5 -top-2 cursor-pointer">
               <div
-                className="relative text-black flex items-center justify-center "
                 onClick={() => select(1)}
+                className="relative text-black flex items-center justify-center w-full h-[55px]"
               >
                 <p className="absolute top-[25%]  z-20 text-[16px]">
                   Project Overview
                 </p>
-                <img
-                  src={darkUnion}
-                  alt=""
-                  className=" z-5 w-[350px] h-[45px]"
-                />
+
+                <div className=" bg-[#f3f3f3] border  border-[#d7d8da]  border-r-[#f3f3f3] w-full h-[58px]  rounded-l-md"></div>
+                <div className="absolute right-[-21px] z-[1000] -rotate-45 bg-[#f3f3f3]  w-[40px] h-[40px]  border-r border-b border-[#d7d8da]"></div>
+                <div className="absolute right-[-28px] z-[500] -rotate-45 bg-white w-[40px] h-[40px] border-r border-b border-[#d7d8da]"></div>
               </div>
+
               <div
                 onClick={() => select(2)}
-                className=" relative text-black flex items-center justify-center"
+                className="relative text-white flex items-center justify-center w-full"
               >
-                <p className="absolute text-white top-[25%] text-[16px] z-20">
+                <p className="absolute top-[25%] text-[16px] z-20">
                   Invite Talent
                   <span className="text-[14px] font-bold">
-                    {/* (30) */}({resTalents?.length || 0})
+                    ({resTalents?.length || 0})
                   </span>
                 </p>
-                <img
-                  src={subtract3}
-                  alt=""
-                  className=" z-10 w-[350px] h-[45px]"
-                />
+                <div className=" bg-white w-[8px] h-[55px]"></div>
+                <div className=" bg-black border border-[#d7d8da] w-full h-[58px]"></div>
+                <div className="absolute right-[-20px] z-[1000] -rotate-45 bg-black w-[40px] h-[40px] "></div>
+                <div className="absolute right-[-28px] z-[500] -rotate-45 bg-white w-[40px] h-[40px] border-r border-b border-[#d7d8da]"></div>
               </div>
               <div
                 onClick={() => select(3)}
-                className=" relative text-black flex items-center justify-center"
+                className="relative text-black flex items-center justify-center w-full"
               >
                 <p className="absolute top-[25%] text-[16px] z-20">
                   {" "}
                   Applications
                   <span className="text-[14px] font-bold">
                     ({applications?.data?.projectApplications?.length || 0})
-                    {/* (300) */}
                   </span>
                 </p>
-                <img
-                  src={subtract}
-                  alt=""
-                  className=" z-10 w-[350px] h-[45px]"
-                />
+                <div className=" bg-white w-[8px] h-[55px]"></div>
+                <div className=" bg-[#f3f3f3] border border-[#d7d8da] w-full h-[58px]"></div>
+                <div className="absolute right-[-21px] z-[1000] -rotate-45 bg-[#f3f3f3] border-r border-b border-[#d7d8da] w-[40px] h-[40px] "></div>
+                <div className="absolute right-[-28px] z-[500] -rotate-45 bg-white w-[40px] h-[40px] border-r border-b border-[#d7d8da]"></div>
               </div>
               <div
-                className=" relative text-black flex items-center justify-center"
                 onClick={() => select(4)}
+                className="relative text-black flex items-center justify-center w-full"
               >
                 <p className="absolute top-[25%] z-20 text-[16px]">
                   {" "}
@@ -202,11 +199,8 @@ const InviteTalent = ({
                     ({hiredTalent.length})
                   </span>
                 </p>
-                <img
-                  src={subtract2}
-                  alt=""
-                  className=" z-10 w-[350px] h-[45px]"
-                />
+                <div className=" bg-white w-[8px] h-[55px]"></div>
+                <div className=" bg-[#f3f3f3] border border-[#d7d8da]  w-full h-[58px] rounded-r-md"></div>
               </div>
             </div>
           )}
