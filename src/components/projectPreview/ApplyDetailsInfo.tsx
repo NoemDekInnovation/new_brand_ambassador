@@ -103,7 +103,12 @@ const ApplyDetailsInfo = ({
 }) => {
   let pageTalents;
 
-  type AppProps = "shortlisted" | "rejected" | "approvedHire" | "All";
+  type AppProps =
+    | "shortlisted"
+    | "rejected"
+    | "approvedHire"
+    | "All"
+    | "training";
   // console.log("activeType", activeType);
 
   const [gridView, setGridView] = useState(true);
@@ -448,6 +453,24 @@ const ApplyDetailsInfo = ({
             <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
             <button
               className={`${
+                appStatus === "training" ? "bg-[#DCDDDF]" : ""
+              } px-4 gap-2 transistion-all duration-1000`}
+              onClick={() => {
+                dispatch(
+                  filterApplications({ id: ProjectId, status: "trained" })
+                );
+                setAppStatus("training");
+              }}
+            >
+              Training
+              <span className="text-[16px] font-semibold text-black">
+                {" "}
+                {/* ({applications?.data?.totalApprovedHires}) */}(0)
+              </span>
+            </button>
+            <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
+            <button
+              className={`${
                 appStatus === "approvedHire" ? "bg-[#DCDDDF]" : ""
               } px-4 gap-2 transistion-all duration-1000`}
               onClick={() => {
@@ -463,6 +486,7 @@ const ApplyDetailsInfo = ({
                 ({applications?.data?.totalApprovedHires})
               </span>
             </button>
+
             <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
             <button
               className={`${

@@ -1,36 +1,14 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "../../ui/card";
-import { Dialog, DialogContent, Overlay } from "@radix-ui/react-dialog";
-import { TbMap2, TbProgressCheck } from "react-icons/tb";
+import { TbMap2 } from "react-icons/tb";
 import { ImCancelCircle, ImStatsDots } from "react-icons/im";
 import { Separator } from "../../ui/seperator";
-import {
-  MdFamilyRestroom,
-  MdOutlineProductionQuantityLimits,
-  MdPostAdd,
-} from "react-icons/md";
+import { MdOutlineProductionQuantityLimits, MdPostAdd } from "react-icons/md";
 import { BsFillCollectionFill } from "react-icons/bs";
-import darkUnion from "../../assets/Union.png";
-import subtract from "../../assets/Subtract.png";
-import subtract2 from "../../assets/Subtract2.png";
 import { Button } from "../../ui/button";
-import { useNavigate } from "react-router-dom";
-
-import { AiOutlineEdit } from "react-icons/ai";
-import {
-  DayObject,
-  daysOfWeek,
-  // daysOfWeekx,
-} from "../agency/createproject/projectBudget";
-import {
-  AboutProjectProps,
-  ProjectPostProps,
-  ProjectProps,
-  RequiredTalentsProps,
-} from "../../redux/types";
+import { DayObject, daysOfWeek } from "../agency/createproject/projectBudget";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { campaignAuthAxiosInstance } from "../../api/axios";
 import Contract from "../agency/contract/Contract";
 
 const ProjectPreview = ({
@@ -38,19 +16,13 @@ const ProjectPreview = ({
   setPopUp,
   select,
   selectedProject,
-  numberOfHired,
 }: {
   select: any;
   popUp: boolean;
   setPopUp: any;
   selectedProject: any;
   numberOfHired: number;
-  // workDays: [];
 }) => {
-  // const { talents: resTalents } = useSelector(
-  //   (state: RootState) => state.talent
-  // );
-
   const [activePreview, setActivePreview] = useState("Project Post");
   const startDate = new Date(selectedProject?.projectDuration?.startDate);
   const endDate = new Date(selectedProject?.projectDuration?.endDate);
@@ -181,58 +153,55 @@ const ProjectPreview = ({
               <p className="text-[14px] font-normal">Contract</p>
             </div>
           </Card>
+
           {activePreview === "Project Post" && (
-            <div className=" flex absolute flex-row justify-start items-start font-medium text-[12px] my-2  w-full max-w-[82%] right-5 -top-2 cursor-pointer">
+            <div className=" flex absolute flex-row justify-between items-start font-medium text-[12px] my-2  w-full max-w-[82%] right-5 -top-2 cursor-pointer">
               <div
                 onClick={() => select(1)}
-                className="relative text-white flex items-center justify-center "
+                className="relative text-white flex items-center justify-center w-full h-[55px]"
               >
                 <p className="absolute top-[25%]  z-20 text-[16px]">
                   Project Overview
                 </p>
-                <img
-                  src={darkUnion}
-                  alt=""
-                  className=" z-5 w-[350px] h-[45px]"
-                />
+
+                <div className=" bg-black border  border-[#d7d8da]  border-r-black w-full h-[58px]  rounded-l-md"></div>
+                <div className="absolute right-[-21px] z-[1000] -rotate-45 bg-black  w-[40px] h-[40px]  border-r border-b border-[#d7d8da]"></div>
+                <div className="absolute right-[-28px] z-[500] -rotate-45 bg-white w-[40px] h-[40px] border-r border-b border-[#d7d8da]"></div>
               </div>
               <div
                 onClick={() => select(2)}
-                className=" relative text-black flex items-center justify-center"
+                className="relative text-black flex items-center justify-center w-full"
               >
                 <p className="absolute top-[25%] text-[16px] z-20">
                   Invite Talent
                   <span className="text-[14px] font-bold">
-                    {/* (30) */}({resTalents?.length || 0})
+                    ({resTalents?.length || 0})
                   </span>
                 </p>
-                <img
-                  src={subtract}
-                  alt=""
-                  className=" z-10 w-[350px] h-[45px]"
-                />
+                <div className=" bg-white w-[8px] h-[55px]"></div>
+                <div className=" bg-[#f3f3f3] border border-[#d7d8da] w-full h-[58px]"></div>
+                <div className="absolute right-[-21px] z-[1000] -rotate-45 bg-[#f3f3f3] border-r border-b border-[#d7d8da] w-[40px] h-[40px] "></div>
+                <div className="absolute right-[-28px] z-[500] -rotate-45 bg-white w-[40px] h-[40px] border-r border-b border-[#d7d8da]"></div>
               </div>
               <div
                 onClick={() => select(3)}
-                className=" relative text-black flex items-center justify-center"
+                className="relative text-black flex items-center justify-center w-full"
               >
                 <p className="absolute top-[25%] text-[16px] z-20">
                   {" "}
                   Applications
                   <span className="text-[14px] font-bold">
                     ({applications?.data?.projectApplications?.length || 0})
-                    {/* (300) */}
                   </span>
                 </p>
-                <img
-                  src={subtract}
-                  alt=""
-                  className=" z-10 w-[350px] h-[45px]"
-                />
+                <div className=" bg-white w-[8px] h-[55px]"></div>
+                <div className=" bg-[#f3f3f3] border border-[#d7d8da] w-full h-[58px]"></div>
+                <div className="absolute right-[-21px] z-[1000] -rotate-45 bg-[#f3f3f3] border-r border-b border-[#d7d8da] w-[40px] h-[40px] "></div>
+                <div className="absolute right-[-28px] z-[500] -rotate-45 bg-white w-[40px] h-[40px] border-r border-b border-[#d7d8da]"></div>
               </div>
               <div
                 onClick={() => select(4)}
-                className=" relative text-black flex items-center justify-center"
+                className="relative text-black flex items-center justify-center w-full"
               >
                 <p className="absolute top-[25%] z-20 text-[16px]">
                   {" "}
@@ -241,11 +210,8 @@ const ProjectPreview = ({
                     ({hiredTalent.length})
                   </span>
                 </p>
-                <img
-                  src={subtract2}
-                  alt=""
-                  className=" z-10 w-[350px] h-[45px]"
-                />
+                <div className=" bg-white w-[8px] h-[55px]"></div>
+                <div className=" bg-[#f3f3f3] border border-[#d7d8da]  w-full h-[58px] rounded-r-md"></div>
               </div>
             </div>
           )}

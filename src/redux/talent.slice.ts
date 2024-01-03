@@ -42,11 +42,6 @@ export const fetchTalents = createAsyncThunk(
   async () => {
     const user = localStorage.getItem("userData");
 
-    // try {
-    //   const response = await authAxiosInstance(`/all-talents`)
-
-    //   console.log("checker", response.data);
-    //   return response.data.data;
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
@@ -57,7 +52,7 @@ export const fetchTalents = createAsyncThunk(
           },
         });
 
-        // console.log("checker", response?.data);
+        console.log("checker", response?.data?.data);
         return response?.data?.data;
       }
     } catch (error) {
@@ -99,14 +94,11 @@ export const fetchAgencyTalents = createAsyncThunk(
       if (user !== null) {
         const parsedUser = JSON.parse(user);
 
-        const response = await authAxiosInstance(
-          `/agency-talent`,
-          {
-            headers: {
-              Authorization: `Bearer ${parsedUser.authKey}`,
-            },
-          }
-        );
+        const response = await authAxiosInstance(`/agency-talent`, {
+          headers: {
+            Authorization: `Bearer ${parsedUser.authKey}`,
+          },
+        });
 
         console.log("checker", response?.data?.data?.talent);
         return response?.data?.data?.talent;

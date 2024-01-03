@@ -79,6 +79,7 @@ export default function NewNavBar() {
 
   useEffect(() => {
     setIsLoading(true);
+    console.log("helpe");
 
     const fetchNotifications = async () => {
       if (user?.user?.accountId !== undefined) {
@@ -91,6 +92,7 @@ export default function NewNavBar() {
               },
             }
           );
+          console.log(response?.data);
           setNotifications(response?.data?.notifications);
         } catch (error) {
           // console.error("Error while fetiching Notifications:", error);

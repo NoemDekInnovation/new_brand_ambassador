@@ -412,27 +412,28 @@ export const TalentList = ({
             ""
           )}
           {appStatus === "shortlisted" ? (
-            <button className="light__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
+            <button className="dark__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
               <div className="flex items-center gap-2">
+                {/* <span>Send Offer</span> */}
                 <AlertDialog>
                   <AlertDialogTrigger className="">
                     <span>Send Offer</span>
                   </AlertDialogTrigger>
                   <AlertDialogContent className="z-[4000] bg-white ">
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Send Contract Offer</AlertDialogTitle>
+                      <AlertDialogTitle>Send Offer</AlertDialogTitle>
                       <Separator className="bg-bm__beige my-4" />
-                      {/* <SelectOption
+                      <SelectOption
                         id="origin"
                         name="origin"
                         defaultValue={"companyProfile.address[0].state"}
-                        options={appOptions}
-                        onChange={"set"}
-                        placeholder="State of origin"
+                        options={offerSelectorList}
+                        onChange={(e: any) => handleSelection(e.value)}
+                        placeholder="Select offer"
                         required
                         isDisabled={false}
-                        className="w-[100px] bg-orange-400"
-                      /> */}
+                        className="max-w-[400px]"
+                      />
                       {/* <p>DropDown</p> */}
                       <Separator className="bg-bm__beige my-4" />
                       <AlertDialogDescription>
@@ -441,45 +442,47 @@ export const TalentList = ({
                             <CardContent>
                               <div className="flex justify-between items-center">
                                 <h2 className="text-[14px] font-normal capitalize">
-                                  Contract Name
+                                  {selectedOffer !== null &&
+                                    capitalizeFirstLetter(
+                                      selectedOffer[0].offerName || ""
+                                    )}{" "}
+                                  Name
                                 </h2>
                               </div>
                               <Separator className="bg-bm__beige my-4" />
                               <Card className="h-[23vh] border-[#93979D]">
-                                <div className="flex flex-col overflow-y-auto h-[23vh]">
+                                <div className="flex flex-col overflow-y-auto ">
                                   <p className=" capitalize break-words p-4">
-                                    Lorem ipsum dolor sit amet consectetur.
-                                    Viverra mattis vitae odio in sem non eu
-                                    elementum. Vehicula ut amet parturient dui
-                                    nam sit amet. Luctus mattis mattis viverra
-                                    eleifend enim bibendum viverra duis. At et
-                                    vel elit nibh orci volutpat diam tempus
-                                    volutpat. Hendrerit ullamcorper dolor nunc
-                                    malesuada laoreet. Id venenatis integer ac
-                                    et morbi ut sagittis velit. Pharetra libero
-                                    dolor eget lacinia. Tristique leo eu augue
-                                    lectus a sit et etiam nunc. Consequat risus
-                                    sit enim tristique nunc eget molestie. Ac
-                                    sed vivamus aliquam egestas at. Ullamcorper
-                                    tellus facilisi mauris est id. Hac quam
-                                    interdum consequat lorem condimentum
-                                    tincidunt est. Eu auctor convallis urna est
-                                    in maecenas nisi senectus. Netus dui mi at
-                                    donec pellentesque facilisi lorem tincidunt.
+                                    {selectedOffer !== null &&
+                                      capitalizeFirstLetter(
+                                        selectedOffer[0].offerDescription || ""
+                                      )}
                                   </p>
                                 </div>
                               </Card>
                             </CardContent>
                           </Card>
-                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA]">
+                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA] h-full max-h-[330px]">
                             <CardContent>
                               <div className="flex justify-between items-center">
                                 <h2 className="text-[14px] font-normal capitalize">
                                   Attachments
                                 </h2>
                               </div>
+                              <div className="flex mt-4">
+                                {selectedOffer !== null &&
+                                  selectedOffer[0].document.map(
+                                    (doc: string, idx: number) => {
+                                      return (
+                                        <a href={doc} key={idx} className="">
+                                          <IoDocumentAttachOutline className="text-[40px] md:text-[100px]" />
+                                          {doc}
+                                        </a>
+                                      );
+                                    }
+                                  )}
+                              </div>
                               <Separator className="bg-bm__beige my-6" />
-                              <Card className="h-[23vh] border-0"></Card>
                             </CardContent>
                           </Card>
                         </div>
@@ -489,9 +492,19 @@ export const TalentList = ({
                       <AlertDialogCancel>
                         <Button className="dark___btn">Cancel</Button>
                       </AlertDialogCancel>
-                      <AlertDialogAction>
-                        <Button className="dark___btn">Send Offer</Button>
-                      </AlertDialogAction>
+                      {/* <AlertDialogAction> */}
+                      <Button
+                        className="dark___btn max-w-fit"
+                        onClick={handleOffer}
+                      >
+                        Send Offer
+                      </Button>
+                      <OfferModal
+                        isOpen={isModalOpen}
+                        onClose={() => setModalOpen(false)}
+                        statusMessage={statusMessage}
+                      />
+                      {/* </AlertDialogAction> */}
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
