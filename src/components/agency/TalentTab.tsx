@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import NewTalentCards from './NewTalentCards/index';
-import TalentsView from './TalentsView';
+import React, { useState } from "react";
+import NewTalentCards from "./NewTalentCards/index";
+import TalentsView from "./TalentsView";
 
 export default function TalentTab() {
   const [showNewProject, setShowNewProject] = useState(false);

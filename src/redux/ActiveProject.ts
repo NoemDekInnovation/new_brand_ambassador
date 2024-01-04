@@ -49,6 +49,7 @@ type ProjectListResponse = {
 export interface ActiveProjectsProps {
   loading: boolean;
   error: string | null;
+  totalProjects: number;
   activeProject: Project[];
 }
 
@@ -56,6 +57,7 @@ const initialState: ActiveProjectsProps = {
   loading: false,
   error: "",
   activeProject: [],
+  totalProjects: 0,
 };
 
 export const fetchactiveproject = createAsyncThunk(
@@ -75,7 +77,7 @@ export const fetchactiveproject = createAsyncThunk(
           }
         );
 
-        return response.data.projects;
+        return response.data;
       }
     } catch (error) {
       throw error;
@@ -98,7 +100,8 @@ const activeProjects = createSlice({
         (state, action: PayloadAction<any>) => {
           state.loading = false;
           state.error = null;
-          state.activeProject = action.payload;
+          state.activeProject = action.payload.projects;
+          state.totalProjects = action.payload.totalProjects;
         }
       )
       .addCase(fetchactiveproject.rejected, (state, action) => {

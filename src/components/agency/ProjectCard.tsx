@@ -358,7 +358,14 @@ const ProjectCard = ({
                 </DropdownMenuContent>
               </DropdownMenu>
               <div className="flex items-center gap-2">
-                <div className="text-[15px] leading-[18px] font-normal text-[#252525B2]">
+                <div
+                  onClick={() => {
+                    // setDefaultTab("projects");
+                    localStorage.setItem("defaultTab", "talent"); // Store in local storage
+                    window.location.reload();
+                  }}
+                  className="text-[15px] leading-[18px] font-normal text-[#252525B2]"
+                >
                   View all{" "}
                 </div>
 
@@ -378,16 +385,7 @@ const ProjectCard = ({
                 idx={idx}
                 setModal={setProjectModal}
                 modal={projectModal}
-                // handleInvite={handleInvite}
-                // setSelectedProject={setSelectedProject}
-                // projects={projects}
-                // setSelectedTalent={setSelectedTalent}
-                // handleProfilePopUp={handleProfilePopUp}
-                // selectedTalent={selectedTalent}
                 setSelectedTalentID={setSelectedTalentID}
-                // selectedProject={selectedProject}
-                // setSuccessModal={setSuccessModal}
-                // successModal={successModal}
               />
             );
           })}

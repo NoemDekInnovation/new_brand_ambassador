@@ -6,11 +6,13 @@ export interface CompleteProjectProps {
   loading: boolean;
   error: string | null;
   completeProject: ProjectProps[];
+  totalProjects: number;
 }
 
 const initialState: CompleteProjectProps = {
   loading: false,
   error: "",
+  totalProjects: 0,
   completeProject: [],
 };
 
@@ -29,7 +31,8 @@ export const fetchcompleteproject = createAsyncThunk(
             },
           }
         );
-        return response.data.data.completedProjects;
+
+        return response.data.data;
       }
     } catch (error) {
       throw error;
@@ -52,7 +55,8 @@ const completeProjects = createSlice({
         (state, action: PayloadAction<any>) => {
           state.loading = false;
           state.error = null;
-          state.completeProject = action.payload;
+          state.completeProject = action.payload.completedProjects;
+          state.totalProjects = action.payload.totalProjects;
         }
       )
       .addCase(fetchcompleteproject.rejected, (state, action) => {

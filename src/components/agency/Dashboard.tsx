@@ -21,11 +21,19 @@ import { fetchactiveproject } from "../../redux/ActiveProject";
 import { fetchcompleteproject } from "../../redux/completeProject";
 
 const Dashboard = () => {
-  const [defaultTab, setDefaultTab] = useState("home");
-  const { activeProject } = useSelector(
+  const [defaultTab, setDefaultTab] = useState(() => {
+    const storedDefaultTab = localStorage.getItem("defaultTab");
+    if (storedDefaultTab) {
+      console.log(storedDefaultTab);
+
+      return storedDefaultTab;
+    }
+    return "home";
+  });
+  const { totalProjects: totalActiveProjects } = useSelector(
     (state: RootState) => state.activeProject
   );
-  const { completeProject } = useSelector(
+  const { totalProjects: totalCompleteProjects } = useSelector(
     (state: RootState) => state.completeProject
   );
 
@@ -63,6 +71,17 @@ const Dashboard = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const storedDefaultTab = localStorage.getItem("defaultTab");
+    if (storedDefaultTab) {
+      // setDefaultTab(storedDefaultTab);
+    }
+  }, []); // Empty dependency array ensures it runs only once on component mount
+
+  // useEffect(() => {
+  //   loc;
+  // }, [defaultTab]);
 
   return (
     <AgencyLayout>
@@ -216,7 +235,7 @@ const Dashboard = () => {
           <div className="flex">
             <div className="flex items-center gap-2 mr-6">
               <div className="text-white bg-bm__niv px-2 rounded-sm">
-                {activeProject?.length || 0}
+                {totalActiveProjects || 0}
               </div>
               <p className="font-medium text-xs leading-[18px]">
                 Active Projects
@@ -224,7 +243,7 @@ const Dashboard = () => {
             </div>
             <div className="flex items-center gap-2">
               <div className="text-white bg-black px-2 rounded-sm">
-                {completeProject?.length || 0}
+                {totalCompleteProjects || 0}
               </div>
               <p className="font-medium text-xs leading-[18px]">
                 Completed Projects
@@ -240,7 +259,7 @@ const Dashboard = () => {
             <TalentTab />
           </TabsContent>
           <TabsContent className="w-full" value="projects">
-            <ProjectTab setDefault={setDefaultTab} />
+            <ProjectTab />
           </TabsContent>
           <TabsContent className="w-full" value="inventory">
             Inventory

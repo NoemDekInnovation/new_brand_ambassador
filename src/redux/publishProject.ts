@@ -6,12 +6,14 @@ export interface PublishProjectsProps {
   loading: boolean;
   error: string | null;
   publishProject: ProjectProps[];
+  totalProjects: number;
 }
 
 const initialState: PublishProjectsProps = {
   loading: false,
   error: "",
   publishProject: [],
+  totalProjects: 0,
 };
 
 export const fetchpublishproject = createAsyncThunk(
@@ -30,7 +32,7 @@ export const fetchpublishproject = createAsyncThunk(
             },
           }
         );
-        return response?.data?.data?.publishedProjects;
+        return response?.data?.data;
       }
     } catch (error) {
       throw error;
@@ -53,7 +55,8 @@ const publishProjects = createSlice({
         (state, action: PayloadAction<any>) => {
           state.loading = false;
           state.error = null;
-          state.publishProject = action.payload;
+          state.publishProject = action.payload.publishedProjects;
+          state.totalProjects = action.payload.totalProjects;
         }
       )
       .addCase(fetchpublishproject?.rejected, (state, action) => {

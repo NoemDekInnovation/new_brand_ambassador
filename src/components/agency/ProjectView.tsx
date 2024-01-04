@@ -53,10 +53,10 @@ export default function ProjectsView({
 
   const { toast } = useToast();
   const { user } = useSelector((state: RootState) => state.user);
-  const { publishProject } = useSelector(
+  const { publishProject, totalProjects: totalPublishedProjects } = useSelector(
     (state: RootState) => state.publishProject
   );
-  const { completeProject } = useSelector(
+  const { completeProject, totalProjects: totalCompleteProjects } = useSelector(
     (state: RootState) => state.completeProject
   );
   const { draftProject } = useSelector(
@@ -182,8 +182,8 @@ export default function ProjectsView({
 
   const projectCount = {
     Active: activeProject?.length || 0,
-    Published: publishProject?.length || 0,
-    Completed: completeProject?.length || 0,
+    Published: totalPublishedProjects || 0,
+    Completed: totalCompleteProjects || 0,
     Drafts: draftProject?.length || 0,
   };
 
