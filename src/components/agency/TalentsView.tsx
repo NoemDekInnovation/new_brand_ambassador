@@ -54,11 +54,12 @@ import { fetchFavouriteProjects } from "../../redux/favourite.slice";
 import { fetchCurrentEngageTalents } from "../../redux/currentengage.slice";
 
 export type TalentType =
-  | "All Talents"
-  | "Current Contacts"
+  | "All Talent"
+  | "Current Contracts"
   | "Favorites"
   | "Engaged"
-  | "My Talents";
+  // | "Leading Talent"
+  | "My Talent";
 
 export default function TalentsView({
   newProject,
@@ -88,7 +89,7 @@ export default function TalentsView({
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedTalent, setSelectedTalent] = useState("");
   const [selectedTalentID, setSelectedTalentID] = useState("");
-  const [activeType, setActiveType] = useState<TalentType>("All Talents");
+  const [activeType, setActiveType] = useState<TalentType | null>(null);
 
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.user);
@@ -121,16 +122,26 @@ export default function TalentsView({
   // console.log("change", resTalents);
 
   const talentCount = {
-    "All Talents": resTalents?.length || 0,
-    "Current Contacts": current?.length || 0,
+    "All Talent": resTalents?.length || 0,
+    "Current Contracts": current?.length || 0,
     Favorites: fav?.length || 0,
     Engaged: engageTalents?.length || 0,
-    "My Talents": myTalent?.length || 0,
+    "My Talent": myTalent?.length || 0,
   };
 
   const onTalentTypeChnage = (type: TalentType) => {
     setActiveType(type);
   };
+
+  useEffect(() => {
+    const storedDefaultTalent: any = localStorage.getItem("defaultTalent");
+    if (storedDefaultTalent) {
+      console.log(storedDefaultTalent, "rubys");
+
+      return setActiveType(storedDefaultTalent);
+    }
+    return setActiveType("All Talent");
+  }, [activeType]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -1032,7 +1043,7 @@ export default function TalentsView({
                   </Card>
                 </CardContent>
                 <TalentDetailsInfo
-                  activeType={activeType}
+                  activeType={activeType || "All Talent"}
                   handleProfilePopUp={handleProfilePopUp}
                 />
               </Card>

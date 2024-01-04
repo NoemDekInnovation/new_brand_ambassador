@@ -24,8 +24,6 @@ const Dashboard = () => {
   const [defaultTab, setDefaultTab] = useState(() => {
     const storedDefaultTab = localStorage.getItem("defaultTab");
     if (storedDefaultTab) {
-      console.log(storedDefaultTab);
-
       return storedDefaultTab;
     }
     return "home";
@@ -40,7 +38,7 @@ const Dashboard = () => {
   const talentRef = useRef<HTMLParagraphElement>(null);
   const projectsRef = useRef<HTMLParagraphElement>(null);
 
-  const handleTabClick = (tab: string) => {
+  const handleTabClick = (tab: string, active_Content: string = "") => {
     // Reset styles for all tabs
     if (talentRef.current) {
       talentRef.current.style.color = "#000000";
@@ -69,6 +67,10 @@ const Dashboard = () => {
         projectsRef.current.style.fontWeight = "600";
         projectsRef.current.style.fontSize = "15px";
       }
+    }
+    if (tab === "Talent") {
+      const content = active_Content;
+      localStorage.setItem("defaultTalent", active_Content); // Store in local storage
     }
   };
 
@@ -109,7 +111,9 @@ const Dashboard = () => {
                     <TabsTrigger
                       value="talent"
                       className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Talent")}
+                      onClick={() =>
+                        handleTabClick("Talent", "Current Contracts")
+                      }
                     >
                       Current Contracts
                     </TabsTrigger>
@@ -119,9 +123,9 @@ const Dashboard = () => {
                     <TabsTrigger
                       value="talent"
                       className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Talent")}
+                      onClick={() => handleTabClick("Talent", "Favorites")}
                     >
-                      Favourites
+                      Favorites
                     </TabsTrigger>
                   </MenubarItem>
                   <MenubarSeparator className="bg-bm__beige" />
@@ -129,7 +133,7 @@ const Dashboard = () => {
                     <TabsTrigger
                       value="talent"
                       className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Talent")}
+                      onClick={() => handleTabClick("Talent", "Engaged")}
                     >
                       Engaged Talent
                     </TabsTrigger>
@@ -139,7 +143,7 @@ const Dashboard = () => {
                     <TabsTrigger
                       value="talent"
                       className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Talent")}
+                      onClick={() => handleTabClick("Talent", "My Talent")}
                     >
                       My Talent
                     </TabsTrigger>

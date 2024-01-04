@@ -65,8 +65,8 @@ import {
 import { any } from "zod";
 
 const categoryOptions: any = [
-  { value: "All Talents", label: "All Talent" },
-  { value: "Current Contacts", label: "Current Contacts" },
+  { value: "All Talent", label: "All Talent" },
+  { value: "Current Contracts", label: "Current Contracts" },
   { value: "Favorites", label: "Favorites" },
   { value: "Engaged", label: "Engaged" },
   { value: "My Talent", label: "My Talent" },
@@ -77,7 +77,7 @@ const appOptions: any = [
   { value: "All Applications", label: "All Applications" },
   { value: "My Talent", label: "My Talent" },
   { value: "Favorites", label: "Favorites" },
-  { value: "Current Contacts", label: "Current Contacts" },
+  { value: "Current Contracts", label: "Current Contracts" },
   { value: "Engaged", label: "Engaged" },
   { value: "Invited", label: "Invited" },
 ];
@@ -125,7 +125,7 @@ const ApplyDetailsInfo = ({
   const [selectedTalent, setSelectedTalent] = useState("");
   const [selectedTalentID, setSelectedTalentID] = useState("");
   const [projectModal, setProjectModal] = useState(false);
-  const [activeType, setActiveType] = useState<TalentType>("All Talents");
+  const [activeType, setActiveType] = useState<TalentType>("All Talent");
   const [appStatus, setAppStatus] = useState<AppProps>("All");
 
   const onTalentTypeChnage = (type: TalentType) => {
@@ -168,10 +168,10 @@ const ApplyDetailsInfo = ({
   useEffect(() => {
     const fetchTalents = async () => {
       if (user?.accountId) {
-        if (activeType === "My Talents") {
+        if (activeType === "My Talent") {
           // dispatch(fetchTalents());
-        } else if (activeType === "Current Contacts") {
-        } else if (activeType === "All Talents") {
+        } else if (activeType === "Current Contracts") {
+        } else if (activeType === "All Talent") {
         } else if (activeType === "Engaged") {
         } else if (activeType === "Favorites") {
         } else {
@@ -307,7 +307,7 @@ const ApplyDetailsInfo = ({
   });
 
   switch (activeType) {
-    case "All Talents":
+    case "All Talent":
       pageTalents = (
         <AllApplications
           gridView={gridView}
@@ -329,7 +329,7 @@ const ApplyDetailsInfo = ({
         />
       );
       break;
-    // case "Current Contacts":
+    // case "Current Contracts":
     //   pageTalents = (
     //     <CurrentContacts
     //       gridView={gridView}
@@ -380,7 +380,7 @@ const ApplyDetailsInfo = ({
     //     />
     //   );
     //   break;
-    // case "My Talents":
+    // case "My Talent":
     //   pageTalents = (
     //     <MyTalents
     //       gridView={gridView}
