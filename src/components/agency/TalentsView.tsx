@@ -89,6 +89,10 @@ export default function TalentsView({
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedTalent, setSelectedTalent] = useState("");
   const [selectedTalentID, setSelectedTalentID] = useState("");
+  const [activeTalentClick, setActiveTalentClick] = useState<boolean | null>(
+    false
+  );
+
   const [activeType, setActiveType] = useState<TalentType | null>(null);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -135,12 +139,12 @@ export default function TalentsView({
 
   useEffect(() => {
     const storedDefaultTalent: any = localStorage.getItem("defaultTalent");
-    if (storedDefaultTalent) {
-      console.log(storedDefaultTalent, "rubys");
-
-      return setActiveType(storedDefaultTalent);
+    if (!activeTalentClick) {
+      if (storedDefaultTalent) {
+        return setActiveType(storedDefaultTalent);
+      }
+      return setActiveType("All Talent");
     }
-    return setActiveType("All Talent");
   }, [activeType]);
 
   useEffect(() => {
@@ -912,6 +916,8 @@ export default function TalentsView({
                   <TalentList
                     talentCount={talentCount}
                     onTalentTypeChnage={onTalentTypeChnage}
+                    setActiveTalentClick={setActiveTalentClick}
+                    activeTalentClick={activeTalentClick}
                   />
                   <Card>
                     <CardContent className="py-3 md:py-6 space-y-3 overflow-y-scroll h-[30vh]">
