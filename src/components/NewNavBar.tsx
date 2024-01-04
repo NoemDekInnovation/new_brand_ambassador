@@ -34,6 +34,8 @@ import { fetchTalentInvitations } from "../redux/talentInvitations.slice";
 import ProjectPreview from "./talent/components/projectPreview";
 import { log } from "console";
 import BadgeAvatars from "../ui/avatar";
+import { fetchactiveproject } from "../redux/ActiveProject";
+import { fetchcompleteproject } from "../redux/completeProject";
 
 export default function NewNavBar() {
   const user = useSelector((state: RootState) => state.user);
@@ -107,6 +109,8 @@ export default function NewNavBar() {
 
   useEffect(() => {
     dispatch(fetchTalentInvitations());
+    dispatch(fetchactiveproject());
+    dispatch(fetchcompleteproject());
   }, [dispatch]);
 
   const handleProfilePopUp = (info: any) => {
@@ -168,50 +172,8 @@ export default function NewNavBar() {
                     </span>
                   </p>{" "}
                 </DropdownMenuTrigger>
-                {/* <DropdownMenuContent className="bg-white p-3">
-                  {notifications !== null &&
-                    notifications?.map((info: any, idx: number) => {
-                      return (
-                        <>
-                          <DropdownMenuItem
-                            className={`hover:bg-black/10  ${
-                              !info?.messages[0]?.isRead && "bg-black/10"
-                            }`}
-                            key={idx}
-                            onClick={() => handleProfilePopUp(info)}
-                          >
-                            {info?.messages[0]?.message}{" "}
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator className="bg-bm__beige" />
-                        </>
-                      );
-                    })}
-                </DropdownMenuContent> */}
                 <DropdownMenuContent className="bg-white p-3">
                   <p>Notifications</p>
-                  {/* {notifications !== null &&
-                    notifications.map((notification: any, idx: number) => (
-                      <div key={idx}>
-                        {notification.messages.map(
-                          (message: any, messageIdx: number) => (
-                            <React.Fragment key={messageIdx}>
-                              <DropdownMenuItem
-                                className={`hover:bg-black/10  ${
-                                  !message.isRead && "bg-black/10"
-                                }`}
-                                onClick={() => handleProfilePopUp(notification)}
-                              >
-                                {message.message}
-                              </DropdownMenuItem>
-                              {messageIdx !==
-                                notification.messages.length - 1 && (
-                                <DropdownMenuSeparator className="bg-bm__beige" />
-                              )}
-                            </React.Fragment>
-                          )
-                        )}
-                      </div>
-                    ))} */}
                   {notifications !== null &&
                     notifications.map((notification: any, idx: number) => (
                       <div key={idx}>
@@ -233,55 +195,6 @@ export default function NewNavBar() {
                       </div>
                     ))}
                 </DropdownMenuContent>
-
-                {/* <DropdownMenuContent className="bg-white p-3">
-                  <p>Offers</p>
-                  {notifications !== null &&
-                    notifications?.map((info: any, idx: number) => {
-                      return (
-                        <>
-                          <DropdownMenuItem
-                            className={`hover:bg-black/10  ${
-                              !info?.messages[0]?.isRead && "bg-black/10"
-                            }`}
-                            key={idx}
-                            onClick={() => handleProfilePopUp(info)}
-                          >
-                            {info?.messages[0]?.message}{" "}
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator className="bg-bm__beige" />
-                        </>
-                      );
-                    })}
-                </DropdownMenuContent> */}
-                {/* <DropdownMenuContent className="bg-white p-3">
-                  <p>Offers</p>
-                  {notifications !== null &&
-                    notifications.map((notification: any, idx: number) => (
-                      <div key={idx}>
-                        {notification.messages
-                          .filter((message: any) =>
-                            message.message.includes("has offered you")
-                          )
-                          .map((message: any, messageIdx: number) => (
-                            <React.Fragment key={messageIdx}>
-                              <DropdownMenuItem
-                                className={`hover:bg-black/10  ${
-                                  !message.isRead && "bg-black/10"
-                                }`}
-                                onClick={() => handleProfilePopUp(notification)}
-                              >
-                                {message.message}
-                              </DropdownMenuItem>
-                              {messageIdx <
-                                notification.messages.length - 1 && (
-                                <DropdownMenuSeparator className="bg-bm__beige" />
-                              )}
-                            </React.Fragment>
-                          ))}
-                      </div>
-                    ))}
-                </DropdownMenuContent> */}
               </DropdownMenu>
               <DialogContent className="bg-[#F3F3F3] max-w-[360px] max-h-[282px] flex flex-col">
                 <DialogHeader>

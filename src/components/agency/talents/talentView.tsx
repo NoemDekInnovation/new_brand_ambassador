@@ -515,7 +515,9 @@ export const TalentGrid = ({
         </div>
         <div className="px-1">
           <div className="flex items-center gap-3 whitespace-nowrap px-2 py-1">
-            <p className="text-[12px] font-medium capitalize">{_?.fullName}</p>
+            <p className="text-[12px] font-medium capitalize">
+              {_?.firstName} {_?.lastName}
+            </p>
             <span className="bg-[#00AB26] h-2 w-2 rounded-full"></span>
           </div>
           <Separator />

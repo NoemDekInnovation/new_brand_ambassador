@@ -13,7 +13,7 @@ import { ProjectViewCard } from "../projectPreview";
 const PublishedProject = ({ searchQuery }: { searchQuery: string }) => {
   const { user } = useSelector((state: RootState) => state.user);
   // console.log(user);
-  const { publishProject } = useSelector(
+  const { publishProject, totalProjects } = useSelector(
     (state: RootState) => state.publishProject
   );
   const dispatch = useDispatch<AppDispatch>();

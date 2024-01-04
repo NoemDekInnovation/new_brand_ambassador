@@ -8,6 +8,7 @@ const DraftsProjects = ({ searchQuery }: { searchQuery: string }) => {
   const { draftProject } = useSelector(
     (state: RootState) => state.draftProject
   );
+
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(fetchdraftproject());
