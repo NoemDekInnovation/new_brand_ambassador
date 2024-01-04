@@ -7,14 +7,20 @@ import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
 import { Input } from "../../ui/input";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { AiOutlineImport } from "react-icons/ai";
-import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight, BiSortAlt2 } from "react-icons/bi";
-import beauty from "../../assets/beauty.jpg"
+import {
+  BiChevronLeft,
+  BiChevronRight,
+  BiChevronsLeft,
+  BiChevronsRight,
+  BiSortAlt2,
+} from "react-icons/bi";
+import beauty from "../../assets/beauty.jpg";
 
 import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle, 
+  DialogTitle,
   DialogTrigger,
 } from "../../ui/dialog";
 import {
@@ -41,8 +47,8 @@ import {
 } from "react-icons/ai";
 // import { multerAxiosInstance } from "@/utils/axios";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store"; 
-import { useToast } from "../../ui/use-toast"; 
+import { RootState } from "../../redux/store";
+import { useToast } from "../../ui/use-toast";
 import PreviewBoard from "./PreviewBoard";
 // import { setFailedImport, setSuccessImport } from "@/redux/talent.slice";
 
@@ -55,8 +61,8 @@ export default function TalentTab() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
-//   const dispatch = useDispatch();
-//   const { user } = useSelector((state: RootState) => state.user);
+  //   const dispatch = useDispatch();
+  //   const { user } = useSelector((state: RootState) => state.user);
 
   const talents = [1, 2, 3, 4, 5, 6, 7, 8, 9, 20, 21, 332, 43].map((_, idx) => {
     return (
@@ -461,7 +467,7 @@ export default function TalentTab() {
             <Card>
               <CardContent className="py-3 md:py-6 space-y-3">
                 <div className="flex justify-between">
-                  <p>Current Contacts</p>
+                  <p>Current Contracts</p>
                   <p className="text-white bg-bm__ox__red px-2 rounded-sm">
                     25
                   </p>

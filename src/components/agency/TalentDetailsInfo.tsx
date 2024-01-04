@@ -51,11 +51,11 @@ import FavoriteTalents from "./talents/FavoriteTalents";
 
 type TalentDetailsProps = {
   activeType:
-    | "All Talents"
-    | "Current Contacts"
+    | "All Talent"
+    | "Current Contracts"
     | "Favorites"
     | "Engaged"
-    | "My Talents";
+    | "My Talent";
   handleProfilePopUp: (talent: TalentProps) => void;
 };
 
@@ -80,7 +80,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedTalent, setSelectedTalent] = useState("");
   const [selectedTalentID, setSelectedTalentID] = useState("");
-  const [projectModal, setProjectModal] = useState(false)
+  const [projectModal, setProjectModal] = useState(false);
 
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -109,10 +109,10 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   useEffect(() => {
     const fetchTalents = async () => {
       if (user?.accountId) {
-        if (activeType === "My Talents") {
+        if (activeType === "My Talent") {
           // dispatch(fetchTalents());
-        } else if (activeType === "Current Contacts") {
-        } else if (activeType === "All Talents") {
+        } else if (activeType === "Current Contracts") {
+        } else if (activeType === "All Talent") {
         } else if (activeType === "Engaged") {
         } else if (activeType === "Favorites") {
         } else {
@@ -149,7 +149,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
         console.log(error);
       }
     }
-  }; 
+  };
 
   const filteredTalents = resTalents?.filter((talent, idx) => {
     const talentgender = talent?.gender;
@@ -216,7 +216,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   });
 
   switch (activeType) {
-    case "All Talents":
+    case "All Talent":
       pageTalents = (
         <AllTalents
           gridView={gridView}
@@ -231,11 +231,11 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
           setSelectedTalentID={setSelectedTalentID}
           selectedProject={selectedProject}
           projectModal={projectModal}
-          setProjectModal={setProjectModal} 
+          setProjectModal={setProjectModal}
         />
-      ); 
+      );
       break;
-    case "Current Contacts":
+    case "Current Contracts":
       pageTalents = (
         <CurrentContacts
           gridView={gridView}
@@ -286,7 +286,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
         />
       );
       break;
-    case "My Talents":
+    case "My Talent":
       pageTalents = (
         <MyTalents
           gridView={gridView}

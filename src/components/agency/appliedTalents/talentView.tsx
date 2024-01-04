@@ -133,7 +133,7 @@ export const TalentList = ({
     { value: "All Applications", label: "All Applications" },
     { value: "My Talent", label: "My Talent" },
     { value: "Favorites", label: "Favorites" },
-    { value: "Current Contacts", label: "Current Contacts" },
+    { value: "Current Contracts", label: "Current Contracts" },
     { value: "Engaged", label: "Engaged" },
     { value: "Invited", label: "Invited" },
   ];

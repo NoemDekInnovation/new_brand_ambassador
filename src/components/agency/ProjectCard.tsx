@@ -362,6 +362,7 @@ const ProjectCard = ({
                   onClick={() => {
                     // setDefaultTab("projects");
                     localStorage.setItem("defaultTab", "talent"); // Store in local storage
+                    localStorage.setItem("defaultTalent", card_title); // Store in local storage
                     window.location.reload();
                   }}
                   className="text-[15px] leading-[18px] font-normal text-[#252525B2]"
