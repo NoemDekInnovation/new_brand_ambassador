@@ -19,6 +19,8 @@ type TalentTypeProps = {
 type TalentListProps = {
   onTalentTypeChnage: (type: TalentType) => void;
   talentCount: any;
+  activeTalentClick: any;
+  setActiveTalentClick: any;
   // talentCount: Record<TalentType, number>;
 };
 
@@ -43,11 +45,28 @@ const TalentType: React.FC<TalentTypeProps> = ({
 
 const TalentList: React.FC<TalentListProps> = ({
   onTalentTypeChnage,
+  setActiveTalentClick,
   talentCount,
+  activeTalentClick,
 }) => {
   const [activeTalentType, setActiveTalentType] = useState<TalentType | null>(
     null
   );
+
+  // const [activeTalentClick, setActiveTalentClick] = useState<boolean | null>(
+  //   false
+  // );
+
+  useEffect(() => {
+    const storedDefaultTalent: any = localStorage.getItem("defaultTalent");
+
+    if (!activeTalentClick) {
+      if (storedDefaultTalent) {
+        return setActiveTalentType(storedDefaultTalent);
+      }
+      return setActiveTalentType("All Talent");
+    }
+  }, [activeTalentType]);
 
   const handleTalentTypeClick = (
     type:
@@ -57,17 +76,10 @@ const TalentList: React.FC<TalentListProps> = ({
       | "Engaged"
       | "My Talent"
   ) => {
+    setActiveTalentClick(true);
     onTalentTypeChnage(type);
     setActiveTalentType(type);
   };
-
-  useEffect(() => {
-    const storedDefaultTalent: any = localStorage.getItem("defaultTalent");
-    if (storedDefaultTalent) {
-      return setActiveTalentType(storedDefaultTalent);
-    }
-    return setActiveTalentType("All Talent");
-  }, [activeTalentType]);
 
   return (
     // <Card>

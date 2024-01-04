@@ -69,8 +69,9 @@ const Dashboard = () => {
       }
     }
     if (tab === "Talent") {
+      console.log("jimmy");
       const content = active_Content;
-      localStorage.setItem("defaultTalent", active_Content); // Store in local storage
+      localStorage.setItem("defaultTalent", content); // Store in local storage
     }
   };
 
