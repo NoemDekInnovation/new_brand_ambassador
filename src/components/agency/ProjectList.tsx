@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import current from "../../assets/Current Projects.png";
 import completed from "../../assets/Completed Projects.png";
 import published from "../../assets/Published Projects.png";
@@ -18,6 +18,8 @@ type ProjectTypeProps = {
 type ProjectListProps = {
   onProjectTypeChange: (type: ProjectType) => void;
   projectCount: Record<ProjectType, number>;
+  activeProjectClick: any;
+  setActiveProjectClick: any;
 };
 
 const getImageSrc = (projectType: any) => {
@@ -84,14 +86,36 @@ const ProjectType: React.FC<ProjectTypeProps> = ({
 const ProjectList: React.FC<ProjectListProps> = ({
   onProjectTypeChange,
   projectCount,
+  setActiveProjectClick,
+  activeProjectClick,
 }) => {
   const [activeProjectType, setActiveProjectType] =
-    useState<ProjectType>("Active");
+    useState<ProjectType | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const storedDefaultProject = localStorage.getItem("defaultProject");
+      if (!activeProjectClick && storedDefaultProject) {
+        const parsedDefaultProject = JSON.parse(storedDefaultProject);
+        console.log(
+          activeProjectClick,
+          storedDefaultProject,
+          parsedDefaultProject
+        );
+        setActiveProjectType(parsedDefaultProject);
+      } else if (!activeProjectClick) {
+        setActiveProjectType("Active");
+      }
+    }, 1000);
+  }, [activeProjectClick]);
+
   const handleProjectTypeClick = (
     type: "Active" | "Published" | "Completed" | "Drafts"
   ) => {
     onProjectTypeChange(type);
     setActiveProjectType(type);
+    setActiveProjectClick(true);
   };
   const [isActive, setIsActive] = useState(false);
   return (
