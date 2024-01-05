@@ -46,8 +46,8 @@ const TalentType: React.FC<TalentTypeProps> = ({
 const TalentList: React.FC<TalentListProps> = ({
   onTalentTypeChnage,
   setActiveTalentClick,
-  talentCount,
   activeTalentClick,
+  talentCount,
 }) => {
   const [activeTalentType, setActiveTalentType] = useState<TalentType | null>(
     null
@@ -58,15 +58,17 @@ const TalentList: React.FC<TalentListProps> = ({
   // );
 
   useEffect(() => {
-    const storedDefaultTalent: any = localStorage.getItem("defaultTalent");
+    setTimeout(() => {
+      const storedDefaultTalent: any = localStorage.getItem("defaultTalent");
 
-    if (!activeTalentClick) {
-      if (storedDefaultTalent) {
-        return setActiveTalentType(storedDefaultTalent);
+      if (!activeTalentClick) {
+        if (storedDefaultTalent) {
+          return setActiveTalentType(storedDefaultTalent);
+        }
+        return setActiveTalentType("All Talent");
       }
-      return setActiveTalentType("All Talent");
-    }
-  }, [activeTalentType]);
+    }, 1000);
+  }, [activeTalentClick]);
 
   const handleTalentTypeClick = (
     type:

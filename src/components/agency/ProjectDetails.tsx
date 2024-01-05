@@ -30,6 +30,8 @@ type ProjectDetailsProps = {
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
+  console.log(activeType);
+
   let projects;
   switch (activeType) {
     case "Active":

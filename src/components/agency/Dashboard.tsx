@@ -62,6 +62,13 @@ const Dashboard = () => {
         talentRef.current.style.fontSize = "15px";
       }
     } else if (tab === "Projects") {
+      console.log("jimmy");
+      const content = active_Content;
+      // Stringify the object before storing it in localStorage
+      const stringifiedContent = JSON.stringify(content);
+
+      // Store the stringified content in localStorage
+      localStorage.setItem("defaultProject", stringifiedContent);
       if (projectsRef.current) {
         projectsRef.current.style.color = "#800000";
         projectsRef.current.style.fontWeight = "600";
@@ -69,7 +76,6 @@ const Dashboard = () => {
       }
     }
     if (tab === "Talent") {
-      console.log("jimmy");
       const content = active_Content;
       localStorage.setItem("defaultTalent", content); // Store in local storage
     }
@@ -166,7 +172,7 @@ const Dashboard = () => {
                     <TabsTrigger
                       value="projects"
                       className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Projects")}
+                      onClick={() => handleTabClick("Projects", "Active")}
                     >
                       Active
                     </TabsTrigger>
@@ -176,7 +182,7 @@ const Dashboard = () => {
                     <TabsTrigger
                       value="projects"
                       className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Projects")}
+                      onClick={() => handleTabClick("Projects", "Published")}
                     >
                       Published
                     </TabsTrigger>
@@ -186,7 +192,7 @@ const Dashboard = () => {
                     <TabsTrigger
                       value="projects"
                       className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Projects")}
+                      onClick={() => handleTabClick("Projects", "Completed")}
                     >
                       Completed
                     </TabsTrigger>
@@ -196,7 +202,7 @@ const Dashboard = () => {
                     <TabsTrigger
                       value="projects"
                       className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Projects")}
+                      onClick={() => handleTabClick("Projects", "Drafts")}
                     >
                       Drafts
                     </TabsTrigger>

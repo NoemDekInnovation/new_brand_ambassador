@@ -138,13 +138,15 @@ export default function TalentsView({
   };
 
   useEffect(() => {
-    const storedDefaultTalent: any = localStorage.getItem("defaultTalent");
-    if (!activeTalentClick) {
-      if (storedDefaultTalent) {
-        return setActiveType(storedDefaultTalent);
+    setTimeout(() => {
+      const storedDefaultTalent: any = localStorage.getItem("defaultTalent");
+      if (!activeTalentClick) {
+        if (storedDefaultTalent) {
+          return setActiveType(storedDefaultTalent);
+        }
+        return setActiveType("All Talent");
       }
-      return setActiveType("All Talent");
-    }
+    }, 1000);
   }, [activeType]);
 
   useEffect(() => {

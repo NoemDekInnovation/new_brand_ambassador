@@ -49,14 +49,17 @@ export default function ProjectsView({
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [activeType, setActiveType] = useState<ProjectType>("Active");
+  const [activeType, setActiveType] = useState<ProjectType | null>(null);
+  const [activeProjectClick, setActiveProjectClick] = useState<boolean | null>(
+    false
+  );
 
   const { toast } = useToast();
   const { user } = useSelector((state: RootState) => state.user);
-  const { publishProject, totalProjects: totalPublishedProjects } = useSelector(
+  const { totalProjects: totalPublishedProjects } = useSelector(
     (state: RootState) => state.publishProject
   );
-  const { completeProject, totalProjects: totalCompleteProjects } = useSelector(
+  const { totalProjects: totalCompleteProjects } = useSelector(
     (state: RootState) => state.completeProject
   );
   const { draftProject } = useSelector(
@@ -66,43 +69,6 @@ export default function ProjectsView({
   const { activeProject } = useSelector(
     (state: RootState) => state.activeProject
   );
-
-  const talents = [1, 2, 3].map((_, idx) => {
-    return (
-      <Card className="p-4" key={idx}>
-        <CardContent className="p-0 space-y-1">
-          <h3 className="font-medium text-[15px] ">
-            Project Name {"  "}(in-store){" "}
-          </h3>
-          <p className="font-normal text-[15px]">
-            This is the project description.. this is the project description
-          </p>
-          <div className="flex md:space-x-2 text-bm__niv text-[10px] font-medium items-center flex-wrap">
-            <div className="">ID: NIV020 </div>
-            <div className="text-[16px] p-0  pb-2 px-2">.</div>
-            <div className=""> Outlet: Shoprite Ikeja</div>
-            <div className="text-[16px] p-0  pb-2 px-2">.</div>
-            {/* <br className="block md:hidden" /> */}
-
-            <div className="">Supervisor: Adenekan Shoneye </div>
-          </div>
-        </CardContent>
-        <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
-          <div className="flex md:space-x-2 text-bm__grey__text text-[10px] h-full flex-wrap  ">
-            <div className="">Mon, Wed, Fri {"  "}</div>
-            <div className="text-[11px] p-0  pb-1 px-1">.</div>
-
-            <div className="">Nov 30 - December 30</div>
-            <div className="text-[11px] p-0  pb-1 px-1">.</div>
-            <div className="">Lagos, Abuja, Ogun, Plateau</div>
-          </div>
-          <button className="ox__btn max-w-fit text-[12px] mt-2">
-            Add Report
-          </button>
-        </CardFooter>
-      </Card>
-    );
-  });
 
   const {
     control,
@@ -188,6 +154,23 @@ export default function ProjectsView({
   };
 
   useEffect(() => {
+    setTimeout(() => {
+      const storedDefaultProject = localStorage.getItem("defaultProject");
+      if (!activeProjectClick && storedDefaultProject) {
+        const parsedDefaultProject = JSON.parse(storedDefaultProject);
+        console.log(
+          activeProjectClick,
+          storedDefaultProject,
+          parsedDefaultProject
+        );
+        setActiveType(parsedDefaultProject);
+      } else if (!activeProjectClick) {
+        setActiveType("Active");
+      }
+    }, 1000);
+  }, [activeProjectClick]);
+
+  useEffect(() => {
     dispatch(fetchactiveproject());
     dispatch(fetchcompleteproject());
     dispatch(fetchdraftproject());
@@ -219,11 +202,13 @@ export default function ProjectsView({
                 <ProjectList
                   projectCount={projectCount}
                   onProjectTypeChange={handleProjectTypeChange}
+                  setActiveProjectClick={setActiveProjectClick}
+                  activeProjectClick={activeProjectClick}
                 />
               </Card>
             </CardContent>
             {/* second card content */}
-            <ProjectDetails activeType={activeType} />
+            <ProjectDetails activeType={activeType || "Active"} />
           </Card>
           <div className="sm:hidden w-full">
             <TopProjectCard card_title="Top Projects" card_width="w-full" />
