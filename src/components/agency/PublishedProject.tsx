@@ -28,16 +28,6 @@ const PublishedProject = ({ searchQuery }: { searchQuery: string }) => {
     setSelectedProject(project);
   };
 
-  // const handleCardClick = (publishProject: any) => {
-  //   setSelectedProject(publishProject);
-  //   setDialogVisible(true);
-  // };
-
-  // const handleDialogClose = () => {
-  //   setSelectedProject(null);
-  //   setDialogVisible(false);
-  // };
-
   useEffect(() => {
     dispatch(fetchpublishproject());
   }, [dispatch]);

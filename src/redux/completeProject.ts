@@ -31,6 +31,7 @@ export const fetchcompleteproject = createAsyncThunk(
             },
           }
         );
+        // console.log(response.data.data);
 
         return response.data.data;
       }
