@@ -154,7 +154,7 @@ export function CurrentProjects({
 
   return (
     <>
-      <Card className="p-2 md:p-4 bg-white h-[255px]">
+      <Card className="p-2 md:p-4 bg-white h-[224px]">
         <CardHeader className="flex-row p-1 justify-between items-center">
           <CardTitle>
             <p className="text-[15px] font-medium leading-[15px] whitespace-nowrap">
