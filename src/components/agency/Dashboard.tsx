@@ -62,7 +62,7 @@ const Dashboard = () => {
         talentRef.current.style.fontSize = "15px";
       }
     } else if (tab === "Projects") {
-      console.log("jimmy");
+      // console.log("jimmy");
       const content = active_Content;
       // Stringify the object before storing it in localStorage
       const stringifiedContent = JSON.stringify(content);
@@ -87,10 +87,6 @@ const Dashboard = () => {
       // setDefaultTab(storedDefaultTab);
     }
   }, []); // Empty dependency array ensures it runs only once on component mount
-
-  // useEffect(() => {
-  //   loc;
-  // }, [defaultTab]);
 
   return (
     <AgencyLayout>
@@ -163,7 +159,6 @@ const Dashboard = () => {
                 <MenubarTrigger className="border-0">
                   <div className="flex items-center space-x-3 cursor-pointer hover:underline">
                     <p ref={projectsRef}>Projects</p>
-                    {/* <TabsTrigger value="talent">Talent</TabsTrigger> */}
                     <img src={arrowIcon} alt="arrowicon" />
                   </div>
                 </MenubarTrigger>
@@ -210,9 +205,6 @@ const Dashboard = () => {
                 </MenubarContent>
               </MenubarMenu>
             </Menubar>
-
-            {/* <TabsTrigger value="projects">Projects</TabsTrigger>
-            <img src={arrowIcon} alt="arrowicon" /> */}
             <TabsTrigger
               value="inventory"
               className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"

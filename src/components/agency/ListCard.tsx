@@ -137,6 +137,30 @@ const ListCard = ({
   card_title: string;
   card_width?: string;
 }) => {
+  const { completeProject, totalProjects: completeCount } = useSelector(
+    (state: RootState) => state.completeProject
+  );
+
+  const { publishProject, totalProjects } = useSelector(
+    (state: RootState) => state.publishProject
+  );
+
+  const { activeProject, totalProjects: activeCount } = useSelector(
+    (state: RootState) => state.activeProject
+  );
+
+  const [projectType, setProjectType] = useState<string>("Active");
+
+  const handleTabClick = (active_Content: string = "") => {
+    const content = active_Content;
+    setProjectType(active_Content);
+    // Stringify the object before storing it in localStorage
+    const stringifiedContent = JSON.stringify(content);
+
+    // Store the stringified content in localStorage
+    localStorage.setItem("defaultProject", stringifiedContent);
+  };
+
   return (
     <Card className={`p-2 md:p-4 bg-white  w-[240px] ${card_width}`}>
       <CardHeader className="flex-row p-1 justify-between items-center">
@@ -147,67 +171,173 @@ const ListCard = ({
         </div>
       </CardHeader>
       <Separator className="my-2 bg-bm__beige" />
-      <Tabs defaultValue="posted" className="mb-0">
+      <Tabs defaultValue="current" className="mb-0">
         <TabsList className="p-0 justify-start gap-4 flex">
-          <TabsTrigger className="px-0" value="posted">
+          <TabsTrigger
+            className="px-0"
+            value="current"
+            onClick={() => handleTabClick("Active")}
+          >
             <div className="flex space-x-1 items-center">
               <p className="text-bm_black text-[8px]">Current</p>
               <span className="bg-bm__niv text-[8px] p-0 px-1 h-3 flex items-center rounded-[5px] text-white">
-                5
+                {activeCount}
               </span>
             </div>
           </TabsTrigger>
-          <TabsTrigger className="px-0" value="posted">
+          <TabsTrigger
+            className="px-0"
+            value="published"
+            onClick={() => handleTabClick("Published")}
+          >
             <div className="flex space-x-1 items-center">
               <p className="text-bm_black text-[8px]">Published</p>
               <span className="bg-bm_card__orange text-[8px] p-0 px-1 h-3 flex items-center rounded-[5px] text-white">
-                3
+                {totalProjects}
               </span>
             </div>
           </TabsTrigger>
-          <TabsTrigger className="px-0" value="posted">
+          <TabsTrigger
+            className="px-0"
+            value="completed"
+            onClick={() => handleTabClick("Completed")}
+          >
             <div className="flex space-x-1 items-center">
               <p className="text-bm_black text-[8px]">Completed</p>
               <span className="bg-bm_black text-[8px] p-0 px-1 h-3 flex items-center rounded-[5px] text-white">
-                25
+                {completeCount}
               </span>
             </div>
           </TabsTrigger>
         </TabsList>
         <Separator className="my-2" />
-        <TabsContent value="posted">
-          {[1, 2, 3].map((_, idx) => {
-            return (
-              <div className="" key={idx}>
-                <CardContent className="p-0 space-y-1">
-                  <div className="flex space-x-2">
-                    <h3 className="font-medium text-[12px] border-r pr-2">
-                      Project Name
-                    </h3>
-                    <p className="text-bm_card__orange text-[12px] font-medium">
-                      Published
+        <TabsContent value="current">
+          {activeCount === 0 && (
+            <div className="w-full h-full flex items-center justify-center py-5 text-[14px] text-[#444]">
+              0 active Project
+            </div>
+          )}
+          {activeCount > 0 &&
+            activeProject.map((_, idx) => {
+              return (
+                <div className="" key={idx}>
+                  <CardContent className="p-0 space-y-1">
+                    <div className="flex space-x-2">
+                      <h3 className="font-medium text-[12px] border-r pr-2">
+                        Project Name
+                      </h3>
+                      <p className="text-green-600 text-[12px] font-medium">
+                        Current
+                      </p>
+                    </div>
+                    <p className="font-normal text-[8px] leading-3">
+                      This is the project description.{" "}
                     </p>
-                  </div>
-                  <p className="font-normal text-[8px] leading-3">
-                    This is the project description.{" "}
-                  </p>
-                  <p className="font-medium text-[13px] text-bm__ox__red">
-                    3oo Applications{" "}
-                  </p>
-                  <div className="flex space-x-2 text-[8px] font-light leading-3">
-                    <p>Lagos, Abuja, Ogun, Pleteau</p>{" "}
-                  </div>
-                </CardContent>
-                {idx !== 2 && <Separator className="my-2 bg-bm__beige" />}
-              </div>
-            );
-          })}
+                    <p className="font-medium text-[13px] text-bm__ox__red">
+                      3oo Applications{" "}
+                    </p>
+                    <div className="flex space-x-2 text-[8px] font-light leading-3">
+                      <p>Lagos, Abuja, Ogun, Pleteau</p>{" "}
+                    </div>
+                  </CardContent>
+                  {idx !== 2 && <Separator className="my-2 bg-bm__beige" />}
+                </div>
+              );
+            })}
         </TabsContent>
-        <TabsContent value="pending">Pending</TabsContent>
-        <TabsContent value="reject">Rejected</TabsContent>
+        <TabsContent value="published">
+          {totalProjects === 0 && (
+            <div className="w-full h-full flex items-center justify-center py-5 text-[14px] text-[#444]">
+              0 Published Project
+            </div>
+          )}
+
+          {totalProjects > 0 &&
+            publishProject.slice(0, 3).map((project, idx) => {
+              const formattedLocation = Array.isArray(project.projectLocation)
+                ? project.projectLocation.join(", ")
+                : "";
+
+              return (
+                <div className="" key={idx}>
+                  <CardContent className="p-0 space-y-1">
+                    <div className="flex space-x-2">
+                      <h3 className="font-medium text-[12px] border-r pr-2">
+                        {project.projectTitle}
+                      </h3>
+                      <p className="text-bm_card__orange text-[12px] font-medium">
+                        Published
+                      </p>
+                    </div>
+                    <p className="font-normal text-[8px] leading-3">
+                      {project.projectDescription}
+                    </p>
+                    <p className="font-medium text-[13px] text-bm__ox__red">
+                      3oo Applications{" "}
+                    </p>
+                    <div className="flex space-x-2 text-[8px] font-light leading-3">
+                      {formattedLocation}
+                    </div>
+                  </CardContent>
+                  {idx !== 2 && <Separator className="my-2 bg-bm__beige" />}
+                </div>
+              );
+            })}
+        </TabsContent>
+        <TabsContent value="completed">
+          {completeCount === 0 && (
+            <div className="w-full h-full flex items-center justify-center py-5 text-[14px] text-[#444]">
+              0 Completed Project
+            </div>
+          )}
+          {completeCount > 0 &&
+            completeProject.slice(0, 3).map((project, idx) => {
+              const formattedLocation = Array.isArray(project.projectLocation)
+                ? project.projectLocation.join(", ")
+                : "";
+
+              return (
+                <div className="" key={idx}>
+                  <CardContent className="p-0 space-y-1">
+                    <div className="flex space-x-2">
+                      <h3 className="font-medium text-[12px] border-r pr-2">
+                        {project.projectTitle}
+                      </h3>
+                      <p className="text-black text-[12px] font-medium">
+                        Completed
+                      </p>
+                    </div>
+                    <p className="font-normal text-[8px] leading-3">
+                      {project.projectDescription}
+                    </p>
+                    <p className="font-medium text-[13px] text-bm__ox__red">
+                      3oo Applications{" "}
+                    </p>
+                    <div className="flex space-x-2 text-[8px] font-light leading-3">
+                      {formattedLocation}
+                    </div>
+                  </CardContent>
+                  {idx !== 2 && <Separator className="my-2 bg-bm__beige" />}
+                </div>
+              );
+            })}
+        </TabsContent>
       </Tabs>
       <Separator className="my-2" />
-      <CardFooter className="mt-3 p-0 gap-6  flex justify-center text-[10px] w-full">
+      <CardFooter
+        className="mt-3 p-0 gap-6  flex justify-center text-[10px] w-full"
+        onClick={() => {
+          // Stringify the object before storing it in localStorage
+          const stringifiedContent = JSON.stringify(projectType);
+
+          // Store the stringified content in localStorage
+          localStorage.setItem("defaultProject", stringifiedContent);
+
+          localStorage.setItem("defaultTab", "projects"); // Store in local storage
+          // localStorage.setItem("defaultTalent", projectType); // Store in local storage
+          window.location.reload();
+        }}
+      >
         <Link to={""} className="flex items-center space-x-2">
           <p className="font-medium text-[10px] text-[#252525]/70">
             See all projects
