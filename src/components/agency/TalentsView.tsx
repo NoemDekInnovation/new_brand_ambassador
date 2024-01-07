@@ -13,11 +13,13 @@ import { DropdownMenuSeparator } from "../../ui/dropdown-menu";
 import { Controller, useForm } from "react-hook-form";
 import validator from "validator";
 import {
+  TalentQueryProp,
   fetchAgencyTalents,
   fetchFavoriteTalents,
   fetchTalents,
   setFailedImport,
   setSuccessImport,
+  setTalentQuery,
 } from "../../redux/talent.slice";
 import { BsPersonFillAdd } from "react-icons/bs";
 import {
@@ -155,7 +157,7 @@ export default function TalentsView({
     dispatch(fetchEngageTalents({ status: true }));
     dispatch(fetchCurrentEngageTalents({ status: false }));
     dispatch(fetchFavouriteProjects());
-    dispatch(fetchAgencyTalentss());
+    dispatch(fetchAgencyTalentss(null));
 
     const fetchProjects = async () => {
       if (user?.accountId !== undefined) {
@@ -190,24 +192,64 @@ export default function TalentsView({
     setGridView(!gridView);
   };
 
+  // const handleGenderChange = (gender: any) => {
+  //   setSelectedGender(gender);
+  //   setTalentQuery({ gender: gender });
+  // };
+  // const handleRoleChange = (role: any) => {
+  //   setSelectedOppor(role);
+  //   setTalentQuery({ opportunities: role });
+  // };
+
+  // const handleStartAgeChange = (e: any) => {
+  //   setAgeRange({ ...ageRange, start: e.target.value });
+  //   setTalentQuery({ minAge: e.target.value });
+  // };
+
+  // const handleEndAgeChange = (e: any) => {
+  //   setAgeRange({ ...ageRange, end: e.target.value });
+  //   setTalentQuery({ maxAge: e.target.value });
+  // };
+
+  // const handleLocationChange = (e: any) => {
+  //   setSelectedLocation(e.target.value);
+  //   setTalentQuery({ ...,location: e.target.value });
+  // };
+
+  const [tip, setTip] = useState<TalentQueryProp | null>(null);
+
   const handleGenderChange = (gender: any) => {
-    setSelectedGender(gender);
+    updateQuery({ gender });
   };
+
   const handleRoleChange = (role: any) => {
-    setSelectedOppor(role);
+    updateQuery({ opportunities: role });
   };
 
-  const handleStartAgeChange = (e: any) => {
+  const handleStartAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAgeRange({ ...ageRange, start: e.target.value });
+    updateQuery({ minAge: e.target.value });
   };
 
-  const handleEndAgeChange = (e: any) => {
+  const handleEndAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAgeRange({ ...ageRange, end: e.target.value });
+    updateQuery({ maxAge: e.target.value });
   };
 
-  const handleLocationChange = (e: any) => {
-    setSelectedLocation(e.target.value);
+  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateQuery({ location: e.target.value });
   };
+
+  // const updateQuery = (newValues: Partial<TalentQuery>) => {
+  const updateQuery = (newValues: any) => {
+    setTip((prevQuery: any) => ({ ...prevQuery, ...newValues }));
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(setTalentQuery(tip));
+    }, 1000);
+  }, [tip]);
 
   const handleClear = () => {
     setSelectedLocation("all");
@@ -215,19 +257,19 @@ export default function TalentsView({
     setAgeRange({ ...ageRange, start: "" });
     setAgeRange({ ...ageRange, end: "" });
     setSelectedGender("all");
+    setTip(null);
   };
-
-  const handleFilter = () => {
-    if (
-      selectedGender === "all" &&
-      selectedOppor === "all" &&
-      selectedLocation === "all" &&
-      ageRange.start === "" &&
-      ageRange.end === ""
-    ) {
-      return alert("Please fill a category");
-    }
-  };
+  // const handleFilter = () => {
+  //   if (
+  //     selectedGender === "all" &&
+  //     selectedOppor === "all" &&
+  //     selectedLocation === "all" &&
+  //     ageRange.start === "" &&
+  //     ageRange.end === ""
+  //   ) {
+  //     return alert("Please fill a category");
+  //   }
+  // };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -1038,13 +1080,13 @@ export default function TalentsView({
                           />
                         </div>
                       </div>
-                      <button
+                      {/* <button
                         className="dark__btn p-2 mt-2 "
                         onClick={handleFilter}
                       >
                         Filter
-                      </button>
-                      <button className="light__btn p-2 " onClick={handleClear}>
+                      </button> */}
+                      <button className="dark__btn p-2 " onClick={handleClear}>
                         Clear Filter
                       </button>
                     </CardContent>

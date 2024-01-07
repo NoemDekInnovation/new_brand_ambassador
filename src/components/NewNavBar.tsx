@@ -21,18 +21,12 @@ import { AppDispatch, RootState } from "../redux/store";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "../ui/input";
 import logo from "../assets/download-logo.png";
-import avatar from "../assets/avatar.jpg";
 import { logout } from "../redux/user.slice";
 import logoutImg from "../assets/logout.png";
-import { Button } from "../ui/button";
 import { Separator } from "../ui/seperator";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { campaignAuthAxiosInstance } from "../api/axios";
-import NavPreview from "./talent/components/navPreview";
-import { fetchpublishproject } from "../redux/publishProject";
 import { fetchTalentInvitations } from "../redux/talentInvitations.slice";
 import ProjectPreview from "./talent/components/projectPreview";
-import { log } from "console";
 import BadgeAvatars from "../ui/avatar";
 import { fetchactiveproject } from "../redux/ActiveProject";
 import { fetchcompleteproject } from "../redux/completeProject";
@@ -81,7 +75,6 @@ export default function NewNavBar() {
 
   useEffect(() => {
     setIsLoading(true);
-    console.log("helpe");
 
     const fetchNotifications = async () => {
       if (user?.user?.accountId !== undefined) {
@@ -94,7 +87,7 @@ export default function NewNavBar() {
               },
             }
           );
-          console.log(response?.data);
+          // console.log(response?.data);
           setNotifications(response?.data?.notifications);
         } catch (error) {
           // console.error("Error while fetiching Notifications:", error);
