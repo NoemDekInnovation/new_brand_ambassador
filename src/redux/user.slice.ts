@@ -65,6 +65,7 @@ const userSlice = createSlice({
       };
 
       localStorage.removeItem(localStorageKey);
+      localStorage.clear();
     },
   },
 });
