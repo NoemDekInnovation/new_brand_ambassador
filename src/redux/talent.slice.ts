@@ -3,6 +3,10 @@ import { authAxiosInstance, campaignAuthAxiosInstance } from "../api/axios";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import { useSession } from "next-auth/react";
 
+export interface TalentQueryProp {
+  [key: string]: string | number;
+}
+
 export interface TalentsProps {
   loading: boolean;
   error: string | null;
@@ -19,6 +23,7 @@ export interface TalentsProps {
   nextProducts: string | null;
   prev: string | null;
   next: string | null;
+  talentQuery: TalentQueryProp | null;
 }
 const initialState: TalentsProps = {
   loading: false,
@@ -35,6 +40,7 @@ const initialState: TalentsProps = {
   next: "",
   prevProducts: "",
   nextProducts: "",
+  talentQuery: null,
 };
 
 export const fetchTalents = createAsyncThunk(
@@ -52,7 +58,7 @@ export const fetchTalents = createAsyncThunk(
           },
         });
 
-        console.log("checker", response?.data?.data);
+        // console.log("checker", response?.data?.data);
         return response?.data?.data;
       }
     } catch (error) {
@@ -173,6 +179,9 @@ const talents = createSlice({
     setSuccessImport: (state, action) => {
       state.successfulImport = action.payload;
     },
+    setTalentQuery: (state, action) => {
+      state.talentQuery = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -252,4 +261,5 @@ const talents = createSlice({
 });
 
 export default talents.reducer;
-export const { setUser, setSuccessImport, setFailedImport } = talents.actions;
+export const { setUser, setSuccessImport, setFailedImport, setTalentQuery } =
+  talents.actions;

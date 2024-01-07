@@ -349,16 +349,6 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
             <BsChevronDoubleRight />
           </div>
           <Separator className="my-2" />
-          {/* {gridView && (
-            <div className='flex w-full justify-center '>
-               <div className='flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap '>
-                {talents}
-              </div>
-            </div>
-          )}
-          {!gridView && (
-            <div className='flex flex-col w-full gap-3'>{listView}</div>
-          )} */}
           {pageTalents}
         </div>
         <Separator className="my-2 md:my-4" />

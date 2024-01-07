@@ -58,6 +58,8 @@ export default function NewProject({
   const [isLoading, setIsLoading] = useState(false);
 
   const [currentStep, setCurrentStep] = useState("getStarted");
+  // const [currentStep, setCurrentStep] = useState("projectDetails");
+
   // console.log(currentStep);
 
   const [aboutProject, setAboutProject] = useState({
@@ -86,6 +88,7 @@ export default function NewProject({
   const [proposal, setProposal] = useState("");
   const [projectName, setProjectName] = useState("");
   const [document, setDocument] = useState("");
+  const [draftStatus, setDraftStatus] = useState<boolean | null>(null);
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
@@ -142,6 +145,7 @@ export default function NewProject({
   };
 
   const submitHandler = async (isDraft: boolean) => {
+    setDraftStatus(isDraft);
     try {
       setIsLoading(true);
 

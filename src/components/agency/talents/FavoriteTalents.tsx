@@ -35,17 +35,18 @@ const FavoriteTalents = ({
     (state: RootState) => state.talent
   );
 
-  const { favourites } = useSelector((state: RootState) => state.favouriteProject)
-  console.log("fav", favourites);
+  const { favourites } = useSelector(
+    (state: RootState) => state.favouriteProject
+  );
 
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchFavouriteProjects())
-  }, [dispatch])
+    dispatch(fetchFavouriteProjects());
+  }, [dispatch]);
 
   const [projectModal, setProjectModal] = useState(false);
- 
+
   return (
     <>
       {gridView && (
@@ -55,7 +56,7 @@ const FavoriteTalents = ({
             {favourites?.map((_: favProp, idx: number) => {
               return (
                 <TalentGrid
-                key={idx}
+                  key={idx}
                   _={_}
                   modal={projectModal}
                   setModal={() => setProjectModal}
@@ -81,7 +82,7 @@ const FavoriteTalents = ({
           {favourites?.map((_, idx: number) => {
             return (
               <TalentList
-              key={idx}
+                key={idx}
                 talent={_}
                 index={idx}
                 handleInvite={""}
