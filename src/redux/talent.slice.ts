@@ -45,12 +45,33 @@ const initialState: TalentsProps = {
 
 export const fetchTalents = createAsyncThunk(
   "categories/fetchTalents",
-  async () => {
+  async (queryParams: { [key: string]: string | number } | null, thunkAPI) => {
     const user = localStorage.getItem("userData");
+    // console.log("All Talent", "response?.data?.data");
 
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
+
+        if (queryParams !== null && queryParams !== undefined) {
+          // Build the query string based on the dynamic queryParams object
+          const queryString = Object.entries(queryParams)
+            .map(([key, value]) => `${key}=${value}`)
+            .join("&");
+
+          const response = await authAxiosInstance(
+            `/all-talents?${queryString}`,
+            {
+              headers: {
+                Authorization: `Bearer ${parsedUser.authKey}`,
+              },
+            }
+          );
+
+          // console.log("All Talent", response?.data?.data);
+
+          return response?.data?.data;
+        }
 
         const response = await authAxiosInstance(`/all-talents`, {
           headers: {
@@ -61,8 +82,8 @@ export const fetchTalents = createAsyncThunk(
         // console.log("checker", response?.data?.data);
         return response?.data?.data;
       }
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
@@ -106,7 +127,7 @@ export const fetchAgencyTalents = createAsyncThunk(
           },
         });
 
-        console.log("checker", response?.data?.data?.talent);
+        // console.log("checker", response?.data?.data?.talent);
         return response?.data?.data?.talent;
       }
     } catch (error) {
@@ -191,10 +212,10 @@ const talents = createSlice({
       })
       .addCase(fetchTalents.fulfilled, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.talents = action.payload.talents;
-        state.prev = action.payload.prev;
-        state.count = action.payload.count; // Store the count
-        state.next = action.payload.next;
+        state.talents = action.payload?.talents;
+        state.prev = action.payload?.prev;
+        state.count = action.payload?.count; // Store the count
+        state.next = action.payload?.next;
       })
       .addCase(fetchTalents.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;

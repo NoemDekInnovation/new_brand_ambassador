@@ -22,7 +22,7 @@ const HomeTab = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    dispatch(fetchTalents());
+    dispatch(fetchTalents(null));
   }, [dispatch]);
 
   const avaibleProject = {
