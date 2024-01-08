@@ -31,19 +31,16 @@ const FavoriteTalents = ({
   setSuccessModal: any;
   successModal: any;
 }) => {
-  const { talents: resTalents } = useSelector(
-    (state: RootState) => state.talent
-  );
-
   const { favourites } = useSelector(
     (state: RootState) => state.favouriteProject
   );
+  const { talentQuery } = useSelector((state: RootState) => state.talent);
 
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchFavouriteProjects());
-  }, [dispatch]);
+    dispatch(fetchFavouriteProjects(talentQuery));
+  }, [dispatch, talentQuery]);
 
   const [projectModal, setProjectModal] = useState(false);
 

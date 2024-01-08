@@ -31,27 +31,24 @@ const Engaged = ({
   setSuccessModal: any;
   successModal: any;
 }) => {
-
-  
-
-
-
-
-
-const { engageTalents } = useSelector((state: RootState) => state.currentengage)
-
+  const { engageTalents } = useSelector(
+    (state: RootState) => state.currentengage
+  );
+  const { talentQuery } = useSelector((state: RootState) => state.talent);
 
   const dispatch = useDispatch<AppDispatch>();
 
-
-    useEffect(() => {
-      console.log("Dispatching fetchEngageTalents");
-      // dispatch(fetchEngageTalents(false));
-        // dispatch(fetchEngageTalents({ status: false }));
-            dispatch(fetchCurrentEngageTalents({ status: false }));
-
-
-    }, [dispatch]);
+  useEffect(() => {
+    // console.log("Dispatching fetchEngageTalents");
+    // dispatch(fetchEngageTalents(false));
+    // dispatch(fetchEngageTalents({ status: false }));
+    dispatch(
+      fetchCurrentEngageTalents({
+        queryParams: talentQuery,
+        status: false,
+      })
+    );
+  }, [dispatch]);
 
   console.log("worked", engageTalents);
   const [projectModal, setProjectModal] = useState(false);
