@@ -19,14 +19,33 @@ const initialState: favouriteProjectProp = {
 
 export const fetchFavouriteProjects = createAsyncThunk(
   "favourite/fetchFavouriteProjects",
-  async () => {
+  async (queryParams: { [key: string]: string | number } | null, thunkAPI) => {
     // console.log(url);
     const user = localStorage.getItem("userData");
-
 
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
+
+        if (queryParams !== null && queryParams !== undefined) {
+          // Build the query string based on the dynamic queryParams object
+          const queryString = Object.entries(queryParams)
+            .map(([key, value]) => `${key}=${value}`)
+            .join("&");
+
+          const response = await authAxiosInstance(
+            `/favorites-filter?${queryString}`,
+            {
+              headers: {
+                Authorization: `Bearer ${parsedUser.authKey}`,
+              },
+            }
+          );
+
+          // console.log("myTalents", response?.data?.data?.talent);
+
+          return response?.data?.data?.favorites;
+        }
         const response = await authAxiosInstance(`/favorites-filter`, {
           headers: {
             Authorization: `Bearer ${parsedUser.authKey}`,
@@ -34,7 +53,7 @@ export const fetchFavouriteProjects = createAsyncThunk(
         });
 
         // console.log(response);
-        console.log("response", response?.data?.data?.favorites);
+        // console.log("response", response?.data?.data?.favorites);
 
         return response?.data?.data?.favorites;
       }

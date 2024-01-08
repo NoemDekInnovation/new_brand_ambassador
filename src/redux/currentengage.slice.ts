@@ -3,13 +3,39 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchCurrentEngageTalents = createAsyncThunk(
   "currentengage/fetchEngageCurrentTalents",
-  async (params: { status: boolean }, { rejectWithValue }) => {
-    const { status } = params;
+  async (
+    params: {
+      queryParams: { [key: string]: string | number } | null;
+      status: boolean;
+    },
+    { rejectWithValue }
+  ) => {
+    const { queryParams, status } = params;
     const user = localStorage.getItem("userData");
 
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
+
+        if (queryParams !== null && queryParams !== undefined) {
+          // Build the query string based on the dynamic queryParams object
+          const queryString = Object.entries(queryParams)
+            .map(([key, value]) => `${key}=${value}`)
+            .join("&");
+
+          const response = await authAxiosInstance(
+            `/engaged-talents?${queryString}&status=${status}`,
+            {
+              headers: {
+                Authorization: `Bearer ${parsedUser.authKey}`,
+              },
+            }
+          );
+
+          // console.log("myTalents", response?.data?.data?.talent);
+
+          return response?.data?.data?.talent;
+        }
 
         const response = await campaignAuthAxiosInstance(
           `/engaged-talents?status=${status}`,

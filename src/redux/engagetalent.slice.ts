@@ -18,7 +18,6 @@ export interface TalentsProps {
   next: string | null;
 }
 
-
 const initialState: TalentsProps = {
   loading: false,
   error: "",
@@ -35,17 +34,41 @@ const initialState: TalentsProps = {
   nextProducts: "",
 };
 
-
-
 export const fetchEngageTalents = createAsyncThunk(
   "talents/fetchTalents",
-  async (params: { status: boolean }, { rejectWithValue }) => {
-    const { status } = params;
+  async (
+    params: {
+      queryParams: { [key: string]: string | number } | null;
+      status: boolean;
+    },
+    { rejectWithValue }
+  ) => {
+    const { queryParams, status } = params;
     const user = localStorage.getItem("userData");
 
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
+
+        if (queryParams !== null && queryParams !== undefined) {
+          // Build the query string based on the dynamic queryParams object
+          const queryString = Object.entries(queryParams)
+            .map(([key, value]) => `${key}=${value}`)
+            .join("&");
+
+          const response = await authAxiosInstance(
+            `/engaged-talents?${queryString}&status=${status}`,
+            {
+              headers: {
+                Authorization: `Bearer ${parsedUser.authKey}`,
+              },
+            }
+          );
+
+          // console.log("myTalents", response?.data?.data?.talent);
+
+          return response?.data?.data?.talent;
+        }
 
         const response = await campaignAuthAxiosInstance(
           `/engaged-talents?status=${status}`,
@@ -78,8 +101,6 @@ export const fetchEngageTalents = createAsyncThunk(
   }
 );
 
-
-
 const engagedTalents = createSlice({
   name: "fetchEngageTalents",
   initialState,
@@ -111,7 +132,7 @@ const engagedTalents = createSlice({
           state.prev = action.payload;
           state.count = action.payload;
           state.next = action.payload;
-          state.talentEngaged = action.payload
+          state.talentEngaged = action.payload;
 
           // Dispatch the setTalentEngaged action to update the state with talentEngaged
           // const { talentEngaged } = action.payload;

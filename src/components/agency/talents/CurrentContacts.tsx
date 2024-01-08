@@ -30,28 +30,21 @@ const CurrentContacts = ({
   setSuccessModal: any;
   successModal: any;
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const { talents: resTalents } = useSelector(
     (state: RootState) => state.engagedtalent
   );
 
-
-   
-
-  const dispatch = useDispatch<AppDispatch>()
-  
-
-  console.log("current", resTalents)
+  const { talentQuery } = useSelector((state: RootState) => state.talent);
 
   const [projectModal, setProjectModal] = useState(false);
 
   useEffect(() => {
-      console.log("Dispatching fetchEngageTalents");
+    // console.log("Dispatching fetchEngageTalents");
     // dispatch(fetchEngageTalents(true))
-      dispatch(fetchEngageTalents({ status: true }));
-
-  }, [dispatch])   
-
-
+    dispatch(fetchEngageTalents({ queryParams: talentQuery, status: true }));
+  }, [dispatch]);
 
   return (
     <>

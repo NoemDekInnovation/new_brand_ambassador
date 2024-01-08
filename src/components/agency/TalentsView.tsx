@@ -156,9 +156,9 @@ export default function TalentsView({
   useEffect(() => {
     setIsLoading(true);
     dispatch(fetchTalents(null));
-    dispatch(fetchEngageTalents({ status: true }));
-    dispatch(fetchCurrentEngageTalents({ status: false }));
-    dispatch(fetchFavouriteProjects());
+    dispatch(fetchEngageTalents({ queryParams: null, status: true }));
+    dispatch(fetchCurrentEngageTalents({ queryParams: null, status: false }));
+    dispatch(fetchFavouriteProjects(null));
     dispatch(fetchAgencyTalentss(null));
 
     const fetchProjects = async () => {
