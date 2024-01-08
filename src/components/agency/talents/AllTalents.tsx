@@ -1,7 +1,7 @@
 import { TalentGrid, TalentList } from "./talentView";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -21,6 +21,7 @@ import {
 import { Button } from "../../../ui/button";
 import { TbProgressCheck } from "react-icons/tb";
 import { DialogOverlay } from "@radix-ui/react-dialog";
+import { fetchTalents } from "../../../redux/talent.slice";
 
 const AllTalents = ({
   gridView,
@@ -53,12 +54,17 @@ const AllTalents = ({
   projectModal?: any;
   setProjectModal?: any;
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const { talents: resTalents } = useSelector(
     (state: RootState) => state.talent
   );
+  const { talentQuery } = useSelector((state: RootState) => state.talent);
 
-  // console.log("project", projects)
-
+  useEffect(() => {
+    dispatch(fetchTalents(talentQuery));
+    // dispatch(fetchAgencyTalentss(talentQuery));
+  }, [dispatch, talentQuery]);
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -72,7 +78,7 @@ const AllTalents = ({
             {resTalents?.map((_, idx: number) => {
               return (
                 <TalentGrid
-                key={idx}
+                  key={idx}
                   _={_}
                   modal={projectModal}
                   setModal={setProjectModal}
@@ -98,7 +104,7 @@ const AllTalents = ({
           {resTalents?.map((_, idx: number) => {
             return (
               <TalentList
-              key={idx}
+                key={idx}
                 talent={_}
                 index={idx}
                 handleInvite={""}

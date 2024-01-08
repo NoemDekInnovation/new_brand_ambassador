@@ -25,21 +25,6 @@ import {
 } from "react-icons/bs";
 import Pagination from "../../ui/Pagination";
 import { ProjectProps, TalentProps } from "../../redux/types";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "@radix-ui/react-dialog";
-import { DialogFooter, DialogHeader } from "../../ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@radix-ui/react-select";
-import { Button } from "../../ui/button";
 import { authAxiosInstance, campaignAuthAxiosInstance } from "../../api/axios";
 // import Image from "next/image";
 import Logo from "../../assets/beauty.jpg";

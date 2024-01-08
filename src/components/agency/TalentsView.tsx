@@ -95,6 +95,8 @@ export default function TalentsView({
     false
   );
 
+  const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>(null);
+
   const [activeType, setActiveType] = useState<TalentType | null>(null);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -123,7 +125,7 @@ export default function TalentsView({
     (state: RootState) => state.currentengage
   );
 
-  const talentEngagedLength = talentEngaged?.length;
+  // const talentEngagedLength = talentEngaged?.length;
 
   // console.log("change", resTalents);
 
@@ -153,7 +155,7 @@ export default function TalentsView({
 
   useEffect(() => {
     setIsLoading(true);
-    dispatch(fetchTalents());
+    dispatch(fetchTalents(null));
     dispatch(fetchEngageTalents({ status: true }));
     dispatch(fetchCurrentEngageTalents({ status: false }));
     dispatch(fetchFavouriteProjects());
@@ -192,32 +194,6 @@ export default function TalentsView({
     setGridView(!gridView);
   };
 
-  // const handleGenderChange = (gender: any) => {
-  //   setSelectedGender(gender);
-  //   setTalentQuery({ gender: gender });
-  // };
-  // const handleRoleChange = (role: any) => {
-  //   setSelectedOppor(role);
-  //   setTalentQuery({ opportunities: role });
-  // };
-
-  // const handleStartAgeChange = (e: any) => {
-  //   setAgeRange({ ...ageRange, start: e.target.value });
-  //   setTalentQuery({ minAge: e.target.value });
-  // };
-
-  // const handleEndAgeChange = (e: any) => {
-  //   setAgeRange({ ...ageRange, end: e.target.value });
-  //   setTalentQuery({ maxAge: e.target.value });
-  // };
-
-  // const handleLocationChange = (e: any) => {
-  //   setSelectedLocation(e.target.value);
-  //   setTalentQuery({ ...,location: e.target.value });
-  // };
-
-  const [tip, setTip] = useState<TalentQueryProp | null>(null);
-
   const handleGenderChange = (gender: any) => {
     updateQuery({ gender });
   };
@@ -242,14 +218,14 @@ export default function TalentsView({
 
   // const updateQuery = (newValues: Partial<TalentQuery>) => {
   const updateQuery = (newValues: any) => {
-    setTip((prevQuery: any) => ({ ...prevQuery, ...newValues }));
+    setSortQuery((prevQuery: any) => ({ ...prevQuery, ...newValues }));
   };
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch(setTalentQuery(tip));
+      dispatch(setTalentQuery(sortQuery));
     }, 1000);
-  }, [tip]);
+  }, [sortQuery]);
 
   const handleClear = () => {
     setSelectedLocation("all");
@@ -257,19 +233,8 @@ export default function TalentsView({
     setAgeRange({ ...ageRange, start: "" });
     setAgeRange({ ...ageRange, end: "" });
     setSelectedGender("all");
-    setTip(null);
+    setSortQuery(null);
   };
-  // const handleFilter = () => {
-  //   if (
-  //     selectedGender === "all" &&
-  //     selectedOppor === "all" &&
-  //     selectedLocation === "all" &&
-  //     ageRange.start === "" &&
-  //     ageRange.end === ""
-  //   ) {
-  //     return alert("Please fill a category");
-  //   }
-  // };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -459,10 +424,10 @@ export default function TalentsView({
   //   return <Loading />;
   // }
 
-  const handleCloseModal = () => {
-    // Set the successModal to false to hide the modal
-    setSuccessModal(false);
-  };
+  // const handleCloseModal = () => {
+  //   // Set the successModal to false to hide the modal
+  //   setSuccessModal(false);
+  // };
 
   return (
     <>
@@ -493,18 +458,6 @@ export default function TalentsView({
             </div>
             <Separator className={"my-3"} />
             <div className="flex gap-2 md:gap-4">
-              {/* <div className="flex flex-col gap-2 md:gap-4"> */}
-              {/* <img
-                src={Logo}
-                alt=""
-                width={300}
-                height={400}
-                style={{
-                  width: "100%",
-                  maxHeight: "400px",
-                  objectFit: "contain",
-                }}
-              /> */}
               <div className="flex justify-evenly w-[60w] lg:w-[40w] gap-1">
                 {[1, 2, 3, 4, 5, 6, 7].map((photo) => (
                   <div className="" key={photo}>
@@ -603,9 +556,6 @@ export default function TalentsView({
                   <p className="text-[12px] font-normal text-bm_black w-[110px]">
                     Skin Color:
                   </p>
-                  {/* <p className='text-[12px] font-normal text-bm_black w-[110px]'>
-                      {selectedRole?.skinColor || '-'}
-                    </p> */}
                 </div>{" "}
                 <div className="flex gap-2">
                   <p className="text-[12px] font-normal text-bm_black w-[110px]">
@@ -633,39 +583,13 @@ export default function TalentsView({
                 </div>
               </Card>
             </div>
-            {/* </div> */}
-            {/* </div> */}
           </div>
 
           <div className="bg-bm_card_grey  h-full w-full ">
-            {/* <button
-                      className='bg-green-200'
-                      // onClick={() => {
-                      //   // setSuccessModalx(true);
-                      //   console.log('lol', successModal);
-                      // }}
-                      onClick={() => {
-                        console.log('hello world');
-                      }}
-                    >
-                      set true
-                    </button> */}
             <div className="px-4 md:px-12 xl:px-40 min-h-[70vh] py-10">
               <Card className="bg-white h-full p-3 md:p-6 flex flex-col md:flex-row gap-3 md:gap-6">
                 <CardContent className="flex-col flex p-0 gap-3 md:gap-6">
                   <div className="flex gap-2 md:gap-4 justify-between w-full">
-                    {/* <button
-                      className='bg-green-200'
-                      // onClick={() => {
-                      //   // setSuccessModalx(true);
-                      //   console.log('lol', successModal);
-                      // }}
-                      onClick={() => {
-                        console.log('hello world');
-                      }}
-                    >
-                      set true
-                    </button> */}
                     <Dialog
                     // open={successModalx}
                     // onOpenChange={() => setSuccessModalx(false)}
@@ -863,19 +787,6 @@ export default function TalentsView({
                         </div>
                       </DialogContent>
                     </Dialog>
-                    {/* <Dialog
-                      open={successModal}
-                      onOpenChange={() => setSuccessModal(false)}
-                    >
-                      <DialogContent className='bg-bm_card_grey flex flex-col items-center justify-center max-w-[360px] py-16'>
-                        <TbProgressCheck className='font-normal text-[155px] text-green-700' />
-                        <div className=''>Talent Created Successfully</div>
-                        <p>
-                          A link has been sent to the Talent email address
-                          provided to complete his/her registration.
-                        </p>
-                      </DialogContent>
-                    </Dialog> */}
                     <Dialog
                       open={successModal}
                       onOpenChange={() => setSuccessModal(false)}
@@ -1057,18 +968,7 @@ export default function TalentsView({
                         </div>
                       </div>
                       <Separator className="bg-bm__beige h-[2px]" />
-                      {/* <div className="">
-                        <p className="text-[14px] font-semibold mb-2">
-                          Location
-                        </p>
-                        <Separator className="bg-bm__beige mb-2" />
-                        <div className="flex gap-1 items-center justify-center">
-                          <Input
-                            className="max-w-[180px]"
-                            onChange={handleLocationChange}
-                          />
-                        </div>
-                      </div> */}
+
                       <div className="pb-4">
                         <p className="py-2 font-semibold">Location</p>
                         <Separator className="bg-[#D7D8DA] mb-2" />
@@ -1080,12 +980,6 @@ export default function TalentsView({
                           />
                         </div>
                       </div>
-                      {/* <button
-                        className="dark__btn p-2 mt-2 "
-                        onClick={handleFilter}
-                      >
-                        Filter
-                      </button> */}
                       <button className="dark__btn p-2 " onClick={handleClear}>
                         Clear Filter
                       </button>
