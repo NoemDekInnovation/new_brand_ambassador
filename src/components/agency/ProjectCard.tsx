@@ -85,7 +85,7 @@ export function CurrentProjects({
   };
 
   useEffect(() => {
-    dispatch(fetchpublishproject());
+    dispatch(fetchpublishproject(null));
   }, [dispatch]);
 
   const projects = publishProject.map((project, idx) => {

@@ -8,11 +8,14 @@ const ActiveProjects = ({ searchQuery }: { searchQuery: string }) => {
   const { activeProject } = useSelector(
     (state: RootState) => state.activeProject
   );
+
+  const { pageQuery } = useSelector((state: RootState) => state.talent);
+
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchactiveproject());
-  }, [dispatch]);
+    dispatch(fetchactiveproject(pageQuery));
+  }, [dispatch, pageQuery]);
 
   if (!Array.isArray(activeProject)) {
     return <div>Loading...</div>;

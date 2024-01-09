@@ -51,6 +51,9 @@ export interface ActiveProjectsProps {
   error: string | null;
   totalProjects: number;
   activeProject: Project[];
+  page: number;
+  pageSize: number;
+  totalPages: number;
 }
 
 const initialState: ActiveProjectsProps = {
@@ -58,16 +61,40 @@ const initialState: ActiveProjectsProps = {
   error: "",
   activeProject: [],
   totalProjects: 0,
+  page: 1,
+  pageSize: 1,
+  totalPages: 1,
 };
 
 export const fetchactiveproject = createAsyncThunk(
   "agency/fetchactiveproject",
-  async () => {
+  async (queryParams: { [key: string]: string | number } | null, thunkAPI) => {
     const user = localStorage.getItem("userData");
 
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
+
+        if (queryParams !== null && queryParams !== undefined) {
+          // Build the query string based on the dynamic queryParams object
+          const queryString = Object.entries(queryParams)
+            .map(([key, value]) => `${key}=${value}`)
+            .join("&");
+
+          const response = await campaignAuthAxiosInstance(
+            `/all-active-projects?${queryString}`,
+            {
+              headers: {
+                Authorization: `Bearer ${parsedUser.authKey}`,
+              },
+            }
+          );
+
+          // console.log("myTalents", response?.data?.data?.talent);
+
+          return response?.data?.data;
+        }
+
         const response = await campaignAuthAxiosInstance(
           `/all-active-projects`,
           {
@@ -76,6 +103,7 @@ export const fetchactiveproject = createAsyncThunk(
             },
           }
         );
+        console.log(response.data);
 
         return response.data;
       }
@@ -102,11 +130,14 @@ const activeProjects = createSlice({
           state.error = null;
           state.activeProject = action.payload.projects;
           state.totalProjects = action.payload.totalProjects;
+          state.page = action.payload?.page;
+          state.pageSize = action.payload?.pageSize;
+          state.totalPages = action.payload?.totalPages;
         }
       )
       .addCase(fetchactiveproject.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Failde to fetch publish project";
+        state.error = action.error.message || "Failed to fetch publish project";
       });
   },
 });

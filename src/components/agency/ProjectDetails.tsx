@@ -22,6 +22,7 @@ import { fetchcompleteproject } from "../../redux/completeProject";
 import { fetchdraftproject } from "../../redux/draftProject.slice";
 import { fetchactiveproject } from "../../redux/ActiveProject";
 import Pagination from "../../ui/Pagination";
+import { setPageQuery } from "../../redux/talent.slice";
 
 type ProjectDetailsProps = {
   activeType: "Active" | "Published" | "Completed" | "Drafts";
@@ -33,6 +34,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
   console.log(activeType);
 
   let projects;
+
   switch (activeType) {
     case "Active":
       projects = <ActiveProjects searchQuery={searchQuery} />;
@@ -53,28 +55,60 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
   // const { user } = useSelector((state: RootState) => state.user);
 
   const dispatch = useDispatch<AppDispatch>();
-  const { completeProject } = useSelector(
-    (state: RootState) => state.completeProject
-  );
-  const { activeProject } = useSelector(
+
+  const activeProjectData = useSelector(
     (state: RootState) => state.activeProject
   );
-  const { publishProject } = useSelector(
+  const publishProjectData = useSelector(
     (state: RootState) => state.publishProject
   );
+  const completeProjectData = useSelector(
+    (state: RootState) => state.completeProject
+  );
 
-  const { draftProject } = useSelector(
+  const draftProjectData = useSelector(
     (state: RootState) => state.draftProject
   );
 
+  let projectData: any;
+
+  switch (activeType) {
+    case "Active":
+      projectData = activeProjectData;
+      break;
+    case "Published":
+      projectData = publishProjectData;
+      break;
+    case "Completed":
+      projectData = completeProjectData;
+      break;
+    default:
+      projectData = draftProjectData;
+  }
+
+  const {
+    totalPages,
+    totalProjects,
+    page,
+    pageSize,
+  }: {
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    totalProjects: number;
+  } = projectData;
+
   const projectsToRender =
     activeType === "Active"
-      ? activeProject?.length || 0
+      ? activeProjectData?.totalProjects || 0
       : activeType === "Published"
-      ? publishProject?.length || 0
+      ? publishProjectData?.totalProjects || 0
       : activeType === "Completed"
-      ? completeProject?.length || 0
-      : draftProject?.length || 0;
+      ? completeProjectData?.totalProjects || 0
+      : draftProjectData?.totalProjects || 0;
+
+  const negativePage = pageSize - 1;
+  const positivePage = pageSize + 1;
 
   return (
     <CardContent className=" flex-1">
@@ -100,12 +134,54 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <div className="flex justify-end items-center text-[10px] font-normal ">
-          1 - 3 of 3
-          <BsChevronDoubleLeft className="mx-4" />
-          <BsChevronLeft />
-          <BsChevronRight className="mx-4" />
-          <BsChevronDoubleRight />
+        <div className="flex w-full justify-end items-center text-[10px] font-normal">
+          {page * pageSize - negativePage}-
+          {page * pageSize >= totalProjects ? totalProjects : page * pageSize}{" "}
+          of {totalProjects}
+          {page * pageSize - negativePage <= pageSize && (
+            <BsChevronDoubleLeft className="ml-4 text-slate-400 p-1 text-[16px]" />
+          )}
+          {page * pageSize - negativePage >= positivePage && (
+            <BsChevronDoubleLeft
+              className="ml-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+              onClick={() => {
+                dispatch(setPageQuery({ page: 1 }));
+              }}
+            />
+          )}
+          {page * pageSize - negativePage <= pageSize && (
+            <BsChevronLeft className="mx-4 text-slate-400 p-1 text-[16px]" />
+          )}
+          {page * pageSize - negativePage >= positivePage && (
+            <BsChevronLeft
+              className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+              onClick={() => {
+                dispatch(setPageQuery({ page: page - 1 }));
+              }}
+            />
+          )}
+          {page * pageSize < totalProjects && (
+            <BsChevronRight
+              className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+              onClick={() => {
+                dispatch(setPageQuery({ page: page + 1 }));
+              }}
+            />
+          )}
+          {page * pageSize >= totalProjects && (
+            <BsChevronRight className="mx-4 text-slate-400 p-1 text-[16px]" />
+          )}
+          {page * pageSize < totalProjects && (
+            <BsChevronDoubleRight
+              className="mr-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+              onClick={() => {
+                dispatch(setPageQuery({ page: totalPages }));
+              }}
+            />
+          )}
+          {page * pageSize >= totalProjects && (
+            <BsChevronDoubleRight className="text-slate-400 p-1 text-[16px] mr-4" />
+          )}
         </div>
       </div>
       <Separator className="bg-[#D7D8DA] mt-2" />

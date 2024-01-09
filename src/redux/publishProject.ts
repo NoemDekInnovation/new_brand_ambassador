@@ -7,6 +7,9 @@ export interface PublishProjectsProps {
   error: string | null;
   publishProject: ProjectProps[];
   totalProjects: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
 }
 
 const initialState: PublishProjectsProps = {
@@ -14,16 +17,40 @@ const initialState: PublishProjectsProps = {
   error: "",
   publishProject: [],
   totalProjects: 0,
+  page: 1,
+  pageSize: 1,
+  totalPages: 1,
 };
 
 export const fetchpublishproject = createAsyncThunk(
   "agency/fetchpublishproject",
-  async () => {
+  async (queryParams: { [key: string]: string | number } | null, thunkAPI) => {
     const user = localStorage.getItem("userData");
 
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
+
+        if (queryParams !== null && queryParams !== undefined) {
+          // Build the query string based on the dynamic queryParams object
+          const queryString = Object.entries(queryParams)
+            .map(([key, value]) => `${key}=${value}`)
+            .join("&");
+
+          const response = await campaignAuthAxiosInstance(
+            `/published-projects?${queryString}`,
+            {
+              headers: {
+                Authorization: `Bearer ${parsedUser.authKey}`,
+              },
+            }
+          );
+
+          // console.log("myTalents", response?.data?.data?.talent);
+
+          return response?.data?.data;
+        }
+
         const response = await campaignAuthAxiosInstance(
           `/published-projects`,
           {
@@ -57,6 +84,9 @@ const publishProjects = createSlice({
           state.error = null;
           state.publishProject = action.payload.publishedProjects;
           state.totalProjects = action.payload.totalProjects;
+          state.page = action.payload?.page;
+          state.pageSize = action.payload?.pageSize;
+          state.totalPages = action.payload?.totalPages;
         }
       )
       .addCase(fetchpublishproject?.rejected, (state, action) => {

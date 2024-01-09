@@ -102,8 +102,8 @@ export default function NewNavBar() {
 
   useEffect(() => {
     dispatch(fetchTalentInvitations());
-    dispatch(fetchactiveproject());
-    dispatch(fetchcompleteproject());
+    dispatch(fetchactiveproject(null));
+    dispatch(fetchcompleteproject(null));
   }, [dispatch]);
 
   const handleProfilePopUp = (info: any) => {

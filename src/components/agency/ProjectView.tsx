@@ -171,10 +171,10 @@ export default function ProjectsView({
   }, [activeProjectClick]);
 
   useEffect(() => {
-    dispatch(fetchactiveproject());
-    dispatch(fetchcompleteproject());
+    dispatch(fetchactiveproject(null));
+    dispatch(fetchcompleteproject(null));
     dispatch(fetchdraftproject());
-    dispatch(fetchpublishproject());
+    dispatch(fetchpublishproject(null));
   }, [dispatch]);
 
   const handleProjectTypeChange = (type: ProjectType) => {
