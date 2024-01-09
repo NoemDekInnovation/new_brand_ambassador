@@ -36,11 +36,17 @@ const MyTalents = ({
   const { agencyTalents: resTalents } = useSelector(
     (state: RootState) => state.agency
   );
-  const { talentQuery } = useSelector((state: RootState) => state.talent);
+  const { talentQuery, pageQuery } = useSelector(
+    (state: RootState) => state.talent
+  );
 
   useEffect(() => {
     dispatch(fetchAgencyTalentss(talentQuery));
   }, [dispatch, talentQuery]);
+
+  useEffect(() => {
+    dispatch(fetchAgencyTalentss(pageQuery));
+  }, [dispatch, pageQuery]);
 
   const [projectModal, setProjectModal] = useState(false);
 

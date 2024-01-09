@@ -34,7 +34,7 @@ export const fetchFavouriteProjects = createAsyncThunk(
             .join("&");
 
           const response = await authAxiosInstance(
-            `/favorites-filter?${queryString}`,
+            `/favorites-filter?${queryString}&page=2&pageSize=5`,
             {
               headers: {
                 Authorization: `Bearer ${parsedUser.authKey}`,

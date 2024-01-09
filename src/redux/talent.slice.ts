@@ -24,6 +24,11 @@ export interface TalentsProps {
   prev: string | null;
   next: string | null;
   talentQuery: TalentQueryProp | null;
+  pageQuery: TalentQueryProp | null;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  totalTalent: number;
 }
 const initialState: TalentsProps = {
   loading: false,
@@ -41,6 +46,11 @@ const initialState: TalentsProps = {
   prevProducts: "",
   nextProducts: "",
   talentQuery: null,
+  pageQuery: null,
+  page: 1,
+  pageSize: 1,
+  totalPages: 1,
+  totalTalent: 0,
 };
 
 export const fetchTalents = createAsyncThunk(
@@ -73,13 +83,17 @@ export const fetchTalents = createAsyncThunk(
           return response?.data?.data;
         }
 
-        const response = await authAxiosInstance(`/all-talents`, {
-          headers: {
-            Authorization: `Bearer ${parsedUser.authKey}`,
-          },
-        });
+        const response = await authAxiosInstance(
+          `/all-talents`,
+          // `/all-talents?page=2&pageSize=5`,
+          {
+            headers: {
+              Authorization: `Bearer ${parsedUser.authKey}`,
+            },
+          }
+        );
 
-        // console.log("checker", response?.data?.data);
+        console.log("checker", response?.data?.data);
         return response?.data?.data;
       }
     } catch (error: any) {
@@ -203,6 +217,9 @@ const talents = createSlice({
     setTalentQuery: (state, action) => {
       state.talentQuery = action.payload;
     },
+    setPageQuery: (state, action) => {
+      state.pageQuery = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -216,6 +233,10 @@ const talents = createSlice({
         state.prev = action.payload?.prev;
         state.count = action.payload?.count; // Store the count
         state.next = action.payload?.next;
+        state.page = action.payload?.page;
+        state.pageSize = action.payload?.pageSize;
+        state.totalPages = action.payload?.totalPages;
+        state.totalTalent = action.payload?.totalTalents;
       })
       .addCase(fetchTalents.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
@@ -282,5 +303,10 @@ const talents = createSlice({
 });
 
 export default talents.reducer;
-export const { setUser, setSuccessImport, setFailedImport, setTalentQuery } =
-  talents.actions;
+export const {
+  setUser,
+  setSuccessImport,
+  setFailedImport,
+  setTalentQuery,
+  setPageQuery,
+} = talents.actions;
