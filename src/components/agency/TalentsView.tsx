@@ -102,7 +102,7 @@ export default function TalentsView({
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.user);
 
-  const { talents: current } = useSelector(
+  const { totalTalent: totalCurrent } = useSelector(
     (state: RootState) => state.engagedtalent
   );
 
@@ -112,7 +112,7 @@ export default function TalentsView({
     (state: RootState) => state.engagedtalent
   );
 
-  const { favourites: fav } = useSelector(
+  const { totalTalent: totalFavTalent } = useSelector(
     (state: RootState) => state.favouriteProject
   );
 
@@ -120,15 +120,15 @@ export default function TalentsView({
     (state: RootState) => state.agency
   );
 
-  const { engageTalents } = useSelector(
+  const { totalTalent: totalEngageTalents } = useSelector(
     (state: RootState) => state.currentengage
   );
 
   const talentCount = {
     "All Talent": totalTalent || 0,
-    "Current Contracts": current?.length || 0,
-    Favorites: fav?.length || 0,
-    Engaged: engageTalents?.length || 0,
+    "Current Contracts": totalCurrent || 0,
+    Favorites: totalFavTalent || 0,
+    Engaged: totalEngageTalents || 0,
     "My Talent": totalAgencyTalent || 0,
   };
 

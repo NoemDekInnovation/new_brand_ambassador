@@ -8,6 +8,10 @@ export interface favouriteProjectProp {
   error: string | null;
   favouriteTalents: any;
   favourites: favProp[];
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  totalTalent: number;
 }
 
 const initialState: favouriteProjectProp = {
@@ -15,6 +19,10 @@ const initialState: favouriteProjectProp = {
   error: "",
   favourites: [],
   favouriteTalents: [],
+  page: 1,
+  pageSize: 1,
+  totalPages: 1,
+  totalTalent: 0,
 };
 
 export const fetchFavouriteProjects = createAsyncThunk(
@@ -34,7 +42,8 @@ export const fetchFavouriteProjects = createAsyncThunk(
             .join("&");
 
           const response = await authAxiosInstance(
-            `/favorites-filter?${queryString}&page=2&pageSize=5`,
+            `/favorites-filter?${queryString}`,
+            // `/favorites-filter?${queryString}&page=2&pageSize=5`,
             {
               headers: {
                 Authorization: `Bearer ${parsedUser.authKey}`,
@@ -44,7 +53,7 @@ export const fetchFavouriteProjects = createAsyncThunk(
 
           // console.log("myTalents", response?.data?.data?.talent);
 
-          return response?.data?.data?.favorites;
+          return response?.data?.data;
         }
         const response = await authAxiosInstance(`/favorites-filter`, {
           headers: {
@@ -53,9 +62,9 @@ export const fetchFavouriteProjects = createAsyncThunk(
         });
 
         // console.log(response);
-        // console.log("response", response?.data?.data?.favorites);
+        // console.log("response", response?.data?.data);
 
-        return response?.data?.data?.favorites;
+        return response?.data?.data;
       }
     } catch (error) {
       throw error;
@@ -77,8 +86,11 @@ const favoritesProject = createSlice({
         fetchFavouriteProjects.fulfilled,
         (state, action: PayloadAction<any>) => {
           state.loading = false;
-          state.favourites = action.payload;
-
+          state.favourites = action.payload?.favorites;
+          state.page = action.payload?.page;
+          state.pageSize = action.payload?.pageSize;
+          state.totalPages = action.payload?.totalPages;
+          state.totalTalent = action.payload?.totalFavorites;
           // state.favouriteTalents = action.payload[0].favoriteTalent;
         }
       )
