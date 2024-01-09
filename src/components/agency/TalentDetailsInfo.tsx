@@ -33,6 +33,7 @@ import CurrentContacts from "./talents/CurrentContacts";
 import Engaged from "./talents/Engaged";
 import MyTalents from "./talents/MyTalents";
 import FavoriteTalents from "./talents/FavoriteTalents";
+import { setPageQuery } from "../../redux/talent.slice";
 
 type TalentDetailsProps = {
   activeType:
@@ -49,8 +50,9 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   handleProfilePopUp,
 }) => {
   let pageTalents;
+  let talentData: any;
 
-  // console.log("activeType", activeType);
+  console.log("activeType", activeType);
 
   const [gridView, setGridView] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -86,10 +88,19 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   };
 
   const dispatch = useDispatch<AppDispatch>();
-  const { talents: resTalents } = useSelector(
-    (state: RootState) => state.talent
+
+  const agencyTalentData = useSelector((state: RootState) => state.agency);
+  const allTalentData = useSelector((state: RootState) => state.talent);
+  const favouriteTalentData = useSelector(
+    (state: RootState) => state.favouriteProject
   );
-  // console.log(resTalents);
+  const currentTalentData = useSelector(
+    (state: RootState) => state.engagedtalent
+  );
+
+  const engageTalentData = useSelector(
+    (state: RootState) => state.currentengage
+  );
 
   useEffect(() => {
     const fetchTalents = async () => {
@@ -136,69 +147,49 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
     }
   };
 
-  const filteredTalents = resTalents?.filter((talent, idx) => {
-    const talentgender = talent?.gender;
-    const talentRole = talent?.opportunities;
-    const talentAge = talent?.age;
-    const talentAddress = talent?.address[0];
-    // const size = sellers..toLowerCase();
-    // const search = searchTerm.toLowerCase();
-    const searchLocation = selectedLocation.toLowerCase();
+  switch (activeType) {
+    case "All Talent":
+      talentData = allTalentData;
+      break;
+    case "Current Contracts":
+      talentData = currentTalentData;
+      break;
+    case "Favorites":
+      talentData = favouriteTalentData;
+      break;
+    case "Engaged":
+      talentData = engageTalentData;
+      break;
+    case "My Talent":
+      talentData = agencyTalentData;
+      break;
+    default:
+      talentData = null;
+  }
 
-    if (
-      selectedGender === "all" &&
-      selectedOppor === "all" &&
-      selectedLocation === "all" &&
-      ageRange.start === "" &&
-      ageRange.end === ""
-    ) {
-      return talent;
-    }
-    const isGenderMatch = selectedGender === talentgender;
-    const isRoleMatch = selectedOppor === talentRole;
-    const isOfAge =
-      talentAge >= parseInt(ageRange.start) &&
-      talentAge <= parseInt(ageRange.end);
-    const isCity = talentAddress?.city.includes(searchLocation);
-    const isState = talentAddress?.state.includes(searchLocation);
+  // const {
+  //   totalPages,
+  //   totalTalent,
+  //   page,
+  //   pageSize,
+  // }: {
+  //   page: number;
+  //   pageSize: number;
+  //   totalPages: number;
+  //   totalTalent: number;
+  // } = talentData;
 
-    if (isGenderMatch) {
-      if (
-        selectedOppor === "all" &&
-        selectedLocation === "all" &&
-        ageRange.start === "" &&
-        ageRange.end === ""
-      ) {
-        return isGenderMatch;
-      }
-      if (
-        selectedOppor !== "all" &&
-        selectedLocation === "all" &&
-        ageRange.start === "" &&
-        ageRange.end === ""
-      ) {
-        return isGenderMatch && isRoleMatch;
-      }
-      if (
-        selectedOppor !== "all" &&
-        selectedLocation === "all" &&
-        ageRange.start !== "" &&
-        ageRange.end !== ""
-      ) {
-        return isGenderMatch && isRoleMatch && isOfAge;
-      }
-
-      if (
-        selectedOppor !== "all" &&
-        selectedLocation !== "all" &&
-        ageRange.start !== "" &&
-        ageRange.end !== ""
-      ) {
-        return isGenderMatch && isRoleMatch && (isCity || isState) && isOfAge;
-      }
-    }
-    return talent;
-  });
+  const {
+    totalPages,
+    totalTalent,
+    page,
+    pageSize,
+  }: {
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    totalTalent: number;
+  } = talentData;
 
   switch (activeType) {
     case "All Talent":
@@ -291,6 +282,12 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
     default:
       pageTalents = null;
   }
+  const negativePage = pageSize - 1;
+  const positivePage = pageSize + 1;
+
+  // console.log(pageQuery);
+  // console.log(page * pageSize - negativePage);
+  // console.log(page, pageSize, negativePage);
 
   return (
     <>
@@ -327,24 +324,66 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
           </div>
           <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
           <div className="flex w-full justify-end items-center text-[10px] font-normal">
-            1-{resTalents?.length} of {resTalents?.length}
-            <BsChevronDoubleLeft className="mx-4" />
-            <BsChevronLeft />
-            <BsChevronRight className="mx-4" />
-            <BsChevronDoubleRight />
+            {page * pageSize - negativePage}-
+            {page * pageSize >= totalTalent ? totalTalent : page * pageSize} of{" "}
+            {totalTalent}
+            {page * pageSize - negativePage <= pageSize && (
+              <BsChevronDoubleLeft className="ml-4 text-slate-400 p-1 text-[16px]" />
+            )}
+            {page * pageSize - negativePage >= positivePage && (
+              <BsChevronDoubleLeft
+                className="ml-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                onClick={() => {
+                  dispatch(setPageQuery({ page: 1 }));
+                }}
+              />
+            )}
+            {page * pageSize - negativePage <= pageSize && (
+              <BsChevronLeft className="mx-4 text-slate-400 p-1 text-[16px]" />
+            )}
+            {page * pageSize - negativePage >= positivePage && (
+              <BsChevronLeft
+                className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                onClick={() => {
+                  dispatch(setPageQuery({ page: page - 1 }));
+                }}
+              />
+            )}
+            {page * pageSize < totalTalent && (
+              <BsChevronRight
+                className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                onClick={() => {
+                  dispatch(setPageQuery({ page: page + 1 }));
+                }}
+              />
+            )}
+            {page * pageSize >= totalTalent && (
+              <BsChevronRight className="mx-4 text-slate-400 p-1 text-[16px]" />
+            )}
+            {page * pageSize < totalTalent && (
+              <BsChevronDoubleRight
+                className="mr-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                onClick={() => {
+                  dispatch(setPageQuery({ page: totalPages }));
+                }}
+              />
+            )}
+            {page * pageSize >= totalTalent && (
+              <BsChevronDoubleRight className="text-slate-400 p-1 text-[16px] mr-4" />
+            )}
           </div>
           <Separator className="my-2" />
           {pageTalents}
         </div>
         <Separator className="my-2 md:my-4" />
-        <Pagination
+        {/* <Pagination
           first={""}
           last={""}
           prev={""}
           next={""}
           currentPage={1}
           count={resTalents?.length || 0}
-        />
+        /> */}
       </CardContent>
     </>
   );

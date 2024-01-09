@@ -56,15 +56,20 @@ const AllTalents = ({
 }) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { talents: resTalents } = useSelector(
-    (state: RootState) => state.talent
-  );
-  const { talentQuery } = useSelector((state: RootState) => state.talent);
+  const {
+    talents: resTalents,
+    talentQuery,
+    pageQuery,
+  } = useSelector((state: RootState) => state.talent);
 
   useEffect(() => {
     dispatch(fetchTalents(talentQuery));
-    // dispatch(fetchAgencyTalentss(talentQuery));
   }, [dispatch, talentQuery]);
+
+  useEffect(() => {
+    dispatch(fetchTalents(pageQuery));
+  }, [dispatch, pageQuery]);
+
   const [isLoading, setIsLoading] = useState(false);
 
   return (

@@ -101,13 +101,12 @@ export default function TalentsView({
 
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.user);
-  const { talents: resTalents, agencyTalents } = useSelector(
-    (state: RootState) => state.talent
-  );
 
   const { talents: current } = useSelector(
     (state: RootState) => state.engagedtalent
   );
+
+  const { totalTalent } = useSelector((state: RootState) => state.talent);
 
   const { talentEngaged } = useSelector(
     (state: RootState) => state.engagedtalent
@@ -117,7 +116,7 @@ export default function TalentsView({
     (state: RootState) => state.favouriteProject
   );
 
-  const { agencyTalents: myTalent } = useSelector(
+  const { totalTalent: totalAgencyTalent } = useSelector(
     (state: RootState) => state.agency
   );
 
@@ -125,16 +124,12 @@ export default function TalentsView({
     (state: RootState) => state.currentengage
   );
 
-  // const talentEngagedLength = talentEngaged?.length;
-
-  // console.log("change", resTalents);
-
   const talentCount = {
-    "All Talent": resTalents?.length || 0,
+    "All Talent": totalTalent || 0,
     "Current Contracts": current?.length || 0,
     Favorites: fav?.length || 0,
     Engaged: engageTalents?.length || 0,
-    "My Talent": myTalent?.length || 0,
+    "My Talent": totalAgencyTalent || 0,
   };
 
   const onTalentTypeChnage = (type: TalentType) => {
