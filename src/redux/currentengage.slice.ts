@@ -34,7 +34,7 @@ export const fetchCurrentEngageTalents = createAsyncThunk(
 
           // console.log("myTalents", response?.data?.data?.talent);
 
-          return response?.data?.data?.talent;
+          return response?.data?.data;
         }
 
         const response = await campaignAuthAxiosInstance(
@@ -45,8 +45,9 @@ export const fetchCurrentEngageTalents = createAsyncThunk(
             },
           }
         );
+        console.log("myTalents", response?.data?.data);
 
-        return response?.data?.data?.talent;
+        return response?.data?.data;
       }
     } catch (error: any) {
       if (error.response) {
@@ -68,27 +69,63 @@ export const fetchCurrentEngageTalents = createAsyncThunk(
   }
 );
 
+export interface TalentProps {
+  loading: boolean;
+  currentTalents: any;
+  engageTalents: any;
+  talentData: any;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  totalTalent: number;
+  status: string;
+  error: null | unknown;
+}
+
+const initialState: TalentProps = {
+  loading: false,
+  currentTalents: [],
+  engageTalents: [],
+  talentData: {},
+  page: 1,
+  pageSize: 1,
+  totalPages: 1,
+  totalTalent: 0,
+  status: "idle",
+  error: null,
+};
+
 const currentengageSlice = createSlice({
   name: "currentengage",
-  initialState: {
-    currentTalents: [],
-    engageTalents: [],
-    status: "idle",
-    error: null as unknown,
-  },
+  // initialState: {
+  //   currentTalents: [],
+  //   engageTalents: [],
+  //   status: "idle",
+  //   error: null as unknown,
+  // },
+  initialState,
+
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchCurrentEngageTalents.pending, (state) => {
         state.status = "loading";
+        state.loading = true;
+        state.error = null;
       })
       .addCase(fetchCurrentEngageTalents.fulfilled, (state, action) => {
+        state.loading = false;
         state.status = "succeeded";
-        state.currentTalents = action.payload;
-        state.engageTalents = action.payload;
+        state.currentTalents = action.payload?.talent;
+        state.engageTalents = action.payload?.talent;
+        state.page = action.payload?.page;
+        state.pageSize = action.payload?.pageSize;
+        state.totalPages = action.payload?.totalPages;
+        state.totalTalent = action.payload?.totalProjects;
       })
       .addCase(fetchCurrentEngageTalents.rejected, (state, action) => {
         state.status = "failed";
+        state.loading = false;
         state.error = action.payload;
       });
   },

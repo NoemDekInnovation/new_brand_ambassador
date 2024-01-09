@@ -8,11 +8,14 @@ const CompletedProjects = ({ searchQuery }: { searchQuery: string }) => {
   const { completeProject } = useSelector(
     (state: RootState) => state.completeProject
   );
+
+  const { pageQuery } = useSelector((state: RootState) => state.talent);
+
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchcompleteproject());
-  }, [dispatch]);
+    dispatch(fetchcompleteproject(pageQuery));
+  }, [dispatch, pageQuery]);
 
   if (!Array.isArray(completeProject)) {
     return <div>Loading...</div>;

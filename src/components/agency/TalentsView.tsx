@@ -54,6 +54,7 @@ import { fetchEngageTalents } from "../../redux/engagetalent.slice";
 import { fetchAgencyTalentss } from "../../redux/agencyTalent.slice";
 import { fetchFavouriteProjects } from "../../redux/favourite.slice";
 import { fetchCurrentEngageTalents } from "../../redux/currentengage.slice";
+import PhoneInput from "react-phone-number-input";
 
 export type TalentType =
   | "All Talent"
@@ -102,7 +103,7 @@ export default function TalentsView({
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.user);
 
-  const { talents: current } = useSelector(
+  const { totalTalent: totalCurrent } = useSelector(
     (state: RootState) => state.engagedtalent
   );
 
@@ -112,7 +113,7 @@ export default function TalentsView({
     (state: RootState) => state.engagedtalent
   );
 
-  const { favourites: fav } = useSelector(
+  const { totalTalent: totalFavTalent } = useSelector(
     (state: RootState) => state.favouriteProject
   );
 
@@ -120,15 +121,15 @@ export default function TalentsView({
     (state: RootState) => state.agency
   );
 
-  const { engageTalents } = useSelector(
+  const { totalTalent: totalEngageTalents } = useSelector(
     (state: RootState) => state.currentengage
   );
 
   const talentCount = {
     "All Talent": totalTalent || 0,
-    "Current Contracts": current?.length || 0,
-    Favorites: fav?.length || 0,
-    Engaged: engageTalents?.length || 0,
+    "Current Contracts": totalCurrent || 0,
+    Favorites: totalFavTalent || 0,
+    Engaged: totalEngageTalents || 0,
     "My Talent": totalAgencyTalent || 0,
   };
 
@@ -155,6 +156,7 @@ export default function TalentsView({
     dispatch(fetchCurrentEngageTalents({ queryParams: null, status: false }));
     dispatch(fetchFavouriteProjects(null));
     dispatch(fetchAgencyTalentss(null));
+    console.log("fetchmeid");
 
     const fetchProjects = async () => {
       if (user?.accountId !== undefined) {
@@ -167,7 +169,9 @@ export default function TalentsView({
               },
             }
           );
-          setProjects(response?.data?.data.projects);
+          // console.log(response);
+
+          setProjects(response?.data?.data?.publishedProjects);
         } catch (error) {
           // console.error("Error while fetiching projects:", error);
           // Handle error appropriately (e.g., show a user-friendly message)
@@ -178,6 +182,8 @@ export default function TalentsView({
     fetchProjects();
     setIsLoading(false);
   }, [user?.accountId]);
+
+  console.log(projects);
 
   const handleProfilePopUp = (talent: any) => {
     // console.log(talent);
@@ -337,10 +343,29 @@ export default function TalentsView({
   if (errors?.lastName?.type === "required") {
     errMsg.lastName = "Please enter talents last name";
   }
-
+  if (
+    errors?.firstName?.type === "required" ||
+    (watch("firstName") && !validator.isAlpha(watch("firstName")))
+  ) {
+    errMsg.firstName = "Please enter only alphabetic characters";
+  }
+  if (
+    errors?.lastName?.type === "required" ||
+    (watch("lastName") && !validator.isAlpha(watch("lastName")))
+  ) {
+    errMsg.lastName = "Please enter only alphabetic characters";
+  }
   if (errors?.phone?.type === "required") {
     errMsg.phone = "Please enter talents phone number";
   }
+
+  if (
+    errors?.phone?.type === "required" ||
+    (watch("phone") && !validator.isNumeric(watch("phone")))
+  ) {
+    errMsg.phone = "Please enter only alphabetic characters";
+  }
+
   if (errors?.project?.type === "required") {
     errMsg.project = "Please select a project";
   }
@@ -688,6 +713,20 @@ export default function TalentsView({
                                   name="phone"
                                   className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px] ring-1 ring-bm_btn_grey "
                                 />
+
+                                {/* <PhoneInput
+                                  name="phone"
+                                  placeholder="Enter phone number"
+                                  {...field}
+                                  // value={"personal.alternatePhone"}
+                                  // value={personal.alternatePhone}
+                                  onChange={() => {}}
+                                  // onChange={handleAltPhoneChange}
+                                  defaultCountry="NG"
+                                  international
+                                  countryCallingCodeEditable={false}
+                                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer input-phone-number rounded-lg ring-1 ring-bm_btn_grey  sm:h-12 p-2 text-[12px] sm:p-4"
+                                /> */}
                                 {errMsg.phone && (
                                   <small className="text-red-500">
                                     {errMsg.phone}
@@ -697,6 +736,18 @@ export default function TalentsView({
                             )}
                           />
                         </div>
+
+                        {/* <PhoneInput
+                          placeholder="Enter phone number"
+                          value={"personal.alternatePhone"}
+                          // value={personal.alternatePhone}
+                          onChange={() => {}}
+                          // onChange={handleAltPhoneChange}
+                          defaultCountry="NG"
+                          international
+                          countryCallingCodeEditable={false}
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer input-phone-number rounded-lg ring-1 ring-bm_btn_grey  sm:h-12 p-2 text-[12px] sm:p-4"
+                        /> */}
                         <DropdownMenuSeparator className="bg-bm__beige mb-3" />
                         <p className="text-[12px] md:text-[15px]">
                           Do you want to add this talent to your project?{" "}
@@ -753,6 +804,9 @@ export default function TalentsView({
                                     Supervisor
                                   </SelectItem>
                                   <SelectItem value="usher">Usher</SelectItem>
+                                  <SelectItem value="ba">
+                                    Brand Ambassador
+                                  </SelectItem>
                                 </SelectContent>
                               </Select>
                               {errMsg.talentType && (

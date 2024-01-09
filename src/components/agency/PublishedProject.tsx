@@ -16,6 +16,9 @@ const PublishedProject = ({ searchQuery }: { searchQuery: string }) => {
   const { publishProject, totalProjects } = useSelector(
     (state: RootState) => state.publishProject
   );
+
+  const { pageQuery } = useSelector((state: RootState) => state.talent);
+
   const dispatch = useDispatch<AppDispatch>();
   const [popUp, setPopUp] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -29,8 +32,8 @@ const PublishedProject = ({ searchQuery }: { searchQuery: string }) => {
   };
 
   useEffect(() => {
-    dispatch(fetchpublishproject());
-  }, [dispatch]);
+    dispatch(fetchpublishproject(pageQuery));
+  }, [dispatch, pageQuery]);
 
   if (!Array.isArray(publishProject)) {
     return <div>Loading...</div>;
