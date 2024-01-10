@@ -49,6 +49,9 @@ export default function Address({
     label: state.name,
   }));
 
+  const [inputError, setInputError] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
   const { toast } = useToast();
 
   const handleInputChange = (
@@ -61,6 +64,30 @@ export default function Address({
       ...prevData,
       [fieldName]: value,
     }));
+  };
+
+  const isAlphabeticWithSpace = /^[A-Za-z ]*$/;
+
+  const handleInputChangeX = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string
+  ) => {
+    const { value } = e.target;
+
+    const isValidInput = isAlphabeticWithSpace.test(value);
+
+    // console.log(errorMsg);
+
+    if (isValidInput || value === "") {
+      setAddress((prevData: AddressProps) => ({
+        ...prevData,
+        [fieldName]: value,
+      }));
+      setInputError(null);
+    } else {
+      setErrorMsg(fieldName);
+      setInputError("Invalid input.");
+    }
   };
 
   return (
@@ -217,9 +244,13 @@ export default function Address({
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   value={address?.LGA}
-                  onChange={(e) => handleInputChange(e, "LGA")}
+                  onChange={(e) => handleInputChangeX(e, "LGA")}
                   required
                 />
+
+                {inputError && errorMsg === "LGA" && (
+                  <p className="text-red-500 text-sm">{inputError}</p>
+                )}
                 <label
                   htmlFor="LGA"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"

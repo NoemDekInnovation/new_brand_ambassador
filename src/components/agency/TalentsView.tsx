@@ -186,7 +186,7 @@ export default function TalentsView({
   console.log(projects);
 
   const handleProfilePopUp = (talent: any) => {
-    // console.log(talent);
+    console.log("talent", talent);
     setPopUp(!popUp);
     setSelectedRole(talent);
   };

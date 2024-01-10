@@ -60,21 +60,19 @@ export default function PersonalDetails({
     // Add more options as needed
   ];
 
-const dressSizeOptions = [
-  "6",
-  "8",
-  "10",
-  "12", // Female dress sizes
-  "S",
-  "M",
-  "L",
-  "XL", // Male dress sizes
-];
-
-
-
+  const dressSizeOptions = [
+    "6",
+    "8",
+    "10",
+    "12", // Female dress sizes
+    "S",
+    "M",
+    "L",
+    "XL", // Male dress sizes
+  ];
 
   const [inputError, setInputError] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [heightError, setHeightError] = useState<string | null>(null);
 
   const { toast } = useToast();
@@ -89,6 +87,8 @@ const dressSizeOptions = [
 
     const isValidInput = isAlphabeticWithSpace.test(value);
 
+    // console.log(errorMsg);
+
     if (isValidInput || value === "") {
       setPersonal((prevData: PersonalProps) => ({
         ...prevData,
@@ -96,6 +96,7 @@ const dressSizeOptions = [
       }));
       setInputError(null);
     } else {
+      setErrorMsg(fieldName);
       setInputError("Please enter only alphabet characters.");
     }
   };
@@ -122,7 +123,6 @@ const dressSizeOptions = [
     const { value } = event.target;
     setPersonal({ ...personal, dressSize: value });
   };
-
 
   //  const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
   //    const selectedOptions = Array.from(
@@ -178,7 +178,7 @@ const dressSizeOptions = [
   //   });
   // }
 
-  console.log(formattedDate);
+  // console.log(formattedDate);
 
   const handleDateChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -308,7 +308,7 @@ const dressSizeOptions = [
                   onChange={(e) => handleInputChange(e, "firstName")}
                   disabled
                 />
-                {inputError && (
+                {inputError && errorMsg === "firstName" && (
                   <p className="text-red-500 text-sm">{inputError}</p>
                 )}
                 <label
@@ -330,7 +330,7 @@ const dressSizeOptions = [
                   onChange={(e) => handleInputChange(e, "lastName")}
                   disabled
                 />
-                {inputError && (
+                {inputError && errorMsg === "lastName" && (
                   <p className="text-red-500 text-sm">{inputError}</p>
                 )}
 
@@ -354,7 +354,7 @@ const dressSizeOptions = [
                   onChange={(e) => handleInputChange(e, "middleName")}
                   required
                 />
-                {inputError && (
+                {inputError && errorMsg === "middleName" && (
                   <p className="text-red-500 text-sm">{inputError}</p>
                 )}
 
@@ -522,7 +522,8 @@ const dressSizeOptions = [
                   id="height"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  value={personal.height}
+                  // value={personal.height}
+                  value={`${personal.height} cm`}
                   onChange={handleHeightChange}
                   required
                 />
@@ -576,8 +577,6 @@ const dressSizeOptions = [
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
               <div className="relative  z-0 w-full mb-6 group">
-              
-
                 <select
                   name="dressSize"
                   id="dressSize"

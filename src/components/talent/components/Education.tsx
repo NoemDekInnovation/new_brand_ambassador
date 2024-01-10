@@ -78,16 +78,9 @@ export default function Education({
     ]);
   };
 
-  // const InputChange = (
-  //   e: React.ChangeEvent<HTMLInputElement>,
-  //   index: number
-  // ) => {
-  //   const { name, value } = e.target;
+  const [inputError, setInputError] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  //   const updatedEducation = [...education];
-  //   updatedEducation[index][name] = value;
-  //   setEducation(updatedEducation);
-  // };
   const InputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
@@ -102,17 +95,32 @@ export default function Education({
     setEducation(updatedEducation);
   };
 
+  const InputChangeX = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+    fieldName: string
+  ) => {
+    const isAlphabeticWithSpace = /^[A-Za-z ]*$/;
 
-  // const handleEduInputChange = (
-  //   e: React.ChangeEvent<HTMLSelectElement>,
-  //   index: number
-  // ) => {
-  //   const { name, value } = e.target;
+    const { name, value } = e.target;
 
-  //   const updatedEducation = [...education];
-  //   updatedEducation[index][name] = value;
-  //   setEducation(updatedEducation);
-  // };
+    const isValidInput = isAlphabeticWithSpace.test(value);
+
+    if (isValidInput || value === "") {
+      // Create a deep copy of the education array
+      const updatedEducation = education.map((edu, i) =>
+        i === index ? { ...edu, [name]: value } : edu
+      );
+
+      setEducation(updatedEducation);
+
+      setInputError(null);
+    } else {
+      setErrorMsg(fieldName);
+      setInputError("Invalid input.");
+    }
+  };
+
   const handleEduInputChange = (
     e: React.ChangeEvent<HTMLSelectElement>,
     index: number
@@ -132,17 +140,6 @@ export default function Education({
     setEducation(updatedEducation);
   };
 
-  //  const handleCertInputChange = (
-  //    e: React.ChangeEvent<HTMLInputElement>,
-  //    index: number
-  //  ) => {
-  //    const { name, value } = e.target;
-
-  //    const updatedCertificate = [...certificate];
-  //    updatedCertificate[index][name] = value;
-  //    setCertificate(updatedCertificate);
-  //  };
-
   const handleCertInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
@@ -155,6 +152,32 @@ export default function Education({
     );
 
     setCertificate(updatedCertificate);
+  };
+
+  const handleCertInputChangeX = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+    fieldName: string
+  ) => {
+    const isAlphabeticWithSpace = /^[A-Za-z ]*$/;
+
+    const { name, value } = e.target;
+
+    const isValidInput = isAlphabeticWithSpace.test(value);
+
+    if (isValidInput || value === "") {
+      // Create a deep copy of the certificate at the specified index
+      const updatedCertificate = certificate.map((cert, i) =>
+        i === index ? { ...cert, [name]: value } : cert
+      );
+
+      setCertificate(updatedCertificate);
+
+      setInputError(null);
+    } else {
+      setErrorMsg(fieldName);
+      setInputError("Invalid input.");
+    }
   };
 
   const handleRemoveEducation = (index: number) => {
@@ -294,9 +317,12 @@ export default function Education({
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         value={e.institution}
-                        onChange={(e) => InputChange(e, index)}
+                        onChange={(e) => InputChangeX(e, index, "institution")}
                         required
                       />
+                      {inputError && errorMsg === "institution" && (
+                        <p className="text-red-500 text-sm">{inputError}</p>
+                      )}
                       <label
                         htmlFor="institution"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -440,9 +466,14 @@ export default function Education({
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         value={c.certificateName}
-                        onChange={(e) => handleCertInputChange(e, index)}
+                        onChange={(e) =>
+                          handleCertInputChangeX(e, index, "certificateName")
+                        }
                         required
                       />
+                      {inputError && errorMsg === "certificateName" && (
+                        <p className="text-red-500 text-sm">{inputError}</p>
+                      )}
                       <label
                         htmlFor="certificateName"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -460,9 +491,14 @@ export default function Education({
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         value={c.organisation}
-                        onChange={(e) => handleCertInputChange(e, index)}
+                        onChange={(e) =>
+                          handleCertInputChangeX(e, index, "organisation")
+                        }
                         required
                       />
+                      {inputError && errorMsg === "organisation" && (
+                        <p className="text-red-500 text-sm">{inputError}</p>
+                      )}
                       <label
                         htmlFor="floating_first_name"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -473,7 +509,7 @@ export default function Education({
 
                     <div className="relative z-0 w-full mb-6 group">
                       <input
-                        type="email"
+                        type="number"
                         name="certYear"
                         id="certYear"
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -482,6 +518,10 @@ export default function Education({
                         onChange={(e) => handleCertInputChange(e, index)}
                         required
                       />
+                      {inputError && errorMsg === "certYear" && (
+                        <p className="text-red-500 text-sm">{inputError}</p>
+                      )}
+
                       <label
                         htmlFor="certYear"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
