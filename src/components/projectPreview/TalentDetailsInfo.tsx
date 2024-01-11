@@ -54,6 +54,7 @@ import { SelectGroup, SelectLabel } from "../../ui/select";
 import { TalentType } from "../agency/TalentsView";
 import SelectOption from "../../libs/select";
 import OfferModal from "../../libs/OfferModal";
+import { useToast } from "../../ui/use-toast";
 
 const categoryOptions: any = [
   { value: "All Talent", label: "All Talent" },
@@ -162,6 +163,8 @@ const TalentDetailsInfo = ({
     setIsLoading(false);
   }, [user?.accountId]);
 
+  const { toast } = useToast();
+
   const handleInvite = async () => {
     setIsLoading(true);
     if (user !== null) {
@@ -188,10 +191,12 @@ const TalentDetailsInfo = ({
         return setTimeout(() => {
           setSuccessModal(false);
         }, 3000);
-      } catch (error) {
+      } catch (error: any) {
         setIsLoading(false);
-
-        // console.log(error);
+        toast({
+          description: error?.response?.data?.message,
+          variant: "destructive",
+        });
       }
     }
   };

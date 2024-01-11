@@ -52,8 +52,6 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   let pageTalents;
   let talentData: any;
 
-  console.log("activeType", activeType);
-
   const [gridView, setGridView] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [popUp, setPopUp] = useState(false);
@@ -166,18 +164,6 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
     default:
       talentData = null;
   }
-
-  // const {
-  //   totalPages,
-  //   totalTalent,
-  //   page,
-  //   pageSize,
-  // }: {
-  //   page: number;
-  //   pageSize: number;
-  //   totalPages: number;
-  //   totalTalent: number;
-  // } = talentData;
 
   const {
     totalPages,

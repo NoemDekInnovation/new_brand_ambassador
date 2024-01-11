@@ -17,10 +17,6 @@ import CompletedProjects from "./CompletedProjects";
 import DraftsProjects from "./DraftsProjects";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { fetchpublishproject } from "../../redux/publishProject";
-import { fetchcompleteproject } from "../../redux/completeProject";
-import { fetchdraftproject } from "../../redux/draftProject.slice";
-import { fetchactiveproject } from "../../redux/ActiveProject";
 import Pagination from "../../ui/Pagination";
 import { setPageQuery } from "../../redux/talent.slice";
 
@@ -31,7 +27,7 @@ type ProjectDetailsProps = {
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({ activeType }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  console.log(activeType);
+  // console.log(activeType);
 
   let projects;
 

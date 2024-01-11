@@ -71,6 +71,7 @@ const AllTalents = ({
   }, [dispatch, pageQuery]);
 
   const [isLoading, setIsLoading] = useState(false);
+  // console.log(handleProfilePopUp("2"));
 
   return (
     <div className="relative">

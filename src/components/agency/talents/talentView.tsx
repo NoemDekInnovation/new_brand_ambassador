@@ -210,6 +210,7 @@ export const TalentGrid = ({
   modal?: boolean;
 }) => {
   // const slides = [beauty, profile, blue, nivea, blue2];
+
   const slides =
     _.profilePic !== ""
       ? [_.profilePic]
@@ -222,6 +223,9 @@ export const TalentGrid = ({
   const [toggleDialog, setToggleDialog] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // console.log(handleProfilePopUp("2"));
+  // console.log(handleProfilePopUp());
 
   const handleImageClick = (index: number) => {
     setCurrentImageIndex(index);

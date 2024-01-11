@@ -72,6 +72,8 @@ export const ProjectViewCard = ({
     dispatch(fetchHiredTalent({ id: selectedProject?._id }));
   }, [popUp]);
 
+  console.log(selectedComponent, "help desk");
+
   return (
     <div>
       {selectedComponent === 1 && (
