@@ -7,6 +7,11 @@ export interface talentInvitationsProps {
   error: string | null;
   allProjects: any;
   searchTerm: string;
+  totalProjects: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  applied: string[];
 }
 
 const initialState: talentInvitationsProps = {
@@ -14,15 +19,41 @@ const initialState: talentInvitationsProps = {
   error: "",
   allProjects: [],
   searchTerm: "",
+  totalProjects: 0,
+  page: 1,
+  pageSize: 1,
+  totalPages: 1,
+  applied: [],
 };
 
 export const fetchAllProjects = createAsyncThunk(
   "projects/allProjects",
-  async () => {
+  async (queryParams: { [key: string]: string | number } | null, thunkAPI) => {
     const user = localStorage.getItem("userData");
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
+
+        if (queryParams !== null && queryParams !== undefined) {
+          // Build the query string based on the dynamic queryParams object
+          const queryString = Object.entries(queryParams)
+            .map(([key, value]) => `${key}=${value}`)
+            .join("&");
+
+          const response = await campaignAuthAxiosInstance(
+            `/all-projects?${queryString}`,
+            {
+              headers: {
+                Authorization: `Bearer ${parsedUser.authKey}`,
+              },
+            }
+          );
+
+          // console.log("myTalents", response?.data?.data?.talent);
+
+          return response?.data?.data;
+        }
+
         const response = await campaignAuthAxiosInstance(`/all-projects`, {
           headers: {
             Authorization: `Bearer ${parsedUser.authKey}`,
@@ -57,7 +88,12 @@ const allProjects = createSlice({
         (state, action: PayloadAction<any>) => {
           state.loading = false;
           state.error = null;
-          state.allProjects = action.payload;
+          state.allProjects = action.payload?.availableProjects;
+          state.totalProjects = action.payload.totalProjects;
+          state.page = action.payload?.page;
+          state.pageSize = action.payload?.pageSize;
+          state.totalPages = action.payload?.totalPages;
+          state.applied = action.payload?.applied;
         }
       )
       .addCase(fetchAllProjects.rejected, (state, action) => {
@@ -67,12 +103,6 @@ const allProjects = createSlice({
   },
 });
 
-export const {
-  setSearchTerm,
-  // setFilter,
-  // setCurrentPage,
-  // setPageSize,
-  // clearSearchAndFilter,
-} = allProjects.actions;
+export const { setSearchTerm } = allProjects.actions;
 
 export default allProjects.reducer;

@@ -37,8 +37,7 @@ const Hometab = () => {
   const { talentInvitations } = useSelector(
     (state: RootState) => state.talentInvite
   );
-
-
+  const { pageQuery } = useSelector((state: RootState) => state.talent);
 
   const projectCount = {
     "Available Projects": 0,
@@ -120,9 +119,13 @@ const Hometab = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    dispatch(fetchAllProjects());
+    // dispatch(fetchAllProjects(null));
     dispatch(fetchTalentInvitations());
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchAllProjects(pageQuery));
+  }, [dispatch, pageQuery]);
 
   return (
     <div className="bg-bm_card_grey">

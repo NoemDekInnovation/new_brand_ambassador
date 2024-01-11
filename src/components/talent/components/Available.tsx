@@ -9,11 +9,12 @@ import { CiHeart } from "react-icons/ci";
 import { GoChecklist } from "react-icons/go";
 import { Separator } from "../../../ui/seperator";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
-import ProjectPreview from "./projectPreview";
+// import ProjectPreview from "./projectPreview";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchTalentInvitations } from "../../../redux/talentInvitations.slice";
 import { Input } from "../../../ui/input";
+import ProjectPreview from "./availProjectPreview";
 
 const Available = () => {
   const [selectedProject, setSelectedProject] = useState();
@@ -27,11 +28,7 @@ const Available = () => {
     // setSelectedRole(talent);
   };
 
-  const { talentInvitations } = useSelector(
-    (state: RootState) => state.talentInvite
-  );
-
-  const { allProjects } = useSelector(
+  const { allProjects, applied } = useSelector(
     (state: RootState) => state.allTalentProject
   );
   const [isLoading, setIsLoading] = useState(false);
@@ -48,25 +45,40 @@ const Available = () => {
     (state: RootState) => state.allTalentProject
   );
 
-  const filteredProjects = allProjects?.availableProjects?.filter(
-    (project: any) =>
-      project.projectTitle.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  console.log(applied, "applied", allProjects);
 
-  const indexOfLastProject = currentPage * projectsPerPage;
-  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-  const currentProjects = filteredProjects?.slice(
-    indexOfFirstProject,
-    indexOfLastProject
-  );
+  const projectist = allProjects;
+
+  const idCheck = applied;
+
+  const filteredProjects = allProjects
+    ?.filter((project: any) =>
+      project.projectTitle.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .map((project: any) => {
+      if (idCheck.includes(project._id)) {
+        return { ...project, applied: true };
+      }
+      return { ...project, applied: false };
+    });
 
   const totalPages = Math.ceil(filteredProjects?.length / projectsPerPage);
+
+  // Check and update each project object
+  // const updatedProjectist = projectist.map((project: any) => {
+  //   if (idCheck.includes(project._id)) {
+  //     return { ...project, applied: true };
+  //   }
+  //   return { ...project, applied: false };
+  // });
+
+  // console.log(updatedProjectist);
 
   return (
     <>
       <div>
         <div className="overflow-y-scroll h-[63vh]">
-          {currentProjects?.map((project: any, idx: number) => {
+          {filteredProjects?.map((project: any, idx: number) => {
             return (
               <div
                 key={idx}
@@ -142,7 +154,7 @@ const Available = () => {
                       );
                     })}
                   </div>
-                  {project.status === "notApplied" && (
+                  {!project.applied && (
                     <button
                       className="dark__btn max-w-fit text-[12px] mt-2 "
                       onClick={() => {
