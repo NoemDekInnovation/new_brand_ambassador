@@ -24,10 +24,14 @@ type ProjectType =
   | "Saved Projects"
   | "Completed Projects";
 
-const Hometab = () => {
-  const [activeType, setActiveType] =
-    useState<ProjectType>("Available Projects");
+const ProjectTab = () => {
+  // const [activeType, setActiveType] =
+  //   useState<ProjectType>("Available Projects");
   const [isLoading, setIsLoading] = useState(false);
+  const [activeType, setActiveType] = useState<ProjectType | null>(null);
+  const [activeProjectClick, setActiveProjectClick] = useState<boolean | null>(
+    false
+  );
 
   const [selectedGender, setSelectedGender] = useState("all");
   const [selectedOppor, setSelectedOppor] = useState("all");
@@ -38,12 +42,15 @@ const Hometab = () => {
     (state: RootState) => state.talentInvite
   );
   const { pageQuery } = useSelector((state: RootState) => state.talent);
+  const { totalApplications } = useSelector(
+    (state: RootState) => state.talentApplication
+  );
 
   const projectCount = {
     "Available Projects": 0,
     "Current Project": 0,
     Invitations: talentInvitations?.invitations?.length || 0,
-    "My Applications": talentInvitations?.invitations?.length || 0,
+    "My Applications": totalApplications || 0,
     "Saved Projects": 0,
     "Completed Projects": 0,
   };
@@ -127,6 +134,20 @@ const Hometab = () => {
     dispatch(fetchAllProjects(pageQuery));
   }, [dispatch, pageQuery]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      const storedDefaultProject = localStorage.getItem("defaultProject");
+
+      if (!activeProjectClick && storedDefaultProject) {
+        const parsedDefaultProject = JSON.parse(storedDefaultProject);
+
+        setActiveType(parsedDefaultProject);
+      } else if (!activeProjectClick) {
+        setActiveType("Available Projects");
+      }
+    }, 1000);
+  }, [activeProjectClick]);
+
   return (
     <div className="bg-bm_card_grey">
       <div className="pr-4 md:pr-12 xl:pr-40 ">
@@ -135,6 +156,10 @@ const Hometab = () => {
             <ProjectList
               projectCount={projectCount}
               onProjectTypeChange={handleProjectTypeChange}
+              setActiveProjectClick={setActiveProjectClick}
+              activeProjectClick={activeProjectClick}
+              // projectCount={projectCount}
+              // onProjectTypeChange={handleProjectTypeChange}
             />
 
             <div className="">
@@ -322,4 +347,4 @@ const Hometab = () => {
   );
 };
 
-export default Hometab;
+export default ProjectTab;

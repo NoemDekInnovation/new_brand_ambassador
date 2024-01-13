@@ -10,15 +10,16 @@ const currentProject = {
   content: [1],
 };
 
-const avaibleProject = {
-  isCurrent: false,
-  content: [1, 2, 3, 4, 5, 6],
-};
-
 const HomeTab = () => {
-  const { talents: resTalents, agencyTalents } = useSelector(
+  const { talents: resTalents } = useSelector(
     (state: RootState) => state.talent
   );
+
+  const { favourites } = useSelector(
+    (state: RootState) => state.favouriteProject
+  );
+
+  console.log(favourites);
 
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
@@ -28,6 +29,11 @@ const HomeTab = () => {
   const avaibleProject = {
     isCurrent: false,
     content: resTalents,
+  };
+
+  const favouriteTalent = {
+    isCurrent: false,
+    content: favourites,
   };
 
   return (
@@ -42,7 +48,7 @@ const HomeTab = () => {
             card_content={avaibleProject}
             card_title="Leading Talent"
           />
-          <ProjectCard card_content={avaibleProject} card_title="Favorites" />
+          <ProjectCard card_content={favouriteTalent} card_title="Favorites" />
         </div>
         <div className="space-y-8 hidden sm:block">
           <ListCard card_title="My Projects" card_width="w-full" />

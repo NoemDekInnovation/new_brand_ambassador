@@ -156,7 +156,7 @@ export default function TalentsView({
     dispatch(fetchCurrentEngageTalents({ queryParams: null, status: false }));
     dispatch(fetchFavouriteProjects(null));
     dispatch(fetchAgencyTalentss(null));
-    console.log("fetchmeid");
+    // console.log("fetchmeid");
 
     const fetchProjects = async () => {
       if (user?.accountId !== undefined) {
@@ -183,7 +183,7 @@ export default function TalentsView({
     setIsLoading(false);
   }, [user?.accountId]);
 
-  console.log(projects);
+  // console.log(projects);
 
   const handleProfilePopUp = (talent: any) => {
     console.log("talent", talent);
@@ -455,153 +455,157 @@ export default function TalentsView({
       <div className="relative">
         <div className="h-full w-full relative">
           <div
-            className={`fixed z-[1000] bg-black/50  w-[100%] items-center justify-end flex flex-col transition-all duration-1000 ${
+            className={`fixed bg-black/50  z-[1000]  w-[100%] items-center justify-end flex flex-col transition-all duration-1000 ${
               popUp
                 ? "translate-y-0 opacity-100 h-[100vh] -bottom-5"
-                : "translate-y-[1000px] opacity-0 h-0"
+                : "translate-y-[1000px] opacity-100 h-0 bottom-0"
             }`}
           >
-            {/* <div className="bg-white w-[90vw] min-h-[80vh] p-3 md:p-6 rounded-xl"> */}
-            <div className="flex w-full justify-between ">
-              <div className="gap-3 flex items-center whitespace-nowrap w-full ">
-                <div className=" w-full flex flex-1 items-center gap-4">
-                  <p>{selectedRole?.fullName}</p>
+            <div className="bg-white w-[90vw] min-h-[80vh] p-3 md:p-6 rounded-xl">
+              <div className="flex w-full justify-between ">
+                <div className="gap-3 flex items-center whitespace-nowrap w-full ">
+                  <div className=" w-full flex flex-1 items-center gap-4">
+                    <p>{selectedRole?.fullName}</p>
 
-                  <AiOutlineHeart />
-                </div>
-                <Button className="dark__btn max-w-[100px] mr-4">
-                  Invite Talent
-                </Button>
-                <Button className="light__btn max-w-[100px]">Share</Button>
-              </div>
-              <Button onClick={() => setPopUp(false)}>x</Button>
-            </div>
-            <Separator className={"my-3"} />
-            <div className="flex gap-2 md:gap-4">
-              <div className="flex justify-evenly w-[60w] lg:w-[40w] gap-1">
-                {[1, 2, 3, 4, 5, 6, 7].map((photo) => (
-                  <div className="" key={photo}>
-                    {/* <img
-                      src={Logo}
-                      alt={""}
-                      style={{ width: "100%", height: "auto" }}
-                      height={80}
-                      width={40}
-                    /> */}
+                    <AiOutlineHeart />
                   </div>
-                ))}
-              </div>
-              <div className="mb-3">
-                <p>Qualification & Certificates</p>
-                <Separator className="bg-bm__beige my-3" />
-                <p>BSc. Modelling</p>
-              </div>
-            </div>
-            <div className="flex-1 space-y-4">
-              <Card className="p-2 md:p-4">
-                <h2>Overview</h2>
-                <Separator className="bg-bm__beige my-3" />
-                <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                  {selectedRole?.summary || "-"}
-                </p>
-              </Card>
-              <Card className="p-2 md:p-4">
-                <h2>Personal Details</h2>
-                <Separator className="bg-bm__beige my-3" />
-                <div className="flex gap-2">
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    First Name:
-                  </p>
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    {selectedRole?.firstName || "-"}
-                  </p>
+                  <Button className="dark__btn max-w-[100px] mr-4">
+                    Invite Talent
+                  </Button>
+                  <Button className="light__btn max-w-[100px]">Share</Button>
                 </div>
-                <div className="flex gap-2">
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    Last Name:{" "}
-                  </p>
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    {selectedRole?.lastName || "-"}
-                  </p>
-                </div>{" "}
-                <div className="flex gap-2">
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    Middle Name:{" "}
-                  </p>
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    {selectedRole?.middleName || "-"}
-                  </p>
-                </div>{" "}
-                <div className="flex gap-2">
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    Email Address:
-                  </p>
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    {selectedRole?.email || "-"}
-                  </p>
-                </div>{" "}
-                <div className="flex gap-2">
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    Phone Number:{" "}
-                  </p>
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    {selectedRole?.phone || "-"}
-                  </p>
-                </div>{" "}
-                <div className="flex gap-2">
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    Alternate Number:
-                  </p>
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    {selectedRole?.alternatePhone || "-"}
-                  </p>
-                </div>{" "}
-                <div className="flex gap-2">
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    Date of Birth:{" "}
-                  </p>{" "}
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    {selectedRole?.DOB || "-"}
-                  </p>
-                </div>{" "}
-                <div className="flex gap-2">
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    Gender:
-                  </p>
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    {selectedRole?.gender || "-"}
-                  </p>
-                </div>{" "}
-                <div className="flex gap-2">
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    Skin Color:
-                  </p>
-                </div>{" "}
-                <div className="flex gap-2">
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    State of Origin:
-                  </p>
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    {selectedRole?.origin || "-"}
-                  </p>
-                </div>{" "}
-                <div className="flex gap-2">
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    Height:
-                  </p>
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    {selectedRole?.height || "-"}
-                  </p>
-                </div>{" "}
-                <div className="flex gap-2">
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    Dress Size:
-                  </p>
-                  <p className="text-[12px] font-normal text-bm_black w-[110px]">
-                    {selectedRole?.dressSize || "-"}
-                  </p>
+                <Button onClick={() => setPopUp(false)}>x</Button>
+              </div>
+              <Separator className={"my-3"} />
+              <div className="flex">
+                <div className="flex  mr-2 flex-col gap-2 md:gap-4">
+                  <div className="flex justify-evenly  gap-1 w-full max-w-[400px]">
+                    {/* <div className="flex justify-evenly w-[60w] lg:w-[40w] gap-1"> */}
+                    {[1, 2, 3, 4, 5, 6, 7].map((photo) => (
+                      <div className="" key={photo}>
+                        <img
+                          src={Logo}
+                          alt={""}
+                          style={{ width: "100%", height: "auto" }}
+                          height={80}
+                          width={40}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <Card className="p-2 md:p-4">
+                    <p>Qualification & Certificates</p>
+                    <Separator className="bg-bm__beige my-3" />
+                    <p>BSc. Modelling</p>
+                  </Card>
                 </div>
-              </Card>
+                <div className="flex-1 space-y-4">
+                  <Card className="p-2 md:p-4">
+                    <h2>Overview</h2>
+                    <Separator className="bg-bm__beige my-3" />
+                    <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                      {selectedRole?.summary || "-"}
+                    </p>
+                  </Card>
+                  <Card className="p-2 md:p-4">
+                    <h2>Personal Details</h2>
+                    <Separator className="bg-bm__beige my-3" />
+                    <div className="flex gap-2">
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        First Name:
+                      </p>
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        {selectedRole?.firstName || "-"}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        Last Name:{" "}
+                      </p>
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        {selectedRole?.lastName || "-"}
+                      </p>
+                    </div>{" "}
+                    <div className="flex gap-2">
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        Middle Name:{" "}
+                      </p>
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        {selectedRole?.middleName || "-"}
+                      </p>
+                    </div>{" "}
+                    <div className="flex gap-2">
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        Email Address:
+                      </p>
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        {selectedRole?.email || "-"}
+                      </p>
+                    </div>{" "}
+                    <div className="flex gap-2">
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        Phone Number:{" "}
+                      </p>
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        {selectedRole?.phone || "-"}
+                      </p>
+                    </div>{" "}
+                    <div className="flex gap-2">
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        Alternate Number:
+                      </p>
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        {selectedRole?.alternatePhone || "-"}
+                      </p>
+                    </div>{" "}
+                    <div className="flex gap-2">
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        Date of Birth:{" "}
+                      </p>{" "}
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        {selectedRole?.DOB || "-"}
+                      </p>
+                    </div>{" "}
+                    <div className="flex gap-2">
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        Gender:
+                      </p>
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        {selectedRole?.gender || "-"}
+                      </p>
+                    </div>{" "}
+                    <div className="flex gap-2">
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        Skin Color:
+                      </p>
+                    </div>{" "}
+                    <div className="flex gap-2">
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        State of Origin:
+                      </p>
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        {selectedRole?.origin || "-"}
+                      </p>
+                    </div>{" "}
+                    <div className="flex gap-2">
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        Height:
+                      </p>
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        {selectedRole?.height || "-"}
+                      </p>
+                    </div>{" "}
+                    <div className="flex gap-2">
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        Dress Size:
+                      </p>
+                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                        {selectedRole?.dressSize || "-"}
+                      </p>
+                    </div>
+                  </Card>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -902,10 +906,15 @@ export default function TalentsView({
                           )}
                           Import CSV File
                         </Button>
-
-                        <Button className="dark__btn mt-2">
-                          Download CSV File Template
-                        </Button>
+                        <a
+                          // className="dark__btn mt-2 py-8"
+                          href="https://erp-noemdek.sfo3.digitaloceanspaces.com/Campaign/934f1aa4-e202-402a-bf9f-1d46b2ebbb1f-TalentImportCSVTemplate-2024-01-10.csv"
+                          download="sample.csv"
+                        >
+                          <Button className="dark__btn mt-2">
+                            Download CSV File Template
+                          </Button>
+                        </a>
                       </DialogContent>
                     </Dialog>
                     <Dialog

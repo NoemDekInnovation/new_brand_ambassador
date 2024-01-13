@@ -48,44 +48,43 @@ export default function ApplicationsScreen({}) {
   const { talentInvitations } = useSelector(
     (state: RootState) => state.talentInvite
   );
+  const { talentApplications, totalApplications, totalSuccessful } =
+    useSelector((state: RootState) => state.talentApplication);
 
   const [isLoading, setIsLoading] = useState(false);
   const [applications, setApplications] = useState<ApplicationType>("Applied");
-    const [searchQuery, setSearchQuery] = useState("");
-
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleInviteChange = (type: ApplicationType) => {
     setApplications(type);
   };
 
-  const filteredInvitations = talentInvitations?.invitations.filter(
-    (project: any) => {
-      // Check if project and project.name are defined before calling toLowerCase()
-      return (
-        project?.project?.projectTitle &&
-        project?.project?.projectTitle
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase())
-      );
-    }
-  );
+  const filteredApplications = talentApplications?.filter((project: any) => {
+    // Check if project and project.name are defined before calling toLowerCase()
+    return (
+      project?.project?.projectTitle &&
+      project?.project?.projectTitle
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    );
+  });
 
   let applicationList;
 
   switch (applications) {
     case "Applied":
       applicationList = (
-        <AppliedInvitations invitations={filteredInvitations} />
+        <AppliedInvitations invitations={filteredApplications} />
       );
       break;
     case "Contract Offers":
-      applicationList = <ContractOffers invitations={filteredInvitations} />;
+      applicationList = <ContractOffers invitations={filteredApplications} />;
       break;
     case "Accepted Offers":
-      applicationList = <AcceptOffers invitations={filteredInvitations} />; 
+      applicationList = <AcceptOffers invitations={filteredApplications} />;
       break;
-    case "Declined Offer": 
-      applicationList = <DeclinedOffers invitations={filteredInvitations} />;
+    case "Declined Offer":
+      applicationList = <DeclinedOffers invitations={filteredApplications} />;
       break;
     default:
       applicationList = null;
@@ -104,22 +103,22 @@ export default function ApplicationsScreen({}) {
         return;
       }
     );
-    applied = [...inviteLength];
+    // applied = [...inviteLength];
   }, []);
 
-  const appliedInvite = talentInvitations?.invitations.filter(
+  const appliedInvite = talentInvitations?.invitations?.filter(
     (project: any, idx: number) => {
       return project?.status === "applied";
     }
   );
 
-  const notAppliedInvite = talentInvitations?.invitations.filter(
+  const notAppliedInvite = talentInvitations?.invitations?.filter(
     (project: any, idx: number) => {
       return project?.status === "notApplied";
     }
   );
 
-  const rejectedInvite = talentInvitations?.invitations.filter(
+  const rejectedInvite = talentInvitations?.invitations?.filter(
     (project: any, idx: number) => {
       return project?.status === "rejected";
     }
@@ -148,7 +147,7 @@ export default function ApplicationsScreen({}) {
             >
               My Applications{" "}
               <span className="text-[12px] font-bold">
-                ({appliedInvite.length})
+                ({totalApplications})
               </span>
             </p>
             <p
@@ -162,7 +161,7 @@ export default function ApplicationsScreen({}) {
             >
               Contract Offers {"  "}
               <span className="text-[12px] font-bold">
-                ({rejectedInvite.length})
+                ({rejectedInvite?.length})
               </span>
             </p>
             <p
@@ -176,7 +175,7 @@ export default function ApplicationsScreen({}) {
             >
               Accepted Offers {"  "}
               <span className="text-[12px] font-bold">
-                ({rejectedInvite.length})
+                ({rejectedInvite?.length})
               </span>
             </p>{" "}
             <p
@@ -190,7 +189,7 @@ export default function ApplicationsScreen({}) {
             >
               Declined Offers {"  "}
               <span className="text-[12px] font-bold">
-                ({rejectedInvite.length})
+                ({rejectedInvite?.length})
               </span>
             </p>
           </div>

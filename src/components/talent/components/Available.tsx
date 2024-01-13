@@ -45,8 +45,6 @@ const Available = () => {
     (state: RootState) => state.allTalentProject
   );
 
-  console.log(applied, "applied", allProjects);
-
   const projectist = allProjects;
 
   const idCheck = applied;

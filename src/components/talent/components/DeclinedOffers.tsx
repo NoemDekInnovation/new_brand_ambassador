@@ -23,7 +23,6 @@ const DeclinedOffers = ({ invitations }: { invitations: any }) => {
     setPopUp(!popUp);
     // setSelectedRole(talent);
   };
-  console.log(popUp);
 
   const { talentInvitations } = useSelector(
     (state: RootState) => state.talentInvite

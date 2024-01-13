@@ -33,8 +33,6 @@ export default function PreviewBoard() {
     (state: RootState) => state.talent
   );
 
-  console.log("fail", failedImport, "sucess", successfulImport);
-
   return (
     <>
       <div className="">

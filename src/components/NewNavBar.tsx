@@ -30,6 +30,7 @@ import ProjectPreview from "./talent/components/projectPreview";
 import BadgeAvatars from "../ui/avatar";
 import { fetchactiveproject } from "../redux/ActiveProject";
 import { fetchcompleteproject } from "../redux/completeProject";
+import { fetchTalentApplications } from "../redux/talentApplications.slice";
 
 export default function NewNavBar() {
   const user = useSelector((state: RootState) => state.user);
@@ -104,6 +105,7 @@ export default function NewNavBar() {
     dispatch(fetchTalentInvitations());
     dispatch(fetchactiveproject(null));
     dispatch(fetchcompleteproject(null));
+    dispatch(fetchTalentApplications());
   }, [dispatch]);
 
   const handleProfilePopUp = (info: any) => {

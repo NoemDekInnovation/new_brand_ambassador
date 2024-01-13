@@ -22,11 +22,7 @@ const AppliedInvitations = ({ invitations }: { invitations: any }) => {
     setPopUp(!popUp);
     // setSelectedRole(talent);
   };
-  // console.log(popUp);
 
-  const { talentInvitations } = useSelector(
-    (state: RootState) => state.talentInvite
-  );
   const [isLoading, setIsLoading] = useState(false);
   const [projects, setProjects] = useState();
   const [apply, setApply] = useState(false);

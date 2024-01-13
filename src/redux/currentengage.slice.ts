@@ -45,7 +45,6 @@ export const fetchCurrentEngageTalents = createAsyncThunk(
             },
           }
         );
-        console.log("myTalents", response?.data?.data);
 
         return response?.data?.data;
       }
