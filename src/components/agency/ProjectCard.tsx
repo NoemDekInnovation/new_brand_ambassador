@@ -621,7 +621,7 @@ const ProjectCard = ({
         className={`fixed bg-black/50  z-[1000] w-[100%] items-center justify-end flex flex-col transition-all duration-1000 ${
           popUp
             ? "translate-y-0 opacity-100 h-[100vh] inset-0 -bottom-5"
-            : "translate-y-[1000px] opacity-100 h-0 bottom-0"
+            : "translate-y-[1000px] opacity-100 h-0 right-0 bottom-0"
         }`}
       >
         <div className="bg-white w-[90vw] max-h-[80vh] overflow-y-scroll p-3 md:p-6 rounded-xl">

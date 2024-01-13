@@ -525,7 +525,7 @@ export const TalentGrid = ({
         </div>
 
         {handleProfilePopUp && (
-          <div onClick={() => handleProfilePopUp(_)} className="px-1">
+          <div onClick={() => handleProfilePopUp(_)} className="px-1 cursor-pointer" >
             <div className="flex items-center gap-3 whitespace-nowrap px-2 py-1">
               <p className="text-[12px] font-medium capitalize">
                 {_?.firstName} {_?.lastName}
