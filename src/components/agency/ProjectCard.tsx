@@ -642,7 +642,7 @@ const ProjectCard = ({
           <Separator className={"my-3"} />
           <div className="flex">
             <div className="flex  mr-2 flex-col gap-2 md:gap-4">
-              <div className="h-[400px]  rounded-md">
+              <div className="h-[400px]  rounded-md w-[400px] flex items-center bg-black">
                 <img src={selectedRole?.profilePic} className="" alt="" />
               </div>
 
