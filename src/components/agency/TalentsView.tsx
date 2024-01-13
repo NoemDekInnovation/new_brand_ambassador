@@ -21,7 +21,7 @@ import {
   setSuccessImport,
   setTalentQuery,
 } from "../../redux/talent.slice";
-import { BsPersonFillAdd } from "react-icons/bs";
+import { BsPersonFillAdd, BsTwitterX } from "react-icons/bs";
 import {
   Dialog,
   DialogContent,
@@ -55,6 +55,17 @@ import { fetchAgencyTalentss } from "../../redux/agencyTalent.slice";
 import { fetchFavouriteProjects } from "../../redux/favourite.slice";
 import { fetchCurrentEngageTalents } from "../../redux/currentengage.slice";
 import PhoneInput from "react-phone-number-input";
+import {
+  FaCrown,
+  FaFacebook,
+  FaGraduationCap,
+  FaInstagram,
+  FaLinkedin,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { Certification } from "../talent/Profile";
+import { PiStackSimpleFill } from "react-icons/pi";
+import { FaLocationDot } from "react-icons/fa6";
 
 export type TalentType =
   | "All Talent"
@@ -186,7 +197,6 @@ export default function TalentsView({
   // console.log(projects);
 
   const handleProfilePopUp = (talent: any) => {
-    console.log("talent", talent);
     setPopUp(!popUp);
     setSelectedRole(talent);
   };
@@ -461,7 +471,7 @@ export default function TalentsView({
                 : "translate-y-[1000px] opacity-100 h-0 bottom-0"
             }`}
           >
-            <div className="bg-white w-[90vw] min-h-[80vh] p-3 md:p-6 rounded-xl">
+            <div className="bg-white w-[90vw] max-h-[80vh] overflow-y-scroll p-3 md:p-6 rounded-xl">
               <div className="flex w-full justify-between ">
                 <div className="gap-3 flex items-center whitespace-nowrap w-full ">
                   <div className=" w-full flex flex-1 items-center gap-4">
@@ -479,6 +489,10 @@ export default function TalentsView({
               <Separator className={"my-3"} />
               <div className="flex">
                 <div className="flex  mr-2 flex-col gap-2 md:gap-4">
+                  <div className="h-[400px]  rounded-md">
+                    <img src={selectedRole?.profilePic} className="" alt="" />
+                  </div>
+
                   <div className="flex justify-evenly  gap-1 w-full max-w-[400px]">
                     {/* <div className="flex justify-evenly w-[60w] lg:w-[40w] gap-1"> */}
                     {[1, 2, 3, 4, 5, 6, 7].map((photo) => (
@@ -493,10 +507,156 @@ export default function TalentsView({
                       </div>
                     ))}
                   </div>
-                  <Card className="p-2 md:p-4">
-                    <p>Qualification & Certificates</p>
-                    <Separator className="bg-bm__beige my-3" />
-                    <p>BSc. Modelling</p>
+                  <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
+                    <div className="flex items-center gap-4">
+                      <FaGraduationCap />
+                      <p className="text-[15px] font-medium">
+                        Qualification & Certificates
+                      </p>
+                    </div>
+                    <Separator className="bg-bm__gler/50" />
+
+                    {/* {selectedRole?.education?.length > 0 &&
+                      selectedRole.education.map(
+                        (educationItem: Education, index: number) => (
+                          <div key={index}>
+                            <p className="text-[12px] font-normal capitalize">
+                              {educationItem?.degree}
+                            </p>
+                          </div>
+                        )
+                      )} */}
+
+                    {/* {selectedRole?.education?.length > 0 && (
+                          <>
+                            <p className="text-[12px] font-normal capitalize">
+                              {selectedRole.education[0].institution}
+                            </p>
+                            <p className="text-[12px] font-normal capitalize">
+                              {selectedRole.education[0].degree}
+                            </p>
+                            <p className="text-[12px] font-normal capitalize">
+                              {selectedRole.education[0].grade}
+                            </p>
+                            <p className="text-[12px] font-normal capitalize">
+                              {selectedRole.education[0].gradYear}
+                            </p>
+                          </>
+                        )} */}
+
+                    {selectedRole?.certifications?.map(
+                      (certificationItem: any, index: number) => (
+                        <div key={index}>
+                          <p className="text-[12px] font-normal capitalize">
+                            {certificationItem?.certificateName}
+                          </p>
+                        </div>
+                      )
+                    )}
+                  </Card>
+
+                  <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
+                    <p className="text-[15px] font-medium">
+                      Work you are open to{" "}
+                    </p>
+                    <Separator className="bg-bm__gler/50" />
+                    <p className="text-[12px] font-normal capitalize">
+                      {/* Usher . In-Store Marketer . Open Market Marketer .
+                          Brand Ambassador . Brand Ambassador Supervisor .
+                          In-Store Supervisor */}
+                      {selectedRole?.opportunities}
+                    </p>
+                  </Card>
+                  <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
+                    <div className="flex items-center gap-4">
+                      <FaCrown />
+                      <p className="text-[15px] font-medium">Skills</p>
+                    </div>
+
+                    <Separator className="bg-bm__gler/50" />
+                    {/* <p className="text-[12px] font-normal">
+                          Modelling . Singing . Dancing . Paintballing . Catwalk
+                          . Leg walk . Pretty
+                        </p> */}
+                    {/* {selectedRole?.skills?.length > 0 ? (
+                      selectedRole?.skills.map((skill: [], index: number) => (
+                        <p
+                          key={index}
+                          className="text-[12px] font-normal capitalize"
+                        >
+                          {skill}
+                        </p>
+                      ))
+                    ) : (
+                      <p className="text-[12px] font-normal">
+                        No skills available
+                      </p>
+                    )} */}
+                  </Card>
+
+                  <Card className="p-6 flex flex-col justify-center gap-2 bg-white border-bm__beige w-full border rounded-[6px]">
+                    <p className="text-[15px] font-medium">Socials</p>
+
+                    <Separator className="bg-bm__gler/50" />
+                    <div className="flex items-center py-2">
+                      <FaLinkedin color="#0077b5" size={20} />
+                      <Link
+                        to={`https://www.linkedin.com/in/${selectedRole?.socials?.linkedin}`}
+                        target="_blank"
+                        className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
+                      >
+                        {selectedRole?.socials?.linkedin}
+                      </Link>
+                    </div>
+                    <div className="flex items-center py-2">
+                      <FaInstagram color="#e4405f" size={20} />
+                      <Link
+                        to={`https://www.instagram.com/${selectedRole?.socials?.instagram}`}
+                        target="_blank"
+                        className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
+                      >
+                        {selectedRole?.socials?.instagram}
+                      </Link>
+                    </div>
+                    <div className="flex items-center py-2">
+                      <BsTwitterX size={20} />
+                      <Link
+                        to={`https://twitter.com/${selectedRole?.socials?.twitter}`}
+                        target="_blank"
+                        className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
+                      >
+                        {selectedRole?.socials?.twitter}
+                      </Link>
+                    </div>
+                    <div className="flex items-center py-2">
+                      <FaFacebook color="#1877f2" size={20} />
+                      <Link
+                        to={`https://www.facebook.com/${selectedRole?.socials?.facebook}`}
+                        target="_blank"
+                        className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
+                      >
+                        {selectedRole?.socials?.facebook}
+                      </Link>
+                    </div>
+                  </Card>
+
+                  <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
+                    <p className="text-[15px] font-medium">Languages</p>
+
+                    <Separator className="bg-bm__gler/50" />
+                    {/* <p className="text-[12px] font-normal">
+                          Yoruba . English . Hausa{" "}
+                        </p> */}
+                    {/* {selectedRole?.languages?.map(
+                      (language: [], index: number) => (
+                        <p
+                          key={index}
+                          className="text-[12px] font-normal capitalize"
+                        >
+                          {language}
+                        </p>
+                      )
+                    )} */}
                   </Card>
                 </div>
                 <div className="flex-1 space-y-4">
@@ -602,6 +762,169 @@ export default function TalentsView({
                       <p className="text-[12px] font-normal text-bm_black w-[110px]">
                         {selectedRole?.dressSize || "-"}
                       </p>
+                    </div>
+                  </Card>
+                  <Card className="p-6 flex flex-col justify-center gap-2 bg-white border-bm__beige w-full border rounded-[6px]">
+                    <div className="flex items-center gap-4">
+                      <FaLocationDot />
+                      <p className="text-[15px] font-medium">Address</p>
+                    </div>
+                    <Separator className="bg-bm__gler/50" />
+                    {selectedRole?.address?.map(
+                      (addressItem: any, index: number) => (
+                        <div key={index}>
+                          <p className="text-[12px] font-normal capitalize">
+                            {addressItem?.street ?? ""}
+                          </p>
+                          <p className="text-[12px] font-normal capitalize">
+                            {addressItem?.city ?? ""}
+                          </p>
+                          <p className="text-[12px] font-normal capitalize">
+                            {addressItem?.LGA ?? ""}
+                          </p>
+                          <p className="text-[12px] font-normal capitalize">
+                            {addressItem?.state ?? ""}
+                          </p>
+                          <p className="text-[12px] font-normal capitalize">
+                            {addressItem?.zipCode ?? ""}
+                          </p>
+                        </div>
+                      )
+                    )}
+                  </Card>
+
+                  <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
+                    <div className="flex items-center gap-4">
+                      <FaGraduationCap />
+                      <p className="text-[15px] font-medium">
+                        Education & Certification
+                      </p>
+                    </div>
+                    <Separator className="bg-bm__gler/50" />
+                    {/* <div className="text-[12px] font-normal gap-2 flex flex-col">
+                          <div className="flex items-center">
+                            <p className="text-[12px] font-medium">
+                              Education 1
+                            </p>
+                          </div>
+                          <div className="flex flex-col">
+                            <p className="">BSc. in Modelling</p>
+                            <PiStackSimpleFillp>Second Class</p>
+                            <p>University of Ilorin</p>
+                            <p>Class of 2019</p>
+                          </div>
+                        </div> */}
+                    {selectedRole?.education?.map(
+                      (educationItem: any, index: number) => (
+                        <div
+                          key={index}
+                          className="text-[12px] font-normal gap-2 flex flex-col"
+                        >
+                          <div className="flex items-center">
+                            <p className="text-[12px] font-medium">
+                              Education {index + 1}
+                            </p>
+                          </div>
+                          <div className="flex flex-col">
+                            <p className="capitalize">
+                              {educationItem?.degree}
+                            </p>
+                            <p className="capitalize">{educationItem?.grade}</p>
+                            <p className="capitalize">
+                              {educationItem?.institution}
+                            </p>
+
+                            <p className="capitalize">
+                              {new Date(
+                                educationItem?.gradYear
+                              ).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              })}
+                            </p>
+                          </div>
+                        </div>
+                      )
+                    )}
+
+                    <Separator className="bg-bm__gler/50" />
+                    {/* <div className="text-[12px] font-normal gap-2 flex flex-col">
+                          <div className="flex items-center">
+                            <p className="text-[12px] font-medium">
+                              Certificate 1
+                            </p>
+                          </div>
+                          <div className="flex flex-col">
+                            <PiStackSimpleFillp className="">Certificate in Dancing</p>
+                            <p>J-Skills School of Dancing</p>
+                            <p>2020</p>
+                          </div>
+                        </div> */}
+                    {selectedRole?.certifications?.map(
+                      (certificationItem: any, index: number) => (
+                        <div
+                          key={index}
+                          className="text-[12px] font-normal gap-2 flex flex-col"
+                        >
+                          <div className="flex items-center">
+                            <p className="text-[12px] font-medium">
+                              Certificate {index + 1}
+                            </p>
+                          </div>
+                          <div className="flex flex-col">
+                            <p className="capitalize">
+                              {certificationItem?.certificateName}
+                            </p>
+                            <p className="capitalize">
+                              {certificationItem?.organisation}
+                            </p>
+                            <p className="capitalize">
+                              {certificationItem?.certYear}
+                            </p>
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </Card>
+                  <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
+                    <div className="flex items-center gap-4">
+                      <PiStackSimpleFill />
+
+                      <p className="text-[15px] font-medium">Experience</p>
+                    </div>
+                    <Separator className="bg-bm__gler/50" />
+                    <div className="text-[12px] font-normal gap-2 flex flex-col">
+                      {selectedRole?.experience?.map(
+                        (experienceItem: any, index: number) => (
+                          <div key={index} className="flex flex-col">
+                            <div className="flex items-center">
+                              <p className="text-[12px] font-medium">
+                                Experience {index + 1}
+                              </p>
+                            </div>
+                            <p className="capitalize">
+                              {experienceItem?.agencyName}
+                            </p>
+                            <p className="capitalize">
+                              {experienceItem?.projectName}
+                            </p>
+                            <p className="capitalize">
+                              {experienceItem?.projectCategory}
+                            </p>
+                            <p className="capitalize">
+                              {experienceItem?.projectDuration}
+                            </p>
+                            <p className="capitalize">
+                              {/* {experienceItem.salary} */}₦
+                              {parseFloat(
+                                experienceItem?.salary
+                              ).toLocaleString("en-US")}
+                            </p>
+                            <p className="capitalize">{experienceItem?.year}</p>
+                          </div>
+                        )
+                      )}
                     </div>
                   </Card>
                 </div>

@@ -77,7 +77,7 @@ const Application = ({
         </span>
         <div className="flex flex-row items-center p-4">
           <div className="text-[14px] font-medium capitalize">
-            {selectedProject.projectTitle}
+            {selectedProject?.projectTitle}
           </div>
           <div className="text-[15px] p-0 px-2">|</div>
 

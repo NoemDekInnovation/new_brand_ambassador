@@ -27,14 +27,14 @@ import { BsTwitter, BsTwitterX } from "react-icons/bs";
 import { fetchUserTalentsData } from "../../redux/talent.slice";
 import { AddressProps } from "../../redux/types";
 
-interface Certification {
+export interface Certification {
   certificateName: string;
   organisation: string;
   certYear: number;
   // Add other properties if needed
 }
 
-interface Education {
+export interface Education {
   degree: string;
   institution: string;
   grade: string;
@@ -139,27 +139,6 @@ const Profile = () => {
                         </div>
                         <Separator className="bg-bm__gler/50" />
 
-                        {/* {talentData?.education?.map(
-                          (educationItem: Education, index: number) => (
-                            <div key={index}>
-                              <p className="text-[12px] font-normal capitalize">
-                                {educationItem?.degree}
-                              </p>
-                            </div>
-                          )
-                        )}
-                        <p className="text-[12px] font-normal capitalize">
-                          {talentData?.education[0].institution}
-                        </p>
-                        <p className="text-[12px] font-normal capitalize">
-                          {talentData?.education[0].degree}
-                        </p>
-                        <p className="text-[12px] font-normal capitalize">
-                          {talentData?.education[0].grade}
-                        </p>
-                        <p className="text-[12px] font-normal capitalize">
-                          {talentData?.education[0].gradYear}
-                        </p> */}
                         {talentData?.education?.length > 0 &&
                           talentData.education.map(
                             (educationItem: Education, index: number) => (
@@ -429,28 +408,7 @@ const Profile = () => {
                           </div>
                         </div>
                       </Card>
-                      {/* <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-full  border rounded-[6px]">
-                        <div className="flex items-center gap-4">
-                          <FaLocationDot />
-                          <p className="text-[15px] font-medium">Address</p>
-                        </div>
-                        <Separator className="bg-bm__gler/50" />
-                        <div className="text-[12px] font-normal gap-2 flex flex-col">
-                          <div className="flex items-center">
-                            <p className="text-[12px] font-medium">Address 1</p>
-                          </div>
-                          <div className="flex flex-col">
-                            <p className="text-[12px]">
-                              1b, Rosewood Close, Off Royal-Palm Drive,
-                            </p>
-                            <p>Osborne Forseshore Estate Phase 2,</p>
-                            <p>Ikoyi L.G.A.</p>
 
-                            <p>Lagos State</p>
-                            <p>233312</p>
-                          </div>
-                        </div>
-                      </Card> */}
                       <Card className="p-6 flex flex-col justify-center gap-2 bg-white border-bm__beige w-full border rounded-[6px]">
                         <div className="flex items-center gap-4">
                           <FaLocationDot />
