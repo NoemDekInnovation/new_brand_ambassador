@@ -98,11 +98,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
       const storedDefaultProject = localStorage.getItem("defaultProject");
       if (!activeProjectClick && storedDefaultProject) {
         const parsedDefaultProject = JSON.parse(storedDefaultProject);
-        console.log(
-          activeProjectClick,
-          storedDefaultProject,
-          parsedDefaultProject
-        );
+
         setActiveProjectType(parsedDefaultProject);
       } else if (!activeProjectClick) {
         setActiveProjectType("Active");

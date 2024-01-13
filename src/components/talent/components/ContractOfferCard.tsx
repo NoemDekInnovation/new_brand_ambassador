@@ -15,12 +15,11 @@ const ContractOfferCard = ({ selectedProject }: { selectedProject: any }) => {
 
   const [details, setDetails] = useState<any>(null);
   const [offersx, setOffers] = useState<any | null>(null);
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [statusMessage, setStatusMessage] = useState("");
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
 
   useEffect(() => {
     const filteredApplications = offers.filter((application: any) => {
-      console.log(application.project._id);
       return selectedProject.project._id === application.project._id;
     });
 
@@ -28,7 +27,6 @@ const ContractOfferCard = ({ selectedProject }: { selectedProject: any }) => {
 
     setDetails(filteredApplications[0]);
   });
-  console.log(offersx);
 
   const fetchOffers = async () => {
     if (user?.user?.accountId !== undefined) {
@@ -48,8 +46,6 @@ const ContractOfferCard = ({ selectedProject }: { selectedProject: any }) => {
     }
   };
 
-
-
   useEffect(() => {
     fetchOffers();
   }, []);
@@ -68,34 +64,30 @@ const ContractOfferCard = ({ selectedProject }: { selectedProject: any }) => {
         setStatusMessage(response.data.message || "Success");
       } catch (error: any) {
         console.error("Error while fetiching Notifications:", error);
-                if (error.response && error.response.status === 400) {
-                  // Extract and display the specific error message from the API response
-                  setStatusMessage(
-                    error.response.data.message || "Bad Request"
-                  );
-                } else {
-                  // Display a generic error message for other error scenarios
-                  setStatusMessage(
-                    "An error occurred while saving. Please try again."
-                  );
-                }
+        if (error.response && error.response.status === 400) {
+          // Extract and display the specific error message from the API response
+          setStatusMessage(error.response.data.message || "Bad Request");
+        } else {
+          // Display a generic error message for other error scenarios
+          setStatusMessage("An error occurred while saving. Please try again.");
+        }
       }
     }
   };
 
-        useEffect(() => {
-          // Open the modal after the status message is set
-          if (statusMessage) {
-            setModalOpen(true);
-          }
-        }, [statusMessage]);
+  useEffect(() => {
+    // Open the modal after the status message is set
+    if (statusMessage) {
+      setModalOpen(true);
+    }
+  }, [statusMessage]);
 
-            const handleOffer = async () => {
-              await acceptOffer("accepted");
-              setTimeout(() => {
-                setModalOpen(true);
-              }, 2000);
-            };
+  const handleOffer = async () => {
+    await acceptOffer("accepted");
+    setTimeout(() => {
+      setModalOpen(true);
+    }, 2000);
+  };
 
   return (
     <>

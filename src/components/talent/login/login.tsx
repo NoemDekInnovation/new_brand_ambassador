@@ -101,8 +101,6 @@ export default function Login() {
           companyLogo: response.data.data.companyLogo,
         };
 
-        console.log(details, "details");
-
         setSuccessModal(true);
         setError("");
         dispatch(setUser(details));

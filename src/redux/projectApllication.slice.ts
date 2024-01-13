@@ -62,7 +62,6 @@ export const fetchProjectApplications = createAsyncThunk(
         );
         // console.log("my", response);
         return response.data.data.projectApplications;
-        console.log("my", response.data.data);
         return response.data.data;
       }
     } catch (error) {

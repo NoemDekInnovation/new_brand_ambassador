@@ -50,7 +50,6 @@ const Engaged = ({
     );
   }, [dispatch]);
 
-  console.log("worked", engageTalents);
   const [projectModal, setProjectModal] = useState(false);
 
   return (

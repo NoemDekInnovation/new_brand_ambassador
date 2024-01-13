@@ -143,8 +143,6 @@ const ApplyDetailsInfo = ({
     (state: RootState) => state?.applications
   );
 
-  console.log(applications?.data);
-
   const { projectApplications: applied } = useSelector(
     (state: RootState) => state.projectApplication
   );

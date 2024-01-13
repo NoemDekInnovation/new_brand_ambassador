@@ -17,7 +17,7 @@ const HeartIcon = ({ selectedTalentID }: { selectedTalentID: any }) => {
     if (user?.user?.accountId !== undefined) {
       try {
         const response = await campaignAuthAxiosInstance(
-          `/add-favorites/${selectedTalentID}`,
+          `/add-favorites/${selectedTalentID}?toFavorite={}`,
           {
             headers: {
               Authorization: `Bearer ${user?.user?.authKey || ""}`,
@@ -75,7 +75,7 @@ const HeartIcon = ({ selectedTalentID }: { selectedTalentID: any }) => {
     <div onClick={handleHeartClick} className=" cursor-pointer">
       {/* <AiFillHeart /> */}
       {isFavorite ? (
-        <AiFillHeart className="text-red-500" />
+        <AiFillHeart className="text-yellow-500" />
       ) : (
         <AiOutlineHeart />
       )}

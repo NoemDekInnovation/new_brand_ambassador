@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import current from "../../assets/Current Projects.png";
 import completed from "../../assets/Completed Projects.png";
 import published from "../../assets/Published Projects.png";
@@ -31,6 +31,8 @@ type ProjectTypeProps = {
 type ProjectListProps = {
   onProjectTypeChange: (type: ProjectType) => void;
   projectCount: Record<ProjectType, number>;
+  activeProjectClick: any;
+  setActiveProjectClick: any;
 };
 
 const getImageSrc = (projectType: any) => {
@@ -66,7 +68,7 @@ const getProjectColor = (type: ProjectType, isActive: boolean): string => {
     case "Invitations":
       // return projectColors.black;
       return isActive ? projectColors.black : projectColors.green;
-      case "My Applications": 
+    case "My Applications":
       return isActive ? projectColors.black : projectColors.green;
     default:
       return "";
@@ -101,9 +103,13 @@ const ProjectType: React.FC<ProjectTypeProps> = ({
 const ProjectList: React.FC<ProjectListProps> = ({
   onProjectTypeChange,
   projectCount,
+  activeProjectClick,
+  setActiveProjectClick,
 }) => {
+  // const [activeProjectType, setActiveProjectType] =
+  //   useState<ProjectType>("Available Projects");
   const [activeProjectType, setActiveProjectType] =
-    useState<ProjectType>("Available Projects");
+    useState<ProjectType | null>(null);
   const handleProjectTypeClick = (
     type:
       | "Available Projects"
@@ -115,8 +121,25 @@ const ProjectList: React.FC<ProjectListProps> = ({
   ) => {
     onProjectTypeChange(type);
     setActiveProjectType(type);
+    onProjectTypeChange(type);
+    // setActiveProjectType(type);
+    setActiveProjectClick(true);
   };
   const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const storedDefaultProject = localStorage.getItem("defaultProject");
+      if (!activeProjectClick && storedDefaultProject) {
+        const parsedDefaultProject = JSON.parse(storedDefaultProject);
+
+        setActiveProjectType(parsedDefaultProject);
+      } else if (!activeProjectClick) {
+        setActiveProjectType("Available Projects");
+      }
+    }, 1000);
+  }, [activeProjectClick]);
+
   return (
     <>
       <CardContent className="p-1 flex flex-col justify-center gap-1 border rounded-[6px]">

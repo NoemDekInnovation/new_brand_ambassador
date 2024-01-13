@@ -58,8 +58,6 @@ export default function EditProfile() {
     { label: "usher", value: "usher" },
   ];
 
-
-
   const { user } = useSelector((state: RootState) => state.user);
   const { talentData } = useSelector((state: RootState) => state.talent);
 
@@ -131,12 +129,12 @@ export default function EditProfile() {
     },
   ]);
 
-    const [socials, setSocials] = useState<SocialsProps>({
-      facebook: "",
-      twitter: "",
-      instagram: "",
-      linkedin: "",
-    });
+  const [socials, setSocials] = useState<SocialsProps>({
+    facebook: "",
+    twitter: "",
+    instagram: "",
+    linkedin: "",
+  });
 
   const [opportunities, setOpportunites] = useState<string>("");
   // console.log("opp", opportunities);
@@ -212,17 +210,15 @@ export default function EditProfile() {
       setExperiences([...talentData.experience]);
     }
     if (talentData.education && Array.isArray(talentData.education)) {
-      setEducation( [...talentData.education]);
+      setEducation([...talentData.education]);
     }
     if (talentData.certifications && Array.isArray(talentData.certifications)) {
-      setCertificate( [...talentData.certifications]);
+      setCertificate([...talentData.certifications]);
     }
     if (talentData.skills && Array.isArray(talentData.skills)) {
-      setSkillData( [...talentData.skills]);
+      setSkillData([...talentData.skills]);
     }
   }, [talentData]);
-
-
 
   const [skillData, setSkillData] = useState<string[]>([]);
 
@@ -316,7 +312,6 @@ export default function EditProfile() {
       }
       formData.append("profilePic", "");
     }
-    console.log("payload", payload);
 
     if (user?.accountId !== undefined) {
       try {
@@ -328,7 +323,7 @@ export default function EditProfile() {
               Authorization: `Bearer ${user.authKey || ""}`,
             },
           }
-        ); 
+        );
         // console.log("RESPONSE:", response);
         setSuccessModal(true);
         setTimeout(() => {

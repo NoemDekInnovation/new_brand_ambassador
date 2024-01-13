@@ -22,16 +22,11 @@ const ApplicationCard = ({ selectedProject }: { selectedProject: any }) => {
             },
           }
         );
-        console.log(
-          response?.data?.data?.talentApplications,
-          "hello yuta",
-          selectedProject.project._id
-        );
+
         const applicationsResponse = response?.data?.data?.talentApplications;
 
         const filteredApplications = applicationsResponse.filter(
           (application: any) => {
-            console.log(application.project._id);
             return selectedProject.project._id === application.project._id;
           }
         );

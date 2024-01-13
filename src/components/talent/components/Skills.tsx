@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { useEffect, useState } from "react";
 
-
 import {
   campaignAuthAxiosInstance,
   patchAxiosInstance,
@@ -61,7 +60,6 @@ export default function Skills({
     (state: any) => state.skills
   ) as SkillsStateProps;
 
-
   const { user } = useSelector((state: RootState) => state.user);
   const { toast } = useToast();
 
@@ -74,18 +72,15 @@ export default function Skills({
   const [isLoading, setIsLoading] = useState(true);
   const [selectedIndex, setIndex] = useState(0);
 
-
-
   const dispatch = useDispatch<AppDispatch>();
   const skillOptions =
     skillStore &&
     skills.results.map((skill) => ({ label: skill, value: skill }));
 
-const handleInputChange = (newValue: any) => {
-  setExample(newValue);
-  // Additional logic if needed
-};
-  
+  const handleInputChange = (newValue: any) => {
+    setExample(newValue);
+    // Additional logic if needed
+  };
 
   useEffect(() => {
     if (skillsFetchSucess) {
@@ -96,21 +91,15 @@ const handleInputChange = (newValue: any) => {
     }
   }, [skillsFetchSucess]);
 
-
   useEffect(() => {
-      console.log("Fetching skills...");
     const fetchData = async () => {
       await dispatch(fetchSkills(example));
-            console.log("Skills fetched successfully!");
 
       setIsLoading(false);
       // checkFormValidity();
-    } 
+    };
     fetchData();
   }, [example, dispatch]);
-
-
-
 
   return (
     <div className=" bg-[#F3F3F3]/30   px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10">

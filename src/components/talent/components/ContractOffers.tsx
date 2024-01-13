@@ -15,6 +15,7 @@ import { Separator } from "../../../ui/seperator";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import ContractPreview from "./contractPreview";
 import { fetchTalentOffers } from "../../../redux/contract-offer";
+import { fetchTalentApplications } from "../../../redux/talentApplications.slice";
 
 const ContractOffers = ({ invitations }: { invitations: any }) => {
   const [selectedProject, setSelectedProject] = useState();
@@ -36,12 +37,10 @@ const ContractOffers = ({ invitations }: { invitations: any }) => {
   const [projects, setProjects] = useState();
   const [apply, setApply] = useState(false);
 
-  console.log("offers", offers);
-
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     setIsLoading(true);
-
+    dispatch(fetchTalentApplications());
     dispatch(fetchTalentInvitations());
     dispatch(fetchTalentOffers());
   }, []);

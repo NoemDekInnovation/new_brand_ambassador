@@ -103,7 +103,6 @@ export const fetchactiveproject = createAsyncThunk(
             },
           }
         );
-        console.log(response.data);
 
         return response.data;
       }

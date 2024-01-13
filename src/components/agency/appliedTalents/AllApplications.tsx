@@ -66,7 +66,7 @@ const AllApplications = ({
     (state: RootState) => state?.applications
   );
 
-  console.log(applications);
+  // console.log(applications);
 
   const [popUp, setPopUp] = useState(false);
   const [selectedRole, setSelectedRole] = useState<TalentProps>();

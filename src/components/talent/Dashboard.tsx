@@ -21,6 +21,14 @@ const TalentDashboard = () => {
     return "home";
   });
 
+  const resetDefaultProjectView = () => {
+    const content = "Available Projects";
+    // Stringify the object before storing it in localStorage
+    const stringifiedContent = JSON.stringify(content);
+
+    // Store the stringified content in localStorage
+    localStorage.setItem("defaultProject", stringifiedContent);
+  };
   return (
     <MainLayout>
       {" "}
@@ -30,6 +38,7 @@ const TalentDashboard = () => {
             <TabsTrigger
               value="home"
               className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+              onClick={resetDefaultProjectView}
             >
               Home
             </TabsTrigger>
@@ -42,6 +51,7 @@ const TalentDashboard = () => {
             <TabsTrigger
               value="reports"
               className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+              onClick={resetDefaultProjectView}
             >
               Reports
             </TabsTrigger>

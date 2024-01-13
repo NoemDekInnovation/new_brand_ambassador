@@ -38,8 +38,6 @@ export const fetchAgencyTalentss = createAsyncThunk(
           }
         );
 
-        console.log("myTalents", response?.data?.data);
-
         return response?.data?.data;
       }
     } catch (error: any) {

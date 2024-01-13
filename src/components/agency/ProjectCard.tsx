@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { fetchactiveproject } from "../../redux/ActiveProject";
 import { fetchTalents } from "../../redux/talent.slice";
-import { ProjectProps, TalentProps } from "../../redux/types";
+import { ProjectProps, TalentProps, favProp } from "../../redux/types";
 import { TalentGrid } from "./talents/talentView";
 import {
   Dialog,
@@ -239,7 +239,7 @@ const ProjectCard = ({
   card_content,
 }: {
   card_title: string;
-  card_content: { isCurrent: boolean; content: TalentProps[] };
+  card_content: { isCurrent: boolean; content: TalentProps[] | favProp[] };
 }) => {
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedTalent, setSelectedTalent] = useState("");
@@ -378,7 +378,7 @@ const ProjectCard = ({
           </div>
         </CardHeader>
         <Separator className="my-3" />
-        <div className="flex justify-between items-center flex-wrap space-x-1 ">
+        <div className="flex justify-start items-center flex-wrap space-x-1 md:space-x-6 ">
           {card_content.content?.slice(0, 6).map((talent, idx) => {
             return (
               <TalentGrid

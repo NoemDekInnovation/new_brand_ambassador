@@ -97,10 +97,6 @@ const TalentList: React.FC<TalentListProps> = ({
       </div>
       <Separator className="bg-bm__beige shrink-0 h-[1px] w-full" />
       <div className="gap-4 hover:bg-black/10 cursor-pointer">
-        {/* <p>Current Contracts</p>{' '}
-                      <span className='bg-bm__ox__red text-white px-2'>
-                          {resTalents?.length}
-                      </span> */}
         <TalentType
           name="Current Contracts"
           count={talentCount["Current Contracts"]}

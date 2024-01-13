@@ -233,15 +233,10 @@ export const TalentList = ({
 
   const handleSelection = (value: any) => {
     const offerInfo = offers.filter((offer) => offer !== value.toLowerCase());
-    console.log(offerInfo);
     setSelectedOffer(offerInfo);
   };
-  if (selectedOffer !== null) {
-    console.log(selectedOffer[0].offerName, "hello world");
-  }
 
   const offerHandler = async () => {
-    console.log("feed more", selectedOffer[0].offerName);
     const payload = {
       offerName: selectedOffer[0]?.offerName,
       offerDescription: selectedOffer[0]?.offerDescription,
