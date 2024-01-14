@@ -139,7 +139,7 @@ const engagedTalents = createSlice({
         fetchEngageTalents.fulfilled,
         (state, action: PayloadAction<any>) => {
           state.loading = false;
-          state.talents = action.payload.talent;
+          state.talents = action.payload?.talent;
           state.prev = action.payload;
           state.count = action.payload;
           state.next = action.payload;

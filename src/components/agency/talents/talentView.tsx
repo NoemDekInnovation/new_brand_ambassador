@@ -262,69 +262,6 @@ export const TalentGrid = ({
     setModal(!modal);
   };
 
-  // return (
-  //   <Dialog open={toggleDialog} onOpenChange={setToggleDialog}>
-  //     <DialogContent className="bg-white p-0 flex flex-col items-center">
-  //       <div className="flex items-center space-x-3 mt-2 mb-4">
-  //         <div className="flex items-center space-x-3">
-  //           <p className="text-[18px] font-medium">Gloria Michael</p>
-  //           <span className="bg-[#00AB26] h-2 w-2 rounded-full"></span>
-  //           <div className="border-l border-[#D7D8DA] h-8"></div>
-  //           <p className="text-[12px] font-medium text-[#252525]">
-  //             Ikeja, Lagos
-  //           </p>
-  //           <div className="flex items-center space-x-1">
-  //             <IoStarHalf />
-  //             <div className="border-l border-[#D7D8DA] h-8"></div>
-  //           </div>
-  //         </div>
-
-  //         <div className="flex items-center space-x-4">
-  //           <div className="flex items-center">
-  //             <IoIosHeartEmpty />
-  //           </div>
-
-  //           <div className="flex items-center space-x-4">
-  //             <div className="hover:bg-black/10 flex items-center">
-  //               <IoShareSocial />
-  //               <span className="ml-2">Share</span>
-  //             </div>
-  //             <div className="hover:bg-black/10">Invite</div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //       <div className="relative">
-  //         <img
-  //           src={modalImage[currentImageIndex]}
-  //           alt={`girl-${currentImageIndex + 1}`}
-  //           width={400}
-  //           height={533}
-  //           className=" h-full w-full"
-  //           onClick={() => handleImageClick(currentImageIndex)}
-  //         />
-  //         <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-row items-center justify-between px-4 mt-2">
-  //           <button onClick={handlePrevImage} style={{ color: "white" }}>
-  //             &lt;
-  //           </button>
-  //           <button onClick={handleNextImage} style={{ color: "white" }}>
-  //             &gt;
-  //           </button>
-  //         </div>
-  //       </div>
-
-  //       <div className="flex flex-row items-center flex-wrap p-0 m-0">
-  //         {dialogSlide.slice(0, 7).map((image, index) => (
-  //           <img
-  //             key={index}
-  //             src={image}
-  //             alt={`girl-${index + 1}`}
-  //             className="h-[80px]"
-  //           />
-  //         ))}
-  //       </div>
-  //     </DialogContent>
-  //   </Dialog>
-  // );
   const truncateWords = (text: string, maxWords: number) => {
     const words = text.split(" ");
     const truncated = words.slice(0, maxWords).join(" ");
@@ -332,25 +269,13 @@ export const TalentGrid = ({
     return truncated + (words.length > maxWords ? "..." : "");
   };
 
-  // const cityState = `${_?.address[0]?.city} ${_?.address[0]?.state}`;
-  // const cityState = _?.talent?.address?.[0]?.talent?.city
-  //   ? `${_?talent?.address[0].city} ${_?.talent?.address[0].state}`
-  //   : "N/A";
-
   const cityState = _?.address?.[0]?.city
     ? `${_.address[0].city} ${_?.address[0].state}`
     : "N/A";
 
   const truncatedCityState = truncateWords(cityState, 3);
-  // return (
-  //   <>
-  //     <div className="">Hello</div>
+  console.log(_.favorites);
 
-  //     {handleProfilePopUp && (
-  //       <div onClick={() => handleProfilePopUp(_)}>hello</div>
-  //     )}
-  //   </>
-  // );
   return (
     <>
       <Card className="bg-white h-[262px] w-[196px]">
@@ -365,7 +290,7 @@ export const TalentGrid = ({
           </div>
           <div className="absolute top-1 rounded-l-md right-0  z-50 bg-white flex  justify-between items-center    w-[54px] h-[30px] px-2">
             {/* <AiOutlineHeart /> */}
-            <HeartIcon selectedTalentID={_._id} />
+            <HeartIcon selectedTalentID={_._id} favorites={_.favorites} />
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <AiOutlineMore />
@@ -525,7 +450,10 @@ export const TalentGrid = ({
         </div>
 
         {handleProfilePopUp && (
-          <div onClick={() => handleProfilePopUp(_)} className="px-1 cursor-pointer" >
+          <div
+            onClick={() => handleProfilePopUp(_)}
+            className="px-1 cursor-pointer"
+          >
             <div className="flex items-center gap-3 whitespace-nowrap px-2 py-1">
               <p className="text-[12px] font-medium capitalize">
                 {_?.firstName} {_?.lastName}
@@ -730,7 +658,7 @@ export const TalentGrids = ({
           </div>
           <div className="absolute top-1 rounded-l-md right-0  z-50 bg-white flex  justify-between items-center    w-[54px] h-[30px] px-2">
             {/* <AiOutlineHeart /> */}
-            <HeartIcon selectedTalentID={_._id} />
+            <HeartIcon selectedTalentID={_._id} favorites={_.favorites} />
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <AiOutlineMore />

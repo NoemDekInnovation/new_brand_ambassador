@@ -75,7 +75,27 @@ export const fetchFavouriteProjects = createAsyncThunk(
 const favoritesProject = createSlice({
   name: "favourite project",
   initialState,
-  reducers: {},
+  reducers: {
+    filterFavorite: (state, action: PayloadAction<any>) => {
+      let new_id = action.payload._id;
+
+      const matchingIndex = state.favourites.findIndex(
+        (item: any) => item._id === new_id
+      );
+
+      if (matchingIndex !== -1) {
+        // If a match is found, filter it out
+        console.log("true");
+        state.favourites = state.favourites.filter(
+          (item, index) => index !== matchingIndex
+        );
+      } else {
+        // If no match is found, add it to the array
+        console.log("false");
+        state.favourites = [...state.favourites, action.payload];
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchFavouriteProjects.pending, (state) => {
@@ -102,4 +122,4 @@ const favoritesProject = createSlice({
 });
 
 export default favoritesProject.reducer;
-export const {} = favoritesProject.actions;
+export const { filterFavorite } = favoritesProject.actions;
