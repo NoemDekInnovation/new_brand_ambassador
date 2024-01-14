@@ -31,6 +31,7 @@ import BadgeAvatars from "../ui/avatar";
 import { fetchactiveproject } from "../redux/ActiveProject";
 import { fetchcompleteproject } from "../redux/completeProject";
 import { fetchTalentApplications } from "../redux/talentApplications.slice";
+import { fetchFavouriteProjects } from "../redux/favourite.slice";
 
 export default function NewNavBar() {
   const user = useSelector((state: RootState) => state.user);
@@ -104,6 +105,7 @@ export default function NewNavBar() {
   useEffect(() => {
     dispatch(fetchTalentInvitations());
     dispatch(fetchactiveproject(null));
+    dispatch(fetchFavouriteProjects(null));
     dispatch(fetchcompleteproject(null));
     dispatch(fetchTalentApplications());
   }, [dispatch]);

@@ -26,6 +26,7 @@ import { FaLinkedin, FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
 import { BsTwitter, BsTwitterX } from "react-icons/bs";
 import { fetchUserTalentsData } from "../../redux/talent.slice";
 import { AddressProps } from "../../redux/types";
+import ProgressBar from "./ProgressBar";
 
 export interface Certification {
   certificateName: string;
@@ -45,27 +46,11 @@ const Profile = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const { talentData } = useSelector((state: RootState) => state.talent);
 
-  // console.log("talent", talentData);
-
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    // const updateTalent = async () => {
-    //   if (user?.accountId !== undefined) {
-    //     try {
-    //       const response = await patchAxiosInstance.get(`/get-talent-profile`, {
-    //         headers: {
-    //           Authorization: `Bearer ${user.authKey || ""}`,
-    //         },
-    //       });
-    //       setTalentData(response.data.data);
-    //     } catch (error) {}
-    //   }
-    // };
-    // updateTalent();
     dispatch(fetchUserTalentsData());
   }, []);
-  // console.log(talentData)
 
   let formattedDOB = "-";
 
@@ -104,24 +89,7 @@ const Profile = () => {
                 </div>
               </Card>
               <div className="flex flex-col w-full">
-                <div className="flex justify-between items-center gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="bg-black w-fit rounded-[5px] px-1 text-[18px]">
-                      <BiSolidUserDetail className="text-white w-fit" />
-                    </div>
-                    <p className="text-[16px] font-bold">Profile</p>
-                    <p className="ml-20 bg-bm__ox__red px-2 text-white rounded-md">
-                      33%
-                    </p>
-                  </div>
-                </div>
-
-                <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700  my-2 mb-7">
-                  <div
-                    className="bg-bm__ox__red h-1.5 rounded-full"
-                    style={{ width: "33%" }}
-                  ></div>
-                </div>
+                <ProgressBar />
                 <div className="w-full overflow-y-scroll pr-2">
                   <div className=" flex w-full gap-4 h-fit">
                     <div className=" w-full max-w-[240px] flex flex-col gap-2">
@@ -150,35 +118,12 @@ const Profile = () => {
                             )
                           )}
 
-                        {/* {talentData?.education?.length > 0 && (
-                          <>
-                            <p className="text-[12px] font-normal capitalize">
-                              {talentData.education[0].institution}
-                            </p>
-                            <p className="text-[12px] font-normal capitalize">
-                              {talentData.education[0].degree}
-                            </p>
-                            <p className="text-[12px] font-normal capitalize">
-                              {talentData.education[0].grade}
-                            </p>
-                            <p className="text-[12px] font-normal capitalize">
-                              {talentData.education[0].gradYear}
-                            </p>
-                          </>
-                        )} */}
-
                         {talentData?.certifications?.map(
                           (certificationItem: Certification, index: number) => (
                             <div key={index}>
                               <p className="text-[12px] font-normal capitalize">
                                 {certificationItem?.certificateName}
                               </p>
-                              {/* <p className="text-[12px] font-normal">
-                                Organization: {certificationItem.organisation}
-                              </p>
-                              <p className="text-[12px] font-normal">
-                                Certification Year: {certificationItem.certYear}
-                              </p> */}
                             </div>
                           )
                         )}

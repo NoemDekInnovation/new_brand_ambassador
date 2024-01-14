@@ -89,12 +89,11 @@ export default function Login() {
       if (response.status === 200) {
         // Successful authentication
 
-        // console.log(response.data);
-
         let details = {
           firstName: response.data.data.firstName,
           role: response.data.data.role,
           accountId: response.data.data.accountType,
+          userId: response.data.data?.accountId,
           authKey: response.data.data.accessToken,
           agencyName: response.data.data.agencyName,
           profilePic: response.data.data.profilePic,

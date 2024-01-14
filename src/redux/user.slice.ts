@@ -8,6 +8,7 @@ export interface USERProps {
   agencyName: string;
   companyLogo: string;
   profilePic: string;
+  userId: string;
 }
 
 export interface userProps {
@@ -34,6 +35,7 @@ const initialState: userProps = {
         accountId: "",
         companyLogo: "",
         profilePic: "",
+        userId: "",
       },
 };
 
@@ -41,18 +43,12 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    // setUser: (state, action) => {
-    //   state.user = action.payload;
-    // },
     setUser: (state, action: PayloadAction<USERProps>) => {
       state.user = action.payload;
 
       localStorage.setItem(localStorageKey, JSON.stringify(action.payload));
     },
 
-    // logout: (state, action) => {
-    //   state.user = null;
-    // },
     logout: (state, action) => {
       state.user = {
         firstName: "",
@@ -62,6 +58,7 @@ const userSlice = createSlice({
         agencyName: "",
         companyLogo: "",
         profilePic: "",
+        userId: "",
       };
 
       localStorage.removeItem(localStorageKey);
