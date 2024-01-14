@@ -179,7 +179,7 @@ const Profile = () => {
                             target="_blank"
                             className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                           >
-                            {talentData?.socials?.linkedin}
+                            {talentData?.socials?.linkedin.substring(0, 20)}
                           </Link>
                         </div>
                         <div className="flex items-center py-2">
@@ -189,7 +189,7 @@ const Profile = () => {
                             target="_blank"
                             className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                           >
-                            {talentData?.socials?.instagram}
+                            {talentData?.socials?.instagram.substring(0, 20)}
                           </Link>
                         </div>
                         <div className="flex items-center py-2">
@@ -199,7 +199,7 @@ const Profile = () => {
                             target="_blank"
                             className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                           >
-                            {talentData?.socials?.twitter}
+                            {talentData?.socials?.twitter.substring(0, 20)}
                           </Link>
                         </div>
                         <div className="flex items-center py-2">
@@ -209,7 +209,7 @@ const Profile = () => {
                             target="_blank"
                             className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                           >
-                            {talentData?.socials?.facebook}
+                            {talentData?.socials?.facebook.substring(0, 20)}
                           </Link>
                         </div>
                       </Card>
