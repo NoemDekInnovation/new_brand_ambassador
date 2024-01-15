@@ -53,9 +53,9 @@ type E164Number = string;
 
 export default function EditProfile() {
   const talentOptions: TalentOption[] = [
-    { label: "ba", value: "ba" },
-    { label: "supervisor", value: "supervisor" },
-    { label: "usher", value: "usher" },
+    { label: "Brand Ambassador", value: "ba" },
+    { label: "Supervisor", value: "supervisor" },
+    { label: "Usher", value: "usher" },
   ];
 
   const { user } = useSelector((state: RootState) => state.user);
@@ -91,7 +91,6 @@ export default function EditProfile() {
     dressSize: "",
     languages: [],
   });
-  console.log("lang", personal.languages);
 
   const [address, setAddress] = useState<AddressProps>({
     street: "",
@@ -136,7 +135,7 @@ export default function EditProfile() {
     linkedin: "",
   });
 
-  const [opportunities, setOpportunites] = useState<string>("");
+  const [opportunities, setOpportunites] = useState<string[]>([]);
   // console.log("opp", opportunities);
 
   const [phn, setPhn]: [E164Number, Dispatch<SetStateAction<E164Number>>] =

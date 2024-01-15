@@ -138,7 +138,22 @@ const Profile = () => {
                           {/* Usher . In-Store Marketer . Open Market Marketer .
                           Brand Ambassador . Brand Ambassador Supervisor .
                           In-Store Supervisor */}
-                          {talentData?.opportunities}
+                          {talentData?.opportunities?.length > 0 ? (
+                            talentData?.opportunities.map(
+                              (skill: [], index: number) => (
+                                <p
+                                  key={index}
+                                  className="text-[12px] font-normal capitalize"
+                                >
+                                  {skill}
+                                </p>
+                              )
+                            )
+                          ) : (
+                            <p className="text-[12px] font-normal">
+                              No opportunities available
+                            </p>
+                          )}{" "}
                         </p>
                       </Card>
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-[240px]  border rounded-[6px]">
@@ -179,7 +194,7 @@ const Profile = () => {
                             target="_blank"
                             className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                           >
-                            {talentData?.socials?.linkedin}
+                            {talentData?.socials?.linkedin.substring(0, 20)}
                           </Link>
                         </div>
                         <div className="flex items-center py-2">
@@ -189,7 +204,7 @@ const Profile = () => {
                             target="_blank"
                             className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                           >
-                            {talentData?.socials?.instagram}
+                            {talentData?.socials?.instagram.substring(0, 20)}
                           </Link>
                         </div>
                         <div className="flex items-center py-2">
@@ -199,7 +214,7 @@ const Profile = () => {
                             target="_blank"
                             className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                           >
-                            {talentData?.socials?.twitter}
+                            {talentData?.socials?.twitter.substring(0, 20)}
                           </Link>
                         </div>
                         <div className="flex items-center py-2">
@@ -209,7 +224,7 @@ const Profile = () => {
                             target="_blank"
                             className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                           >
-                            {talentData?.socials?.facebook}
+                            {talentData?.socials?.facebook.substring(0, 20)}
                           </Link>
                         </div>
                       </Card>

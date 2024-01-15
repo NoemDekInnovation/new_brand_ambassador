@@ -21,6 +21,7 @@ import PhoneInput from "react-phone-number-input";
 import { PersonalProps } from "../../../redux/types";
 import { useToast } from "../../../ui/use-toast";
 import createProject from "../../../assets/created-project.png";
+import Select from "react-select";
 import { Required } from "../../Required";
 
 type TalentOption = {
@@ -66,29 +67,29 @@ export default function Overview({
 
   const { toast } = useToast();
 
-  const handleOptionClick = (value: string) => {
-    // setInputValue(value);
-    setOpportunites(value);
-    setIsSearching(false);
-    setFilteredOptions([]);
-  };
+  // const handleOptionClick = (value: string) => {
+  //   // setInputValue(value);
+  //   setOpportunites(value);
+  //   setIsSearching(false);
+  //   setFilteredOptions([]);
+  // };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    // setInputValue(value);
-    setOpportunites(value);
-    setIsSearching(true);
+  // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = event.target.value;
+  //   // setInputValue(value);
+  //   setOpportunites(value);
+  //   setIsSearching(true);
 
-    if (value) {
-      const searchLower = value.toLowerCase();
-      const filtered = talentOptions.filter((option) =>
-        option.label.toLowerCase().includes(searchLower)
-      );
-      setFilteredOptions(filtered);
-    } else {
-      setFilteredOptions([]);
-    }
-  };
+  //   if (value) {
+  //     const searchLower = value.toLowerCase();
+  //     const filtered = talentOptions.filter((option) =>
+  //       option.label.toLowerCase().includes(searchLower)
+  //     );
+  //     setFilteredOptions(filtered);
+  //   } else {
+  //     setFilteredOptions([]);
+  //   }
+  // };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
@@ -123,6 +124,18 @@ export default function Overview({
       ...overView,
       summary: e.target.value,
     });
+  };
+
+  const newOpp = opportunities?.map((opportunity: any) => ({
+    value: opportunity,
+    label: opportunity,
+  }));
+
+  const handleOptionClick = (selectedOptions: any) => {
+    const selectedLanguages = selectedOptions.map(
+      (option: any) => option.value
+    );
+    setOpportunites(selectedLanguages);
   };
 
   return (
@@ -199,13 +212,6 @@ export default function Overview({
             <p>Show agencies the best version of yourself.</p>
 
             <Separator className=" my-3 bg-[#D7D8DA5C]" />
-            {/* <Input type="file" className="hidden" />
-            <div className="my-3 border w-[156px] h-[156px] flex justify-center text-center items-center text-[18px] font-light text-[#93979DB2]">
-              Attach or drop photos here
-            </div>
-            <p className="text-[13px] font-light mb-3">
-              Attach as many photos as possible.
-            </p> */}
             <label htmlFor="picture" className="cursor-pointer">
               <Input
                 id="picture"
@@ -235,24 +241,6 @@ export default function Overview({
                   )}
                 </div>
               </div>
-
-              {/* <div className="border w-[156px] h-[156px] relative">
-                {overView.profilePic !== "" && !inVw ? (
-                  <img
-                    src={overView?.profilePic}
-                    className="w-full h-full object-cover"
-                    alt=""
-                  />
-                ) : inVw ? (
-                  <img
-                    src={URL.createObjectURL(overView?.profilePic)}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  "Attach or drop photos here"
-                )}
-              </div> */}
             </label>
 
             <Separator
@@ -283,47 +271,23 @@ export default function Overview({
               <div>
                 {/* <p className="mb-4">Opportunities</p> */}
                 <div className="relative z-0 w-full mb-6 group">
-                  <input
-                    type="text"
-                    name="floating_first_name"
-                    id="floating_first_name"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    // value={formData.projectDuration.startDate}
-                    // onChange={handleInputChange}
-                    // value={inputValue}
-                    value={opportunities}
-                    onChange={handleInputChange}
-                    required
+                  <Select
+                    defaultValue={newOpp}
+                    isMulti
+                    name="oppor"
+                    options={talentOptions}
+                    className="block py-2.5 capitalize px-0 w-full text-sm text-gray-900 bg-transparent border-0  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    classNamePrefix="select"
+                    onChange={handleOptionClick}
                   />
                   <label
                     htmlFor="opportunities"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     <Required className="text-[20px]">
-                      Type and select the opportunities that you are open to
+                      Select the opportunities that you are open to
                     </Required>
                   </label>
-                  {isSearching &&
-                    opportunities &&
-                    filteredOptions.length === 0 && (
-                      <div className="absolute z-10 w-full bg-white py-2 px-4 text-sm text-gray-900">
-                        Not found
-                      </div>
-                    )}
-                  {isSearching && filteredOptions.length > 0 && (
-                    <ul className="absolute z-10 w-full bg-white shadow-md max-h-60 overflow-auto">
-                      {filteredOptions.map((option) => (
-                        <li
-                          key={option.value}
-                          onClick={() => handleOptionClick(option.label)}
-                          className="py-2 px-4 hover:bg-gray-100 cursor-pointer"
-                        >
-                          {option.label}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
                 </div>
               </div>
               <div className="relative z-0 w-full mb-6 group">
