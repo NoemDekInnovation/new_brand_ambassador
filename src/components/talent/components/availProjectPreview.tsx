@@ -436,7 +436,13 @@ const ProjectPreview = ({
                 {selectedFileName && <p>{selectedFileName}</p>}
               </ItemCard>
               <div className="flex w-full justify-between mb-8">
-                <button className="light__btn max-w-fit text-[12px] ">
+                <button
+                  className="light__btn max-w-fit text-[12px] "
+                  onClick={() => {
+                    close();
+                    setPopUp();
+                  }}
+                >
                   Cancel Application
                 </button>
                 <button
