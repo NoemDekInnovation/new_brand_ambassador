@@ -138,7 +138,22 @@ const Profile = () => {
                           {/* Usher . In-Store Marketer . Open Market Marketer .
                           Brand Ambassador . Brand Ambassador Supervisor .
                           In-Store Supervisor */}
-                          {talentData?.opportunities}
+                          {talentData?.opportunities?.length > 0 ? (
+                            talentData?.opportunities.map(
+                              (skill: [], index: number) => (
+                                <p
+                                  key={index}
+                                  className="text-[12px] font-normal capitalize"
+                                >
+                                  {skill}
+                                </p>
+                              )
+                            )
+                          ) : (
+                            <p className="text-[12px] font-normal">
+                              No opportunities available
+                            </p>
+                          )}{" "}
                         </p>
                       </Card>
                       <Card className=" p-6 flex flex-col justify-center gap-2 bg-white  border-bm__beige w-[240px]  border rounded-[6px]">

@@ -79,10 +79,7 @@ const ProgressBar = () => {
     setProgressCount(count);
   }, [talentData]);
 
-  console.log("talent", talentData, progressCount);
   const percentage = Math.floor((progressCount / 26) * 100);
-
-  console.log(percentage);
 
   return (
     <>
