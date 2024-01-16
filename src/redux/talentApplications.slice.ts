@@ -30,11 +30,31 @@ const initialState: talentApplicationsProps = {
 
 export const fetchTalentApplications = createAsyncThunk(
   "talents/talentApplications",
-  async () => {
+  async (queryParams: { [key: string]: string | number } | null, thunkAPI) => {
     const user = localStorage.getItem("userData");
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
+        if (queryParams !== null && queryParams !== undefined) {
+          // Build the query string based on the dynamic queryParams object
+          const queryString = Object.entries(queryParams)
+            .map(([key, value]) => `${key}=${value}`)
+            .join("&");
+
+          const response = await campaignAuthAxiosInstance(
+            `/get-talent-applications?${queryString}`,
+            {
+              headers: {
+                Authorization: `Bearer ${parsedUser.authKey}`,
+              },
+            }
+          );
+
+          // console.log("myTalents", response?.data?.data?.talent);
+
+          return response?.data?.data;
+        }
+
         const response = await campaignAuthAxiosInstance(
           `/get-talent-applications`,
           {

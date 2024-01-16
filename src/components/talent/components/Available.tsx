@@ -62,16 +62,6 @@ const Available = () => {
 
   const totalPages = Math.ceil(filteredProjects?.length / projectsPerPage);
 
-  // Check and update each project object
-  // const updatedProjectist = projectist.map((project: any) => {
-  //   if (idCheck.includes(project._id)) {
-  //     return { ...project, applied: true };
-  //   }
-  //   return { ...project, applied: false };
-  // });
-
-  // console.log(updatedProjectist);
-
   return (
     <>
       <div>

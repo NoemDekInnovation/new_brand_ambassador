@@ -40,7 +40,7 @@ const ContractOffers = ({ invitations }: { invitations: any }) => {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     setIsLoading(true);
-    dispatch(fetchTalentApplications());
+    dispatch(fetchTalentApplications(null));
     dispatch(fetchTalentInvitations());
     dispatch(fetchTalentOffers());
   }, []);

@@ -13,8 +13,12 @@ import Invitations from "./components/Invitations";
 import { fetchTalentInvitations } from "../../redux/talentInvitations.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { fetchAllProjects } from "../../redux/talent/allProjects.slice";
+import {
+  fetchAllProjects,
+  setProjectQuery,
+} from "../../redux/talent/allProjects.slice";
 import ApplicationsScreen from "./components/ApplicationsScreen";
+import { fetchTalentApplications } from "../../redux/talentApplications.slice";
 
 type ProjectType =
   | "Available Projects"
@@ -35,13 +39,17 @@ const ProjectTab = () => {
 
   const [selectedGender, setSelectedGender] = useState("all");
   const [selectedOppor, setSelectedOppor] = useState("all");
-  const [selectedLocation, setSelectedLocation] = useState("all");
+  const [selectedLocation, setSelectedLocation] = useState("");
   const [ageRange, setAgeRange] = useState({ start: "", end: "" });
+  const [sortQuery, setSortQuery] = useState<any>(null);
 
   const { talentInvitations } = useSelector(
     (state: RootState) => state.talentInvite
   );
   const { pageQuery } = useSelector((state: RootState) => state.talent);
+  const { projectQuery } = useSelector(
+    (state: RootState) => state.allTalentProject
+  );
   const { totalApplications } = useSelector(
     (state: RootState) => state.talentApplication
   );
@@ -79,47 +87,56 @@ const ProjectTab = () => {
       projects = null;
   }
 
+  const updateQuery = (newValues: any) => {
+    setSortQuery((prevQuery: any) => ({ ...prevQuery, ...newValues }));
+  };
+
   const handleProjectTypeChange = (type: ProjectType) => {
     setActiveType(type);
   };
 
-  const handleGenderChange = (gender: any) => {
-    setSelectedGender(gender);
+  const handleCategoryChange = (category: any) => {
+    updateQuery({ category });
   };
+
   const handleRoleChange = (role: any) => {
+    updateQuery({ opportunities: role });
+
     setSelectedOppor(role);
   };
 
-  const handleStartAgeChange = (e: any) => {
+  const handlePaymentStartChange = (e: any) => {
+    updateQuery({ minSalary: e.target.value });
     setAgeRange({ ...ageRange, start: e.target.value });
   };
 
-  const handleEndAgeChange = (e: any) => {
+  console.log(ageRange);
+
+  const handlePaymentEndChange = (e: any) => {
+    updateQuery({ maxSalary: e.target.value });
     setAgeRange({ ...ageRange, end: e.target.value });
   };
 
   const handleLocationChange = (e: any) => {
     setSelectedLocation(e.target.value);
+    updateQuery({ location: e.target.value });
+  };
+
+  const handleDurationChange = (e: any) => {
+    updateQuery({ duration: e.target.value });
+  };
+
+  const handlePaymentTypeChange = (paymentOptions: any) => {
+    updateQuery({ paymentOptions });
+    setSelectedOppor(paymentOptions);
   };
 
   const handleClear = () => {
-    setSelectedLocation("all");
-    setSelectedOppor("all");
-    setAgeRange({ ...ageRange, start: "" });
-    setAgeRange({ ...ageRange, end: "" });
+    setSelectedLocation("");
+    setSelectedOppor("");
+    setAgeRange({ end: "", start: "" });
     setSelectedGender("all");
-  };
-
-  const handleFilter = () => {
-    if (
-      selectedGender === "all" &&
-      selectedOppor === "all" &&
-      selectedLocation === "all" &&
-      ageRange.start === "" &&
-      ageRange.end === ""
-    ) {
-      return alert("Please fill a category");
-    }
+    setSortQuery(null);
   };
 
   const dispatch = useDispatch<AppDispatch>();
@@ -131,6 +148,18 @@ const ProjectTab = () => {
   }, []);
 
   useEffect(() => {
+    setTimeout(() => {
+      dispatch(setProjectQuery(sortQuery));
+    }, 1000);
+  }, [sortQuery]);
+
+  useEffect(() => {
+    dispatch(fetchAllProjects(projectQuery));
+    dispatch(fetchTalentApplications(projectQuery));
+  }, [dispatch, projectQuery]);
+
+  useEffect(() => {
+    dispatch(fetchTalentApplications(pageQuery));
     dispatch(fetchAllProjects(pageQuery));
   }, [dispatch, pageQuery]);
 
@@ -172,30 +201,30 @@ const ProjectTab = () => {
                     <RadioGroup
                       defaultValue=""
                       className="mt-2"
-                      onValueChange={handleGenderChange}
+                      onValueChange={handleCategoryChange}
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="male" id="male" />
+                        <RadioGroupItem value="in-store" id="in-store" />
                         <Label
-                          htmlFor="male"
+                          htmlFor="in-store"
                           className="text-[14px] font-normal"
                         >
                           In-store
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="female" id="female" />
+                        <RadioGroupItem value="open market" id="open market" />
                         <Label
-                          htmlFor="female"
+                          htmlFor="open market"
                           className="text-[14px] font-normal"
                         >
                           Open Market{" "}
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="female" id="female" />
+                        <RadioGroupItem value="road survey" id="road survey" />
                         <Label
-                          htmlFor="survey"
+                          htmlFor="road survey"
                           className="text-[14px] font-normal"
                         >
                           Road Survey{" "}
@@ -251,6 +280,7 @@ const ProjectTab = () => {
                         className="max-w-[210px]"
                         placeholder="Search location"
                         onChange={handleLocationChange}
+                        value={selectedLocation}
                       />
                     </div>
                   </div>
@@ -262,8 +292,8 @@ const ProjectTab = () => {
                     <div className="flex gap-1 items-center justify-center pt-2">
                       <Input
                         className="max-w-[210px]"
-                        placeholder="Search location"
-                        onChange={handleLocationChange}
+                        placeholder="Search Duration"
+                        onChange={handleDurationChange}
                       />
                     </div>
                   </div>
@@ -278,27 +308,30 @@ const ProjectTab = () => {
                     <RadioGroup
                       defaultValue=""
                       className="mt-2"
-                      onValueChange={handleRoleChange}
+                      onValueChange={handlePaymentTypeChange}
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="usher" id="usher" />
+                        <RadioGroupItem value="daily" id="daily" />
                         <Label
-                          htmlFor="usher"
+                          htmlFor="daily"
                           className="text-[14px] font-normal"
                         >
                           Daily
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="ba" id="ba" />
-                        <Label htmlFor="ba" className="text-[14px] font-normal">
+                        <RadioGroupItem value="weekly" id="weekly" />
+                        <Label
+                          htmlFor="weekly"
+                          className="text-[14px] font-normal"
+                        >
                           Weekly{" "}
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="supervisor" id="supervisor" />
+                        <RadioGroupItem value="monthly" id="monthly" />
                         <Label
-                          htmlFor="supervisor"
+                          htmlFor="monthly"
                           className="text-[14px] font-normal"
                         >
                           Monthly{" "}
@@ -314,23 +347,17 @@ const ProjectTab = () => {
                     <div className="flex gap-1 items-center justify-around">
                       <Input
                         className="max-w-[80px]"
-                        // value={ageRange.start}
-                        onChange={handleStartAgeChange}
+                        value={ageRange.start}
+                        onChange={handlePaymentStartChange}
                       />
                       to
                       <Input
                         className="max-w-[80px]"
-                        // value={ageRange.end}
-                        onChange={handleEndAgeChange}
+                        value={ageRange.end}
+                        onChange={handlePaymentEndChange}
                       />
                     </div>
                   </div>
-                  <button
-                    className="dark__btn p-2 mt-2 "
-                    onClick={handleFilter}
-                  >
-                    Filter
-                  </button>
                   <button className="light__btn p-2 " onClick={handleClear}>
                     Clear Filter
                   </button>

@@ -107,7 +107,7 @@ export default function NewNavBar() {
     dispatch(fetchactiveproject(null));
     dispatch(fetchFavouriteProjects(null));
     dispatch(fetchcompleteproject(null));
-    dispatch(fetchTalentApplications());
+    dispatch(fetchTalentApplications(null));
   }, [dispatch]);
 
   const handleProfilePopUp = (info: any) => {
