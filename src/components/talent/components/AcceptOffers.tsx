@@ -7,12 +7,12 @@ import Moment from "react-moment";
 
 import { CiHeart } from "react-icons/ci";
 import { GoChecklist } from "react-icons/go";
-import ProjectPreview from "./projectPreview";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchTalentInvitations } from "../../../redux/talentInvitations.slice";
 import { Separator } from "../../../ui/seperator";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import ContractPreview from "./contractPreview";
 
 const AcceptOffers = ({ invitations }: { invitations: any }) => {
   const [selectedProject, setSelectedProject] = useState();
@@ -24,9 +24,10 @@ const AcceptOffers = ({ invitations }: { invitations: any }) => {
     // setSelectedRole(talent);
   };
 
-  const { talentInvitations } = useSelector(
-    (state: RootState) => state.talentInvite
-  );
+  const {
+    talentOffers: { offers },
+  } = useSelector((state: RootState) => state.contractOffer);
+
   const [isLoading, setIsLoading] = useState(false);
   const [projects, setProjects] = useState();
   const [apply, setApply] = useState(false);
@@ -42,7 +43,7 @@ const AcceptOffers = ({ invitations }: { invitations: any }) => {
     <>
       <div>
         <div className="overflow-y-scroll h-[57vh]">
-          {invitations?.map((project: any, idx: number) => {
+          {offers?.map((project: any, idx: number) => {
             return (
               project.status === "applied" && (
                 <div
@@ -162,7 +163,7 @@ const AcceptOffers = ({ invitations }: { invitations: any }) => {
           </div>
         </div>
       </div>
-      <ProjectPreview
+      <ContractPreview
         apply={apply}
         close={() => setApply(false)}
         setApply={() => setApply(true)}

@@ -19,6 +19,7 @@ import {
 } from "../../redux/talent/allProjects.slice";
 import ApplicationsScreen from "./components/ApplicationsScreen";
 import { fetchTalentApplications } from "../../redux/talentApplications.slice";
+import { fetchTalentOffers } from "../../redux/contract-offer";
 
 type ProjectType =
   | "Available Projects"
@@ -155,6 +156,7 @@ const ProjectTab = () => {
 
   useEffect(() => {
     dispatch(fetchAllProjects(projectQuery));
+    dispatch(fetchTalentOffers(projectQuery));
     dispatch(fetchTalentApplications(projectQuery));
   }, [dispatch, projectQuery]);
 
