@@ -29,7 +29,7 @@ import { GoChecklist } from "react-icons/go";
 import { useEffect, useState } from "react";
 import { campaignAuthAxiosInstance } from "../../../api/axios";
 import { RootState } from "../../../redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AllInvitations from "./AllInvitations";
 import AppliedInvitations from "./AppliedInvitiations";
 import NotAppliedInvitations from "./NotApplied";
@@ -37,6 +37,7 @@ import RejectedInvitations from "./Rejected.tsx";
 import ContractOffers from "./ContractOffers";
 import AcceptOffers from "./AcceptOffers";
 import DeclinedOffers from "./DeclinedOffers";
+import { setProjectQuery } from "../../../redux/talent/allProjects.slice";
 
 type ApplicationType =
   | "Contract Offers"
@@ -45,11 +46,18 @@ type ApplicationType =
   | "Declined Offer";
 
 export default function ApplicationsScreen({}) {
+  const dispatch = useDispatch();
+
   const { talentInvitations } = useSelector(
     (state: RootState) => state.talentInvite
   );
-  const { talentApplications, totalApplications, totalSuccessful } =
-    useSelector((state: RootState) => state.talentApplication);
+  const { talentApplications, totalApplications } = useSelector(
+    (state: RootState) => state.talentApplication
+  );
+
+  const { totalOffers, totalAccepted, totalRejected } = useSelector(
+    (state: RootState) => state.contractOffer
+  );
 
   const [isLoading, setIsLoading] = useState(false);
   const [applications, setApplications] = useState<ApplicationType>("Applied");
@@ -57,6 +65,14 @@ export default function ApplicationsScreen({}) {
 
   const handleInviteChange = (type: ApplicationType) => {
     setApplications(type);
+    console.log("hello zeek");
+    if (type === "Accepted Offers") {
+      dispatch(setProjectQuery({ status: "accepted" }));
+    }
+
+    if (type === "Declined Offer") {
+      dispatch(setProjectQuery({ status: "rejected" }));
+    }
   };
 
   const filteredApplications = talentApplications?.filter((project: any) => {
@@ -78,7 +94,7 @@ export default function ApplicationsScreen({}) {
       );
       break;
     case "Contract Offers":
-      applicationList = <ContractOffers invitations={filteredApplications} />;
+      applicationList = <ContractOffers />;
       break;
     case "Accepted Offers":
       applicationList = <AcceptOffers invitations={filteredApplications} />;
@@ -160,9 +176,7 @@ export default function ApplicationsScreen({}) {
             `}
             >
               Contract Offers {"  "}
-              <span className="text-[12px] font-bold">
-                ({rejectedInvite?.length})
-              </span>
+              <span className="text-[12px] font-bold">({totalOffers})</span>
             </p>
             <p
               onClick={() => handleInviteChange("Accepted Offers")}
@@ -174,9 +188,7 @@ export default function ApplicationsScreen({}) {
             `}
             >
               Accepted Offers {"  "}
-              <span className="text-[12px] font-bold">
-                ({rejectedInvite?.length})
-              </span>
+              <span className="text-[12px] font-bold">({totalAccepted})</span>
             </p>{" "}
             <p
               onClick={() => handleInviteChange("Declined Offer")}
@@ -188,9 +200,7 @@ export default function ApplicationsScreen({}) {
             `}
             >
               Declined Offers {"  "}
-              <span className="text-[12px] font-bold">
-                ({rejectedInvite?.length})
-              </span>
+              <span className="text-[12px] font-bold">({totalRejected})</span>
             </p>
           </div>
         </CardHeader>

@@ -17,7 +17,7 @@ import ContractPreview from "./contractPreview";
 import { fetchTalentOffers } from "../../../redux/contract-offer";
 import { fetchTalentApplications } from "../../../redux/talentApplications.slice";
 
-const ContractOffers = ({ invitations }: { invitations: any }) => {
+const ContractOffers = () => {
   const [selectedProject, setSelectedProject] = useState();
   const [popUp, setPopUp] = useState(false);
 
@@ -27,9 +27,6 @@ const ContractOffers = ({ invitations }: { invitations: any }) => {
     // setSelectedRole(talent);
   };
 
-  const { talentInvitations } = useSelector(
-    (state: RootState) => state.talentInvite
-  );
   const {
     talentOffers: { offers },
   } = useSelector((state: RootState) => state.contractOffer);
@@ -42,7 +39,7 @@ const ContractOffers = ({ invitations }: { invitations: any }) => {
     setIsLoading(true);
     dispatch(fetchTalentApplications(null));
     dispatch(fetchTalentInvitations());
-    dispatch(fetchTalentOffers());
+    dispatch(fetchTalentOffers(null));
   }, []);
 
   return (

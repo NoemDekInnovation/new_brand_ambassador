@@ -165,6 +165,7 @@ const AppliedInvitations = ({ invitations }: { invitations: any }) => {
         popUp={popUp}
         setPopUp={() => setPopUp(!popUp)}
         selectedProject={selectedProject}
+        applied={true}
       />
     </>
   );
