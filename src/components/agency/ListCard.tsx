@@ -161,11 +161,15 @@ export function TopProjectCard({
                     <div className="flex space-x-2">
                       <h3 className="font-medium text-[15px] ">
                         {" "}
-                        {project.projectTitle}
+                        {project.projectTitle.length > 15
+                          ? `${project.projectTitle.substring(0, 15)}...`
+                          : project.projectTitle}
                       </h3>
                     </div>
                     <p className="font-normal text-[13px]">
-                      {project.projectDescription}
+                      {project.projectDescription.length > 85
+                        ? `${project.projectDescription.substring(0, 85)}...`
+                        : project.projectDescription}
                     </p>
                     <p className="font-medium text-[13px] text-[#800000]">
                       300 Applications{" "}
@@ -211,11 +215,15 @@ export function TopProjectCard({
                     <div className="flex space-x-2">
                       <h3 className="font-medium text-[15px] ">
                         {" "}
-                        {project.projectTitle}
+                        {project.projectTitle.length > 15
+                          ? `${project.projectTitle.substring(0, 15)}...`
+                          : project.projectTitle}
                       </h3>
                     </div>
                     <p className="font-normal text-[13px]">
-                      {project.projectDescription}
+                      {project.projectDescription.length > 85
+                        ? `${project.projectDescription.substring(0, 85)}...`
+                        : project.projectDescription}
                     </p>
                     <p className="font-medium text-[13px] text-[#800000]">
                       300 Applications{" "}
@@ -260,11 +268,15 @@ export function TopProjectCard({
                     <div className="flex space-x-2">
                       <h3 className="font-medium text-[15px] ">
                         {" "}
-                        {project.projectTitle}
+                        {project.projectTitle.length > 15
+                          ? `${project.projectTitle.substring(0, 15)}...`
+                          : project.projectTitle}
                       </h3>
                     </div>
                     <p className="font-normal text-[13px]">
-                      {project.projectDescription}
+                      {project.projectDescription.length > 85
+                        ? `${project.projectDescription.substring(0, 85)}...`
+                        : project.projectDescription}
                     </p>
                     <p className="font-medium text-[13px] text-[#800000]">
                       300 Applications{" "}
@@ -459,14 +471,18 @@ const ListCard = ({
                   <CardContent className="p-0 space-y-1">
                     <div className="flex space-x-2">
                       <h3 className="font-medium text-[12px] border-r pr-2">
-                        {project.projectTitle}
+                        {project.projectTitle.length > 15
+                          ? `${project.projectTitle.substring(0, 15)}...`
+                          : project.projectTitle}
                       </h3>
-                      <p className="text-bm_card__orange text-[12px] font-medium">
-                        Published
+                      <p className="text-green-500 text-[12px] font-medium">
+                        Current{" "}
                       </p>
                     </div>
                     <p className="font-normal text-[8px] leading-3">
-                      {project.projectDescription}
+                      {project.projectDescription.length > 85
+                        ? `${project.projectDescription.substring(0, 85)}...`
+                        : project.projectDescription}
                     </p>
                     <p className="font-medium text-[13px] text-bm__ox__red">
                       3oo Applications{" "}
@@ -498,14 +514,18 @@ const ListCard = ({
                   <CardContent className="p-0 space-y-1">
                     <div className="flex space-x-2">
                       <h3 className="font-medium text-[12px] border-r pr-2">
-                        {project.projectTitle}
+                        {project.projectTitle.length > 15
+                          ? `${project.projectTitle.substring(0, 15)}...`
+                          : project.projectTitle}
                       </h3>
                       <p className="text-bm_card__orange text-[12px] font-medium">
                         Published
                       </p>
                     </div>
                     <p className="font-normal text-[8px] leading-3">
-                      {project.projectDescription}
+                      {project.projectDescription.length > 85
+                        ? `${project.projectDescription.substring(0, 85)}...`
+                        : project.projectDescription}
                     </p>
                     <p className="font-medium text-[13px] text-bm__ox__red">
                       3oo Applications{" "}
@@ -536,14 +556,18 @@ const ListCard = ({
                   <CardContent className="p-0 space-y-1">
                     <div className="flex space-x-2">
                       <h3 className="font-medium text-[12px] border-r pr-2">
-                        {project.projectTitle}
+                        {project.projectTitle.length > 15
+                          ? `${project.projectTitle.substring(0, 15)}...`
+                          : project.projectTitle}
                       </h3>
                       <p className="text-black text-[12px] font-medium">
                         Completed
                       </p>
                     </div>
                     <p className="font-normal text-[8px] leading-3">
-                      {project.projectDescription}
+                      {project.projectDescription.length > 85
+                        ? `${project.projectDescription.substring(0, 85)}...`
+                        : project.projectDescription}
                     </p>
                     <p className="font-medium text-[13px] text-bm__ox__red">
                       3oo Applications{" "}
