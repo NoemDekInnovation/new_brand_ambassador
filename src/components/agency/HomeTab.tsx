@@ -51,8 +51,8 @@ const HomeTab = () => {
           <ProjectCard card_content={favouriteTalent} card_title="Favorites" />
         </div>
         <div className="space-y-8 hidden sm:block">
-          <ListCard card_title="My Projects" card_width="w-full" />
-          <TopProjectCard card_title="Top Projects" card_width="w-full" />
+          <ListCard card_title="My Projects" card_width="w-[240px]" />
+          <TopProjectCard card_title="Top Projects" card_width="w-[240px]" />
         </div>
       </div>
     </div>
