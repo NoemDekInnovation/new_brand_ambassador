@@ -241,8 +241,7 @@ export default function TalentsView({
   const handleClear = () => {
     setSelectedLocation("all");
     setSelectedOppor("all");
-    setAgeRange({ ...ageRange, start: "" });
-    setAgeRange({ ...ageRange, end: "" });
+    setAgeRange({ end: "", start: "" });
     setSelectedGender("all");
     setSortQuery(null);
   };
@@ -516,34 +515,6 @@ export default function TalentsView({
                     </div>
                     <Separator className="bg-bm__gler/50" />
 
-                    {/* {selectedRole?.education?.length > 0 &&
-                      selectedRole.education.map(
-                        (educationItem: Education, index: number) => (
-                          <div key={index}>
-                            <p className="text-[12px] font-normal capitalize">
-                              {educationItem?.degree}
-                            </p>
-                          </div>
-                        )
-                      )} */}
-
-                    {/* {selectedRole?.education?.length > 0 && (
-                          <>
-                            <p className="text-[12px] font-normal capitalize">
-                              {selectedRole.education[0].institution}
-                            </p>
-                            <p className="text-[12px] font-normal capitalize">
-                              {selectedRole.education[0].degree}
-                            </p>
-                            <p className="text-[12px] font-normal capitalize">
-                              {selectedRole.education[0].grade}
-                            </p>
-                            <p className="text-[12px] font-normal capitalize">
-                              {selectedRole.education[0].gradYear}
-                            </p>
-                          </>
-                        )} */}
-
                     {selectedRole?.certifications?.map(
                       (certificationItem: any, index: number) => (
                         <div key={index}>
@@ -574,24 +545,6 @@ export default function TalentsView({
                     </div>
 
                     <Separator className="bg-bm__gler/50" />
-                    {/* <p className="text-[12px] font-normal">
-                          Modelling . Singing . Dancing . Paintballing . Catwalk
-                          . Leg walk . Pretty
-                        </p> */}
-                    {/* {selectedRole?.skills?.length > 0 ? (
-                      selectedRole?.skills.map((skill: [], index: number) => (
-                        <p
-                          key={index}
-                          className="text-[12px] font-normal capitalize"
-                        >
-                          {skill}
-                        </p>
-                      ))
-                    ) : (
-                      <p className="text-[12px] font-normal">
-                        No skills available
-                      </p>
-                    )} */}
                   </Card>
 
                   <Card className="p-6 flex flex-col justify-center gap-2 bg-white border-bm__beige w-full border rounded-[6px]">
@@ -1041,19 +994,6 @@ export default function TalentsView({
                                   className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px] ring-1 ring-bm_btn_grey "
                                 />
 
-                                {/* <PhoneInput
-                                  name="phone"
-                                  placeholder="Enter phone number"
-                                  {...field}
-                                  // value={"personal.alternatePhone"}
-                                  // value={personal.alternatePhone}
-                                  onChange={() => {}}
-                                  // onChange={handleAltPhoneChange}
-                                  defaultCountry="NG"
-                                  international
-                                  countryCallingCodeEditable={false}
-                                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer input-phone-number rounded-lg ring-1 ring-bm_btn_grey  sm:h-12 p-2 text-[12px] sm:p-4"
-                                /> */}
                                 {errMsg.phone && (
                                   <small className="text-red-500">
                                     {errMsg.phone}
@@ -1063,18 +1003,6 @@ export default function TalentsView({
                             )}
                           />
                         </div>
-
-                        {/* <PhoneInput
-                          placeholder="Enter phone number"
-                          value={"personal.alternatePhone"}
-                          // value={personal.alternatePhone}
-                          onChange={() => {}}
-                          // onChange={handleAltPhoneChange}
-                          defaultCountry="NG"
-                          international
-                          countryCallingCodeEditable={false}
-                          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer input-phone-number rounded-lg ring-1 ring-bm_btn_grey  sm:h-12 p-2 text-[12px] sm:p-4"
-                        /> */}
                         <DropdownMenuSeparator className="bg-bm__beige mb-3" />
                         <p className="text-[12px] md:text-[15px]">
                           Do you want to add this talent to your project?{" "}

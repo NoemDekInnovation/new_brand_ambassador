@@ -12,6 +12,7 @@ export interface talentInvitationsProps {
   pageSize: number;
   totalPages: number;
   applied: string[];
+  projectQuery: any;
 }
 
 const initialState: talentInvitationsProps = {
@@ -24,6 +25,7 @@ const initialState: talentInvitationsProps = {
   pageSize: 1,
   totalPages: 1,
   applied: [],
+  projectQuery: null,
 };
 
 export const fetchAllProjects = createAsyncThunk(
@@ -76,6 +78,9 @@ const allProjects = createSlice({
     setSearchTerm: (state, action: PayloadAction<string>) => {
       state.searchTerm = action.payload;
     },
+    setProjectQuery: (state, action) => {
+      state.projectQuery = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -103,6 +108,6 @@ const allProjects = createSlice({
   },
 });
 
-export const { setSearchTerm } = allProjects.actions;
+export const { setSearchTerm, setProjectQuery } = allProjects.actions;
 
 export default allProjects.reducer;
