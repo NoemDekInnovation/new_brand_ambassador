@@ -16,6 +16,8 @@ import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import ContractPreview from "./contractPreview";
 import { fetchTalentOffers } from "../../../redux/contract-offer";
 import { fetchTalentApplications } from "../../../redux/talentApplications.slice";
+import { campaignAuthAxiosInstance } from "../../../api/axios";
+import OfferModal from "../../../libs/OfferModal";
 
 const ContractOffers = () => {
   const [selectedProject, setSelectedProject] = useState();
@@ -30,9 +32,13 @@ const ContractOffers = () => {
   const {
     talentOffers: { offers },
   } = useSelector((state: RootState) => state.contractOffer);
+  const user = useSelector((state: RootState) => state.user);
+
   const [isLoading, setIsLoading] = useState(false);
   const [projects, setProjects] = useState();
   const [apply, setApply] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
 
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
@@ -41,6 +47,42 @@ const ContractOffers = () => {
     dispatch(fetchTalentInvitations());
     dispatch(fetchTalentOffers(null));
   }, []);
+
+  const declineOffer = async (project: any) => {
+    if (user?.user?.accountId !== undefined) {
+      try {
+        const response = await campaignAuthAxiosInstance(
+          `/accept-or-reject-offer/${project.project._id}?status=reject`,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.user?.authKey || ""}`,
+            },
+          }
+        );
+        setModalOpen(true);
+        setTimeout(() => {
+          setModalOpen(false);
+        }, 2000);
+        setStatusMessage(response.data.message || "Success");
+      } catch (error: any) {
+        console.error("Error while fetiching Notifications:", error);
+        if (error.response && error.response.status === 400) {
+          // Extract and display the specific error message from the API response
+          setStatusMessage(error.response.data.message || "Bad Request");
+        } else {
+          // Display a generic error message for other error scenarios
+          setStatusMessage("An error occurred while saving. Please try again.");
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    // Open the modal after the status message is set
+    if (statusMessage) {
+      setModalOpen(true);
+    }
+  }, [statusMessage]);
 
   return (
     <>
@@ -129,7 +171,7 @@ const ContractOffers = () => {
                   <button
                     className="border-red-500 text-red-500 rounded-md max-w-fit text-[12px] mt-2 p-1 px-4 border"
                     onClick={() => {
-                      handleProfilePopUp(project);
+                      declineOffer(project);
                       setApply(true);
                     }}
                   >
@@ -185,6 +227,11 @@ const ContractOffers = () => {
         popUp={popUp}
         setPopUp={() => setPopUp(!popUp)}
         selectedProject={selectedProject}
+      />
+      <OfferModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        statusMessage={statusMessage}
       />
     </>
   );

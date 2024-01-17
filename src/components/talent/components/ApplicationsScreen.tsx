@@ -175,7 +175,7 @@ export default function ApplicationsScreen({}) {
             }
             `}
             >
-              Contract Offers {"  "}
+              Offers {"  "}
               <span className="text-[12px] font-bold">({totalOffers})</span>
             </p>
             <p
