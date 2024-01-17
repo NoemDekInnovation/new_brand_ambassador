@@ -1,21 +1,7 @@
-import drago from "../../../assets/drago.jpg";
-
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../../../ui/card";
+import { Card, CardHeader, CardTitle } from "../../../ui/card";
 import { Separator } from "../../../ui/seperator";
 
-import {
-  BiChevronLeft,
-  BiChevronRight,
-  BiChevronsLeft,
-  BiChevronsRight,
-  BiSortAlt2,
-} from "react-icons/bi";
+import { BiSortAlt2 } from "react-icons/bi";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,13 +10,11 @@ import {
   DropdownMenuTrigger,
 } from "../../../ui/dropdown-menu";
 import { Input } from "../../../ui/input";
-import { CiHeart } from "react-icons/ci";
-import { GoChecklist } from "react-icons/go";
-import { ChangeEvent, useEffect, useState } from "react";
-import { campaignAuthAxiosInstance } from "../../../api/axios";
+
+import { ChangeEvent, useState } from "react";
+
 import { RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import AllInvitations from "./AllInvitations";
 import Available from "./Available";
 import { setSearchTerm } from "../../../redux/talent/allProjects.slice";
 import { FaArrowRight } from "react-icons/fa";
@@ -43,41 +27,14 @@ import {
 import { setPageQuery } from "../../../redux/talent.slice";
 
 export default function AvailableProjects({ screen }: { screen?: string }) {
-  const { user } = useSelector((state: RootState) => state.user);
   const { page, pageSize, totalPages, totalProjects } = useSelector(
     (state: RootState) => state.allTalentProject
   );
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [projects, setProjects] = useState();
-
-  useEffect(() => {
-    setIsLoading(true);
-
-    const fetchProjects = async () => {
-      if (user?.accountId !== undefined) {
-        try {
-          const response = await campaignAuthAxiosInstance("", {
-            headers: {
-              Authorization: `Bearer ${user.authKey || ""}`,
-            },
-          });
-          setProjects(response?.data?.data.projects);
-        } catch (error) {
-          console.error("Error while fetiching projects:", error);
-          // Handle error appropriately (e.g., show a user-friendly message)
-        }
-      }
-    };
-    fetchProjects();
-    setIsLoading(false);
-  }, [user?.accountId]);
 
   const dispatch = useDispatch();
 
   const handleSearchTermChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchTerm(e.target.value));
-    // dispatch(setCurrentPage(1)); // Resets current page when search term changes
   };
 
   const negativePage = pageSize - 1;

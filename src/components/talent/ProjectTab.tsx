@@ -59,18 +59,19 @@ const ProjectTab = () => {
 
   const [selectedGender, setSelectedGender] = useState("all");
   const [selectedOppor, setSelectedOppor] = useState("all");
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [category, setCategory] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState("");
   const [ageRange, setAgeRange] = useState({ start: "", end: "" });
   const [sortQuery, setSortQuery] = useState<any>(null);
 
-  console.log(selectedCategory);
-
   const { talentInvitations } = useSelector(
     (state: RootState) => state.talentInvite
   );
   const { pageQuery } = useSelector((state: RootState) => state.talent);
+  const { projectQueryx } = useSelector(
+    (state: RootState) => state.contractOffer
+  );
   const { projectQuery } = useSelector(
     (state: RootState) => state.allTalentProject
   );
@@ -134,8 +135,6 @@ const ProjectTab = () => {
     setAgeRange({ ...ageRange, start: e.target.value });
   };
 
-  console.log(ageRange);
-
   const handlePaymentEndChange = (e: any) => {
     updateQuery({ maxSalary: e.target.value });
     setAgeRange({ ...ageRange, end: e.target.value });
@@ -179,9 +178,12 @@ const ProjectTab = () => {
 
   useEffect(() => {
     dispatch(fetchAllProjects(projectQuery));
-    dispatch(fetchTalentOffers(projectQuery));
     dispatch(fetchTalentApplications(projectQuery));
   }, [dispatch, projectQuery]);
+
+  useEffect(() => {
+    dispatch(fetchTalentOffers(projectQueryx));
+  }, [dispatch, projectQueryx]);
 
   useEffect(() => {
     dispatch(fetchTalentApplications(pageQuery));
@@ -201,12 +203,6 @@ const ProjectTab = () => {
       }
     }, 1000);
   }, [activeProjectClick]);
-
-  // const categoryOptions = categoryData.map((option: any) => ({
-  //   value: option,
-  //   label: option,
-  // }));
-  console.log(categoryOptions);
 
   return (
     <div className="bg-bm_card_grey">

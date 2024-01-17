@@ -45,7 +45,7 @@ const RejectedInvitations = ({ invitations }: { invitations: any }) => {
         <div className="overflow-y-scroll h-[57vh]">
           {invitations?.map((project: any, idx: number) => {
             return (
-              project.status === "rejected" && ( 
+              project.status === "rejected" && (
                 <div
                   key={idx}
                   className="border rounded mb-4 p-3 hover:bg-black/10 transition-all duration-300 cursor-pointer"
@@ -73,7 +73,10 @@ const RejectedInvitations = ({ invitations }: { invitations: any }) => {
                         >
                           {project?.project?.projectTitle}
 
-                          <span className="text-[10px] mx-1">(In-store)</span>
+                          <span className="text-[10px] mx-1">
+                            {" "}
+                            ({project?.project?.projectCategory})
+                          </span>
                         </h3>
                         <CiHeart />
                       </div>

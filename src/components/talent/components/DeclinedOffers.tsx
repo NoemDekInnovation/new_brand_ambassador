@@ -1,50 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import drago from "../../../assets/drago.jpg";
-
 import { CardContent, CardFooter } from "../../../ui/card";
-
 import Moment from "react-moment";
-
 import { CiHeart } from "react-icons/ci";
 import { GoChecklist } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/store";
-import { fetchTalentInvitations } from "../../../redux/talentInvitations.slice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 import { Separator } from "../../../ui/seperator";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import ContractPreview from "./contractPreview";
 
-const DeclinedOffers = ({ invitations }: { invitations: any }) => {
+const DeclinedOffers = () => {
   const [selectedProject, setSelectedProject] = useState();
   const [popUp, setPopUp] = useState(false);
 
   const handleProfilePopUp = (project: any) => {
     setSelectedProject(project);
     setPopUp(!popUp);
-    // setSelectedRole(talent);
   };
 
-  const { talentInvitations } = useSelector(
-    (state: RootState) => state.talentInvite
-  );
-  const [isLoading, setIsLoading] = useState(false);
-  const [projects, setProjects] = useState();
+  const {
+    talentOffers: { offers },
+  } = useSelector((state: RootState) => state.contractOffer);
+
   const [apply, setApply] = useState(false);
-
-  const dispatch = useDispatch<AppDispatch>();
-  useEffect(() => {
-    setIsLoading(true);
-
-    dispatch(fetchTalentInvitations());
-  }, []);
 
   return (
     <>
       <div>
         <div className="overflow-y-scroll h-[57vh]">
-          {invitations?.map((project: any, idx: number) => {
+          {offers?.map((project: any, idx: number) => {
             return (
-              project.status === "applied" && (
+              project.status === "rejected" && (
                 <div
                   key={idx}
                   className="border rounded mb-4 p-3 hover:bg-black/10 transition-all duration-300 cursor-pointer"
@@ -72,7 +59,10 @@ const DeclinedOffers = ({ invitations }: { invitations: any }) => {
                         >
                           {project?.project?.projectTitle}
 
-                          <span className="text-[10px] mx-1">(In-store)</span>
+                          <span className="text-[10px] mx-1">
+                            {" "}
+                            ({project?.project?.projectCategory})
+                          </span>
                         </h3>
                         <CiHeart />
                       </div>

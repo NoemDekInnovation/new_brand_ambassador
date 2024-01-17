@@ -91,7 +91,10 @@ const Available = () => {
                       >
                         {project?.projectTitle}
 
-                        <span className="text-[10px] mx-1">(In-store)</span>
+                        <span className="text-[10px] mx-1">
+                          {" "}
+                          ({project?.projectCategory})
+                        </span>
                       </h3>
                       <CiHeart />
                     </div>
