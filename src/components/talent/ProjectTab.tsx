@@ -20,6 +20,25 @@ import {
 import ApplicationsScreen from "./components/ApplicationsScreen";
 import { fetchTalentApplications } from "../../redux/talentApplications.slice";
 import { fetchTalentOffers } from "../../redux/contract-offer";
+import SelectOption from "../../libs/select";
+
+const categoryOptions: any = [
+  { value: "advertising", label: "Advertising" },
+  { value: "branding", label: "Branding" },
+  { value: "content-creation", label: "Content Creation" },
+  { value: "digital-marketing", label: "Digital Marketing" },
+  { value: "event", label: "Event" },
+  { value: "experiential-marketing", label: "Experiential Marketing" },
+  { value: "influencer-marketing", label: "Influencer Marketing" },
+  { value: "marketing", label: "Marketing" },
+  { value: "public-relations", label: "Public Relations" },
+  { value: "social-media", label: "Social Media" },
+  { value: "strategy", label: "Strategy" },
+  { value: "other", label: "Other" },
+  { value: "open-market", label: "Open market" },
+  { value: "in-store", label: "In-store" },
+  { value: "fashion", label: "Fashion" },
+];
 
 type ProjectType =
   | "Available Projects"
@@ -40,9 +59,13 @@ const ProjectTab = () => {
 
   const [selectedGender, setSelectedGender] = useState("all");
   const [selectedOppor, setSelectedOppor] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [category, setCategory] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState("");
   const [ageRange, setAgeRange] = useState({ start: "", end: "" });
   const [sortQuery, setSortQuery] = useState<any>(null);
+
+  console.log(selectedCategory);
 
   const { talentInvitations } = useSelector(
     (state: RootState) => state.talentInvite
@@ -179,6 +202,12 @@ const ProjectTab = () => {
     }, 1000);
   }, [activeProjectClick]);
 
+  // const categoryOptions = categoryData.map((option: any) => ({
+  //   value: option,
+  //   label: option,
+  // }));
+  console.log(categoryOptions);
+
   return (
     <div className="bg-bm_card_grey">
       <div className="pr-4 md:pr-12 xl:pr-40 ">
@@ -200,7 +229,7 @@ const ProjectTab = () => {
                     <p className="text-[14px] font-semibold mb-2">Category</p>
                     <Separator className="bg-bm__beige" />
                     {/* <RadioGroup value={selectedGender} onChange={handleGenderChange}></RadioGroup> */}
-                    <RadioGroup
+                    {/* <RadioGroup
                       defaultValue=""
                       className="mt-2"
                       onValueChange={handleCategoryChange}
@@ -232,7 +261,24 @@ const ProjectTab = () => {
                           Road Survey{" "}
                         </Label>
                       </div>
-                    </RadioGroup>
+                    </RadioGroup> */}
+                    <SelectOption
+                      id="state"
+                      name="state"
+                      defaultValue={{
+                        value: selectedCategory,
+                        label: selectedCategory,
+                      }}
+                      options={categoryOptions}
+                      onChange={(e: any) => {
+                        updateQuery({ category: e?.value });
+                        setSelectedCategory(e?.value);
+                      }}
+                      placeholder="State of origin"
+                      required
+                      isDisabled={false}
+                      className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
+                    />
                   </div>
                   <Separator className="bg-bm__beige h-[2px]" />
                   <div className=" ">
