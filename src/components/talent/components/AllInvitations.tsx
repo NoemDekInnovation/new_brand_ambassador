@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchTalentInvitations } from "../../../redux/talentInvitations.slice";
 
-const AllInvitations = ({ invitations }: { invitations: any}) => {
+const AllInvitations = ({ invitations }: { invitations: any }) => {
   const [selectedProject, setSelectedProject] = useState();
   const [popUp, setPopUp] = useState(false);
 
@@ -67,7 +67,10 @@ const AllInvitations = ({ invitations }: { invitations: any}) => {
                       >
                         {project?.project?.projectTitle}
 
-                        <span className="text-[10px] mx-1">(In-store)</span>
+                        <span className="text-[10px] mx-1">
+                          {" "}
+                          ({project?.project?.projectCategory})
+                        </span>
                       </h3>
                       <CiHeart />
                     </div>

@@ -12,6 +12,7 @@ export interface talentInvitationsProps {
   totalOffers: number;
   totalAccepted: number;
   totalRejected: number;
+  projectQueryx: any;
   totalPages: number;
 }
 
@@ -25,6 +26,7 @@ const initialState: talentInvitationsProps = {
   totalOffers: 0,
   totalPages: 1,
   totalAccepted: 0,
+  projectQueryx: null,
   totalRejected: 0,
 };
 
@@ -73,7 +75,11 @@ export const fetchTalentOffers = createAsyncThunk(
 const talentOffers = createSlice({
   name: "talents",
   initialState,
-  reducers: {},
+  reducers: {
+    setProjectQueryx: (state, action) => {
+      state.projectQueryx = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTalentOffers.pending, (state) => {
@@ -101,5 +107,7 @@ const talentOffers = createSlice({
       });
   },
 });
+
+export const { setProjectQueryx } = talentOffers.actions;
 
 export default talentOffers.reducer;

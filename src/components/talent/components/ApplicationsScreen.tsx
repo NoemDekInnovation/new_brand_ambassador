@@ -38,6 +38,7 @@ import ContractOffers from "./ContractOffers";
 import AcceptOffers from "./AcceptOffers";
 import DeclinedOffers from "./DeclinedOffers";
 import { setProjectQuery } from "../../../redux/talent/allProjects.slice";
+import { setProjectQueryx } from "../../../redux/contract-offer";
 
 type ApplicationType =
   | "Contract Offers"
@@ -65,13 +66,12 @@ export default function ApplicationsScreen({}) {
 
   const handleInviteChange = (type: ApplicationType) => {
     setApplications(type);
-    console.log("hello zeek");
     if (type === "Accepted Offers") {
-      dispatch(setProjectQuery({ status: "accepted" }));
+      dispatch(setProjectQueryx({ status: "accepted" }));
     }
 
     if (type === "Declined Offer") {
-      dispatch(setProjectQuery({ status: "rejected" }));
+      dispatch(setProjectQueryx({ status: "rejected" }));
     }
   };
 
@@ -97,10 +97,10 @@ export default function ApplicationsScreen({}) {
       applicationList = <ContractOffers />;
       break;
     case "Accepted Offers":
-      applicationList = <AcceptOffers invitations={filteredApplications} />;
+      applicationList = <AcceptOffers />;
       break;
     case "Declined Offer":
-      applicationList = <DeclinedOffers invitations={filteredApplications} />;
+      applicationList = <DeclinedOffers />;
       break;
     default:
       applicationList = null;

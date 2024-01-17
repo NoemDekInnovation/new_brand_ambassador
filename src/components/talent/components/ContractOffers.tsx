@@ -52,7 +52,7 @@ const ContractOffers = () => {
     if (user?.user?.accountId !== undefined) {
       try {
         const response = await campaignAuthAxiosInstance(
-          `/accept-or-reject-offer/${project.project._id}?status=reject`,
+          `/accept-or-reject-offer/${project.project._id}?status=rejected`,
           {
             headers: {
               Authorization: `Bearer ${user?.user?.authKey || ""}`,
@@ -112,7 +112,9 @@ const ContractOffers = () => {
                       >
                         {project?.project?.projectTitle}
 
-                        <span className="text-[10px] mx-1">(In-store)</span>
+                        <span className="text-[10px] mx-1">
+                          ({project?.project?.projectCategory})
+                        </span>
                       </h3>
                       <CiHeart />
                     </div>
