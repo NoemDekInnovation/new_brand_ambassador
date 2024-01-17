@@ -7,7 +7,15 @@ import { campaignAuthAxiosInstance } from "../../../api/axios";
 import { ImAttachment } from "react-icons/im";
 import OfferModal from "../../../libs/OfferModal";
 
-const ContractOfferCard = ({ selectedProject }: { selectedProject: any }) => {
+const ContractOfferCard = ({
+  selectedProject,
+  setPopUp,
+  close,
+}: {
+  setPopUp: any;
+  close: any;
+  selectedProject: any;
+}) => {
   const {
     talentOffers: { offers },
   } = useSelector((state: RootState) => state.contractOffer);
@@ -61,6 +69,12 @@ const ContractOfferCard = ({ selectedProject }: { selectedProject: any }) => {
             },
           }
         );
+        setModalOpen(true);
+        setTimeout(() => {
+          setModalOpen(false);
+          close();
+          setPopUp();
+        }, 2000);
         setStatusMessage(response.data.message || "Success");
       } catch (error: any) {
         console.error("Error while fetiching Notifications:", error);
@@ -120,16 +134,29 @@ const ContractOfferCard = ({ selectedProject }: { selectedProject: any }) => {
       <div className="flex w-full justify-between mt-3 md:mt-6">
         <div
           className="light__btn cursor-pointer max-w-fit"
-          onClick={() => acceptOffer("rejected")}
+          onClick={() => {
+            close();
+            setPopUp();
+          }}
         >
           Cancel
         </div>
-        <div
-          className="dark__btn cursor-pointer max-w-fit"
-          // onClick={() => acceptOffer("accepted")}
-          onClick={handleOffer}
-        >
-          Accept
+        <div className="flex gap-2">
+          <div
+            className="border-red-500 text-red-500 rounded-md max-w-fit cursor-pointer  p-1 px-6 border"
+            // onClick={() => acceptOffer("accepted")}
+            onClick={() => acceptOffer("rejected")}
+          >
+            Reject
+          </div>
+
+          <div
+            className="dark__btn cursor-pointer max-w-fit"
+            onClick={() => acceptOffer("accepted")}
+            // onClick={handleOffer}
+          >
+            Accept
+          </div>
         </div>
         <OfferModal
           isOpen={isModalOpen}

@@ -29,16 +29,16 @@ import subtract1 from "../../../assets/subtract-lenght.jpg";
 import subtract3 from "../../../assets/subtract-lenght-3.jpg";
 
 const ContractPreview = ({
+  selectedProject,
   popUp,
   setPopUp,
-  selectedProject,
   close,
 }: {
-  setApply: any;
+  setPopUp: any;
   close: any;
+  setApply: any;
   apply: boolean;
   popUp: boolean;
-  setPopUp: any;
   selectedProject: any;
 }) => {
   const startDate = new Date(
@@ -74,7 +74,13 @@ const ContractPreview = ({
       contractCard = <ApplicationCard selectedProject={selectedProject} />;
       break;
     case "Contract Offer":
-      contractCard = <ContractOfferCard selectedProject={selectedProject} />;
+      contractCard = (
+        <ContractOfferCard
+          selectedProject={selectedProject}
+          setPopUp={setPopUp}
+          close={close}
+        />
+      );
       break;
 
     default:
@@ -180,7 +186,7 @@ const ContractPreview = ({
               } absolute top-[25%]  z-20 text-[16px]`}
             >
               {" "}
-              Contract Offer
+              Offer
             </p>
             {/* <img src={subtract2} alt="" className=" z-10 w-[350px] h-[45px]" /> */}
             {activeCard === "Contract Offer" && (
