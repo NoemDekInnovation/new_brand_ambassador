@@ -63,6 +63,7 @@ import {
   setApproval,
 } from "../../redux/applicantions.slice";
 import { any } from "zod";
+import { TalentQueryProp, setTalentQuery } from "../../redux/talent.slice";
 
 const categoryOptions: any = [
   { value: "All Talent", label: "All Talent" },
@@ -126,6 +127,8 @@ const ApplyDetailsInfo = ({
   const [selectedTalentID, setSelectedTalentID] = useState("");
   const [projectModal, setProjectModal] = useState(false);
   const [activeType, setActiveType] = useState<TalentType>("All Talent");
+  const [gender, setGender] = useState("");
+  const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>(null);
   const [appStatus, setAppStatus] = useState<AppProps>("All");
 
   const onTalentTypeChnage = (type: TalentType) => {
@@ -156,6 +159,7 @@ const ApplyDetailsInfo = ({
     setSelectedOppor("all");
     setAgeRange({ ...ageRange, start: "" });
     setAgeRange({ ...ageRange, end: "" });
+    setSortQuery(null);
     setSelectedGender("all");
   };
 
@@ -399,7 +403,20 @@ const ApplyDetailsInfo = ({
       pageTalents = null;
   }
 
-  // const [talentType];
+  const updateQuery = (newValues: any) => {
+    setSortQuery((prevQuery: any) => ({ ...prevQuery, ...newValues }));
+  };
+
+  const handleGenderChange = (gender: any) => {
+    updateQuery({ gender });
+    setGender(gender);
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(setTalentQuery(sortQuery));
+    }, 1000);
+  }, [sortQuery]);
 
   return (
     <>
@@ -538,16 +555,21 @@ const ApplyDetailsInfo = ({
               isDisabled={false}
             />
           </div>
-          <RadioGroup defaultValue="Male" className="flex">
+          <RadioGroup
+            onValueChange={handleGenderChange}
+            className="flex"
+            value={gender}
+            defaultValue=""
+          >
             <div className="flex items-center space-x-2">
               <Label htmlFor="r1">Gender:</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="Male" id="r2" />
+              <RadioGroupItem value="male" id="r2" />
               <Label htmlFor="r2">Male</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="Female" id="r3" />
+              <RadioGroupItem value="female" id="r3" />
               <Label htmlFor="r3">Female</Label>
             </div>
           </RadioGroup>

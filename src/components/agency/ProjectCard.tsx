@@ -155,9 +155,6 @@ export function CurrentProjects({
                 options
               )}{" "}
               . {project.projectLocation}
-              {/* Nov 30 - December 30 . Lagos, Abuja, Ogun, Plateau */}
-              {/* {project.projectPost.startDate} - {project.projectPost.endDate} .{" "}
-            {project.projectLocation} */}
             </div>
           </div>
         </Card>
