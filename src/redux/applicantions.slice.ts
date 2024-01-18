@@ -36,6 +36,8 @@ export const fetchApplications = createAsyncThunk(
               },
             }
           );
+          console.log(response.data);
+
           return response.data.data;
         }
 
@@ -47,6 +49,8 @@ export const fetchApplications = createAsyncThunk(
             },
           }
         );
+        console.log(response.data);
+
         return response.data;
       }
     } catch (error) {

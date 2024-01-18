@@ -27,7 +27,7 @@ const HeartIcon = ({
 
     const todo = favorites;
 
-    const matchingObject = todo.find((item: any) => item.favedBy === tobi);
+    const matchingObject = todo?.find((item: any) => item.favedBy === tobi);
 
     if (matchingObject) {
       setIsFavorite(false);

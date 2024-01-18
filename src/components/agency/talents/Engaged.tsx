@@ -51,6 +51,7 @@ const Engaged = ({
   }, [dispatch]);
 
   const [projectModal, setProjectModal] = useState(false);
+  console.log(engageTalents);
 
   return (
     <>
@@ -58,11 +59,11 @@ const Engaged = ({
         <div className="flex w-full justify-center ">
           <div className="flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3  flex-wrap overflow-y-scroll h-[550px] w-full ">
             {/* {talents} */}
-            {engageTalents?.map((_: TalentProps, idx: number) => {
+            {engageTalents?.map((_: any, idx: number) => {
               return (
-                <TalentGrids
+                <TalentGrid
                   key={idx}
-                  _={_}
+                  _={_?.talent}
                   modal={projectModal}
                   setModal={() => setProjectModal}
                   idx={idx}
@@ -84,10 +85,10 @@ const Engaged = ({
       )}
       {!gridView && (
         <div className="flex flex-col w-full gap-3">
-          {engageTalents?.map((_: TalentProps, idx: number) => {
+          {engageTalents?.map((_: any, idx: number) => {
             return (
               <TalentList
-                talent={_}
+                talent={_?.talent}
                 index={idx}
                 handleInvite={""}
                 setSelectedProject={""}

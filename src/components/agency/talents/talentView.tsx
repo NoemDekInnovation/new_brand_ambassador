@@ -85,28 +85,30 @@ export const TalentList = ({
     <div key={index} className="bg-white border rounded flex">
       <div onClick={() => handleProfilePopUp(talent)}>
         {talent.profilePic === "" && (
-          <img
-            src={Logo}
-            alt=""
-            width={260}
-            height={260}
-            style={{
-              borderRadius: 5,
-              height: 108,
-              width: 86,
-            }}
-            className=" hover:grayscale-0 grayscale "
-          />
+          <div className="bg-black/70 w-[196px] h-[162px] rounded-md">
+            <img
+              src={Logo}
+              alt=""
+              // width={260}
+              // height={260}
+              style={{
+                borderRadius: 5,
+                // height: 108,
+                // width: 86,
+              }}
+              className=" hover:grayscale-0 grayscale w-full max-w-[200px] h-full max-h-[200px] object-cover"
+            />
+          </div>
         )}
         {talent.profilePic && (
-          <img
-            src={talent.profilePic}
-            alt=""
-            width={260}
-            height={260}
-            style={{ borderRadius: 5 }}
-            className=" hover:grayscale-0 grayscale  w-[196px] h-[162px] object-cover"
-          />
+          <div className="bg-black/70 w-[196px] h-[162px] rounded-md">
+            <img
+              src={talent.profilePic}
+              alt=""
+              style={{ borderRadius: 5 }}
+              className=" hover:grayscale-0 grayscale w-full max-w-[200px] h-full max-h-[200px] object-cover"
+            />
+          </div>
         )}
       </div>
       <div className="p-2 w-full">

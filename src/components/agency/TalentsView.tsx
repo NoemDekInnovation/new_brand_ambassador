@@ -107,6 +107,9 @@ export default function TalentsView({
     false
   );
 
+  const [gender, setGender] = useState("");
+  const [talentType, setTalentType] = useState("");
+
   const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>(null);
 
   const [activeType, setActiveType] = useState<TalentType | null>(null);
@@ -207,10 +210,12 @@ export default function TalentsView({
 
   const handleGenderChange = (gender: any) => {
     updateQuery({ gender });
+    setGender(gender);
   };
 
   const handleRoleChange = (role: any) => {
     updateQuery({ opportunities: role });
+    setTalentType(role);
   };
 
   const handleStartAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -244,6 +249,8 @@ export default function TalentsView({
     setAgeRange({ end: "", start: "" });
     setSelectedGender("all");
     setSortQuery(null);
+    setGender("");
+    setTalentType("");
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1190,6 +1197,7 @@ export default function TalentsView({
                         <Separator className="bg-bm__beige" />
                         {/* <RadioGroup value={selectedGender} onChange={handleGenderChange}></RadioGroup> */}
                         <RadioGroup
+                          value={gender}
                           defaultValue=""
                           className="mt-2"
                           onValueChange={handleGenderChange}
