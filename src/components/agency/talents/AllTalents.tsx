@@ -106,7 +106,7 @@ const AllTalents = ({
         </div>
       )}
       {!gridView && (
-        <div className="flex flex-col w-full gap-3">
+        <div className="flex flex-col w-full gap-3 mt-2    w-full overflow-y-scroll h-[650px] pb-10">
           {resTalents?.map((_, idx: number) => {
             return (
               <TalentList

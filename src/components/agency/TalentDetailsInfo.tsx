@@ -362,14 +362,6 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
           {pageTalents}
         </div>
         <Separator className="my-2 md:my-4" />
-        {/* <Pagination
-          first={""}
-          last={""}
-          prev={""}
-          next={""}
-          currentPage={1}
-          count={resTalents?.length || 0}
-        /> */}
       </CardContent>
     </>
   );
