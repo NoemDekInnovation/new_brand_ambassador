@@ -52,7 +52,7 @@ const ProjectPreview = ({
     day: "numeric",
   });
 
-  const { talents: resTalents } = useSelector(
+  const { talents: resTalents, totalTalent } = useSelector(
     (state: RootState) => state.talent
   );
 
@@ -175,7 +175,7 @@ const ProjectPreview = ({
                 <p className="absolute top-[25%] text-[16px] z-20">
                   Invite Talent
                   <span className="text-[14px] font-bold">
-                    ({resTalents?.length || 0})
+                    ({totalTalent || 0})
                   </span>
                 </p>
                 <div className=" bg-white w-[8px] h-[55px]"></div>

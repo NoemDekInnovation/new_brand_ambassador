@@ -68,7 +68,9 @@ export const ProjectViewCard = ({
   };
 
   useEffect(() => {
-    dispatch(fetchApplications({ id: selectedProject?._id }));
+    dispatch(
+      fetchApplications({ id: selectedProject?._id, queryParams: null })
+    );
     dispatch(fetchHiredTalent({ id: selectedProject?._id }));
   }, [popUp]);
 
