@@ -44,7 +44,11 @@ import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
 
 import { Label } from "../../ui/label";
 import { Checkbox } from "../../ui/checkbox";
-import { TalentQueryProp, setTalentQuery } from "../../redux/talent.slice";
+import {
+  TalentQueryProp,
+  setPageQuery,
+  setTalentQuery,
+} from "../../redux/talent.slice";
 
 const categoryOptions: any = [
   { value: "All Talent", label: "All Talent" },
@@ -114,10 +118,14 @@ const TalentDetailsInfo = ({
   };
 
   const dispatch = useDispatch<AppDispatch>();
-  const { talents: resTalents } = useSelector(
-    (state: RootState) => state.talent
-  );
-  // console.log(resTalents);
+  const {
+    talents: resTalents,
+    totalPages,
+    totalTalent,
+    page,
+    pageSize,
+  } = useSelector((state: RootState) => state.talent);
+  console.log(resTalents);
 
   useEffect(() => {
     const fetchTalents = async () => {
@@ -328,6 +336,10 @@ const TalentDetailsInfo = ({
       dispatch(setTalentQuery(sortQuery));
     }, 1000);
   }, [sortQuery]);
+
+  const negativePage = pageSize - 1;
+  const positivePage = pageSize + 1;
+
   return (
     <>
       <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0">
@@ -414,7 +426,6 @@ const TalentDetailsInfo = ({
 
           <div className="flex-1">
             <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
-
             <div className="flex justify-between flex-col gap-2 lg:flex-row items-center">
               <div className="relative h-full flex items-center gap-4">
                 <Checkbox />
@@ -488,22 +499,59 @@ const TalentDetailsInfo = ({
                 </div>
               </div>
             </div>
-            <div className="flex w-full justify-end items-center text-[10px] font-normal ">
-              1-{resTalents?.length} of {resTalents?.length}
-              <BsChevronDoubleLeft className="mx-4" />
-              <BsChevronLeft />
-              <BsChevronRight className="mx-4" />
-              <BsChevronDoubleRight />
-            </div>
             <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
+            <div className="flex w-full justify-end items-center text-[10px] font-normal">
+              {page * pageSize - negativePage}-
+              {page * pageSize >= totalTalent ? totalTalent : page * pageSize}{" "}
+              of {totalTalent}
+              {page * pageSize - negativePage <= pageSize && (
+                <BsChevronDoubleLeft className="ml-4 text-slate-400 p-1 text-[16px]" />
+              )}
+              {page * pageSize - negativePage >= positivePage && (
+                <BsChevronDoubleLeft
+                  className="ml-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                  onClick={() => {
+                    dispatch(setPageQuery({ page: 1 }));
+                  }}
+                />
+              )}
+              {page * pageSize - negativePage <= pageSize && (
+                <BsChevronLeft className="mx-4 text-slate-400 p-1 text-[16px]" />
+              )}
+              {page * pageSize - negativePage >= positivePage && (
+                <BsChevronLeft
+                  className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                  onClick={() => {
+                    dispatch(setPageQuery({ page: page - 1 }));
+                  }}
+                />
+              )}
+              {page * pageSize < totalTalent && (
+                <BsChevronRight
+                  className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                  onClick={() => {
+                    dispatch(setPageQuery({ page: page + 1 }));
+                  }}
+                />
+              )}
+              {page * pageSize >= totalTalent && (
+                <BsChevronRight className="mx-4 text-slate-400 p-1 text-[16px]" />
+              )}
+              {page * pageSize < totalTalent && (
+                <BsChevronDoubleRight
+                  className="mr-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                  onClick={() => {
+                    dispatch(setPageQuery({ page: totalPages }));
+                  }}
+                />
+              )}
+              {page * pageSize >= totalTalent && (
+                <BsChevronDoubleRight className="text-slate-400 p-1 text-[16px] mr-4" />
+              )}
+            </div>{" "}
             <Separator className="my-2" />
-
             {pageTalents}
           </div>
-          <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
-          <Separator className="my-2" />
-
-          {pageTalents}
         </div>
         <Separator className="my-2 md:my-4" />
         <Pagination

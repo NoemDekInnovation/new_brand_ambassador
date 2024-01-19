@@ -9,6 +9,18 @@ export interface ApplicationsProps {
   applications: any;
   status: "shortlisted" | "rejected" | "hired" | "All";
   applicationsQuery: any;
+  page: 1;
+  pageSize: 20;
+  projectApplications: [];
+  totalApplications: number;
+  totalApprovedHires: number | null;
+  totalBAs: number | null;
+  totalPages: number | null;
+  totalRejected: number | null;
+  totalShortlists: number | null;
+  totalSupervisors: number | null;
+  totalTrained: number | null;
+  totalUshers: number | null;
 }
 
 const initialState: ApplicationsProps = {
@@ -18,16 +30,59 @@ const initialState: ApplicationsProps = {
   applications: [],
   applicationsQuery: [],
   status: "All",
+  page: 1,
+  pageSize: 20,
+  projectApplications: [],
+  totalApplications: 0,
+  totalApprovedHires: 0,
+  totalBAs: 0,
+  totalPages: 0,
+  totalRejected: 0,
+  totalShortlists: 0,
+  totalSupervisors: 0,
+  totalTrained: 0,
+  totalUshers: 0,
 };
 
 export const fetchApplications = createAsyncThunk(
   "talents/Applications",
-  async ({ id, status }: { id: string; status?: string }) => {
+  async (
+    {
+      id,
+      status,
+      queryParams,
+    }: {
+      id: string;
+      status?: string;
+      queryParams: { [key: string]: string | number } | null;
+    },
+    thunkAPI
+  ) => {
     const user = localStorage.getItem("userData");
     try {
       if (user !== null) {
         const parsedUser = JSON.parse(user);
         if (status !== undefined && status !== null) {
+          if (queryParams !== null && queryParams !== undefined) {
+            // Build the query string based on the dynamic queryParams object
+            const queryString = Object.entries(queryParams)
+              .map(([key, value]) => `${key}=${value}`)
+              .join("&");
+
+            const response = await campaignAuthAxiosInstance(
+              `/shortlist-filter?project=${id}&status=${status}&${queryString}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${parsedUser.authKey}`,
+                },
+              }
+            );
+
+            // console.log("All Talent", response?.data?.data);
+
+            return response?.data?.data;
+          }
+
           const response = await campaignAuthAxiosInstance(
             `/shortlist-filter?project=${id}&status=${status}`,
             {
@@ -40,6 +95,25 @@ export const fetchApplications = createAsyncThunk(
 
           return response.data.data;
         }
+        if (queryParams !== null && queryParams !== undefined) {
+          // Build the query string based on the dynamic queryParams object
+          const queryString = Object.entries(queryParams)
+            .map(([key, value]) => `${key}=${value}`)
+            .join("&");
+
+          const response = await campaignAuthAxiosInstance(
+            `/project-applications/${id}?${queryString}`,
+            {
+              headers: {
+                Authorization: `Bearer ${parsedUser.authKey}`,
+              },
+            }
+          );
+
+          // console.log("All Talent", response?.data?.data);
+
+          return response?.data;
+        }
 
         const response = await campaignAuthAxiosInstance(
           `/project-applications/${id}`,
@@ -49,7 +123,7 @@ export const fetchApplications = createAsyncThunk(
             },
           }
         );
-        console.log(response.data);
+        console.log(response.data, "hello");
 
         return response.data;
       }
@@ -107,6 +181,17 @@ const Applications = createSlice({
           state.loading = false;
           state.error = null;
           state.applications = action.payload;
+          state.pageSize = action.payload?.data?.pageSize;
+          state.totalPages = action.payload?.data?.totalPages;
+          state.totalApplications = action.payload?.data?.totalApplications;
+          state.totalApprovedHires = action.payload?.data?.totalApprovedHires;
+          state.totalBAs = action.payload?.data?.totalBAs;
+          state.totalPages = action.payload?.data?.totalPages;
+          state.totalRejected = action.payload?.data?.totalRejected;
+          state.totalShortlists = action.payload?.data?.totalShortlists;
+          state.totalSupervisors = action.payload?.data?.totalSupervisors;
+          state.totalTrained = action.payload?.data?.totalTrained;
+          state.totalUshers = action.payload?.data?.totalUshers;
         }
       )
       .addCase(fetchApplications.rejected, (state, action) => {

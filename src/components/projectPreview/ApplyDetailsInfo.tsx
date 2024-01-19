@@ -50,7 +50,11 @@ import {
   setApproval,
 } from "../../redux/applicantions.slice";
 import { any } from "zod";
-import { TalentQueryProp, setTalentQuery } from "../../redux/talent.slice";
+import {
+  TalentQueryProp,
+  setPageQuery,
+  setTalentQuery,
+} from "../../redux/talent.slice";
 
 const categoryOptions: any = [
   { value: "All Talent", label: "All Talent" },
@@ -114,6 +118,7 @@ const ApplyDetailsInfo = ({
   const [selectedTalentID, setSelectedTalentID] = useState("");
   const [projectModal, setProjectModal] = useState(false);
   const [activeType, setActiveType] = useState<TalentType>("All Talent");
+  const [talentType, setTalentType] = useState("");
   const [gender, setGender] = useState("");
   const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>(null);
   const [appStatus, setAppStatus] = useState<AppProps>("All");
@@ -129,9 +134,8 @@ const ApplyDetailsInfo = ({
     (state: RootState) => state.talent
   );
 
-  const { applications } = useSelector(
-    (state: RootState) => state?.applications
-  );
+  const { applications, page, pageSize, totalApplications, totalPages } =
+    useSelector((state: RootState) => state?.applications);
 
   const { projectApplications: applied } = useSelector(
     (state: RootState) => state.projectApplication
@@ -172,7 +176,7 @@ const ApplyDetailsInfo = ({
   }, [activeType]);
 
   useEffect(() => {
-    dispatch(fetchApplications({ id: ProjectId }));
+    dispatch(fetchApplications({ id: ProjectId, queryParams: null }));
     // dispatch(filterApplications({ id: ProjectId, status: "shortlisted" }));
   }, []);
 
@@ -341,11 +345,19 @@ const ApplyDetailsInfo = ({
     setGender(gender);
   };
 
+  const handleRoleChange = (role: any) => {
+    updateQuery({ opportunities: role });
+    setTalentType(role);
+  };
+
   useEffect(() => {
     setTimeout(() => {
       dispatch(setTalentQuery(sortQuery));
     }, 1000);
   }, [sortQuery]);
+
+  const negativePage = pageSize - 1;
+  const positivePage = pageSize + 1;
 
   return (
     <>
@@ -451,11 +463,9 @@ const ApplyDetailsInfo = ({
           </div>
         </div>
       </div>
-
       {/* <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0"> */}
       <div className="flex-1">
         <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
-
         <div className="flex justify-between flex-col gap-2 lg:flex-row items-center">
           <Checkbox />
           <div className="relative h-full">
@@ -475,9 +485,9 @@ const ApplyDetailsInfo = ({
             <SelectOption
               className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
               placeholder="Talent type"
-              id="projectCategory"
-              name="projectCategory"
-              onChange={(e: any) => onTalentTypeChnage(e.value)}
+              id="projectTalent"
+              name="projectTalent"
+              onChange={(e: any) => handleRoleChange(e.value)}
               required
               options={talentOptions}
               defaultValue={activeType}
@@ -539,27 +549,131 @@ const ApplyDetailsInfo = ({
             </div>
           </div>
         </div>
-        <div className="flex w-full justify-end items-center text-[10px] font-normal ">
-          1-{resTalents?.length} of {resTalents?.length}
-          <BsChevronDoubleLeft className="mx-4" />
-          <BsChevronLeft />
-          <BsChevronRight className="mx-4" />
-          <BsChevronDoubleRight />
-        </div>
         <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
+        <div className="flex w-full justify-end items-center text-[10px] font-normal">
+          {page * pageSize - negativePage}-
+          {page * pageSize >= totalApplications ? totalPages : page * pageSize}{" "}
+          of {totalPages}
+          {page * pageSize - negativePage <= pageSize && (
+            <BsChevronDoubleLeft className="ml-4 text-slate-400 p-1 text-[16px]" />
+          )}
+          {page * pageSize - negativePage >= positivePage && (
+            <BsChevronDoubleLeft
+              className="ml-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+              onClick={() => {
+                dispatch(setPageQuery({ page: 1 }));
+              }}
+            />
+          )}
+          {page * pageSize - negativePage <= pageSize && (
+            <BsChevronLeft className="mx-4 text-slate-400 p-1 text-[16px]" />
+          )}
+          {page * pageSize - negativePage >= positivePage && (
+            <BsChevronLeft
+              className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+              onClick={() => {
+                dispatch(setPageQuery({ page: page - 1 }));
+              }}
+            />
+          )}
+          {page * pageSize < totalApplications && (
+            <BsChevronRight
+              className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+              onClick={() => {
+                dispatch(setPageQuery({ page: page + 1 }));
+              }}
+            />
+          )}
+          {page * pageSize >= totalApplications && (
+            <BsChevronRight className="mx-4 text-slate-400 p-1 text-[16px]" />
+          )}
+          {page * pageSize < totalApplications && (
+            <BsChevronDoubleRight
+              className="mr-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+              onClick={() => {
+                dispatch(setPageQuery({ page: totalPages }));
+              }}
+            />
+          )}
+          {page * pageSize >= totalApplications && (
+            <BsChevronDoubleRight className="text-slate-400 p-1 text-[16px] mr-4" />
+          )}
+        </div>{" "}
         <Separator className="my-2" />
-
         {pageTalents}
       </div>
       <Separator className="my-2 md:my-4" />
-      <Pagination
+      <div className="flex w-full justify-end items-center text-[10px] font-normal">
+        {page * pageSize - negativePage <= pageSize && (
+          <div className="ml-4 text-slate-400 p-1 ">First</div>
+        )}
+        {page * pageSize - negativePage >= positivePage && (
+          <div
+            className="ml-4 hover:bg-slate-300 cursor-pointer p-1  rounded-sm"
+            onClick={() => {
+              dispatch(setPageQuery({ page: 1 }));
+            }}
+          >
+            First
+          </div>
+        )}
+        {page * pageSize - negativePage <= pageSize && (
+          <div className="flex gap-2 mx-4 items-center">
+            <BsChevronLeft className=" tex t-slate-400 p-1 text-[16px]" />
+            Back
+          </div>
+        )}
+        {page * pageSize - negativePage >= positivePage && (
+          <div className="flex gap-2 mx-4 items-center">
+            Back
+            <BsChevronLeft
+              className=" hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+              onClick={() => {
+                dispatch(setPageQuery({ page: page - 1 }));
+              }}
+            />
+          </div>
+        )}
+        {page * pageSize - negativePage}-
+        {page * pageSize >= totalApplications ? totalPages : page * pageSize} of{" "}
+        {totalPages}
+        {page * pageSize < totalApplications && (
+          <div className="flex gap-2 mx-4 items-center">
+            Next{" "}
+            <BsChevronRight
+              className=" hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+              onClick={() => {
+                dispatch(setPageQuery({ page: page + 1 }));
+              }}
+            />
+          </div>
+        )}
+        {page * pageSize >= totalApplications && (
+          <div className="flex gap-2 mx-4 items-center">
+            Next
+            <BsChevronRight className=" text-slate-400 p-1 text-[16px]" />
+          </div>
+        )}
+        {page * pageSize < totalApplications && (
+          <BsChevronDoubleRight
+            className="mr-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+            onClick={() => {
+              dispatch(setPageQuery({ page: totalPages }));
+            }}
+          />
+        )}
+        {page * pageSize >= totalApplications && (
+          <BsChevronDoubleRight className="text-slate-400 p-1 text-[16px] mr-4" />
+        )}
+      </div>{" "}
+      {/* <Pagination
         first={""}
         last={""}
         prev={""}
         next={""}
         currentPage={1}
         count={resTalents?.length || 0}
-      />
+      /> */}
       {/* </CardContent> */}
     </>
   );

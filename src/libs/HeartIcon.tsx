@@ -20,7 +20,7 @@ const HeartIcon = ({
   const user = useSelector((state: RootState) => state.user);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  console.log(user?.user?.userId, favorites);
+  // console.log(user?.user?.userId, favorites);
 
   useEffect(() => {
     const tobi = user?.user?.userId;

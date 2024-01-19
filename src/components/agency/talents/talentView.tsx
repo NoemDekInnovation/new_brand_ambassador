@@ -276,7 +276,6 @@ export const TalentGrid = ({
     : "N/A";
 
   const truncatedCityState = truncateWords(cityState, 3);
-  console.log(_.favorites);
 
   return (
     <>
