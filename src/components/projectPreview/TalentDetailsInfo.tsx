@@ -26,21 +26,6 @@ import {
 } from "react-icons/bs";
 import Pagination from "../../ui/Pagination";
 import { ProjectProps, TalentProps } from "../../redux/types";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "@radix-ui/react-dialog";
-import { DialogFooter, DialogHeader } from "../../ui/dialog";
-import {
-  // Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@radix-ui/react-select";
-import { Button } from "../../ui/button";
 import { authAxiosInstance, campaignAuthAxiosInstance } from "../../api/axios";
 // import Image from "next/image";
 import Logo from "../../assets/beauty.jpg";
@@ -55,6 +40,11 @@ import { TalentType } from "../agency/TalentsView";
 import SelectOption from "../../libs/select";
 import OfferModal from "../../libs/OfferModal";
 import { useToast } from "../../ui/use-toast";
+import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
+
+import { Label } from "../../ui/label";
+import { Checkbox } from "../../ui/checkbox";
+import { TalentQueryProp, setTalentQuery } from "../../redux/talent.slice";
 
 const categoryOptions: any = [
   { value: "All Talent", label: "All Talent" },
@@ -63,6 +53,17 @@ const categoryOptions: any = [
   { value: "Engaged", label: "Engaged" },
   { value: "My Talent", label: "My Talent" },
   { value: "Invited", label: "Invited" },
+];
+const actionOptions: any = [
+  { value: "Shortlist", label: "Shortlist" },
+  { value: "Approve Hire", label: "Approve Hire" },
+  { value: "Send Message", label: "Send Message" },
+];
+
+const talentOptions: any = [
+  { value: "supervisor", label: "Supervisor" },
+  { value: "ba", label: "Brand Ambassador" },
+  { value: "usher", label: "Usher" },
 ];
 
 const TalentDetailsInfo = ({
@@ -89,10 +90,10 @@ const TalentDetailsInfo = ({
   const [projectModal, setProjectModal] = useState(false);
   const [activeType, setActiveType] = useState<TalentType>("All Talent");
   const [success, setSuccess] = useState(false); // State for the success modal
-
-  const onTalentTypeChnage = (type: TalentType) => {
-    setActiveType(type);
-  };
+  const [talentType, setTalentType] = useState("");
+  const [gender, setGender] = useState("");
+  const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -201,70 +202,6 @@ const TalentDetailsInfo = ({
     }
   };
 
-  const filteredTalents = resTalents?.filter((talent, idx) => {
-    const talentgender = talent?.gender;
-    const talentRole = talent?.opportunities;
-    const talentAge = talent?.age;
-    const talentAddress = talent?.address[0];
-    // const size = sellers..toLowerCase();
-    // const search = searchTerm.toLowerCase();
-    const searchLocation = selectedLocation.toLowerCase();
-
-    if (
-      selectedGender === "all" &&
-      selectedOppor === "all" &&
-      selectedLocation === "all" &&
-      ageRange.start === "" &&
-      ageRange.end === ""
-    ) {
-      return talent;
-    }
-    const isGenderMatch = selectedGender === talentgender;
-    const isRoleMatch = selectedOppor === talentRole;
-    const isOfAge =
-      talentAge >= parseInt(ageRange.start) &&
-      talentAge <= parseInt(ageRange.end);
-    const isCity = talentAddress?.city.includes(searchLocation);
-    const isState = talentAddress?.state.includes(searchLocation);
-
-    if (isGenderMatch) {
-      if (
-        selectedOppor === "all" &&
-        selectedLocation === "all" &&
-        ageRange.start === "" &&
-        ageRange.end === ""
-      ) {
-        return isGenderMatch;
-      }
-      if (
-        selectedOppor !== "all" &&
-        selectedLocation === "all" &&
-        ageRange.start === "" &&
-        ageRange.end === ""
-      ) {
-        return isGenderMatch && isRoleMatch;
-      }
-      if (
-        selectedOppor !== "all" &&
-        selectedLocation === "all" &&
-        ageRange.start !== "" &&
-        ageRange.end !== ""
-      ) {
-        return isGenderMatch && isRoleMatch && isOfAge;
-      }
-
-      if (
-        selectedOppor !== "all" &&
-        selectedLocation !== "all" &&
-        ageRange.start !== "" &&
-        ageRange.end !== ""
-      ) {
-        return isGenderMatch && isRoleMatch && (isCity || isState) && isOfAge;
-      }
-    }
-    return talent;
-  });
-
   switch (activeType) {
     case "All Talent":
       pageTalents = (
@@ -365,8 +302,32 @@ const TalentDetailsInfo = ({
       pageTalents = null;
   }
 
-  // const [talentType];
+  const updateQuery = (newValues: any) => {
+    setSortQuery((prevQuery: any) => ({ ...prevQuery, ...newValues }));
+  };
 
+  const handleGenderChange = (gender: any) => {
+    updateQuery({ gender });
+    setGender(gender);
+  };
+  const handleRoleChange = (role: any) => {
+    updateQuery({ opportunities: role });
+    setTalentType(role);
+  };
+
+  const handleSearchChange = (e: any) => {
+    updateQuery({ search: e.target.value });
+    setSearchQuery(e.target.value);
+  };
+
+  const onTalentTypeChnage = (type: TalentType) => {
+    setActiveType(type);
+  };
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(setTalentQuery(sortQuery));
+    }, 1000);
+  }, [sortQuery]);
   return (
     <>
       <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0">
@@ -374,7 +335,7 @@ const TalentDetailsInfo = ({
           <div className="flex relative items-center justify-between gap-2">
             {/* <p className="font-semibold text-[18px] ">{activeType}</p> */}
 
-            <div className="relative h-full">
+            <div className="relative h-full flex gap-10 items-center">
               <SelectOption
                 className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
                 placeholder="Select Category "
@@ -386,12 +347,26 @@ const TalentDetailsInfo = ({
                 defaultValue={activeType}
                 isDisabled={false}
               />
+              <div className="bg-gray-400 h-[30px] w-[4px] "></div>
+              <div className="flex items-center gap-2">
+                Invited:{" "}
+                <SelectOption
+                  className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
+                  placeholder="Select Talent "
+                  id="projectTalent"
+                  name="projectTalent"
+                  onChange={(e: any) => handleRoleChange(e.value)}
+                  required
+                  options={talentOptions}
+                  defaultValue={talentType}
+                  isDisabled={false}
+                />
+              </div>
             </div>
           </div>
           <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
 
-          <div className="flex justify-between flex-col gap-2 lg:flex-row">
-            {/* <p className="font-semibold text-[18px] ">{activeType}</p> */}
+          {/* <div className="flex justify-between flex-col gap-2 lg:flex-row">
 
             <div className="hidden lg:flex items-center border  max-h-[60px]   rounded-md w-full max-w-[500px] px-3 py-1 ">
               <AiOutlineSearch className="text-[15px] " />
@@ -435,6 +410,95 @@ const TalentDetailsInfo = ({
                 <BsChevronDoubleRight />
               </div>
             </div>
+          </div> */}
+
+          <div className="flex-1">
+            <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
+
+            <div className="flex justify-between flex-col gap-2 lg:flex-row items-center">
+              <div className="relative h-full flex items-center gap-4">
+                <Checkbox />
+                <SelectOption
+                  className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
+                  placeholder="Actions"
+                  id="projectCategory"
+                  name="projectCategory"
+                  onChange={(e: any) => onTalentTypeChnage(e.value)}
+                  required
+                  options={actionOptions}
+                  defaultValue={activeType}
+                  isDisabled={false}
+                />
+                <div className="bg-gray-300 ml-3 h-[30px] w-[3px] "></div>
+              </div>{" "}
+              <RadioGroup
+                onValueChange={handleGenderChange}
+                className="flex"
+                value={gender}
+                defaultValue=""
+              >
+                <div className="flex items-center space-x-2">
+                  <Label htmlFor="r1">Gender:</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="male" id="r2" />
+                  <Label htmlFor="r2">Male</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="female" id="r3" />
+                  <Label htmlFor="r3">Female</Label>
+                </div>
+              </RadioGroup>
+              {/* <p className="font-semibold text-[18px] ">{activeType}</p> */}
+              <div className="hidden lg:flex items-center border  max-h-[60px]   rounded-md w-full max-w-[300px] px-3 py-1 ">
+                <AiOutlineSearch className="text-[15px] " />
+                <Input
+                  className="border-0 focus:border-0 focus:ring-0 focus:outline-none "
+                  placeholder="Search"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                />
+              </div>
+              <div className="flex items-center">
+                <div className="flex flex-col items-start lg:items-center gap-2 whitespace-nowrap lg:gap-6 lg:flex-row mr-2 md:mr-4">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="flex gap-1 items-center">
+                      <BiSortAlt2 />
+                      Sort: {"  "} Average Rating
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="bg-white p-3">
+                      <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                        Relevance
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator className="bg-bm__beige" />
+                      <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                        Average Rating
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <div className="flex gap-2 md:gap-4 items-center">
+                    <span className="flex items-center gap-1">
+                      View:{"  "}{" "}
+                      {gridView && <TbLayoutGrid onClick={handleViewToggle} />}
+                      {!gridView && (
+                        <AiOutlineUnorderedList onClick={handleViewToggle} />
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex w-full justify-end items-center text-[10px] font-normal ">
+              1-{resTalents?.length} of {resTalents?.length}
+              <BsChevronDoubleLeft className="mx-4" />
+              <BsChevronLeft />
+              <BsChevronRight className="mx-4" />
+              <BsChevronDoubleRight />
+            </div>
+            <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
+            <Separator className="my-2" />
+
+            {pageTalents}
           </div>
           <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
           <Separator className="my-2" />
