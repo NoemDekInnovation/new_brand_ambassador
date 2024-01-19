@@ -26,20 +26,7 @@ import {
 } from "react-icons/bs";
 import Pagination from "../../ui/Pagination";
 import { ProjectProps, TalentProps } from "../../redux/types";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "@radix-ui/react-dialog";
-import { DialogFooter, DialogHeader } from "../../ui/dialog";
-import {
-  // Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@radix-ui/react-select";
+
 import { Button } from "../../ui/button";
 import { authAxiosInstance, campaignAuthAxiosInstance } from "../../api/axios";
 import Logo from "../../assets/beauty.jpg";
@@ -190,6 +177,12 @@ const ApplyDetailsInfo = ({
   }, []);
 
   useEffect(() => {
+    setTimeout(() => {
+      dispatch(setTalentQuery(sortQuery));
+    }, 1000);
+  }, [sortQuery]);
+
+  useEffect(() => {
     setIsLoading(true);
 
     const fetchProjects = async () => {
@@ -243,70 +236,6 @@ const ApplyDetailsInfo = ({
       }
     }
   };
-
-  const filteredTalents = resTalents?.filter((talent, idx) => {
-    const talentgender = talent?.gender;
-    const talentRole = talent?.opportunities;
-    const talentAge = talent?.age;
-    const talentAddress = talent?.address[0];
-    // const size = sellers..toLowerCase();
-    // const search = searchTerm.toLowerCase();
-    const searchLocation = selectedLocation.toLowerCase();
-
-    if (
-      selectedGender === "all" &&
-      selectedOppor === "all" &&
-      selectedLocation === "all" &&
-      ageRange.start === "" &&
-      ageRange.end === ""
-    ) {
-      return talent;
-    }
-    const isGenderMatch = selectedGender === talentgender;
-    const isRoleMatch = selectedOppor === talentRole;
-    const isOfAge =
-      talentAge >= parseInt(ageRange.start) &&
-      talentAge <= parseInt(ageRange.end);
-    const isCity = talentAddress?.city.includes(searchLocation);
-    const isState = talentAddress?.state.includes(searchLocation);
-
-    if (isGenderMatch) {
-      if (
-        selectedOppor === "all" &&
-        selectedLocation === "all" &&
-        ageRange.start === "" &&
-        ageRange.end === ""
-      ) {
-        return isGenderMatch;
-      }
-      if (
-        selectedOppor !== "all" &&
-        selectedLocation === "all" &&
-        ageRange.start === "" &&
-        ageRange.end === ""
-      ) {
-        return isGenderMatch && isRoleMatch;
-      }
-      if (
-        selectedOppor !== "all" &&
-        selectedLocation === "all" &&
-        ageRange.start !== "" &&
-        ageRange.end !== ""
-      ) {
-        return isGenderMatch && isRoleMatch && isOfAge;
-      }
-
-      if (
-        selectedOppor !== "all" &&
-        selectedLocation !== "all" &&
-        ageRange.start !== "" &&
-        ageRange.end !== ""
-      ) {
-        return isGenderMatch && isRoleMatch && (isCity || isState) && isOfAge;
-      }
-    }
-    return talent;
-  });
 
   switch (activeType) {
     case "All Talent":
@@ -480,7 +409,7 @@ const ApplyDetailsInfo = ({
               Training
               <span className="text-[16px] font-semibold text-black">
                 {" "}
-                {/* ({applications?.data?.totalApprovedHires}) */}(0)
+                ({applications?.data?.totalTrained})
               </span>
             </button>
             <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>

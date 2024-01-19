@@ -281,10 +281,12 @@ export const TalentList = ({
     }, 2000);
   };
 
+  console.log(talent);
+
   return (
     <div key={index} className="bg-white border rounded flex">
       <div onClick={() => handleProfilePopUp(talent)}>
-        {talent.profilePic === "" && (
+        {talent?.profilePic === "" && (
           <img
             src={Logo}
             alt=""
@@ -298,9 +300,9 @@ export const TalentList = ({
             className=" hover:grayscale-0 grayscale "
           />
         )}
-        {talent.profilePic && (
+        {talent?.profilePic && (
           <img
-            src={talent.profilePic}
+            src={talent?.profilePic}
             alt=""
             width={260}
             height={260}
@@ -696,8 +698,8 @@ export const AppliedTalentGrid = ({
 }) => {
   // const slides = [beauty, profile, blue, nivea, blue2];
   const slides =
-    _.profilePic !== ""
-      ? [_.profilePic]
+    _?.profilePic !== null
+      ? [_?.profilePic]
       : [beauty, profile, blue, nivea, blue2];
   const dialogSlide = [girl1, girl2, girl5];
   const modalImage = [girl4, girl3, girl4];
@@ -741,7 +743,7 @@ export const AppliedTalentGrid = ({
     setCurr((curr) => (curr === slides.length - 1 ? 0 : curr + 1));
   };
   const handleModalPop = () => {
-    setSelectedTalentID(_._id);
+    setSelectedTalentID(_?._id);
     setModal(!modal);
   };
 
@@ -805,7 +807,7 @@ export const AppliedTalentGrid = ({
                           <div className="flex items-center space-x-1">
                             <img src={Age} alt="" />
                             <div className="text-[8px] font-medium">
-                              {_.DOB} years
+                              {_?.DOB} years
                             </div>
                           </div>
                           <div className="flex items-center space-x-1">
@@ -918,7 +920,7 @@ export const AppliedTalentGrid = ({
         </div>
         <div className="px-1">
           <div className="flex items-center gap-3 whitespace-nowrap px-2 py-1">
-            <p className="text-[12px] font-medium capitalize">{_.fullName}</p>
+            <p className="text-[12px] font-medium capitalize">{_?.fullName}</p>
             <span className="bg-[#00AB26] h-2 w-2 rounded-full"></span>
           </div>
           <Separator />
@@ -926,7 +928,7 @@ export const AppliedTalentGrid = ({
             <div className="flex items-center gap-2">
               <IoLocationSharp />
               <p className="text-[8px] font-medium leading-3 capitalize text-[#252525]">
-                {_.address[0]?.city} {_.address[0]?.state}
+                {_?.address[0]?.city} {_?.address[0]?.state}
               </p>
             </div>
             <div className="w-[1px] h-3 bg-[#D7D8DA]"></div>
