@@ -428,24 +428,6 @@ const ApplyDetailsInfo = ({
                 ({applications?.data?.totalTrained})
               </span>
             </button>
-            <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
-            <button
-              className={`${
-                appStatus === "approvedHire" ? "bg-[#DCDDDF]" : ""
-              } px-4 gap-2 transistion-all duration-1000`}
-              onClick={() => {
-                dispatch(
-                  filterApplications({ id: ProjectId, status: "approvedHire" })
-                );
-                setAppStatus("approvedHire");
-              }}
-            >
-              Approved Hire
-              <span className="text-[16px] font-semibold text-black">
-                {" "}
-                ({applications?.data?.totalApprovedHires})
-              </span>
-            </button>
 
             <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
             <button

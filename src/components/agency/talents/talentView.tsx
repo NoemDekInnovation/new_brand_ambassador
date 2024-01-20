@@ -53,6 +53,7 @@ import group from "../../../assets/Group.png";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { TalentsProps } from "../../../redux/talent.slice";
 import HeartIcon from "../../../libs/HeartIcon";
+import { Checkbox } from "../../../ui/checkbox";
 
 export const TalentList = ({
   talent,
@@ -123,20 +124,34 @@ export const TalentList = ({
       <div className="p-2 w-full">
         <div className="flex w-full justify-between">
           <div className="flex items-center gap-3">
-            {" "}
-            <p className="text-[15px] font-medium">{talent?.firstName}</p>
-            <AiOutlineHeart />
+            <Checkbox />
+
+            <p className="text-[15px] font-medium capitalize">
+              {talent?.firstName}
+              {"   "}
+              {talent?.lastName}
+            </p>
+            <HeartIcon
+              selectedTalentID={talent?._id}
+              favorites={talent?.favorites}
+            />
           </div>
-          {talent?.metaData?.isActive && (
-            <div className="text-[#00AB26] text-[10px] font-normal">
-              Available
+
+          <div className="flex items-center ">
+            {talent?.metaData?.isActive && (
+              <div className="text-[#00AB26] text-[10px] font-normal border-r-2 pr-2">
+                Available
+              </div>
+            )}
+            {!talent?.metaData?.isActive && (
+              <div className="text-[#FF0000] text-[10px] font-normal border-r-2 pr-2">
+                Unavailable
+              </div>
+            )}
+            <div className="capitalize pl-2   text-[10px]">
+              {talent?.opportunities[0]}
             </div>
-          )}
-          {!talent?.metaData?.isActive && (
-            <div className="text-[#FF0000] text-[10px] font-normal">
-              Unavailable
-            </div>
-          )}
+          </div>
         </div>
         <div className="mb-3">
           {" "}
