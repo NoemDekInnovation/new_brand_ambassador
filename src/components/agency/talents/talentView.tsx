@@ -67,6 +67,8 @@ export const TalentList = ({
   selectedProject,
   setSuccessModal,
   successModal,
+  setModal,
+  modal,
 }: {
   talent: any;
   index: number;
@@ -80,12 +82,19 @@ export const TalentList = ({
   setSelectedTalentID: any;
   setSuccessModal: any;
   successModal: boolean;
+  setModal?: any;
+  modal?: boolean;
 }) => {
+  const handleModalPop = () => {
+    setSelectedTalentID(talent._id);
+    setModal(!modal);
+  };
+
   return (
     <div key={index} className="bg-white border rounded flex">
       <div onClick={() => handleProfilePopUp(talent)}>
         {talent.profilePic === "" && (
-          <div className="bg-black/70 w-[196px] h-[162px] rounded-md">
+          <div className="bg-black/70 w-[86px] h-[108px] rounded-md">
             <img
               src={Logo}
               alt=""
@@ -96,17 +105,17 @@ export const TalentList = ({
                 // height: 108,
                 // width: 86,
               }}
-              className=" hover:grayscale-0 grayscale w-full max-w-[200px] h-full max-h-[200px] object-cover"
+              className=" hover:grayscale-0 grayscale w-full max-w-[86px] h-full max-h-[108px] object-cover"
             />
           </div>
         )}
         {talent.profilePic && (
-          <div className="bg-black/70 w-[196px] h-[162px] rounded-md">
+          <div className="bg-black/70 w-[86px] h-[108px] rounded-md">
             <img
               src={talent.profilePic}
               alt=""
               style={{ borderRadius: 5 }}
-              className=" hover:grayscale-0 grayscale w-full max-w-[200px] h-full max-h-[200px] object-cover"
+              className=" hover:grayscale-0 grayscale w-full max-w-[86px] h-full max-h-[108px] object-cover"
             />
           </div>
         )}
@@ -115,9 +124,7 @@ export const TalentList = ({
         <div className="flex w-full justify-between">
           <div className="flex items-center gap-3">
             {" "}
-            <p className="text-[15px] font-medium">
-              {talent?.talent?.firstName}
-            </p>
+            <p className="text-[15px] font-medium">{talent?.firstName}</p>
             <AiOutlineHeart />
           </div>
           {talent?.metaData?.isActive && (
@@ -170,7 +177,12 @@ export const TalentList = ({
           </div>{" "}
           <div className="flex gap-4">
             <button className="light__btn text-[10px]">Share</button>
-            <button className="dark__btn text-[10px]">Invite</button>
+            <button
+              className="dark__btn text-[10px]"
+              onClick={() => handleModalPop()}
+            >
+              Invite
+            </button>
           </div>
         </div>
       </div>
@@ -706,7 +718,7 @@ export const TalentGrids = ({
                           <div className="flex items-center space-x-1">
                             <img src={Age} alt="" />
                             <div className="text-[8px] font-medium">
-                              {_?.talent?.talent?.DOB} years
+                              {_?.talent?.DOB} years
                             </div>
                           </div>
                           <div className="flex items-center space-x-1">

@@ -303,11 +303,13 @@ export default function TalentsView({
       try {
         const response = await authAxiosInstance.post(
           `${user.accountId}/invite-to-project`,
-          {
-            opportunities: selectedTalent,
-            projectId: selectedProject,
-            talentId: selectedTalentID,
-          }
+          [
+            {
+              opportunities: selectedTalent,
+              projectId: selectedProject,
+              talentId: selectedTalentID,
+            },
+          ]
         );
 
         setIsLoading(false);

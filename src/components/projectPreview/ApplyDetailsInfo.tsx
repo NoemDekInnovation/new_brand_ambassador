@@ -81,8 +81,8 @@ const actionOptions: any = [
 ];
 
 const talentOptions: any = [
-  { value: "Ba", label: "Ba" },
-  { value: " Supervisor", label: "Supervisor" },
+  { value: "ba", label: "Brand Ambassador" },
+  { value: "supervisor", label: "Supervisor" },
 ];
 
 const ApplyDetailsInfo = ({
@@ -130,9 +130,7 @@ const ApplyDetailsInfo = ({
   const dispatch = useDispatch<AppDispatch>();
 
   const { user } = useSelector((state: RootState) => state.user);
-  const { talents: resTalents } = useSelector(
-    (state: RootState) => state.talent
-  );
+  const { talentQuery } = useSelector((state: RootState) => state.talent);
 
   const { applications, page, pageSize, totalApplications, totalPages } =
     useSelector((state: RootState) => state?.applications);
@@ -181,6 +179,10 @@ const ApplyDetailsInfo = ({
   }, []);
 
   useEffect(() => {
+    dispatch(fetchApplications({ id: ProjectId, queryParams: talentQuery }));
+    // dispatch(filterApplications({ id: ProjectId, status: "shortlisted" }));
+  }, [talentQuery]);
+  useEffect(() => {
     setTimeout(() => {
       dispatch(setTalentQuery(sortQuery));
     }, 1000);
@@ -213,11 +215,13 @@ const ApplyDetailsInfo = ({
       try {
         const response = await campaignAuthAxiosInstance.post(
           `/invite-to-project`,
-          {
-            opportunities: selectedTalent,
-            projectId: selectedProject,
-            talentId: selectedTalentID,
-          },
+          [
+            {
+              opportunities: selectedTalent,
+              projectId: selectedProject,
+              talentId: selectedTalentID,
+            },
+          ],
           {
             headers: {
               Authorization: `Bearer ${user.authKey || ""}`,

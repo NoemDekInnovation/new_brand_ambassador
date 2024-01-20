@@ -57,7 +57,7 @@ const CurrentContacts = ({
                 <TalentGrids
                   key={idx}
                   modal={projectModal}
-                  setModal={() => setProjectModal}
+                  setModal={setProjectModal}
                   _={_}
                   idx={idx}
                   handleInvite={handleInvite}
@@ -83,17 +83,19 @@ const CurrentContacts = ({
               <TalentList
                 key={idx}
                 talent={_}
+                modal={projectModal}
+                setModal={setProjectModal}
                 index={idx}
-                handleInvite={""}
-                setSelectedProject={""}
-                projects={""}
-                setSelectedTalent={""}
-                handleProfilePopUp={() => {}}
-                selectedTalent={""}
-                setSelectedTalentID={""}
-                selectedProject={""}
-                setSuccessModal={""}
-                successModal={true}
+                handleInvite={handleInvite}
+                setSelectedProject={setSelectedProject}
+                projects={projects}
+                setSelectedTalent={setSelectedTalent}
+                handleProfilePopUp={handleProfilePopUp}
+                selectedTalent={selectedTalent}
+                setSelectedTalentID={setSelectedTalentID}
+                selectedProject={selectedProject}
+                setSuccessModal={setSuccessModal}
+                successModal={successModal}
               />
             );
           })}
