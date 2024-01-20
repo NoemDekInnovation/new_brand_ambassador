@@ -65,7 +65,7 @@ const Engaged = ({
                   key={idx}
                   _={_?.talent}
                   modal={projectModal}
-                  setModal={() => setProjectModal}
+                  setModal={setProjectModal}
                   idx={idx}
                   handleInvite={handleInvite}
                   setSelectedProject={setSelectedProject}
@@ -88,18 +88,21 @@ const Engaged = ({
           {engageTalents?.map((_: any, idx: number) => {
             return (
               <TalentList
+                key={idx}
+                modal={projectModal}
+                setModal={setProjectModal}
                 talent={_?.talent}
                 index={idx}
-                handleInvite={""}
-                setSelectedProject={""}
-                projects={""}
-                setSelectedTalent={""}
-                handleProfilePopUp={() => {}}
-                selectedTalent={""}
-                setSelectedTalentID={""}
-                selectedProject={""}
-                setSuccessModal={""}
-                successModal={true}
+                handleInvite={handleInvite}
+                setSelectedProject={setSelectedProject}
+                projects={projects}
+                setSelectedTalent={setSelectedTalent}
+                handleProfilePopUp={handleProfilePopUp}
+                selectedTalent={selectedTalent}
+                setSelectedTalentID={setSelectedTalentID}
+                selectedProject={selectedProject}
+                setSuccessModal={setSuccessModal}
+                successModal={successModal}
               />
             );
           })}

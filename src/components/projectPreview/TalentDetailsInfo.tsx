@@ -180,11 +180,13 @@ const TalentDetailsInfo = ({
       try {
         const response = await campaignAuthAxiosInstance.post(
           `/invite-to-project`,
-          {
-            opportunities: selectedTalent,
-            projectId: selectedProject,
-            talentId: selectedTalentID,
-          },
+          [
+            {
+              opportunities: selectedTalent,
+              projectId: selectedProject,
+              talentId: selectedTalentID,
+            },
+          ],
           {
             headers: {
               Authorization: `Bearer ${user.authKey || ""}`,

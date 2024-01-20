@@ -113,16 +113,18 @@ const AllTalents = ({
                 key={idx}
                 talent={_}
                 index={idx}
-                handleInvite={""}
-                setSelectedProject={""}
-                projects={""}
-                setSelectedTalent={""}
-                handleProfilePopUp={() => {}}
-                selectedTalent={""}
-                setSelectedTalentID={""}
-                selectedProject={""}
-                setSuccessModal={""}
-                successModal={true}
+                modal={projectModal}
+                setModal={setProjectModal}
+                handleInvite={handleInvite}
+                setSelectedProject={setSelectedProject}
+                projects={projects}
+                setSelectedTalent={setSelectedTalent}
+                handleProfilePopUp={handleProfilePopUp}
+                selectedTalent={selectedTalent}
+                setSelectedTalentID={setSelectedTalentID}
+                selectedProject={selectedProject}
+                setSuccessModal={setSuccessModal}
+                successModal={successModal}
               />
             );
           })}
