@@ -179,8 +179,13 @@ export const TalentList = ({
   const fetchApplications = async (status: string) => {
     if (user?.user?.accountId !== undefined) {
       try {
-        const response = await campaignAuthAxiosInstance(
-          `/add-shortlist/${talent._id}/${ProjectId}?status=${status}`,
+        const response = await campaignAuthAxiosInstance.post(
+          `/add-shortlist/${ProjectId}?status=${status}`,
+          [
+            {
+              talentId: talent._id,
+            },
+          ],
           {
             headers: {
               Authorization: `Bearer ${user?.user?.authKey || ""}`,
@@ -396,7 +401,8 @@ export const TalentList = ({
               <span>Share</span>
             </div>
           </button>
-          {appStatus === "shortlisted" || appStatus === "All" ? (
+          {appStatus === "All" ? (
+            // {appStatus === "shortlisted" || appStatus === "All" ? (
             <button
               className="border rounded-md border-red-500 text-red-500 text-[14px] py-0"
               style={{ whiteSpace: "nowrap", width: "150px" }}
@@ -510,15 +516,15 @@ export const TalentList = ({
           ) : (
             ""
           )}
-          {appStatus === "approvedHire" ? (
+          {appStatus === "training" ? (
             <button className="dark__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
               <div className="flex items-center gap-2">
                 {/* <span>Send Offer</span> */}
                 <AlertDialog>
                   <AlertDialogTrigger className="">
-                    <span>Send Offer</span>
+                    <span>Send Contract</span>
                   </AlertDialogTrigger>
-                  <AlertDialogContent className="z-[4000] bg-white ">
+                  {/* <AlertDialogContent className="z-[4000] bg-white ">
                     <AlertDialogHeader>
                       <AlertDialogTitle>Send Contract Offer</AlertDialogTitle>
                       <Separator className="bg-bm__beige my-4" />
@@ -533,7 +539,7 @@ export const TalentList = ({
                         isDisabled={false}
                         className="max-w-[400px]"
                       />
-                      {/* <p>DropDown</p> */}
+
                       <Separator className="bg-bm__beige my-4" />
                       <AlertDialogDescription>
                         <div className=" h-[65vh]">
@@ -591,7 +597,7 @@ export const TalentList = ({
                       <AlertDialogCancel>
                         <Button className="dark___btn">Cancel</Button>
                       </AlertDialogCancel>
-                      {/* <AlertDialogAction> */}
+
                       <Button
                         className="dark___btn max-w-fit"
                         onClick={handleOffer}
@@ -603,16 +609,15 @@ export const TalentList = ({
                         onClose={() => setModalOpen(false)}
                         statusMessage={statusMessage}
                       />
-                      {/* </AlertDialogAction> */}
                     </AlertDialogFooter>
-                  </AlertDialogContent>
+                  </AlertDialogContent> */}
                 </AlertDialog>
               </div>
             </button>
           ) : (
             ""
           )}
-          {appStatus === "shortlisted" ? (
+          {/* {appStatus === "shortlisted" ? (
             <button
               className="dark__btn text-[14px] py-0"
               style={{ whiteSpace: "nowrap", width: "150px" }}
@@ -635,7 +640,7 @@ export const TalentList = ({
             </button>
           ) : (
             ""
-          )}
+          )} */}
           {appStatus === "rejected" || appStatus === "All" ? (
             <button
               className={`dark__btn text-[14px] py-0 ${

@@ -92,7 +92,7 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
       formData.append("document", file);
     });
 
-    if (user?.user?.accountId !== undefined) { 
+    if (user?.user?.accountId !== undefined) {
       try {
         const response = await patchAxiosInstance.post(
           `/create-offer/${selectedProject._id}`,
@@ -142,26 +142,26 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
               {/* <div className="px-4"> */}
               <Button className="dark___btn whitespace-nowrap gap-1 items-center ">
                 <MdAddCircleOutline className="text-[16px]" />
-                Create Contract Offer
+                Create Offer
               </Button>
               {/* </div> */}
             </AlertDialogTrigger>
             <AlertDialogContent className="z-[4000] bg-white ">
               <AlertDialogHeader>
-                <AlertDialogTitle>Create Contract Offer</AlertDialogTitle>
+                <AlertDialogTitle>Create Offer</AlertDialogTitle>
                 <AlertDialogDescription>
                   <div className=" h-[65vh]">
                     <Card className="w-full pt-4 my-3">
                       <CardContent>
                         <div className="flex justify-between items-center">
                           <h2 className="text-[14px] font-normal capitalize">
-                            Contract Details
+                            Details
                           </h2>
                         </div>
                         <Separator className="bg-bm__beige my-6" />
                         <div className="mb-4">
                           <Input
-                            placeholder="Contract Offer Name"
+                            placeholder=" Offer Name"
                             value={offerName}
                             onChange={handleOfferNameChange}
                           />
@@ -183,7 +183,7 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
                       <CardContent>
                         <div className="flex justify-between items-center">
                           <h2 className="text-[14px] font-normal capitalize">
-                            Attach Contract Offer File
+                            Attach Offer File
                           </h2>
                         </div>
                         <Separator className="bg-bm__beige my-6" />
