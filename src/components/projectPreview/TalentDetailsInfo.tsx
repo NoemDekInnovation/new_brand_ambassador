@@ -59,8 +59,7 @@ const categoryOptions: any = [
   { value: "Invited", label: "Invited" },
 ];
 const actionOptions: any = [
-  { value: "Shortlist", label: "Shortlist" },
-  { value: "Approve Hire", label: "Approve Hire" },
+  { value: "Invite All", label: "Invite All" },
   { value: "Send Message", label: "Send Message" },
 ];
 
@@ -73,7 +72,9 @@ const talentOptions: any = [
 const TalentDetailsInfo = ({
   // activeType,
   handleProfilePopUp,
+  projectId,
 }: {
+  projectId: string;
   handleProfilePopUp: (talent: TalentProps) => void;
 }) => {
   let pageTalents;
@@ -92,12 +93,14 @@ const TalentDetailsInfo = ({
   const [selectedTalent, setSelectedTalent] = useState("");
   const [selectedTalentID, setSelectedTalentID] = useState("");
   const [projectModal, setProjectModal] = useState(false);
+  const [bulkModal, setBulkModal] = useState(false);
   const [activeType, setActiveType] = useState<TalentType>("All Talent");
   const [success, setSuccess] = useState(false); // State for the success modal
   const [talentType, setTalentType] = useState("");
   const [gender, setGender] = useState("");
   const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [checkedTalentIds, setCheckedTalentIds] = useState<string[]>([]);
 
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -113,6 +116,19 @@ const TalentDetailsInfo = ({
     setSelectedGender("all");
   };
 
+  const handleCheckedChange = (talentId: string) => {
+    // Check if the talentId is already in the array
+    if (checkedTalentIds.includes(talentId)) {
+      // If checked, remove it from the array
+      setCheckedTalentIds(checkedTalentIds.filter((id) => id !== talentId));
+    } else {
+      // If not checked, add it to the array
+      setCheckedTalentIds([...checkedTalentIds, talentId]);
+    }
+  };
+
+  console.log(checkedTalentIds);
+
   const handleViewToggle = () => {
     setGridView(!gridView);
   };
@@ -125,7 +141,7 @@ const TalentDetailsInfo = ({
     page,
     pageSize,
   } = useSelector((state: RootState) => state.talent);
-  console.log(resTalents);
+  // console.log(resTalents);
 
   useEffect(() => {
     const fetchTalents = async () => {
@@ -212,6 +228,47 @@ const TalentDetailsInfo = ({
     }
   };
 
+  const handleGroupInvite = async () => {
+    setIsLoading(true);
+
+    const resultArray = checkedTalentIds.map((talentId: string) => {
+      return {
+        opportunities: selectedTalent, // You need to define selectedTalent elsewhere in your code
+        projectId: projectId, // You need to define selectedProject elsewhere in your code
+        talentId: talentId,
+      };
+    });
+
+    if (user !== null) {
+      try {
+        const response = await campaignAuthAxiosInstance.post(
+          `/invite-to-project`,
+          resultArray,
+          {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ""}`,
+            },
+          }
+        );
+
+        setIsLoading(false);
+        // setSuccessModal(false);
+        setBulkModal(!bulkModal);
+        setSuccessModal(true);
+
+        return setTimeout(() => {
+          setSuccessModal(false);
+        }, 3000);
+      } catch (error: any) {
+        setIsLoading(false);
+        toast({
+          description: error?.response?.data?.message,
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
   switch (activeType) {
     case "All Talent":
       pageTalents = (
@@ -228,9 +285,13 @@ const TalentDetailsInfo = ({
             selectedTalent={selectedTalent}
             setSelectedTalentID={setSelectedTalentID}
             selectedProject={selectedProject}
+            bulkModal={bulkModal}
             projectModal={projectModal}
+            setBulkModal={setBulkModal}
             setProjectModal={setProjectModal}
             gap={14}
+            handleGroupInvite={handleGroupInvite}
+            handleCheckedChange={handleCheckedChange}
           />
           <OfferModal
             isOpen={successModal}
@@ -330,9 +391,14 @@ const TalentDetailsInfo = ({
     setSearchQuery(e.target.value);
   };
 
-  const onTalentTypeChnage = (type: TalentType) => {
+  const onTalentTypeChange = (type: TalentType) => {
     setActiveType(type);
   };
+
+  const bulkHandler = () => {
+    setBulkModal(!bulkModal);
+  };
+
   useEffect(() => {
     setTimeout(() => {
       dispatch(setTalentQuery(sortQuery));
@@ -355,7 +421,7 @@ const TalentDetailsInfo = ({
                 placeholder="Select Category "
                 id="projectCategory"
                 name="projectCategory"
-                onChange={(e: any) => onTalentTypeChnage(e.value)}
+                onChange={(e: any) => onTalentTypeChange(e.value)}
                 required
                 options={categoryOptions}
                 defaultValue={activeType}
@@ -436,7 +502,7 @@ const TalentDetailsInfo = ({
                   placeholder="Actions"
                   id="projectCategory"
                   name="projectCategory"
-                  onChange={(e: any) => onTalentTypeChnage(e.value)}
+                  onChange={bulkHandler}
                   required
                   options={actionOptions}
                   defaultValue={activeType}

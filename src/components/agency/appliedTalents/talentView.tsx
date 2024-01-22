@@ -79,6 +79,8 @@ import { Input } from "../../../ui/input";
 import SelectOption from "../../../libs/select";
 import SendOfferModal from "../../../libs/sendOffer";
 import OfferModal from "../../../libs/OfferModal";
+import { Checkbox } from "../../../ui/checkbox";
+import HeartIcon from "../../../libs/HeartIcon";
 
 export const TalentList = ({
   talent,
@@ -94,6 +96,7 @@ export const TalentList = ({
   selectedProject,
   setSuccessModal,
   ProjectId,
+  handleCheckedChange,
   successModal,
 }: // setProjects,
 {
@@ -110,6 +113,7 @@ export const TalentList = ({
   selectedProject: any;
   setSelectedTalentID: any;
   setSuccessModal: any;
+  handleCheckedChange?: any;
   successModal: boolean;
   // setProjects: any;
 }) => {
@@ -286,68 +290,67 @@ export const TalentList = ({
     }, 2000);
   };
 
-  console.log(talent);
-
   return (
     <div key={index} className="bg-white border rounded flex">
       <div onClick={() => handleProfilePopUp(talent)}>
         {talent?.profilePic === "" && (
-          <img
-            src={Logo}
-            alt=""
-            width={260}
-            height={260}
-            style={{
-              borderRadius: 5,
-              height: 108,
-              width: 86,
-            }}
-            className=" hover:grayscale-0 grayscale "
-          />
+          <div className="bg-black/70 w-[86px] h-[130px] rounded-md">
+            <img
+              src={Logo}
+              alt=""
+              style={{
+                borderRadius: 5,
+              }}
+              className=" hover:grayscale-0 grayscale w-full max-w-[86px] h-full max-h-[130px] object-cover"
+            />
+          </div>
         )}
-        {talent?.profilePic && (
-          <img
-            src={talent?.profilePic}
-            alt=""
-            width={260}
-            height={260}
-            style={{ borderRadius: 5 }}
-            className=" hover:grayscale-0 grayscale  w-[196px] h-[162px] object-cover"
-          />
+        {talent.profilePic && (
+          <div className="bg-black/70 w-[86px] h-[130px] rounded-md">
+            <img
+              src={talent.profilePic}
+              alt=""
+              style={{ borderRadius: 5 }}
+              className=" hover:grayscale-0 grayscale w-full max-w-[86px] h-full max-h-[130px] object-cover"
+            />
+          </div>
         )}
       </div>
       <div className="p-2 w-full">
-        <div className="flex w-full justify-between mb-3">
+        <div className="flex w-full justify-between">
           <div className="flex items-center gap-3">
-            {" "}
+            <Checkbox onCheckedChange={() => handleCheckedChange(talent._id)} />
+
             <p
               className="text-[15px] font-medium cursor-pointer capitalize"
               onClick={() => handleApplyPopUp(talent)}
             >
               {talent?.fullName}
             </p>
-            <AiOutlineHeart />
+            <HeartIcon
+              selectedTalentID={talent?._id}
+              favorites={talent?.favorites}
+            />
           </div>
           <div className="flex items-center">
             {talent?.metaData?.isActive && (
-              <div className="text-[#00AB26] text-[10px] font-normal">
+              <div className="text-[#00AB26] text-[10px] font-normal border-r-2 pr-2">
                 Available
               </div>
             )}
             {!talent?.metaData?.isActive && (
-              <div className="text-[#FF0000] text-[10px] font-normal">
+              <div className="text-[#FF0000] text-[10px] font-normal border-r-2 pr-2">
                 Unavailable
               </div>
             )}
-            <div className="flex items-center">
-              <div className="text-[15px] p-0 px-2">|</div>
-              <p className="text-[10px] font-normal">Brand Ambassador</p>
+            <div className="capitalize pl-2   text-[10px]">
+              {talent?.opportunities[0]}
             </div>
           </div>
         </div>
         <div className="mb-3">
           {" "}
-          <p className="text-[12px] font-normal mb-3 ">
+          <p className="text-[12px] font-normal  ">
             {" "}
             {truncateText(talent?.summary || "-", 20)}
           </p>

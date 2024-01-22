@@ -124,7 +124,7 @@ const AllApplications = ({
     setPopUp(!popUp);
     setSelectedRole(talent);
   };
-  // return <div className="">Dope</div>;
+
   return (
     <div className="relative">
       {gridView && (

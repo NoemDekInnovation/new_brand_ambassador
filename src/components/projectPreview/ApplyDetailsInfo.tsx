@@ -76,8 +76,8 @@ const appOptions: any = [
 
 const actionOptions: any = [
   { value: "Shortlist", label: "Shortlist" },
-  { value: "Approve Hire", label: "Approve Hire" },
-  { value: "Send Message", label: "Send Message" },
+  { value: "Send Offer", label: "Send Offer" },
+  { value: "Reject", label: "Reject" },
 ];
 
 const talentOptions: any = [
