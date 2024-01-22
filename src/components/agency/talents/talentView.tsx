@@ -68,6 +68,7 @@ export const TalentList = ({
   selectedProject,
   setSuccessModal,
   successModal,
+  handleCheckedChange,
   setModal,
   modal,
 }: {
@@ -85,11 +86,27 @@ export const TalentList = ({
   successModal: boolean;
   setModal?: any;
   modal?: boolean;
+  handleCheckedChange?: any;
 }) => {
   const handleModalPop = () => {
     setSelectedTalentID(talent._id);
     setModal(!modal);
   };
+
+  // const [checkedTalentIds, setCheckedTalentIds] = useState<string[]>([]);
+
+  // const handleCheckedChange = (talentId: string) => {
+  //   // Check if the talentId is already in the array
+  //   if (checkedTalentIds.includes(talentId)) {
+  //     // If checked, remove it from the array
+  //     setCheckedTalentIds(checkedTalentIds.filter((id) => id !== talentId));
+  //   } else {
+  //     // If not checked, add it to the array
+  //     setCheckedTalentIds([...checkedTalentIds, talentId]);
+  //   }
+  // };
+
+  // console.log(checkedTalentIds);
 
   return (
     <div key={index} className="bg-white border rounded flex">
@@ -99,12 +116,8 @@ export const TalentList = ({
             <img
               src={Logo}
               alt=""
-              // width={260}
-              // height={260}
               style={{
                 borderRadius: 5,
-                // height: 108,
-                // width: 86,
               }}
               className=" hover:grayscale-0 grayscale w-full max-w-[86px] h-full max-h-[108px] object-cover"
             />
@@ -124,7 +137,7 @@ export const TalentList = ({
       <div className="p-2 w-full">
         <div className="flex w-full justify-between">
           <div className="flex items-center gap-3">
-            <Checkbox />
+            <Checkbox onCheckedChange={() => handleCheckedChange(talent._id)} />
 
             <p className="text-[15px] font-medium capitalize">
               {talent?.firstName}

@@ -2,16 +2,8 @@ import { Card, CardContent } from "../../ui/card";
 import { TbMap2, TbProgressCheck } from "react-icons/tb";
 import { ImCancelCircle, ImStatsDots } from "react-icons/im";
 import { Separator } from "../../ui/seperator";
-import {
-  MdFamilyRestroom,
-  MdOutlineProductionQuantityLimits,
-  MdPostAdd,
-} from "react-icons/md";
+import { MdOutlineProductionQuantityLimits, MdPostAdd } from "react-icons/md";
 import { BsFillCollectionFill } from "react-icons/bs";
-import darkUnion from "../../assets/Union1.png";
-import subtract from "../../assets/Subtract.png";
-import subtract2 from "../../assets/Subtract2.png";
-import subtract3 from "../../assets/Subtract3.png";
 import TalentDetailsInfo from "./TalentDetailsInfo";
 import { useState } from "react";
 import { TalentProps } from "../../redux/types";
@@ -207,7 +199,10 @@ const InviteTalent = ({
         </div>
         {activePreview === "Project Post" && (
           <Card className=" flex border-0 absolute flex-col p-2 bg-white w-full max-w-[83%] right-0 top-0 mt-[130px] ">
-            <TalentDetailsInfo handleProfilePopUp={handleProfilePopUp} />
+            <TalentDetailsInfo
+              handleProfilePopUp={handleProfilePopUp}
+              projectId={selectedProject._id}
+            />
           </Card>
         )}
         {activePreview === "Contracts" && (
