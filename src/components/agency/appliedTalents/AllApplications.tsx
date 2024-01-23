@@ -22,6 +22,7 @@ import { Button } from "../../../ui/button";
 import { TbProgressCheck } from "react-icons/tb";
 import { DialogOverlay } from "@radix-ui/react-dialog";
 import { TalentProps } from "../../../redux/types";
+import SelectOption from "../../../libs/select";
 
 const AllApplications = ({
   gridView,
@@ -43,7 +44,11 @@ const AllApplications = ({
   handleGroupSubmit,
   handleCheckedChange,
   bulkModal,
+  offerSelectorList,
+  offers,
   setBulkModal,
+  setSelectedOffer,
+  offerHandler,
 }: {
   bulkModal?: any;
   setBulkModal?: any;
@@ -51,6 +56,7 @@ const AllApplications = ({
   appStatus: string;
   gridView: boolean;
   handleInvite: any;
+  offerSelectorList: any;
   setSelectedProject: any;
   projects: any;
   setSelectedTalent: any;
@@ -65,6 +71,9 @@ const AllApplications = ({
   setProjectModal?: any;
   handleCheckedChange?: any;
   handleGroupSubmit?: any;
+  offers: any;
+  setSelectedOffer: any;
+  offerHandler: any;
 }) => {
   const { talents: resTalents } = useSelector(
     (state: RootState) => state.talent
@@ -133,6 +142,13 @@ const AllApplications = ({
     setSelectedRole(talent);
   };
 
+  const handleSelection = (value: any) => {
+    const offerInfo = offers.filter(
+      (offer: any) => offer !== value.toLowerCase()
+    );
+    setSelectedOffer(offerInfo);
+  };
+
   return (
     <div className="relative">
       {gridView && (
@@ -144,6 +160,7 @@ const AllApplications = ({
             {talentData?.map((_: any, idx: number) => {
               return (
                 <AppliedTalentGrid
+                  key={idx}
                   _={_}
                   modal={projectModal}
                   setModal={setProjectModal}
@@ -333,7 +350,7 @@ const AllApplications = ({
               <Separator className="bg-[#D7D8DA]" />
 
               <div className="w-full pb-2">
-                <Select
+                {/* <Select
                   onValueChange={(e) => setSelectedTalent(e)}
                   defaultValue={selectedTalent}
                 >
@@ -347,7 +364,19 @@ const AllApplications = ({
                       Brand Ambassador
                     </SelectItem>
                   </SelectContent>
-                </Select>
+                </Select> */}
+
+                <SelectOption
+                  id="origin"
+                  name="origin"
+                  defaultValue={"companyProfile.address[0].state"}
+                  options={offerSelectorList}
+                  onChange={(e: any) => handleSelection(e.value)}
+                  placeholder="Select offer"
+                  required
+                  isDisabled={false}
+                  className="max-w-[400px]"
+                />
               </div>
 
               <Separator className="bg-[#D7D8DA]" />
@@ -356,7 +385,7 @@ const AllApplications = ({
                 <Button
                   type="submit"
                   className="dark__btn h-[46px]"
-                  // onClick={handleGroupSubmit}
+                  onClick={offerHandler}
                 >
                   {isLoading && (
                     <svg

@@ -127,6 +127,9 @@ const ApplyDetailsInfo = ({
   const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>(null);
   const [appStatus, setAppStatus] = useState<AppProps>("All");
   const [checkedTalentIds, setCheckedTalentIds] = useState<string[]>([]);
+  const [offerSelectorList, setOfferSelectorList] = useState([]);
+  const [offers, setOffers] = useState([]);
+  const [selectedOffer, setSelectedOffer] = useState<any>(null);
   const [bulkModal, setBulkModal] = useState(false);
 
   const { toast } = useToast();
@@ -170,7 +173,36 @@ const ApplyDetailsInfo = ({
       setCheckedTalentIds([...checkedTalentIds, talentId]);
     }
   };
-  console.log(checkedTalentIds);
+  function capitalizeFirstLetter(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+  const fetchContractOffers = async () => {
+    if (user?.accountId !== undefined) {
+      try {
+        const response = await campaignAuthAxiosInstance(
+          `/offers/${ProjectId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.authKey || ""}`,
+            },
+          }
+        );
+        const offers = response.data.data.projectOffers;
+        setOffers(offers);
+
+        setOfferSelectorList(
+          offers.map((offer: any) => {
+            return {
+              label: capitalizeFirstLetter(offer?.offerName),
+              value: capitalizeFirstLetter(offer?.offerName),
+            };
+          })
+        );
+      } catch (error) {
+        console.error("Error while fetiching Notifications:", error);
+      }
+    }
+  };
 
   const handleViewToggle = () => {
     setGridView(!gridView);
@@ -194,6 +226,8 @@ const ApplyDetailsInfo = ({
   }, [activeType]);
 
   useEffect(() => {
+    fetchContractOffers();
+
     dispatch(fetchApplications({ id: ProjectId, queryParams: null }));
     // dispatch(filterApplications({ id: ProjectId, status: "shortlisted" }));
   }, []);
@@ -280,7 +314,7 @@ const ApplyDetailsInfo = ({
   const handleGroupSubmit = async (status: string) => {
     setIsLoading(true);
 
-    const resultArray = checkedTalentIds.map((talentId: string) => {
+    const payload = checkedTalentIds.map((talentId: string) => {
       return {
         talentId: talentId,
       };
@@ -289,7 +323,7 @@ const ApplyDetailsInfo = ({
       try {
         const response = await campaignAuthAxiosInstance.post(
           `/add-shortlist/${ProjectId}?status=${status}`,
-          resultArray,
+          payload,
 
           {
             headers: {
@@ -317,6 +351,58 @@ const ApplyDetailsInfo = ({
     }
   };
 
+  const offerHandler = async () => {
+    setIsLoading(true);
+
+    // const payload = [
+    //   {
+    //     talentId: talent._id,
+    //     offerName: selectedOffer[0]?.offerName,
+    //     offerDescription: selectedOffer[0]?.offerDescription,
+    //     documentUrl: selectedOffer[0]?.document,
+    //   },
+    // ];
+
+    const payload = checkedTalentIds.map((talentId: string) => {
+      return {
+        talentId: talentId,
+        offerName: selectedOffer[0]?.offerName,
+        offerDescription: selectedOffer[0]?.offerDescription,
+        documentUrl: selectedOffer[0]?.document,
+      };
+    });
+
+    if (user?.accountId !== undefined) {
+      try {
+        const response = await campaignAuthAxiosInstance.post(
+          `/contract-offer/${ProjectId}`,
+          // `/contract-offer/${talent._id}/${ProjectId}`,
+          payload,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.authKey || ""}`,
+            },
+          }
+        );
+        setSuccessMessage(response.data.message || "Success");
+        setTimeout(() => {
+          setSuccessModal(true);
+        }, 300);
+      } catch (error: any) {
+        console.error("Error while fetiching Notifications:", error);
+        if (error.response && error.response.status === 400) {
+          // Extract and display the specific error message from the API response
+          setSuccessMessage(error.response.data.message || "Bad Request");
+        } else {
+          // Display a generic error message for other error scenarios
+          setSuccessMessage(
+            "An error occurred while saving. Please try again."
+          );
+        }
+      }
+    }
+  };
+
   switch (activeType) {
     case "All Talent":
       pageTalents = (
@@ -337,11 +423,15 @@ const ApplyDetailsInfo = ({
             selectedProject={selectedProject}
             projectModal={projectModal}
             ProjectId={ProjectId}
+            offerSelectorList={offerSelectorList}
             appStatus={appStatus}
             setProjectModal={setProjectModal}
             gap={14}
+            offerHandler={offerHandler}
             handleGroupSubmit={handleGroupSubmit}
             handleCheckedChange={handleCheckedChange}
+            offers={offers}
+            setSelectedOffer={setSelectedOffer}
           />
 
           <OfferModal
