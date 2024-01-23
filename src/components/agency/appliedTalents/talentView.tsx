@@ -246,15 +246,21 @@ export const TalentList = ({
   };
 
   const offerHandler = async () => {
-    const payload = {
-      offerName: selectedOffer[0]?.offerName,
-      offerDescription: selectedOffer[0]?.offerDescription,
-      documentUrl: selectedOffer[0]?.document,
-    };
+    setModalOpen(true);
+
+    const payload = [
+      {
+        talentId: talent._id,
+        offerName: selectedOffer[0]?.offerName,
+        offerDescription: selectedOffer[0]?.offerDescription,
+        documentUrl: selectedOffer[0]?.document,
+      },
+    ];
     if (user?.user?.accountId !== undefined) {
       try {
         const response = await campaignAuthAxiosInstance.post(
-          `/contract-offer/${talent._id}/${ProjectId}`,
+          `/contract-offer/${ProjectId}`,
+          // `/contract-offer/${talent._id}/${ProjectId}`,
           payload,
           {
             headers: {
@@ -263,6 +269,9 @@ export const TalentList = ({
           }
         );
         setStatusMessage(response.data.message || "Success");
+        setTimeout(() => {
+          setModalOpen(false);
+        }, 300);
       } catch (error: any) {
         console.error("Error while fetiching Notifications:", error);
         if (error.response && error.response.status === 400) {
@@ -285,9 +294,6 @@ export const TalentList = ({
 
   const handleOffer = async () => {
     await offerHandler();
-    setTimeout(() => {
-      setModalOpen(true);
-    }, 2000);
   };
 
   return (
