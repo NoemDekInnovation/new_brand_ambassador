@@ -131,7 +131,7 @@ const InviteTalent = ({
               }}
             >
               <ImStatsDots />
-              <p className="text-[14px] font-normal">Contract</p>
+              <p className="text-[14px] font-normal">Offers & Contract</p>
             </div>
           </Card>
           {activePreview === "Project Post" && (
