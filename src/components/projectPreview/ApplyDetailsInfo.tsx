@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { BiSortAlt2 } from "react-icons/bi";
 import { TbLayoutGrid } from "react-icons/tb";
+import { useToast } from "../../ui/use-toast";
+
 import {
   AiOutlineHeart,
   AiOutlineMore,
@@ -55,6 +57,7 @@ import {
   setPageQuery,
   setTalentQuery,
 } from "../../redux/talent.slice";
+import OfferModal from "../../libs/OfferModal";
 
 const categoryOptions: any = [
   { value: "All Talent", label: "All Talent" },
@@ -113,6 +116,7 @@ const ApplyDetailsInfo = ({
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
   const [projects, setProjects] = useState<ProjectProps[]>();
   const [successModal, setSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedTalent, setSelectedTalent] = useState("");
   const [selectedTalentID, setSelectedTalentID] = useState("");
@@ -122,6 +126,10 @@ const ApplyDetailsInfo = ({
   const [gender, setGender] = useState("");
   const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>(null);
   const [appStatus, setAppStatus] = useState<AppProps>("All");
+  const [checkedTalentIds, setCheckedTalentIds] = useState<string[]>([]);
+  const [bulkModal, setBulkModal] = useState(false);
+
+  const { toast } = useToast();
 
   const onTalentTypeChnage = (type: TalentType) => {
     // setActiveType(type);
@@ -151,6 +159,18 @@ const ApplyDetailsInfo = ({
     setSortQuery(null);
     setSelectedGender("all");
   };
+
+  const handleCheckedChange = (talentId: string) => {
+    // Check if the talentId is already in the array
+    if (checkedTalentIds.includes(talentId)) {
+      // If checked, remove it from the array
+      setCheckedTalentIds(checkedTalentIds.filter((id) => id !== talentId));
+    } else {
+      // If not checked, add it to the array
+      setCheckedTalentIds([...checkedTalentIds, talentId]);
+    }
+  };
+  console.log(checkedTalentIds);
 
   const handleViewToggle = () => {
     setGridView(!gridView);
@@ -245,27 +265,91 @@ const ApplyDetailsInfo = ({
     }
   };
 
+  const bulkHandler = (e: any) => {
+    // handleGroupSubmit()
+    console.log("hello jimmy", e.value);
+    if (e.value === "Shortlist") {
+      return handleGroupSubmit("shortlisted");
+    }
+    if (e.value === "Reject") {
+      return handleGroupSubmit("rejected");
+    }
+    setBulkModal(!bulkModal);
+  };
+
+  const handleGroupSubmit = async (status: string) => {
+    setIsLoading(true);
+
+    const resultArray = checkedTalentIds.map((talentId: string) => {
+      return {
+        talentId: talentId,
+      };
+    });
+    if (user?.accountId !== undefined) {
+      try {
+        const response = await campaignAuthAxiosInstance.post(
+          `/add-shortlist/${ProjectId}?status=${status}`,
+          resultArray,
+
+          {
+            headers: {
+              Authorization: `Bearer ${user?.authKey || ""}`,
+            },
+          }
+        );
+
+        setIsLoading(false);
+        setSuccessMessage(`Talent have been ${status} successfully`);
+        // setBulkModal(!bulkModal);
+        setSuccessModal(true);
+
+        return setTimeout(() => {
+          setSuccessModal(false);
+        }, 3000);
+      } catch (error: any) {
+        console.error("Error while fetiching Notifications:", error);
+        setIsLoading(false);
+        toast({
+          description: error?.response?.data?.message,
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
   switch (activeType) {
     case "All Talent":
       pageTalents = (
-        <AllApplications
-          gridView={gridView}
-          successModal={successModal}
-          setSuccessModal={setSuccessModal}
-          handleInvite={handleInvite}
-          setSelectedProject={setSelectedProject}
-          projects={projects}
-          setSelectedTalent={setSelectedTalent}
-          // handleProfilePopUp={handleProfilePopUp}
-          selectedTalent={selectedTalent}
-          setSelectedTalentID={setSelectedTalentID}
-          selectedProject={selectedProject}
-          projectModal={projectModal}
-          ProjectId={ProjectId}
-          appStatus={appStatus}
-          setProjectModal={setProjectModal}
-          gap={14}
-        />
+        <>
+          <AllApplications
+            gridView={gridView}
+            successModal={successModal}
+            setSuccessModal={setSuccessModal}
+            handleInvite={handleInvite}
+            setSelectedProject={setSelectedProject}
+            projects={projects}
+            setSelectedTalent={setSelectedTalent}
+            // handleProfilePopUp={handleProfilePopUp}
+            selectedTalent={selectedTalent}
+            bulkModal={bulkModal}
+            setBulkModal={setBulkModal}
+            setSelectedTalentID={setSelectedTalentID}
+            selectedProject={selectedProject}
+            projectModal={projectModal}
+            ProjectId={ProjectId}
+            appStatus={appStatus}
+            setProjectModal={setProjectModal}
+            gap={14}
+            handleGroupSubmit={handleGroupSubmit}
+            handleCheckedChange={handleCheckedChange}
+          />
+
+          <OfferModal
+            isOpen={successModal}
+            onClose={() => setSuccessModal(false)}
+            statusMessage={successMessage}
+          />
+        </>
       );
       break;
     // case "Current Contracts":
@@ -354,6 +438,10 @@ const ApplyDetailsInfo = ({
     setTalentType(role);
   };
 
+  const handlePageSizeChange = (size: any) => {
+    updateQuery({ pageSize: size });
+  };
+
   useEffect(() => {
     setTimeout(() => {
       dispatch(setTalentQuery(sortQuery));
@@ -384,8 +472,8 @@ const ApplyDetailsInfo = ({
               placeholder="Select Category "
               id="projectCategory"
               name="projectCategory"
-              onChange={(e: any) => onTalentTypeChnage(e.value)}
               required
+              onChange={(e: any) => onTalentTypeChnage(e.value)}
               options={appOptions}
               defaultValue={activeType}
               isDisabled={false}
@@ -460,7 +548,7 @@ const ApplyDetailsInfo = ({
               placeholder="Actions"
               id="projectCategory"
               name="projectCategory"
-              onChange={(e: any) => onTalentTypeChnage(e.value)}
+              onChange={bulkHandler}
               required
               options={actionOptions}
               defaultValue={activeType}
@@ -589,69 +677,90 @@ const ApplyDetailsInfo = ({
         {pageTalents}
       </div>
       <Separator className="my-2 md:my-4" />
-      <div className="flex w-full justify-end items-center text-[10px] font-normal">
-        {page * pageSize - negativePage <= pageSize && (
-          <div className="ml-4 text-slate-400 p-1 ">First</div>
-        )}
-        {page * pageSize - negativePage >= positivePage && (
-          <div
-            className="ml-4 hover:bg-slate-300 cursor-pointer p-1  rounded-sm"
-            onClick={() => {
-              dispatch(setPageQuery({ page: 1 }));
-            }}
-          >
-            First
+      <div className="flex w-full">
+        <div className="flex items-center gap-2 text-[12px]">
+          <span className="whitespace-nowrap mr-2">Rows per page:</span>
+          {"  "}{" "}
+          <div className="flex items-center gap-3">
+            {[10, 20, 30, 40, 50].map((n, idx) => {
+              return (
+                <div
+                  className={`hover:bg-gray-300 ${
+                    pageSize === n ? "bg-gray-300" : ""
+                  } rounded p-2 transition-all duration-400 cursor-pointer`}
+                  key={idx}
+                  onClick={() => handlePageSizeChange(n)}
+                >
+                  {n}
+                </div>
+              );
+            })}
           </div>
-        )}
-        {page * pageSize - negativePage <= pageSize && (
-          <div className="flex gap-2 mx-4 items-center">
-            <BsChevronLeft className=" tex t-slate-400 p-1 text-[16px]" />
-            Back
-          </div>
-        )}
-        {page * pageSize - negativePage >= positivePage && (
-          <div className="flex gap-2 mx-4 items-center">
-            Back
-            <BsChevronLeft
-              className=" hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+        </div>
+        <div className="flex w-full justify-end items-center text-[10px] font-normal">
+          {page * pageSize - negativePage <= pageSize && (
+            <div className="ml-4 text-slate-400 p-1 ">First</div>
+          )}
+          {page * pageSize - negativePage >= positivePage && (
+            <div
+              className="ml-4 hover:bg-slate-300 cursor-pointer p-1  rounded-sm"
               onClick={() => {
-                dispatch(setPageQuery({ page: page - 1 }));
+                dispatch(setPageQuery({ page: 1 }));
+              }}
+            >
+              First
+            </div>
+          )}
+          {page * pageSize - negativePage <= pageSize && (
+            <div className="flex gap-2 mx-4 items-center">
+              <BsChevronLeft className=" tex t-slate-400 p-1 text-[16px]" />
+              Back
+            </div>
+          )}
+          {page * pageSize - negativePage >= positivePage && (
+            <div className="flex gap-2 mx-4 items-center">
+              Back
+              <BsChevronLeft
+                className=" hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                onClick={() => {
+                  dispatch(setPageQuery({ page: page - 1 }));
+                }}
+              />
+            </div>
+          )}
+          {page * pageSize - negativePage}-
+          {page * pageSize >= totalApplications ? totalPages : page * pageSize}{" "}
+          of {totalPages}
+          {page * pageSize < totalApplications && (
+            <div className="flex gap-2 mx-4 items-center">
+              Next{" "}
+              <BsChevronRight
+                className=" hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                onClick={() => {
+                  dispatch(setPageQuery({ page: page + 1 }));
+                }}
+              />
+            </div>
+          )}
+          {page * pageSize >= totalApplications && (
+            <div className="flex gap-2 mx-4 items-center">
+              Next
+              <BsChevronRight className=" text-slate-400 p-1 text-[16px]" />
+            </div>
+          )}
+          {page * pageSize < totalApplications && (
+            <BsChevronDoubleRight
+              className="mr-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+              onClick={() => {
+                dispatch(setPageQuery({ page: totalPages }));
               }}
             />
-          </div>
-        )}
-        {page * pageSize - negativePage}-
-        {page * pageSize >= totalApplications ? totalPages : page * pageSize} of{" "}
-        {totalPages}
-        {page * pageSize < totalApplications && (
-          <div className="flex gap-2 mx-4 items-center">
-            Next{" "}
-            <BsChevronRight
-              className=" hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-              onClick={() => {
-                dispatch(setPageQuery({ page: page + 1 }));
-              }}
-            />
-          </div>
-        )}
-        {page * pageSize >= totalApplications && (
-          <div className="flex gap-2 mx-4 items-center">
-            Next
-            <BsChevronRight className=" text-slate-400 p-1 text-[16px]" />
-          </div>
-        )}
-        {page * pageSize < totalApplications && (
-          <BsChevronDoubleRight
-            className="mr-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-            onClick={() => {
-              dispatch(setPageQuery({ page: totalPages }));
-            }}
-          />
-        )}
-        {page * pageSize >= totalApplications && (
-          <BsChevronDoubleRight className="text-slate-400 p-1 text-[16px] mr-4" />
-        )}
-      </div>{" "}
+          )}
+          {page * pageSize >= totalApplications && (
+            <BsChevronDoubleRight className="text-slate-400 p-1 text-[16px] mr-4" />
+          )}
+        </div>{" "}
+      </div>
       {/* <Pagination
         first={""}
         last={""}
