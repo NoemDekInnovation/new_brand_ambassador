@@ -300,8 +300,6 @@ const ApplyDetailsInfo = ({
   };
 
   const bulkHandler = (e: any) => {
-    // handleGroupSubmit()
-    console.log("hello jimmy", e.value);
     if (e.value === "Shortlist") {
       return handleGroupSubmit("shortlisted");
     }
@@ -676,7 +674,6 @@ const ApplyDetailsInfo = ({
               <Label htmlFor="r3">Female</Label>
             </div>
           </RadioGroup>
-          {/* <p className="font-semibold text-[18px] ">{activeType}</p> */}
           <div className="hidden lg:flex items-center border  max-h-[60px]   rounded-md w-full max-w-[300px] px-3 py-1 ">
             <AiOutlineSearch className="text-[15px] " />
             <Input
