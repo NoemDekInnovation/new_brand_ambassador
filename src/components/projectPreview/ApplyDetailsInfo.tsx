@@ -438,6 +438,10 @@ const ApplyDetailsInfo = ({
     setTalentType(role);
   };
 
+  const handlePageSizeChange = (size: any) => {
+    updateQuery({ pageSize: size });
+  };
+
   useEffect(() => {
     setTimeout(() => {
       dispatch(setTalentQuery(sortQuery));
@@ -673,7 +677,26 @@ const ApplyDetailsInfo = ({
         {pageTalents}
       </div>
       <Separator className="my-2 md:my-4" />
-      <div className="flex w-full bg-green-300">
+      <div className="flex w-full">
+        <div className="flex items-center gap-2 text-[12px]">
+          <span className="whitespace-nowrap mr-2">Rows per page:</span>
+          {"  "}{" "}
+          <div className="flex items-center gap-3">
+            {[10, 20, 30, 40, 50].map((n, idx) => {
+              return (
+                <div
+                  className={`hover:bg-gray-300 ${
+                    pageSize === n ? "bg-gray-300" : ""
+                  } rounded p-2 transition-all duration-400 cursor-pointer`}
+                  key={idx}
+                  onClick={() => handlePageSizeChange(n)}
+                >
+                  {n}
+                </div>
+              );
+            })}
+          </div>
+        </div>
         <div className="flex w-full justify-end items-center text-[10px] font-normal">
           {page * pageSize - negativePage <= pageSize && (
             <div className="ml-4 text-slate-400 p-1 ">First</div>
