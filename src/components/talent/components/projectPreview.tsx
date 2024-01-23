@@ -18,6 +18,13 @@ import {
   patchAxiosInstance,
 } from "../../../api/axios";
 import { toast } from "../../../ui/use-toast";
+import SelectOption from "../../../libs/select";
+
+const talentOptions: any = [
+  { value: "supervisor", label: "Supervisor" },
+  { value: "ba", label: "Brand Ambassador" },
+  { value: "usher", label: "Usher" },
+];
 
 const ProjectPreview = ({
   popUp,
@@ -57,6 +64,7 @@ const ProjectPreview = ({
   const [selectedFileName, setSelectedFileName] = useState("");
   const [documents, setDocuments] = useState<File[]>([]);
   const [letterContent, setLetterContent] = useState("");
+  const [talentType, setTalentType] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -87,6 +95,7 @@ const ProjectPreview = ({
     const formData = new FormData();
 
     formData.append("letter", letterContent);
+    formData.append("opportunities", talentType);
 
     documents.forEach((file, index) => {
       formData.append("document", file);
@@ -149,6 +158,10 @@ const ProjectPreview = ({
     }
   };
 
+  const handleRoleChange = (role: any) => {
+    // updateQuery({ opportunities: role });
+    setTalentType(role);
+  };
   return (
     <div
       className={`fixed z-[1000] bg-black/50  w-[100%] items-center justify-end flex flex-col transition-all duration-1000 inset-0 ${
@@ -369,8 +382,25 @@ const ProjectPreview = ({
 
           {apply && (
             <>
-              <ItemCard title={"Application Letter"} red={true}>
-                <p>Tell the Agency why you should be contracted</p>
+              <ItemCard title={"Application"} red={true}>
+                <div className="flex items-center gap-2">
+                  {" "}
+                  <p className="whitespace-nowrap">Talent Type {"   "}:</p>{" "}
+                  <SelectOption
+                    className="block max-w-[280px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
+                    placeholder="Select Talent "
+                    id="projectTalent"
+                    name="projectTalent"
+                    onChange={(e: any) => handleRoleChange(e.value)}
+                    required
+                    options={talentOptions}
+                    defaultValue={talentType}
+                    isDisabled={false}
+                  />
+                </div>
+                <Separator className="bg-bm__beige my-4" />
+
+                <p>Use the input field to fill out the project requirement.</p>
 
                 <Separator className="bg-bm__beige my-4" />
                 <textarea
