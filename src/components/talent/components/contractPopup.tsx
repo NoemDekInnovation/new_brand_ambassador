@@ -3,19 +3,22 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ChangeEvent, Fragment, useEffect, useState } from "react";
 import { Card, CardContent } from "../../../ui/card";
 import { Separator } from "../../../ui/seperator";
-import { Input } from "../../../ui/input";
 import { useToast } from "../../../ui/use-toast";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { patchAxiosInstance } from "../../../api/axios";
 import OfferModal from "../../../libs/OfferModal";
 import { Button } from "../../../ui/button";
+import { Checkbox } from "../../../ui/checkbox";
+import { SignaturePad } from "./SignaturePad";
 
 export default function ContractPopUp({
   setOpenContractDialog,
   openContractDialog,
   projectId,
+  contract,
 }: {
+  contract: any;
   setOpenContractDialog: React.Dispatch<React.SetStateAction<boolean>>;
   openContractDialog: boolean;
   projectId: any;
@@ -26,6 +29,7 @@ export default function ContractPopUp({
   const [statusMessage, setStatusMessage] = useState("");
   const [contractName, setContractName] = useState("");
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isAccepted, setIsAccepted] = useState(false);
   const [contractDescription, setContractDesc] = useState("");
 
   const { toast } = useToast();
@@ -85,13 +89,6 @@ export default function ContractPopUp({
       }
     }
   };
-
-  // useEffect(() => {
-  //   // Open the modal after the status message is set
-  //   if (statusMessage) {
-  //     setModalOpen(true);
-  //   }
-  // }, [statusMessage]);
 
   const handleSave = async () => {
     await handleSubmit();
@@ -155,7 +152,7 @@ export default function ContractPopUp({
                   <div className="bg-white pt-6 shadow-xl w-full rounded-t-xl">
                     <div className="px-4 sm:px-6 pb-4 flex justify-between">
                       <Dialog.Title className="text-[24px] font-semibold leading-6 text-gray-900">
-                        Create Contract
+                        Contract
                       </Dialog.Title>
                       {/* <p className="text-[20px] text-primary-600 cursor-pointer">
                         New +
@@ -164,47 +161,75 @@ export default function ContractPopUp({
                     <div className="flex h-[85vh] flex-col overflow-y-scroll bg-white pb-6 shadow-xl w-full rounded-t-xl">
                       <div className="relative mt-1 flex-1 px-4 sm:px-6">
                         <Separator className="bg-bm__beige my-6 " />
-                        <div className="mb-4">
-                          <Input
-                            placeholder=" Contract Name"
-                            value={contractName}
-                            onChange={handleContractNameChange}
-                          />
-                        </div>
-                        <Card className="w-full pt-4 my-3 h-[600px] ">
+                        <Card className="w-full pt-4 my-3 bg-[#F3F3F380] border border-[#D7D8DA]">
                           <CardContent>
-                            <div className="flex justify-between items-center">
-                              <h2 className="text-[14px] font-normal capitalize mb-3">
-                                Contract Details
+                            <div className="flex items-center justify-center">
+                              <h2 className="text-center text-[14px] font-normal capitalize mb-3">
+                                {contract?.contractName} Contract{" "}
                               </h2>
                             </div>
+                            <Separator className="bg-bm__beige my-3 " />
 
-                            <Card className="h-[500px] mb-3">
-                              <div className="flex flex-col overflow-y-auto h-[500px]">
-                                <textarea
-                                  className=" break-words p-4 h-full"
-                                  placeholder="Write out your contract details here"
-                                  value={contractDescription}
-                                  onChange={handleContractDescChange}
-                                />
-                              </div>
-                              {/* <small>250 characters</small> */}
-                            </Card>
+                            <div className="flex flex-col overflow-y-auto h-[23vh]">
+                              <p className=" break-words p-4 text-[12px] font-normal h-[23vh]">
+                                {contract?.contractDescription}
+                              </p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                        <Card className="w-full pt-4 my-3 bg-[#F3F3F380] border border-[#D7D8DA]">
+                          <CardContent>
+                            <div className="flex items-center justify-center">
+                              <h2 className="text-center text-[14px] font-normal capitalize mb-3">
+                                Signature
+                              </h2>
+                            </div>
+                            <Separator className="bg-bm__beige my-3 " />
+                            <div className="flex flex-col overflow-y-auto h-[30vh]">
+                              <p className=" break-words p-4 text-[12px] font-normal h-[23vh]">
+                                {/* {offer?.terms} */}
+                                <SignaturePad />
+                              </p>
+                            </div>
+                            <Separator className="bg-bm__beige my-3 " />
+                            <div className="flex items-center space-x-2">
+                              <Checkbox
+                                id="terms2"
+                                onCheckedChange={() =>
+                                  setIsAccepted(!isAccepted)
+                                }
+                              />
+                              <label
+                                htmlFor="terms2"
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                              >
+                                I accept Contract details.
+                              </label>
+                            </div>{" "}
                           </CardContent>
                         </Card>
 
-                        <div className="flex justify-between">
-                          <Button
-                            className="bg-[#D7D8DA] text-[#7A7F86] hover:bg-bm__btn__grey/70 px-4 py-1 px-7"
-                            onClick={() => setOpenContractDialog(false)}
-                          >
-                            Cancel
-                          </Button>
+                        <div className="flex justify-between mt-auto mb-[30px] pb-[40px] ">
+                          <div className="flex items-center gap-3">
+                            <Button
+                              className="bg-[#D7D8DA] text-[#7A7F86] hover:bg-bm__btn__grey/70 px-4 py-1 px-7"
+                              onClick={() => setOpenContractDialog(false)}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              className="bg-[#D7D8DA] text-[#7A7F86] hover:bg-bm__btn__grey/70 px-4 py-1 px-7"
+                              // onClick={() => setOpenOfferDialog(false)}
+                              // onClick={() => acceptOffer("rejected")}
+                            >
+                              Decline Contract
+                            </Button>
+                          </div>
                           <Button
                             className="bg-bm__btn__grey text-white hover:bg-bm__btn__grey/70 px-4 py-1 px-7"
-                            onClick={handleSave}
+                            // onClick={() => acceptOffer("accepted")}
                           >
-                            Save
+                            Accept Contract
                           </Button>
                           <OfferModal
                             isOpen={isModalOpen}

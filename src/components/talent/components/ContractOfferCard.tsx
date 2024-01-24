@@ -213,15 +213,16 @@ const ContractOfferCard = ({
         </Card>
       )}
       <OfferPopUp
-        openOfferDialog={openOfferDialog}
+        openOfferDialog={openContractDialog}
         setOpenOfferDialog={setOpenOfferDialog}
         projectId={selectedProject?._id}
         offer={offersx}
       />
       <ContractPopUp
-        openContractDialog={openContractDialog}
+        openContractDialog={openOfferDialog}
         setOpenContractDialog={setOpenContractDialog}
         projectId={selectedProject?._id}
+        contract={contract}
       />
 
       {/* <div className="flex w-full justify-between mt-3 md:mt-6">
