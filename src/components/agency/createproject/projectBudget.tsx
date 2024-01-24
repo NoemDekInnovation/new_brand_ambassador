@@ -129,6 +129,7 @@ export default function ProjectBudget({
     index: number
   ) => {
     const { name, value } = e.target as { name: string; value: string };
+    console.log(value);
 
     // Remove non-numeric characters
     const numericValue = value.replace(/[^0-9]/g, "");
@@ -137,7 +138,9 @@ export default function ProjectBudget({
     const formattedValue = formatAsNaira(numericValue);
 
     const updatedExperiences = [...requiredTalents];
-    updatedExperiences[index][name] = formattedValue;
+    updatedExperiences[index][name] = numericValue;
+    // updatedExperiences[index][name] = formattedValue;
+    // setRequiredTalents(numericValue);
     setRequiredTalents(updatedExperiences);
   };
 
@@ -154,6 +157,8 @@ export default function ProjectBudget({
   useEffect(() => {
     checkFormValidity();
   }, [requiredTalents]);
+
+  console.log("jimmy", requiredTalents);
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
@@ -199,7 +204,7 @@ export default function ProjectBudget({
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
-              {requiredTalents.map((talent, index) => (
+              {requiredTalents?.map((talent, index) => (
                 <div className="mb-6" key={index}>
                   <div className="relative z-0 w-full mb-2 group">
                     <RadioGroup

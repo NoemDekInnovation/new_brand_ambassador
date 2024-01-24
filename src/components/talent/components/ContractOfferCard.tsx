@@ -32,8 +32,6 @@ const ContractOfferCard = ({
   const [openOfferDialog, setOpenOfferDialog] = useState(false);
   const [openContractDialog, setOpenContractDialog] = useState(false);
 
-  console.log("offersx", offersx);
-
   useEffect(() => {
     const filteredApplications = offers.filter((application: any) => {
       return selectedProject.project._id === application.project._id;
@@ -73,50 +71,19 @@ const ContractOfferCard = ({
             },
           }
         );
+        console.log(response);
 
-        setContract(response?.data.data.contracts[0]);
+        setContract(response?.data.data.contracts[0].contract);
       } catch (error) {
         console.error("Error while fetiching Notifications:", error);
       }
     }
   };
 
-  console.log(contract);
   useEffect(() => {
     fetchContract();
     fetchOffers();
   }, []);
-
-  const acceptOffer = async (value: string) => {
-    if (user?.user?.accountId !== undefined) {
-      try {
-        const response = await campaignAuthAxiosInstance(
-          `/accept-or-reject-offer/${selectedProject.project._id}?status=${value}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user?.user?.authKey || ""}`,
-            },
-          }
-        );
-        setModalOpen(true);
-        setTimeout(() => {
-          setModalOpen(false);
-          close();
-          setPopUp();
-        }, 2000);
-        setStatusMessage(response.data.message || "Success");
-      } catch (error: any) {
-        console.error("Error while fetiching Notifications:", error);
-        if (error.response && error.response.status === 400) {
-          // Extract and display the specific error message from the API response
-          setStatusMessage(error.response.data.message || "Bad Request");
-        } else {
-          // Display a generic error message for other error scenarios
-          setStatusMessage("An error occurred while saving. Please try again.");
-        }
-      }
-    }
-  };
 
   useEffect(() => {
     // Open the modal after the status message is set
@@ -124,13 +91,6 @@ const ContractOfferCard = ({
       setModalOpen(true);
     }
   }, [statusMessage]);
-
-  const handleOffer = async () => {
-    await acceptOffer("accepted");
-    setTimeout(() => {
-      setModalOpen(true);
-    }, 2000);
-  };
 
   return (
     <>
@@ -213,15 +173,15 @@ const ContractOfferCard = ({
         </Card>
       )}
       <OfferPopUp
-        openOfferDialog={openContractDialog}
+        openOfferDialog={openOfferDialog}
         setOpenOfferDialog={setOpenOfferDialog}
-        projectId={selectedProject?._id}
+        projectId={selectedProject?.project?._id}
         offer={offersx}
       />
       <ContractPopUp
-        openContractDialog={openOfferDialog}
+        openContractDialog={openContractDialog}
         setOpenContractDialog={setOpenContractDialog}
-        projectId={selectedProject?._id}
+        projectId={selectedProject?.project?._id}
         contract={contract}
       />
 
@@ -237,17 +197,13 @@ const ContractOfferCard = ({
         </div>
         <div className="flex gap-2">
           <div
-            className="border-red-500 text-red-500 rounded-md max-w-fit cursor-pointer  p-1 px-6 border"
-            // onClick={() => acceptOffer("accepted")}
-            onClick={() => acceptOffer("rejected")}
-          >
+            className="border-red-500 text
             Reject
           </div>
 
           <div
             className="dark__btn cursor-pointer max-w-fit"
-            onClick={() => acceptOffer("accepted")}
-            // onClick={handleOffer}
+
           >
             Accept
           </div>

@@ -6,7 +6,10 @@ import { Separator } from "../../../ui/seperator";
 import { useToast } from "../../../ui/use-toast";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
-import { patchAxiosInstance } from "../../../api/axios";
+import {
+  campaignAuthAxiosInstance,
+  patchAxiosInstance,
+} from "../../../api/axios";
 import OfferModal from "../../../libs/OfferModal";
 import { Button } from "../../../ui/button";
 import { Checkbox } from "../../../ui/checkbox";
@@ -27,53 +30,51 @@ export default function ContractPopUp({
 
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
-  const [contractName, setContractName] = useState("");
   const [isModalOpen, setModalOpen] = useState(false);
+  const [url, setUrl] = useState("");
   const [isAccepted, setIsAccepted] = useState(false);
-  const [contractDescription, setContractDesc] = useState("");
 
-  const { toast } = useToast();
+  // // Function to convert a data URI to a Blob
+  // function dataURItoBlob(dataURI: any) {
+  //   const byteString = atob(dataURI.split(",")[1]);
+  //   const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+  //   const ab = new ArrayBuffer(byteString.length);
+  //   const ia = new Uint8Array(ab);
+  //   for (let i = 0; i < byteString.length; i++) {
+  //     ia[i] = byteString.charCodeAt(i);
+  //   }
+  //   return new Blob([ab], { type: mimeString });
+  // }
 
-  const handleContractNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setContractName(event.target.value);
-  };
-
-  const handleContractDescChange = (
-    event: ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setContractDesc(event.target.value);
-  };
-
-  const handleSubmit = async () => {
-    setLoading(true);
-
+  const acceptContract = async (value: string) => {
+    // Create a FormData object
     const formData = new FormData();
+
+    // Append the Base64-encoded image to the FormData object as a Blob
+
+    formData.append("signature", url);
+    if (isAccepted) {
+      formData.append("agreed", "true");
+    }
 
     if (user?.user?.accountId !== undefined) {
       try {
-        const response = await patchAxiosInstance.post(
-          `/create-contract/${projectId}`,
-          {
-            contractName: contractName,
-            contractDescription: contractDescription,
-          },
+        const response = await campaignAuthAxiosInstance.post(
+          `/accept-or-reject-contract/${projectId}?status=${value}`,
+          { signature: url, agreed: isAccepted },
           {
             headers: {
               Authorization: `Bearer ${user?.user?.authKey || ""}`,
             },
           }
         );
-        setStatusMessage(response.data.message || "Success");
         setModalOpen(true);
-        setContractDesc("");
-        setContractName("");
-
         setTimeout(() => {
           setModalOpen(false);
-          setOpenContractDialog(false);
         }, 2000);
+        setStatusMessage(response.data.message || "Success");
       } catch (error: any) {
-        console.error("Error submitting form:", error);
+        console.error("Error while fetiching Notifications:", error);
         if (error.response && error.response.status === 400) {
           // Extract and display the specific error message from the API response
           setStatusMessage(error.response.data.message || "Bad Request");
@@ -81,17 +82,8 @@ export default function ContractPopUp({
           // Display a generic error message for other error scenarios
           setStatusMessage("An error occurred while saving. Please try again.");
         }
-        setTimeout(() => {
-          setModalOpen(false);
-        }, 2000);
-      } finally {
-        setLoading(false);
       }
     }
-  };
-
-  const handleSave = async () => {
-    await handleSubmit();
   };
 
   return (
@@ -187,8 +179,7 @@ export default function ContractPopUp({
                             <Separator className="bg-bm__beige my-3 " />
                             <div className="flex flex-col overflow-y-auto h-[30vh]">
                               <p className=" break-words p-4 text-[12px] font-normal h-[23vh]">
-                                {/* {offer?.terms} */}
-                                <SignaturePad />
+                                <SignaturePad setUrl={setUrl} />
                               </p>
                             </div>
                             <Separator className="bg-bm__beige my-3 " />
@@ -219,15 +210,14 @@ export default function ContractPopUp({
                             </Button>
                             <Button
                               className="bg-[#D7D8DA] text-[#7A7F86] hover:bg-bm__btn__grey/70 px-4 py-1 px-7"
-                              // onClick={() => setOpenOfferDialog(false)}
-                              // onClick={() => acceptOffer("rejected")}
+                              onClick={() => acceptContract("rejected")}
                             >
                               Decline Contract
                             </Button>
                           </div>
                           <Button
                             className="bg-bm__btn__grey text-white hover:bg-bm__btn__grey/70 px-4 py-1 px-7"
-                            // onClick={() => acceptOffer("accepted")}
+                            onClick={() => acceptContract("accepted")}
                           >
                             Accept Contract
                           </Button>
