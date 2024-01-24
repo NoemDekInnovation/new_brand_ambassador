@@ -154,13 +154,16 @@ export const TalentList = ({
 
   const [isShortlisted, setShortlisted] = useState(false);
   const [offers, setOffers] = useState([]);
+  const [contracts, setContracts] = useState([]);
   const [offerSelectorList, setOfferSelectorList] = useState([]);
+  const [contractSelectorList, setContractSelectorList] = useState([]);
+  const [selectedContract, setSelectedContract] = useState<any>(null);
   const [selectedOffer, setSelectedOffer] = useState<any>(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
   // const [projectId, setProjectId] = useState("");
 
-  console.log(selectedOffer);
+  console.log(selectedOffer, "oh", selectedContract);
 
   const handleShortlistClick = () => {
     // Perform shortlisting logic here, if needed
@@ -236,8 +239,36 @@ export const TalentList = ({
     }
   };
 
+  const fetchContracts = async () => {
+    if (user?.user?.accountId !== undefined) {
+      try {
+        const response = await campaignAuthAxiosInstance(
+          `/contracts/${ProjectId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.user?.authKey || ""}`,
+            },
+          }
+        );
+        const contracts = response.data.data.projectContracts;
+        setContracts(contracts);
+
+        setContractSelectorList(
+          contracts.map((contract: any) => {
+            return {
+              label: capitalizeFirstLetter(contract?.contractName),
+              value: capitalizeFirstLetter(contract?.contractName),
+            };
+          })
+        );
+      } catch (error) {
+        console.error("Error while fetiching Notifications:", error);
+      }
+    }
+  };
   useEffect(() => {
     fetchContractOffers();
+    fetchContracts();
   }, []);
   // fetchApplications();
   // setIsLoading(false);
@@ -245,6 +276,13 @@ export const TalentList = ({
   const handleSelection = (value: any) => {
     const offerInfo = offers.filter((offer) => offer !== value.toLowerCase());
     setSelectedOffer(offerInfo);
+  };
+
+  const handleContractSelection = (value: any) => {
+    const contractInfo = contracts.filter(
+      (contract) => contract !== value.toLowerCase()
+    );
+    setSelectedContract(contractInfo);
   };
 
   const offerHandler = async () => {
@@ -289,6 +327,43 @@ export const TalentList = ({
     }
   };
 
+  const contractHandler = async () => {
+    setModalOpen(true);
+
+    const payload = [
+      {
+        talentId: talent._id,
+        contractId: selectedContract[0]?._id,
+      },
+    ];
+    if (user?.user?.accountId !== undefined) {
+      try {
+        const response = await campaignAuthAxiosInstance.post(
+          `/send-contract/${ProjectId}`,
+          payload,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.user?.authKey || ""}`,
+            },
+          }
+        );
+        setStatusMessage(response.data.message || "Success");
+        setTimeout(() => {
+          setModalOpen(false);
+        }, 300);
+      } catch (error: any) {
+        console.error("Error while fetiching Notifications:", error);
+        if (error.response && error.response.status === 400) {
+          // Extract and display the specific error message from the API response
+          setStatusMessage(error.response.data.message || "Bad Request");
+        } else {
+          // Display a generic error message for other error scenarios
+          setStatusMessage("An error occurred while saving. Please try again.");
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     // Open the modal after the status message is set
     if (statusMessage) {
@@ -298,6 +373,10 @@ export const TalentList = ({
 
   const handleOffer = async () => {
     await offerHandler();
+  };
+
+  const handleContract = async () => {
+    await contractHandler();
   };
 
   return (
@@ -536,93 +615,72 @@ export const TalentList = ({
                   <AlertDialogTrigger className="">
                     <span>Send Contract</span>
                   </AlertDialogTrigger>
-                  {/* <AlertDialogContent className="z-[4000] bg-white ">
+                  <AlertDialogContent className="z-[4000] bg-white ">
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Send Contract Offer</AlertDialogTitle>
+                      <AlertDialogTitle>Send Contract</AlertDialogTitle>
                       <Separator className="bg-bm__beige my-4" />
                       <SelectOption
                         id="origin"
                         name="origin"
                         defaultValue={"companyProfile.address[0].state"}
-                        options={offerSelectorList}
-                        onChange={(e: any) => handleSelection(e.value)}
-                        placeholder="Select contract offer"
+                        options={contractSelectorList}
+                        onChange={(e: any) => handleContractSelection(e.value)}
+                        placeholder="Select offer"
                         required
                         isDisabled={false}
                         className="max-w-[400px]"
                       />
-
+                      {/* <p>DropDown</p> */}
                       <Separator className="bg-bm__beige my-4" />
                       <AlertDialogDescription>
-                        <div className=" h-[65vh]">
+                        <div className=" h-[65vh] overflow-y-scroll">
                           <Card className="w-full pt-4 my-3 bg-[#D7D8DA]">
                             <CardContent>
                               <div className="flex justify-between items-center">
                                 <h2 className="text-[14px] font-normal capitalize">
-                                  {selectedOffer !== null &&
+                                  {selectedContract !== null &&
                                     capitalizeFirstLetter(
-                                      selectedOffer[0].offerName || ""
+                                      selectedContract[0]?.contractName || ""
                                     )}{" "}
-                                  Contract Name
+                                  Name
                                 </h2>
                               </div>
                               <Separator className="bg-bm__beige my-4" />
-                              <Card className="h-[23vh] border-[#93979D]">
+                              <Card className="min-h-[23vh] h-fit border-[#93979D]">
                                 <div className="flex flex-col overflow-y-auto ">
                                   <p className=" capitalize break-words p-4">
-                                    {selectedOffer !== null &&
+                                    {selectedContract !== null &&
                                       capitalizeFirstLetter(
-                                        selectedOffer[0].offerDescription || ""
+                                        selectedContract[0]
+                                          .contractDescription || ""
                                       )}
                                   </p>
                                 </div>
                               </Card>
                             </CardContent>
                           </Card>
-                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA] max-h-fit">
-                            <CardContent>
-                              <div className="flex justify-between items-center">
-                                <h2 className="text-[14px] font-normal capitalize">
-                                  Attachments
-                                </h2>
-                              </div>
-                              <div className="flex mt-4">
-                                {selectedOffer !== null &&
-                                  selectedOffer[0].document.map(
-                                    (doc: string, idx: number) => {
-                                      return (
-                                        <a href={doc} key={idx} className="">
-                                          <IoDocumentAttachOutline className="text-[40px] md:text-[100px]" />
-                                          {doc}
-                                        </a>
-                                      );
-                                    }
-                                  )}
-                              </div>
-                              <Separator className="bg-bm__beige my-6" />
-                            </CardContent>
-                          </Card>
                         </div>
                       </AlertDialogDescription>
                     </AlertDialogHeader>
-                    <AlertDialogFooter>
+                    <AlertDialogFooter className="mt-0">
                       <AlertDialogCancel>
                         <Button className="dark___btn">Cancel</Button>
                       </AlertDialogCancel>
-
+                      {/* <AlertDialogAction> */}
                       <Button
                         className="dark___btn max-w-fit"
-                        onClick={handleOffer}
+                        onClick={handleContract}
                       >
-                        Send Offer
+                        Send Contract
                       </Button>
                       <OfferModal
                         isOpen={isModalOpen}
                         onClose={() => setModalOpen(false)}
                         statusMessage={statusMessage}
                       />
+                      {/* </AlertDialogAction> */}
                     </AlertDialogFooter>
-                  </AlertDialogContent> */}
+                  </AlertDialogContent>
                 </AlertDialog>
               </div>
             </button>

@@ -147,7 +147,7 @@ export default function OfferPopUp({
                             </div>
                           </CardContent>
                         </Card>
-                        {offer.terms && (
+                        {offer?.terms && (
                           <Card className="w-full pt-4 my-3 bg-[#F3F3F380] border border-[#D7D8DA]">
                             <CardContent>
                               <div className="flex items-center justify-center">
@@ -179,7 +179,7 @@ export default function OfferPopUp({
                             </CardContent>
                           </Card>
                         )}
-                        {offer.policies && (
+                        {offer?.policies && (
                           <Card className="w-full pt-4 my-3 bg-[#F3F3F380] border border-[#D7D8DA]">
                             <CardContent>
                               <div className="flex items-center justify-center">
