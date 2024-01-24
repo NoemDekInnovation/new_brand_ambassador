@@ -26,3 +26,22 @@ export const Empty = ({
     </div>
   );
 };
+
+export const EmptyBox = ({
+  children,
+  className,
+}: {
+  className?: string;
+  children: ReactNode;
+}) => {
+  return (
+    <div className="flex flex-col  gap-[25px] p-2 w-full h-full  ">
+      <span className={`text-red-500 ${className}`}>
+        <div className="flex flex-col items-center">
+          <img src={Icon} alt="" />
+          {children}
+        </div>
+      </span>
+    </div>
+  );
+};

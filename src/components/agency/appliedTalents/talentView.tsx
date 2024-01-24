@@ -256,6 +256,8 @@ export const TalentList = ({
         offerName: selectedOffer[0]?.offerName,
         offerDescription: selectedOffer[0]?.offerDescription,
         documentUrl: selectedOffer[0]?.document,
+        terms: selectedOffer[0]?.terms,
+        policies: selectedOffer[0]?.policies,
       },
     ];
     if (user?.user?.accountId !== undefined) {
