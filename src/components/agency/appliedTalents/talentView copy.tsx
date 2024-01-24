@@ -160,8 +160,6 @@ export const TalentList = ({
   const [statusMessage, setStatusMessage] = useState("");
   // const [projectId, setProjectId] = useState("");
 
-  console.log(selectedOffer);
-
   const handleShortlistClick = () => {
     // Perform shortlisting logic here, if needed
     // For demonstration purposes, just toggle the state
@@ -256,8 +254,6 @@ export const TalentList = ({
         offerName: selectedOffer[0]?.offerName,
         offerDescription: selectedOffer[0]?.offerDescription,
         documentUrl: selectedOffer[0]?.document,
-        terms: selectedOffer[0]?.terms,
-        policies: selectedOffer[0]?.policies,
       },
     ];
     if (user?.user?.accountId !== undefined) {
@@ -453,7 +449,7 @@ export const TalentList = ({
                       {/* <p>DropDown</p> */}
                       <Separator className="bg-bm__beige my-4" />
                       <AlertDialogDescription>
-                        <div className=" h-[65vh] overflow-y-scroll">
+                        <div className=" h-[65vh]">
                           <Card className="w-full pt-4 my-3 bg-[#D7D8DA]">
                             <CardContent>
                               <div className="flex justify-between items-center">
@@ -466,7 +462,7 @@ export const TalentList = ({
                                 </h2>
                               </div>
                               <Separator className="bg-bm__beige my-4" />
-                              <Card className="min-h-[23vh] h-fit border-[#93979D]">
+                              <Card className="h-[23vh] border-[#93979D]">
                                 <div className="flex flex-col overflow-y-auto ">
                                   <p className=" capitalize break-words p-4">
                                     {selectedOffer !== null &&
@@ -476,34 +472,35 @@ export const TalentList = ({
                                   </p>
                                 </div>
                               </Card>
-                              <Separator className="bg-bm__beige my-4" />
-                              <Card className="min-h-[23vh] h-fit border-[#93979D]">
-                                <div className="flex flex-col overflow-y-auto ">
-                                  <p className=" capitalize break-words p-4">
-                                    {selectedOffer !== null &&
-                                      capitalizeFirstLetter(
-                                        selectedOffer[0]?.policies || ""
-                                      )}
-                                  </p>
-                                </div>
-                              </Card>
-                              <Separator className="bg-bm__beige my-4" />
-                              <Card className="min-h-[23vh] h-fit border-[#93979D]">
-                                <div className="flex flex-col overflow-y-auto ">
-                                  <p className=" capitalize break-words p-4">
-                                    {selectedOffer !== null &&
-                                      capitalizeFirstLetter(
-                                        selectedOffer[0]?.terms || ""
-                                      )}
-                                  </p>
-                                </div>
-                              </Card>
+                            </CardContent>
+                          </Card>
+                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA] h-full max-h-[330px]">
+                            <CardContent>
+                              <div className="flex justify-between items-center">
+                                <h2 className="text-[14px] font-normal capitalize">
+                                  Attachments
+                                </h2>
+                              </div>
+                              <div className="flex mt-4">
+                                {selectedOffer !== null &&
+                                  selectedOffer[0].document.map(
+                                    (doc: string, idx: number) => {
+                                      return (
+                                        <a href={doc} key={idx} className="">
+                                          <IoDocumentAttachOutline className="text-[40px] md:text-[100px]" />
+                                          {doc}
+                                        </a>
+                                      );
+                                    }
+                                  )}
+                              </div>
+                              <Separator className="bg-bm__beige my-6" />
                             </CardContent>
                           </Card>
                         </div>
                       </AlertDialogDescription>
                     </AlertDialogHeader>
-                    <AlertDialogFooter className="mt-0">
+                    <AlertDialogFooter>
                       <AlertDialogCancel>
                         <Button className="dark___btn">Cancel</Button>
                       </AlertDialogCancel>

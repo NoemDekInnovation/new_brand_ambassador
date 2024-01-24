@@ -1,50 +1,15 @@
-import React, {
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-  ChangeEvent,
-} from "react";
-import axios from "axios";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "../../../ui/card";
-// import { Dialog, DialogContent, Overlay } from "@radix-ui/react-dialog";
-import { TbMap2, TbProgressCheck } from "react-icons/tb";
-import { ImAttachment, ImCancelCircle, ImStatsDots } from "react-icons/im";
 import { Separator } from "../../../ui/seperator";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import {
-  MdAddCircleOutline,
-  MdFamilyRestroom,
-  MdOutlineProductionQuantityLimits,
-  MdPostAdd,
-} from "react-icons/md";
-import { BsFillCollectionFill } from "react-icons/bs";
+import { MdAddCircleOutline } from "react-icons/md";
 import { Button } from "../../../ui/button";
-import { RiStackshareLine } from "react-icons/ri";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "../../../ui/alert-dialog";
-import { Input } from "../../../ui/input";
-import { Textarea } from "../../../ui/textarea";
-import {
-  authAxiosInstance,
-  campaignAuthAxiosInstance,
-  patchAxiosInstance,
-} from "../../../api/axios";
+import { campaignAuthAxiosInstance } from "../../../api/axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { Empty } from "../../Empty";
-import { useToast } from "../../../ui/use-toast";
-import OfferModal from "../../../libs/OfferModal";
+
 import OfferPopUp from "./offerPopUp";
 import ContractPopUp from "./contractPopup";
 
@@ -57,11 +22,6 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
 
   type ContractProps = "contracts" | "offers";
 
-  const [selectedFileName, setSelectedFileName] = useState("");
-  const [documents, setDocuments] = useState<File[]>([]);
-  const [offerName, setOfferName] = useState("");
-  const [offerDesc, setOfferDesc] = useState("");
-  const [loading, setLoading] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [contractStatus, setContractStatus] = useState<ContractProps>("offers");
   const [statusMessage, setStatusMessage] = useState("");
@@ -69,73 +29,6 @@ const Contract = ({ selectedProject }: { selectedProject: any }) => {
   const [contracts, setContracts] = useState<any | null>(null);
   const [openAddressDialog, setOpenAddressDialog] = useState(false);
   const [openContractDialog, setOpenContractDialog] = useState(false);
-
-  const { toast } = useToast();
-
-  const handleOfferNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setOfferName(event.target.value);
-  };
-
-  const handleOfferDescChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setOfferDesc(event.target.value);
-  };
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileInput = e.target;
-    const selectedFiles = fileInput.files;
-
-    if (selectedFiles) {
-      const filesArray = Array.from(selectedFiles);
-      setDocuments((prevDocuments) => [...prevDocuments, ...filesArray]);
-    }
-    fileInput.value = "";
-  };
-
-  const handleDivClick = () => {
-    // Trigger a click event on the hidden input
-    fileInputRef?.current?.click();
-  };
-
-  const handleSubmit = async () => {
-    setLoading(true);
-
-    const formData = new FormData();
-
-    formData.append("offerName", offerName);
-    formData.append("offerDescription", offerDesc);
-
-    documents.forEach((file, index) => {
-      formData.append("document", file);
-    });
-
-    if (user?.user?.accountId !== undefined) {
-      try {
-        const response = await patchAxiosInstance.post(
-          `/create-offer/${selectedProject._id}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${user?.user?.authKey || ""}`,
-            },
-          }
-        );
-        setStatusMessage(response.data.message || "Success");
-      } catch (error: any) {
-        console.error("Error submitting form:", error);
-        if (error.response && error.response.status === 400) {
-          // Extract and display the specific error message from the API response
-          setStatusMessage(error.response.data.message || "Bad Request");
-        } else {
-          // Display a generic error message for other error scenarios
-          setStatusMessage("An error occurred while saving. Please try again.");
-        }
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
 
   useEffect(() => {
     // Open the modal after the status message is set

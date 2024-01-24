@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 import { campaignAuthAxiosInstance } from "../../../api/axios";
 import { ImAttachment } from "react-icons/im";
 import OfferModal from "../../../libs/OfferModal";
+import { EmptyBox } from "../../Empty";
+import OfferPopUp from "./offerPopUp";
+import ContractPopUp from "./contractPopup";
 
 const ContractOfferCard = ({
   selectedProject,
@@ -23,8 +26,13 @@ const ContractOfferCard = ({
 
   const [details, setDetails] = useState<any>(null);
   const [offersx, setOffers] = useState<any | null>(null);
+  const [contract, setContract] = useState<any | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
+  const [openOfferDialog, setOpenOfferDialog] = useState(false);
+  const [openContractDialog, setOpenContractDialog] = useState(false);
+
+  console.log("offersx", offersx);
 
   useEffect(() => {
     const filteredApplications = offers.filter((application: any) => {
@@ -54,7 +62,28 @@ const ContractOfferCard = ({
     }
   };
 
+  const fetchContract = async () => {
+    if (user?.user?.accountId !== undefined) {
+      try {
+        const response = await campaignAuthAxiosInstance(
+          `get-talent-contracts?project=${selectedProject.project._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.user?.authKey || ""}`,
+            },
+          }
+        );
+
+        setContract(response?.data.data.contracts[0]);
+      } catch (error) {
+        console.error("Error while fetiching Notifications:", error);
+      }
+    }
+  };
+
+  console.log(contract);
   useEffect(() => {
+    fetchContract();
     fetchOffers();
   }, []);
 
@@ -105,33 +134,97 @@ const ContractOfferCard = ({
 
   return (
     <>
-      <Card className="mb-4 md:mb-8">
-        <CardContent className="py-4">
-          <p>{offersx?.offerName} Contract Offer</p>
-          <Separator className="bg-bm__beige my-3 md:my-6" />
-          <Card>
-            <CardContent className="py-4 gap-2">
-              {offersx?.offerDescription}
-            </CardContent>
-          </Card>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardContent className="py-4 min-h-[300px]">
-          <p>Attachments</p>
-          <Separator className="bg-bm__beige my-3 md:my-6" />
+      {offersx && (
+        <Card className="mb-4 md:mb-8">
+          <CardContent className="py-4">
+            <h3 className="text-[15px] font-medium">Offer</h3>
+            <Separator className="bg-bm__beige my-3 md:my-6" />
+            <Card
+              className="hover:bg-gray-200/40 transition-all duration-300"
+              onClick={() => setOpenOfferDialog(true)}
+            >
+              <CardContent className="py-4 gap-2">
+                <h3 className="text-[15px] font-medium mb-2">
+                  {offersx?.offerName}
+                </h3>
 
-          <ImAttachment className="text-[30px]" />
-          {/* <a
-            href={offersx && offersx.document[0]}
-            className="underline"
-            target="_blank"
-          >
-            {(offersx !== null && offersx.document[0]) || "-"}
-          </a> */}
-        </CardContent>
-      </Card>
-      <div className="flex w-full justify-between mt-3 md:mt-6">
+                <p className="text-[10px] font-normal">
+                  {offersx?.offerDescription}
+                </p>
+              </CardContent>
+            </Card>
+          </CardContent>
+        </Card>
+      )}
+      {!offersx && (
+        <Card className="mb-4 md:mb-8">
+          <CardContent className="py-4">
+            <h3 className="text-[15px] font-medium mb-2">Offer</h3>
+            <Separator className="bg-bm__beige my-3 md:my-6" />
+            <Card>
+              <CardContent className="py-4 gap-2">
+                <EmptyBox>
+                  <p className="text-black py-3">
+                    You have not received an offer.
+                  </p>
+                </EmptyBox>{" "}
+              </CardContent>
+            </Card>
+          </CardContent>
+        </Card>
+      )}
+      {contract && (
+        <Card className="mb-4 md:mb-8">
+          <CardContent className="py-4">
+            <h3 className="text-[15px] font-medium mb-2">Contract</h3>
+            <Separator className="bg-bm__beige my-3 md:my-6" />
+            <Card
+              className="hover:bg-gray-200/40 transition-all duration-300"
+              onClick={() => setOpenContractDialog(true)}
+            >
+              <CardContent className="py-4 gap-2">
+                <h3 className="text-[15px] font-medium">
+                  {contract?.contractName}
+                </h3>
+
+                <p className="text-[10px] font-normal">
+                  {contract?.contractDescription}
+                </p>
+              </CardContent>
+            </Card>
+          </CardContent>
+        </Card>
+      )}
+      {!contract && (
+        <Card className="mb-4 md:mb-8">
+          <CardContent className="py-4">
+            <h3 className="text-[15px] font-medium mb-2">Contract</h3>
+            <Separator className="bg-bm__beige my-3 md:my-6" />
+            <Card>
+              <CardContent className="py-4 gap-2">
+                <EmptyBox>
+                  <p className="text-black py-3">
+                    You have not received a contract.
+                  </p>
+                </EmptyBox>{" "}
+              </CardContent>
+            </Card>
+          </CardContent>
+        </Card>
+      )}
+      <OfferPopUp
+        openOfferDialog={openOfferDialog}
+        setOpenOfferDialog={setOpenOfferDialog}
+        projectId={selectedProject?._id}
+        offer={offersx}
+      />
+      <ContractPopUp
+        openContractDialog={openContractDialog}
+        setOpenContractDialog={setOpenContractDialog}
+        projectId={selectedProject?._id}
+      />
+
+      {/* <div className="flex w-full justify-between mt-3 md:mt-6">
         <div
           className="light__btn cursor-pointer max-w-fit"
           onClick={() => {
@@ -163,7 +256,7 @@ const ContractOfferCard = ({
           onClose={() => setModalOpen(false)}
           statusMessage={statusMessage}
         />
-      </div>
+      </div> */}
     </>
   );
 };

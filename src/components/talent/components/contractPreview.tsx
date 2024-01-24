@@ -186,7 +186,7 @@ const ContractPreview = ({
               } absolute top-[25%]  z-20 text-[16px]`}
             >
               {" "}
-              Offer
+              Offer and Contract
             </p>
             {/* <img src={subtract2} alt="" className=" z-10 w-[350px] h-[45px]" /> */}
             {activeCard === "Contract Offer" && (
