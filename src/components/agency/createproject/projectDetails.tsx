@@ -33,6 +33,7 @@ import {
 } from "../../../redux/types";
 import { DayObject, daysOfWeek } from "./projectBudget";
 import PostProjectModal from "../../../libs/postProject";
+import { formatAsNaira } from "../../../libs/formatAsNaira";
 
 export default function ProjectDetails({
   next,
@@ -65,7 +66,7 @@ export default function ProjectDetails({
   projectName: any;
   setProjectPost: any;
   edit: (string: string) => void;
-  onModalOpen: any
+  onModalOpen: any;
   // formData: aboutProjectSchemaType
   //   setDefault: Dispatch<SetStateAction<string>>;
 }) {
@@ -238,7 +239,8 @@ export default function ProjectDetails({
                   <div className="flex justify-between items-center">
                     {(_.salary && (
                       <div className="pt-2 flex gap-6 max-w-3xl capitalize">
-                        {_.salary} {requiredTalents[0].paymentOptions}
+                        {formatAsNaira(_.salary)}{" "}
+                        {requiredTalents[0].paymentOptions}
                       </div>
                     )) ||
                       "-"}{" "}
@@ -275,12 +277,19 @@ export default function ProjectDetails({
           <div className="pt-2">
             <p className="mb-2">Location</p>
             <div className="py-2 flex gap-6 max-w-3xl flex-wrap">
-              {(aboutProject.projectLocation !== undefined && (
-                <Button className="light__btn  max-w-fit capitalize">
-                  {aboutProject.projectLocation}
-                </Button>
-              )) ||
-                "-"}
+              {aboutProject.projectLocation !== undefined &&
+                aboutProject.projectLocation.map((location, idx) => {
+                  return (
+                    (
+                      <Button
+                        key={idx}
+                        className="light__btn  max-w-fit capitalize"
+                      >
+                        {location}
+                      </Button>
+                    ) || "-"
+                  );
+                })}
             </div>
             {/* <Separator className="bg-bm__beige my-2" /> */}
           </div>
@@ -297,7 +306,11 @@ export default function ProjectDetails({
           </div>
           <Separator className="bg-bm__beige my-2" />
 
-          <div className="flex gap-4 mt-4"></div>
+          <div className="flex gap-4 mt-4">
+            <div className="border border-bm__beige p-2 rounded-md text-bm__btn__grey">
+              {localStorage.getItem("selectedfile")}
+            </div>
+          </div>
         </InfoCard>
         <InfoCard
           title="Tell us the period for this project post"

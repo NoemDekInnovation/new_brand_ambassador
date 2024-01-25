@@ -90,11 +90,30 @@ export default function AboutProject({
   const [isFormValid, setIsFormValid] = useState(false);
 
   const checkFormValidity = () => {
-    const isFormValid = Object.values(aboutProject).every(
-      (field) => typeof field === "string" && field.trim() !== ""
-    );
+    const isFormValid = Object.values(aboutProject).every((field) => {
+      // Check if the field is an array and every element in the array is a non-empty string
+      if (Array.isArray(field)) {
+        return field.every(
+          (element) => typeof element === "string" && element.trim() !== ""
+        );
+      }
+      return typeof field === "string" && field.trim() !== "";
+    });
 
     setIsFormValid(isFormValid);
+  };
+
+  console.log(aboutProject);
+
+  const handleLocationChange = (selectedOptions: any) => {
+    const selectedLocations = selectedOptions.map(
+      (option: any) => option.value
+    );
+
+    setAboutProject((prevData: AboutProjectProps) => ({
+      ...prevData,
+      projectLocation: selectedLocations,
+    }));
   };
 
   useEffect(() => {
@@ -116,6 +135,20 @@ export default function AboutProject({
     { value: "Other", label: "Other" },
   ];
 
+  const locationOptions = StateOptions.map((location) => ({
+    value: location.value,
+    label: location.label,
+  }));
+
+  const newLocation = aboutProject.projectLocation.map((location) => ({
+    value: location,
+    label: location,
+  }));
+
+  const newCategory = {
+    value: aboutProject.projectCategory,
+    label: aboutProject.projectCategory,
+  };
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40 ">
       <Card className="p-4 md:p-8 mt-5 bg-white overflow-y-scroll h-[83vh]">
@@ -180,7 +213,7 @@ export default function AboutProject({
                     }
                     required
                     options={projectCategoryOptions}
-                    defaultValue={aboutProject.projectCategory}
+                    defaultValue={newCategory}
                     isDisabled={false}
                   />
                 </div>
@@ -250,7 +283,7 @@ export default function AboutProject({
                   <label className="text-[14px] text-bm__btn__grey">
                     Location{" "}
                   </label>
-                  <SelectOption
+                  {/* <SelectOption
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
                     id="projectLocation"
                     name="projectLocation"
@@ -265,6 +298,15 @@ export default function AboutProject({
                     required
                     isDisabled={false}
                     options={StateOptions}
+                  /> */}
+                  <Select
+                    defaultValue={newLocation}
+                    isMulti
+                    name="languages"
+                    options={locationOptions}
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    classNamePrefix="select"
+                    onChange={handleLocationChange}
                   />
                 </div>
               </div>

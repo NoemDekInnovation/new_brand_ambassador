@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { patchAxiosInstance } from "../../../api/axios";
 import OfferModal from "../../../libs/OfferModal";
+import { useToast } from "../../../ui/use-toast";
 // import Loading from "../../../components/l";
 
 const aboutProjectSchema = z.object({
@@ -56,6 +57,7 @@ export default function NewProject({
   const { user } = useSelector((state: RootState) => state.user);
 
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const [currentStep, setCurrentStep] = useState("getStarted");
   // const [currentStep, setCurrentStep] = useState("projectDetails");
@@ -187,13 +189,18 @@ export default function NewProject({
           setStatusMessage(response.data.message || "Success");
           const responseMessage = response.data.message || "Success";
           handleModalOpen(responseMessage);
-
+          localStorage.removeItem("selectedfile");
           // setSuccessModal(true);
           setTimeout(() => {
             cancelProject();
           }, 3000);
-        } catch (error) {
+        } catch (error: any) {
           console.error("Error while posting data:", error);
+
+          toast({
+            description: error?.response?.data?.message,
+            variant: "destructive",
+          });
           // Handle error appropriately (e.g., show a user-friendly message)
         }
       }
@@ -202,9 +209,17 @@ export default function NewProject({
       if (error.response && error.response.status === 400) {
         // Extract and display the specific error message from the API response
         setStatusMessage(error.response.data.message || "Bad Request");
+        toast({
+          description: error?.response?.data?.message,
+          variant: "destructive",
+        });
       } else {
         // Display a generic error message for other error scenarios
         setStatusMessage("An error occurred while saving. Please try again.");
+        toast({
+          description: error?.response?.data?.message,
+          variant: "destructive",
+        });
       }
     } finally {
       setIsLoading(false);

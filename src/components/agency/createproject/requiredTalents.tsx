@@ -268,7 +268,10 @@ export default function RequiredTalents({
                           onChange={(e: any) => handleChangeTalent(e, index)}
                           className="mt-4 p-2 rounded-md w-full"
                           required
-                          defaultValue={requiredTalents[index].opportunities}
+                          defaultValue={{
+                            value: requiredTalents[index].opportunities,
+                            label: requiredTalents[index].opportunities,
+                          }}
                         />
                       </div>
                       {errors.opportunities && (
@@ -289,6 +292,10 @@ export default function RequiredTalents({
                         onChange={(e) => handleChangeQualification(e, index)}
                         className="mt-4 p-2 rounded-md w-full"
                         required
+                        defaultValue={{
+                          value: requiredTalents[index].qualifications,
+                          label: requiredTalents[index].qualifications,
+                        }}
                       />
                       {errors.qualifications && (
                         <p className="text-red-800 block mt-2">
