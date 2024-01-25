@@ -66,17 +66,19 @@ const AllTalents = ({
 
   const {
     talents: resTalents,
+    invited,
     talentQuery,
     pageQuery,
   } = useSelector((state: RootState) => state.talent);
 
   useEffect(() => {
     dispatch(fetchTalents(talentQuery));
+    return;
   }, [dispatch, talentQuery]);
 
-  useEffect(() => {
-    dispatch(fetchTalents(pageQuery));
-  }, [dispatch, pageQuery]);
+  // useEffect(() => {
+  //   dispatch(fetchTalents(pageQuery));
+  // }, [dispatch, pageQuery]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -93,7 +95,19 @@ const AllTalents = ({
   //   }
   // };
 
-  // console.log(checkedTalentIds);
+  // Your array of strings for filtering
+
+  // Use the filter method to filter objects based on the 'name' property
+  const filteredArray = resTalents.filter((obj) => invited.includes(obj._id));
+
+  console.log(filteredArray);
+
+  const newArrayWithFlag = resTalents.map((obj) => ({
+    ...obj,
+    isInvited: invited.includes(obj?._id),
+  }));
+
+  console.log("resTalents", invited, newArrayWithFlag);
 
   return (
     <div className="relative">
@@ -103,7 +117,7 @@ const AllTalents = ({
             className={`flex justify-center md:justify-start space-y-4 md:space-y-0 gap-3 md:gap-x-${gap} mt-2  flex-wrap  w-full overflow-y-scroll h-[550px]`}
           >
             {/* {talents} */}
-            {resTalents?.map((_, idx: number) => {
+            {newArrayWithFlag?.map((_, idx: number) => {
               return (
                 <TalentGrid
                   key={idx}
@@ -129,7 +143,7 @@ const AllTalents = ({
       )}
       {!gridView && (
         <div className="flex flex-col w-full gap-3 mt-2    w-full overflow-y-scroll h-[650px] pb-10">
-          {resTalents?.map((_, idx: number) => {
+          {newArrayWithFlag?.map((_, idx: number) => {
             return (
               <TalentList
                 key={idx}

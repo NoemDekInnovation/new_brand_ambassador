@@ -623,6 +623,13 @@ const ApplyDetailsInfo = ({
               </span>
             </button>
           </div>
+          {/* <div className="bg-gray-400 h-[30px] w-[4px] "></div> */}
+          <button
+            className="border rounded-md bg-bm__beige  p-1 px-3"
+            onClick={handleClear}
+          >
+            Clear Filter
+          </button>
         </div>
       </div>
       {/* <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0"> */}

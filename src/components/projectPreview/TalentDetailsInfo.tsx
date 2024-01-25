@@ -98,7 +98,9 @@ const TalentDetailsInfo = ({
   const [success, setSuccess] = useState(false); // State for the success modal
   const [talentType, setTalentType] = useState("");
   const [gender, setGender] = useState("");
-  const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>(null);
+  const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>({
+    projectId: projectId,
+  });
   const [searchQuery, setSearchQuery] = useState("");
   const [checkedTalentIds, setCheckedTalentIds] = useState<string[]>([]);
 
@@ -111,9 +113,13 @@ const TalentDetailsInfo = ({
   const handleClear = () => {
     setSelectedLocation("all");
     setSelectedOppor("all");
-    setAgeRange({ ...ageRange, start: "" });
-    setAgeRange({ ...ageRange, end: "" });
+    setAgeRange({ end: "", start: "" });
     setSelectedGender("all");
+    setSortQuery({
+      projectId: projectId,
+    });
+    setGender("");
+    setTalentType("");
   };
 
   const handleCheckedChange = (talentId: string) => {
@@ -126,8 +132,6 @@ const TalentDetailsInfo = ({
       setCheckedTalentIds([...checkedTalentIds, talentId]);
     }
   };
-
-  console.log(checkedTalentIds);
 
   const handleViewToggle = () => {
     setGridView(!gridView);
@@ -402,6 +406,10 @@ const TalentDetailsInfo = ({
     updateQuery({ pageSize: size });
   };
 
+  const handlePageChange = (size: any) => {
+    updateQuery({ page: size });
+  };
+
   useEffect(() => {
     setTimeout(() => {
       dispatch(setTalentQuery(sortQuery));
@@ -419,7 +427,7 @@ const TalentDetailsInfo = ({
             {/* <p className="font-semibold text-[18px] ">{activeType}</p> */}
 
             <div className="relative h-full flex gap-10 items-center">
-              <SelectOption
+              {/* <SelectOption
                 className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
                 placeholder="Select Category "
                 id="projectCategory"
@@ -429,8 +437,7 @@ const TalentDetailsInfo = ({
                 options={categoryOptions}
                 defaultValue={activeType}
                 isDisabled={false}
-              />
-              <div className="bg-gray-400 h-[30px] w-[4px] "></div>
+              /> */}
               <div className="flex items-center gap-2">
                 Invited:{" "}
                 <SelectOption
@@ -445,6 +452,11 @@ const TalentDetailsInfo = ({
                   isDisabled={false}
                 />
               </div>
+              <div className="bg-gray-400 h-[30px] w-[4px] "></div>
+
+              <button className="dark__btn p-2 " onClick={handleClear}>
+                Clear Filter
+              </button>
             </div>
           </div>
           <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
@@ -572,25 +584,6 @@ const TalentDetailsInfo = ({
             </div>
             <Separator className="my-2 bg-bm__beige shrink-0 h-[1px] w-full" />
             <div className="flex w-full">
-              <div className="flex items-center gap-2 text-[12px]">
-                <span className="whitespace-nowrap mr-2">Rows per page:</span>
-                {"  "}{" "}
-                <div className="flex items-center gap-3">
-                  {[10, 20, 30, 40, 50].map((n, idx) => {
-                    return (
-                      <div
-                        className={`hover:bg-gray-300 ${
-                          pageSize === n ? "bg-gray-300" : ""
-                        } rounded p-2 transition-all duration-400 cursor-pointer`}
-                        key={idx}
-                        onClick={() => handlePageSizeChange(n)}
-                      >
-                        {n}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
               <div className="flex w-full justify-end items-center text-[10px] font-normal">
                 {page * pageSize - negativePage}-
                 {page * pageSize >= totalTalent ? totalTalent : page * pageSize}{" "}
@@ -601,9 +594,7 @@ const TalentDetailsInfo = ({
                 {page * pageSize - negativePage >= positivePage && (
                   <BsChevronDoubleLeft
                     className="ml-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-                    onClick={() => {
-                      dispatch(setPageQuery({ page: 1 }));
-                    }}
+                    onClick={() => handlePageChange(1)}
                   />
                 )}
                 {page * pageSize - negativePage <= pageSize && (
@@ -612,17 +603,16 @@ const TalentDetailsInfo = ({
                 {page * pageSize - negativePage >= positivePage && (
                   <BsChevronLeft
                     className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-                    onClick={() => {
-                      dispatch(setPageQuery({ page: page - 1 }));
-                    }}
+                    onClick={() => handlePageChange(page - 1)}
                   />
                 )}
                 {page * pageSize < totalTalent && (
                   <BsChevronRight
                     className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-                    onClick={() => {
-                      dispatch(setPageQuery({ page: page + 1 }));
-                    }}
+                    // onClick={() => {
+                    //   dispatch(setPageQuery({ page: page + 1 }));
+                    // }}
+                    onClick={() => handlePageChange(page + 1)}
                   />
                 )}
                 {page * pageSize >= totalTalent && (
@@ -631,30 +621,85 @@ const TalentDetailsInfo = ({
                 {page * pageSize < totalTalent && (
                   <BsChevronDoubleRight
                     className="mr-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-                    onClick={() => {
-                      dispatch(setPageQuery({ page: totalPages }));
-                    }}
+                    onClick={() => handlePageChange(totalPages)}
                   />
                 )}
                 {page * pageSize >= totalTalent && (
                   <BsChevronDoubleRight className="text-slate-400 p-1 text-[16px] mr-4" />
                 )}
-              </div>{" "}
+              </div>
             </div>
 
             <Separator className="my-2" />
             {pageTalents}
           </div>
         </div>
-        <Separator className="my-2 md:my-4" />
-        <Pagination
-          first={""}
-          last={""}
-          prev={""}
-          next={""}
-          currentPage={1}
-          count={resTalents?.length || 0}
-        />
+        {/* <Separator className="my-2 md:my-4" /> */}
+        <div className="flex w-full">
+          <div className="flex items-center gap-2 text-[12px]">
+            <span className="whitespace-nowrap mr-2">Rows per page:</span>
+            {"  "}{" "}
+            <div className="flex items-center gap-3">
+              {[10, 20, 30, 40, 50].map((n, idx) => {
+                return (
+                  <div
+                    className={`hover:bg-gray-300 ${
+                      pageSize === n ? "bg-gray-300" : ""
+                    } rounded p-2 transition-all duration-400 cursor-pointer`}
+                    key={idx}
+                    onClick={() => handlePageSizeChange(n)}
+                  >
+                    {n}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="flex w-full justify-end items-center text-[10px] font-normal">
+            {page * pageSize - negativePage}-
+            {page * pageSize >= totalTalent ? totalTalent : page * pageSize} of{" "}
+            {totalTalent}
+            {page * pageSize - negativePage <= pageSize && (
+              <BsChevronDoubleLeft className="ml-4 text-slate-400 p-1 text-[16px]" />
+            )}
+            {page * pageSize - negativePage >= positivePage && (
+              <BsChevronDoubleLeft
+                className="ml-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                onClick={() => handlePageChange(1)}
+              />
+            )}
+            {page * pageSize - negativePage <= pageSize && (
+              <BsChevronLeft className="mx-4 text-slate-400 p-1 text-[16px]" />
+            )}
+            {page * pageSize - negativePage >= positivePage && (
+              <BsChevronLeft
+                className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                onClick={() => handlePageChange(page - 1)}
+              />
+            )}
+            {page * pageSize < totalTalent && (
+              <BsChevronRight
+                className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                // onClick={() => {
+                //   dispatch(setPageQuery({ page: page + 1 }));
+                // }}
+                onClick={() => handlePageChange(page + 1)}
+              />
+            )}
+            {page * pageSize >= totalTalent && (
+              <BsChevronRight className="mx-4 text-slate-400 p-1 text-[16px]" />
+            )}
+            {page * pageSize < totalTalent && (
+              <BsChevronDoubleRight
+                className="mr-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                onClick={() => handlePageChange(totalPages)}
+              />
+            )}
+            {page * pageSize >= totalTalent && (
+              <BsChevronDoubleRight className="text-slate-400 p-1 text-[16px] mr-4" />
+            )}
+          </div>
+        </div>
       </CardContent>
     </>
   );
