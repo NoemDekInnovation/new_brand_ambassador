@@ -67,6 +67,7 @@ export default function TalentRequirement({
     const { name, files } = e.target;
     const fileInput = fileInputRef.current;
     if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      localStorage.setItem("selectedfile", fileInput.files[0].name);
       setSelectedFileName(fileInput.files[0].name);
     }
 
@@ -157,7 +158,15 @@ export default function TalentRequirement({
                 name="document"
                 required
               />
-              {selectedFileName && <p>{selectedFileName}</p>}
+              {(selectedFileName && (
+                <p className="border border-bm__beige p-2 rounded-md text-bm__btn__grey mt-2">
+                  {selectedFileName}
+                </p>
+              )) || (
+                <p className="border border-bm__beige p-2 rounded-md text-bm__btn__grey mt-2">
+                  {localStorage.getItem("selectedfile")}
+                </p>
+              )}
             </div>
           </CardContent>
         </Card>

@@ -70,6 +70,8 @@ export default function ProjectBudget({
   // };
   // console.log(selectedDays);
 
+  const [clonedSalary, setClonedSalary] = useState("");
+
   const handleDayToggle = (day: DayOfWeek): void => {
     setWorkDays((prevSelectedDays: DayOfWeek[]) => {
       if (prevSelectedDays.includes(day)) {
@@ -124,6 +126,23 @@ export default function ProjectBudget({
     }
   }, []);
 
+  // const handleInputChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>,
+  //   index: number
+  // ) => {
+  //   const { name, value } = e.target as { name: string; value: string };
+
+  //   // Remove non-numeric characters
+  //   const numericValue = value.replace(/[^0-9]/g, "");
+
+  //   // Format the numeric value as Naira
+  //   const formattedValue = formatAsNaira(numericValue);
+
+  //   const updatedExperiences = [...requiredTalents];
+  //   updatedExperiences[index][name] = formattedValue;
+  //   setRequiredTalents(updatedExperiences);
+  // };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
@@ -139,8 +158,7 @@ export default function ProjectBudget({
 
     const updatedExperiences = [...requiredTalents];
     updatedExperiences[index][name] = numericValue;
-    // updatedExperiences[index][name] = formattedValue;
-    // setRequiredTalents(numericValue);
+    setClonedSalary(formattedValue);
     setRequiredTalents(updatedExperiences);
   };
 
@@ -157,8 +175,6 @@ export default function ProjectBudget({
   useEffect(() => {
     checkFormValidity();
   }, [requiredTalents]);
-
-  console.log("jimmy", requiredTalents);
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
@@ -204,7 +220,7 @@ export default function ProjectBudget({
               </div>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
-              {requiredTalents?.map((talent, index) => (
+              {requiredTalents.map((talent, index) => (
                 <div className="mb-6" key={index}>
                   <div className="relative z-0 w-full mb-2 group">
                     <RadioGroup
@@ -240,7 +256,9 @@ export default function ProjectBudget({
                             name="salary"
                             className="py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 peer "
                             placeholder=" "
-                            value={requiredTalents[index].salary || ""}
+                            value={
+                              formatAsNaira(requiredTalents[index].salary) || ""
+                            }
                             onChange={(e) => handleInputChange(e, index)}
                             pattern="[0-9]*"
                           />
