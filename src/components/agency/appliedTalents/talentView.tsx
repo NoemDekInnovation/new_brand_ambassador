@@ -81,6 +81,9 @@ import SendOfferModal from "../../../libs/sendOffer";
 import OfferModal from "../../../libs/OfferModal";
 import { Checkbox } from "../../../ui/checkbox";
 import HeartIcon from "../../../libs/HeartIcon";
+import SendOfferPopUp from "../contract/sendOfferPopUp";
+import SendContractPopUp from "../contract/sendContractPopUp";
+import { useToast } from "../../../ui/use-toast";
 
 export const TalentList = ({
   talent,
@@ -161,7 +164,10 @@ export const TalentList = ({
   const [selectedOffer, setSelectedOffer] = useState<any>(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
-  // const [projectId, setProjectId] = useState("");
+  const [openAddressDialog, setOpenAddressDialog] = useState(false);
+  const [openContractDialog, setOpenContractDialog] = useState(false);
+
+  const { toast } = useToast();
 
   console.log(selectedOffer, "oh", selectedContract);
 
@@ -270,24 +276,25 @@ export const TalentList = ({
     fetchContractOffers();
     fetchContracts();
   }, []);
-  // fetchApplications();
-  // setIsLoading(false);
 
   const handleSelection = (value: any) => {
-    const offerInfo = offers.filter((offer) => offer !== value.toLowerCase());
+    const offerInfo = offers.filter(
+      (offer: any) => offer?.offerName.toLowerCase() === value.toLowerCase()
+    );
     setSelectedOffer(offerInfo);
   };
 
   const handleContractSelection = (value: any) => {
     const contractInfo = contracts.filter(
-      (contract) => contract !== value.toLowerCase()
+      (contract: any) =>
+        contract?.contractName.toLowerCase() === value.toLowerCase()
     );
     setSelectedContract(contractInfo);
   };
 
-  const offerHandler = async () => {
-    setModalOpen(true);
+  console.log(selectedContract);
 
+  const offerHandler = async () => {
     const payload = [
       {
         talentId: talent._id,
@@ -311,9 +318,12 @@ export const TalentList = ({
           }
         );
         setStatusMessage(response.data.message || "Success");
+        setModalOpen(true);
+
         setTimeout(() => {
           setModalOpen(false);
-        }, 300);
+          setOpenAddressDialog(false);
+        }, 2000);
       } catch (error: any) {
         console.error("Error while fetiching Notifications:", error);
         if (error.response && error.response.status === 400) {
@@ -323,13 +333,18 @@ export const TalentList = ({
           // Display a generic error message for other error scenarios
           setStatusMessage("An error occurred while saving. Please try again.");
         }
+        toast({
+          description: error?.response?.data?.message,
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          setModalOpen(false);
+        }, 2000);
       }
     }
   };
 
   const contractHandler = async () => {
-    setModalOpen(true);
-
     const payload = [
       {
         talentId: talent._id,
@@ -348,9 +363,12 @@ export const TalentList = ({
           }
         );
         setStatusMessage(response.data.message || "Success");
+        setModalOpen(true);
+
         setTimeout(() => {
           setModalOpen(false);
-        }, 300);
+          setOpenContractDialog(false);
+        }, 2000);
       } catch (error: any) {
         console.error("Error while fetiching Notifications:", error);
         if (error.response && error.response.status === 400) {
@@ -360,16 +378,13 @@ export const TalentList = ({
           // Display a generic error message for other error scenarios
           setStatusMessage("An error occurred while saving. Please try again.");
         }
+        toast({
+          description: error?.response?.data?.message,
+          variant: "destructive",
+        });
       }
     }
   };
-
-  useEffect(() => {
-    // Open the modal after the status message is set
-    if (statusMessage) {
-      setModalOpen(true);
-    }
-  }, [statusMessage]);
 
   const handleOffer = async () => {
     await offerHandler();
@@ -509,99 +524,21 @@ export const TalentList = ({
           {appStatus === "shortlisted" ? (
             <button className="dark__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
               <div className="flex items-center gap-2">
-                {/* <span>Send Offer</span> */}
-                <AlertDialog>
-                  <AlertDialogTrigger className="">
-                    <span>Send Offer</span>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent className="z-[4000] bg-white ">
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Send Offer</AlertDialogTitle>
-                      <Separator className="bg-bm__beige my-4" />
-                      <SelectOption
-                        id="origin"
-                        name="origin"
-                        defaultValue={"companyProfile.address[0].state"}
-                        options={offerSelectorList}
-                        onChange={(e: any) => handleSelection(e.value)}
-                        placeholder="Select offer"
-                        required
-                        isDisabled={false}
-                        className="max-w-[400px]"
-                      />
-                      {/* <p>DropDown</p> */}
-                      <Separator className="bg-bm__beige my-4" />
-                      <AlertDialogDescription>
-                        <div className=" h-[65vh] overflow-y-scroll">
-                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA]">
-                            <CardContent>
-                              <div className="flex justify-between items-center">
-                                <h2 className="text-[14px] font-normal capitalize">
-                                  {selectedOffer !== null &&
-                                    capitalizeFirstLetter(
-                                      selectedOffer[0].offerName || ""
-                                    )}{" "}
-                                  Name
-                                </h2>
-                              </div>
-                              <Separator className="bg-bm__beige my-4" />
-                              <Card className="min-h-[23vh] h-fit border-[#93979D]">
-                                <div className="flex flex-col overflow-y-auto ">
-                                  <p className=" capitalize break-words p-4">
-                                    {selectedOffer !== null &&
-                                      capitalizeFirstLetter(
-                                        selectedOffer[0].offerDescription || ""
-                                      )}
-                                  </p>
-                                </div>
-                              </Card>
-                              <Separator className="bg-bm__beige my-4" />
-                              <Card className="min-h-[23vh] h-fit border-[#93979D]">
-                                <div className="flex flex-col overflow-y-auto ">
-                                  <p className=" capitalize break-words p-4">
-                                    {selectedOffer !== null &&
-                                      capitalizeFirstLetter(
-                                        selectedOffer[0]?.policies || ""
-                                      )}
-                                  </p>
-                                </div>
-                              </Card>
-                              <Separator className="bg-bm__beige my-4" />
-                              <Card className="min-h-[23vh] h-fit border-[#93979D]">
-                                <div className="flex flex-col overflow-y-auto ">
-                                  <p className=" capitalize break-words p-4">
-                                    {selectedOffer !== null &&
-                                      capitalizeFirstLetter(
-                                        selectedOffer[0]?.terms || ""
-                                      )}
-                                  </p>
-                                </div>
-                              </Card>
-                            </CardContent>
-                          </Card>
-                        </div>
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter className="mt-0">
-                      <AlertDialogCancel>
-                        <Button className="dark___btn">Cancel</Button>
-                      </AlertDialogCancel>
-                      {/* <AlertDialogAction> */}
-                      <Button
-                        className="dark___btn max-w-fit"
-                        onClick={handleOffer}
-                      >
-                        Send Offer
-                      </Button>
-                      <OfferModal
-                        isOpen={isModalOpen}
-                        onClose={() => setModalOpen(false)}
-                        statusMessage={statusMessage}
-                      />
-                      {/* </AlertDialogAction> */}
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                <SendOfferPopUp
+                  openAddressDialog={openAddressDialog}
+                  setOpenAddressDialog={setOpenAddressDialog}
+                  offerSelectorList={offerSelectorList}
+                  handleSelection={handleSelection}
+                  selectedOffer={selectedOffer}
+                  handleOffer={handleOffer}
+                  isModalOpen={isModalOpen}
+                  setModalOpen={setModalOpen}
+                  statusMessage={statusMessage}
+                />
+
+                <span onClick={() => setOpenAddressDialog(true)}>
+                  Send Offer
+                </span>
               </div>
             </button>
           ) : (
@@ -610,107 +547,25 @@ export const TalentList = ({
           {appStatus === "training" ? (
             <button className="dark__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
               <div className="flex items-center gap-2">
-                {/* <span>Send Offer</span> */}
-                <AlertDialog>
-                  <AlertDialogTrigger className="">
-                    <span>Send Contract</span>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent className="z-[4000] bg-white ">
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Send Contract</AlertDialogTitle>
-                      <Separator className="bg-bm__beige my-4" />
-                      <SelectOption
-                        id="origin"
-                        name="origin"
-                        defaultValue={"companyProfile.address[0].state"}
-                        options={contractSelectorList}
-                        onChange={(e: any) => handleContractSelection(e.value)}
-                        placeholder="Select offer"
-                        required
-                        isDisabled={false}
-                        className="max-w-[400px]"
-                      />
-                      {/* <p>DropDown</p> */}
-                      <Separator className="bg-bm__beige my-4" />
-                      <AlertDialogDescription>
-                        <div className=" h-[65vh] overflow-y-scroll">
-                          <Card className="w-full pt-4 my-3 bg-[#D7D8DA]">
-                            <CardContent>
-                              <div className="flex justify-between items-center">
-                                <h2 className="text-[14px] font-normal capitalize">
-                                  {selectedContract !== null &&
-                                    capitalizeFirstLetter(
-                                      selectedContract[0]?.contractName || ""
-                                    )}{" "}
-                                  Name
-                                </h2>
-                              </div>
-                              <Separator className="bg-bm__beige my-4" />
-                              <Card className="min-h-[23vh] h-fit border-[#93979D]">
-                                <div className="flex flex-col overflow-y-auto ">
-                                  <p className=" capitalize break-words p-4">
-                                    {selectedContract !== null &&
-                                      capitalizeFirstLetter(
-                                        selectedContract[0]
-                                          .contractDescription || ""
-                                      )}
-                                  </p>
-                                </div>
-                              </Card>
-                            </CardContent>
-                          </Card>
-                        </div>
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter className="mt-0">
-                      <AlertDialogCancel>
-                        <Button className="dark___btn">Cancel</Button>
-                      </AlertDialogCancel>
-                      {/* <AlertDialogAction> */}
-                      <Button
-                        className="dark___btn max-w-fit"
-                        onClick={handleContract}
-                      >
-                        Send Contract
-                      </Button>
-                      <OfferModal
-                        isOpen={isModalOpen}
-                        onClose={() => setModalOpen(false)}
-                        statusMessage={statusMessage}
-                      />
-                      {/* </AlertDialogAction> */}
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                <span onClick={() => setOpenContractDialog(true)}>
+                  Send Contract
+                </span>
+                <SendContractPopUp
+                  openContractDialog={openContractDialog}
+                  setOpenContractDialog={setOpenContractDialog}
+                  offerSelectorList={contractSelectorList}
+                  handleSelection={handleContractSelection}
+                  selectedOffer={selectedContract}
+                  handleOffer={handleContract}
+                  isModalOpen={isModalOpen}
+                  setModalOpen={setModalOpen}
+                  statusMessage={statusMessage}
+                />
               </div>
             </button>
           ) : (
             ""
           )}
-          {/* {appStatus === "shortlisted" ? (
-            <button
-              className="dark__btn text-[14px] py-0"
-              style={{ whiteSpace: "nowrap", width: "150px" }}
-              // onClick={() => handleApplyPopUp(talent)}
-              onClick={() => fetchApplications("approvedHire")}
-            >
-              Approved Hire
-            </button>
-          ) : (
-            ""
-          )}
-          {appStatus === "All" ? (
-            <button
-              className="light__btn text-[14px] py-0"
-              style={{ whiteSpace: "nowrap", width: "150px" }}
-              // onClick={() => handleApplyPopUp(talent)}
-              onClick={() => fetchApplications("approvedHire")}
-            >
-              Approved Hire
-            </button>
-          ) : (
-            ""
-          )} */}
           {appStatus === "rejected" || appStatus === "All" ? (
             <button
               className={`dark__btn text-[14px] py-0 ${

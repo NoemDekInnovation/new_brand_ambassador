@@ -89,6 +89,11 @@ export default function OfferPopUp({
           // Display a generic error message for other error scenarios
           setStatusMessage("An error occurred while saving. Please try again.");
         }
+        toast({
+          description: error?.response?.data?.message,
+          variant: "destructive",
+        });
+
         setTimeout(() => {
           setModalOpen(false);
         }, 2000);
