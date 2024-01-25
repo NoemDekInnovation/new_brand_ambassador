@@ -70,6 +70,7 @@ export default function ContractPopUp({
         );
         setModalOpen(true);
         setTimeout(() => {
+          setOpenContractDialog(false);
           setModalOpen(false);
         }, 2000);
         setStatusMessage(response.data.message || "Success");

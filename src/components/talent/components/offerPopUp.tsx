@@ -31,7 +31,8 @@ export default function OfferPopUp({
   const [statusMessage, setStatusMessage] = useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const [isAccepted, setIsAccepted] = useState(false);
-  console.log(isAccepted);
+
+  const { toast } = useToast();
 
   const acceptOffer = async (value: string) => {
     if (user?.user?.accountId !== undefined) {
@@ -48,12 +49,17 @@ export default function OfferPopUp({
         setModalOpen(true);
         setTimeout(() => {
           setModalOpen(false);
+          setOpenOfferDialog(false);
           // close();
           // setPopUp();
         }, 2000);
         setStatusMessage(response.data.message || "Success");
       } catch (error: any) {
         console.error("Error while fetiching Notifications:", error);
+        toast({
+          description: error?.response?.data?.message,
+          variant: "destructive",
+        });
         if (error.response && error.response.status === 400) {
           // Extract and display the specific error message from the API response
           setStatusMessage(error.response.data.message || "Bad Request");
