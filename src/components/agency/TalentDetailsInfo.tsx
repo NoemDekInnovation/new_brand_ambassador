@@ -33,7 +33,11 @@ import CurrentContacts from "./talents/CurrentContacts";
 import Engaged from "./talents/Engaged";
 import MyTalents from "./talents/MyTalents";
 import FavoriteTalents from "./talents/FavoriteTalents";
-import { setPageQuery } from "../../redux/talent.slice";
+import {
+  TalentQueryProp,
+  setPageQuery,
+  setTalentQuery,
+} from "../../redux/talent.slice";
 
 type TalentDetailsProps = {
   activeType:
@@ -43,11 +47,13 @@ type TalentDetailsProps = {
     | "Engaged"
     | "My Talent";
   handleProfilePopUp: (talent: TalentProps) => void;
+  updateQuery: any;
 };
 
 const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   activeType,
   handleProfilePopUp,
+  updateQuery,
 }) => {
   let pageTalents;
   let talentData: any;
@@ -274,6 +280,13 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   // console.log(pageQuery);
   // console.log(page * pageSize - negativePage);
   // console.log(page, pageSize, negativePage);
+  const handlePageSizeChange = (size: any) => {
+    updateQuery({ pageSize: size });
+  };
+
+  const handlePageChange = (size: any) => {
+    updateQuery({ page: size });
+  };
 
   return (
     <>
@@ -319,9 +332,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
             {page * pageSize - negativePage >= positivePage && (
               <BsChevronDoubleLeft
                 className="ml-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-                onClick={() => {
-                  dispatch(setPageQuery({ page: 1 }));
-                }}
+                onClick={() => handlePageChange(1)}
               />
             )}
             {page * pageSize - negativePage <= pageSize && (
@@ -330,17 +341,16 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
             {page * pageSize - negativePage >= positivePage && (
               <BsChevronLeft
                 className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-                onClick={() => {
-                  dispatch(setPageQuery({ page: page - 1 }));
-                }}
+                onClick={() => handlePageChange(page - 1)}
               />
             )}
             {page * pageSize < totalTalent && (
               <BsChevronRight
                 className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-                onClick={() => {
-                  dispatch(setPageQuery({ page: page + 1 }));
-                }}
+                // onClick={() => {
+                //   dispatch(setPageQuery({ page: page + 1 }));
+                // }}
+                onClick={() => handlePageChange(page + 1)}
               />
             )}
             {page * pageSize >= totalTalent && (
@@ -349,9 +359,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
             {page * pageSize < totalTalent && (
               <BsChevronDoubleRight
                 className="mr-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-                onClick={() => {
-                  dispatch(setPageQuery({ page: totalPages }));
-                }}
+                onClick={() => handlePageChange(totalPages)}
               />
             )}
             {page * pageSize >= totalTalent && (
@@ -362,6 +370,71 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
           {pageTalents}
         </div>
         <Separator className="my-2 md:my-4" />
+        <div className="flex w-full">
+          <div className="flex items-center gap-2 text-[12px]">
+            <span className="whitespace-nowrap mr-2">Rows per page:</span>
+            {"  "}{" "}
+            <div className="flex items-center gap-3">
+              {[10, 20, 30, 40, 50].map((n, idx) => {
+                return (
+                  <div
+                    className={`hover:bg-gray-300 ${
+                      pageSize === n ? "bg-gray-300" : ""
+                    } rounded p-2 transition-all duration-400 cursor-pointer`}
+                    key={idx}
+                    onClick={() => handlePageSizeChange(n)}
+                  >
+                    {n}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="flex w-full justify-end items-center text-[10px] font-normal">
+            {page * pageSize - negativePage}-
+            {page * pageSize >= totalTalent ? totalTalent : page * pageSize} of{" "}
+            {totalTalent}
+            {page * pageSize - negativePage <= pageSize && (
+              <BsChevronDoubleLeft className="ml-4 text-slate-400 p-1 text-[16px]" />
+            )}
+            {page * pageSize - negativePage >= positivePage && (
+              <BsChevronDoubleLeft
+                className="ml-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                onClick={() => handlePageChange(1)}
+              />
+            )}
+            {page * pageSize - negativePage <= pageSize && (
+              <BsChevronLeft className="mx-4 text-slate-400 p-1 text-[16px]" />
+            )}
+            {page * pageSize - negativePage >= positivePage && (
+              <BsChevronLeft
+                className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                onClick={() => handlePageChange(page - 1)}
+              />
+            )}
+            {page * pageSize < totalTalent && (
+              <BsChevronRight
+                className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                // onClick={() => {
+                //   dispatch(setPageQuery({ page: page + 1 }));
+                // }}
+                onClick={() => handlePageChange(page + 1)}
+              />
+            )}
+            {page * pageSize >= totalTalent && (
+              <BsChevronRight className="mx-4 text-slate-400 p-1 text-[16px]" />
+            )}
+            {page * pageSize < totalTalent && (
+              <BsChevronDoubleRight
+                className="mr-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                onClick={() => handlePageChange(totalPages)}
+              />
+            )}
+            {page * pageSize >= totalTalent && (
+              <BsChevronDoubleRight className="text-slate-400 p-1 text-[16px] mr-4" />
+            )}
+          </div>
+        </div>
       </CardContent>
     </>
   );

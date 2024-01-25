@@ -29,6 +29,7 @@ export interface TalentsProps {
   pageSize: number;
   totalPages: number;
   totalTalent: number;
+  invited: string[];
 }
 const initialState: TalentsProps = {
   loading: false,
@@ -51,6 +52,7 @@ const initialState: TalentsProps = {
   pageSize: 1,
   totalPages: 1,
   totalTalent: 0,
+  invited: [],
 };
 
 export const fetchTalents = createAsyncThunk(
@@ -78,7 +80,7 @@ export const fetchTalents = createAsyncThunk(
             }
           );
 
-          // console.log("All Talent", response?.data?.data);
+          console.log("All Talen trp t", response?.data?.data);
 
           return response?.data?.data;
         }
@@ -236,6 +238,7 @@ const talents = createSlice({
         state.pageSize = action.payload?.pageSize;
         state.totalPages = action.payload?.totalPages;
         state.totalTalent = action.payload?.totalTalents;
+        state.invited = action.payload?.invited;
       })
       .addCase(fetchTalents.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;

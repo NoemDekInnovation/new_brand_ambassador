@@ -497,7 +497,7 @@ export default function TalentsView({
               <Separator className={"my-3"} />
               <div className="flex">
                 <div className="flex  mr-2 flex-col gap-2 md:gap-4">
-                  <div className="h-[400px]  rounded-md">
+                  <div className="h-[400px]  rounded-md  w-full max-w-[400px] bg-black items-center flex">
                     <img src={selectedRole?.profilePic} className="" alt="" />
                   </div>
 
@@ -567,7 +567,7 @@ export default function TalentsView({
                         target="_blank"
                         className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                       >
-                        {selectedRole?.socials?.linkedin}
+                        {selectedRole?.socials?.linkedin.substring(0, 20)}
                       </Link>
                     </div>
                     <div className="flex items-center py-2">
@@ -577,7 +577,7 @@ export default function TalentsView({
                         target="_blank"
                         className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                       >
-                        {selectedRole?.socials?.instagram}
+                        {selectedRole?.socials?.instagram.substring(0, 20)}
                       </Link>
                     </div>
                     <div className="flex items-center py-2">
@@ -587,7 +587,7 @@ export default function TalentsView({
                         target="_blank"
                         className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                       >
-                        {selectedRole?.socials?.twitter}
+                        {selectedRole?.socials?.twitter.substring(0, 20)}
                       </Link>
                     </div>
                     <div className="flex items-center py-2">
@@ -597,7 +597,7 @@ export default function TalentsView({
                         target="_blank"
                         className="text-[12px] font-normal ml-2 underline text-blue-600 hover:text-blue-800"
                       >
-                        {selectedRole?.socials?.facebook}
+                        {selectedRole?.socials?.facebook.substring(0, 20)}
                       </Link>
                     </div>
                   </Card>
@@ -625,7 +625,7 @@ export default function TalentsView({
                   <Card className="p-2 md:p-4">
                     <h2>Overview</h2>
                     <Separator className="bg-bm__beige my-3" />
-                    <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                    <p className="text-[12px] font-normal text-bm_black w-full">
                       {selectedRole?.summary || "-"}
                     </p>
                   </Card>
@@ -636,7 +636,7 @@ export default function TalentsView({
                       <p className="text-[12px] font-normal text-bm_black w-[110px]">
                         First Name:
                       </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                      <p className="text-[12px] font-normal text-bm_black w-full">
                         {selectedRole?.firstName || "-"}
                       </p>
                     </div>
@@ -644,7 +644,7 @@ export default function TalentsView({
                       <p className="text-[12px] font-normal text-bm_black w-[110px]">
                         Last Name:{" "}
                       </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                      <p className="text-[12px] font-normal text-bm_black w-full">
                         {selectedRole?.lastName || "-"}
                       </p>
                     </div>{" "}
@@ -652,7 +652,7 @@ export default function TalentsView({
                       <p className="text-[12px] font-normal text-bm_black w-[110px]">
                         Middle Name:{" "}
                       </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                      <p className="text-[12px] font-normal text-bm_black w-full">
                         {selectedRole?.middleName || "-"}
                       </p>
                     </div>{" "}
@@ -660,7 +660,7 @@ export default function TalentsView({
                       <p className="text-[12px] font-normal text-bm_black w-[110px]">
                         Email Address:
                       </p>
-                      <p className="text-[12px] font-normal text-bm_black w-[110px]">
+                      <p className="text-[12px] font-normal text-bm_black w-full">
                         {selectedRole?.email || "-"}
                       </p>
                     </div>{" "}
@@ -1308,6 +1308,7 @@ export default function TalentsView({
                 <TalentDetailsInfo
                   activeType={activeType || "All Talent"}
                   handleProfilePopUp={handleProfilePopUp}
+                  updateQuery={updateQuery}
                 />
               </Card>
             </div>

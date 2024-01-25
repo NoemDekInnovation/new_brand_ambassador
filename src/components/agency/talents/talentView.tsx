@@ -54,6 +54,7 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { TalentsProps } from "../../../redux/talent.slice";
 import HeartIcon from "../../../libs/HeartIcon";
 import { Checkbox } from "../../../ui/checkbox";
+import { RxPerson } from "react-icons/rx";
 
 export const TalentList = ({
   talent,
@@ -113,14 +114,15 @@ export const TalentList = ({
       <div onClick={() => handleProfilePopUp(talent)}>
         {talent.profilePic === "" && (
           <div className="bg-black/70 w-[86px] h-[108px] rounded-md">
-            <img
+            {/* <img
               src={Logo}
               alt=""
               style={{
                 borderRadius: 5,
               }}
               className=" hover:grayscale-0 grayscale w-full max-w-[86px] h-full max-h-[108px] object-cover"
-            />
+            /> */}
+            <RxPerson />
           </div>
         )}
         {talent.profilePic && (
@@ -205,12 +207,21 @@ export const TalentList = ({
           </div>{" "}
           <div className="flex gap-4">
             <button className="light__btn text-[10px]">Share</button>
-            <button
-              className="dark__btn text-[10px]"
-              onClick={() => handleModalPop()}
-            >
-              Invite
-            </button>
+            {talent?.isInvited ? (
+              <button
+                className="dark__btn text-[10px]"
+                // onClick={() => handleModalPop()}
+              >
+                Invited
+              </button>
+            ) : (
+              <button
+                className="dark__btn text-[10px]"
+                onClick={() => handleModalPop()}
+              >
+                Invite
+              </button>
+            )}{" "}
           </div>
         </div>
       </div>
@@ -251,10 +262,7 @@ export const TalentGrid = ({
 }) => {
   // const slides = [beauty, profile, blue, nivea, blue2];
 
-  const slides =
-    _.profilePic !== ""
-      ? [_.profilePic]
-      : [beauty, profile, blue, nivea, blue2];
+  const slides = _.profilePic !== "" ? [_.profilePic] : [<RxPerson />];
   const dialogSlide = [girl1, girl2, girl5];
   const modalImage = [girl4, girl3, girl4];
 
@@ -357,68 +365,74 @@ export const TalentGrid = ({
             style={{ transform: `translateX(-${curr * 100}%)` }}
           >
             <div className="relative flex">
-              {slides.map((s, index) => (
-                <div
-                  className="w-[196px] h-[262px] relative"
-                  key={index}
-                  onMouseEnter={() => handleMouseEnter(index)}
-                  onMouseLeave={handleMouseLeave}
-                  onClick={() => openDialog(index)}
-                >
-                  <img
-                    src={s}
-                    alt=""
-                    className="z-50 hover:grayscale-0 grayscale  w-[196px] h-[262px] object-cover"
-                    style={{ borderRadius: 5 }}
-                  />
-                  {hoveredIndex === index && (
-                    <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-80 h-[50%] z-10">
-                      <div className="flex flex-col m-2">
-                        <div className="flex items-center space-x-4 mb-1">
-                          <div className="flex items-center space-x-1">
-                            <img src={Age} alt="" />
+              {_.profilePic !== "" ? (
+                slides.map((s, index) => (
+                  <div
+                    className="w-[196px] h-[262px] relative"
+                    key={index}
+                    onMouseEnter={() => handleMouseEnter(index)}
+                    onMouseLeave={handleMouseLeave}
+                    onClick={() => openDialog(index)}
+                  >
+                    <img
+                      src={s}
+                      alt=""
+                      className="z-50 hover:grayscale-0 grayscale  w-[196px] h-[262px] object-cover"
+                      style={{ borderRadius: 5 }}
+                    />
+                    {hoveredIndex === index && (
+                      <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-80 h-[50%] z-10">
+                        <div className="flex flex-col m-2">
+                          <div className="flex items-center space-x-4 mb-1">
+                            <div className="flex items-center space-x-1">
+                              <img src={Age} alt="" />
+                              <div className="text-[8px] font-medium">
+                                {_?.DOB} years
+                              </div>
+                            </div>
+                            <div className="flex items-center space-x-1">
+                              <img src={height} alt="" />
+                              <div className="text-[8px] font-medium">51</div>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-1 mb-1">
+                            <img
+                              src={post}
+                              alt=""
+                              className="h-[12px] w-[12px]"
+                            />
                             <div className="text-[8px] font-medium">
-                              {_?.DOB} years
+                              Nivea, Coca Cola, Pepsi, Noemdek
                             </div>
                           </div>
                           <div className="flex items-center space-x-1">
-                            <img src={height} alt="" />
-                            <div className="text-[8px] font-medium">51</div>
+                            <img
+                              src={category}
+                              alt=""
+                              className="h-[12px] w-[12px]"
+                            />
+                            <div className="text-[8px] font-medium">
+                              In-Store, Open Market, Traffic
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex items-center space-x-1 mb-1">
-                          <img
-                            src={post}
-                            alt=""
-                            className="h-[12px] w-[12px]"
-                          />
-                          <div className="text-[8px] font-medium">
-                            Nivea, Coca Cola, Pepsi, Noemdek
+                          <div className="flex items-center space-x-1">
+                            <img
+                              src={group}
+                              alt=""
+                              className="h-[12px] w-[12px]"
+                            />
+                            <div className="text-[8px] font-medium">97%</div>
                           </div>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <img
-                            src={category}
-                            alt=""
-                            className="h-[12px] w-[12px]"
-                          />
-                          <div className="text-[8px] font-medium">
-                            In-Store, Open Market, Traffic
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <img
-                            src={group}
-                            alt=""
-                            className="h-[12px] w-[12px]"
-                          />
-                          <div className="text-[8px] font-medium">97%</div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
+                ))
+              ) : (
+                <div className="flex items-center justify-center">
+                  <RxPerson className=" text-[200px]" />
                 </div>
-              ))}
+              )}
             </div>
             <Dialog open={toggleDialog} onOpenChange={setToggleDialog}>
               <DialogContent className="bg-white p-0 flex flex-col items-center">
