@@ -15,7 +15,7 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchTalentInvitations } from "../../../redux/talentInvitations.slice";
 
 const AllInvitations = ({ invitations }: { invitations: any }) => {
-  const [selectedProject, setSelectedProject] = useState();
+  const [selectedProject, setSelectedProject] = useState<any>();
   const [popUp, setPopUp] = useState(false);
 
   const handleProfilePopUp = (project: any) => {
@@ -127,7 +127,7 @@ const AllInvitations = ({ invitations }: { invitations: any }) => {
                   </div>
                   {project.status === "notApplied" && (
                     <button
-                      className="dark__btn max-w-fit text-[12px] mt-2 "
+                      className="dark__btn max-w-fit text-[12px] mt-2"
                       onClick={() => {
                         handleProfilePopUp(project);
                         setApply(true);
@@ -136,38 +136,16 @@ const AllInvitations = ({ invitations }: { invitations: any }) => {
                       Apply
                     </button>
                   )}
+
+                  {project.status === "applied" && (
+                    <button className="dark__btn max-w-fit text-[12px] mt-2">
+                      Applied
+                    </button>
+                  )}
                 </CardFooter>
               </div>
             );
           })}
-        </div>
-        <Separator className="my-2 bg-[#d7d8da]" />
-        <div className="flex justify-between mt-3 items-center">
-          <div className="flex items-center">
-            <p className=" text-[#d7d8da] mr-2 text-[10px]">Rows Per Page:</p>
-            <div className="border border-gray-300 rounded px-2">
-              <span className="hover:bg-gray-200 cursor-pointer mr-2">10</span>
-              <span className="hover:bg-gray-200 cursor-pointer mr-2">20</span>
-              <span className="hover:bg-gray-200 cursor-pointer mr-2">30</span>
-              <span className="hover:bg-gray-200 cursor-pointer mr-2">40</span>
-              <span className="hover:bg-gray-200 cursor-pointer">50</span>
-            </div>
-          </div>
-
-          <div className="flex gap-8 text-bm_black/75 text-[10px] whitespace-nowrap">
-            <div className="">First</div>
-
-            <div className="flex gap-8 text-bm_black/75 text-[14px]">
-              <BiChevronLeft />
-              <p className="text-[10px]">Back</p>
-
-              <p className="text-[10px]">1 - 4 of 4</p>
-
-              <p className="text-[10px]">Next</p>
-              <BiChevronRight />
-              <p className="text-[10px]">Last</p>
-            </div>
-          </div>
         </div>
       </div>
       <ProjectPreview
@@ -177,6 +155,7 @@ const AllInvitations = ({ invitations }: { invitations: any }) => {
         setPopUp={() => setPopUp(!popUp)}
         selectedProject={selectedProject}
         apply={apply}
+        applied={selectedProject && selectedProject.status === "applied"}
       />
     </>
   );
