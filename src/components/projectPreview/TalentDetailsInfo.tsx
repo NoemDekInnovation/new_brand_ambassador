@@ -427,7 +427,7 @@ const TalentDetailsInfo = ({
             {/* <p className="font-semibold text-[18px] ">{activeType}</p> */}
 
             <div className="relative h-full flex gap-10 items-center">
-              {/* <SelectOption
+              <SelectOption
                 className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
                 placeholder="Select Category "
                 id="projectCategory"
@@ -437,7 +437,7 @@ const TalentDetailsInfo = ({
                 options={categoryOptions}
                 defaultValue={activeType}
                 isDisabled={false}
-              /> */}
+              />
               <div className="flex items-center gap-2">
                 Invited:{" "}
                 <SelectOption

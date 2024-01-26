@@ -554,7 +554,7 @@ const ApplyDetailsInfo = ({
           >
             All Applications
           </p> */}
-          <div className="relative h-full">
+          {/* <div className="relative h-full">
             <SelectOption
               className="block min-w-[180px] px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none dark:text-white peer"
               placeholder="Select Category "
@@ -567,7 +567,7 @@ const ApplyDetailsInfo = ({
               isDisabled={false}
             />
           </div>
-          <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
+          <div className="h-9 w-0.5 bg-[#D7D8DA]"></div> */}
           <div className="flex item-center m-0 border rounded-md">
             <button
               className={`${
