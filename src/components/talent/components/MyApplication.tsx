@@ -68,7 +68,7 @@ export const MyApplication = ({
           {talentApplications?.slice(0, 3)?.map((project: any, idx: number) => {
             return (
               project.status === "hired" && (
-                <div className="" key={idx}>
+                <div className="max-w-[200px] w-full" key={idx}>
                   <CardContent className="p-0 space-y-1">
                     <div className="flex space-x-2">
                       <img src={drago} alt="" width={18} height={18} />
@@ -102,7 +102,7 @@ export const MyApplication = ({
           {talentApplications?.slice(0, 3)?.map((project: any, idx: number) => {
             return (
               project.status === "applied" && (
-                <div className="" key={idx}>
+                <div className="max-w-[200px] w-full" key={idx}>
                   <CardContent className="p-0 space-y-1">
                     <div className="flex space-x-2">
                       <img src={drago} alt="" width={18} height={18} />
@@ -136,7 +136,7 @@ export const MyApplication = ({
           {talentApplications?.slice(0, 3)?.map((project: any, idx: number) => {
             return (
               project.status === "rejected" && (
-                <div className="" key={idx}>
+                <div className="max-w-[200px] w-full" key={idx}>
                   <CardContent className="p-0 space-y-1 bg-green-200">
                     <div className="flex space-x-2">
                       <img src={drago} alt="" width={18} height={18} />

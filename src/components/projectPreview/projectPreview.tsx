@@ -319,11 +319,21 @@ const ProjectPreview = ({
                 <div className="pt-2">
                   <p className="mb-2">Location</p>
                   <div className="py-2 flex gap-6 max-w-3xl flex-wrap">
-                    {(selectedProject?.projectLocation !== undefined && (
-                      <Button className="light__btn  max-w-fit capitalize">
-                        {selectedProject?.projectLocation}
-                      </Button>
-                    )) ||
+                    {(selectedProject?.projectLocation !== undefined &&
+                      selectedProject.projectLocation.map(
+                        (location: any, idx: any) => {
+                          return (
+                            (
+                              <Button
+                                key={idx}
+                                className="light__btn  max-w-fit capitalize"
+                              >
+                                {location}
+                              </Button>
+                            ) || "-"
+                          );
+                        }
+                      )) ||
                       "-"}
                   </div>
                 </div>
