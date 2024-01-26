@@ -20,9 +20,10 @@ const HomeTab = () => {
   );
 
   const dispatch = useDispatch<AppDispatch>();
-  // useEffect(() => {
-  //   dispatch(fetchTalents(null));
-  // }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchTalents(null));
+  }, [dispatch]);
 
   const avaibleProject = {
     isCurrent: false,

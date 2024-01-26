@@ -40,6 +40,8 @@ type Project = {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  totalBAs: number;
+  totalSupervisors: number;
 };
 
 type ProjectListResponse = {
