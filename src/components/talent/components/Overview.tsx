@@ -23,6 +23,7 @@ import { useToast } from "../../../ui/use-toast";
 import createProject from "../../../assets/created-project.png";
 import Select from "react-select";
 import { Required } from "../../Required";
+import Loading from "../../Loading";
 
 type TalentOption = {
   label: string;
@@ -61,35 +62,7 @@ export default function Overview({
 
   const [inView, setInView] = useState<File>({} as File);
   const [inVw, setInVw] = useState(false);
-  // const [inputValue, setInputValue] = useState<string>("");
-  const [filteredOptions, setFilteredOptions] = useState<TalentOption[]>([]);
-  const [isSearching, setIsSearching] = useState<boolean>(false);
-
   const { toast } = useToast();
-
-  // const handleOptionClick = (value: string) => {
-  //   // setInputValue(value);
-  //   setOpportunites(value);
-  //   setIsSearching(false);
-  //   setFilteredOptions([]);
-  // };
-
-  // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = event.target.value;
-  //   // setInputValue(value);
-  //   setOpportunites(value);
-  //   setIsSearching(true);
-
-  //   if (value) {
-  //     const searchLower = value.toLowerCase();
-  //     const filtered = talentOptions.filter((option) =>
-  //       option.label.toLowerCase().includes(searchLower)
-  //     );
-  //     setFilteredOptions(filtered);
-  //   } else {
-  //     setFilteredOptions([]);
-  //   }
-  // };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
@@ -138,7 +111,13 @@ export default function Overview({
     setOpportunites(selectedLanguages);
   };
 
-  return (
+  const [isLoading, setLoading] = useState(true);
+  setTimeout(() => {
+    setLoading(false);
+  }, 2000);
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className=" bg-[#F3F3F3]/30  px-4 md:px-12 xl:px-40 h-[87.3vh] pt-10 overflow-hidden">
       <Card className="bg-white  h-full p-2 md:p-4  flex justify-between gap-[24px]">
         <Card className=" p-1.5 flex flex-col justify-center gap-1  border-bm__beige w-[280px] max-h-[200px] border rounded-[6px]">
@@ -272,7 +251,10 @@ export default function Overview({
                 {/* <p className="mb-4">Opportunities</p> */}
                 <div className="relative z-0 w-full mb-6 group">
                   <Select
-                    defaultValue={newOpp}
+                    defaultValue={opportunities?.map((opportunity: any) => ({
+                      value: opportunity,
+                      label: opportunity,
+                    }))}
                     isMulti
                     name="oppor"
                     options={talentOptions}
