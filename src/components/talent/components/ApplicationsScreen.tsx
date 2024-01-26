@@ -106,10 +106,6 @@ export default function ApplicationsScreen({}) {
       applicationList = null;
   }
 
-  let applied;
-  let notApplied;
-  let rejected;
-
   useEffect(() => {
     const inviteLength = talentInvitations?.invitations?.map(
       (project: any, idx: number) => {
@@ -122,23 +118,6 @@ export default function ApplicationsScreen({}) {
     // applied = [...inviteLength];
   }, []);
 
-  const appliedInvite = talentInvitations?.invitations?.filter(
-    (project: any, idx: number) => {
-      return project?.status === "applied";
-    }
-  );
-
-  const notAppliedInvite = talentInvitations?.invitations?.filter(
-    (project: any, idx: number) => {
-      return project?.status === "notApplied";
-    }
-  );
-
-  const rejectedInvite = talentInvitations?.invitations?.filter(
-    (project: any, idx: number) => {
-      return project?.status === "rejected";
-    }
-  );
   return (
     <>
       <Card className="p-2 md:p-4 pt-0 md:pt-0 bg-white border-0">

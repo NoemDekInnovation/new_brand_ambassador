@@ -60,12 +60,6 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
 
   const [gridView, setGridView] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [popUp, setPopUp] = useState(false);
-  const [selectedGender, setSelectedGender] = useState("all");
-  const [selectedOppor, setSelectedOppor] = useState("all");
-  const [selectedLocation, setSelectedLocation] = useState("all");
-  const [ageRange, setAgeRange] = useState({ start: "", end: "" });
-  const [selectedRole, setSelectedRole] = useState<TalentProps>();
   const [projects, setProjects] = useState<ProjectProps[]>();
   const [successModal, setSuccessModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState("");
@@ -74,18 +68,6 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   const [projectModal, setProjectModal] = useState(false);
 
   const { user } = useSelector((state: RootState) => state.user);
-
-  const handleLocationChange = (e: any) => {
-    setSelectedLocation(e.target.value);
-  };
-
-  const handleClear = () => {
-    setSelectedLocation("all");
-    setSelectedOppor("all");
-    setAgeRange({ ...ageRange, start: "" });
-    setAgeRange({ ...ageRange, end: "" });
-    setSelectedGender("all");
-  };
 
   const handleViewToggle = () => {
     setGridView(!gridView);

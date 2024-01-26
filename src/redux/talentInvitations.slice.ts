@@ -6,12 +6,26 @@ export interface talentInvitationsProps {
   loading: boolean;
   error: string | null;
   talentInvitations: any;
+  page: number;
+  totalPages: number;
+  totalInvitations: number;
+  pageSize: number;
+  totalApplied: number;
+  totalRejected: number;
+  totalNotApplied: number;
 }
 
 const initialState: talentInvitationsProps = {
   loading: false,
   error: "",
   talentInvitations: [],
+  page: 1,
+  totalPages: 1,
+  totalInvitations: 0,
+  pageSize: 20,
+  totalApplied: 0,
+  totalRejected: 0,
+  totalNotApplied: 0,
 };
 
 export const fetchTalentInvitations = createAsyncThunk(
@@ -26,6 +40,8 @@ export const fetchTalentInvitations = createAsyncThunk(
             Authorization: `Bearer ${parsedUser.authKey}`,
           },
         });
+
+        console.log(response.data.data);
 
         return response.data.data;
       }
@@ -51,6 +67,13 @@ const talentInvitationss = createSlice({
           state.loading = false;
           state.error = null;
           state.talentInvitations = action.payload;
+          state.page = action.payload.page;
+          state.totalPages = action.payload.totalPages;
+          state.totalInvitations = action.payload.totalInvitations;
+          state.pageSize = action.payload.pageSize;
+          state.totalApplied = action.payload.totalApplied;
+          state.totalRejected = action.payload.totalRejected;
+          state.totalNotApplied = action.payload.totalNotApplied;
         }
       )
       .addCase(fetchTalentInvitations.rejected, (state, action) => {
