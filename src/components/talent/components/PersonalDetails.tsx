@@ -157,7 +157,6 @@ export default function PersonalDetails({
     value: language,
     label: language,
   }));
-  // console.log("lang", newLang);
 
   const originalDate = new Date(personal.DOB);
 
@@ -176,6 +175,7 @@ export default function PersonalDetails({
 
     // Perform additional validation as needed
     const isValidDate = isValidDateRange(value);
+    console.log(isValidDate);
 
     if (isValidDate) {
       setPersonal((prevData: PersonalProps) => ({
@@ -185,13 +185,30 @@ export default function PersonalDetails({
       setInputError(null);
     } else {
       setInputError("Please select a valid date.");
+      toast({
+        description: "Please select a valid date.",
+        variant: "destructive",
+      });
     }
   };
 
   const isValidDateRange = (dateString: string): boolean => {
-    // Example: Perform validation to check if the date is within a specific range
-    // You can use a library like date-fns or Moment.js for more advanced date validations
-    return true; // Replace this with your validation logic
+    const currentDate = new Date();
+
+    // Calculate the date 15 years from now
+    const pastDate = new Date(currentDate);
+    pastDate.setFullYear(currentDate.getFullYear() - 15);
+
+    // Calculate the date 15 years from now
+    const futureDate = new Date(currentDate);
+    futureDate.setFullYear(currentDate.getFullYear() + 45);
+
+    // Parse the selected date
+    const selectedDate = new Date(dateString);
+    console.log(selectedDate, "pas:", pastDate, "fu:", futureDate);
+
+    // Check if the selected date is within the specified range
+    return selectedDate <= pastDate;
   };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
