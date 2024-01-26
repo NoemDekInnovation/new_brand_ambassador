@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import ActiveProject, { fetchactiveproject } from "../../redux/ActiveProject";
 import { Card, CardContent, CardFooter } from "../../ui/card";
+import { ProjectViewCard } from "../projectPreview";
 
 const ActiveProjects = ({ searchQuery }: { searchQuery: string }) => {
   const { activeProject } = useSelector(
@@ -12,6 +13,14 @@ const ActiveProjects = ({ searchQuery }: { searchQuery: string }) => {
   const { pageQuery } = useSelector((state: RootState) => state.talent);
 
   const dispatch = useDispatch<AppDispatch>();
+  const [popUp, setPopUp] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [id, setId] = useState<string>();
+
+  const handleProfilePopUp = (project: any) => {
+    setPopUp(!popUp);
+    setSelectedProject(project);
+  };
 
   useEffect(() => {
     dispatch(fetchactiveproject(pageQuery));
@@ -45,7 +54,11 @@ const ActiveProjects = ({ searchQuery }: { searchQuery: string }) => {
       : "";
 
     return (
-      <Card className="p-4 hover:bg-black/10 cursor-pointer " key={idx}>
+      <Card
+        className="p-4 hover:bg-black/10 cursor-pointer "
+        key={idx}
+        onClick={() => handleProfilePopUp(project)}
+      >
         <CardContent className="p-0 space-y-1">
           <h3 className="font-medium text-[15px] capitalize">
             {/* Project Name {"  "}(in-store){" "} */}
@@ -60,11 +73,16 @@ const ActiveProjects = ({ searchQuery }: { searchQuery: string }) => {
               Project Code: {project.projectCode}
             </div>
             <div className="text-[15px] p-0 px-2">|</div>
-            <div className="text-[10px] font-medium">0 Brand Ambassador</div>
+            <div className="text-[10px] font-medium">
+              {project?.totalBAs} Brand Ambassador
+            </div>
             <div className="text-[16px] p-0 px-2">|</div>
             {/* <br className="block md:hidden" /> */}
 
-            <div className="text-[10px] font-medium">0 Supervisor</div>
+            <div className="text-[10px] font-medium">
+              {" "}
+              {project?.totalSupervisors} Supervisor
+            </div>
           </div>
         </CardContent>
         <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
@@ -100,7 +118,18 @@ const ActiveProjects = ({ searchQuery }: { searchQuery: string }) => {
       </Card>
     );
   });
-  return <div className="flex flex-col w-full gap-2">{projects}</div>;
+  return (
+    <>
+      <div className="flex flex-col w-full gap-2">{projects}</div>
+      <ProjectViewCard
+        popUp={popUp}
+        setPopUp={() => setPopUp(!popUp)}
+        selectedProject={selectedProject}
+        id={id}
+        setId={setId}
+      />
+    </>
+  );
 };
 
 export default ActiveProjects;

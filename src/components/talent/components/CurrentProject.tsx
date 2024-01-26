@@ -30,8 +30,7 @@ export const CurrentProject = () => {
             },
           }
         );
-
-        setCurrentProject(response.data?.projects[0]);
+        setCurrentProject(response.data?.projects[0].project);
       } catch (error) {
         console.error("Error while fetiching Notifications:", error);
       }

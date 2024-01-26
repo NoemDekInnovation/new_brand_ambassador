@@ -3,10 +3,6 @@ import { Card, CardContent, CardFooter } from "../../ui/card";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { fetchpublishproject } from "../../redux/publishProject";
-import { Dialog } from "../../ui/dialog";
-import PreviewPublished from "./publishedpreview/PreviewPublished";
-import AboutProject from "./createproject/aboutProject";
-import aboutProject from "./createproject/aboutProject";
 import { ProjectViewCard } from "../projectPreview";
 // import { fetchPublishProject } from "../../redux/createproject/activeProject.slice";
 
@@ -27,7 +23,6 @@ const PublishedProject = ({ searchQuery }: { searchQuery: string }) => {
 
   const handleProfilePopUp = (project: any) => {
     setPopUp(!popUp);
-    // console.log("worked", popUp);
     setSelectedProject(project);
   };
 
@@ -88,12 +83,12 @@ const PublishedProject = ({ searchQuery }: { searchQuery: string }) => {
               </div>
               <div className="text-[15px] p-0 px-2">|</div>
               <div className="text-[10px] font-medium">
-                0 Brands Ambassador Applications
+                {project?.totalBAs} Brands Ambassador Applications
                 {}
               </div>
               <div className="text-[16px] p-0 px-2">|</div>
               <div className="text-[10px] font-medium">
-                0 Supervisor Applications
+                {project?.totalSupervisors} Supervisor Applications
               </div>
             </div>
           </CardContent>

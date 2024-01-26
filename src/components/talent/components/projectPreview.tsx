@@ -159,7 +159,6 @@ const ProjectPreview = ({
   };
 
   const handleRoleChange = (role: any) => {
-    // updateQuery({ opportunities: role });
     setTalentType(role);
   };
   return (

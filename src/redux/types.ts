@@ -102,6 +102,8 @@ export interface ProjectProps {
   createdAt: string;
   updatedAt: string;
   __v: 1;
+  totalBAs: number;
+  totalSupervisors: number;
 }
 
 export interface ExperienceProps {
@@ -135,7 +137,7 @@ export interface PersonalProps {
   skinColor: string;
   languages: string[];
   dressSize: string;
-  [key: string]: string | string[]; 
+  [key: string]: string | string[];
 }
 
 export interface AddressProps {
@@ -303,5 +305,5 @@ export type editProfile = {
   address: [];
   education: [];
   certifications: [];
-  experience: []
+  experience: [];
 };
