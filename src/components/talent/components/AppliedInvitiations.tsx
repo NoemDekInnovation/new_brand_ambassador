@@ -50,11 +50,7 @@ const AppliedInvitations = ({ invitations }: { invitations: any }) => {
                       <div className="flex space-x-2">
                         <img src={drago} alt="" width={18} height={18} />
                         <p className="border-r px-2 text-[12px]">Cool Ltd.</p>
-                        {/* <p className="text-bm__ox__red text-[10px] flex items-center gap-1">
-                    {" "}
-                    <GoChecklist className="text-[13px]" />
-                    Unverified
-                  </p> */}
+
                         <p className="text-green-900 text-[10px] flex items-center gap-1">
                           {" "}
                           <GoChecklist className="text-[13px]" />
