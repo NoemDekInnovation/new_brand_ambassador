@@ -24,6 +24,7 @@ const ProjectPreview = ({
   selectedProject,
   apply,
   close,
+  idCheck,
   setApply,
 }: {
   setApply: any;
@@ -32,6 +33,7 @@ const ProjectPreview = ({
   popUp: boolean;
   setPopUp: any;
   selectedProject: any;
+  idCheck?: any;
 }) => {
   const startDate = new Date(selectedProject?.projectDuration?.startDate);
   const endDate = new Date(selectedProject?.projectDuration?.endDate);
@@ -48,6 +50,18 @@ const ProjectPreview = ({
   });
 
   const { user } = useSelector((state: RootState) => state.user);
+
+  console.log("selectedProject", selectedProject);
+
+  const newProject = (selectedProject: any) => {
+    if (idCheck.includes(selectedProject._id)) {
+      return { ...selectedProject, applied: true };
+    }
+    return { ...selectedProject, applied: false };
+  };
+
+  // newProject(selectedProject)
+  console.log(selectedProject);
 
   const [selectedFileName, setSelectedFileName] = useState("");
   const [documents, setDocuments] = useState<File[]>([]);
@@ -171,18 +185,33 @@ const ProjectPreview = ({
           <div className="flex gap-2">
             {!apply && (
               <>
-                <button
-                  className="dark__btn max-w-fit text-[12px] "
-                  onClick={setApply}
-                >
-                  Apply
-                </button>
-                <button
-                  onClick={handleReject}
-                  className="outlined__red__btn max-w-fit text-[12px] "
-                >
-                  Reject
-                </button>
+                {!selectedProject?.applied && (
+                  <>
+                    <button
+                      className="dark__btn max-w-fit text-[12px] "
+                      onClick={setApply}
+                    >
+                      Apply
+                    </button>
+                    <button
+                      onClick={handleReject}
+                      className="outlined__red__btn max-w-fit text-[12px] "
+                    >
+                      Reject
+                    </button>
+                  </>
+                )}
+
+                {selectedProject?.applied && (
+                  <>
+                    <button
+                      className="dark__btn max-w-fit text-[12px] "
+                      // onClick={setApply}
+                    >
+                      Applied
+                    </button>
+                  </>
+                )}
                 <button className="light__btn max-w-fit text-[12px] flex items-center gap-2">
                   <span>
                     <IoMdShare />

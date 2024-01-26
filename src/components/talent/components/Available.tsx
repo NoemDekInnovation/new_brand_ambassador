@@ -31,6 +31,9 @@ const Available = () => {
   const { allProjects, applied } = useSelector(
     (state: RootState) => state.allTalentProject
   );
+
+  console.log("allProjects", allProjects, applied);
+
   const [isLoading, setIsLoading] = useState(false);
   const [projects, setProjects] = useState();
   const [apply, setApply] = useState(false);
@@ -44,8 +47,6 @@ const Available = () => {
   const { searchTerm } = useSelector(
     (state: RootState) => state.allTalentProject
   );
-
-  const projectist = allProjects;
 
   const idCheck = applied;
 
@@ -156,6 +157,12 @@ const Available = () => {
                       Apply
                     </button>
                   )}
+
+                  {project.applied && (
+                    <button className="dark__btn max-w-fit text-[12px] mt-2 ">
+                      Applied
+                    </button>
+                  )}
                 </CardFooter>
               </div>
             );
@@ -209,6 +216,7 @@ const Available = () => {
         setPopUp={() => setPopUp(!popUp)}
         selectedProject={selectedProject}
         apply={apply}
+        idCheck={idCheck}
       />
     </>
   );
