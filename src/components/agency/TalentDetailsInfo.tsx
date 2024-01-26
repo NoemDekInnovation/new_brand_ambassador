@@ -168,9 +168,17 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
       talentData = agencyTalentData;
       break;
     default:
-      talentData = null;
+      talentData = {
+        totalPages: 1,
+        totalTalent: 0,
+        page: 1,
+        pageSize: 20,
+      };
   }
 
+  // if(talentData){
+
+  // }
   const {
     totalPages,
     totalTalent,
