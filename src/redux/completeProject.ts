@@ -10,6 +10,7 @@ export interface CompleteProjectProps {
   page: number;
   pageSize: number;
   totalPages: number;
+  totalApplications: number;
 }
 
 const initialState: CompleteProjectProps = {
@@ -20,6 +21,7 @@ const initialState: CompleteProjectProps = {
   page: 1,
   pageSize: 1,
   totalPages: 1,
+  totalApplications: 0,
 };
 
 export const fetchcompleteproject = createAsyncThunk(
@@ -87,6 +89,7 @@ const completeProjects = createSlice({
           state.page = action.payload?.page;
           state.pageSize = action.payload?.pageSize;
           state.totalPages = action.payload?.totalPages;
+          state.totalApplications = action.payload?.totalApplications;
         }
       )
       .addCase(fetchcompleteproject.rejected, (state, action) => {

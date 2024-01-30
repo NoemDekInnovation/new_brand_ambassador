@@ -24,6 +24,13 @@ import { DialogOverlay } from "@radix-ui/react-dialog";
 import { TalentProps } from "../../../redux/types";
 import SelectOption from "../../../libs/select";
 
+type AppProps =
+  | "shortlisted"
+  | "rejected"
+  | "approvedHire"
+  | "All"
+  | "training";
+
 const AllApplications = ({
   gridView,
   handleInvite,
@@ -49,7 +56,9 @@ const AllApplications = ({
   setBulkModal,
   setSelectedOffer,
   offerHandler,
+  setAppStatus,
 }: {
+  setAppStatus: (value: React.SetStateAction<AppProps>) => void;
   bulkModal?: any;
   setBulkModal?: any;
   ProjectId: string;
@@ -186,6 +195,7 @@ const AllApplications = ({
           {talentData?.map((_: any, idx: number) => {
             return (
               <TalentList
+                setAppStatus={setAppStatus}
                 talent={_}
                 index={idx}
                 handleInvite={""}

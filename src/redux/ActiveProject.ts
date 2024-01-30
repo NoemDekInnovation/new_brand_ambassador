@@ -42,6 +42,7 @@ type Project = {
   __v: number;
   totalBAs: number;
   totalSupervisors: number;
+  totalApplications: number;
 };
 
 type ProjectListResponse = {

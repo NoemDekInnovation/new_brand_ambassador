@@ -485,7 +485,7 @@ const ListCard = ({
                         : project.projectDescription}
                     </p>
                     <p className="font-medium text-[13px] text-bm__ox__red">
-                      3oo Applications{" "}
+                      {project?.totalApplications} Applications{" "}
                     </p>
                     <div className="flex space-x-2 text-[8px] font-light leading-3">
                       {formattedLocation}
@@ -528,7 +528,7 @@ const ListCard = ({
                         : project.projectDescription}
                     </p>
                     <p className="font-medium text-[13px] text-bm__ox__red">
-                      3oo Applications{" "}
+                      {project?.totalApplications} Applications{" "}
                     </p>
                     <div className="flex space-x-2 text-[8px] font-light leading-3">
                       {formattedLocation}
@@ -570,7 +570,7 @@ const ListCard = ({
                         : project.projectDescription}
                     </p>
                     <p className="font-medium text-[13px] text-bm__ox__red">
-                      3oo Applications{" "}
+                      {project?.totalApplications} Applications{" "}
                     </p>
                     <div className="flex space-x-2 text-[8px] font-light leading-3">
                       {formattedLocation}

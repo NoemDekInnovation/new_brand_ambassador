@@ -99,6 +99,7 @@ export interface ProjectProps {
 
   projectRequirements: string;
   document: [];
+  totalApplications: number;
   createdAt: string;
   updatedAt: string;
   __v: 1;
