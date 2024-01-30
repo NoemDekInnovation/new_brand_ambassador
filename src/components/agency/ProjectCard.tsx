@@ -135,10 +135,12 @@ export function CurrentProjects({
                 PC: {project.projectCode}
               </p>
               <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
-              <p className="font-medium text-[10px] text-bm__niv ml-2">0 BA</p>
+              <p className="font-medium text-[10px] text-bm__niv ml-2">
+                {project?.totalBAs} BA(s)
+              </p>
               <div className="ml-2 border-r-2 border-[#252525] h-[15px] font-medium" />
               <p className="font-medium text-[10px] text-bm__niv ml-2">
-                0 Supervisors
+                {project?.totalSupervisors} Supervisors
               </p>
             </div>
           </div>

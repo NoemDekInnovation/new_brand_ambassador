@@ -94,21 +94,6 @@ export const TalentList = ({
     setModal(!modal);
   };
 
-  // const [checkedTalentIds, setCheckedTalentIds] = useState<string[]>([]);
-
-  // const handleCheckedChange = (talentId: string) => {
-  //   // Check if the talentId is already in the array
-  //   if (checkedTalentIds.includes(talentId)) {
-  //     // If checked, remove it from the array
-  //     setCheckedTalentIds(checkedTalentIds.filter((id) => id !== talentId));
-  //   } else {
-  //     // If not checked, add it to the array
-  //     setCheckedTalentIds([...checkedTalentIds, talentId]);
-  //   }
-  // };
-
-  // console.log(checkedTalentIds);
-
   return (
     <div key={index} className="bg-white border rounded flex">
       <div onClick={() => handleProfilePopUp(talent)}>
@@ -244,6 +229,8 @@ export const TalentGrid = ({
   successModal,
   setModal,
   modal,
+  handleCheckedChange,
+  preview,
 }: {
   _: any;
   idx?: number;
@@ -259,6 +246,8 @@ export const TalentGrid = ({
   successModal?: boolean;
   setModal: any;
   modal?: boolean;
+  handleCheckedChange?: any;
+  preview?: boolean;
 }) => {
   // const slides = [beauty, profile, blue, nivea, blue2];
 
@@ -505,12 +494,16 @@ export const TalentGrid = ({
         </div>
 
         {handleProfilePopUp && (
-          <div
-            onClick={() => handleProfilePopUp(_)}
-            className="px-1 cursor-pointer"
-          >
+          <div className="px-1 cursor-pointer">
             <div className="flex items-center gap-3 whitespace-nowrap px-2 py-1">
-              <p className="text-[12px] font-medium capitalize">
+              {preview && (
+                <Checkbox onCheckedChange={() => handleCheckedChange(_._id)} />
+              )}
+
+              <p
+                className="text-[12px] font-medium capitalize"
+                onClick={() => handleProfilePopUp(_)}
+              >
                 {_?.firstName} {_?.lastName}
               </p>
               <span className="bg-[#00AB26] h-2 w-2 rounded-full"></span>

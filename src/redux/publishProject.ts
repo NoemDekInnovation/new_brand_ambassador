@@ -46,7 +46,7 @@ export const fetchpublishproject = createAsyncThunk(
             }
           );
 
-          // console.log("myTalents", response?.data?.data?.talent);
+          console.log("myTalents revamp", response?.data?.data?.talent);
 
           return response?.data?.data;
         }

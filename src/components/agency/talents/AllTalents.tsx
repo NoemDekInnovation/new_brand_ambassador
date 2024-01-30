@@ -42,6 +42,7 @@ const AllTalents = ({
   bulkModal,
   setBulkModal,
   handleGroupInvite,
+  preview,
 }: {
   gridView: boolean;
   handleInvite: any;
@@ -61,6 +62,7 @@ const AllTalents = ({
   bulkModal?: any;
   setBulkModal?: any;
   handleGroupInvite?: any;
+  preview?: boolean;
 }) => {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -107,8 +109,6 @@ const AllTalents = ({
     isInvited: invited.includes(obj?._id),
   }));
 
-  console.log("resTalents", invited, newArrayWithFlag);
-
   return (
     <div className="relative">
       {gridView && (
@@ -121,6 +121,7 @@ const AllTalents = ({
               return (
                 <TalentGrid
                   key={idx}
+                  handleCheckedChange={handleCheckedChange}
                   _={_}
                   modal={projectModal}
                   setModal={setProjectModal}
@@ -135,6 +136,7 @@ const AllTalents = ({
                   selectedProject={selectedProject}
                   setSuccessModal={setSuccessModal}
                   successModal={successModal}
+                  preview={preview}
                 />
               );
             })}

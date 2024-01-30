@@ -406,6 +406,7 @@ const ApplyDetailsInfo = ({
       pageTalents = (
         <>
           <AllApplications
+            setAppStatus={setAppStatus}
             gridView={gridView}
             successModal={successModal}
             setSuccessModal={setSuccessModal}

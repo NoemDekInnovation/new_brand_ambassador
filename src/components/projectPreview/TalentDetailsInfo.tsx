@@ -296,6 +296,7 @@ const TalentDetailsInfo = ({
             gap={14}
             handleGroupInvite={handleGroupInvite}
             handleCheckedChange={handleCheckedChange}
+            preview={true}
           />
           <OfferModal
             isOpen={successModal}

@@ -84,6 +84,14 @@ import HeartIcon from "../../../libs/HeartIcon";
 import SendOfferPopUp from "../contract/sendOfferPopUp";
 import SendContractPopUp from "../contract/sendContractPopUp";
 import { useToast } from "../../../ui/use-toast";
+import Loading from "../../Loading";
+
+type AppProps =
+  | "shortlisted"
+  | "rejected"
+  | "approvedHire"
+  | "All"
+  | "training";
 
 export const TalentList = ({
   talent,
@@ -101,8 +109,9 @@ export const TalentList = ({
   ProjectId,
   handleCheckedChange,
   successModal,
-}: // setProjects,
-{
+  setAppStatus,
+}: {
+  setAppStatus: (value: React.SetStateAction<AppProps>) => void;
   talent: any;
   index: number;
   ProjectId: string;
@@ -155,6 +164,7 @@ export const TalentList = ({
     // setSelectedRole(talent);
   };
 
+  const [loading, setLoading] = useState<boolean>(false);
   const [isShortlisted, setShortlisted] = useState(false);
   const [offers, setOffers] = useState([]);
   const [contracts, setContracts] = useState([]);
@@ -168,8 +178,6 @@ export const TalentList = ({
   const [openContractDialog, setOpenContractDialog] = useState(false);
 
   const { toast } = useToast();
-
-  console.log(selectedOffer, "oh", selectedContract);
 
   const handleShortlistClick = () => {
     // Perform shortlisting logic here, if needed
@@ -191,9 +199,10 @@ export const TalentList = ({
   };
   const user = useSelector((state: RootState) => state.user);
 
-  const fetchApplications = async (status: string) => {
+  const handleShortlistStatus = async (status: AppProps) => {
     if (user?.user?.accountId !== undefined) {
       try {
+        setLoading(true);
         const response = await campaignAuthAxiosInstance.post(
           `/add-shortlist/${ProjectId}?status=${status}`,
           [
@@ -207,7 +216,13 @@ export const TalentList = ({
             },
           }
         );
+        setAppStatus(status);
+        toast({
+          description: response?.data?.responses[0]?.message,
+        });
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.error("Error while fetiching Notifications:", error);
       }
     }
@@ -291,8 +306,6 @@ export const TalentList = ({
     );
     setSelectedContract(contractInfo);
   };
-
-  console.log(selectedContract);
 
   const offerHandler = async () => {
     const payload = [
@@ -393,205 +406,212 @@ export const TalentList = ({
   const handleContract = async () => {
     await contractHandler();
   };
-
   return (
-    <div key={index} className="bg-white border rounded flex">
-      <div onClick={() => handleProfilePopUp(talent)}>
-        {talent?.profilePic === "" && (
-          <div className="bg-black/70 w-[86px] h-[130px] rounded-md">
-            <img
-              src={Logo}
-              alt=""
-              style={{
-                borderRadius: 5,
-              }}
-              className=" hover:grayscale-0 grayscale w-full max-w-[86px] h-full max-h-[130px] object-cover"
-            />
-          </div>
-        )}
-        {talent.profilePic && (
-          <div className="bg-black/70 w-[86px] h-[130px] rounded-md">
-            <img
-              src={talent.profilePic}
-              alt=""
-              style={{ borderRadius: 5 }}
-              className=" hover:grayscale-0 grayscale w-full max-w-[86px] h-full max-h-[130px] object-cover"
-            />
-          </div>
-        )}
-      </div>
-      <div className="p-2 w-full">
-        <div className="flex w-full justify-between">
-          <div className="flex items-center gap-3">
-            <Checkbox onCheckedChange={() => handleCheckedChange(talent._id)} />
-
-            <p
-              className="text-[15px] font-medium cursor-pointer capitalize"
-              onClick={() => handleApplyPopUp(talent)}
-            >
-              {talent?.fullName}
-            </p>
-            <HeartIcon
-              selectedTalentID={talent?._id}
-              favorites={talent?.favorites}
-            />
-          </div>
-          <div className="flex items-center">
-            {talent?.metaData?.isActive && (
-              <div className="text-[#00AB26] text-[10px] font-normal border-r-2 pr-2">
-                Available
-              </div>
-            )}
-            {!talent?.metaData?.isActive && (
-              <div className="text-[#FF0000] text-[10px] font-normal border-r-2 pr-2">
-                Unavailable
-              </div>
-            )}
-            <div className="capitalize pl-2   text-[10px]">
-              {talent?.opportunities[0]}
-            </div>
-          </div>
-        </div>
-        <div className="mb-3">
-          {" "}
-          <p className="text-[12px] font-normal  ">
-            {" "}
-            {truncateText(talent?.summary || "-", 20)}
-          </p>
-          <div className="flex flex-row text-[10px] font-normal">
-            <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
-              {talent?.age || "-"}
-            </p>
-            <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
-              {talent?.height || "-"}
-            </p>
-            <p className="capitalize`">{talent?.address[0]?.city}</p>
-            <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
-              {talent?.address[0]?.state || "-"}
-            </p>
-            {talent?.experience[0] && (
-              <p>{talent?.experience[0]?.agencyName || "-"}</p>
-            )}
-            {talent?.experience[1] && (
-              <p>{talent?.experience[1]?.agencyName || "-"}</p>
-            )}
-          </div>
-        </div>
-        <div className="flex w-full justify-between">
-          <div className="flex items-center gap-2 whitespace-nowrap ">
-            <div className=" border-r-2 pr-2 text-[10px] font-bold">
-              <span className="text-bm__ox__red text-[12px] font-semibold">
-                97% {"  "}
-              </span>
-              Work Success
-            </div>
-            <div className="text-[10px] font-bold">
-              <span className="text-bm__ox__red text-[12px] font-semibold">
-                4.5 {"  "}
-              </span>
-              Ratings
-            </div>
-          </div>{" "}
-        </div>
-        <div className="flex gap-4 justify-end">
-          <button
-            className="light__btn text-[14px] py-0"
-            style={{ width: "100px" }}
-          >
-            <div className="flex items-center gap-2">
-              <RiStackshareLine
+    <>
+      {loading && <Loading />}
+      <div key={index} className="bg-white border rounded flex">
+        <div onClick={() => handleProfilePopUp(talent)}>
+          {talent?.profilePic === "" && (
+            <div className="bg-black/70 w-[86px] h-[130px] rounded-md">
+              <img
+                src={Logo}
+                alt=""
                 style={{
-                  fontSize: "1em",
-                  flex: "none",
+                  borderRadius: 5,
                 }}
+                className=" hover:grayscale-0 grayscale w-full max-w-[86px] h-full max-h-[130px] object-cover"
               />
-              <span>Share</span>
             </div>
-          </button>
-          {appStatus === "All" ? (
-            // {appStatus === "shortlisted" || appStatus === "All" ? (
-            <button
-              className="border rounded-md border-red-500 text-red-500 text-[14px] py-0"
-              style={{ whiteSpace: "nowrap", width: "150px" }}
-              // onClick={() => handleApplyPopUp(talent)}
-              onClick={() => fetchApplications("rejected")}
-            >
-              Reject{" "}
-            </button>
-          ) : (
-            ""
           )}
-          {appStatus === "shortlisted" ? (
-            <button className="dark__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
-              <div className="flex items-center gap-2">
-                <SendOfferPopUp
-                  openAddressDialog={openAddressDialog}
-                  setOpenAddressDialog={setOpenAddressDialog}
-                  offerSelectorList={offerSelectorList}
-                  handleSelection={handleSelection}
-                  selectedOffer={selectedOffer}
-                  handleOffer={handleOffer}
-                  isModalOpen={isModalOpen}
-                  setModalOpen={setModalOpen}
-                  statusMessage={statusMessage}
-                />
-
-                <span onClick={() => setOpenAddressDialog(true)}>
-                  Send Offer
-                </span>
-              </div>
-            </button>
-          ) : (
-            ""
+          {talent.profilePic && (
+            <div className="bg-black/70 w-[86px] h-[130px] rounded-md">
+              <img
+                src={talent.profilePic}
+                alt=""
+                style={{ borderRadius: 5 }}
+                className=" hover:grayscale-0 grayscale w-full max-w-[86px] h-full max-h-[130px] object-cover"
+              />
+            </div>
           )}
-          {appStatus === "training" ? (
-            <button className="dark__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
-              <div className="flex items-center gap-2">
-                <span onClick={() => setOpenContractDialog(true)}>
-                  Send Contract
-                </span>
-                <SendContractPopUp
-                  openContractDialog={openContractDialog}
-                  setOpenContractDialog={setOpenContractDialog}
-                  offerSelectorList={contractSelectorList}
-                  handleSelection={handleContractSelection}
-                  selectedOffer={selectedContract}
-                  handleOffer={handleContract}
-                  isModalOpen={isModalOpen}
-                  setModalOpen={setModalOpen}
-                  statusMessage={statusMessage}
-                />
-              </div>
-            </button>
-          ) : (
-            ""
-          )}
-          {appStatus === "rejected" || appStatus === "All" ? (
-            <button
-              className={`dark__btn text-[14px] py-0 ${
-                isShortlisted ? "bg-green-500 text-black" : ""
-              }`}
-              style={{ whiteSpace: "nowrap", width: "150px" }}
-              // onClick={() => handleApplyPopUp(talent)}
-              // style={buttonStyle}
-              onClick={() => fetchApplications("shortlisted")}
-              disabled={isShortlisted}
-            >
-              {isShortlisted ? "Shortlisted" : "Shortlist"}
-            </button>
-          ) : (
-            ""
-          )}{" "}
         </div>
-      </div>
-      <ViewApplication
-        popUp={popUp}
-        setPopUp={() => setPopUp(!popUp)}
-        select={talent}
+        <div className="p-2 w-full">
+          <div className="flex w-full justify-between">
+            <div className="flex items-center gap-3">
+              <Checkbox
+                onCheckedChange={() => handleCheckedChange(talent._id)}
+              />
 
-        // selectedProject={selectedProject}
-      />
-    </div>
+              <p
+                className="text-[15px] font-medium cursor-pointer capitalize"
+                onClick={() => handleApplyPopUp(talent)}
+              >
+                {talent?.fullName}
+              </p>
+              <HeartIcon
+                selectedTalentID={talent?._id}
+                favorites={talent?.favorites}
+              />
+            </div>
+            <div className="flex items-center">
+              {talent?.metaData?.isActive && (
+                <div className="text-[#00AB26] text-[10px] font-normal border-r-2 pr-2">
+                  Available
+                </div>
+              )}
+              {!talent?.metaData?.isActive && (
+                <div className="text-[#FF0000] text-[10px] font-normal border-r-2 pr-2">
+                  Unavailable
+                </div>
+              )}
+              <div className="capitalize pl-2   text-[10px]">
+                {talent?.opportunities[0]}
+              </div>
+            </div>
+          </div>
+          <div className="mb-3">
+            {" "}
+            <p className="text-[12px] font-normal  ">
+              {" "}
+              {truncateText(talent?.summary || "-", 20)}
+            </p>
+            <div className="flex flex-row text-[10px] font-normal">
+              <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
+                {talent?.age || "-"}
+              </p>
+              <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
+                {talent?.height || "-"}
+              </p>
+              <p className="capitalize`">{talent?.address[0]?.city}</p>
+              <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
+                {talent?.address[0]?.state || "-"}
+              </p>
+              {talent?.experience[0] && (
+                <p>{talent?.experience[0]?.agencyName || "-"}</p>
+              )}
+              {talent?.experience[1] && (
+                <p>{talent?.experience[1]?.agencyName || "-"}</p>
+              )}
+            </div>
+          </div>
+          <div className="flex w-full justify-between">
+            <div className="flex items-center gap-2 whitespace-nowrap ">
+              <div className=" border-r-2 pr-2 text-[10px] font-bold">
+                <span className="text-bm__ox__red text-[12px] font-semibold">
+                  97% {"  "}
+                </span>
+                Work Success
+              </div>
+              <div className="text-[10px] font-bold">
+                <span className="text-bm__ox__red text-[12px] font-semibold">
+                  4.5 {"  "}
+                </span>
+                Ratings
+              </div>
+            </div>{" "}
+          </div>
+          <div className="flex gap-4 justify-end">
+            <button
+              className="light__btn text-[14px] py-0"
+              style={{ width: "100px" }}
+            >
+              <div className="flex items-center gap-2">
+                <RiStackshareLine
+                  style={{
+                    fontSize: "1em",
+                    flex: "none",
+                  }}
+                />
+                <span>Share</span>
+              </div>
+            </button>
+            {appStatus === "All" ? (
+              // {appStatus === "shortlisted" || appStatus === "All" ? (
+              <button
+                className="border rounded-md border-red-500 text-red-500 text-[14px] py-0"
+                style={{ whiteSpace: "nowrap", width: "150px" }}
+                // onClick={() => handleApplyPopUp(talent)}
+                onClick={() => handleShortlistStatus("rejected")}
+              >
+                Reject{" "}
+              </button>
+            ) : (
+              ""
+            )}
+            {appStatus === "shortlisted" ? (
+              <button className="dark__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
+                <div className="flex items-center gap-2">
+                  <SendOfferPopUp
+                    openAddressDialog={openAddressDialog}
+                    setOpenAddressDialog={setOpenAddressDialog}
+                    offerSelectorList={offerSelectorList}
+                    handleSelection={handleSelection}
+                    selectedOffer={selectedOffer}
+                    handleOffer={handleOffer}
+                    isModalOpen={isModalOpen}
+                    setModalOpen={setModalOpen}
+                    statusMessage={statusMessage}
+                  />
+
+                  <span onClick={() => setOpenAddressDialog(true)}>
+                    Send Offer
+                  </span>
+                  {/* <span onClick={() => handleShortlistStatus("rejected")}>
+                    handleShortlistStatus
+                  </span> */}
+                </div>
+              </button>
+            ) : (
+              ""
+            )}
+            {appStatus === "training" ? (
+              <button className="dark__btn text-[14px] py-0 max-w-fit whiteSpace-nowrap">
+                <div className="flex items-center gap-2">
+                  <span onClick={() => setOpenContractDialog(true)}>
+                    Send Contract
+                  </span>
+                  <SendContractPopUp
+                    openContractDialog={openContractDialog}
+                    setOpenContractDialog={setOpenContractDialog}
+                    offerSelectorList={contractSelectorList}
+                    handleSelection={handleContractSelection}
+                    selectedOffer={selectedContract}
+                    handleOffer={handleContract}
+                    isModalOpen={isModalOpen}
+                    setModalOpen={setModalOpen}
+                    statusMessage={statusMessage}
+                  />
+                </div>
+              </button>
+            ) : (
+              ""
+            )}
+            {appStatus === "rejected" || appStatus === "All" ? (
+              <button
+                className={`dark__btn text-[14px] py-0 ${
+                  isShortlisted ? "bg-green-500 text-black" : ""
+                }`}
+                style={{ whiteSpace: "nowrap", width: "150px" }}
+                // onClick={() => handleApplyPopUp(talent)}
+                // style={buttonStyle}
+                onClick={() => handleShortlistStatus("shortlisted")}
+                disabled={isShortlisted}
+              >
+                {isShortlisted ? "Shortlisted" : "Shortlist"}
+              </button>
+            ) : (
+              ""
+            )}{" "}
+          </div>
+        </div>
+        <ViewApplication
+          popUp={popUp}
+          setPopUp={() => setPopUp(!popUp)}
+          select={talent}
+
+          // selectedProject={selectedProject}
+        />
+      </div>
+    </>
   );
 };
 
