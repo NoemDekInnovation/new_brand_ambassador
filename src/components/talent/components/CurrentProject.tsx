@@ -55,7 +55,18 @@ export const CurrentProject = () => {
         <Separator className="my-2 bg-[#D7D8DA]" />
         <CardContent className="p-0 space-y-1">
           <div className="flex space-x-2">
-            <img src={drago} alt="" width={18} height={18} />
+            {!currentProject?.profilePic && (
+              <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
+            )}
+            {currentProject?.profilePic && (
+              <img
+                src={currentProject?.profilePic}
+                alt="profile"
+                width={18}
+                height={18}
+                className="rounded-full  h-[18px] w-[18px] object-cover"
+              />
+            )}
             <p className="px-2 text-[12px] text-[#252525B2] font-medium">
               Cool Ltd.
             </p>

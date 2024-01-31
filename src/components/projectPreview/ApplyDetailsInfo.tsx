@@ -143,8 +143,18 @@ const ApplyDetailsInfo = ({
   const { user } = useSelector((state: RootState) => state.user);
   const { talentQuery } = useSelector((state: RootState) => state.talent);
 
-  const { applications, page, pageSize, totalApplications, totalPages } =
-    useSelector((state: RootState) => state?.applications);
+  const {
+    applications,
+    page,
+    pageSize,
+    totalApplications,
+    totalPages,
+    totalRejected,
+    totalTrained,
+    totalShortlists,
+  } = useSelector((state: RootState) => state?.applications);
+
+  console.log(applications, totalRejected, totalTrained, totalShortlists);
 
   const { projectApplications: applied } = useSelector(
     (state: RootState) => state.projectApplication
@@ -584,7 +594,7 @@ const ApplyDetailsInfo = ({
               Shortlisted
               <span className="text-[16px] font-semibold text-black">
                 {" "}
-                ({applications?.data?.totalShortlists})
+                ({totalShortlists})
               </span>
             </button>
             <div className="h-9 w-0.5 bg-[#D7D8DA]"></div>
@@ -602,7 +612,7 @@ const ApplyDetailsInfo = ({
               Training
               <span className="text-[16px] font-semibold text-black">
                 {" "}
-                ({applications?.data?.totalTrained})
+                ({totalTrained})
               </span>
             </button>
 
@@ -620,7 +630,7 @@ const ApplyDetailsInfo = ({
             >
               Rejected
               <span className="text-[16px] font-semibold text-black">
-                ({applications?.data?.totalRejected})
+                ({totalRejected})
               </span>
             </button>
           </div>
