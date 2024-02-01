@@ -58,6 +58,7 @@ import {
   setTalentQuery,
 } from "../../redux/talent.slice";
 import OfferModal from "../../libs/OfferModal";
+import { PiExport } from "react-icons/pi";
 
 const categoryOptions: any = [
   { value: "All Talent", label: "All Talent" },
@@ -153,9 +154,6 @@ const ApplyDetailsInfo = ({
     totalTrained,
     totalShortlists,
   } = useSelector((state: RootState) => state?.applications);
-
-  console.log(applications, totalRejected, totalTrained, totalShortlists);
-
   const { projectApplications: applied } = useSelector(
     (state: RootState) => state.projectApplication
   );
@@ -183,6 +181,7 @@ const ApplyDetailsInfo = ({
       setCheckedTalentIds([...checkedTalentIds, talentId]);
     }
   };
+
   function capitalizeFirstLetter(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
@@ -550,6 +549,52 @@ const ApplyDetailsInfo = ({
   const negativePage = pageSize - 1;
   const positivePage = pageSize + 1;
 
+  const downloadCSV = async () => {
+    if (user?.accountId !== undefined) {
+      try {
+        const response = await campaignAuthAxiosInstance(
+          `/csv-download/${ProjectId}?status=trained`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${user?.authKey || ""}`,
+            },
+            responseType: "blob",
+          }
+        );
+
+        console.log(response);
+
+        const blob = new Blob([response.data], { type: "text/csv" });
+        console.log(blob);
+
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a link element and simulate a click to trigger the download
+        const a = document.createElement("a");
+        a.href = url;
+        console.log(a);
+
+        // a.download = ${status}.csv;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        // Clean up the URL object
+        window.URL.revokeObjectURL(url);
+
+        setSuccessMessage(response.data.message || "Success");
+        setSuccessModal(true);
+
+        setTimeout(() => {
+          setSuccessModal(false);
+        }, 2000);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   return (
     <>
       {/* <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0"> */}
@@ -641,6 +686,23 @@ const ApplyDetailsInfo = ({
           >
             Clear Filter
           </button>
+          <button
+            className="border rounded-md bg-bm__beige  p-1 px-3 flex items-center justify-bewteen gap-2"
+            onClick={downloadCSV}
+          >
+            <PiExport />
+            <span>Export</span>
+          </button>
+          {/* <a
+            href={`https://campaign.zainnovations.com/v1/csv-download/${ProjectId}?status=trained`}
+            target="_blank"
+            rel="noreferrer"
+            download
+            className="bg-[#F2F5FA] py-2 text-[#00000080] hover:bg-[#4285F44D] hover:text-primary inline-flex items-center justify-center rounded-md text-xs md:text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+          >
+            <img src={ArrowDown} alt="arrow down" />
+            Download Excel File             
+          </a> */}
         </div>
       </div>
       {/* <CardContent className="flex-1 flex flex-col m-0 p-0 mt-2 md:mt-0"> */}
