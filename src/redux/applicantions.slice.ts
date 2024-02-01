@@ -123,7 +123,6 @@ export const fetchApplications = createAsyncThunk(
             },
           }
         );
-        console.log(response.data, "hello");
 
         return response.data;
       }
@@ -149,6 +148,9 @@ export const filterApplications = createAsyncThunk(
               },
             }
           );
+
+          console.log(response.data.data);
+
           return response.data.data;
         }
       }
@@ -167,6 +169,11 @@ const Applications = createSlice({
     },
     setApprovalStatus: (state, action: PayloadAction<string>) => {
       state.approvalStatus = action.payload;
+    },
+    setStatus: (state, action: PayloadAction<any>) => {
+      state.totalRejected = action.payload?.totalRejected;
+      state.totalShortlists = action.payload?.totalShortlists;
+      state.totalTrained = action.payload?.totalTrained;
     },
   },
   extraReducers: (builder) => {
@@ -189,8 +196,8 @@ const Applications = createSlice({
           state.totalPages = action.payload?.data?.totalPages;
           state.totalRejected = action.payload?.data?.totalRejected;
           state.totalShortlists = action.payload?.data?.totalShortlists;
-          state.totalSupervisors = action.payload?.data?.totalSupervisors;
           state.totalTrained = action.payload?.data?.totalTrained;
+          state.totalSupervisors = action.payload?.data?.totalSupervisors;
           state.totalUshers = action.payload?.data?.totalUshers;
         }
       )
@@ -208,6 +215,9 @@ const Applications = createSlice({
           state.loading = false;
           state.error = null;
           state.applicationsQuery = action.payload;
+          state.totalRejected = action.payload?.totalRejected;
+          state.totalShortlists = action.payload?.totalShortlists;
+          state.totalTrained = action.payload?.totalTrained;
         }
       )
       .addCase(filterApplications.rejected, (state, action) => {
@@ -217,6 +227,6 @@ const Applications = createSlice({
   },
 });
 
-export const { setApproval } = Applications.actions;
+export const { setApproval, setStatus } = Applications.actions;
 
 export default Applications.reducer;

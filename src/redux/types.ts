@@ -82,6 +82,7 @@ export interface ProjectProps {
   projectCategory: string;
   projectCode: string;
   projectLocation: string;
+  profilePic: string;
   projectDescription: string;
   talent: {
     opportunities: string;

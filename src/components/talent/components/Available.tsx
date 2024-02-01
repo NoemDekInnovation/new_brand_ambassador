@@ -32,8 +32,6 @@ const Available = () => {
     (state: RootState) => state.allTalentProject
   );
 
-  console.log("allProjects", allProjects, applied);
-
   const [isLoading, setIsLoading] = useState(false);
   const [projects, setProjects] = useState();
   const [apply, setApply] = useState(false);
@@ -76,7 +74,18 @@ const Available = () => {
                 <div className="flex w-full">
                   <CardContent className="p-0 space-y-1 flex-1">
                     <div className="flex space-x-2">
-                      <img src={drago} alt="" width={18} height={18} />
+                      {!project?.profilePic && (
+                        <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
+                      )}
+                      {project?.profilePic && (
+                        <img
+                          src={project?.profilePic}
+                          alt="profile"
+                          width={18}
+                          height={18}
+                          className="rounded-full  h-[18px] w-[18px] object-cover"
+                        />
+                      )}
                       <p className="border-r px-2 text-[12px]">Cool Ltd.</p>
 
                       <p className="text-green-900 text-[10px] flex items-center gap-1">

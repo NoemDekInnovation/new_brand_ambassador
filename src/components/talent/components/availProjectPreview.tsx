@@ -51,7 +51,7 @@ const ProjectPreview = ({
 
   const { user } = useSelector((state: RootState) => state.user);
 
-  console.log("selectedProject", selectedProject);
+  // console.log("selectedProject", selectedProject);
 
   const newProject = (selectedProject: any) => {
     if (idCheck.includes(selectedProject._id)) {
@@ -61,7 +61,7 @@ const ProjectPreview = ({
   };
 
   // newProject(selectedProject)
-  console.log(selectedProject);
+  // console.log(selectedProject);
 
   const [selectedFileName, setSelectedFileName] = useState("");
   const [documents, setDocuments] = useState<File[]>([]);

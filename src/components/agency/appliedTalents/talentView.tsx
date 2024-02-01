@@ -62,7 +62,7 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { TalentsProps } from "../../../redux/talent.slice";
 import { ProjectViewCard } from "../../projectPreview";
 import ViewApplication from "./viewApplications";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import {
   AlertDialog,
@@ -85,6 +85,7 @@ import SendOfferPopUp from "../contract/sendOfferPopUp";
 import SendContractPopUp from "../contract/sendContractPopUp";
 import { useToast } from "../../../ui/use-toast";
 import Loading from "../../Loading";
+import { setStatus } from "../../../redux/applicantions.slice";
 
 type AppProps =
   | "shortlisted"
@@ -179,6 +180,7 @@ export const TalentList = ({
 
   const { toast } = useToast();
 
+  const dispatch = useDispatch();
   const handleShortlistClick = () => {
     // Perform shortlisting logic here, if needed
     // For demonstration purposes, just toggle the state
@@ -216,7 +218,16 @@ export const TalentList = ({
             },
           }
         );
+
+        dispatch(
+          setStatus({
+            totalRejected: response?.data?.totalRejected,
+            totalShortlists: response?.data?.totalShortlists,
+            totalTrained: response?.data?.totalTrained,
+          })
+        );
         setAppStatus(status);
+
         toast({
           description: response?.data?.responses[0]?.message,
         });

@@ -253,7 +253,19 @@ export function TopProjectCard({
                   <CardContent className="p-0 space-y-1">
                     <div className="flex ">
                       <div className="flex">
-                        <img src={drago} alt="" width={18} height={18} />
+                        {!project?.profilePic && (
+                          <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
+                        )}
+                        {project?.profilePic && (
+                          <img
+                            src={project?.profilePic}
+                            alt="profile"
+                            width={18}
+                            height={18}
+                            className="rounded-full  h-[18px] w-[18px] object-cover"
+                          />
+                        )}
+                        {/* <img src={drago} alt="" width={18} height={18} /> */}
                         <p className="border-r px-1 text-[11px] whitespace-nowrap text-[#252525]">
                           Cool Ltd.
                         </p>
