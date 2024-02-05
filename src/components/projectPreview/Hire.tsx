@@ -32,8 +32,8 @@ const Hire = ({
   select,
   selectedProject,
   index,
-  talent,
-  setTalent,
+  // talent,
+  // setTalent,
   numberOfHired,
 }: {
   select: any;
@@ -41,12 +41,13 @@ const Hire = ({
   setPopUp: any;
   selectedProject: any;
   index: number;
-  talent: any;
-  setTalent: any;
+  // talent: any;
+  // setTalent: any;
   numberOfHired: number;
 }) => {
   const [selectedRole, setSelectedRole] = useState<TalentProps>();
   const [activePreview, setActivePreview] = useState("Project Post");
+
   const handleProfilePopUp = (talent: any) => {
     setPopUp(!popUp);
     setSelectedRole(talent);
@@ -222,10 +223,8 @@ const Hire = ({
                 handleProfilePopUp={handleProfilePopUp}
                 ProjectId={selectedProject?._id}
                 index={index}
-                talent={talent}
                 popUp={popUp}
                 setPopUp={setPopUp}
-                setTalent={setTalent}
               />
             </Card>
           </Card>

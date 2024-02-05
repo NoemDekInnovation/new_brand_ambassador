@@ -135,6 +135,8 @@ export default function TalentsView({
     (state: RootState) => state.agency
   );
 
+  console.log(totalAgencyTalent);
+
   const { totalTalent: totalEngageTalents } = useSelector(
     (state: RootState) => state.currentengage
   );
@@ -1182,7 +1184,7 @@ export default function TalentsView({
                       onOpenChange={() => setPreview(!preview)}
                     >
                       <DialogContent className="w-full min-w-[80vw] p-2 md:p-6 shadow-md bg-white">
-                        <PreviewBoard />
+                        <PreviewBoard setPreview={() => setPreview(!preview)} />
                       </DialogContent>
                     </Dialog>
                   </div>
