@@ -112,8 +112,8 @@ export const ProjectViewCard = ({
           select={setSelectedComponent}
           selectedProject={selectedProject}
           index={index}
-          talent={talent}
-          setTalent={setTalent}
+          // talent={talent}
+          // setTalent={setTalent}
           numberOfHired={numberOfHired}
         />
       )}

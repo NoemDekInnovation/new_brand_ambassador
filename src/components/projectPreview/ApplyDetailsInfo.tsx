@@ -551,9 +551,10 @@ const ApplyDetailsInfo = ({
 
   const downloadCSV = async () => {
     if (user?.accountId !== undefined) {
+      const downloadStatus = appStatus === "training" ? "trained" : appStatus;
       try {
         const response = await campaignAuthAxiosInstance(
-          `/csv-download/${ProjectId}?status=trained`,
+          `/csv-download/${ProjectId}?status=${downloadStatus}`,
 
           {
             headers: {

@@ -80,20 +80,16 @@ function truncateText(text: any, maxLength: any) {
 
 const HireTalents = ({
   handleProfilePopUp,
-  talent,
   index,
   popUp,
   setPopUp,
   ProjectId,
-  setTalent,
 }: {
   handleProfilePopUp: (talent: TalentProps) => void;
-  talent: any;
   index: number;
   popUp: boolean;
   setPopUp: any;
   ProjectId: string;
-  setTalent: any;
 }) => {
   const handleApplyPopUp = (talent: any) => {
     // setSelectedTalent(talent);
@@ -101,6 +97,10 @@ const HireTalents = ({
     setPopUp(!popUp);
     // setSelectedRole(talent);
   };
+
+  const [talent, setTalent] = useState<any>();
+  console.log(talent);
+
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const id = ProjectId;
@@ -119,7 +119,7 @@ const HireTalents = ({
               },
             }
           );
-          setTalent(response?.data?.data?.hiredTalent[0]?.talent);
+          setTalent(response?.data?.data?.hiredTalent);
         } catch (error) {
           // console.error("Error while fetiching Notifications:", error);
           // Handle error appropriately (e.g., show a user-friendly message)
@@ -134,127 +134,127 @@ const HireTalents = ({
       <Card className="w-full pt-4 my-3 overflow-y-scroll h-[80vh]">
         <CardContent>
           {/* <Card className="h-[40vh]"> */}
-          <div className="flex flex-col overflow-y-auto h-[40vh]">
-            {/* {talent?.talent?.map((index: number) => ( */}
-            <div key={index} className="bg-white border rounded flex">
-              <div onClick={() => handleProfilePopUp(talent)}>
-                {talent?.profilePic === "" && (
-                  <img
-                    src={Logo}
-                    alt=""
-                    width={260}
-                    height={260}
-                    style={{
-                      borderRadius: 5,
-                      height: 108,
-                      width: 86,
-                    }}
-                    className=" hover:grayscale-0 grayscale "
-                  />
-                )}
-                {talent?.profilePic && (
-                  <img
-                    src={talent?.profilePic}
-                    alt=""
-                    width={260}
-                    height={260}
-                    style={{ borderRadius: 5 }}
-                    className=" hover:grayscale-0 grayscale  w-[196px] h-[162px] object-cover"
-                  />
-                )}
-              </div>
-              <div className="p-2 w-full">
-                <div className="flex w-full justify-between mb-3">
-                  <div className="flex items-center gap-3">
-                    {" "}
-                    <p
-                      className="text-[15px] font-medium cursor-pointer capitalize"
-                      onClick={() => handleApplyPopUp(talent)}
-                    >
-                      {talent?.fullName}
-                    </p>
-                    <AiOutlineHeart />
-                  </div>
-                  <div className="flex items-center">
-                    {talent?.metaData?.isActive && (
-                      <div className="text-[#00AB26] text-[10px] font-normal">
-                        Available
-                      </div>
-                    )}
-                    {!talent?.metaData?.isActive && (
-                      <div className="text-[#FF0000] text-[10px] font-normal">
-                        Unavailable
-                      </div>
-                    )}
-                    <div className="flex items-center">
-                      <div className="text-[15px] p-0 px-2">|</div>
-                      <p className="text-[10px] font-normal capitalize">
-                        {/* Brand Ambassador */}
-                        {talent?.opportunities}
+          <div className="flex flex-col overflow-y-auto h-[40vh] gap-3">
+            {talent?.map((tal: any, index: number) => (
+              <div key={index} className="bg-white border rounded flex">
+                <div onClick={() => handleProfilePopUp(tal?.talent)}>
+                  {tal?.talent?.profilePic === "" && (
+                    <img
+                      src={Logo}
+                      alt=""
+                      width={260}
+                      height={260}
+                      style={{
+                        borderRadius: 5,
+                        height: 108,
+                        width: 86,
+                      }}
+                      className=" hover:grayscale-0 grayscale "
+                    />
+                  )}
+                  {tal?.talent?.profilePic && (
+                    <img
+                      src={tal?.talent?.profilePic}
+                      alt=""
+                      width={260}
+                      height={260}
+                      style={{ borderRadius: 5 }}
+                      className=" hover:grayscale-0 grayscale  w-[196px] h-[162px] object-cover"
+                    />
+                  )}
+                </div>
+                <div className="p-2 w-full">
+                  <div className="flex w-full justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      {" "}
+                      <p
+                        className="text-[15px] font-medium cursor-pointer capitalize"
+                        onClick={() => handleApplyPopUp(tal?.talent)}
+                      >
+                        {tal?.talent?.fullName}
                       </p>
+                      <AiOutlineHeart />
+                    </div>
+                    <div className="flex items-center">
+                      {tal?.talent?.metaData?.isActive && (
+                        <div className="text-[#00AB26] text-[10px] font-normal">
+                          Available
+                        </div>
+                      )}
+                      {!tal?.talent?.metaData?.isActive && (
+                        <div className="text-[#FF0000] text-[10px] font-normal">
+                          Unavailable
+                        </div>
+                      )}
+                      <div className="flex items-center">
+                        <div className="text-[15px] p-0 px-2">|</div>
+                        <p className="text-[10px] font-normal capitalize">
+                          {/* Brand Ambassador */}
+                          {tal?.talent?.opportunities}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="mb-3">
-                  {" "}
-                  <p className="text-[12px] font-normal mb-3 ">
+                  <div className="mb-3">
                     {" "}
-                    {truncateText(talent?.summary || "-", 20)}
-                  </p>
-                  <div className="flex flex-row text-[10px] font-normal">
-                    <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
-                      {talent?.age || "-"}
+                    <p className="text-[12px] font-normal mb-3 ">
+                      {" "}
+                      {truncateText(tal?.talent?.summary || "-", 20)}
                     </p>
-                    <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
-                      {talent?.height || "-"}
-                    </p>
-                    {/* <p className="capitalize`">{talent?.address[0]?.city}</p> */}
-                    <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
-                      {talent?.address[0]?.state || "-"}
-                    </p>
-                    {talent?.experience[0] && (
-                      <p>{talent?.experience[0]?.agencyName || "-"}</p>
-                    )}
-                    {talent?.experience[1] && (
-                      <p>{talent?.experience[1]?.agencyName || "-"}</p>
-                    )}
+                    <div className="flex flex-row text-[10px] font-normal">
+                      <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
+                        {tal?.talent?.age || "-"}
+                      </p>
+                      <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
+                        {tal?.talent?.height || "-"}
+                      </p>
+                      {/* <p className="capitalize`">{tal?.talent?.address[0]?.city}</p> */}
+                      <p className="border-r border-r-bm__faint__text pr-1 mr-1 capitalize">
+                        {tal?.talent?.address[0]?.state || "-"}
+                      </p>
+                      {tal?.talent?.experience[0] && (
+                        <p>{tal?.talent?.experience[0]?.agencyName || "-"}</p>
+                      )}
+                      {tal?.talent?.experience[1] && (
+                        <p>{tal?.talent?.experience[1]?.agencyName || "-"}</p>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="flex w-full justify-between">
-                  <div className="flex items-center gap-2 whitespace-nowrap ">
-                    <div className=" border-r-2 pr-2 text-[10px] font-bold">
-                      <span className="text-bm__ox__red text-[12px] font-semibold">
-                        97% {"  "}
-                      </span>
-                      Work Success
-                    </div>
-                    <div className="text-[10px] font-bold">
-                      <span className="text-bm__ox__red text-[12px] font-semibold">
-                        4.5 {"  "}
-                      </span>
-                      Ratings
-                    </div>
-                  </div>{" "}
-                </div>
-                <div className="flex gap-4 justify-end">
-                  <button
-                    className="light__btn text-[14px] py-0"
-                    style={{ width: "100px" }}
-                  >
-                    <div className="flex items-center gap-2">
-                      <RiStackshareLine
-                        style={{
-                          fontSize: "1em",
-                          flex: "none",
-                        }}
-                      />
-                      <span>Share</span>
-                    </div>
-                  </button>
+                  <div className="flex w-full justify-between">
+                    <div className="flex items-center gap-2 whitespace-nowrap ">
+                      <div className=" border-r-2 pr-2 text-[10px] font-bold">
+                        <span className="text-bm__ox__red text-[12px] font-semibold">
+                          97% {"  "}
+                        </span>
+                        Work Success
+                      </div>
+                      <div className="text-[10px] font-bold">
+                        <span className="text-bm__ox__red text-[12px] font-semibold">
+                          4.5 {"  "}
+                        </span>
+                        Ratings
+                      </div>
+                    </div>{" "}
+                  </div>
+                  <div className="flex gap-4 justify-end">
+                    <button
+                      className="light__btn text-[14px] py-0"
+                      style={{ width: "100px" }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <RiStackshareLine
+                          style={{
+                            fontSize: "1em",
+                            flex: "none",
+                          }}
+                        />
+                        <span>Share</span>
+                      </div>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* ))} */}
+            ))}
           </div>
           {/* </Card> */}
         </CardContent>

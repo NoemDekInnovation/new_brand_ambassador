@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -27,11 +27,63 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "../../ui/hover-card";
+import { campaignAuthAxiosInstance } from "../../api/axios";
+import OfferModal from "../../libs/OfferModal";
 
-export default function PreviewBoard() {
+export default function PreviewBoard({ setPreview }: { setPreview: any }) {
   const { failedImport, successfulImport } = useSelector(
     (state: RootState) => state.talent
   );
+
+  const { user } = useSelector((state: RootState) => state.user);
+  const [isLoading, setIsLoading] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  console.log(
+    "successfulImport",
+    successfulImport.map((s: any) => {
+      return s?.talentData;
+    })
+  );
+
+  const saveTalents = async () => {
+    if (user?.accountId !== undefined) {
+      try {
+        setIsLoading(true);
+        const requestData = successfulImport.map((s: any) => {
+          return s?.talentData;
+        });
+
+        const response = await campaignAuthAxiosInstance.post(
+          `/save-talent-upload`,
+          requestData,
+
+          {
+            headers: {
+              Authorization: `Bearer ${user.authKey || ""}`,
+            },
+          }
+        );
+        console.log(response);
+        setPreview();
+        setIsLoading(false);
+        // setSuccessModal(false);
+        setSuccessModal(true);
+        setSuccessMessage(`Talent have been imported successfully`);
+
+        return setTimeout(() => {
+          setSuccessModal(false);
+        }, 3000);
+        // setProjects(response?.data?.data?.publishedProjects);
+      } catch (error) {
+        setIsLoading(false);
+
+        // console.error("Error while fetiching projects:", error);
+        // Handle error appropriately (e.g., show a user-friendly message)
+      }
+    }
+  };
 
   return (
     <>
@@ -40,12 +92,6 @@ export default function PreviewBoard() {
           <div className="">
             <div className="flex justify-between w-full mt-3">
               <p>Successful Uploads</p>
-              <p>
-                {/* {successfulImport !== undefined
-                  ? successfulImport?.length
-                  : "-"}{" "} */}
-                Successful Uploads
-              </p>
               <p>{successfulImport?.length || 0} Successful Uploads</p>
             </div>
             <Separator className="my-3" />
@@ -168,9 +214,9 @@ export default function PreviewBoard() {
         <Separator className="bg-bm__beige my-4" />
         <div className="flex justify-between">
           <Dialog>
-            {/* <DialogTrigger className="light__btn max-w-[150px]">
+            <DialogTrigger className="light__btn max-w-[150px] mt-2p">
               Close
-            </DialogTrigger> */}
+            </DialogTrigger>
 
             <DialogContent className="w-full max-w-[360px] p-2 md:p-6 shadow-md bg-white">
               <DialogHeader className="p-0">
@@ -195,14 +241,26 @@ export default function PreviewBoard() {
               <DropdownMenuSeparator className="bg-bm__beige my-3" />
               <div className="flex justify-between gap-3 whitespace-nowrap">
                 <Button className="light__btn mt-2">Discard </Button>
-                <Button className="dark__btn mt-2">Save and Create</Button>
+                <Button className="dark__btn mt-2" onClick={saveTalents}>
+                  Save and Create
+                </Button>
               </div>
             </DialogContent>
           </Dialog>
-          {/* <Button className="dark__btn max-w-[150px]">Save</Button> */}
+          <Button className="dark__btn max-w-[200px]" onClick={saveTalents}>
+            Save and Create
+          </Button>
+
+          {/* <Button className="dark__btn max-w-[150px]">Save</Button>
+          <Button className="dark__btn max-w-[150px]">Save</Button> */}
         </div>
       </div>
           
+      <OfferModal
+        isOpen={successModal}
+        onClose={() => setSuccessModal(false)}
+        statusMessage={successMessage}
+      />
     </>
   );
 }
