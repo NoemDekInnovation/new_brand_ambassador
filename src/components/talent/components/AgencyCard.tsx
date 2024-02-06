@@ -101,12 +101,12 @@ export function AgencyCard({
           <div className="" key={idx}>
             <CardContent className="p-0 space-y-1">
               <div className="flex space-x-2">
-                {!_.profilePic && (
+                {!_.companyLogo && (
                   <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
                 )}
-                {_.profilePic && (
+                {_.companyLogo && (
                   <img
-                    src={_?.profilePic}
+                    src={_?.companyLogo}
                     alt="profile"
                     width={18}
                     height={18}

@@ -74,12 +74,12 @@ const Available = () => {
                 <div className="flex w-full">
                   <CardContent className="p-0 space-y-1 flex-1">
                     <div className="flex space-x-2">
-                      {!project?.profilePic && (
+                      {!project?.companyLogo && (
                         <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
                       )}
-                      {project?.profilePic && (
+                      {project?.companyLogo && (
                         <img
-                          src={project?.profilePic}
+                          src={project?.companyLogo}
                           alt="profile"
                           width={18}
                           height={18}
