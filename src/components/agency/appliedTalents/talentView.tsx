@@ -174,6 +174,7 @@ export const TalentList = ({
   const [selectedContract, setSelectedContract] = useState<any>(null);
   const [selectedOffer, setSelectedOffer] = useState<any>(null);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isOnline, setIsOnline] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
   const [openAddressDialog, setOpenAddressDialog] = useState(false);
   const [openContractDialog, setOpenContractDialog] = useState(false);
@@ -417,6 +418,26 @@ export const TalentList = ({
   const handleContract = async () => {
     await contractHandler();
   };
+
+  useEffect(() => {
+    const currentTime = new Date();
+
+    let lastOnline: Date | string = talent.metaData.lastOnline;
+    console.log("typeof", talent); // Check the type of lastOnline before parsing
+
+    // Parse the string into a Date object
+    if (typeof lastOnline === "string") {
+      lastOnline = new Date(lastOnline);
+    }
+
+    const timeDifference = currentTime.getTime() - lastOnline.getTime();
+    if (timeDifference < 5 * 60 * 1000) {
+      setIsOnline(true);
+    } else {
+      setIsOnline(false);
+    }
+  }, []);
+
   return (
     <>
       {loading && <Loading />}
@@ -464,12 +485,12 @@ export const TalentList = ({
               />
             </div>
             <div className="flex items-center">
-              {talent?.metaData?.isActive && (
+              {isOnline && (
                 <div className="text-[#00AB26] text-[10px] font-normal border-r-2 pr-2">
                   Available
                 </div>
               )}
-              {!talent?.metaData?.isActive && (
+              {!isOnline && (
                 <div className="text-[#FF0000] text-[10px] font-normal border-r-2 pr-2">
                   Unavailable
                 </div>
@@ -758,7 +779,7 @@ export const AppliedTalentGrid = ({
                   <img
                     src={s}
                     alt=""
-                    className="z-50 hover:grayscale-0 grayscale  w-[196px] h-[262px]object-cover"
+                    className="z-50 hover:grayscale-0 grayscale  w-[196px] h-[262px] object-cover"
                     style={{ borderRadius: 5 }}
                   />
                   {hoveredIndex === index && (

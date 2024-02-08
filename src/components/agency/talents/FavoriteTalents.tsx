@@ -57,17 +57,8 @@ const FavoriteTalents = ({
                   _={_}
                   modal={projectModal}
                   setModal={setProjectModal}
-                  idx={idx}
-                  handleInvite={handleInvite}
-                  setSelectedProject={setSelectedProject}
-                  projects={projects}
-                  setSelectedTalent={setSelectedTalent}
                   handleProfilePopUp={handleProfilePopUp}
-                  selectedTalent={selectedTalent}
                   setSelectedTalentID={setSelectedTalentID}
-                  selectedProject={selectedProject}
-                  setSuccessModal={setSuccessModal}
-                  successModal={successModal}
                 />
               );
             })}
