@@ -402,7 +402,7 @@ const ProjectCard = ({
             return (
               <TalentGrid
                 _={talent}
-                idx={idx}
+                // idx={idx}
                 setModal={setProjectModal}
                 modal={projectModal}
                 setSelectedTalentID={setSelectedTalentID}

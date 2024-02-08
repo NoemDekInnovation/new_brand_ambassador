@@ -59,21 +59,12 @@ const MyTalents = ({
             {resTalents?.map((_: TalentProps, idx: number) => {
               return (
                 <TalentGrid
-                  modal={projectModal}
                   key={idx}
-                  setModal={setProjectModal}
                   _={_}
-                  idx={idx}
-                  handleInvite={handleInvite}
-                  setSelectedProject={setSelectedProject}
-                  projects={projects}
-                  setSelectedTalent={setSelectedTalent}
+                  modal={projectModal}
+                  setModal={setProjectModal}
                   handleProfilePopUp={handleProfilePopUp}
-                  selectedTalent={selectedTalent}
                   setSelectedTalentID={setSelectedTalentID}
-                  selectedProject={selectedProject}
-                  setSuccessModal={setSuccessModal}
-                  successModal={successModal}
                 />
               );
             })}

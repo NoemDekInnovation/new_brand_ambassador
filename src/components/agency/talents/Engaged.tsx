@@ -66,17 +66,17 @@ const Engaged = ({
                   _={_?.talent}
                   modal={projectModal}
                   setModal={setProjectModal}
-                  idx={idx}
-                  handleInvite={handleInvite}
-                  setSelectedProject={setSelectedProject}
-                  projects={projects}
-                  setSelectedTalent={setSelectedTalent}
+                  // idx={idx}
+                  // handleInvite={handleInvite}
+                  // setSelectedProject={setSelectedProject}
+                  // projects={projects}
+                  // setSelectedTalent={setSelectedTalent}
                   handleProfilePopUp={handleProfilePopUp}
-                  selectedTalent={selectedTalent}
+                  // selectedTalent={selectedTalent}
                   setSelectedTalentID={setSelectedTalentID}
-                  selectedProject={selectedProject}
-                  setSuccessModal={setSuccessModal}
-                  successModal={successModal}
+                  // selectedProject={selectedProject}
+                  // setSuccessModal={setSuccessModal}
+                  // successModal={successModal}
                 />
               );
             })}

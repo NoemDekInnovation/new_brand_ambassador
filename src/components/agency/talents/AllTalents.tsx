@@ -24,6 +24,7 @@ import { DialogOverlay } from "@radix-ui/react-dialog";
 import { fetchTalents } from "../../../redux/talent.slice";
 
 const AllTalents = ({
+  checkInvite,
   gridView,
   handleInvite,
   setSelectedProject,
@@ -44,6 +45,7 @@ const AllTalents = ({
   handleGroupInvite,
   preview,
 }: {
+  checkInvite?: boolean;
   gridView: boolean;
   handleInvite: any;
   setSelectedProject: any;
@@ -102,8 +104,6 @@ const AllTalents = ({
   // Use the filter method to filter objects based on the 'name' property
   const filteredArray = resTalents.filter((obj) => invited.includes(obj._id));
 
-  console.log(filteredArray);
-
   const newArrayWithFlag = resTalents.map((obj) => ({
     ...obj,
     isInvited: invited.includes(obj?._id),
@@ -120,23 +120,16 @@ const AllTalents = ({
             {newArrayWithFlag?.map((_, idx: number) => {
               return (
                 <TalentGrid
+                  // checkInvite={checkInvite}
                   key={idx}
                   handleCheckedChange={handleCheckedChange}
                   _={_}
                   modal={projectModal}
                   setModal={setProjectModal}
-                  idx={idx}
-                  handleInvite={handleInvite}
-                  setSelectedProject={setSelectedProject}
-                  projects={projects}
-                  setSelectedTalent={setSelectedTalent}
                   handleProfilePopUp={handleProfilePopUp}
-                  selectedTalent={selectedTalent}
                   setSelectedTalentID={setSelectedTalentID}
-                  selectedProject={selectedProject}
-                  setSuccessModal={setSuccessModal}
-                  successModal={successModal}
                   preview={preview}
+                  checkInvite={checkInvite}
                 />
               );
             })}
@@ -148,6 +141,7 @@ const AllTalents = ({
           {newArrayWithFlag?.map((_, idx: number) => {
             return (
               <TalentList
+                checkInvite={checkInvite}
                 key={idx}
                 talent={_}
                 handleCheckedChange={handleCheckedChange}

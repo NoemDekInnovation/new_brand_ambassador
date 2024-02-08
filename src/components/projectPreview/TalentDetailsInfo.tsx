@@ -97,6 +97,7 @@ const TalentDetailsInfo = ({
   const [activeType, setActiveType] = useState<TalentType>("All Talent");
   const [success, setSuccess] = useState(false); // State for the success modal
   const [talentType, setTalentType] = useState("");
+  const [invited, setInvited] = useState(false);
   const [gender, setGender] = useState("");
   const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>({
     projectId: projectId,
@@ -120,6 +121,7 @@ const TalentDetailsInfo = ({
     });
     setGender("");
     setTalentType("");
+    setInvited(false);
   };
 
   const handleCheckedChange = (talentId: string) => {
@@ -297,6 +299,7 @@ const TalentDetailsInfo = ({
             handleGroupInvite={handleGroupInvite}
             handleCheckedChange={handleCheckedChange}
             preview={true}
+            checkInvite={invited}
           />
           <OfferModal
             isOpen={successModal}
@@ -389,6 +392,8 @@ const TalentDetailsInfo = ({
   const handleRoleChange = (role: any) => {
     updateQuery({ opportunities: role });
     setTalentType(role);
+    setInvited(true);
+    // const [invited, setInvited] = useState(false);
   };
 
   const handleSearchChange = (e: any) => {

@@ -172,7 +172,7 @@ export function TopProjectCard({
                         : project.projectDescription}
                     </p>
                     <p className="font-medium text-[13px] text-[#800000]">
-                      300 Applications{" "}
+                      {project?.totalApplications} Applications{" "}
                     </p>
                     <div className="flex space-x-2 text-[12px]">
                       {formattedLocation}
@@ -226,7 +226,7 @@ export function TopProjectCard({
                         : project.projectDescription}
                     </p>
                     <p className="font-medium text-[13px] text-[#800000]">
-                      300 Applications{" "}
+                      {project?.totalApplications} Applications{" "}
                     </p>
                     <div className="flex space-x-2 text-[12px]">
                       {formattedLocation}
@@ -291,7 +291,7 @@ export function TopProjectCard({
                         : project.projectDescription}
                     </p>
                     <p className="font-medium text-[13px] text-[#800000]">
-                      300 Applications{" "}
+                      {project?.totalApplications} Applications{" "}
                     </p>
                     <div className="flex space-x-2 text-[12px]">
                       {formattedLocation}

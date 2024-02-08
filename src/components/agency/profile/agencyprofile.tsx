@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchAgencyProfile } from "../../../redux/talent.slice";
 
+import AgencyProgressBar from "../AgencyProgressBar";
+
 const AgencyProfile = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const { agencyProfile } = useSelector((state: RootState) => state.talent);
@@ -95,21 +97,7 @@ const AgencyProfile = () => {
                 </div>
               </Card>
               <div className="flex flex-col w-full">
-                <div className="flex items-center gap-4">
-                  <div className="bg-black w-fit rounded-[5px] px-1 text-[18px]">
-                    <BiSolidUserDetail className="text-white w-fit" />
-                  </div>
-                  <p className="text-[16px] font-bold">Profile</p> 
-                  <p className="ml-20 bg-bm__ox__red px-2 text-white rounded-md">
-                    60%
-                  </p>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700  my-2 mb-7">
-                  <div
-                    className="bg-bm__ox__red h-1.5 rounded-full "
-                    style={{ width: "33%" }}
-                  ></div>
-                </div>
+                <AgencyProgressBar />
                 <div className="w-full overflow-y-scroll pr-2">
                   <div className=" flex w-full gap-4 h-fit">
                     <div className="flex-1 flex flex-col gap-2">
@@ -135,8 +123,12 @@ const AgencyProfile = () => {
                           <RiEdit2Fill className="cursor-pointer" />
                         </div>
                         <Separator className="bg-bm__gler/50" />
-                        <div className="h-[150px] w-[120px] rounded-md">
-                          <img src={agencyProfile.profilePic} alt="img" />
+                        <div className="h-[120px] w-[120px] rounded-md">
+                          <img
+                            src={agencyProfile.profilePic}
+                            alt="img"
+                            className="object-cover h-[120px] w-[120px]  rounded-md "
+                          />
                         </div>
                         <div className="text-[12px] font-normal gap-2 flex flex-col mt-4">
                           <div className="pt-10 flex items-center">
@@ -185,8 +177,12 @@ const AgencyProfile = () => {
                           <RiEdit2Fill />
                         </div>
                         <Separator className="bg-bm__gler/50" />
-                        <div className="h-[170px] w-[120px] rounded-md">
-                          <img src={agencyProfile.companyLogo} alt="img" />
+                        <div className="h-[120px] w-[120px] rounded-md">
+                          <img
+                            src={agencyProfile.companyLogo}
+                            alt="img"
+                            className="object-cover h-[120px] w-[120px]  rounded-md"
+                          />
                         </div>
                         <div className="text-[12px] font-normal gap-2 flex flex-col">
                           <div className="text-[12px] font-normal gap-2 flex flex-col">
