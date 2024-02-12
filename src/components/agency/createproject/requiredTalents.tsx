@@ -5,7 +5,7 @@ import { Button } from "../../../ui/button";
 import { Card, CardContent } from "../../../ui/card";
 import { Separator } from "../../../ui/seperator";
 import React, { useEffect, useState, useRef } from "react";
-import Select, { SingleValue } from "react-select";
+import Select, { MultiValue, SingleValue } from "react-select";
 import makeAnimated from "react-select/animated";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -72,6 +72,8 @@ export default function RequiredTalents({
         opportunities: "",
         qualifications: "",
         skills: [],
+        paymentOptions: "",
+        salary: "",
       },
     ]);
   };
@@ -149,12 +151,12 @@ export default function RequiredTalents({
     // console.log(savedRequiredTalent);
   }, []);
 
-  const [repeat, setFormRepeat] = useState([
-    { talent: "", qualifications: "", skills: [], skillStore: false },
-  ]);
+  // const [repeat, setFormRepeat] = useState([
+  //   { talent: "", qualifications: "", skills: [], skillStore: false },
+  // ]);
 
   const handleSkillSelect = (id: any, index: number) => {
-    setSkillData([...skillData, id]);
+    // setSkillData([...skillData, id]);
     setSkillStore(false);
     // console.log(id);
     if (id !== null) {
@@ -164,13 +166,27 @@ export default function RequiredTalents({
     }
     checkFormValidity();
   };
+  // console.log(requiredTalents);
 
-  // const handleSkillDelete = (index: number) => {
-  //   const updatedSkillData = [...skillData];
-  //   updatedSkillData.splice(index, 1);
-  //   console.log(updatedSkillData);
-  //   setSkillData(updatedSkillData);
-  // };
+  const handleSkillChange = (
+    value: MultiValue<{ label: string; value: string }>,
+    index: number
+  ) => {
+    const selectedSkills = value.map((option: any) => option.value);
+    // console.log("selectedSkills", selectedSkills, value);
+    // console.log(requiredTalents);
+
+    if (value !== null) {
+      const updatedTalentType = [...requiredTalents];
+      updatedTalentType[index].skills = selectedSkills;
+      setRequiredTalents(updatedTalentType);
+    }
+
+    // setRequiredTalents((prevData: any) => ({
+    //   ...prevData,
+    //   skills: selectedSkills,
+    // }));
+  };
 
   const handleSkillDelete = (index: number) => {
     setSkillData((prevSkillData) => {
@@ -181,6 +197,8 @@ export default function RequiredTalents({
   };
 
   const handleRemoveTalentType = (indexToRemove: any) => {
+    // Requires optimization
+
     setRequiredTalents((prevTalents: any) => {
       const updatedTalents = [...prevTalents];
       updatedTalents.splice(indexToRemove, 2);
@@ -192,9 +210,26 @@ export default function RequiredTalents({
     { talent: "", qualifications: "", skills: "" },
   ]);
 
-  const handleAddTalent = () => {
-    setFormData([...formData, { talent: "", qualifications: "", skills: "" }]);
-  };
+  // const handleAddTalent = () => {
+  //   setFormData([...formData, { talent: "", qualifications: "", skills: "" }]);
+  // };
+
+  // const newSkills = requiredTalents.map((talent, i) => ({
+
+  //   value: talent,
+  //   label: talent.skills,
+  // }));
+
+  const newSkills: { value: string[]; label: string }[] = [];
+
+  const skillOptions: { value: string[]; label: string[] }[] =
+    skills.results.map((skill: any, i) => ({
+      value: skill,
+      label: skill,
+    }));
+
+  // console.log(newSkills, requiredTalents, skillOptions);
+  // skills.results.map((skill, i) => (
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -321,7 +356,7 @@ export default function RequiredTalents({
                         >
                           Add relevant skills
                         </label>
-                        <div className="relative">
+                        {/* <div className="relative">
                           <div className="flex justify-between">
                             <input
                               type="text"
@@ -330,18 +365,13 @@ export default function RequiredTalents({
                               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                               onChange={(e) => {
                                 setExample(e.target.value);
-                                // handleInputChange(e, index);
                               }}
-
-                              // value={example}
                             />
                           </div>
                           <label
                             htmlFor="example"
                             className="absolute text-sm text-gray-500 dark:text-gray-400 transform -translate-y-6 top-3 left-2 bg-white px-1 mb-6"
-                          >
-                            Add relevant skills
-                          </label>
+                          ></label>
                           <ul
                             key={skillData.length}
                             className="flex flex-wrap max-w-md"
@@ -382,8 +412,23 @@ export default function RequiredTalents({
                               </div>
                             </div>
                           )}
-                        </div>
+                        </div> */}
                       </div>
+                      <Select
+                        // defaultValue={newSkills}
+                        isMulti
+                        name="skills"
+                        options={skillOptions}
+                        defaultValue={requiredTalents[index].skills.map(
+                          (skill: any) => ({
+                            value: skill,
+                            label: skill,
+                          })
+                        )}
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        classNamePrefix="select"
+                        onChange={(e: any) => handleSkillChange(e, index)}
+                      />
                       {errors.opportunities && (
                         <p className="text-red-800 block mt-2">
                           {errors.opportunities.message}

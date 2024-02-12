@@ -101,11 +101,14 @@ export default function ProjectBudget({
   //   setRequiredTalents(updatedTalentType);
   // };
   function formatAsNaira(value: string): string {
+    // console.log(value);
+
     // Remove non-numeric characters
-    const numericValue = value.replace(/[^0-9]/g, "");
+    const numericValue = value && value?.replace(/[^0-9]/g, "");
 
     // Add commas to the string for better readability
-    const numberWithCommas = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const numberWithCommas =
+      numericValue && numericValue?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
     // Return the formatted value with the Naira symbol
     return `₦${numberWithCommas}`;
@@ -175,6 +178,8 @@ export default function ProjectBudget({
   useEffect(() => {
     checkFormValidity();
   }, [requiredTalents]);
+
+  console.log(requiredTalents, workDays);
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">

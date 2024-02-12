@@ -103,7 +103,7 @@ export default function AboutProject({
     setIsFormValid(isFormValid);
   };
 
-  console.log(aboutProject);
+  // console.log(aboutProject);
 
   const handleLocationChange = (selectedOptions: any) => {
     const selectedLocations = selectedOptions.map(

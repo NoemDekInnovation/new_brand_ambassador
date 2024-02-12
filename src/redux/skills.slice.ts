@@ -21,6 +21,7 @@ export const fetchSkills = createAsyncThunk(
       if (user !== null) {
         const parsedUser = JSON.parse(user);
         const response = await campaignAuthAxiosInstance(
+          // `/search-skills`,
           `/search-skills?skill=${skill}`,
           {
             headers: {
