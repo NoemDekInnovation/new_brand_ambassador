@@ -215,7 +215,7 @@ export default function ProjectDetails({
                 </div> */}
                 <div className="pt-2">
                   <p className=" capitalize text-[16px] font-normal">
-                    {requiredTalents[0].qualifications || "-"}
+                    {requiredTalents[idx].qualifications || "-"}
                   </p>
                   <Separator className="bg-bm__beige my-3" />
                 </div>
@@ -240,7 +240,7 @@ export default function ProjectDetails({
                     {(_.salary && (
                       <div className="pt-2 flex gap-6 max-w-3xl capitalize">
                         {formatAsNaira(_.salary)}{" "}
-                        {requiredTalents[0].paymentOptions}
+                        {requiredTalents[idx].paymentOptions}
                       </div>
                     )) ||
                       "-"}{" "}
