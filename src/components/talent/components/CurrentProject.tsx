@@ -32,7 +32,7 @@ export const CurrentProject = () => {
           }
         );
 
-        console.log(response.data);
+        // console.log(response.data);
 
         setCurrentProject(response.data?.projects[0].project);
       } catch (error) {
@@ -45,7 +45,7 @@ export const CurrentProject = () => {
     fetchApplications();
   }, []);
 
-  console.log(currentProject);
+  // console.log(currentProject);
 
   return (
     <Card className="p-2 md:p-4 bg-white">
