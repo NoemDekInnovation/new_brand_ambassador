@@ -682,6 +682,8 @@ export const TalentGrid = ({
       )
     );
   }
+  console.log("trapm", _);
+
   return (
     <>
       <Card className="bg-white h-[262px] w-[196px]">
@@ -761,9 +763,13 @@ export const TalentGrid = ({
                               alt=""
                               className="h-[12px] w-[12px]"
                             />
-                            <div className="text-[8px] font-medium">
+                            <div className="text-[8px] font-medium flex gap-2 flex-wrap">
                               {/* Nivea, Coca Cola, Pepsi, Noemdek */}
-                              {/* {_?.experience || "-"} */}
+                              {_?.experience.map(
+                                (ex: { agencyName: string }, idx: number) => {
+                                  return <div key={idx}>{ex.agencyName}</div>;
+                                }
+                              ) || "-"}
                             </div>
                           </div>
                           <div className="flex items-center space-x-1">
@@ -772,9 +778,20 @@ export const TalentGrid = ({
                               alt=""
                               className="h-[12px] w-[12px]"
                             />
-                            <div className="text-[8px] font-medium">
+                            <div className="text-[8px] font-medium flex gap-2 flex-wrap">
                               {/* In-Store, Open Market, Traffic */}
-                              {/* {_?.experience || "-"} */}
+                              {_?.experience.map(
+                                (
+                                  ex: {
+                                    projectCategory: string;
+                                  },
+                                  idx: number
+                                ) => {
+                                  return (
+                                    <div key={idx}>{ex.projectCategory}</div>
+                                  );
+                                }
+                              ) || "-"}
                             </div>
                           </div>
                           <div className="flex items-center space-x-1">

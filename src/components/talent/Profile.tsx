@@ -93,7 +93,6 @@ const Profile = () => {
                 <div className="w-full overflow-y-scroll pr-2">
                   <div className=" flex w-full gap-4 h-fit">
                     <div className=" w-full max-w-[240px] flex flex-col gap-2">
-                      {/* <img src="" className='' alt="" /> */}
                       <div className="h-[300px]  rounded-md">
                         <img src={talentData?.profilePic} className="" alt="" />
                       </div>
