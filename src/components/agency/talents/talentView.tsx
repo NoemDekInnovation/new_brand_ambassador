@@ -392,8 +392,6 @@ export const TalentGrid = ({
     setCurrentImageIndex(index);
   };
 
-  console.log("helleopamnj", _);
-
   const handleNextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % dialogSlide.length);
   };
