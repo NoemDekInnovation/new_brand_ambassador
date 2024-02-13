@@ -32,7 +32,7 @@ export const CurrentProject = () => {
           }
         );
 
-        // console.log(response.data);
+        console.log(response.data);
 
         setCurrentProject(response.data?.projects[0].project);
       } catch (error) {
@@ -45,7 +45,7 @@ export const CurrentProject = () => {
     fetchApplications();
   }, []);
 
-  // console.log(currentProject);
+  console.log(currentProject);
 
   return (
     <Card className="p-2 md:p-4 bg-white">
@@ -103,7 +103,9 @@ export const CurrentProject = () => {
                 <div className="text-[16px] p-0  pb-2 px-2">.</div>
                 {/* <br className="block md:hidden" /> */}
 
-                <div className="">Supervisor: Adenekan Shoneye </div>
+                <div className="">
+                  Supervisor: {currentProject?.supervisorName || "-"}{" "}
+                </div>
               </div>
             </CardContent>
             <CardFooter className="mt-1 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
