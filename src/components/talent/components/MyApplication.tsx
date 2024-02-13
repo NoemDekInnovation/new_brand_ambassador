@@ -25,6 +25,8 @@ export const MyApplication = ({
   const { talentApplications, totalPending, totalRejected, totalSuccessful } =
     useSelector((state: RootState) => state.talentApplication);
 
+  console.log(talentApplications);
+
   return (
     <Card className={`p-2 md:p-4 bg-white  w-full ${card_width}`}>
       <CardHeader className="flex-row p-1 justify-between items-center">
@@ -67,7 +69,7 @@ export const MyApplication = ({
         <TabsContent value="success">
           {talentApplications?.slice(0, 3)?.map((project: any, idx: number) => {
             return (
-              project.status === "hired" && (
+              project.status === "successful" && (
                 <div className="max-w-[200px] w-full" key={idx}>
                   <CardContent className="p-0 space-y-1">
                     <div className="flex space-x-2">
