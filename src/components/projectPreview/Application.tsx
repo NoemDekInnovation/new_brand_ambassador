@@ -65,7 +65,7 @@ const Application = ({
       className={`fixed z-[1000] bg-black/50  w-[100%] items-center justify-end flex flex-col transition-all duration-1000 inset-0 ${
         popUp
           ? "translate-y-0 opacity-100 h-[100vh] -bottom-5"
-          : "translate-y-[1000px] opacity-0 h-0"
+          : "translate-y-[1000px] opacity-0"
       }`}
     >
       <Card className="p-4 relative bg-white w-[85vw] h-[95vh]">
