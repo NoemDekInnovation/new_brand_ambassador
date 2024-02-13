@@ -86,6 +86,7 @@ import SendContractPopUp from "../contract/sendContractPopUp";
 import { useToast } from "../../../ui/use-toast";
 import Loading from "../../Loading";
 import { setStatus } from "../../../redux/applicantions.slice";
+import Moment from "react-moment";
 
 type AppProps =
   | "shortlisted"
@@ -789,12 +790,15 @@ export const AppliedTalentGrid = ({
                           <div className="flex items-center space-x-1">
                             <img src={Age} alt="" />
                             <div className="text-[8px] font-medium">
-                              {_?.DOB} years
+                              <Moment format="D ">{_?.DOB}</Moment>
+                              years
                             </div>
                           </div>
                           <div className="flex items-center space-x-1">
                             <img src={height} alt="" />
-                            <div className="text-[8px] font-medium">51</div>
+                            <div className="text-[8px] font-medium">
+                              {_?.height}
+                            </div>
                           </div>
                         </div>
                         <div className="flex items-center space-x-1 mb-1">
@@ -804,7 +808,7 @@ export const AppliedTalentGrid = ({
                             className="h-[12px] w-[12px]"
                           />
                           <div className="text-[8px] font-medium">
-                            Nivea, Coca Cola, Pepsi, Noemdek
+                            {_?.experience || "-"}
                           </div>
                         </div>
                         <div className="flex items-center space-x-1">
@@ -814,17 +818,18 @@ export const AppliedTalentGrid = ({
                             className="h-[12px] w-[12px]"
                           />
                           <div className="text-[8px] font-medium">
-                            In-Store, Open Market, Traffic
+                            {/* In-Store, Open Market, Traffic */}
+                            {_?.experience || "-"}
                           </div>
                         </div>
-                        <div className="flex items-center space-x-1">
+                        {/* <div className="flex items-center space-x-1">
                           <img
                             src={group}
                             alt=""
                             className="h-[12px] w-[12px]"
                           />
                           <div className="text-[8px] font-medium">97%</div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   )}

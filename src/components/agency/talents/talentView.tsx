@@ -55,6 +55,7 @@ import { TalentsProps } from "../../../redux/talent.slice";
 import HeartIcon from "../../../libs/HeartIcon";
 import { Checkbox } from "../../../ui/checkbox";
 import { RxPerson } from "react-icons/rx";
+import Moment from "react-moment";
 
 export const TalentList = ({
   talent,
@@ -101,9 +102,7 @@ export const TalentList = ({
   useEffect(() => {
     const currentTime = new Date();
 
-    let lastOnline: Date | string = talent.metaData.lastOnline;
-    console.log("g", talent); // Check the type of lastOnline before parsing
-
+    let lastOnline: Date | string = talent.metaData.lastOnline; // Check the type of lastOnline before parsing
     // Parse the string into a Date object
     if (typeof lastOnline === "string") {
       lastOnline = new Date(lastOnline);
@@ -393,6 +392,8 @@ export const TalentGrid = ({
     setCurrentImageIndex(index);
   };
 
+  console.log("helleopamnj", _);
+
   const handleNextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % dialogSlide.length);
   };
@@ -504,13 +505,14 @@ export const TalentGrid = ({
                                 <div className="flex items-center space-x-1">
                                   <img src={Age} alt="" />
                                   <div className="text-[8px] font-medium">
-                                    {_?.DOB} years
+                                    <Moment format="D">{_?.DOB}</Moment>
+                                    years
                                   </div>
                                 </div>
                                 <div className="flex items-center space-x-1">
                                   <img src={height} alt="" />
                                   <div className="text-[8px] font-medium">
-                                    51
+                                    {_?.height}
                                   </div>
                                 </div>
                               </div>
@@ -521,7 +523,7 @@ export const TalentGrid = ({
                                   className="h-[12px] w-[12px]"
                                 />
                                 <div className="text-[8px] font-medium">
-                                  Nivea, Coca Cola, Pepsi, Noemdek
+                                  {/* Nivea, Coca Cola, Pepsi, Noemdek */}
                                 </div>
                               </div>
                               <div className="flex items-center space-x-1">
@@ -531,18 +533,18 @@ export const TalentGrid = ({
                                   className="h-[12px] w-[12px]"
                                 />
                                 <div className="text-[8px] font-medium">
-                                  In-Store, Open Market, Traffic
+                                  {/* In-Store, Open Market, Traffic */}
                                 </div>
                               </div>
                               <div className="flex items-center space-x-1">
-                                <img
+                                {/* <img
                                   src={group}
                                   alt=""
                                   className="h-[12px] w-[12px]"
                                 />
                                 <div className="text-[8px] font-medium">
                                   97%
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -727,12 +729,15 @@ export const TalentGrid = ({
                             <div className="flex items-center space-x-1">
                               <img src={Age} alt="" />
                               <div className="text-[8px] font-medium">
-                                {_?.DOB} years
+                                <Moment format="D">{_?.DOB}</Moment>
+                                years
                               </div>
                             </div>
                             <div className="flex items-center space-x-1">
                               <img src={height} alt="" />
-                              <div className="text-[8px] font-medium">51</div>
+                              <div className="text-[8px] font-medium">
+                                {_?.height}
+                              </div>
                             </div>
                           </div>
                           <div className="flex items-center space-x-1 mb-1">
@@ -742,7 +747,8 @@ export const TalentGrid = ({
                               className="h-[12px] w-[12px]"
                             />
                             <div className="text-[8px] font-medium">
-                              Nivea, Coca Cola, Pepsi, Noemdek
+                              {/* Nivea, Coca Cola, Pepsi, Noemdek */}
+                              {/* {_?.experience || "-"} */}
                             </div>
                           </div>
                           <div className="flex items-center space-x-1">
@@ -752,16 +758,17 @@ export const TalentGrid = ({
                               className="h-[12px] w-[12px]"
                             />
                             <div className="text-[8px] font-medium">
-                              In-Store, Open Market, Traffic
+                              {/* In-Store, Open Market, Traffic */}
+                              {/* {_?.experience || "-"} */}
                             </div>
                           </div>
                           <div className="flex items-center space-x-1">
-                            <img
+                            {/* <img
                               src={group}
                               alt=""
                               className="h-[12px] w-[12px]"
-                            />
-                            <div className="text-[8px] font-medium">97%</div>
+                            /> */}
+                            {/* <div className="text-[8px] font-medium">97%</div> */}
                           </div>
                         </div>
                       </div>
@@ -1109,7 +1116,10 @@ export const TalentGrids = ({
                           </div>
                           <div className="flex items-center space-x-1">
                             <img src={height} alt="" />
-                            <div className="text-[8px] font-medium">51</div>
+                            <div className="text-[8px] font-medium">
+                              {" "}
+                              {_?.height || "-"}
+                            </div>
                           </div>
                         </div>
                         <div className="flex items-center space-x-1 mb-1">
@@ -1119,7 +1129,8 @@ export const TalentGrids = ({
                             className="h-[12px] w-[12px]"
                           />
                           <div className="text-[8px] font-medium">
-                            Nivea, Coca Cola, Pepsi, Noemdek
+                            {/* Nivea, Coca Cola, Pepsi, Noemdek */}
+                            {/* {_?.experience || "-"} */}
                           </div>
                         </div>
                         <div className="flex items-center space-x-1">
@@ -1129,17 +1140,19 @@ export const TalentGrids = ({
                             className="h-[12px] w-[12px]"
                           />
                           <div className="text-[8px] font-medium">
-                            In-Store, Open Market, Traffic
+                            {/* In-Store, Open Market, Traffic */}
+                            {/* {_?.experience || "-"} */}
+                            {_?.experience || "-"}
                           </div>
                         </div>
-                        <div className="flex items-center space-x-1">
+                        {/* <div className="flex items-center space-x-1">
                           <img
                             src={group}
                             alt=""
                             className="h-[12px] w-[12px]"
                           />
                           <div className="text-[8px] font-medium">97%</div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   )}
