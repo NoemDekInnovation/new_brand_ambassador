@@ -1295,7 +1295,7 @@ export default function TalentsView({
                         <Separator className="bg-[#D7D8DA] mb-2" />
                         <div className="flex gap-1 items-center justify-center pt-2">
                           <Input
-                            className="max-w-[210px]"
+                            className="max-w-[310px] w-full"
                             placeholder="Search location"
                             onChange={handleLocationChange}
                           />

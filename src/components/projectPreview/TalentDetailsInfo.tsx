@@ -107,9 +107,9 @@ const TalentDetailsInfo = ({
 
   const { user } = useSelector((state: RootState) => state.user);
 
-  const handleLocationChange = (e: any) => {
-    setSelectedLocation(e.target.value);
-  };
+  // const handleLocationChange = (e: any) => {
+  //   setSelectedLocation(e.target.value);
+  // };
 
   const handleClear = () => {
     setSelectedLocation("all");
@@ -401,6 +401,10 @@ const TalentDetailsInfo = ({
     setSearchQuery(e.target.value);
   };
 
+  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateQuery({ location: e.target.value });
+  };
+
   const onTalentTypeChange = (type: TalentType) => {
     setActiveType(type);
   };
@@ -459,7 +463,11 @@ const TalentDetailsInfo = ({
                 />
               </div>
               <div className="bg-gray-400 h-[30px] w-[4px] "></div>
-
+              <Input
+                className="max-w-[210px]"
+                placeholder="Search location"
+                onChange={handleLocationChange}
+              />
               <button className="dark__btn p-2 " onClick={handleClear}>
                 Clear Filter
               </button>
