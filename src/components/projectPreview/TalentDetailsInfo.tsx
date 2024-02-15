@@ -41,6 +41,7 @@ import SelectOption from "../../libs/select";
 import OfferModal from "../../libs/OfferModal";
 import { useToast } from "../../ui/use-toast";
 import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
+// import { Socket, io } from "socket.io-client";
 
 import { Label } from "../../ui/label";
 import { Checkbox } from "../../ui/checkbox";
@@ -77,7 +78,23 @@ const TalentDetailsInfo = ({
   projectId: string;
   handleProfilePopUp: (talent: TalentProps) => void;
 }) => {
+  const { user } = useSelector((state: RootState) => state.user);
+
   let pageTalents;
+
+  // Define the type for your state variable
+  // type SocketType = Socket<any, any> | null;
+
+  // Initialize your state variable
+  // const [socket, setSocket] = useState<SocketType>(null);
+
+  // useEffect(() => {
+  //   setSocket(io("https://campaign.zainnovations.com/v1"));
+  // }, []);
+
+  // useEffect(() => {
+  //   socket?.emit("new-notifiactions", user);
+  // }, [socket, user]);
 
   const [gridView, setGridView] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -104,8 +121,6 @@ const TalentDetailsInfo = ({
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [checkedTalentIds, setCheckedTalentIds] = useState<string[]>([]);
-
-  const { user } = useSelector((state: RootState) => state.user);
 
   // const handleLocationChange = (e: any) => {
   //   setSelectedLocation(e.target.value);
@@ -215,6 +230,7 @@ const TalentDetailsInfo = ({
             },
           }
         );
+        // socket?.emit("new-notifiactions");
 
         setIsLoading(false);
         // setSuccessModal(false);

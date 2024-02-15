@@ -32,23 +32,12 @@ import { fetchactiveproject } from "../redux/ActiveProject";
 import { fetchcompleteproject } from "../redux/completeProject";
 import { fetchTalentApplications } from "../redux/talentApplications.slice";
 import { fetchFavouriteProjects } from "../redux/favourite.slice";
-import { Socket, io } from "socket.io-client";
 
 export default function NewNavBar() {
   const user = useSelector((state: RootState) => state.user);
   const { talentInvitations } = useSelector(
     (state: RootState) => state.talentInvite
   );
-  // Define the type for your state variable
-  type SocketType = Socket<any, any> | null;
-
-  // Initialize your state variable
-  const [socket, setSocket] = useState<SocketType>(null);
-
-  // useEffect(() => {
-  //   setSocket(io("https://campaign.zainnovations.com/v1"));
-  // }, []);
-
   const [toggleMenubar, setToggleMenubar] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState<any | null>(null);
@@ -100,7 +89,7 @@ export default function NewNavBar() {
               },
             }
           );
-          console.log(response?.data);
+          // console.log(response?.data);
           setNotifications(response?.data?.notifications);
         } catch (error) {
           // console.error("Error while fetiching Notifications:", error);
@@ -132,43 +121,6 @@ export default function NewNavBar() {
     setSelectedProject(appliedInvite[0]);
     setPopUp(!popUp);
   };
-
-  const [notificationsx, setNotificationsx] = useState<any>([]);
-  const [open, setOpen] = useState(false);
-
-  // useEffect(() => {
-  //   socket?.on("new-notifiactions", (data: any) => {
-  //     console.log("rapta", data);
-  //   });
-  // }, [socket]);
-
-  const displayNotification = ({
-    senderName,
-    type,
-  }: {
-    senderName: string;
-    type: any;
-  }) => {
-    let action;
-
-    if (type === 1) {
-      action = "liked";
-    } else if (type === 2) {
-      action = "commented";
-    } else {
-      action = "shared";
-    }
-    return (
-      <span className="notification">{`${senderName} ${action} your post.`}</span>
-    );
-  };
-
-  const handleRead = () => {
-    setNotifications([]);
-    setOpen(false);
-  };
-
-  console.log(notificationsx);
 
   return (
     <>
