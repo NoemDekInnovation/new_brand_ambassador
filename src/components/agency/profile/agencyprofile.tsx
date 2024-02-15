@@ -17,6 +17,9 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchAgencyProfile } from "../../../redux/talent.slice";
 
 import AgencyProgressBar from "../AgencyProgressBar";
+import BadgeAvatars from "../../../ui/avatar";
+import { Avatar } from "@mui/material";
+import { BsPersonCircle } from "react-icons/bs";
 
 const AgencyProfile = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -124,11 +127,16 @@ const AgencyProfile = () => {
                         </div>
                         <Separator className="bg-bm__gler/50" />
                         <div className="h-[120px] w-[120px] rounded-md">
-                          <img
-                            src={agencyProfile.profilePic}
-                            alt="img"
-                            className="object-cover h-[120px] w-[120px]  rounded-md "
-                          />
+                          {agencyProfile?.profilePic && (
+                            <img
+                              src={agencyProfile.profilePic}
+                              alt="img"
+                              className="object-cover h-[120px] w-[120px]  rounded-md "
+                            />
+                          )}
+                          {!agencyProfile?.profilePic && (
+                            <BsPersonCircle className="h-[120px] w-[120px]" />
+                          )}
                         </div>
                         <div className="text-[12px] font-normal gap-2 flex flex-col mt-4">
                           <div className="pt-10 flex items-center">
@@ -178,11 +186,17 @@ const AgencyProfile = () => {
                         </div>
                         <Separator className="bg-bm__gler/50" />
                         <div className="h-[120px] w-[120px] rounded-md">
-                          <img
-                            src={agencyProfile.companyLogo}
-                            alt="img"
-                            className="object-cover h-[120px] w-[120px]  rounded-md"
-                          />
+                          {agencyProfile?.companyLogo && (
+                            <img
+                              src={agencyProfile?.companyLogo}
+                              alt="img"
+                              className="object-cover h-[120px] w-[120px]  rounded-md"
+                            />
+                          )}
+
+                          {!agencyProfile?.companyLogo && (
+                            <BsPersonCircle className="h-[120px] w-[120px]" />
+                          )}
                         </div>
                         <div className="text-[12px] font-normal gap-2 flex flex-col">
                           <div className="text-[12px] font-normal gap-2 flex flex-col">

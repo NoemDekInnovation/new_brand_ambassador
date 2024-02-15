@@ -14,12 +14,14 @@ const AgencyProgressBar = () => {
 
     // Function to count non-empty fields
     const countNonEmptyFields = (fields: any[]) => {
-      return fields.filter((field) => field !== "").length;
+      return fields.filter((field) => {
+        return field !== "" && field !== undefined;
+      }).length;
     };
 
     // Count fields in the agencyProfile object
     count += countNonEmptyFields([
-      agencyProfile.agencyName,
+      agencyProfile.agencyName && agencyProfile.agencyName,
       agencyProfile.agencyType,
       agencyProfile.alternatePhone,
       agencyProfile.companyLogo,
@@ -39,9 +41,10 @@ const AgencyProgressBar = () => {
     ]);
 
     // Update the progressCount
+
     setProgressCount(count);
   }, [agencyProfile]);
-  console.log(progressCount);
+  // console.log(progressCount);
 
   const percentage = Math.floor((progressCount / 17) * 100);
 
