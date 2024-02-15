@@ -60,7 +60,7 @@ import girl2 from "../../assets/Gallery=Gallery6.png";
 import girl3 from "../../assets/Profile 1 1.png";
 import girl4 from "../../assets/Profile 2 1.png";
 import girl5 from "../../assets/Rectangle 11 (1).png";
-import { fetchpublishproject } from "../../redux/publishProject";
+// import { fetchpublishproject } from "../../redux/publishProject";
 import { AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { BsTwitterX } from "react-icons/bs";
@@ -80,8 +80,8 @@ export function CurrentProjects({
   card_title: string;
   card_content: { isCurrent: boolean; content: number[] };
 }) {
-  const { publishProject } = useSelector(
-    (state: RootState) => state.publishProject
+  const { activeProject } = useSelector(
+    (state: RootState) => state.activeProject
   );
   const dispatch = useDispatch<AppDispatch>();
 
@@ -97,12 +97,12 @@ export function CurrentProjects({
     // setSelectedRole(talent);
   };
 
-  useEffect(() => {
-    dispatch(fetchpublishproject(null));
-  }, [dispatch]);
+  // useEffect(() => {
+  // dispatch(fetchpublishproject(null));
+  // }, [dispatch]);
 
-  const projects = publishProject.map((project, idx) => {
-    if (!Array.isArray(publishProject)) {
+  const projects = activeProject.map((project, idx) => {
+    if (!Array.isArray(activeProject)) {
       return <div>Loading...</div>;
     }
 
