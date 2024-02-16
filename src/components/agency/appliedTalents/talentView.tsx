@@ -423,7 +423,7 @@ export const TalentList = ({
   useEffect(() => {
     const currentTime = new Date();
 
-    let lastOnline: Date | string = talent.metaData.lastOnline;
+    let lastOnline: Date | string = talent?.metaData?.lastOnline || "";
     console.log("typeof", talent); // Check the type of lastOnline before parsing
 
     // Parse the string into a Date object
