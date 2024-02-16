@@ -164,6 +164,7 @@ export function CurrentProjects({
     );
   });
 
+  console.log(projects);
   return (
     <>
       <Card className="p-2 md:p-4 bg-white h-[224px]">
@@ -176,6 +177,7 @@ export function CurrentProjects({
         </CardHeader>
         <Separator className="my-2" />
         <div className="max-w-[1200px] h-[180px]">
+          {projects?.length === 0 && <div>No data</div>}
           <Carousel
             additionalTransfrom={0}
             partialVisible={true}
