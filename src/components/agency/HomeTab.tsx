@@ -4,6 +4,7 @@ import ProjectCard, { CurrentProjects } from "./ProjectCard";
 import { AppDispatch, RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTalents } from "../../redux/talent.slice";
+import { fetchLeadingProjects } from "../../redux/leading.slice";
 
 const currentProject = {
   isCurrent: true,
@@ -11,8 +12,8 @@ const currentProject = {
 };
 
 const HomeTab = () => {
-  const { talents: resTalents } = useSelector(
-    (state: RootState) => state.talent
+  const { talent: resTalents } = useSelector(
+    (state: RootState) => state.leading
   );
 
   const { favourites } = useSelector(
@@ -23,6 +24,7 @@ const HomeTab = () => {
 
   useEffect(() => {
     dispatch(fetchTalents(null));
+    dispatch(fetchLeadingProjects(null));
   }, [dispatch]);
 
   const avaibleProject = {
