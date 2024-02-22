@@ -34,7 +34,13 @@ import { fetchTalentApplications } from "../redux/talentApplications.slice";
 import { fetchFavouriteProjects } from "../redux/favourite.slice";
 import { Socket, io } from "socket.io-client";
 
-export default function NewNavBar() {
+export default function NewNavBar({
+  toggleMenubar,
+  setToggleMenubar,
+}: {
+  toggleMenubar?: boolean;
+  setToggleMenubar?: () => void;
+}) {
   const user = useSelector((state: RootState) => state.user);
   const { talentInvitations } = useSelector(
     (state: RootState) => state.talentInvite
@@ -44,12 +50,7 @@ export default function NewNavBar() {
 
   // Initialize your state variable
   const [socket, setSocket] = useState<SocketType>(null);
-
-  // useEffect(() => {
-  //   setSocket(io("https://campaign.zainnovations.com/v1"));
-  // }, []);
-
-  const [toggleMenubar, setToggleMenubar] = useState(false);
+  // const [toggleMenubar, setToggleMenubar] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState<any | null>(null);
   const [offers, setOffers] = useState<any | null>(null);
@@ -62,9 +63,9 @@ export default function NewNavBar() {
 
   // const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const handleToggle = () => {
-    setToggleMenubar(!toggleMenubar);
-  };
+  // const handleToggle = () => {
+  //   setToggleMenubar(!toggleMenubar);
+  // };
 
   const capitalizeFirstLetter = (str: string | undefined): string => {
     if (!str) return "";
@@ -168,12 +169,12 @@ export default function NewNavBar() {
     setOpen(false);
   };
 
-  console.log(notificationsx);
+  // console.log(notificationsx);
 
   return (
     <>
       <div>
-        <nav className="flex justify-between px-4  md:px-12 xl:px-40 items-center  text-[12px] font-medium bg-white py-7">
+        <nav className="flex justify-between px-4  md:px-12 xl:px-40 items-center  text-[12px] font-medium bg-white pt-7 md:py-7">
           <div className="flex items-center gap-2 md:gap-8 flex-1">
             <div className="flex justify-between items-center lg:w-fit w-full">
               <Link to="/dashboard">
@@ -184,7 +185,7 @@ export default function NewNavBar() {
                 <button
                   id="nav"
                   className="flex items-center px-3 py-2 border-2 rounded text-bm_black border-bm_black hover:text-bm_black hover:border-bm "
-                  onClick={handleToggle}
+                  onClick={setToggleMenubar}
                 >
                   <svg
                     className="fill-current h-3 w-3"

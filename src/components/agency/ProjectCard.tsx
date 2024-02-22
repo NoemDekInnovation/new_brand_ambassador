@@ -66,6 +66,7 @@ import { Link } from "react-router-dom";
 import { BsTwitterX } from "react-icons/bs";
 import { FaLocationDot } from "react-icons/fa6";
 import { PiStackSimpleFill } from "react-icons/pi";
+import { MdMoreVert } from "react-icons/md";
 
 const options: Intl.DateTimeFormatOptions = {
   // year: "numeric",
@@ -116,7 +117,7 @@ export function CurrentProjects({
     return (
       <>
         <Card
-          className=" bg-white p-2 mx-3 rounded-md w-full md:w-[234px] shadow-md cursor-pointer mb-4"
+          className=" bg-white p-2 mx-3 rounded-md w-[260px] md:w-[234px] shadow-md cursor-pointer mb-4"
           key={idx}
           onClick={() => handleProjectPopUp(project)}
         >
@@ -167,7 +168,7 @@ export function CurrentProjects({
   console.log(projects);
   return (
     <>
-      <Card className="p-2 md:p-4 bg-white h-[224px]">
+      <Card className="p-2 md:p-4 bg-white h-[224px] w-full max-w-[300px] md:max-w-full">
         <CardHeader className="flex-row p-1 justify-between items-center">
           <CardTitle>
             <p className="text-[15px] font-medium leading-[15px] whitespace-nowrap">
@@ -176,7 +177,7 @@ export function CurrentProjects({
           </CardTitle>
         </CardHeader>
         <Separator className="my-2" />
-        <div className="max-w-[1200px] h-[180px]">
+        <div className="md:max-w-[1200px] h-[180px]">
           {projects?.length === 0 && <div>No data</div>}
           <Carousel
             additionalTransfrom={0}
@@ -185,7 +186,7 @@ export function CurrentProjects({
             autoPlaySpeed={3000}
             centerMode={false}
             className="gap-2"
-            containerClass="sm:mx-9 md:mx-4 lg:mx-12 w-[1200px]"
+            containerClass="sm:mx-9 md:mx-4 lg:mx-12 md:w-[1200px]"
             dotListClass=""
             draggable
             focusOnSelect={false}
@@ -308,13 +309,6 @@ const ProjectCard = ({
     setIsLoading(false);
   }, [user?.accountId]);
 
-  // console.log(
-  //   "projects,projects",
-  //   selectedProject,
-  //   selectedTalent,
-  //   selectedTalentID
-  // );
-
   const handleInvite = async () => {
     setIsLoading(true);
     if (user !== null) {
@@ -355,13 +349,47 @@ const ProjectCard = ({
   };
   return (
     <>
-      <Card className="p-2 md:p-4 bg-white h-[352px]">
+      <Card className="p-2 md:p-4 bg-white h-[352px] w-full max-w-[300px] md:max-w-full">
         <CardHeader className="flex-row p-1 justify-between items-center">
           <CardTitle className="font-medium text-[15px] leading-[15px] whitespace-nowrap">
             {card_title}
           </CardTitle>
           <div className="flex justify-between items-center">
-            <div className="flex gap-8 text-bm_black/75 text-[10px] whitespace-nowrap">
+            <div className="md:hidden">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center text-[15px] leading-[18px] font-normal text-[#252525B2]">
+                  <MdMoreVert />
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent className="bg-white p-3">
+                  <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                    Sort
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-bm__beige" />
+
+                  <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                    <div className="flex items-center gap-2">
+                      <div
+                        onClick={() => {
+                          // setDefaultTab("projects");
+                          localStorage.setItem("defaultTab", "talent"); // Store in local storage
+                          localStorage.setItem("defaultTalent", card_title); // Store in local storage
+                          window.location.reload();
+                        }}
+                        className="text-[15px] leading-[18px] font-normal text-[#252525B2]"
+                      >
+                        View all{" "}
+                      </div>
+
+                      <div className="text-[14px] text-[#252525B2]">
+                        <FaArrowRight className="w-[w8px]" />
+                      </div>
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            <div className="gap-8 text-bm_black/75 text-[10px] whitespace-nowrap hidden md:flex">
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center text-[15px] leading-[18px] font-normal text-[#252525B2]">
                   Sort: {"  "}Relevance
@@ -399,7 +427,7 @@ const ProjectCard = ({
           </div>
         </CardHeader>
         <Separator className="my-3" />
-        <div className="flex justify-start items-center flex-wrap space-x-1 md:space-x-6 ">
+        <div className="flex justify-start items-center flex space-x-1 space-x-6 overflow-x-scroll">
           {card_content.content?.slice(0, 6).map((talent, idx) => {
             return (
               <TalentGrid

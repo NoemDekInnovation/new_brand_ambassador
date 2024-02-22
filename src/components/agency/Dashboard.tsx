@@ -21,6 +21,8 @@ import { fetchactiveproject } from "../../redux/ActiveProject";
 import { fetchcompleteproject } from "../../redux/completeProject";
 
 const Dashboard = () => {
+  const [toggleMenubar, setToggleMenubar] = useState(false);
+
   const [defaultTab, setDefaultTab] = useState(() => {
     const storedDefaultTab = localStorage.getItem("defaultTab");
     if (storedDefaultTab) {
@@ -89,153 +91,311 @@ const Dashboard = () => {
   }, []); // Empty dependency array ensures it runs only once on component mount
 
   return (
-    <AgencyLayout>
+    <AgencyLayout
+      setToggleMenubar={() => setToggleMenubar(!toggleMenubar)}
+      toggleMenubar={toggleMenubar}
+    >
       <Tabs defaultValue={defaultTab} className="w-full">
         <div className="flex flex-col md:flex-row   justify-between w-full px-4 md:px-12 xl:px-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0  overflow-x-auto  md:overflow-x-hidden overflow-y-hidden">
-          <TabsList className="mb-4">
-            <TabsTrigger
-              value="home"
-              className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
-              onClick={() => handleTabClick("Home")}
-            >
-              Home
-            </TabsTrigger>
-            <Menubar className="border-0">
-              <MenubarMenu>
-                <MenubarTrigger className="border-0">
-                  <div className="flex items-center space-x-3 cursor-pointer hover:underline">
-                    <p ref={talentRef}>Talent</p>
-                    {/* <TabsTrigger value="talent">Talent</TabsTrigger> */}
-                    <img src={arrowIcon} alt="arrowicon" />
-                  </div>
-                </MenubarTrigger>
-                <MenubarContent className="bg-white">
-                  <MenubarItem>
-                    <TabsTrigger
-                      value="talent"
-                      className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() =>
-                        handleTabClick("Talent", "Current Contracts")
-                      }
-                    >
-                      Current Contracts
-                    </TabsTrigger>
-                  </MenubarItem>
-                  <MenubarSeparator className="bg-bm__beige" />
-                  <MenubarItem>
-                    <TabsTrigger
-                      value="talent"
-                      className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Talent", "Favorites")}
-                    >
-                      Favorites
-                    </TabsTrigger>
-                  </MenubarItem>
-                  <MenubarSeparator className="bg-bm__beige" />
-                  <MenubarItem>
-                    <TabsTrigger
-                      value="talent"
-                      className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Talent", "Engaged")}
-                    >
-                      Engaged Talent
-                    </TabsTrigger>
-                  </MenubarItem>
-                  <MenubarSeparator className="bg-bm__beige" />
-                  <MenubarItem>
-                    <TabsTrigger
-                      value="talent"
-                      className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Talent", "My Talent")}
-                    >
-                      My Talent
-                    </TabsTrigger>
-                  </MenubarItem>
-                </MenubarContent>
-              </MenubarMenu>
-            </Menubar>
-            <Menubar className="border-0">
-              <MenubarMenu>
-                <MenubarTrigger className="border-0">
-                  <div className="flex items-center space-x-3 cursor-pointer hover:underline">
-                    <p ref={projectsRef}>Projects</p>
-                    <img src={arrowIcon} alt="arrowicon" />
-                  </div>
-                </MenubarTrigger>
-                <MenubarContent className="bg-white">
-                  <MenubarItem className="hover:underline">
-                    <TabsTrigger
-                      value="projects"
-                      className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Projects", "Active")}
-                    >
-                      Active
-                    </TabsTrigger>
-                  </MenubarItem>
-                  <MenubarSeparator className="bg-bm__beige" />
-                  <MenubarItem className="hover:underline">
-                    <TabsTrigger
-                      value="projects"
-                      className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Projects", "Published")}
-                    >
-                      Published
-                    </TabsTrigger>
-                  </MenubarItem>
-                  <MenubarSeparator className="bg-bm__beige" />
-                  <MenubarItem className="hover:underline">
-                    <TabsTrigger
-                      value="projects"
-                      className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Projects", "Completed")}
-                    >
-                      Completed
-                    </TabsTrigger>
-                  </MenubarItem>
-                  <MenubarSeparator className="bg-bm__beige" />
-                  <MenubarItem className="hover:underline">
-                    <TabsTrigger
-                      value="projects"
-                      className="cursor-pointer hover:underline w-full items-start justify-start"
-                      onClick={() => handleTabClick("Projects", "Drafts")}
-                    >
-                      Drafts
-                    </TabsTrigger>
-                  </MenubarItem>
-                </MenubarContent>
-              </MenubarMenu>
-            </Menubar>
-            <TabsTrigger
-              value="inventory"
-              className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
-              onClick={() => handleTabClick("inventory")}
-            >
-              Inventory
-            </TabsTrigger>
-            <img src={arrowIcon} alt="arrowicon" />
-            <TabsTrigger
-              value="outlets"
-              className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
-            >
-              Outlets
-            </TabsTrigger>
-            <img src={arrowIcon} alt="arrowicon" />
-            <TabsTrigger
-              value="reports"
-              className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
-            >
-              Reports
-            </TabsTrigger>
-            <img src={arrowIcon} alt="arrowicon" />
-            <TabsTrigger
-              value="users"
-              className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
-            >
-              Users
-            </TabsTrigger>
-            <img src={arrowIcon} alt="arrowicon" />
-          </TabsList>
-          <div className="flex">
+          <div className="hidden md:flex">
+            <TabsList className="mb-4">
+              {/* <TabsList className="mb-4 flex flex-col bg-green-300 "> */}
+              <TabsTrigger
+                value="home"
+                className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+                onClick={() => handleTabClick("Home")}
+              >
+                Home
+              </TabsTrigger>
+              <Menubar className="border-0">
+                <MenubarMenu>
+                  <MenubarTrigger className="border-0">
+                    <div className="flex items-center space-x-3 cursor-pointer hover:underline">
+                      <p ref={talentRef}>Talent</p>
+                      {/* <TabsTrigger value="talent">Talent</TabsTrigger> */}
+                      <img src={arrowIcon} alt="arrowicon" />
+                    </div>
+                  </MenubarTrigger>
+                  <MenubarContent className="bg-white">
+                    <MenubarItem>
+                      <TabsTrigger
+                        value="talent"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() =>
+                          handleTabClick("Talent", "Current Contracts")
+                        }
+                      >
+                        Current Contracts
+                      </TabsTrigger>
+                    </MenubarItem>
+                    <MenubarSeparator className="bg-bm__beige" />
+                    <MenubarItem>
+                      <TabsTrigger
+                        value="talent"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Talent", "Favorites")}
+                      >
+                        Favorites
+                      </TabsTrigger>
+                    </MenubarItem>
+                    <MenubarSeparator className="bg-bm__beige" />
+                    <MenubarItem>
+                      <TabsTrigger
+                        value="talent"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Talent", "Engaged")}
+                      >
+                        Engaged Talent
+                      </TabsTrigger>
+                    </MenubarItem>
+                    <MenubarSeparator className="bg-bm__beige" />
+                    <MenubarItem>
+                      <TabsTrigger
+                        value="talent"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Talent", "My Talent")}
+                      >
+                        My Talent
+                      </TabsTrigger>
+                    </MenubarItem>
+                  </MenubarContent>
+                </MenubarMenu>
+              </Menubar>
+              <Menubar className="border-0">
+                <MenubarMenu>
+                  <MenubarTrigger className="border-0">
+                    <div className="flex items-center space-x-3 cursor-pointer hover:underline">
+                      <p ref={projectsRef}>Projects</p>
+                      <img src={arrowIcon} alt="arrowicon" />
+                    </div>
+                  </MenubarTrigger>
+                  <MenubarContent className="bg-white">
+                    <MenubarItem className="hover:underline">
+                      <TabsTrigger
+                        value="projects"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Projects", "Active")}
+                      >
+                        Active
+                      </TabsTrigger>
+                    </MenubarItem>
+                    <MenubarSeparator className="bg-bm__beige" />
+                    <MenubarItem className="hover:underline">
+                      <TabsTrigger
+                        value="projects"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Projects", "Published")}
+                      >
+                        Published
+                      </TabsTrigger>
+                    </MenubarItem>
+                    <MenubarSeparator className="bg-bm__beige" />
+                    <MenubarItem className="hover:underline">
+                      <TabsTrigger
+                        value="projects"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Projects", "Completed")}
+                      >
+                        Completed
+                      </TabsTrigger>
+                    </MenubarItem>
+                    <MenubarSeparator className="bg-bm__beige" />
+                    <MenubarItem className="hover:underline">
+                      <TabsTrigger
+                        value="projects"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Projects", "Drafts")}
+                      >
+                        Drafts
+                      </TabsTrigger>
+                    </MenubarItem>
+                  </MenubarContent>
+                </MenubarMenu>
+              </Menubar>
+              <TabsTrigger
+                value="inventory"
+                className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+                onClick={() => handleTabClick("inventory")}
+              >
+                Inventory
+              </TabsTrigger>
+              <img src={arrowIcon} alt="arrowicon" />
+              <TabsTrigger
+                value="outlets"
+                className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+              >
+                Outlets
+              </TabsTrigger>
+              <img src={arrowIcon} alt="arrowicon" />
+              <TabsTrigger
+                value="reports"
+                className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+              >
+                Reports
+              </TabsTrigger>
+              <img src={arrowIcon} alt="arrowicon" />
+              <TabsTrigger
+                value="users"
+                className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+              >
+                Users
+              </TabsTrigger>
+              <img src={arrowIcon} alt="arrowicon" />
+            </TabsList>
+          </div>
+          <div
+            className={`md:hidden flex flex-col relative  space-y-5 transition-all duration-200 ${
+              toggleMenubar
+                ? "opacity-100 h-100"
+                : "-translate-y-[1000px] opacity-0 h-0"
+            }`}
+          >
+            <TabsList className="md:mb-4 flex flex-col h-full items-start justify-start left-[-20px] relative">
+              {/* <TabsList className="mb-4 flex flex-col bg-green-300 "> */}
+              <TabsTrigger
+                value="home"
+                className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+                onClick={() => handleTabClick("Home")}
+              >
+                Home
+              </TabsTrigger>
+              <Menubar className="border-0">
+                <MenubarMenu>
+                  <MenubarTrigger className="border-0">
+                    <div className="flex items-center space-x-3 cursor-pointer hover:underline">
+                      <p ref={talentRef}>Talent</p>
+                      {/* <TabsTrigger value="talent">Talent</TabsTrigger> */}
+                      <img src={arrowIcon} alt="arrowicon" />
+                    </div>
+                  </MenubarTrigger>
+                  <MenubarContent className="bg-white">
+                    <MenubarItem>
+                      <TabsTrigger
+                        value="talent"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() =>
+                          handleTabClick("Talent", "Current Contracts")
+                        }
+                      >
+                        Current Contracts
+                      </TabsTrigger>
+                    </MenubarItem>
+                    <MenubarSeparator className="bg-bm__beige" />
+                    <MenubarItem>
+                      <TabsTrigger
+                        value="talent"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Talent", "Favorites")}
+                      >
+                        Favorites
+                      </TabsTrigger>
+                    </MenubarItem>
+                    <MenubarSeparator className="bg-bm__beige" />
+                    <MenubarItem>
+                      <TabsTrigger
+                        value="talent"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Talent", "Engaged")}
+                      >
+                        Engaged Talent
+                      </TabsTrigger>
+                    </MenubarItem>
+                    <MenubarSeparator className="bg-bm__beige" />
+                    <MenubarItem>
+                      <TabsTrigger
+                        value="talent"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Talent", "My Talent")}
+                      >
+                        My Talent
+                      </TabsTrigger>
+                    </MenubarItem>
+                  </MenubarContent>
+                </MenubarMenu>
+              </Menubar>
+              <Menubar className="border-0">
+                <MenubarMenu>
+                  <MenubarTrigger className="border-0">
+                    <div className="flex items-center space-x-3 cursor-pointer hover:underline">
+                      <p ref={projectsRef}>Projects</p>
+                      <img src={arrowIcon} alt="arrowicon" />
+                    </div>
+                  </MenubarTrigger>
+                  <MenubarContent className="bg-white">
+                    <MenubarItem className="hover:underline">
+                      <TabsTrigger
+                        value="projects"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Projects", "Active")}
+                      >
+                        Active
+                      </TabsTrigger>
+                    </MenubarItem>
+                    <MenubarSeparator className="bg-bm__beige" />
+                    <MenubarItem className="hover:underline">
+                      <TabsTrigger
+                        value="projects"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Projects", "Published")}
+                      >
+                        Published
+                      </TabsTrigger>
+                    </MenubarItem>
+                    <MenubarSeparator className="bg-bm__beige" />
+                    <MenubarItem className="hover:underline">
+                      <TabsTrigger
+                        value="projects"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Projects", "Completed")}
+                      >
+                        Completed
+                      </TabsTrigger>
+                    </MenubarItem>
+                    <MenubarSeparator className="bg-bm__beige" />
+                    <MenubarItem className="hover:underline">
+                      <TabsTrigger
+                        value="projects"
+                        className="cursor-pointer hover:underline w-full items-start justify-start"
+                        onClick={() => handleTabClick("Projects", "Drafts")}
+                      >
+                        Drafts
+                      </TabsTrigger>
+                    </MenubarItem>
+                  </MenubarContent>
+                </MenubarMenu>
+              </Menubar>
+              <TabsTrigger
+                value="inventory"
+                className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+                onClick={() => handleTabClick("inventory")}
+              >
+                Inventory
+              </TabsTrigger>
+              {/* <img src={arrowIcon} alt="arrowicon" /> */}
+              <TabsTrigger
+                value="outlets"
+                className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+              >
+                Outlets
+              </TabsTrigger>
+              {/* <img src={arrowIcon} alt="arrowicon" /> */}
+              <TabsTrigger
+                value="reports"
+                className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+              >
+                Reports
+              </TabsTrigger>
+              {/* <img src={arrowIcon} alt="arrowicon" /> */}
+              <TabsTrigger
+                value="users"
+                className="hover:underline data-[state=active]:text-[#800000] data-[state=active]:font-semibold data-[state=active]:text-[15px]"
+              >
+                Users
+              </TabsTrigger>
+              {/* <img src={arrowIcon} alt="arrowicon" /> */}
+            </TabsList>
+          </div>
+          <div className="flex mb-3 h-[40px]">
             <div className="flex items-center gap-2 mr-6">
               <div className="text-white bg-bm__niv px-2 rounded-sm">
                 {totalActiveProjects || 0}

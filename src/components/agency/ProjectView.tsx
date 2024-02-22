@@ -36,6 +36,7 @@ import { act } from "react-dom/test-utils";
 import { fetchcompleteproject } from "../../redux/completeProject";
 import { fetchdraftproject } from "../../redux/draftProject.slice";
 import { fetchpublishproject } from "../../redux/publishProject";
+import { IoMdClose } from "react-icons/io";
 
 type ProjectType = "Active" | "Published" | "Completed" | "Drafts";
 
@@ -53,6 +54,7 @@ export default function ProjectsView({
   const [activeProjectClick, setActiveProjectClick] = useState<boolean | null>(
     false
   );
+  const [toggleMenubar, setToggleMenubar] = useState(false);
 
   const { toast } = useToast();
   const { user } = useSelector((state: RootState) => state.user);
@@ -178,6 +180,7 @@ export default function ProjectsView({
   }, [dispatch]);
 
   const handleProjectTypeChange = (type: ProjectType) => {
+    setToggleMenubar(!toggleMenubar);
     setActiveType(type);
   };
 
@@ -186,29 +189,42 @@ export default function ProjectsView({
       <div className=" h-full px-4 md:px-12 xl:px-40 flex py-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
         <div className="h-full space-y-8 flex-1 flex flex-col items-center sm:block">
           <Card className="bg-white h-full min-h-[89vh] p-3 md:p-6 flex flex-col md:flex-row gap-3 md:gap-6">
-            <CardContent className="flex-col flex p-0 gap-3 md:gap-6">
-              <div className="flex gap-2 md:gap-4 justify-between w-full">
-                {/* <img src={create} alt="" /> */}
-                <Button
-                  className="dark__btn whitespace-nowrap flex items-center"
-                  onClick={newProject}
-                >
-                  <img src={create} alt="" className="mr-2" />
-                  Create Project
-                </Button>
-              </div>
-              <Card className="min-w-[250px]">
-                {/* former card content was here */}
-                <ProjectList
-                  projectCount={projectCount}
-                  onProjectTypeChange={handleProjectTypeChange}
-                  setActiveProjectClick={setActiveProjectClick}
-                  activeProjectClick={activeProjectClick}
-                />
-              </Card>
-            </CardContent>
+            <div className={`${!toggleMenubar && "hidden"} md:block`}>
+              <CardContent className="flex-col flex p-0 gap-3 md:gap-6">
+                <div className="w-full flex md:hidden ">
+                  <IoMdClose
+                    className="text-end ml-auto"
+                    onClick={() => setToggleMenubar(!toggleMenubar)}
+                  />
+                </div>
+                <div className="flex gap-2 md:gap-4 justify-between w-full">
+                  {/* <img src={create} alt="" /> */}
+                  <Button
+                    className="dark__btn whitespace-nowrap flex items-center"
+                    onClick={newProject}
+                  >
+                    <img src={create} alt="" className="mr-2" />
+                    Create Project
+                  </Button>
+                </div>
+                <Card className="min-w-[250px]">
+                  {/* former card content was here */}
+                  <ProjectList
+                    projectCount={projectCount}
+                    onProjectTypeChange={handleProjectTypeChange}
+                    setActiveProjectClick={setActiveProjectClick}
+                    activeProjectClick={activeProjectClick}
+                  />
+                </Card>
+              </CardContent>
+            </div>
             {/* second card content */}
-            <ProjectDetails activeType={activeType || "Active"} />
+            <div className={`${toggleMenubar && "hidden"} w-full`}>
+              <ProjectDetails
+                activeType={activeType || "Active"}
+                setToggleMenubar={() => setToggleMenubar(!toggleMenubar)}
+              />
+            </div>
           </Card>
           <div className="sm:hidden w-full">
             <TopProjectCard card_title="Top Projects" card_width="w-full" />

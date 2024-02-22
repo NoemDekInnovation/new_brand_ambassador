@@ -73,19 +73,20 @@ const ActiveProjects = ({ searchQuery }: { searchQuery: string }) => {
               Project Code: {project.projectCode}
             </div>
             <div className="text-[15px] p-0 px-2">|</div>
-            <div className="text-[10px] font-medium">
-              {project?.totalBAs} Brand Ambassador
+            <div className="text-[10px] font-medium flex gap-1 ">
+              {project?.totalBAs}
+              {"  "}
+              <span className="hidden md:flex">Brand Ambassador</span>
+              <span className="md:hidden flex">Ba</span>
             </div>
             <div className="text-[16px] p-0 px-2">|</div>
-            {/* <br className="block md:hidden" /> */}
-
             <div className="text-[10px] font-medium">
               {" "}
               {project?.totalSupervisors} Supervisor
             </div>
           </div>
         </CardContent>
-        <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
+        <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end items-start">
           <div className="flex md:space-x-2 text-bm__grey__text text-[10px] h-full flex-wrap  ">
             <div className=" font-normal text-[8px] capitalize">
               {/* Mon, Wed, Fri {"  "} */}

@@ -38,6 +38,7 @@ import {
   setPageQuery,
   setTalentQuery,
 } from "../../redux/talent.slice";
+import { MdMoreVert } from "react-icons/md";
 
 type TalentDetailsProps = {
   activeType:
@@ -48,12 +49,14 @@ type TalentDetailsProps = {
     | "My Talent";
   handleProfilePopUp: (talent: TalentProps) => void;
   updateQuery: any;
+  setToggleMenubar: () => void;
 };
 
 const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   activeType,
   handleProfilePopUp,
   updateQuery,
+  setToggleMenubar,
 }) => {
   let pageTalents;
   let talentData: any;
@@ -282,9 +285,38 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
     <>
       <CardContent className="flex-1 flex flex-col m-0 p-0 mt-8 md:mt-0">
         <div className="flex-1">
-          <div className="flex justify-between flex-col gap-2 lg:flex-row">
+          <div className="flex justify-between gap-2 lg:flex-row relative">
             <p className="font-semibold text-[18px] ">{activeType}</p>
-            <div className="flex flex-col items-start lg:items-center gap-2 lg:gap-6 lg:flex-row">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex gap-1 items-center md:hidden">
+                <MdMoreVert />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="shadow-md rounded-md bg-white p-3 z-[1000] w-[200px] gap-5">
+                <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                  Sort{" "}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-bm__beige" />
+                <DropdownMenuItem className="hover:bg-black/10  text-[16px] my-2">
+                  <div className="flex gap-2 md:gap-4 items-center">
+                    <span className="flex items-center gap-1">
+                      View:{"  "}{" "}
+                      {gridView && <TbLayoutGrid onClick={handleViewToggle} />}
+                      {!gridView && (
+                        <AiOutlineUnorderedList onClick={handleViewToggle} />
+                      )}
+                    </span>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-bm__beige" />{" "}
+                <DropdownMenuItem
+                  className="hover:bg-black/10  text-[16px]"
+                  onClick={setToggleMenubar}
+                >
+                  More
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <div className="hidden md:flex flex-col items-start lg:items-center gap-2 lg:gap-6 lg:flex-row">
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex gap-1 items-center">
                   <BiSortAlt2 />

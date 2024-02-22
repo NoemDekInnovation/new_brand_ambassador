@@ -1,6 +1,7 @@
 const StateOptions = [
   { value: "Abia", label: "Abia" },
   { value: "Adamawa", label: "Adamawa" },
+  { value: "Akwa Ibom", label: "Akwa Ibom" },
   { value: "Anambra", label: "Anambra" },
   { value: "Bauchi", label: "Bauchi" },
   { value: "Bayelsa", label: "Bayelsa" },
