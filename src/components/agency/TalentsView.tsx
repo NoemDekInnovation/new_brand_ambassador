@@ -66,6 +66,7 @@ import { Link } from "react-router-dom";
 import { Certification } from "../talent/Profile";
 import { PiStackSimpleFill } from "react-icons/pi";
 import { FaLocationDot } from "react-icons/fa6";
+import { IoMdClose } from "react-icons/io";
 
 export type TalentType =
   | "All Talent"
@@ -112,6 +113,7 @@ export default function TalentsView({
 
   const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>(null);
 
+  const [toggleMenubar, setToggleMenubar] = useState(false);
   const [activeType, setActiveType] = useState<TalentType | null>(null);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -135,7 +137,7 @@ export default function TalentsView({
     (state: RootState) => state.agency
   );
 
-  console.log(totalAgencyTalent);
+  // console.log(totalAgencyTalent);
 
   const { totalTalent: totalEngageTalents } = useSelector(
     (state: RootState) => state.currentengage
@@ -151,6 +153,7 @@ export default function TalentsView({
 
   const onTalentTypeChnage = (type: TalentType) => {
     setActiveType(type);
+    setToggleMenubar(!toggleMenubar);
   };
 
   useEffect(() => {
@@ -459,15 +462,6 @@ export default function TalentsView({
       }
     }
   };
-
-  // if (isLoading) {
-  //   return <Loading />;
-  // }
-
-  // const handleCloseModal = () => {
-  //   // Set the successModal to false to hide the modal
-  //   setSuccessModal(false);
-  // };
 
   return (
     <>
@@ -899,419 +893,438 @@ export default function TalentsView({
           <div className="bg-bm_card_grey  h-full w-full ">
             <div className="px-4 md:px-12 xl:px-40 min-h-[70vh] py-10">
               <Card className="bg-white h-full p-3 md:p-6 flex flex-col md:flex-row gap-3 md:gap-6">
-                <CardContent className="flex-col flex p-0 gap-3 md:gap-6">
-                  <div className="flex gap-2 md:gap-4 justify-between w-full">
-                    <Dialog
-                    // open={successModalx}
-                    // onOpenChange={() => setSuccessModalx(false)}
-                    >
-                      <DialogTrigger className="dark__btn whitespace-nowrap flex items-center">
-                        <BsPersonFillAdd className="text-[17px] mr-2" />
-                        Add Talent
-                      </DialogTrigger>
-                      <DialogContent className="w-full max-w-[400px] p-2 md:p-6 shadow-md bg-white">
-                        <DialogHeader className="p-0">
-                          <div className="flex items-center">
-                            <BsPersonFillAdd className="text-[17px] mr-2" />
-                            <DialogTitle>Add Talent</DialogTitle>
+                {/* <div> */}
+                <div className={`${!toggleMenubar && "hidden"} md:block`}>
+                  <CardContent className="flex-col flex p-0 gap-3 md:gap-6">
+                    <div className="w-full flex md:hidden ">
+                      <IoMdClose
+                        className="text-end ml-auto"
+                        onClick={() => setToggleMenubar(!toggleMenubar)}
+                      />
+                    </div>
+                    <div className="flex gap-2 md:gap-4 justify-between w-full">
+                      <Dialog
+                      // open={successModalx}
+                      // onOpenChange={() => setSuccessModalx(false)}
+                      >
+                        <DialogTrigger className="dark__btn whitespace-nowrap flex items-center">
+                          <BsPersonFillAdd className="text-[17px] mr-2" />
+                          Add Talent
+                        </DialogTrigger>
+                        <DialogContent className="w-full max-w-[400px] p-2 md:p-6 shadow-md bg-white">
+                          <DialogHeader className="p-0">
+                            <div className="flex items-center">
+                              <BsPersonFillAdd className="text-[17px] mr-2" />
+                              <DialogTitle>Add Talent</DialogTitle>
+                            </div>
+                            <DropdownMenuSeparator className="bg-bm__beige my-3" />
+                          </DialogHeader>
+
+                          <div className="text-[12px]  md:text-[15px] gap-4 flex flex-col">
+                            <p>
+                              A link will be sent to the email address provided
+                              to complete the registration
+                            </p>
+                          </div>
+                          <DropdownMenuSeparator className="bg-bm__beige mb-3" />
+                          <div className="">
+                            <Controller
+                              name="firstName"
+                              control={control}
+                              rules={{ required: true }}
+                              render={({ field }) => (
+                                <div className="w-full pb-4">
+                                  <input
+                                    {...field}
+                                    type="text"
+                                    placeholder="First name"
+                                    name="firstName"
+                                    className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px] ring-1 ring-bm_btn_grey "
+                                  />
+                                  {errMsg.firstName && (
+                                    <small className="text-red-500">
+                                      {errMsg.firstName}
+                                    </small>
+                                  )}
+                                </div>
+                              )}
+                            />
+                            <Controller
+                              name="lastName"
+                              control={control}
+                              rules={{ required: true }}
+                              render={({ field }) => (
+                                <div className="w-full pb-4">
+                                  <input
+                                    {...field}
+                                    type="text"
+                                    placeholder="Last name"
+                                    name="lastName"
+                                    className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px] ring-1 ring-bm_btn_grey "
+                                  />
+                                  {errMsg.lastName && (
+                                    <small className="text-red-500">
+                                      {errMsg.lastName}
+                                    </small>
+                                  )}
+                                </div>
+                              )}
+                            />
+                            <Controller
+                              name="email"
+                              // name='email'
+                              control={control}
+                              rules={{ required: true }}
+                              render={({ field }) => (
+                                <div className="w-full pb-4">
+                                  <input
+                                    {...field}
+                                    type="email"
+                                    placeholder="Email address"
+                                    name="email"
+                                    className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px] ring-1 ring-bm_btn_grey "
+                                  />
+                                  {errMsg.email && (
+                                    <small className="text-red-500">
+                                      {errMsg.email}
+                                    </small>
+                                  )}
+                                </div>
+                              )}
+                            />
+                            <Controller
+                              name="phone"
+                              // name='email'
+                              control={control}
+                              rules={{ required: true }}
+                              render={({ field }) => (
+                                <div className="w-full pb-4">
+                                  <input
+                                    {...field}
+                                    type="tel"
+                                    placeholder="Phone number"
+                                    name="phone"
+                                    className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px] ring-1 ring-bm_btn_grey "
+                                  />
+
+                                  {errMsg.phone && (
+                                    <small className="text-red-500">
+                                      {errMsg.phone}
+                                    </small>
+                                  )}
+                                </div>
+                              )}
+                            />
+                          </div>
+                          <DropdownMenuSeparator className="bg-bm__beige mb-3" />
+                          <p className="text-[12px] md:text-[15px]">
+                            Do you want to add this talent to your project?{" "}
+                          </p>
+                          <Controller
+                            name="project"
+                            control={control}
+                            rules={{ required: false }}
+                            render={({ field }) => (
+                              <div className="w-full ">
+                                <Select
+                                  onValueChange={(e) => setProjectId(e)}
+                                  defaultValue={field.value}
+                                >
+                                  <SelectTrigger className="w-full bg-white">
+                                    <SelectValue placeholder="Select project" />
+                                  </SelectTrigger>
+                                  <SelectContent className="bg-white">
+                                    {projects !== undefined &&
+                                      projects.map(
+                                        ({ projectTitle, _id }, index) => {
+                                          return (
+                                            <SelectItem value={_id} key={index}>
+                                              {projectTitle}
+                                            </SelectItem>
+                                          );
+                                        }
+                                      )}
+                                  </SelectContent>
+                                </Select>
+                                {errMsg.project && (
+                                  <small className="text-red-500">
+                                    {errMsg.project}
+                                  </small>
+                                )}
+                              </div>
+                            )}
+                          />
+                          <Controller
+                            name="talentType"
+                            control={control}
+                            rules={{ required: false }}
+                            render={({ field }) => (
+                              <div className="w-full pb-2">
+                                <Select
+                                  onValueChange={(e) => setTalent(e)}
+                                  defaultValue={field.value}
+                                >
+                                  <SelectTrigger className="w-full bg-white">
+                                    <SelectValue placeholder="Select Talent Type" />
+                                  </SelectTrigger>
+                                  <SelectContent className="bg-white">
+                                    <SelectItem value="supervisor">
+                                      Supervisor
+                                    </SelectItem>
+                                    <SelectItem value="usher">Usher</SelectItem>
+                                    <SelectItem value="ba">
+                                      Brand Ambassador
+                                    </SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                {errMsg.talentType && (
+                                  <small className="text-red-500">
+                                    {errMsg.talentType}
+                                  </small>
+                                )}
+                              </div>
+                            )}
+                          />
+                          <DropdownMenuSeparator className="bg-bm__beige mb-3" />
+                          <p className="text-[12px] md:text-[15px]">
+                            Click continue to fill out the rest of the profile
+                          </p>
+                          <DropdownMenuSeparator className="bg-bm__beige mb-3" />
+                          <div className="flex justify-between gap-8">
+                            <Button className="light__btn" onClick={newProject}>
+                              Continue
+                            </Button>
+
+                            <Button
+                              className="dark__btn"
+                              onClick={handleSubmit(onSubmit)}
+                            >
+                              Create Talent
+                            </Button>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                      <Dialog
+                        open={successModal}
+                        onOpenChange={() => setSuccessModal(false)}
+                      >
+                        <DialogContent className="bg-bm_card_grey flex flex-col items-center justify-center max-w-[360px] py-16">
+                          <TbProgressCheck className="font-normal text-[155px] text-green-700" />
+                          <div className="">Talent Created Successfully</div>
+                          <p>
+                            A link has been sent to the Talent email address
+                            provided to complete his/her registration.
+                          </p>
+                        </DialogContent>
+                      </Dialog>
+                      <Dialog>
+                        <DialogTrigger className="dark__btn whitespace-nowrap">
+                          Import
+                        </DialogTrigger>
+
+                        <DialogContent className="w-full max-w-[360px] p-2 md:p-6 shadow-md bg-white">
+                          <DialogHeader className="p-0">
+                            <div className="flex items-center">
+                              <AiOutlineImport className="text-[17px] mr-2" />
+                              <DialogTitle>Import Talent</DialogTitle>
+                            </div>
+                            <DropdownMenuSeparator className="bg-bm__beige my-3" />
+                          </DialogHeader>
+
+                          <div className="text-[12px] gap-4 flex flex-col">
+                            <p>
+                              After successful import, a link will be sent to
+                              each email addresses provided to complete their
+                              registration.
+                            </p>
+                            <p>
+                              {" "}
+                              You can download the CSV file template to fill out
+                              the talent form.
+                            </p>
                           </div>
                           <DropdownMenuSeparator className="bg-bm__beige my-3" />
-                        </DialogHeader>
-
-                        <div className="text-[12px]  md:text-[15px] gap-4 flex flex-col">
-                          <p>
-                            A link will be sent to the email address provided to
-                            complete the registration
-                          </p>
-                        </div>
-                        <DropdownMenuSeparator className="bg-bm__beige mb-3" />
-                        <div className="">
-                          <Controller
-                            name="firstName"
-                            control={control}
-                            rules={{ required: true }}
-                            render={({ field }) => (
-                              <div className="w-full pb-4">
-                                <input
-                                  {...field}
-                                  type="text"
-                                  placeholder="First name"
-                                  name="firstName"
-                                  className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px] ring-1 ring-bm_btn_grey "
-                                />
-                                {errMsg.firstName && (
-                                  <small className="text-red-500">
-                                    {errMsg.firstName}
-                                  </small>
-                                )}
-                              </div>
-                            )}
-                          />
-                          <Controller
-                            name="lastName"
-                            control={control}
-                            rules={{ required: true }}
-                            render={({ field }) => (
-                              <div className="w-full pb-4">
-                                <input
-                                  {...field}
-                                  type="text"
-                                  placeholder="Last name"
-                                  name="lastName"
-                                  className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px] ring-1 ring-bm_btn_grey "
-                                />
-                                {errMsg.lastName && (
-                                  <small className="text-red-500">
-                                    {errMsg.lastName}
-                                  </small>
-                                )}
-                              </div>
-                            )}
-                          />
-                          <Controller
-                            name="email"
-                            // name='email'
-                            control={control}
-                            rules={{ required: true }}
-                            render={({ field }) => (
-                              <div className="w-full pb-4">
-                                <input
-                                  {...field}
-                                  type="email"
-                                  placeholder="Email address"
-                                  name="email"
-                                  className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px] ring-1 ring-bm_btn_grey "
-                                />
-                                {errMsg.email && (
-                                  <small className="text-red-500">
-                                    {errMsg.email}
-                                  </small>
-                                )}
-                              </div>
-                            )}
-                          />
-                          <Controller
-                            name="phone"
-                            // name='email'
-                            control={control}
-                            rules={{ required: true }}
-                            render={({ field }) => (
-                              <div className="w-full pb-4">
-                                <input
-                                  {...field}
-                                  type="tel"
-                                  placeholder="Phone number"
-                                  name="phone"
-                                  className="w-full sm:h-12 rounded-lg p-2 text-[12px] sm:p-4 sm:text-[14px] ring-1 ring-bm_btn_grey "
-                                />
-
-                                {errMsg.phone && (
-                                  <small className="text-red-500">
-                                    {errMsg.phone}
-                                  </small>
-                                )}
-                              </div>
-                            )}
-                          />
-                        </div>
-                        <DropdownMenuSeparator className="bg-bm__beige mb-3" />
-                        <p className="text-[12px] md:text-[15px]">
-                          Do you want to add this talent to your project?{" "}
-                        </p>
-                        <Controller
-                          name="project"
-                          control={control}
-                          rules={{ required: false }}
-                          render={({ field }) => (
-                            <div className="w-full ">
-                              <Select
-                                onValueChange={(e) => setProjectId(e)}
-                                defaultValue={field.value}
-                              >
-                                <SelectTrigger className="w-full bg-white">
-                                  <SelectValue placeholder="Select project" />
-                                </SelectTrigger>
-                                <SelectContent className="bg-white">
-                                  {projects !== undefined &&
-                                    projects.map(
-                                      ({ projectTitle, _id }, index) => {
-                                        return (
-                                          <SelectItem value={_id} key={index}>
-                                            {projectTitle}
-                                          </SelectItem>
-                                        );
-                                      }
-                                    )}
-                                </SelectContent>
-                              </Select>
-                              {errMsg.project && (
-                                <small className="text-red-500">
-                                  {errMsg.project}
-                                </small>
-                              )}
-                            </div>
-                          )}
-                        />
-                        <Controller
-                          name="talentType"
-                          control={control}
-                          rules={{ required: false }}
-                          render={({ field }) => (
-                            <div className="w-full pb-2">
-                              <Select
-                                onValueChange={(e) => setTalent(e)}
-                                defaultValue={field.value}
-                              >
-                                <SelectTrigger className="w-full bg-white">
-                                  <SelectValue placeholder="Select Talent Type" />
-                                </SelectTrigger>
-                                <SelectContent className="bg-white">
-                                  <SelectItem value="supervisor">
-                                    Supervisor
-                                  </SelectItem>
-                                  <SelectItem value="usher">Usher</SelectItem>
-                                  <SelectItem value="ba">
-                                    Brand Ambassador
-                                  </SelectItem>
-                                </SelectContent>
-                              </Select>
-                              {errMsg.talentType && (
-                                <small className="text-red-500">
-                                  {errMsg.talentType}
-                                </small>
-                              )}
-                            </div>
-                          )}
-                        />
-                        <DropdownMenuSeparator className="bg-bm__beige mb-3" />
-                        <p className="text-[12px] md:text-[15px]">
-                          Click continue to fill out the rest of the profile
-                        </p>
-                        <DropdownMenuSeparator className="bg-bm__beige mb-3" />
-                        <div className="flex justify-between gap-8">
-                          <Button className="light__btn" onClick={newProject}>
-                            Continue
-                          </Button>
-
+                          <Input type="file" onChange={handleFileChange} />
                           <Button
                             className="dark__btn"
-                            onClick={handleSubmit(onSubmit)}
+                            onClick={handleTalentFileUpload}
                           >
-                            Create Talent
+                            {isLoading && (
+                              <svg
+                                aria-hidden="true"
+                                role="status"
+                                className="inline w-4 h-4 mr-3 text-white animate-spin"
+                                viewBox="0 0 100 101"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                  fill="#E5E7EB"
+                                />
+                                <path
+                                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                  fill="currentColor"
+                                />
+                              </svg>
+                            )}
+                            Import CSV File
                           </Button>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                    <Dialog
-                      open={successModal}
-                      onOpenChange={() => setSuccessModal(false)}
-                    >
-                      <DialogContent className="bg-bm_card_grey flex flex-col items-center justify-center max-w-[360px] py-16">
-                        <TbProgressCheck className="font-normal text-[155px] text-green-700" />
-                        <div className="">Talent Created Successfully</div>
-                        <p>
-                          A link has been sent to the Talent email address
-                          provided to complete his/her registration.
-                        </p>
-                      </DialogContent>
-                    </Dialog>
-                    <Dialog>
-                      <DialogTrigger className="dark__btn whitespace-nowrap">
-                        Import
-                      </DialogTrigger>
-
-                      <DialogContent className="w-full max-w-[360px] p-2 md:p-6 shadow-md bg-white">
-                        <DialogHeader className="p-0">
-                          <div className="flex items-center">
-                            <AiOutlineImport className="text-[17px] mr-2" />
-                            <DialogTitle>Import Talent</DialogTitle>
-                          </div>
-                          <DropdownMenuSeparator className="bg-bm__beige my-3" />
-                        </DialogHeader>
-
-                        <div className="text-[12px] gap-4 flex flex-col">
-                          <p>
-                            After successful import, a link will be sent to each
-                            email addresses provided to complete their
-                            registration.
+                          <a
+                            // className="dark__btn mt-2 py-8"
+                            href="https://erp-noemdek.sfo3.digitaloceanspaces.com/Campaign/934f1aa4-e202-402a-bf9f-1d46b2ebbb1f-TalentImportCSVTemplate-2024-01-10.csv"
+                            download="sample.csv"
+                          >
+                            <Button className="dark__btn mt-2">
+                              Download CSV File Template
+                            </Button>
+                          </a>
+                        </DialogContent>
+                      </Dialog>
+                      <Dialog
+                        open={preview}
+                        onOpenChange={() => setPreview(!preview)}
+                      >
+                        <DialogContent className="w-full min-w-[80vw] p-2 md:p-6 shadow-md bg-white">
+                          <PreviewBoard
+                            setPreview={() => setPreview(!preview)}
+                          />
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                    <TalentList
+                      talentCount={talentCount}
+                      onTalentTypeChnage={onTalentTypeChnage}
+                      setActiveTalentClick={setActiveTalentClick}
+                      activeTalentClick={activeTalentClick}
+                    />
+                    <Card>
+                      <CardContent className="py-3 md:py-6 space-y-3 overflow-y-scroll h-[30vh]">
+                        <div className="flex flex-col">
+                          <p className="text-[14px] font-semibold mb-2">
+                            Gender
                           </p>
-                          <p>
+                          <Separator className="bg-bm__beige" />
+                          {/* <RadioGroup value={selectedGender} onChange={handleGenderChange}></RadioGroup> */}
+                          <RadioGroup
+                            value={gender}
+                            defaultValue=""
+                            className="mt-2"
+                            onValueChange={handleGenderChange}
+                          >
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="male" id="male" />
+                              <Label
+                                htmlFor="male"
+                                className="text-[14px] font-normal"
+                              >
+                                Male
+                              </Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="female" id="female" />
+                              <Label
+                                htmlFor="female"
+                                className="text-[14px] font-normal"
+                              >
+                                Female
+                              </Label>
+                            </div>
+                          </RadioGroup>
+                        </div>
+                        <Separator className="bg-bm__beige h-[2px]" />
+                        <div className=" ">
+                          <p className="text-[14px] font-semibold mb-2">
                             {" "}
-                            You can download the CSV file template to fill out
-                            the talent form.
+                            Talent Type
                           </p>
+                          <Separator className="bg-bm__beige" />
+                          <RadioGroup
+                            defaultValue=""
+                            className="mt-2"
+                            onValueChange={handleRoleChange}
+                          >
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="usher" id="usher" />
+                              <Label
+                                htmlFor="usher"
+                                className="text-[14px] font-normal"
+                              >
+                                Usher
+                              </Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="ba" id="ba" />
+                              <Label
+                                htmlFor="ba"
+                                className="text-[14px] font-normal"
+                              >
+                                Brand Ambassador
+                              </Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem
+                                value="supervisor"
+                                id="supervisor"
+                              />
+                              <Label
+                                htmlFor="supervisor"
+                                className="text-[14px] font-normal"
+                              >
+                                Supervisor
+                              </Label>
+                            </div>
+                          </RadioGroup>
                         </div>
-                        <DropdownMenuSeparator className="bg-bm__beige my-3" />
-                        <Input type="file" onChange={handleFileChange} />
-                        <Button
-                          className="dark__btn"
-                          onClick={handleTalentFileUpload}
-                        >
-                          {isLoading && (
-                            <svg
-                              aria-hidden="true"
-                              role="status"
-                              className="inline w-4 h-4 mr-3 text-white animate-spin"
-                              viewBox="0 0 100 101"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                fill="#E5E7EB"
-                              />
-                              <path
-                                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                fill="currentColor"
-                              />
-                            </svg>
-                          )}
-                          Import CSV File
-                        </Button>
-                        <a
-                          // className="dark__btn mt-2 py-8"
-                          href="https://erp-noemdek.sfo3.digitaloceanspaces.com/Campaign/934f1aa4-e202-402a-bf9f-1d46b2ebbb1f-TalentImportCSVTemplate-2024-01-10.csv"
-                          download="sample.csv"
-                        >
-                          <Button className="dark__btn mt-2">
-                            Download CSV File Template
-                          </Button>
-                        </a>
-                      </DialogContent>
-                    </Dialog>
-                    <Dialog
-                      open={preview}
-                      onOpenChange={() => setPreview(!preview)}
-                    >
-                      <DialogContent className="w-full min-w-[80vw] p-2 md:p-6 shadow-md bg-white">
-                        <PreviewBoard setPreview={() => setPreview(!preview)} />
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                  <TalentList
-                    talentCount={talentCount}
-                    onTalentTypeChnage={onTalentTypeChnage}
-                    setActiveTalentClick={setActiveTalentClick}
-                    activeTalentClick={activeTalentClick}
-                  />
-                  <Card>
-                    <CardContent className="py-3 md:py-6 space-y-3 overflow-y-scroll h-[30vh]">
-                      <div className="flex flex-col">
-                        <p className="text-[14px] font-semibold mb-2">Gender</p>
-                        <Separator className="bg-bm__beige" />
-                        {/* <RadioGroup value={selectedGender} onChange={handleGenderChange}></RadioGroup> */}
-                        <RadioGroup
-                          value={gender}
-                          defaultValue=""
-                          className="mt-2"
-                          onValueChange={handleGenderChange}
-                        >
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="male" id="male" />
-                            <Label
-                              htmlFor="male"
-                              className="text-[14px] font-normal"
-                            >
-                              Male
-                            </Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="female" id="female" />
-                            <Label
-                              htmlFor="female"
-                              className="text-[14px] font-normal"
-                            >
-                              Female
-                            </Label>
-                          </div>
-                        </RadioGroup>
-                      </div>
-                      <Separator className="bg-bm__beige h-[2px]" />
-                      <div className=" ">
-                        <p className="text-[14px] font-semibold mb-2">
-                          {" "}
-                          Talent Type
-                        </p>
-                        <Separator className="bg-bm__beige" />
-                        <RadioGroup
-                          defaultValue=""
-                          className="mt-2"
-                          onValueChange={handleRoleChange}
-                        >
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="usher" id="usher" />
-                            <Label
-                              htmlFor="usher"
-                              className="text-[14px] font-normal"
-                            >
-                              Usher
-                            </Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="ba" id="ba" />
-                            <Label
-                              htmlFor="ba"
-                              className="text-[14px] font-normal"
-                            >
-                              Brand Ambassador
-                            </Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem
-                              value="supervisor"
-                              id="supervisor"
+                        <Separator className="bg-bm__beige h-[2px]" />
+                        <div className="">
+                          <p className="text-[14px] font-semibold mb-2">Age</p>
+                          <Separator className="bg-bm__beige mb-2" />
+                          <div className="flex gap-1 items-center justify-around">
+                            <Input
+                              className="max-w-[80px]"
+                              value={ageRange.start}
+                              onChange={handleStartAgeChange}
                             />
-                            <Label
-                              htmlFor="supervisor"
-                              className="text-[14px] font-normal"
-                            >
-                              Supervisor
-                            </Label>
+                            to
+                            <Input
+                              className="max-w-[80px]"
+                              value={ageRange.end}
+                              onChange={handleEndAgeChange}
+                            />
                           </div>
-                        </RadioGroup>
-                      </div>
-                      <Separator className="bg-bm__beige h-[2px]" />
-                      <div className="">
-                        <p className="text-[14px] font-semibold mb-2">Age</p>
-                        <Separator className="bg-bm__beige mb-2" />
-                        <div className="flex gap-1 items-center justify-around">
-                          <Input
-                            className="max-w-[80px]"
-                            value={ageRange.start}
-                            onChange={handleStartAgeChange}
-                          />
-                          to
-                          <Input
-                            className="max-w-[80px]"
-                            value={ageRange.end}
-                            onChange={handleEndAgeChange}
-                          />
                         </div>
-                      </div>
-                      <Separator className="bg-bm__beige h-[2px]" />
+                        <Separator className="bg-bm__beige h-[2px]" />
 
-                      <div className="pb-4">
-                        <p className="py-2 font-semibold">Location</p>
-                        <Separator className="bg-[#D7D8DA] mb-2" />
-                        <div className="flex gap-1 items-center justify-center pt-2">
-                          <Input
-                            className="max-w-[310px] w-full"
-                            placeholder="Search location"
-                            onChange={handleLocationChange}
-                          />
+                        <div className="pb-4">
+                          <p className="py-2 font-semibold">Location</p>
+                          <Separator className="bg-[#D7D8DA] mb-2" />
+                          <div className="flex gap-1 items-center justify-center pt-2">
+                            <Input
+                              className="max-w-[310px] w-full"
+                              placeholder="Search location"
+                              onChange={handleLocationChange}
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <button className="dark__btn p-2 " onClick={handleClear}>
-                        Clear Filter
-                      </button>
-                    </CardContent>
-                  </Card>
-                </CardContent>
-                <TalentDetailsInfo
-                  activeType={activeType || "All Talent"}
-                  handleProfilePopUp={handleProfilePopUp}
-                  updateQuery={updateQuery}
-                />
+                        <button
+                          className="dark__btn p-2 "
+                          onClick={handleClear}
+                        >
+                          Clear Filter
+                        </button>
+                      </CardContent>
+                    </Card>
+                  </CardContent>
+                </div>
+                <div className={`${toggleMenubar && "hidden"} w-full`}>
+                  <TalentDetailsInfo
+                    activeType={activeType || "All Talent"}
+                    handleProfilePopUp={handleProfilePopUp}
+                    updateQuery={updateQuery}
+                    setToggleMenubar={() => setToggleMenubar(!toggleMenubar)}
+                  />
+                </div>
               </Card>
             </div>
           </div>

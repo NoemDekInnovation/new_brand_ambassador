@@ -459,6 +459,8 @@ export const TalentGrid = ({
 
   const truncatedCityState = truncateWords(cityState, 3);
 
+  console.log(_, "averageRating");
+
   if (checkInvite) {
     return (
       checkInvite &&
@@ -969,13 +971,13 @@ export const TalentGrid = ({
               <div className="flex items-center gap-2">
                 <IoLocationSharp />
                 <p className="text-[10px] font-medium leading-3 text-[#252525] capitalize">
-                  {truncatedCityState}
+                  {truncatedCityState.slice(0, 10)}...
                 </p>
               </div>
               <div className="w-[1px] h-3 bg-[#D7D8DA]"></div>
               <div className="flex items-center gap-2">
-                {/* <IoStarHalf />
-                <p>4.5</p> */}
+                <IoStarHalf />
+                <p> {_?.averageRating?.toFixed(1)}</p>
               </div>
             </div>
           </div>
@@ -1073,11 +1075,6 @@ export const TalentGrids = ({
 
     return truncated + (words.length > maxWords ? "..." : "");
   };
-
-  // const cityState = `${_?.address[0]?.city} ${_?.address[0]?.state}`;
-  // const cityState = _?.talent?.address?.[0]?.talent?.city
-  //   ? `${_?talent?.address[0].city} ${_?.talent?.address[0].state}`
-  //   : "N/A";
 
   const cityState = _.talent?.address?.[0]?.city
     ? `${_.talent?.address[0].city} ${_.talent?.address[0].state}`
@@ -1280,8 +1277,8 @@ export const TalentGrids = ({
             </div>
             <div className="w-[1px] h-3 bg-[#D7D8DA]"></div>
             <div className="flex items-center gap-2">
-              {/* <IoStarHalf />
-            <p>4.5</p> */}
+              <IoStarHalf />
+              <p> {_.talent?.averageRating}</p>
             </div>
           </div>
         </div>

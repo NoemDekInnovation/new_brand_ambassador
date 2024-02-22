@@ -24,14 +24,25 @@ export function MainLayout({ children }: { children: ReactNode }) {
   );
 }
 
-export function AgencyLayout({ children }: { children: ReactNode }) {
+export function AgencyLayout({
+  children,
+  toggleMenubar,
+  setToggleMenubar,
+}: {
+  toggleMenubar: boolean;
+  setToggleMenubar: () => void;
+  children: ReactNode;
+}) {
   return (
     <div className="min-w-screen h-screen flex flex-col bg-bm_card_grey relative">
-      <NewNavBar />
-      <div className="flex-1 ">{children}</div>
-      <div className="h-[66px] w-[66px] rounded-full bg-[#93979D] absolute right-12 top-52 flex items-center justify-center">
+      <NewNavBar
+        setToggleMenubar={setToggleMenubar}
+        toggleMenubar={toggleMenubar}
+      />
+      <div className="flex-1 pb-[200px] bg-bm_card_grey">{children}</div>
+      {/* <div className="h-[66px] w-[66px] rounded-full bg-[#93979D] absolute right-12 top-52 flex items-center justify-center">
         <TbSquarePlus2 className="text-white text-3xl" />
-      </div>
+      </div> */}
       <AgencyFooter />
     </div>
   );
