@@ -42,7 +42,7 @@ const RejectedInvitations = ({ invitations }: { invitations: any }) => {
   return (
     <>
       <div>
-        <div className="overflow-y-scroll h-[57vh]">
+        <div className="overflow-y-scroll h-[45vh] md:h-[57vh]">
           {invitations?.map((project: any, idx: number) => {
             return (
               project.status === "rejected" && (
@@ -50,7 +50,7 @@ const RejectedInvitations = ({ invitations }: { invitations: any }) => {
                   key={idx}
                   className="border rounded mb-4 p-3 hover:bg-black/10 transition-all duration-300 cursor-pointer"
                 >
-                  <div className="flex w-full">
+                  <div className="flex w-full flex-col md:flex-row">
                     <CardContent className="p-0 space-y-1 flex-1">
                       <div className="flex space-x-2">
                         <img src={drago} alt="" width={18} height={18} />
@@ -99,7 +99,7 @@ const RejectedInvitations = ({ invitations }: { invitations: any }) => {
                       </p>
                     </div>
                   </div>
-                  <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
+                  <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row items-start sm:items-end">
                     <div className="flex md:space-x-2 text-bm__grey__text text-[10px] h-full flex-wrap  ">
                       {project?.project?.workingDays.map(
                         (_: any, idx: number) => {
@@ -136,34 +136,6 @@ const RejectedInvitations = ({ invitations }: { invitations: any }) => {
               )
             );
           })}
-        </div>
-        <Separator className="my-2 bg-[#d7d8da]" />
-        <div className="flex justify-between mt-3 items-center">
-          <div className="flex items-center">
-            <p className=" text-[#d7d8da] mr-2 text-[10px]">Rows Per Page:</p>
-            <div className="border border-gray-300 rounded px-2">
-              <span className="hover:bg-gray-200 cursor-pointer mr-2">10</span>
-              <span className="hover:bg-gray-200 cursor-pointer mr-2">20</span>
-              <span className="hover:bg-gray-200 cursor-pointer mr-2">30</span>
-              <span className="hover:bg-gray-200 cursor-pointer mr-2">40</span>
-              <span className="hover:bg-gray-200 cursor-pointer">50</span>
-            </div>
-          </div>
-
-          <div className="flex gap-8 text-bm_black/75 text-[10px] whitespace-nowrap">
-            <div className="">First</div>
-
-            <div className="flex gap-8 text-bm_black/75 text-[14px]">
-              <BiChevronLeft />
-              <p className="text-[10px]">Back</p>
-
-              <p className="text-[10px]">1 - 4 of 4</p>
-
-              <p className="text-[10px]">Next</p>
-              <BiChevronRight />
-              <p className="text-[10px]">Last</p>
-            </div>
-          </div>
         </div>
       </div>
       <ProjectPreview

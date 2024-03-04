@@ -25,6 +25,7 @@ import {
   BsChevronRight,
 } from "react-icons/bs";
 import { setPageQuery } from "../../../redux/talent.slice";
+import { MdMoreVert } from "react-icons/md";
 
 export default function AvailableProjects({ screen }: { screen?: string }) {
   const { page, pageSize, totalPages, totalProjects } = useSelector(
@@ -49,7 +50,7 @@ export default function AvailableProjects({ screen }: { screen?: string }) {
           </p>
         </CardTitle>
 
-        <div className="flex gap-4 text-bm_black/75 text-[10px] whitespace-nowrap ">
+        <div className="flex gap-4 text-bm_black/75 text-[10px] whitespace-nowrap  hidden md:flex">
           {screen && screen === "home" && (
             <div className="flex items-center gap-2">
               <div
@@ -69,6 +70,7 @@ export default function AvailableProjects({ screen }: { screen?: string }) {
               </div>
             </div>
           )}
+
           {!screen && (
             <DropdownMenu>
               <DropdownMenuTrigger className="flex gap-1 items-center">
@@ -87,6 +89,39 @@ export default function AvailableProjects({ screen }: { screen?: string }) {
             </DropdownMenu>
           )}
         </div>
+        <div className="md:hidden">
+          {/* {!screen && (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center text-[15px] leading-[18px] font-normal text-[#252525B2]">
+                <MdMoreVert />
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent className="bg-white p-3">
+                <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                  Sort
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-bm__beige" />
+
+                <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                  view more
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )} */}
+          {screen && (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center text-[15px] leading-[18px] font-normal text-[#252525B2]">
+                <MdMoreVert />
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent className="bg-white p-3">
+                <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                  Sort
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
       </CardHeader>
       <Separator className="my-2 bg-[#D7D8DA]" />
       <CardHeader className="flex-row p-1 justify-between items-center">
@@ -99,21 +134,23 @@ export default function AvailableProjects({ screen }: { screen?: string }) {
             />
           </div>
           {screen && screen === "home" && (
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex gap-1 items-center">
-                <BiSortAlt2 />
-                Sort: {"  "}Relevance
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white p-3">
-                <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
-                  Relevance
-                </DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-bm__beige" />
-                <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
-                  Salary
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="hidden md:flex">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex gap-1 items-center">
+                  <BiSortAlt2 />
+                  Sort: {"  "}Relevance
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-white p-3">
+                  <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                    Relevance
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-bm__beige" />
+                  <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                    Salary
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           )}
           <div className="flex gap-4 text-bm_black/75 text-[10px] whitespace-nowrap">
             {page * pageSize - negativePage}-

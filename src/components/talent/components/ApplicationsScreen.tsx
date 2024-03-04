@@ -41,8 +41,8 @@ import { setProjectQuery } from "../../../redux/talent/allProjects.slice";
 import { setProjectQueryx } from "../../../redux/contract-offer";
 
 type ApplicationType =
-  | "Contract Offers"
-  | "Applied"
+  | "Offers"
+  | "My Applications"
   | "Accepted Offers"
   | "Declined Offer";
 
@@ -61,7 +61,8 @@ export default function ApplicationsScreen({}) {
   );
 
   const [isLoading, setIsLoading] = useState(false);
-  const [applications, setApplications] = useState<ApplicationType>("Applied");
+  const [applications, setApplications] =
+    useState<ApplicationType>("My Applications");
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleInviteChange = (type: ApplicationType) => {
@@ -88,12 +89,12 @@ export default function ApplicationsScreen({}) {
   let applicationList;
 
   switch (applications) {
-    case "Applied":
+    case "My Applications":
       applicationList = (
         <AppliedInvitations invitations={filteredApplications} />
       );
       break;
-    case "Contract Offers":
+    case "Offers":
       applicationList = <ContractOffers />;
       break;
     case "Accepted Offers":
@@ -130,13 +131,13 @@ export default function ApplicationsScreen({}) {
         </CardHeader>
         <Separator className="my-2 bg-[#D7D8DA]" />
         <CardHeader className="flex-row p-1 justify-between items-center ">
-          <div className="flex border border-bm__beige w-fit">
+          <div className="hidden md:flex border border-bm__beige w-fit">
             <p
-              onClick={() => handleInviteChange("Applied")}
+              onClick={() => handleInviteChange("My Applications")}
               className={`px-4 py-1 border-r border-bm__beige text-[12px] font-medium text-center cursor-pointer
              hover:bg-black/10 transition-all duration-300 
             ${
-              applications === "Applied" &&
+              applications === "My Applications" &&
               "bg-black/10 transition-all duration-300 "
             }`}
             >
@@ -146,10 +147,10 @@ export default function ApplicationsScreen({}) {
               </span>
             </p>
             <p
-              onClick={() => handleInviteChange("Contract Offers")}
+              onClick={() => handleInviteChange("Offers")}
               className={`px-4 py-1 text-[12px] font-medium  border-r border-bm__beige  cursor-pointer  hover:bg-black/10 transition-all duration-300
             ${
-              applications === "Contract Offers" &&
+              applications === "Offers" &&
               "bg-black/10 transition-all duration-300 "
             }
             `}
@@ -181,6 +182,57 @@ export default function ApplicationsScreen({}) {
               Declined Offers {"  "}
               <span className="text-[12px] font-bold">({totalRejected})</span>
             </p>
+          </div>
+
+          <div className="flex md:hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex gap-1 items-center text-[10px]">
+                Invites: {applications}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white p-3">
+                <DropdownMenuItem
+                  className="hover:bg-black/10  text-[16px]"
+                  onClick={() => handleInviteChange("My Applications")}
+                >
+                  My Applications{" "}
+                  <span className="ml-2 text-[12px] font-bold">
+                    ({totalApplications})
+                  </span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-bm__beige" />
+                <DropdownMenuItem
+                  className="hover:bg-black/10  text-[16px]"
+                  onClick={() => handleInviteChange("Offers")}
+                >
+                  Offers {"  "}
+                  <span className="ml-2 text-[12px] font-bold">
+                    ({totalOffers})
+                  </span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-bm__beige" />
+                <DropdownMenuItem
+                  className="hover:bg-black/10  text-[16px]"
+                  onClick={() => handleInviteChange("Accepted Offers")}
+                >
+                  Accepted Offers {"  "}
+                  <span className="ml-2 text-[12px] font-bold">
+                    {" "}
+                    ({totalAccepted})
+                  </span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-bm__beige" />
+
+                <DropdownMenuItem
+                  className="hover:bg-black/10  text-[16px]"
+                  onClick={() => handleInviteChange("Declined Offer")}
+                >
+                  Declined Offers {"  "}
+                  <span className="ml-2 text-[12px] font-bold">
+                    ({totalRejected})
+                  </span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </CardHeader>
         <Separator className="my-2 bg-[#D7D8DA]" />

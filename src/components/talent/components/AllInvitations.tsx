@@ -41,14 +41,14 @@ const AllInvitations = ({ invitations }: { invitations: any }) => {
   return (
     <>
       <div>
-        <div className="overflow-y-scroll h-[57vh]">
+        <div className="overflow-y-scroll h-[45vh] md:h-[57vh]">
           {invitations?.map((project: any, idx: number) => {
             return (
               <div
                 key={idx}
                 className="border rounded mb-4 p-3 hover:bg-black/10 transition-all duration-300 cursor-pointer"
               >
-                <div className="flex w-full">
+                <div className="flex w-full flex-col md:flex-row">
                   <CardContent className="p-0 space-y-1 flex-1">
                     <div className="flex space-x-2">
                       <img src={drago} alt="" width={18} height={18} />
@@ -78,7 +78,7 @@ const AllInvitations = ({ invitations }: { invitations: any }) => {
                       {project?.project?.projectDescription}
                     </p>
                   </CardContent>
-                  <div className="flex text-[10px]">
+                  <div className="flex text-[10px] h-fit mt-4 md:mt-0">
                     <p className="border-r h-fit border-bm__beige pr-3 mr-3">
                       Published: {"  "}
                       <Moment format="MMM D, yyy ">
@@ -93,7 +93,7 @@ const AllInvitations = ({ invitations }: { invitations: any }) => {
                     </p>
                   </div>
                 </div>
-                <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
+                <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  items-start sm:items-end">
                   <div className="flex md:space-x-2 text-bm__grey__text text-[10px] h-full flex-wrap  ">
                     {project?.project?.workingDays.map(
                       (_: any, idx: number) => {

@@ -94,7 +94,7 @@ const ContractOffers = () => {
                 key={idx}
                 className="border rounded mb-4 p-3 hover:bg-black/10 transition-all duration-300 cursor-pointer"
               >
-                <div className="flex w-full">
+                <div className="flex w-full flex-col md:flex-row gap-2">
                   <CardContent className="p-0 space-y-1 flex-1">
                     <div className="flex space-x-2">
                       {!project?.companyLogo && (
@@ -148,7 +148,7 @@ const ContractOffers = () => {
                     </p>
                   </div>
                 </div>
-                <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
+                <CardFooter className="mt-3 p-0 md:gap-6 flex-col items-start sm:flex-row  sm:items-end">
                   <div className="flex md:space-x-2 text-bm__grey__text text-[10px] h-full flex-wrap  ">
                     {project?.project?.workingDays.map(
                       (_: any, idx: number) => {
@@ -180,57 +180,30 @@ const ContractOffers = () => {
                       }
                     )}{" "}
                   </div>
-
-                  <button
-                    className="border-red-500 text-red-500 rounded-md max-w-fit text-[12px] mt-2 p-1 px-4 border"
-                    onClick={() => {
-                      declineOffer(project);
-                      setApply(true);
-                    }}
-                  >
-                    Decline Offer
-                  </button>
-                  <button
-                    className="dark__btn max-w-fit text-[12px] mt-2 "
-                    onClick={() => {
-                      handleProfilePopUp(project);
-                      // setApply(true);
-                    }}
-                  >
-                    Accept Offer
-                  </button>
+                  <div className="flex gap-3">
+                    <button
+                      className="border-red-500 text-red-500 rounded-md max-w-fit text-[12px] mt-2 p-1 px-4 border"
+                      onClick={() => {
+                        declineOffer(project);
+                        setApply(true);
+                      }}
+                    >
+                      Decline Offer
+                    </button>
+                    <button
+                      className="dark__btn max-w-fit text-[12px] mt-2 "
+                      onClick={() => {
+                        handleProfilePopUp(project);
+                        // setApply(true);
+                      }}
+                    >
+                      Accept Offer
+                    </button>
+                  </div>
                 </CardFooter>
               </div>
             );
           })}
-        </div>
-        <Separator className="my-2 bg-[#d7d8da]" />
-        <div className="flex justify-between mt-3 items-center">
-          <div className="flex items-center">
-            <p className=" text-[#d7d8da] mr-2 text-[10px]">Rows Per Page:</p>
-            <div className="border border-gray-300 rounded px-2">
-              <span className="hover:bg-gray-200 cursor-pointer mr-2">10</span>
-              <span className="hover:bg-gray-200 cursor-pointer mr-2">20</span>
-              <span className="hover:bg-gray-200 cursor-pointer mr-2">30</span>
-              <span className="hover:bg-gray-200 cursor-pointer mr-2">40</span>
-              <span className="hover:bg-gray-200 cursor-pointer">50</span>
-            </div>
-          </div>
-
-          <div className="flex gap-8 text-bm_black/75 text-[10px] whitespace-nowrap">
-            <div className="">First</div>
-
-            <div className="flex gap-8 text-bm_black/75 text-[14px]">
-              <BiChevronLeft />
-              <p className="text-[10px]">Back</p>
-
-              <p className="text-[10px]">1 - 4 of 4</p>
-
-              <p className="text-[10px]">Next</p>
-              <BiChevronRight />
-              <p className="text-[10px]">Last</p>
-            </div>
-          </div>
         </div>
       </div>
       <ContractPreview

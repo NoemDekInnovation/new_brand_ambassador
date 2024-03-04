@@ -45,8 +45,6 @@ export const CurrentProject = () => {
     fetchApplications();
   }, []);
 
-  console.log(currentProject);
-
   return (
     <Card className="p-2 md:p-4 bg-white">
       <CardHeader className="flex-row p-1 justify-between items-center">
@@ -108,8 +106,8 @@ export const CurrentProject = () => {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="mt-1 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
-              <div className="flex md:space-x-2 text-bm__grey__text text-[8px] h-full flex-wrap  ">
+            <CardFooter className="mt-1 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end items-start ">
+              <div className="flex md:space-x-2 text-bm__grey__text text-[8px] h-full flex-wrap">
                 {currentProject?.workingDays.map((_: any, idx: number) => {
                   return (
                     <div key={idx} className="capitalize">
@@ -139,9 +137,9 @@ export const CurrentProject = () => {
                 })}
               </div>
 
-              <button className="ox__btn max-w-fit text-[12px] mt-2">
+              {/* <button className="bg-ox__btn max-w-fit text-[12px] mt-2">
                 Add Report
-              </button>
+              </button> */}
             </CardFooter>
           </>
         )}
