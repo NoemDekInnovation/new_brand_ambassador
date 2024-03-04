@@ -21,6 +21,15 @@ import ApplicationsScreen from "./components/ApplicationsScreen";
 import { fetchTalentApplications } from "../../redux/talentApplications.slice";
 import { fetchTalentOffers } from "../../redux/contract-offer";
 import SelectOption from "../../libs/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../../ui/dropdown-menu";
+import { MdMoreVert } from "react-icons/md";
+import { GrClose } from "react-icons/gr";
 
 const categoryOptions: any = [
   { value: "advertising", label: "Advertising" },
@@ -64,6 +73,7 @@ const ProjectTab = () => {
   const [selectedLocation, setSelectedLocation] = useState("");
   const [ageRange, setAgeRange] = useState({ start: "", end: "" });
   const [sortQuery, setSortQuery] = useState<any>(null);
+  const [more, setMore] = useState(false);
 
   const { talentInvitations } = useSelector(
     (state: RootState) => state.talentInvite
@@ -207,8 +217,12 @@ const ProjectTab = () => {
   return (
     <div className="bg-bm_card_grey">
       <div className="pr-4 md:pr-12 xl:pr-40 ">
-        <div className="flex pt-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start bg-white p-6">
-          <div className="space-y-8 hidden sm:block">
+        <div className="flex pt-10 md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start bg-white md:p-6">
+          {/* <div className={`space-y-8 sm:block`}> */}
+          <div className={`space-y-8 sm:block relative hidden`}>
+            <div className="absolute right-0">
+              <GrClose onClick={() => setMore(false)} />
+            </div>
             <ProjectList
               projectCount={projectCount}
               onProjectTypeChange={handleProjectTypeChange}
@@ -224,40 +238,6 @@ const ProjectTab = () => {
                   <div className="flex flex-col">
                     <p className="text-[14px] font-semibold mb-2">Category</p>
                     <Separator className="bg-bm__beige" />
-                    {/* <RadioGroup value={selectedGender} onChange={handleGenderChange}></RadioGroup> */}
-                    {/* <RadioGroup
-                      defaultValue=""
-                      className="mt-2"
-                      onValueChange={handleCategoryChange}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="in-store" id="in-store" />
-                        <Label
-                          htmlFor="in-store"
-                          className="text-[14px] font-normal"
-                        >
-                          In-store
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="open market" id="open market" />
-                        <Label
-                          htmlFor="open market"
-                          className="text-[14px] font-normal"
-                        >
-                          Open Market{" "}
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="road survey" id="road survey" />
-                        <Label
-                          htmlFor="road survey"
-                          className="text-[14px] font-normal"
-                        >
-                          Road Survey{" "}
-                        </Label>
-                      </div>
-                    </RadioGroup> */}
                     <SelectOption
                       id="state"
                       name="state"
@@ -409,8 +389,217 @@ const ProjectTab = () => {
               </Card>
             </div>
           </div>
-          <div className=" space-y-8 flex-1 flex flex-col items-center sm:block">
-            {projects}
+          <div className=" space-y-8 flex-1 flex flex-col items-center sm:block relative">
+            <div
+              className={`md:hidden w-full absolute justify-end items-end top-[-20px] right-[10px] ${
+                !more ? "block" : "hidden"
+              }`}
+            >
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center text-[15px] leading-[18px] font-normal text-[#252525B2] ml-auto">
+                  <MdMoreVert />
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent className="bg-white p-3">
+                  <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                    Sort
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-bm__beige" />
+
+                  <DropdownMenuItem
+                    className="hover:bg-black/10  text-[16px]"
+                    onClick={() => setMore(true)}
+                  >
+                    view more
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            <div
+              className={`space-y-8 relative top-[-75px] ${
+                more ? "block" : "hidden"
+              }`}
+            >
+              <div className="absolute right-0">
+                <GrClose onClick={() => setMore(false)} />
+              </div>
+              <ProjectList
+                projectCount={projectCount}
+                onProjectTypeChange={handleProjectTypeChange}
+                setActiveProjectClick={setActiveProjectClick}
+                activeProjectClick={activeProjectClick}
+                // projectCount={projectCount}
+                // onProjectTypeChange={handleProjectTypeChange}
+              />
+
+              <div className="">
+                <Card>
+                  <CardContent className="py-3 md:py-6 space-y-3 overflow-y-scroll h-[35vh]">
+                    <div className="flex flex-col">
+                      <p className="text-[14px] font-semibold mb-2">Category</p>
+                      <Separator className="bg-bm__beige" />
+                      <SelectOption
+                        id="state"
+                        name="state"
+                        defaultValue={{
+                          value: selectedCategory,
+                          label: selectedCategory,
+                        }}
+                        options={categoryOptions}
+                        onChange={(e: any) => {
+                          updateQuery({ category: e?.value });
+                          setSelectedCategory(e?.value);
+                        }}
+                        placeholder="State of origin"
+                        required
+                        isDisabled={false}
+                        className="appearance-none bg-transparent w-full py-2.5 px-0 focus:outline-none focus:border-blue-500 text-sm text-gray-900  border-gray-300 capitalize"
+                      />
+                    </div>
+                    <Separator className="bg-bm__beige h-[2px]" />
+                    <div className=" ">
+                      <p className="text-[14px] font-semibold mb-2">
+                        {" "}
+                        Talent Type
+                      </p>
+                      <Separator className="bg-bm__beige" />
+                      <RadioGroup
+                        defaultValue=""
+                        className="mt-2"
+                        onValueChange={handleRoleChange}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="usher" id="usher" />
+                          <Label
+                            htmlFor="usher"
+                            className="text-[14px] font-normal"
+                          >
+                            Usher
+                          </Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="ba" id="ba" />
+                          <Label
+                            htmlFor="ba"
+                            className="text-[14px] font-normal"
+                          >
+                            Brand Ambassador
+                          </Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="supervisor" id="supervisor" />
+                          <Label
+                            htmlFor="supervisor"
+                            className="text-[14px] font-normal"
+                          >
+                            Supervisor
+                          </Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+                    <Separator className="bg-bm__beige h-[2px]" />
+
+                    <div className="pb-4">
+                      <p className="py-2 font-semibold">Location</p>
+                      <Separator className="bg-[#D7D8DA] mb-2" />
+                      <div className="flex gap-1 items-center justify-center pt-2">
+                        <Input
+                          className="max-w-[210px]"
+                          placeholder="Search location"
+                          onChange={handleLocationChange}
+                          value={selectedLocation}
+                        />
+                      </div>
+                    </div>
+                    <Separator className="bg-bm__beige h-[2px]" />
+
+                    <div className="pb-4">
+                      <p className="py-2 font-semibold">Duration</p>
+                      <Separator className="bg-[#D7D8DA] mb-2" />
+                      <div className="flex gap-1 items-center justify-center pt-2">
+                        <Input
+                          className="max-w-[210px]"
+                          placeholder="Search Duration"
+                          onChange={handleDurationChange}
+                        />
+                      </div>
+                    </div>
+
+                    <Separator className="bg-bm__beige h-[2px]" />
+                    <div className=" ">
+                      <p className="text-[14px] font-semibold mb-2">
+                        {" "}
+                        Payment Type
+                      </p>
+                      <Separator className="bg-bm__beige" />
+                      <RadioGroup
+                        defaultValue=""
+                        className="mt-2"
+                        onValueChange={handlePaymentTypeChange}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="daily" id="daily" />
+                          <Label
+                            htmlFor="daily"
+                            className="text-[14px] font-normal"
+                          >
+                            Daily
+                          </Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="weekly" id="weekly" />
+                          <Label
+                            htmlFor="weekly"
+                            className="text-[14px] font-normal"
+                          >
+                            Weekly{" "}
+                          </Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="monthly" id="monthly" />
+                          <Label
+                            htmlFor="monthly"
+                            className="text-[14px] font-normal"
+                          >
+                            Monthly{" "}
+                          </Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+                    <Separator className="bg-bm__beige h-[2px]" />
+
+                    <div className="">
+                      <p className="text-[14px] font-semibold mb-2">Payment</p>
+                      <Separator className="bg-bm__beige mb-2" />
+                      <div className="flex gap-1 items-center justify-around">
+                        <Input
+                          className="max-w-[80px]"
+                          value={ageRange.start}
+                          onChange={handlePaymentStartChange}
+                        />
+                        to
+                        <Input
+                          className="max-w-[80px]"
+                          value={ageRange.end}
+                          onChange={handlePaymentEndChange}
+                        />
+                      </div>
+                    </div>
+                    <button className="light__btn p-2 " onClick={handleClear}>
+                      Clear Filter
+                    </button>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+            <div
+              className={` md:block  ${
+                !more ? "block  relative top-[-40px]" : "hidden"
+              }`}
+            >
+              {/* <div className={` md:block ${!more ? "block" : "hidden"}`}> */}
+              {projects}
+            </div>
           </div>
         </div>
       </div>

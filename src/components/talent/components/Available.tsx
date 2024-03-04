@@ -66,20 +66,22 @@ const Available = () => {
       <div>
         <div className="overflow-y-scroll h-[63vh]">
           {filteredProjects?.map((project: any, idx: number) => {
+            console.log(project);
+
             return (
               <div
                 key={idx}
-                className="border rounded mb-4 p-3 hover:bg-black/10 transition-all duration-300 cursor-pointer "
+                className="border rounded mb-4 p-3 bg-white hover:bg-black/10 transition-all duration-300 cursor-pointer "
               >
-                <div className="flex w-full">
+                <div className="flex w-full flex-col-reverse md:flex-row gap-4 md:gap-0">
                   <CardContent className="p-0 space-y-1 flex-1">
                     <div className="flex space-x-2">
-                      {!project?.companyLogo && (
+                      {!project?.metaData?.createdBy?.companyLogo && (
                         <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
                       )}
-                      {project?.companyLogo && (
+                      {project?.metaData?.createdBy?.companyLogo && (
                         <img
-                          src={project?.companyLogo}
+                          src={project?.metaData?.createdBy?.companyLogo}
                           alt="profile"
                           width={18}
                           height={18}
@@ -127,7 +129,7 @@ const Available = () => {
                     </p>
                   </div>
                 </div>
-                <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end">
+                <CardFooter className="mt-3 p-0 md:gap-6 flex-col sm:flex-row  sm:items-end items-start">
                   <div className="flex md:space-x-2 text-bm__grey__text text-[10px] h-full flex-wrap  ">
                     {project?.workingDays.map((_: any, idx: number) => {
                       return (
@@ -177,7 +179,7 @@ const Available = () => {
             );
           })}
         </div>
-        <Separator className="my-2 bg-[#d7d8da]" />
+        {/* <Separator className="my-2 bg-[#d7d8da]" />
         <div className="flex justify-between mt-3 items-center">
           <div className="flex items-center">
             <p className=" text-[#d7d8da] mr-2 text-[10px]">Rows Per Page:</p>
@@ -216,7 +218,7 @@ const Available = () => {
               <p className="text-[10px]">Last</p>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <ProjectPreview
         popUp={popUp}

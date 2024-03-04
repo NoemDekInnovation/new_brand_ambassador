@@ -131,7 +131,7 @@ export default function Invitations({}) {
         </CardHeader>
         <Separator className="my-2 bg-[#D7D8DA]" />
         <CardHeader className="flex-row p-1 justify-between items-center ">
-          <div className="flex border border-bm__beige w-full">
+          <div className="hidden md:flex border border-bm__beige w-fit">
             <p
               onClick={() => handleInviteChange("All Invitations")}
               className={`px-4 py-1 border-r border-bm__beige text-[12px] font-medium text-center cursor-pointer
@@ -185,6 +185,56 @@ export default function Invitations({}) {
               <span className="text-[12px] font-bold">({totalRejected})</span>
             </p>
           </div>
+          <div className="flex md:hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex gap-1 items-center text-[10px]">
+                Invites: {invites}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white p-3">
+                <DropdownMenuItem
+                  className="hover:bg-black/10  text-[16px]"
+                  onClick={() => handleInviteChange("All Invitations")}
+                >
+                  All Invitations{" "}
+                  <span className="ml-2 text-[12px] font-bold">
+                    ({totalInvitations})
+                  </span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-bm__beige" />
+                <DropdownMenuItem
+                  className="hover:bg-black/10  text-[16px]"
+                  onClick={() => handleInviteChange("Applied")}
+                >
+                  Applied{" "}
+                  <span className="ml-2 text-[12px] font-bold">
+                    ({totalApplied})
+                  </span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-bm__beige" />
+                <DropdownMenuItem
+                  className="hover:bg-black/10  text-[16px]"
+                  onClick={() => handleInviteChange("Not Applied")}
+                >
+                  Not Applied{" "}
+                  <span className="ml-2 text-[12px] font-bold">
+                    {" "}
+                    ({totalNotApplied})
+                  </span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-bm__beige" />
+
+                <DropdownMenuItem
+                  className="hover:bg-black/10  text-[16px]"
+                  onClick={() => handleInviteChange("Rejected")}
+                >
+                  Rejected{"  "}
+                  <span className="ml-2 text-[12px] font-bold">
+                    ({totalRejected})
+                  </span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </CardHeader>
         <Separator className="my-2 bg-[#D7D8DA]" />
         <CardHeader className="flex-row p-1 justify-between items-center">
@@ -198,7 +248,7 @@ export default function Invitations({}) {
               />
             </div>
 
-            <div className="flex gap-4 text-bm_black/75 text-[10px] whitespace-nowrap">
+            <div className="flex flex-col md:flex-row gap-4 text-bm_black/75 text-[10px] whitespace-nowrap">
               <div className="flex gap-4 text-bm_black/75 text-[10px] whitespace-nowrap ">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="flex gap-1 items-center">
@@ -216,55 +266,57 @@ export default function Invitations({}) {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-              <div className="">
-                {" "}
-                {page * pageSize - negativePage}-
-                {page * pageSize >= totalInvitations
-                  ? totalInvitations
-                  : page * pageSize}{" "}
-                of {totalInvitations}{" "}
-              </div>
+              <div className="flex ">
+                <div className="">
+                  {" "}
+                  {page * pageSize - negativePage}-
+                  {page * pageSize >= totalInvitations
+                    ? totalInvitations
+                    : page * pageSize}{" "}
+                  of {totalInvitations}{" "}
+                </div>
 
-              <div className="flex gap-4 text-bm_black/75 text-[14px]">
-                {page * pageSize - negativePage <= pageSize && (
-                  <BsChevronDoubleLeft className="ml-4 text-slate-400 p-1 text-[16px]" />
-                )}
-                {page * pageSize - negativePage >= positivePage && (
-                  <BsChevronDoubleLeft
-                    className="ml-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-                    onClick={() => handlePageChange(1)}
-                  />
-                )}
-                {page * pageSize - negativePage <= pageSize && (
-                  <BsChevronLeft className="mx-4 text-slate-400 p-1 text-[16px]" />
-                )}
-                {page * pageSize - negativePage >= positivePage && (
-                  <BsChevronLeft
-                    className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-                    onClick={() => handlePageChange(page - 1)}
-                  />
-                )}
-                {page * pageSize < totalApplied && (
-                  <BsChevronRight
-                    className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-                    // onClick={() => {
-                    //   dispatch(setPageQuery({ page: page + 1 }));
-                    // }}
-                    onClick={() => handlePageChange(page + 1)}
-                  />
-                )}
-                {page * pageSize >= totalApplied && (
-                  <BsChevronRight className="mx-4 text-slate-400 p-1 text-[16px]" />
-                )}
-                {page * pageSize < totalApplied && (
-                  <BsChevronDoubleRight
-                    className="mr-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
-                    onClick={() => handlePageChange(totalPages)}
-                  />
-                )}
-                {page * pageSize >= totalApplied && (
-                  <BsChevronDoubleRight className="text-slate-400 p-1 text-[16px] mr-4" />
-                )}{" "}
+                <div className="flex gap-4 text-bm_black/75 text-[14px]">
+                  {page * pageSize - negativePage <= pageSize && (
+                    <BsChevronDoubleLeft className="ml-4 text-slate-400 p-1 text-[16px]" />
+                  )}
+                  {page * pageSize - negativePage >= positivePage && (
+                    <BsChevronDoubleLeft
+                      className="ml-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                      onClick={() => handlePageChange(1)}
+                    />
+                  )}
+                  {page * pageSize - negativePage <= pageSize && (
+                    <BsChevronLeft className="mx-4 text-slate-400 p-1 text-[16px]" />
+                  )}
+                  {page * pageSize - negativePage >= positivePage && (
+                    <BsChevronLeft
+                      className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                      onClick={() => handlePageChange(page - 1)}
+                    />
+                  )}
+                  {page * pageSize < totalApplied && (
+                    <BsChevronRight
+                      className="mx-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                      // onClick={() => {
+                      //   dispatch(setPageQuery({ page: page + 1 }));
+                      // }}
+                      onClick={() => handlePageChange(page + 1)}
+                    />
+                  )}
+                  {page * pageSize >= totalApplied && (
+                    <BsChevronRight className="mx-4 text-slate-400 p-1 text-[16px]" />
+                  )}
+                  {page * pageSize < totalApplied && (
+                    <BsChevronDoubleRight
+                      className="mr-4 hover:bg-slate-300 cursor-pointer p-1 text-[16px] rounded-sm"
+                      onClick={() => handlePageChange(totalPages)}
+                    />
+                  )}
+                  {page * pageSize >= totalApplied && (
+                    <BsChevronDoubleRight className="text-slate-400 p-1 text-[16px] mr-4" />
+                  )}{" "}
+                </div>
               </div>
             </div>
           </div>
@@ -272,7 +324,7 @@ export default function Invitations({}) {
         <Separator className="my-2 bg-[#D7D8DA]" />
         {inviteList}
         <Separator className="my-2 bg-[#d7d8da]" />
-        <div className="flex justify-between mt-3 items-center">
+        <div className="flex flex-col gap-5 md:flex-row justify-between mt-3 items-center">
           <div className="flex items-center">
             <p className=" whitespace-nowrap  mr-2 text-[10px]">
               Rows Per Page:
@@ -281,7 +333,7 @@ export default function Invitations({}) {
               {[10, 20, 30, 40, 50].map((n, idx) => {
                 return (
                   <div
-                    className={`hover:bg-gray-300 ${
+                    className={`hover:bg-gray-300 text-[10px]  ${
                       pageSize === n ? "bg-gray-300" : ""
                     } rounded p-2 transition-all duration-400 cursor-pointer`}
                     key={idx}
@@ -298,7 +350,6 @@ export default function Invitations({}) {
             <div className="">First</div>
 
             <div className="flex gap-8 text-bm_black/75 text-[14px]">
-              {/* <BiChevronLeft /> */}
               <p className="text-[10px]">Back</p>
 
               <p className="text-[10px]">
@@ -310,7 +361,7 @@ export default function Invitations({}) {
               </p>
 
               <p className="text-[10px]">Next</p>
-              {/* <BiChevronRight /> */}
+
               <p className="text-[10px]">Last</p>
             </div>
           </div>
