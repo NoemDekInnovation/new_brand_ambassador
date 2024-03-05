@@ -62,6 +62,9 @@ const config: Config = {
         //   foreground: 'hsl(var(--card-foreground))',
         // },
       },
+      screens: {
+        "8xl": "1920px",
+      },
     },
   },
   plugins: [],
