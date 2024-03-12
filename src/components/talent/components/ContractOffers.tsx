@@ -84,6 +84,8 @@ const ContractOffers = () => {
     }
   }, [statusMessage]);
 
+  // console.log(offers);
+
   return (
     <>
       <div>
@@ -97,19 +99,23 @@ const ContractOffers = () => {
                 <div className="flex w-full flex-col md:flex-row gap-2">
                   <CardContent className="p-0 space-y-1 flex-1">
                     <div className="flex space-x-2">
-                      {!project?.companyLogo && (
+                      {!project?.project?.metaData?.createdBy?.companyLogo && (
                         <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
                       )}
-                      {project?.companyLogo && (
+                      {project?.project?.metaData?.createdBy?.companyLogo && (
                         <img
-                          src={project?.companyLogo}
+                          src={
+                            project?.project?.metaData?.createdBy?.companyLogo
+                          }
                           alt="profile"
                           width={18}
                           height={18}
                           className="rounded-full  h-[18px] w-[18px] object-cover"
                         />
-                      )}
-                      <p className="border-r px-2 text-[12px]">Cool Ltd.</p>
+                      )}{" "}
+                      <p className="border-r px-2 text-[12px] capitalize">
+                        {project?.project?.metaData?.createdBy?.agencyName}
+                      </p>
                       <p className="text-green-900 text-[10px] flex items-center gap-1">
                         {" "}
                         <GoChecklist className="text-[13px]" />

@@ -73,8 +73,23 @@ export const MyApplication = ({
                 <div className="max-w-[200px] w-full" key={idx}>
                   <CardContent className="p-0 space-y-1">
                     <div className="flex space-x-2">
-                      <img src={drago} alt="" width={18} height={18} />
-                      <p className="border-r px-2 text-[12px]">Cool Ltd.</p>
+                      {!project?.project?.metaData?.createdBy?.companyLogo && (
+                        <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
+                      )}
+                      {project?.project?.metaData?.createdBy?.companyLogo && (
+                        <img
+                          src={
+                            project?.project?.metaData?.createdBy?.companyLogo
+                          }
+                          alt="profile"
+                          width={18}
+                          height={18}
+                          className="rounded-full  h-[18px] w-[18px] object-cover"
+                        />
+                      )}{" "}
+                      <p className="border-r px-2 text-[12px] capitalize">
+                        {project?.project?.metaData?.createdBy?.agencyName}
+                      </p>
                       <p className="text-bm__ox__red text-[10px] underline">
                         Applied
                       </p>
@@ -107,8 +122,23 @@ export const MyApplication = ({
                 <div className="max-w-[200px] w-full" key={idx}>
                   <CardContent className="p-0 space-y-1">
                     <div className="flex space-x-2">
-                      <img src={drago} alt="" width={18} height={18} />
-                      <p className="border-r px-2 text-[12px]">Cool Ltd.</p>
+                      {!project?.project?.metaData?.createdBy?.companyLogo && (
+                        <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
+                      )}
+                      {project?.project?.metaData?.createdBy?.companyLogo && (
+                        <img
+                          src={
+                            project?.project?.metaData?.createdBy?.companyLogo
+                          }
+                          alt="profile"
+                          width={18}
+                          height={18}
+                          className="rounded-full  h-[18px] w-[18px] object-cover"
+                        />
+                      )}{" "}
+                      <p className="border-r px-2 text-[12px] capitalize">
+                        {project?.project?.metaData?.createdBy?.agencyName}
+                      </p>
                       <p className="text-bm__ox__red text-[10px] underline">
                         Applied
                       </p>
@@ -141,8 +171,23 @@ export const MyApplication = ({
                 <div className="max-w-[200px] w-full" key={idx}>
                   <CardContent className="p-0 space-y-1 bg-green-200">
                     <div className="flex space-x-2">
-                      <img src={drago} alt="" width={18} height={18} />
-                      <p className="border-r px-2 text-[12px]">Cool Ltd.</p>
+                      {!project?.project?.metaData?.createdBy?.companyLogo && (
+                        <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
+                      )}
+                      {project?.project?.metaData?.createdBy?.companyLogo && (
+                        <img
+                          src={
+                            project?.project?.metaData?.createdBy?.companyLogo
+                          }
+                          alt="profile"
+                          width={18}
+                          height={18}
+                          className="rounded-full  h-[18px] w-[18px] object-cover"
+                        />
+                      )}
+                      <p className="border-r px-2 text-[12px] capitalize">
+                        {project?.project?.metaData?.createdBy?.agencyName}
+                      </p>
                       <p className="text-bm__ox__red text-[10px] underline">
                         Rejected
                       </p>

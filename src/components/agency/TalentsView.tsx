@@ -170,11 +170,11 @@ export default function TalentsView({
 
   useEffect(() => {
     setIsLoading(true);
-    dispatch(fetchTalents(null));
-    dispatch(fetchEngageTalents({ queryParams: null, status: true }));
-    dispatch(fetchCurrentEngageTalents({ queryParams: null, status: false }));
-    dispatch(fetchFavouriteProjects(null));
-    dispatch(fetchAgencyTalentss(null));
+    // dispatch(fetchTalents(null));
+    // dispatch(fetchEngageTalents({ queryParams: null, status: true }));
+    // dispatch(fetchCurrentEngageTalents({ queryParams: null, status: false }));
+    // dispatch(fetchFavouriteProjects(null));
+    // dispatch(fetchAgencyTalentss(null));
     // console.log("fetchmeid");
 
     const fetchProjects = async () => {

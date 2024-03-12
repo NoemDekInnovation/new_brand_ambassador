@@ -84,6 +84,7 @@ export function CurrentProjects({
   const { activeProject } = useSelector(
     (state: RootState) => state.activeProject
   );
+
   const dispatch = useDispatch<AppDispatch>();
 
   const [selectedProject, setSelectedProject] = useState();
@@ -157,7 +158,7 @@ export function CurrentProjects({
                 "en-US",
                 options
               )}{" "}
-              . {project.projectLocation}
+              . {project.projectLocation[0]} {project?.projectLocation[1]}
             </div>
           </div>
         </Card>
@@ -165,7 +166,7 @@ export function CurrentProjects({
     );
   });
 
-  console.log(projects);
+  console.log(activeProject);
   return (
     <>
       <Card className="p-2 md:p-4 bg-white h-[224px] w-full max-w-[300px] md:max-w-full">
@@ -294,6 +295,7 @@ const ProjectCard = ({
 
   const { user } = useSelector((state: RootState) => state.user);
   const [projectId, setProjectId] = useState<string | null>(null);
+
   useEffect(() => {
     setIsLoading(true);
 
@@ -355,6 +357,7 @@ const ProjectCard = ({
     setPopUp(!popUp);
     setSelectedRole(talent);
   };
+
   return (
     <>
       <Card className="p-2 md:p-4 bg-white h-[352px] w-full max-w-[300px] md:max-w-full">

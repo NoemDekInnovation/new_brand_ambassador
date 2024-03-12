@@ -50,7 +50,7 @@ export const fetchTalentApplications = createAsyncThunk(
             }
           );
 
-          // console.log("myTalents", response?.data?.data?.talent);
+          console.log("myTalents", response);
 
           return response?.data?.data;
         }
