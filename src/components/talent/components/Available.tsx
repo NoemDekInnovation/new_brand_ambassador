@@ -66,7 +66,7 @@ const Available = () => {
       <div>
         <div className="overflow-y-scroll h-[63vh]">
           {filteredProjects?.map((project: any, idx: number) => {
-            console.log(project);
+            console.log({ project });
 
             return (
               <div
@@ -88,7 +88,9 @@ const Available = () => {
                           className="rounded-full  h-[18px] w-[18px] object-cover"
                         />
                       )}
-                      <p className="border-r px-2 text-[12px]">Cool Ltd.</p>
+                      <p className="border-r px-2 text-[12px] capitalize">
+                        {project?.metaData?.createdBy?.agencyName}
+                      </p>
 
                       <p className="text-green-900 text-[10px] flex items-center gap-1">
                         {" "}

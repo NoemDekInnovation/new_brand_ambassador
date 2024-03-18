@@ -32,7 +32,7 @@ export const CurrentProject = () => {
           }
         );
 
-        console.log(response.data);
+        // console.log(response.data);
 
         setCurrentProject(response.data?.projects[0].project);
       } catch (error) {
@@ -68,20 +68,22 @@ export const CurrentProject = () => {
           <>
             <CardContent className="p-0 space-y-1">
               <div className="flex space-x-2">
-                {!currentProject?.profilePic && (
+                {!currentProject?.metaData?.createdBy?.companyLogo && (
                   <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
                 )}
-                {currentProject?.profilePic && (
+                {currentProject?.metaData?.createdBy?.companyLogo && (
                   <img
-                    src={currentProject?.profilePic}
+                    src={currentProject?.metaData?.createdBy?.companyLogo}
                     alt="profile"
                     width={18}
                     height={18}
                     className="rounded-full  h-[18px] w-[18px] object-cover"
                   />
                 )}
-                <p className="px-2 text-[12px] text-[#252525B2] font-medium">
-                  Cool Ltd.
+
+                <p className="px-2 text-[12px] text-[#252525B2] font-medium capitalize">
+                  {/* <p className="border-r px-2 text-[12px] capitalize"> */}
+                  {currentProject?.metaData?.createdBy?.agencyName}
                 </p>
               </div>
               <h3 className="font-medium text-[15px] ">

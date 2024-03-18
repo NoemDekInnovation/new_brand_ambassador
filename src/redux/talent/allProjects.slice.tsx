@@ -61,7 +61,7 @@ export const fetchAllProjects = createAsyncThunk(
             Authorization: `Bearer ${parsedUser.authKey}`,
           },
         });
-        // console.log("response", response.data.data.availableProjects);
+        console.log("response", response);
 
         return response.data.data;
       }

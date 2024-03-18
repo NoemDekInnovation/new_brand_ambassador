@@ -84,6 +84,7 @@ export function CurrentProjects({
   const { activeProject } = useSelector(
     (state: RootState) => state.activeProject
   );
+
   const dispatch = useDispatch<AppDispatch>();
 
   const [selectedProject, setSelectedProject] = useState();
@@ -157,7 +158,7 @@ export function CurrentProjects({
                 "en-US",
                 options
               )}{" "}
-              . {project.projectLocation}
+              . {project.projectLocation[0]} {project?.projectLocation[1]}
             </div>
           </div>
         </Card>
@@ -165,7 +166,7 @@ export function CurrentProjects({
     );
   });
 
-  console.log(projects);
+  console.log(activeProject);
   return (
     <>
       <Card className="p-2 md:p-4 bg-white h-[224px] w-full max-w-[300px] md:max-w-full">
@@ -177,7 +178,7 @@ export function CurrentProjects({
           </CardTitle>
         </CardHeader>
         <Separator className="my-2" />
-        <div className="md:max-w-[1200px] h-[180px]">
+        <div className="md:max-w-[1200px] h-[180px] 8xl:max-w-[1920px] mx-auto">
           {projects?.length === 0 && <div>No data</div>}
           <Carousel
             additionalTransfrom={0}
@@ -186,7 +187,7 @@ export function CurrentProjects({
             autoPlaySpeed={3000}
             centerMode={false}
             className="gap-2"
-            containerClass="sm:mx-9 md:mx-4 lg:mx-12 md:w-[1200px]"
+            containerClass=" md:w-[1200px] 8xl:w-full"
             dotListClass=""
             draggable
             focusOnSelect={false}
@@ -199,9 +200,17 @@ export function CurrentProjects({
             renderButtonGroupOutside={false}
             renderDotsOutside={false}
             responsive={{
-              desktop: {
+              large_desktop: {
                 breakpoint: {
                   max: 3000,
+                  min: 1920,
+                },
+                items: 6,
+                partialVisibilityGutter: 40,
+              },
+              desktop: {
+                breakpoint: {
+                  max: 1919,
                   min: 1024,
                 },
                 items: 4,
@@ -286,6 +295,7 @@ const ProjectCard = ({
 
   const { user } = useSelector((state: RootState) => state.user);
   const [projectId, setProjectId] = useState<string | null>(null);
+
   useEffect(() => {
     setIsLoading(true);
 
@@ -347,6 +357,7 @@ const ProjectCard = ({
     setPopUp(!popUp);
     setSelectedRole(talent);
   };
+
   return (
     <>
       <Card className="p-2 md:p-4 bg-white h-[352px] w-full max-w-[300px] md:max-w-full">
