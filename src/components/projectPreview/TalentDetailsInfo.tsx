@@ -73,8 +73,11 @@ const talentOptions: any = [
 const TalentDetailsInfo = ({
   // activeType,
   handleProfilePopUp,
+  handleImagePopUp,
+
   projectId,
 }: {
+  handleImagePopUp: any;
   projectId: string;
   handleProfilePopUp: (talent: TalentProps) => void;
 }) => {
@@ -316,6 +319,7 @@ const TalentDetailsInfo = ({
             handleCheckedChange={handleCheckedChange}
             preview={true}
             checkInvite={invited}
+            handleImagePopUp={handleImagePopUp}
           />
           <OfferModal
             isOpen={successModal}
@@ -339,6 +343,7 @@ const TalentDetailsInfo = ({
           selectedTalent={selectedTalent}
           setSelectedTalentID={setSelectedTalentID}
           selectedProject={selectedProject}
+          // handleImagePopUp={handleImagePopUp}
         />
       );
       break;
@@ -356,6 +361,7 @@ const TalentDetailsInfo = ({
           selectedTalent={selectedTalent}
           setSelectedTalentID={setSelectedTalentID}
           selectedProject={selectedProject}
+          handleImagePopUp={handleImagePopUp}
         />
       );
       break;
@@ -373,6 +379,7 @@ const TalentDetailsInfo = ({
           selectedTalent={selectedTalent}
           setSelectedTalentID={setSelectedTalentID}
           selectedProject={selectedProject}
+          handleImagePopUp={handleImagePopUp}
         />
       );
       break;
@@ -390,6 +397,7 @@ const TalentDetailsInfo = ({
           selectedTalent={selectedTalent}
           setSelectedTalentID={setSelectedTalentID}
           selectedProject={selectedProject}
+          handleImagePopUp={handleImagePopUp}
         />
       );
       break;

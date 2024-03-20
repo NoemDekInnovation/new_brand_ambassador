@@ -17,10 +17,12 @@ const FavoriteTalents = ({
   setSelectedTalentID,
   selectedProject,
   setSuccessModal,
+  handleImagePopUp,
   successModal,
 }: {
   gridView: boolean;
   handleInvite: any;
+  handleImagePopUp: any;
   setSelectedProject: any;
   projects: any;
   setSelectedTalent: any;
@@ -56,6 +58,7 @@ const FavoriteTalents = ({
                   key={idx}
                   _={_}
                   modal={projectModal}
+                  handleImagePopUp={handleImagePopUp}
                   setModal={setProjectModal}
                   handleProfilePopUp={handleProfilePopUp}
                   setSelectedTalentID={setSelectedTalentID}

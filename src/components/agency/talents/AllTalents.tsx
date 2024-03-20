@@ -44,7 +44,9 @@ const AllTalents = ({
   setBulkModal,
   handleGroupInvite,
   preview,
+  handleImagePopUp,
 }: {
+  handleImagePopUp: any;
   checkInvite?: boolean;
   gridView: boolean;
   handleInvite: any;
@@ -75,10 +77,10 @@ const AllTalents = ({
     pageQuery,
   } = useSelector((state: RootState) => state.talent);
 
-  useEffect(() => {
-    dispatch(fetchTalents(talentQuery));
-    return;
-  }, [dispatch, talentQuery]);
+  // useEffect(() => {
+  //   dispatch(fetchTalents(talentQuery));
+  //   return;
+  // }, [dispatch, talentQuery]);
 
   // useEffect(() => {
   //   dispatch(fetchTalents(pageQuery));
@@ -121,6 +123,7 @@ const AllTalents = ({
               return (
                 <TalentGrid
                   // checkInvite={checkInvite}
+                  handleImagePopUp={handleImagePopUp}
                   key={idx}
                   handleCheckedChange={handleCheckedChange}
                   _={_}

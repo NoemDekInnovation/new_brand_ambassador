@@ -383,6 +383,7 @@ export const TalentList = ({
 export const TalentGrid = ({
   _,
   handleProfilePopUp,
+  handleImagePopUp,
   setSelectedTalentID,
   setModal,
   modal,
@@ -391,6 +392,7 @@ export const TalentGrid = ({
   checkInvite,
 }: {
   _: any;
+  handleImagePopUp: any;
   handleProfilePopUp?: (talent?: TalentProps) => void;
   setSelectedTalentID?: any;
   setModal: any;
@@ -767,7 +769,7 @@ export const TalentGrid = ({
             className="flex relative transition-transform ease-out duration-500"
             style={{ transform: `translateX(-${curr * 100}%)` }}
           >
-            <div className="relative flex">
+            <div className="relative flex" onClick={() => handleImagePopUp(_)}>
               {slides.map((s, index) => (
                 <div
                   className="w-[196px] h-[262px] relative"
@@ -982,6 +984,10 @@ export const TalentGrid = ({
             </div>
           </div>
         )}
+        {/* {handleProfilePopUp && (
+
+          <div className="">nEW TRY</div>
+        )} */}
       </Card>
     </>
   );

@@ -13,6 +13,7 @@ const Engaged = ({
   projects,
   setSelectedTalent,
   handleProfilePopUp,
+  handleImagePopUp,
   selectedTalent,
   setSelectedTalentID,
   selectedProject,
@@ -25,6 +26,7 @@ const Engaged = ({
   projects: any;
   setSelectedTalent: any;
   handleProfilePopUp: any;
+  handleImagePopUp: any;
   selectedTalent: any;
   setSelectedTalentID: any;
   selectedProject: any;
@@ -66,6 +68,7 @@ const Engaged = ({
                   _={_?.talent}
                   modal={projectModal}
                   setModal={setProjectModal}
+                  handleImagePopUp={handleImagePopUp}
                   // idx={idx}
                   // handleInvite={handleInvite}
                   // setSelectedProject={setSelectedProject}

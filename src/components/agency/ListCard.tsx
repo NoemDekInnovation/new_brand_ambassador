@@ -193,7 +193,7 @@ export function TopProjectCard({
                 topProject?.topProjects
                   ?.slice(0, 3)
                   .map((project: any, idx: number) => {
-                    console.log(project);
+                    // console.log(project);
 
                     const formattedLocation = Array.isArray(
                       project.projectLocation
@@ -205,9 +205,33 @@ export function TopProjectCard({
                         <CardContent className="p-0 space-y-1">
                           <div className="flex ">
                             <div className="flex">
-                              <img src={drago} alt="" width={18} height={18} />
-                              <p className="border-r px-1 text-[11px] whitespace-nowrap text-[#252525]">
-                                Cool Ltd.
+                              {!project?.metaData?.createdBy?.companyLogo && (
+                                <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
+                              )}
+                              {project?.metaData?.createdBy?.companyLogo && (
+                                <img
+                                  src={
+                                    project?.metaData?.createdBy?.companyLogo
+                                  }
+                                  alt="profile"
+                                  width={18}
+                                  height={18}
+                                  className="rounded-full  h-[18px] w-[18px] object-cover"
+                                />
+                              )}
+                              <p className="border-r px-1 text-[11px] whitespace-nowrap text-[#252525] capitalize">
+                                {project?.metaData?.createdBy?.agencyName
+                                  .length <= 7 &&
+                                  project?.metaData?.createdBy?.agencyName.substring(
+                                    0,
+                                    7
+                                  )}
+                                {project?.metaData?.createdBy?.agencyName
+                                  .length > 7 &&
+                                  ` ${project?.metaData?.createdBy?.agencyName.substring(
+                                    0,
+                                    7
+                                  )}...`}
                               </p>
                             </div>
                             <p className="border-r px-1 text-[11px] whitespace-nowrap">
@@ -218,14 +242,14 @@ export function TopProjectCard({
                             </p>
                           </div>
                           <div className="flex space-x-2">
-                            <h3 className="font-medium text-[15px] ">
+                            <h3 className="font-medium text-[12px] border-r pr-2">
                               {" "}
                               {project.projectTitle.length > 15
                                 ? `${project.projectTitle.substring(0, 15)}...`
                                 : project.projectTitle}
                             </h3>
                           </div>
-                          <p className="font-normal text-[13px]">
+                          <p className="font-normal text-[8px] leading-3">
                             {project.projectDescription.length > 85
                               ? `${project.projectDescription.substring(
                                   0,
@@ -236,7 +260,7 @@ export function TopProjectCard({
                           <p className="font-medium text-[13px] text-[#800000]">
                             {project?.totalApplications} Applications{" "}
                           </p>
-                          <div className="flex space-x-2 text-[12px]">
+                          <div className="flex space-x-2 text-[8px] font-light leading-3">
                             {formattedLocation}
                           </div>
                         </CardContent>
@@ -268,9 +292,33 @@ export function TopProjectCard({
                         <CardContent className="p-0 space-y-1">
                           <div className="flex ">
                             <div className="flex">
-                              <img src={drago} alt="" width={18} height={18} />
-                              <p className="border-r px-1 text-[11px] whitespace-nowrap text-[#252525]">
-                                Cool Ltd.
+                              {!project?.metaData?.createdBy?.companyLogo && (
+                                <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
+                              )}
+                              {project?.metaData?.createdBy?.companyLogo && (
+                                <img
+                                  src={
+                                    project?.metaData?.createdBy?.companyLogo
+                                  }
+                                  alt="profile"
+                                  width={18}
+                                  height={18}
+                                  className="rounded-full  h-[18px] w-[18px] object-cover"
+                                />
+                              )}
+                              <p className="border-r px-1 text-[11px] whitespace-nowrap text-[#252525] capitalize">
+                                {project?.metaData?.createdBy?.agencyName
+                                  .length <= 7 &&
+                                  project?.metaData?.createdBy?.agencyName.substring(
+                                    0,
+                                    7
+                                  )}
+                                {project?.metaData?.createdBy?.agencyName
+                                  .length > 7 &&
+                                  ` ${project?.metaData?.createdBy?.agencyName.substring(
+                                    0,
+                                    7
+                                  )}...`}
                               </p>
                             </div>
                             <p className="border-r px-1 text-[11px] whitespace-nowrap">
@@ -281,14 +329,14 @@ export function TopProjectCard({
                             </p>
                           </div>
                           <div className="flex space-x-2">
-                            <h3 className="font-medium text-[15px] ">
+                            <h3 className="font-medium text-[12px] border-r pr-2">
                               {" "}
                               {project.projectTitle.length > 15
                                 ? `${project.projectTitle.substring(0, 15)}...`
                                 : project.projectTitle}
                             </h3>
                           </div>
-                          <p className="font-normal text-[13px]">
+                          <p className="font-normal text-[8px] leading-3">
                             {project.projectDescription.length > 85
                               ? `${project.projectDescription.substring(
                                   0,
@@ -299,7 +347,7 @@ export function TopProjectCard({
                           <p className="font-medium text-[13px] text-[#800000]">
                             {project?.totalApplications} Applications{" "}
                           </p>
-                          <div className="flex space-x-2 text-[12px]">
+                          <div className="flex space-x-2 text-[8px] font-light leading-3">
                             {formattedLocation}
                           </div>
                         </CardContent>
@@ -330,21 +378,33 @@ export function TopProjectCard({
                         <CardContent className="p-0 space-y-1">
                           <div className="flex ">
                             <div className="flex">
-                              {!project?.profilePic && (
+                              {!project?.metaData?.createdBy?.companyLogo && (
                                 <div className="flex rounded-full h-[18px] w-[18px] bg-bm__beige"></div>
                               )}
-                              {project?.profilePic && (
+                              {project?.metaData?.createdBy?.companyLogo && (
                                 <img
-                                  src={project?.profilePic}
+                                  src={
+                                    project?.metaData?.createdBy?.companyLogo
+                                  }
                                   alt="profile"
                                   width={18}
                                   height={18}
                                   className="rounded-full  h-[18px] w-[18px] object-cover"
                                 />
                               )}
-                              {/* <img src={drago} alt="" width={18} height={18} /> */}
-                              <p className="border-r px-1 text-[11px] whitespace-nowrap text-[#252525]">
-                                Cool Ltd.
+                              <p className="border-r px-1 text-[11px] whitespace-nowrap text-[#252525] capitalize">
+                                {project?.metaData?.createdBy?.agencyName
+                                  .length <= 7 &&
+                                  project?.metaData?.createdBy?.agencyName.substring(
+                                    0,
+                                    7
+                                  )}
+                                {project?.metaData?.createdBy?.agencyName
+                                  .length > 7 &&
+                                  ` ${project?.metaData?.createdBy?.agencyName.substring(
+                                    0,
+                                    7
+                                  )}...`}
                               </p>
                             </div>
                             <p className="border-r px-1 text-[11px] whitespace-nowrap">
@@ -355,14 +415,14 @@ export function TopProjectCard({
                             </p>
                           </div>
                           <div className="flex space-x-2">
-                            <h3 className="font-medium text-[15px] ">
+                            <h3 className="font-medium text-[12px] border-r pr-2">
                               {" "}
                               {project.projectTitle.length > 15
                                 ? `${project.projectTitle.substring(0, 15)}...`
                                 : project.projectTitle}
                             </h3>
                           </div>
-                          <p className="font-normal text-[13px]">
+                          <p className="font-normal text-[8px] leading-3">
                             {project.projectDescription.length > 85
                               ? `${project.projectDescription.substring(
                                   0,
@@ -373,7 +433,7 @@ export function TopProjectCard({
                           <p className="font-medium text-[13px] text-[#800000]">
                             {project?.totalApplications} Applications{" "}
                           </p>
-                          <div className="flex space-x-2 text-[12px]">
+                          <div className="flex space-x-2 text-[8px] font-light leading-3">
                             {formattedLocation}
                           </div>
                         </CardContent>

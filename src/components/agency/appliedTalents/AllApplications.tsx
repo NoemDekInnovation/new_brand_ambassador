@@ -37,7 +37,7 @@ const AllApplications = ({
   setSelectedProject,
   projects,
   setSelectedTalent,
-  // handleProfilePopUp,
+  handleProfilePopUp,
   selectedTalent,
   setSelectedTalentID,
   selectedProject,
@@ -57,7 +57,9 @@ const AllApplications = ({
   setSelectedOffer,
   offerHandler,
   setAppStatus,
+  handleImagePopUp,
 }: {
+  handleImagePopUp: any;
   setAppStatus: (value: React.SetStateAction<AppProps>) => void;
   bulkModal?: any;
   setBulkModal?: any;
@@ -69,7 +71,7 @@ const AllApplications = ({
   setSelectedProject: any;
   projects: any;
   setSelectedTalent: any;
-  // handleProfilePopUp: any;
+  handleProfilePopUp: any;
   selectedTalent: any;
   setSelectedTalentID: any;
   selectedProject: any;
@@ -145,11 +147,11 @@ const AllApplications = ({
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleProfilePopUp = (talent: any) => {
-    // console.log(talent);
-    setPopUp(!popUp);
-    setSelectedRole(talent);
-  };
+  // const handleProfilePopUp = (talent: any) => {
+  //   // console.log(talent);
+  //   setPopUp(!popUp);
+  //   setSelectedRole(talent);
+  // };
 
   const handleSelection = (value: any) => {
     const offerInfo = offers.filter(
@@ -184,6 +186,7 @@ const AllApplications = ({
                   selectedProject={selectedProject}
                   setSuccessModal={setSuccessModal}
                   successModal={successModal}
+                  handleImagePopUp={handleImagePopUp}
                 />
               );
             })}
