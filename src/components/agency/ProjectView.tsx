@@ -160,11 +160,11 @@ export default function ProjectsView({
       const storedDefaultProject = localStorage.getItem("defaultProject");
       if (!activeProjectClick && storedDefaultProject) {
         const parsedDefaultProject = JSON.parse(storedDefaultProject);
-        console.log(
-          activeProjectClick,
-          storedDefaultProject,
-          parsedDefaultProject
-        );
+        // console.log(
+        //   activeProjectClick,
+        //   storedDefaultProject,
+        //   parsedDefaultProject
+        // );
         setActiveType(parsedDefaultProject);
       } else if (!activeProjectClick) {
         setActiveType("Active");
@@ -182,6 +182,7 @@ export default function ProjectsView({
   const handleProjectTypeChange = (type: ProjectType) => {
     setToggleMenubar(!toggleMenubar);
     setActiveType(type);
+    // console.log(toggleMenubar, type);
   };
 
   return (
@@ -219,7 +220,7 @@ export default function ProjectsView({
               </CardContent>
             </div>
             {/* second card content */}
-            <div className={`${toggleMenubar && "hidden"} w-full`}>
+            <div className={`${toggleMenubar && "hidden"} w-full  md:block`}>
               <ProjectDetails
                 activeType={activeType || "Active"}
                 setToggleMenubar={() => setToggleMenubar(!toggleMenubar)}

@@ -109,6 +109,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
   const handleProjectTypeClick = (
     type: "Active" | "Published" | "Completed" | "Drafts"
   ) => {
+    // console.log({ type });
     onProjectTypeChange(type);
     setActiveProjectType(type);
     setActiveProjectClick(true);

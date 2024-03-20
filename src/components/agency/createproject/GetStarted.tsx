@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from "../../../ui/radio-group";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchdraftproject } from "../../../redux/draftProject.slice";
+import { fetchcompleteproject } from "../../../redux/completeProject";
 
 export default function GetStarted({
   next,
@@ -25,6 +26,11 @@ export default function GetStarted({
   const { draftProject } = useSelector(
     (state: RootState) => state.draftProject
   );
+
+  const { completeProject } = useSelector(
+    (state: RootState) => state.completeProject
+  );
+
   const [selectedProject, setSelectedProject] = useState<string>("");
   const [projectsDropdown, setProjectsDropdown] = useState<
     { label: string; value: string }[]
@@ -33,23 +39,25 @@ export default function GetStarted({
 
   useEffect(() => {
     if (user?.accountId) {
-      // dispatch(fetchdraftproject());
+      dispatch(fetchdraftproject());
+      dispatch(fetchcompleteproject(null));
     }
   }, [dispatch, user]);
 
-  // useEffect(() => {
-  //   const draftData = draftProject;
-  //   setProjectsDropdown(
-  //     draftData.map((project) => ({
-  //       label: project.projectTitle,
-  //       value: project.projectCode,
-  //     }))
-  //   );
-  // }, [draftProject]);
+  useEffect(() => {
+    const draftData = draftProject;
+    setProjectsDropdown(
+      completeProject.map((project) => ({
+        label: project.projectTitle,
+        value: project.projectCode,
+      }))
+    );
+  }, [completeProject]);
 
   if (!Array.isArray(draftProject)) {
     return <div>Loading...</div>;
   }
+  console.log("projectsDropdown", projectsDropdown, completeProject);
 
   // const handleProjectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
   //   setSelectedProject(event.target.value);

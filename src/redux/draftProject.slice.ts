@@ -35,7 +35,7 @@ export const fetchdraftproject = createAsyncThunk(
             Authorization: `Bearer ${parsedUser.authKey}`,
           },
         });
-        // console.log(response.data.data.projects);
+        // console.log("aculard", response.data.data.projects);
 
         return response.data.data;
       }
