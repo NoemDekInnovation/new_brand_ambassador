@@ -664,7 +664,9 @@ export const AppliedTalentGrid = ({
   successModal,
   setModal,
   modal,
+  handleImagePopUp,
 }: {
+  handleImagePopUp?: any;
   _: any;
   idx?: number;
   handleInvite?: any;
@@ -772,7 +774,7 @@ export const AppliedTalentGrid = ({
             className="flex relative transition-transform ease-out duration-500"
             style={{ transform: `translateX(-${curr * 100}%)` }}
           >
-            <div className="relative flex">
+            <div className="relative flex" onClick={() => handleImagePopUp(_)}>
               {slides.map((s, index) => (
                 <div
                   className="w-[196px] h-[262px] relative"
@@ -955,29 +957,34 @@ export const AppliedTalentGrid = ({
             </Dialog>
           </div>
         </div>
-        <div className="px-1">
-          <div className="flex items-center gap-3 whitespace-nowrap px-2 py-1">
-            <p className="text-[12px] font-medium capitalize">
-              {_?.firstName}
-              {"   "} {_?.lastName}
-            </p>
-            <span className="bg-[#00AB26] h-2 w-2 rounded-full"></span>
-          </div>
-          <Separator />
-          <div className="flex items-center gap-2 whitespace-nowrap px-2 py-1">
-            <div className="flex items-center gap-2">
-              <IoLocationSharp />
-              <p className="text-[8px] font-medium leading-3 capitalize text-[#252525]">
-                {_?.address[0]?.city} {_?.address[0]?.state}
+        {handleProfilePopUp && (
+          <div className="px-1 cursor-pointer">
+            <div className="flex items-center gap-3 whitespace-nowrap px-2 py-1">
+              <p
+                className="text-[12px] font-medium capitalize"
+                onClick={() => handleProfilePopUp(_)}
+              >
+                {_?.firstName}
+                {"   "} {_?.lastName}
               </p>
+              <span className="bg-[#00AB26] h-2 w-2 rounded-full"></span>
             </div>
-            <div className="w-[1px] h-3 bg-[#D7D8DA]"></div>
-            <div className="flex items-center gap-2">
-              {/* <IoStarHalf />
+            <Separator />
+            <div className="flex items-center gap-2 whitespace-nowrap px-2 py-1">
+              <div className="flex items-center gap-2">
+                <IoLocationSharp />
+                <p className="text-[8px] font-medium leading-3 capitalize text-[#252525]">
+                  {_?.address[0]?.city} {_?.address[0]?.state}
+                </p>
+              </div>
+              <div className="w-[1px] h-3 bg-[#D7D8DA]"></div>
+              <div className="flex items-center gap-2">
+                {/* <IoStarHalf />
             <p>4.5</p> */}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </Card>
     </>
   );

@@ -93,8 +93,11 @@ const ApplyDetailsInfo = ({
   // activeType,
   handleProfilePopUp,
   ProjectId,
+  handleImagePopUp,
 }: {
+  handleImagePopUp: any;
   handleProfilePopUp: (talent: TalentProps) => void;
+
   ProjectId: string;
 }) => {
   let pageTalents;
@@ -423,7 +426,7 @@ const ApplyDetailsInfo = ({
             setSelectedProject={setSelectedProject}
             projects={projects}
             setSelectedTalent={setSelectedTalent}
-            // handleProfilePopUp={handleProfilePopUp}
+            handleProfilePopUp={handleProfilePopUp}
             selectedTalent={selectedTalent}
             bulkModal={bulkModal}
             setBulkModal={setBulkModal}
@@ -440,6 +443,7 @@ const ApplyDetailsInfo = ({
             handleCheckedChange={handleCheckedChange}
             offers={offers}
             setSelectedOffer={setSelectedOffer}
+            handleImagePopUp={handleImagePopUp}
           />
 
           <OfferModal

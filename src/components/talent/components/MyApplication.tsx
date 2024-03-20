@@ -86,7 +86,7 @@ export const MyApplication = ({
                           height={18}
                           className="rounded-full  h-[18px] w-[18px] object-cover"
                         />
-                      )}{" "}
+                      )}
                       <p className="border-r px-2 text-[12px] capitalize">
                         {project?.project?.metaData?.createdBy?.agencyName}
                       </p>

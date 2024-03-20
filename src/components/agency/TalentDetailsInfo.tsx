@@ -48,6 +48,8 @@ type TalentDetailsProps = {
     | "Engaged"
     | "My Talent";
   handleProfilePopUp: (talent: TalentProps) => void;
+  handleImagePopUp: (talent: TalentProps) => void;
+
   updateQuery: any;
   setToggleMenubar: () => void;
 };
@@ -57,6 +59,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
   handleProfilePopUp,
   updateQuery,
   setToggleMenubar,
+  handleImagePopUp,
 }) => {
   let pageTalents;
   let talentData: any;
@@ -193,6 +196,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
           selectedProject={selectedProject}
           projectModal={projectModal}
           setProjectModal={setProjectModal}
+          handleImagePopUp={handleImagePopUp}
         />
       );
       break;
@@ -210,6 +214,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
           selectedTalent={selectedTalent}
           setSelectedTalentID={setSelectedTalentID}
           selectedProject={selectedProject}
+          // handleImagePopUp={handleImagePopUp}
         />
       );
       break;
@@ -227,6 +232,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
           selectedTalent={selectedTalent}
           setSelectedTalentID={setSelectedTalentID}
           selectedProject={selectedProject}
+          handleImagePopUp={handleImagePopUp}
         />
       );
       break;
@@ -244,6 +250,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
           selectedTalent={selectedTalent}
           setSelectedTalentID={setSelectedTalentID}
           selectedProject={selectedProject}
+          handleImagePopUp={handleImagePopUp}
         />
       );
       break;
@@ -261,6 +268,7 @@ const TalentDetailsInfo: React.FC<TalentDetailsProps> = ({
           selectedTalent={selectedTalent}
           setSelectedTalentID={setSelectedTalentID}
           selectedProject={selectedProject}
+          handleImagePopUp={handleImagePopUp}
         />
       );
       break;

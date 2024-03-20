@@ -13,6 +13,7 @@ const MyTalents = ({
   projects,
   setSelectedTalent,
   handleProfilePopUp,
+  handleImagePopUp,
   selectedTalent,
   setSelectedTalentID,
   selectedProject,
@@ -25,6 +26,7 @@ const MyTalents = ({
   projects: any;
   setSelectedTalent: any;
   handleProfilePopUp: any;
+  handleImagePopUp: any;
   selectedTalent: any;
   setSelectedTalentID: any;
   selectedProject: any;
@@ -64,6 +66,7 @@ const MyTalents = ({
                   modal={projectModal}
                   setModal={setProjectModal}
                   handleProfilePopUp={handleProfilePopUp}
+                  handleImagePopUp={handleImagePopUp}
                   setSelectedTalentID={setSelectedTalentID}
                 />
               );
