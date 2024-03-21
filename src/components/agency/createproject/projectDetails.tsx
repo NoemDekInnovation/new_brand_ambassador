@@ -194,7 +194,7 @@ export default function ProjectDetails({
             {/* <p className=" capitalize text-[14px]">
               Project Description: {aboutProject.projectDescription || "-"}
             </p> */}
-            <div className="flex flex-col overflow-y-auto h-[10vh]">
+            <div className="flex flex-col overflow-y-auto">
               <p className=" capitalize overflow-hidden break-words">
                 Project Description: {aboutProject.projectDescription || "-"}
               </p>
@@ -277,8 +277,8 @@ export default function ProjectDetails({
           <div className="pt-2">
             <p className="mb-2">Location</p>
             <div className="py-2 flex gap-6 max-w-3xl flex-wrap">
-              {aboutProject.projectLocation !== undefined &&
-                aboutProject.projectLocation.map((location, idx) => {
+              {aboutProject?.projectLocation !== undefined &&
+                aboutProject?.projectLocation?.map((location, idx) => {
                   return (
                     (
                       <Button
@@ -308,7 +308,7 @@ export default function ProjectDetails({
 
           <div className="flex gap-4 mt-4">
             <div className="border border-bm__beige p-2 rounded-md text-bm__btn__grey">
-              {localStorage.getItem("selectedfile")}
+              {document[0] || localStorage.getItem("selectedfile")}
             </div>
           </div>
         </InfoCard>

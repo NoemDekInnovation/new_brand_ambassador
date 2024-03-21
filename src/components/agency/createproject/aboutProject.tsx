@@ -26,7 +26,7 @@ export default function AboutProject({
 }) {
   // const formValues = formInput.getValues()
   // console.log(formValues.projectTitle);
-  // console.log(aboutProject.startDate)
+  console.log(aboutProject.startDate);
   useEffect(() => {
     const savedAboutProject =
       typeof window !== undefined && localStorage.getItem("aboutProject");
@@ -103,7 +103,7 @@ export default function AboutProject({
     setIsFormValid(isFormValid);
   };
 
-  // console.log(aboutProject);
+  console.log({ aboutProject });
 
   const handleLocationChange = (selectedOptions: any) => {
     const selectedLocations = selectedOptions.map(
@@ -140,7 +140,7 @@ export default function AboutProject({
     label: location.label,
   }));
 
-  const newLocation = aboutProject.projectLocation.map((location) => ({
+  const newLocation = aboutProject?.projectLocation?.map((location) => ({
     value: location,
     label: location,
   }));
@@ -149,6 +149,25 @@ export default function AboutProject({
     value: aboutProject.projectCategory,
     label: aboutProject.projectCategory,
   };
+
+  const originalDate = new Date(aboutProject.startDate);
+
+  const year = originalDate.getFullYear();
+  const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
+  const day = originalDate.getDate().toString().padStart(2, "0");
+
+  const formattedDate =
+    aboutProject.startDate !== undefined ? `${year}-${month}-${day}` : "";
+
+  const endDate = new Date(aboutProject?.endDate);
+
+  const yearx = originalDate.getFullYear();
+  const monthx = (originalDate.getMonth() + 1).toString().padStart(2, "0");
+  const dayx = endDate.getDate().toString().padStart(2, "0");
+
+  const formattedDatex =
+    aboutProject.endDate !== undefined ? `${yearx}-${monthx}-${dayx}` : "";
+
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40 ">
       <Card className="p-4 md:p-8 mt-5 bg-white overflow-y-scroll h-[83vh]">
@@ -246,7 +265,7 @@ export default function AboutProject({
                     type="date"
                     id="startDate"
                     name="startDate"
-                    value={aboutProject.startDate}
+                    value={formattedDate}
                     onChange={(e) => handleInputChange(e, "startDate")}
                     required
                   />
@@ -267,7 +286,7 @@ export default function AboutProject({
                       type="date"
                       id="endDate"
                       name="endDate"
-                      value={aboutProject.endDate}
+                      value={formattedDatex}
                       onChange={(e) => handleInputChange(e, "endDate")}
                       required
                     />

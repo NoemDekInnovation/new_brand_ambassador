@@ -89,8 +89,9 @@ export default function NewProject({
   const [workDays, setWorkDays] = useState<DayOfWeek[]>([]);
   const [proposal, setProposal] = useState("");
   const [projectName, setProjectName] = useState("");
-  const [document, setDocument] = useState("");
-  const [draftStatus, setDraftStatus] = useState<boolean | null>(null);
+  const [document, setDocument] = useState<any>("");
+  const [draftStatus, setDraftStatus] = useState<any | null>(null);
+  const [reusableProject, setReusableProject] = useState<any | null>(null);
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
@@ -259,6 +260,57 @@ export default function NewProject({
     }
   }, [statusMessage]);
 
+  useEffect(() => {
+    // setProjectName = { setProjectName };
+    setAboutProject({
+      projectTitle: reusableProject?.projectTitle || "",
+      projectCategory: reusableProject?.projectCategory || "",
+      projectCode: "",
+      projectLocation: reusableProject?.projectLocation || [],
+      projectDescription: reusableProject?.projectTitle || "",
+      startDate: reusableProject?.projectDuration?.startDate || "",
+      endDate: reusableProject?.projectDuration?.endDate || "",
+    });
+    if (reusableProject?.talent && Array?.isArray(reusableProject?.talent)) {
+      setRequiredTalents(
+        [...reusableProject?.talent] || [
+          {
+            opportunities: "",
+            qualifications: "",
+            skills: [],
+
+            paymentOptions: "",
+            salary: "",
+          },
+        ]
+      );
+    }
+    if (
+      reusableProject?.workingDays &&
+      Array?.isArray(reusableProject?.workingDays)
+    ) {
+      setWorkDays([...reusableProject?.workingDays] || []);
+    }
+    // setRequiredTalents = { setRequiredTalents };
+    // setRequiredTalents = { setRequiredTalents };
+
+    // setWorkDays([...reusableProject?.workDays]);
+    setProposal(reusableProject?.projectRequirements);
+    setDocument(reusableProject?.document[0] || "");
+
+    if (
+      reusableProject?.document &&
+      Array?.isArray(reusableProject?.document)
+    ) {
+      setDocument([...reusableProject?.document] || [""]);
+    }
+
+    // setDocument = { [...reusableProject?.document] };
+    // setProjectPost = { setProjectPost };
+  }, [reusableProject]);
+
+  console.log({ reusableProject });
+
   return (
     <>
       {/* {isLoading && <Loading />} */}
@@ -270,6 +322,8 @@ export default function NewProject({
             cancel={cancelProject}
             projectName={projectName}
             setProjectName={setProjectName}
+            // reusableProject={reusableProject}
+            setReusableProject={setReusableProject}
           />
         )}
         {currentStep === "aboutProject" && (
