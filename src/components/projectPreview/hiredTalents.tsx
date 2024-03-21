@@ -137,7 +137,7 @@ const HireTalents = ({
           {/* <Card className="h-[40vh]"> */}
           <div className="flex flex-col overflow-y-auto h-[40vh] gap-3">
             {talent?.map((tal: any, index: number) => {
-              const lastOnline = tal.metaData.lastOnline || new Date();
+              const lastOnline = tal.metaData?.lastOnline || new Date();
               const currentTime = new Date();
 
               const timeDifference =
