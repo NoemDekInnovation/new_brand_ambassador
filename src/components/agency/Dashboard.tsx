@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { fetchactiveproject } from "../../redux/ActiveProject";
 import { fetchcompleteproject } from "../../redux/completeProject";
+import UsersTab from "./UserTab";
 
 const Dashboard = () => {
   const [toggleMenubar, setToggleMenubar] = useState(false);
@@ -433,7 +434,9 @@ const Dashboard = () => {
           <TabsContent className="w-full" value="reports">
             Reports
           </TabsContent>
-          <TabsContent className="w-full" value="users"></TabsContent>
+          <TabsContent className="w-full" value="users">
+            <UsersTab />
+          </TabsContent>
         </div>
       </Tabs>
     </AgencyLayout>
