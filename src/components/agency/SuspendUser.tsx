@@ -35,15 +35,23 @@ export default function SuspendUser() {
     // ✅ This will be type-safe and validated.
     if (user?.user?.accountId !== undefined) {
       try {
-        const response = await patchAxiosInstance.delete(
-          `/suspend-staff/${datas._id}`,
+        const response = await patchAxiosInstance.post(
+          `/suspend-staff/${datas._id}?suspendAction=suspend`,
+          {
+            firstName: datas?.firstName,
+            lastName: datas?.lastName,
+            phone: datas?.phone,
+            IDNumber: datas?.IDNumber,
+          },
           {
             headers: {
               Authorization: `Bearer ${user?.user?.authKey || ""}`,
             },
           }
         );
-        alert("User Deleted.");
+        toast({
+          description: "User successfully suspended",
+        });
       } catch (error: any) {
         console.error("Error submitting form:", error);
         if (error.response && error.response.status === 400) {
@@ -67,7 +75,7 @@ export default function SuspendUser() {
     return null;
   }
   return (
-    <AlertDialog onOpenChange={onClose} open={isOpen} defaultOpen={isOpen}>
+    <AlertDialog onOpenChange={onCancel} open={isOpen} defaultOpen={isOpen}>
       <AlertDialogContent className="bg-white p-0">
         <AlertDialogHeader className=" p-4 md:p-6 bg-[#343637] text-white rounded-t-lg">
           <AlertDialogTitle>
@@ -83,12 +91,12 @@ export default function SuspendUser() {
             able to log-in.
           </p>
         </div>
-        <AlertDialogFooter className="p-4">
+        <AlertDialogFooter className="p-4 mt-0">
           <AlertDialogAction
             onClick={onSubmit}
-            className="text-white   bg-[#800000] hover:bg-rose-400"
+            className="text-white   bg-[#63666A] hover:bg-gray-400"
           >
-            Confirm Delete
+            Unsuspend User
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

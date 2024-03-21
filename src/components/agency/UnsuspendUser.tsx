@@ -16,11 +16,11 @@ import { RootState } from "../../redux/store";
 import { patchAxiosInstance } from "../../api/axios";
 import { useState } from "react";
 
-import useDeleteUser from "../../hooks/modals/useDeleteUser";
 import { toast } from "../../ui/use-toast";
+import useUnsuspendUser from "../../hooks/modals/useUnsuspendUser";
 
-export default function DeleteUser() {
-  const { isOpen, onClose, setData, data } = useDeleteUser();
+export default function UnsuspendUser() {
+  const { isOpen, onClose, data, setData } = useUnsuspendUser();
   const user = useSelector((state: RootState) => state.user);
 
   const onCancel = () => {
@@ -35,8 +35,14 @@ export default function DeleteUser() {
     // ✅ This will be type-safe and validated.
     if (user?.user?.accountId !== undefined) {
       try {
-        const response = await patchAxiosInstance.delete(
-          `/delete-staff/${datas._id}`,
+        const response = await patchAxiosInstance.post(
+          `/suspend-staff/${datas._id}?suspendAction=unsuspend`,
+          {
+            firstName: datas?.firstName,
+            lastName: datas?.lastName,
+            phone: datas?.phone,
+            IDNumber: datas?.IDNumber,
+          },
           {
             headers: {
               Authorization: `Bearer ${user?.user?.authKey || ""}`,
@@ -44,7 +50,7 @@ export default function DeleteUser() {
           }
         );
         toast({
-          description: "User successfully deleted",
+          description: "User successfully suspended",
         });
       } catch (error: any) {
         console.error("Error submitting form:", error);
@@ -69,20 +75,20 @@ export default function DeleteUser() {
     return null;
   }
   return (
-    <AlertDialog onOpenChange={onClose} open={isOpen} defaultOpen={isOpen}>
-      <AlertDialogContent className="p-0 bg-white">
+    <AlertDialog onOpenChange={onCancel} open={isOpen} defaultOpen={isOpen}>
+      <AlertDialogContent className="bg-white p-0">
         <AlertDialogHeader className=" p-4 md:p-6 bg-[#343637] text-white rounded-t-lg">
           <AlertDialogTitle>
-            Delete User - {datas?.firstName} {datas?.lastName}
+            Suspend User - {datas?.firstName} {datas?.lastName}
           </AlertDialogTitle>
         </AlertDialogHeader>
         <div className="space-y-4 p-4">
           <h4 className="font-medium text-lg md:text-xl">
-            Are you sure you want to delete this user?
+            Are you sure you want to suspend this user?
           </h4>
           <p>
-            Are you sure you want to delete this user? This user&apos;s account
-            will be deleted and user won&apos;t have access to Campaign.
+            This user&apos;s account will be suspend and user won&apos;t have be
+            able to log-in.
           </p>
         </div>
         <AlertDialogFooter className="p-4 mt-0">
@@ -90,7 +96,7 @@ export default function DeleteUser() {
             onClick={onSubmit}
             className="text-white   bg-[#800000] hover:bg-rose-400"
           >
-            Confirm Delete
+            Confirm Suspend
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

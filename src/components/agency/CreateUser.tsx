@@ -37,7 +37,7 @@ const formSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   email: z.string(),
-  phone: z.string(),
+  phone: z.string().min(11).max(11),
   IDNumber: z.string(),
   password: z.string().optional(),
   type: z.enum(["all", "mentions"], {
@@ -77,6 +77,7 @@ export function CreateUserDialog() {
         toast({
           description: "User successfully created",
         });
+        form.reset();
         onClose();
       } catch (error: any) {
         console.error("Error submitting form:", error);

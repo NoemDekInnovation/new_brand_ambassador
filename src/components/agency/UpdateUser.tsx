@@ -37,7 +37,6 @@ import { toast } from "../../ui/use-toast";
 const formSchema = z.object({
   firstName: z.string().optional(),
   lastName: z.string().optional(),
-  email: z.string().optional(),
   phone: z.string().optional(),
   IDNumber: z.string().optional(),
 });
@@ -46,7 +45,7 @@ export default function UpdateUser() {
   const { isOpen, onClose, data, setData } = useUpdateUser();
   const [loading, setLoading] = useState(false);
   const user = useSelector((state: RootState) => state.user);
-  console.log(data);
+
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onBlur",
     resolver: zodResolver(formSchema),
@@ -181,24 +180,6 @@ export default function UpdateUser() {
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4  px-4">
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Input
-                                className="w-full p-4 h-12 relative"
-                                placeholder="Email"
-                                defaultValue={datas?.email}
-                                {...field}
-                              />
-                            </FormControl>
-
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
                       <FormField
                         control={form.control}
                         name="phone"

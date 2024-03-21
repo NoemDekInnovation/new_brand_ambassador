@@ -41,7 +41,6 @@ import {
   TableHeader,
   TableRow,
 } from "../../ui/table";
-import { CreateUserDialog } from "./CreateUser";
 
 import { format } from "date-fns";
 import useUpdateUser from "../../hooks/modals/useUpdateUser";
@@ -49,6 +48,7 @@ import useSuspendUser from "../../hooks/modals/useSuspendUser";
 import useDeleteUser from "../../hooks/modals/useDeleteUser";
 import useResetUser from "../../hooks/modals/UserReset";
 import useCreateUser from "../../hooks/modals/UserCreate";
+import useUnsuspendUser from "../../hooks/modals/useUnsuspendUser";
 
 // const data: Payment[] = [
 //   {
@@ -116,22 +116,30 @@ export const columns: ColumnDef<any>[] = [
   {
     accessorKey: "IDNumber",
     header: "ID",
-    cell: ({ row }) => <div className="">{row.getValue("IDNumber")}</div>,
+    cell: ({ row }) => (
+      <div className="text-xs">{row.getValue("IDNumber")}</div>
+    ),
   },
   {
     accessorKey: "firstName",
     header: "First Name",
-    cell: ({ row }) => <div className="">{row.getValue("firstName")}</div>,
+    cell: ({ row }) => (
+      <div className="text-xs">{row.getValue("firstName")}</div>
+    ),
   },
   {
     accessorKey: "lastName",
     header: "Last Name",
-    cell: ({ row }) => <div className="">{row.getValue("lastName")}</div>,
+    cell: ({ row }) => (
+      <div className="text-xs">{row.getValue("lastName")}</div>
+    ),
   },
   {
-    accessorKey: "Email Address",
-    header: "email",
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    accessorKey: "email",
+    header: "Email Address",
+    cell: ({ row }) => (
+      <div className="lowercase text-xs">{row.getValue("email")}</div>
+    ),
   },
   {
     accessorKey: "metaData.createdBy",
@@ -139,7 +147,7 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => {
       const user = row.original;
       return (
-        <div className="capitalize">
+        <div className="capitalize text-xs">
           {user.metaData?.createdBy?.firstName}{" "}
           {user.metaData?.createdBy?.lastName}
         </div>
@@ -151,7 +159,7 @@ export const columns: ColumnDef<any>[] = [
     header: "Status",
     cell: ({ row }) => {
       const user = row.original;
-      return <div className="capitalize">{user.metaData.status}</div>;
+      return <div className="capitalize text-xs">{user.metaData.status}</div>;
     },
   },
   {
@@ -170,7 +178,7 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => {
       const user = row.original;
       return (
-        <div className="capitalize">
+        <div className="capitalize text-xs">
           {user.metaData.lastLogin &&
             format(new Date(user.metaData.lastLogin), "MM/dd/yyyy")}
         </div>
@@ -181,7 +189,7 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "duration",
     header: "Duration",
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("duration")}</div>
+      <div className="lowercase text-xs">{row.getValue("duration")}</div>
     ),
   },
   {
@@ -198,6 +206,7 @@ export const columns: ColumnDef<any>[] = [
 const Actions = ({ payment }: any) => {
   const updateUser = useUpdateUser();
   const suspendUser = useSuspendUser();
+  const unsuspendUser = useUnsuspendUser();
   const deleteUser = useDeleteUser();
   const resetUser = useResetUser();
 
@@ -229,6 +238,18 @@ const Actions = ({ payment }: any) => {
         >
           Reset Password
         </DropdownMenuItem>
+        {payment?.metaData?.status === "suspended" && (
+          <DropdownMenuItem
+            className="text-red-500 p-3 hover:bg-white/70"
+            onClick={() => {
+              unsuspendUser.setData(payment);
+              unsuspendUser.onOpen();
+            }}
+          >
+            Unsuspend User
+          </DropdownMenuItem>
+        )}
+
         <DropdownMenuItem
           className="text-red-500 p-3 hover:bg-white/70"
           onClick={() => {
@@ -313,7 +334,7 @@ export function UsersTable({ data }: any) {
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
-                      <TableHead key={header.id}>
+                      <TableHead key={header.id} className="text-sm capitalize">
                         {header.isPlaceholder
                           ? null
                           : flexRender(
@@ -356,7 +377,7 @@ export function UsersTable({ data }: any) {
             </TableBody>
           </Table>
         </div>
-        <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex items-center justify-end space-x-2 p-4">
           <div className="flex-1 text-sm text-muted-foreground">
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.

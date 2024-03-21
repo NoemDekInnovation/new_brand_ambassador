@@ -8,6 +8,7 @@ import ResetUser from "./ResetUser";
 import SuspendUser from "./SuspendUser";
 import DeleteUser from "./DeleteUser";
 import { CreateUserDialog } from "./CreateUser";
+import UnsuspendUser from "./UnsuspendUser";
 
 const UsersTab = () => {
   const { staff } = useSelector((state: RootState) => state.agencyUser);
@@ -16,6 +17,8 @@ const UsersTab = () => {
   useEffect(() => {
     dispatch(fetchAgencyUsers());
   }, [dispatch]);
+
+  console.log(staff);
 
   return (
     <div className=" bg-bm_card_greym bg-white h-full overflow-y-scroll md:w-[1950px] xl:w-full w-full">
@@ -29,6 +32,7 @@ const UsersTab = () => {
       <ResetUser />
       <SuspendUser />
       <DeleteUser />
+      <UnsuspendUser />
     </div>
   );
 };
