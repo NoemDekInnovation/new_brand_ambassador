@@ -50,15 +50,16 @@ export default function TalentRequirement({
   // Save data to local storage whenever proposal or document changes
   useEffect(() => {
     localStorage.setItem("proposal", proposal);
-    if (document) {
-      // Convert the File object to a data URL and save it
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const dataURL = e.target?.result as string;
-        localStorage.setItem("document", dataURL);
-      };
-      reader.readAsDataURL(document);
-    }
+    // if (document) {
+    //   // Convert the File object to a data URL and save it
+    //   const reader = new FileReader();
+    //   reader.onload = (e) => {
+    //     const dataURL = e.target?.result as string;
+    //     localStorage.setItem("document", dataURL);
+    //   };
+    //   reader.readAsDataURL(document);
+    // }
+    console.log(document);
   }, [proposal, document]);
 
   const [selectedFileName, setSelectedFileName] = useState("");
@@ -164,7 +165,7 @@ export default function TalentRequirement({
                 </p>
               )) || (
                 <p className="border border-bm__beige p-2 rounded-md text-bm__btn__grey mt-2">
-                  {localStorage.getItem("selectedfile")}
+                  {document[0] || localStorage.getItem("selectedfile")}
                 </p>
               )}
             </div>

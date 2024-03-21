@@ -100,16 +100,15 @@ export default function ProjectBudget({
   //   updatedTalentType[index].paymentOptions = row;
   //   setRequiredTalents(updatedTalentType);
   // };
-  function formatAsNaira(value: string): string {
-    // console.log(value);
-
+  function formatAsNaira(value: any): any {
     // Remove non-numeric characters
-    const numericValue = value && value?.replace(/[^0-9]/g, "");
+    const numericValue = value && String(value)?.replace(/[^0-9]/g, "");
 
     // Add commas to the string for better readability
     const numberWithCommas =
       numericValue && numericValue?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
+    // return console.log({ value, numericValue, numberWithCommas });
     // Return the formatted value with the Naira symbol
     return `₦${numberWithCommas}`;
     // ₦
@@ -154,10 +153,10 @@ export default function ProjectBudget({
     console.log(value);
 
     // Remove non-numeric characters
-    const numericValue = value.replace(/[^0-9]/g, "");
+    const numericValue = value?.replace(/[^0-9]/g, "");
 
     // Format the numeric value as Naira
-    const formattedValue = formatAsNaira(numericValue);
+    const formattedValue = formatAsNaira(numericValue || "82");
 
     const updatedExperiences = [...requiredTalents];
     updatedExperiences[index][name] = numericValue;
@@ -179,7 +178,7 @@ export default function ProjectBudget({
     checkFormValidity();
   }, [requiredTalents]);
 
-  console.log(requiredTalents, workDays);
+  console.log(requiredTalents, workDays, requiredTalents[0]?.salary);
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
@@ -229,7 +228,7 @@ export default function ProjectBudget({
                 <div className="mb-6" key={index}>
                   <div className="relative z-0 w-full mb-2 group">
                     <RadioGroup
-                      defaultValue=""
+                      defaultValue={requiredTalents[index].paymentOptions || ""}
                       className="pt-2 flex gap-4 max-w-3xl mt-2 flex-wrap"
                       onValueChange={(e) => handlePaymentChange(e, index)}
                     >
@@ -262,7 +261,8 @@ export default function ProjectBudget({
                             className="py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 peer "
                             placeholder=" "
                             value={
-                              formatAsNaira(requiredTalents[index].salary) || ""
+                              formatAsNaira(requiredTalents[index]?.salary) ||
+                              ""
                             }
                             onChange={(e) => handleInputChange(e, index)}
                             pattern="[0-9]*"
