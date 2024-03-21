@@ -20,6 +20,7 @@ import hireSlice from "./hire.slice";
 import agencyReducer from "./agencyTalent.slice";
 import currentengageReducer from "./currentengage.slice";
 import leadingReducer from "./leading.slice";
+import agencyUserSlice from "./agencyUser.slice";
 
 const store = configureStore({
   reducer: {
@@ -45,6 +46,7 @@ const store = configureStore({
     agency: agencyReducer,
     currentengage: currentengageReducer,
     leading: leadingReducer,
+    agencyUser: agencyUserSlice
   },
 });
 
