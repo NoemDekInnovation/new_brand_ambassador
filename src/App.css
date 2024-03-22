@@ -173,3 +173,19 @@ body {
   transform: translateY(-32px) translateX(-5px) scale(0.95);
   transition: 0.3s ease-in-out;
 }
+
+  
+.sidebar-scroll{
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 2px;
+    height: 10px;
+
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    height: 40px !important;
+    background-color: #d9d9d9;
+  }
+}
