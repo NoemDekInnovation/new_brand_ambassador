@@ -161,31 +161,45 @@ export function OutletOverview() {
                     <div className="space-y-2 px-4">
                       <div className="flex items-center gap-4">
                         <p className="text-sm w-40">Sunday</p>
-                        <p></p>
+                        <p className="text-sm">
+                          {datas?.workingHours?.sunday || "Closed"}
+                        </p>
                       </div>
                       <div className="flex items-center gap-4">
                         <p className="text-sm w-40">Monday</p>
-                        <p></p>
+                        <p className="text-sm">
+                          {datas?.workingHours?.monday || "Closed"}
+                        </p>
                       </div>
                       <div className="flex items-center gap-4">
                         <p className="text-sm w-40">Tuesday</p>
-                        <p></p>
+                        <p className="text-sm">
+                          {datas?.workingHours?.tuesday || "Closed"}
+                        </p>
                       </div>
                       <div className="flex items-center gap-4">
                         <p className="text-sm w-40">Wednesday</p>
-                        <p></p>
+                        <p className="text-sm">
+                          {datas?.workingHours?.wednesday || "Closed"}
+                        </p>
                       </div>
                       <div className="flex items-center gap-4">
                         <p className="text-sm w-40">Thursday</p>
-                        <p></p>
+                        <p className="text-sm">
+                          {datas?.workingHours?.thursday || "Closed"}
+                        </p>
                       </div>
                       <div className="flex items-center gap-4">
                         <p className="text-sm w-40">Friday</p>
-                        <p></p>
+                        <p className="text-sm">
+                          {datas?.workingHours?.friday || "Closed"}
+                        </p>
                       </div>
                       <div className="flex items-center gap-4">
                         <p className="text-sm w-40">Saturday</p>
-                        <p></p>
+                        <p className="text-sm">
+                          {datas?.workingHours?.saturday || "Closed"}
+                        </p>
                       </div>
                     </div>
                   </div>

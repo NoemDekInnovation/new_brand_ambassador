@@ -81,6 +81,15 @@ export function AddOutletDialog() {
     // Do something with the form values.
     setLoading(true);
     // ✅ This will be type-safe and validated.
+    const workingHours = {
+      sunday: `${values.sundayStart + " - " + values.sundayEnd}`,
+      monday: `${values.mondayStart + " - " + values.mondayEnd}`,
+      tuesday: `${values.tuesdayStart + " - " + values.tuesdayEnd}`,
+      wednesday: `${values.wednesdayStart + " - " + values.wednesdayEnd}`,
+      thursday: `${values.thursdayStart + " - " + values.thursdayEnd}`,
+      friday: `${values.fridayStart + " - " + values.fridayEnd}`,
+      saturday: `${values.saturdayStart + " - " + values.saturdayEnd}`,
+    };
     const formdata = new FormData();
     formdata.append("outletName", values.outletName);
     formdata.append("outletType", values.outletType);
@@ -91,34 +100,9 @@ export function AddOutletDialog() {
     formdata.append("city", values.city);
     formdata.append("location", values.location);
     formdata.append("zipCode", values.zipCode);
-    formdata.append(
-      "workingHours.sunday",
-      `${values.sundayStart + " - " + values.sundayEnd}`
-    );
-    formdata.append(
-      "workingHours.monday",
-      `${values.mondayStart + " - " + values.mondayEnd}`
-    );
-    formdata.append(
-      "workingHours.tuesday",
-      `${values.tuesdayStart + " - " + values.tuesdayEnd}`
-    );
-    formdata.append(
-      "workingHours.wednesday",
-      `${values.wednesdayStart + " - " + values.wednesdayEnd}`
-    );
-    formdata.append(
-      "workingHours.thursday",
-      `${values.thursdayStart + " - " + values.thursdayEnd}`
-    );
-    formdata.append(
-      "workingHours.friday",
-      `${values.fridayStart + " - " + values.fridayEnd}`
-    );
-    formdata.append(
-      "workingHours.saturday",
-      `${values.saturdayStart + " - " + values.saturdayEnd}`
-    );
+
+    formdata.append("workingHours", JSON.stringify(workingHours));
+
     for (let i = 0; i < values.outletPictures.length; i++) {
       formdata.append(`outletPictures`, values.outletPictures[i]);
     }
