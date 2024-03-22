@@ -20,6 +20,7 @@ import { RootState } from "../../redux/store";
 import { fetchactiveproject } from "../../redux/ActiveProject";
 import { fetchcompleteproject } from "../../redux/completeProject";
 import UsersTab from "./UserTab";
+import OutletTab from "./Outlets/OutletTab";
 
 const Dashboard = () => {
   const [toggleMenubar, setToggleMenubar] = useState(false);
@@ -429,7 +430,7 @@ const Dashboard = () => {
             Inventory
           </TabsContent>
           <TabsContent className="w-full" value="outlets">
-            Outlets
+            <OutletTab />
           </TabsContent>
           <TabsContent className="w-full" value="reports">
             Reports

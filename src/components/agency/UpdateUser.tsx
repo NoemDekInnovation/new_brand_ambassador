@@ -39,6 +39,7 @@ const formSchema = z.object({
   lastName: z.string().optional(),
   phone: z.string().optional(),
   IDNumber: z.string().optional(),
+  email: z.string().optional(),
 });
 
 export default function UpdateUser() {
@@ -180,6 +181,25 @@ export default function UpdateUser() {
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4  px-4">
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                className="w-full p-4 h-12 relative"
+                                placeholder="email"
+                                defaultValue={datas?.email}
+                                disabled={true}
+                                {...field}
+                              />
+                            </FormControl>
+
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                       <FormField
                         control={form.control}
                         name="phone"
