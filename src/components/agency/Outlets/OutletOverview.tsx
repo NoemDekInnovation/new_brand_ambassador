@@ -78,7 +78,7 @@ export function OutletOverview() {
           <div className="grid gap-4">
             <div className="grid  items-center gap-4 mx-2 md:mx-4">
               <div className=" space-y-4 h-[75vh] grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto sidebar-scroll">
-                <div className="h-full ">
+                <div className="h-full">
                   <div className="h-4/5 w-full overflow-hidden">
                     <img
                       src={datas?.outletPictures[index]}
@@ -103,7 +103,7 @@ export function OutletOverview() {
                       ))}
                   </div>
                 </div>
-                <div className="border">
+                <div className="border h-full">
                   <h4 className="px-4 pt-4 text-xl md:text-2xl font-semibold">
                     {datas?.outletName}, {datas?.location}
                   </h4>
@@ -154,10 +154,12 @@ export function OutletOverview() {
                       </div>
                     </div>
                   </div>
-                  <div className="border-t p-4 space-y-4">
-                    <p className="text-sm font-semibold">
-                      Opening Days And Hours
-                    </p>
+                  <div className="border-t flex flex-col justify-between p-4 space-y-4">
+                    <div>
+                      <p className="text-sm font-semibold">
+                        Opening Days And Hours
+                      </p>
+                    </div>
                     <div className="space-y-2 px-4">
                       <div className="flex items-center gap-4">
                         <p className="text-sm w-40">Sunday</p>

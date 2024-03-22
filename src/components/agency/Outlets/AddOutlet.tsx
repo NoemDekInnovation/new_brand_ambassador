@@ -81,15 +81,6 @@ export function AddOutletDialog() {
     // Do something with the form values.
     setLoading(true);
     // ✅ This will be type-safe and validated.
-    const workingHours = {
-      sunday: `${values.sundayStart + " - " + values.sundayEnd}`,
-      monday: `${values.mondayStart + " - " + values.mondayEnd}`,
-      tuesday: `${values.tuesdayStart + " - " + values.tuesdayEnd}`,
-      wednesday: `${values.wednesdayStart + " - " + values.wednesdayEnd}`,
-      thursday: `${values.thursdayStart + " - " + values.thursdayEnd}`,
-      friday: `${values.fridayStart + " - " + values.fridayEnd}`,
-      saturday: `${values.saturdayStart + " - " + values.saturdayEnd}`,
-    };
     const formdata = new FormData();
     formdata.append("outletName", values.outletName);
     formdata.append("outletType", values.outletType);
@@ -100,8 +91,34 @@ export function AddOutletDialog() {
     formdata.append("city", values.city);
     formdata.append("location", values.location);
     formdata.append("zipCode", values.zipCode);
-
-    formdata.append("workingHours", JSON.stringify(workingHours));
+    formdata.append(
+      "sunday",
+      `${values.sundayStart + " - " + values.sundayEnd}`
+    );
+    formdata.append(
+      "monday",
+      `${values.mondayStart + " - " + values.mondayEnd}`
+    );
+    formdata.append(
+      "tuesday",
+      `${values.tuesdayStart + " - " + values.tuesdayEnd}`
+    );
+    formdata.append(
+      "wednesday",
+      `${values.wednesdayStart + " - " + values.wednesdayEnd}`
+    );
+    formdata.append(
+      "thursday",
+      `${values.thursdayStart + " - " + values.thursdayEnd}`
+    );
+    formdata.append(
+      "friday",
+      `${values.fridayStart + " - " + values.fridayEnd}`
+    );
+    formdata.append(
+      "saturday",
+      `${values.saturdayStart + " - " + values.saturdayEnd}`
+    );
 
     for (let i = 0; i < values.outletPictures.length; i++) {
       formdata.append(`outletPictures`, values.outletPictures[i]);
