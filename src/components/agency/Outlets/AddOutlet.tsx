@@ -92,33 +92,34 @@ export function AddOutletDialog() {
     formdata.append("location", values.location);
     formdata.append("zipCode", values.zipCode);
     formdata.append(
-      "workingHours.sunday",
+      "sunday",
       `${values.sundayStart + " - " + values.sundayEnd}`
     );
     formdata.append(
-      "workingHours.monday",
+      "monday",
       `${values.mondayStart + " - " + values.mondayEnd}`
     );
     formdata.append(
-      "workingHours.tuesday",
+      "tuesday",
       `${values.tuesdayStart + " - " + values.tuesdayEnd}`
     );
     formdata.append(
-      "workingHours.wednesday",
+      "wednesday",
       `${values.wednesdayStart + " - " + values.wednesdayEnd}`
     );
     formdata.append(
-      "workingHours.thursday",
+      "thursday",
       `${values.thursdayStart + " - " + values.thursdayEnd}`
     );
     formdata.append(
-      "workingHours.friday",
+      "friday",
       `${values.fridayStart + " - " + values.fridayEnd}`
     );
     formdata.append(
-      "workingHours.saturday",
+      "saturday",
       `${values.saturdayStart + " - " + values.saturdayEnd}`
     );
+
     for (let i = 0; i < values.outletPictures.length; i++) {
       formdata.append(`outletPictures`, values.outletPictures[i]);
     }

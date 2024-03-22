@@ -98,38 +98,29 @@ export function UpdateOutletDialog() {
 
     // Append working hours if both start and end times are provided
     if (values.sundayStart && values.sundayEnd)
-      formdata.append(
-        "workingHours.sunday",
-        `${values.sundayStart} - ${values.sundayEnd}`
-      );
+      formdata.append("sunday", `${values.sundayStart} - ${values.sundayEnd}`);
     if (values.mondayStart && values.mondayEnd)
-      formdata.append(
-        "workingHours.monday",
-        `${values.mondayStart} - ${values.mondayEnd}`
-      );
+      formdata.append("monday", `${values.mondayStart} - ${values.mondayEnd}`);
     if (values.tuesdayStart && values.tuesdayEnd)
       formdata.append(
-        "workingHours.tuesday",
+        "tuesday",
         `${values.tuesdayStart} - ${values.tuesdayEnd}`
       );
     if (values.wednesdayStart && values.wednesdayEnd)
       formdata.append(
-        "workingHours.wednesday",
+        "wednesday",
         `${values.wednesdayStart} - ${values.wednesdayEnd}`
       );
     if (values.thursdayStart && values.thursdayEnd)
       formdata.append(
-        "workingHours.thursday",
+        "thursday",
         `${values.thursdayStart} - ${values.thursdayEnd}`
       );
     if (values.fridayStart && values.fridayEnd)
-      formdata.append(
-        "workingHours.friday",
-        `${values.fridayStart} - ${values.fridayEnd}`
-      );
+      formdata.append("friday", `${values.fridayStart} - ${values.fridayEnd}`);
     if (values.saturdayStart && values.saturdayEnd)
       formdata.append(
-        "workingHours.saturday",
+        "saturday",
         `${values.saturdayStart} - ${values.saturdayEnd}`
       );
 
