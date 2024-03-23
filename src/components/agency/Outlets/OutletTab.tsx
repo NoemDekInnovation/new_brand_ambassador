@@ -19,7 +19,6 @@ const OutletTab = () => {
     dispatch(fetchAgencyOutlet());
   }, [dispatch]);
 
-  console.log(outlet, "outlet");
   return (
     <div>
       <div className=" bg-bm_card_greym bg-white h-full overflow-y-scroll md:w-[1950px] xl:w-full w-full">

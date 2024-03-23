@@ -37,30 +37,6 @@ import { StatesSelect } from "./SelectOption";
 import useManageOutlet from "../../../hooks/modals/useManageOutlet";
 
 const formSchema = z.object({
-  outletName: z.string(),
-  outletType: z.string(),
-  location: z.string(),
-  contactEmail: z.string(),
-  contactNumber: z.string(),
-  street: z.string(),
-  city: z.string(),
-  state: z.string(),
-  zipCode: z.string(),
-  mondayStart: z.string(),
-  mondayEnd: z.string(),
-  tuesdayStart: z.string(),
-  tuesdayEnd: z.string(),
-  wednesdayStart: z.string(),
-  wednesdayEnd: z.string(),
-  thursdayStart: z.string(),
-  thursdayEnd: z.string(),
-  fridayStart: z.string(),
-  fridayEnd: z.string(),
-  sundayStart: z.string(),
-  sundayEnd: z.string(),
-  saturdayStart: z.string(),
-  saturdayEnd: z.string(),
-
   outletPictures: z.any(),
 });
 
@@ -74,9 +50,9 @@ export function ManagePictures() {
     resolver: zodResolver(formSchema),
   });
 
-  const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
+  const [selectedIndices, setSelectedIndices] = useState<string[]>([]);
 
-  const handleCheckboxChange = (index: number) => {
+  const handleCheckboxChange = (index: string) => {
     // Toggle the selection of the index
     setSelectedIndices((prevSelectedIndices) => {
       if (prevSelectedIndices.includes(index)) {
@@ -88,6 +64,7 @@ export function ManagePictures() {
       }
     });
   };
+  console.log(selectedIndices);
   const datas = data?.data;
   const onCancel = () => {
     onClose();
@@ -107,8 +84,8 @@ export function ManagePictures() {
     }
     if (user?.user?.accountId !== undefined) {
       try {
-        const response = await mediaAxiosInstance.post(
-          `/create-outlet`,
+        const response = await mediaAxiosInstance.patch(
+          `/edit-outlet-pictures/${datas._id}`,
           formdata,
           {
             headers: {
@@ -117,7 +94,49 @@ export function ManagePictures() {
           }
         );
         toast({
-          description: "Outlet successfully created",
+          description: "Outlet pictures successfully added.",
+        });
+        form.reset();
+        onClose();
+      } catch (error: any) {
+        console.error("Error submitting form:", error);
+        if (error.response && error.response.status === 400) {
+          // Extract and display the specific error message from the API response
+          toast({
+            description: error?.response?.data?.message,
+            variant: "destructive",
+          });
+        } else {
+          // Display a generic error message for other error scenarios
+          toast({
+            description: error?.response?.data?.message,
+            variant: "destructive",
+          });
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+  }
+
+  async function deletePicturez() {
+    // Do something with the form values.
+    setLoading(true);
+    // ✅ This will be type-safe and validated.
+
+    if (user?.user?.accountId !== undefined) {
+      try {
+        const response = await mediaAxiosInstance.patch(
+          `/edit-outlet-pictures/${datas._id}`,
+          { picturesToBeDeleted: selectedIndices },
+          {
+            headers: {
+              Authorization: `Bearer ${user?.user?.authKey || ""}`,
+            },
+          }
+        );
+        toast({
+          description: "Outlet pictures successfully deleted.",
         });
         form.reset();
         onClose();
@@ -176,19 +195,19 @@ export function ManagePictures() {
                         form={form}
                       />
                       <Button
-                        type="button"
+                        type="submit"
                         className="bg-[#63666A] text-white py-4 h-12"
                       >
                         Upload
                       </Button>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-0 ">
-                      {datas?.outletPictures.length > 0 &&
+                      {datas?.outletPictures.length > 0 ? (
                         datas?.outletPictures.map((item: string, i: number) => (
                           <div
                             key={i}
                             className={` aspect-square relative cursor-pointer ${
-                              selectedIndices.includes(i)
+                              selectedIndices.includes(item)
                                 ? "border-blue-500 border-4"
                                 : ""
                             }`}
@@ -196,8 +215,8 @@ export function ManagePictures() {
                             <div className="absolute top-2 left-2 z-10">
                               <input
                                 type="checkbox"
-                                checked={selectedIndices.includes(i)}
-                                onChange={() => handleCheckboxChange(i)}
+                                checked={selectedIndices.includes(item)}
+                                onChange={() => handleCheckboxChange(item)}
                                 className="bg-white w-4 h-4"
                               />
                             </div>
@@ -208,12 +227,19 @@ export function ManagePictures() {
                               className="object-cover aspect-square"
                             />
                           </div>
-                        ))}
+                        ))
+                      ) : (
+                        <div className="my-4">
+                          <p>No pictures for the outlet</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <DialogFooter>
                     <Button
-                      type="submit"
+                      type="button"
+                      disabled={selectedIndices.length < 1}
+                      onClick={deletePicturez}
                       className="bg-[#63666A] text-white py-4 h-12"
                     >
                       {loading && (
@@ -235,7 +261,7 @@ export function ManagePictures() {
                           />
                         </svg>
                       )}
-                      Save
+                      Delete {selectedIndices.length > 0 && "Selected"}
                     </Button>
                   </DialogFooter>
                 </form>

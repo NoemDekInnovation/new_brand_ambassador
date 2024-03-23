@@ -9,6 +9,7 @@ import SuspendUser from "./SuspendUser";
 import DeleteUser from "./DeleteUser";
 import { CreateUserDialog } from "./CreateUser";
 import UnsuspendUser from "./UnsuspendUser";
+import { UserOverview } from "./UserOverview";
 
 const UsersTab = () => {
   const { staff } = useSelector((state: RootState) => state.agencyUser);
@@ -31,6 +32,7 @@ const UsersTab = () => {
       <SuspendUser />
       <DeleteUser />
       <UnsuspendUser />
+      <UserOverview />
     </div>
   );
 };

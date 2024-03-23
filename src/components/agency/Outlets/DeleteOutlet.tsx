@@ -73,7 +73,7 @@ export default function DeleteOutlet() {
       <AlertDialogContent className="p-0 bg-white">
         <AlertDialogHeader className=" p-4 md:p-6 bg-[#343637] text-white rounded-t-lg">
           <AlertDialogTitle>
-            Delete User - {datas?.firstName} {datas?.lastName}
+            Delete Outlet - {datas?.outletName}, {datas?.location}.
           </AlertDialogTitle>
         </AlertDialogHeader>
         <div className="space-y-4 p-4">
@@ -83,6 +83,8 @@ export default function DeleteOutlet() {
           <p>This outlet will be deleted completely from the system.</p>
         </div>
         <AlertDialogFooter className="p-4 mt-0">
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+
           <AlertDialogAction
             onClick={onSubmit}
             className="text-white   bg-[#800000] hover:bg-rose-400"

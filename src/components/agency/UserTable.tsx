@@ -49,6 +49,7 @@ import useDeleteUser from "../../hooks/modals/useDeleteUser";
 import useResetUser from "../../hooks/modals/UserReset";
 import useCreateUser from "../../hooks/modals/UserCreate";
 import useUnsuspendUser from "../../hooks/modals/useUnsuspendUser";
+import useUserOverview from "../../hooks/modals/useUserOverview";
 
 // const data: Payment[] = [
 //   {
@@ -90,6 +91,21 @@ export type Payment = {
   email: string;
 };
 
+const Overview = ({ row }: any) => {
+  const overview = useUserOverview();
+  return (
+    <div
+      className="capitalize cursor-pointer"
+      onClick={() => {
+        overview.setData(row.original);
+        overview.onOpen();
+      }}
+    >
+      {row.getValue("firstName")}
+    </div>
+  );
+};
+
 export const columns: ColumnDef<any>[] = [
   // {
   //   id: "select",
@@ -123,9 +139,7 @@ export const columns: ColumnDef<any>[] = [
   {
     accessorKey: "firstName",
     header: "First Name",
-    cell: ({ row }) => (
-      <div className="text-xs">{row.getValue("firstName")}</div>
-    ),
+    cell: ({ row }) => <Overview row={row} />,
   },
   {
     accessorKey: "lastName",
@@ -317,14 +331,14 @@ export function UsersTable({ data }: any) {
           <DebouncedInput
             value={globalFilter ?? ""}
             onChange={(value) => setGlobalFilter(String(value))}
-            className="w-full md:w-80 placeholder:text-[10px] md:placeholder:text-sm"
+            className="w-full md:w-96 placeholder:text-[10px] md:placeholder:text-sm"
             placeholder="Search filter (ID, name, status created by, created date)"
           />
           <Button
             className="bg-[#63666A] text-white py-4 h-12"
             onClick={onOpen}
           >
-            Create Client
+            Create User
           </Button>{" "}
         </div>
         <div className="rounded-md border">

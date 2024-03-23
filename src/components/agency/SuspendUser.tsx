@@ -92,11 +92,13 @@ export default function SuspendUser() {
           </p>
         </div>
         <AlertDialogFooter className="p-4 mt-0">
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+
           <AlertDialogAction
             onClick={onSubmit}
-            className="text-white   bg-[#63666A] hover:bg-gray-400"
+            className="text-white   bg-red-900 hover:bg-red-400"
           >
-            Unsuspend User
+            Suspend User
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
