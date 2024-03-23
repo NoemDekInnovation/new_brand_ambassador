@@ -61,7 +61,7 @@ export function StatesSelect({ field, defaultValue }: GenderProps) {
     >
       <FormControl>
         <SelectTrigger className="w-full">
-          <SelectValue>
+          <SelectValue placeholder="Select State">
             {field.value || defaultValue || "Select State"}
           </SelectValue>
         </SelectTrigger>
@@ -69,6 +69,32 @@ export function StatesSelect({ field, defaultValue }: GenderProps) {
       <SelectContent className="bg-white">
         {statesInNigeria.map((item, i) => (
           <SelectItem className="" key={i} value={item}>
+            {item}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
+export function OutletType({ field, defaultValue }: GenderProps) {
+  const statesInNigeria = ["Supermarket", "Mall", "Open Market"];
+
+  return (
+    <Select
+      onValueChange={field.onChange}
+      defaultValue={field.value || defaultValue}
+    >
+      <FormControl>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Select Outlet Type">
+            {field.value || defaultValue || "Outlet Type *"}
+          </SelectValue>
+        </SelectTrigger>
+      </FormControl>
+      <SelectContent className="bg-white">
+        {statesInNigeria.map((item, i) => (
+          <SelectItem className="" key={i} value={item.toLocaleLowerCase()}>
             {item}
           </SelectItem>
         ))}

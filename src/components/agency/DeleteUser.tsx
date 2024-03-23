@@ -86,6 +86,8 @@ export default function DeleteUser() {
           </p>
         </div>
         <AlertDialogFooter className="p-4 mt-0">
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+
           <AlertDialogAction
             onClick={onSubmit}
             className="text-white   bg-[#800000] hover:bg-rose-400"

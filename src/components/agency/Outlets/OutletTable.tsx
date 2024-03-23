@@ -208,7 +208,7 @@ export function OutletTable({ data }: any) {
         <DebouncedInput
           value={globalFilter ?? ""}
           onChange={(value) => setGlobalFilter(String(value))}
-          className="w-full md:w-80 placeholder:text-[10px] md:placeholder:text-sm"
+          className="w-full md:w-96 placeholder:text-[10px] md:placeholder:text-sm"
           placeholder="Search filter (Name, type, location, address)"
         />
         <Button className="bg-[#63666A] text-white py-4 h-12" onClick={onOpen}>

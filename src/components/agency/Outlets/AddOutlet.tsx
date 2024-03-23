@@ -29,11 +29,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 
 import { mediaAxiosInstance, patchAxiosInstance } from "../../../api/axios";
-import { RadioGroup, RadioGroupItem } from "../../../ui/radio-group";
 import useAddOutlet from "../../../hooks/modals/useAddOutlet";
 import { toast } from "../../../ui/use-toast";
 import { FileUpload } from "./FileUpload";
-import { StatesSelect } from "./SelectOption";
+import { OutletType, StatesSelect } from "./SelectOption";
 
 const formSchema = z.object({
   outletName: z.string(),
@@ -65,6 +64,7 @@ const formSchema = z.object({
 
 export function AddOutletDialog() {
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const { isOpen, onClose } = useAddOutlet();
 
   const user = useSelector((state: RootState) => state.user);
@@ -206,20 +206,11 @@ export function AddOutletDialog() {
                         )}
                       />
                       <FormField
-                        control={form.control}
                         name="outletType"
+                        control={form.control}
                         render={({ field }) => (
                           <FormItem>
-                            <FormControl>
-                              <Input
-                                className="w-full p-4 h-12 relative"
-                                disabled={loading}
-                                placeholder="Outlet Type"
-                                {...field}
-                              />
-                            </FormControl>
-
-                            <FormMessage />
+                            <OutletType field={field} />
                           </FormItem>
                         )}
                       />
@@ -281,7 +272,7 @@ export function AddOutletDialog() {
                         )}
                       />
                     </div>
-                    <div className=" space-y-4 border-y-1 p-4">
+                    <div className=" space-y-4 border-y-1 md:px-4 px-2">
                       <p className="text-sm font-medium">Address</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <FormField
@@ -350,7 +341,7 @@ export function AddOutletDialog() {
                       </div>
                     </div>
 
-                    <div className=" space-y-4 border-b-1 p-4">
+                    <div className=" space-y-4 border-b-1 px-4">
                       <p className="text-sm font-medium">
                         Working Days And Hours
                       </p>
