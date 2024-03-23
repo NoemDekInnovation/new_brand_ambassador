@@ -11,6 +11,7 @@ import useDeleteUser from "../../hooks/modals/useDeleteUser";
 import useResetUser from "../../hooks/modals/UserReset";
 
 import { format, formatDistance, subDays } from "date-fns";
+import { cn } from "../../libs/clsx";
 
 export function UserOverview() {
   const [index, setIndex] = useState(0);
@@ -57,11 +58,13 @@ export function UserOverview() {
   const profileSec = [
     {
       name: "Last Log in",
-      value: formatDistance(
-        subDays(new Date(datas?.metaData?.lastOnline), 3),
-        new Date(),
-        { addSuffix: true }
-      ),
+      value:
+        datas?.metaData?.lastOnline &&
+        formatDistance(
+          subDays(new Date(datas?.metaData?.lastOnline), 3),
+          new Date(),
+          { addSuffix: true }
+        ),
     },
     {
       name: "Duration",
@@ -69,7 +72,8 @@ export function UserOverview() {
     },
     {
       name: "Created On",
-      value: format(new Date(datas?.createdAt), "dd/MM/yyyy"),
+      value:
+        datas?.createdAt && format(new Date(datas?.createdAt), "dd/MM/yyyy"),
     },
     {
       name: "Created By",
@@ -80,25 +84,33 @@ export function UserOverview() {
     },
   ];
 
-  console.log(datas);
   return (
     <Dialog onOpenChange={onCancel} open={isOpen} modal defaultOpen={isOpen}>
-      <DialogContent className="bg-white text-[#343637] lg:max-w-[80vw] p-0 rounded-t-lg">
+      <DialogContent className="bg-white text-[#343637] lg:max-w-[65vw] p-0 rounded-t-lg">
         <div className="p-4">
           <div className="grid gap-4">
             <div className="grid  items-center gap-4 mx-2 md:mx-4">
-              <div className=" space-y-4 h-[75vh] overflow-y-auto sidebar-scroll">
+              <div className=" space-y-4 h-[65vh] overflow-y-auto sidebar-scroll">
                 <div className="grid grid-cols-12 gap-8">
                   <div className="md:col-span-3 hidden md:block  border p-4 space-y-4">
-                    <h4 className="text-2xl font-medium">
+                    <h4 className="text-2xl font-medium capitalize">
                       {datas?.firstName} {datas?.lastName}
                     </h4>
-                    <p className="capitalize text-lg">
+                    <p
+                      className={cn(
+                        "capitalize text-lg",
+                        datas?.metaData?.status === "active"
+                          ? "text-green-700"
+                          : datas?.metaData?.status === "pending"
+                          ? "text-yellow-700"
+                          : "text bg-red-800"
+                      )}
+                    >
                       {datas?.metaData?.status}
                     </p>
                     <div className="space-y-4 flex-col flex">
                       <Button
-                        className="bg-[#DDDFE0]"
+                        className="bg-[#DDDFE0] h-10 text-xs"
                         onClick={() => {
                           updateUser.setData(datas);
                           updateUser.onOpen();
@@ -106,8 +118,24 @@ export function UserOverview() {
                       >
                         Update User
                       </Button>
+                      {datas?.metaData?.status === "active" && (
+                        <>
+                          <Button className="bg-[#DDDFE0] h-10 text-xs">
+                            Send Email
+                          </Button>
+                          <Button
+                            className="bg-[#DDDFE0] h-10 text-xs"
+                            onClick={() => {
+                              suspendUser.setData(datas);
+                              suspendUser.onOpen();
+                            }}
+                          >
+                            Suspend User
+                          </Button>
+                        </>
+                      )}
                       <Button
-                        className="bg-[#DDDFE0]"
+                        className="bg-[#DDDFE0] h-10 text-xs"
                         onClick={() => {
                           resetUser.setData(datas);
                           resetUser.onOpen();
@@ -115,18 +143,8 @@ export function UserOverview() {
                       >
                         Reset Password
                       </Button>
-                      <Button className="bg-[#DDDFE0]">Send Email</Button>
                       <Button
-                        className="bg-[#DDDFE0]"
-                        onClick={() => {
-                          suspendUser.setData(datas);
-                          suspendUser.onOpen();
-                        }}
-                      >
-                        Suspend User
-                      </Button>
-                      <Button
-                        className="bg-[#DDDFE0] text-red-900"
+                        className="bg-[#DDDFE0] h-10 text-xs text-red-900"
                         onClick={() => {
                           deleteUser.setData(datas);
                           deleteUser.onOpen();
@@ -141,13 +159,21 @@ export function UserOverview() {
                       <TabsList>
                         <TabsTrigger
                           value="account"
-                          className="data-[state=active]:border-b-red-900"
+                          onClick={() => setIndex(0)}
+                          className={cn(
+                            "data-[state=active]:border-b-red-900",
+                            index === 0 && "border-b-red-900  border-b-2"
+                          )}
                         >
                           User Details
                         </TabsTrigger>
                         <TabsTrigger
                           value="password"
-                          className="data-[state=active]:border-b-red-900"
+                          onClick={() => setIndex(1)}
+                          className={cn(
+                            "data-[state=active]:border-b-red-900",
+                            index === 1 && "border-b-red-900  border-b-2"
+                          )}
                         >
                           User Activities
                         </TabsTrigger>

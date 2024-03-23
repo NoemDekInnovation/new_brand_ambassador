@@ -84,13 +84,15 @@ export default function UpdateUser() {
         if (error.response && error.response.status === 400) {
           // Extract and display the specific error message from the API response
           toast({
-            description: error?.response?.data?.message,
+            description:
+              error?.response?.data?.message || error?.response?.data?.error,
             variant: "destructive",
           });
         } else {
           // Display a generic error message for other error scenarios
           toast({
-            description: error?.response?.data?.message,
+            description:
+              error?.response?.data?.error || error?.response?.data?.message,
             variant: "destructive",
           });
         }
@@ -191,7 +193,7 @@ export default function UpdateUser() {
                                 className="w-full p-4 h-12 relative"
                                 placeholder="email"
                                 defaultValue={datas?.email}
-                                disabled={true}
+                                disabled
                                 {...field}
                               />
                             </FormControl>

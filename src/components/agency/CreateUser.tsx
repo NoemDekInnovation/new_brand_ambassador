@@ -110,19 +110,19 @@ export function CreateUserDialog() {
 
   return (
     <Dialog onOpenChange={onCancel} open={isOpen} modal defaultOpen={isOpen}>
-      <DialogContent className="bg-white lg:max-w-[900px] p-0 rounded-t-lg">
+      <DialogContent className="bg-white lg:max-w-[900px] gap-0 p-0 rounded-t-lg">
         <DialogHeader className=" p-4 md:p-6 bg-[#343637] text-white rounded-t-lg">
           <DialogTitle className="md:text-xl">Create User</DialogTitle>
         </DialogHeader>
         <div className="p-4">
-          <div className="grid gap-4 py-4">
+          <div className="grid gap-4">
             <div className="grid  items-center gap-4 mx-2 md:mx-4">
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-8"
                 >
-                  <div className="rounded-lg border space-y-8">
+                  <div className="rounded-lg border space-y-4">
                     <p className="text-base m-4 font-medium">
                       User Information
                     </p>
@@ -283,7 +283,7 @@ export function CreateUserDialog() {
                     </div>
                   </div>
 
-                  <DialogFooter>
+                  <DialogFooter className="py-2 mt-0 mb-0 m-0">
                     <Button
                       type="submit"
                       className="bg-[#63666A] text-white py-4 h-12"

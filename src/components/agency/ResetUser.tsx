@@ -28,15 +28,16 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
-import { patchAxiosInstance } from "../../api/axios";
 import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
 import useResetUser from "../../hooks/modals/UserReset";
+import axiosInstance from "../../api/axios";
+import { toast } from "../../ui/use-toast";
 
 const formSchema = z.object({
   type: z.enum(["all", "mentions"], {
     required_error: "You need to select a notification type.",
   }),
-  password: z.string(),
+  password: z.string().optional(),
 });
 
 export default function ResetUser() {
@@ -54,14 +55,80 @@ export default function ResetUser() {
     form.reset();
     setData(null);
   };
-  // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {}
   const password = form.watch("type");
+
+  // 2. Define a submit handler.
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log("fhfh");
+    if (password === "mentions") {
+      try {
+        const url = "/forgot-password";
+        const response = await axiosInstance.patch(url + `/${datas?._id}`, {
+          password: values.password,
+        });
+
+        toast({
+          description: "User successfully updated",
+        });
+        onCancel();
+      } catch (error: any) {
+        console.error("Error submitting form:", error);
+        if (error.response && error.response.status === 400) {
+          // Extract and display the specific error message from the API response
+          toast({
+            description:
+              error?.response?.data?.message || error?.response?.data?.error,
+            variant: "destructive",
+          });
+        } else {
+          // Display a generic error message for other error scenarios
+          toast({
+            description:
+              error?.response?.data?.error || error?.response?.data?.message,
+            variant: "destructive",
+          });
+        }
+      } finally {
+      }
+    } else {
+      try {
+        const url = "/forgot-password";
+        const response = await axiosInstance.post(url, {
+          email: datas.email,
+        });
+        console.log(response);
+        toast({
+          description: "An email has been sent to the user.",
+        });
+        onCancel();
+      } catch (error: any) {
+        console.error("Error submitting form:", error);
+        if (error.response && error.response.status === 400) {
+          // Extract and display the specific error message from the API response
+          toast({
+            description:
+              error?.response?.data?.message || error?.response?.data?.error,
+            variant: "destructive",
+          });
+        } else {
+          // Display a generic error message for other error scenarios
+          toast({
+            description:
+              error?.response?.data?.error || error?.response?.data?.message,
+            variant: "destructive",
+          });
+        }
+      } finally {
+      }
+    }
+  }
 
   return (
     <Dialog onOpenChange={onCancel} open={isOpen} modal defaultOpen={isOpen}>
       <DialogContent className="bg-white lg:max-w-[900px] p-0 rounded-t-lg">
-        <DialogHeader className=" p-4 md:p-6 bg-[#343637] text-white rounded-t-lg">
+        <DialogHeader className=" p-4 md:p-6 bg-[#343637] capitalize text-white rounded-t-lg">
           <DialogTitle>
             Reset Password - {datas?.firstName} {datas?.lastName}
           </DialogTitle>
@@ -91,8 +158,9 @@ export default function ResetUser() {
                                 <RadioGroupItem value="all" />
                               </FormControl>
                               <FormLabel className="font-normal">
-                                Allow user to create password on his/her first
-                                login attempt
+                                Allow user to reset password (A link will be
+                                sent to the user&apos;s email to reset his/her
+                                password)
                               </FormLabel>
                             </FormItem>
                             <FormItem className="flex items-center space-x-3 space-y-0">
@@ -134,9 +202,10 @@ export default function ResetUser() {
               </div>
             </div>
             <DialogFooter>
-              <div className="w-full flex justify-between">
+              <div className="w-full mx-4 flex justify-between">
                 <Button
                   variant="ghost"
+                  className="border h-12"
                   onClick={() => {
                     onClose();
                     form.reset();
@@ -144,8 +213,12 @@ export default function ResetUser() {
                 >
                   Cancel
                 </Button>
-                <Button variant="ghost" type="submit">
-                  Save
+                <Button
+                  variant="ghost"
+                  className="bg-[#63666A] text-white py-4 h-12"
+                  type="submit"
+                >
+                  Reset Password
                 </Button>
               </div>
             </DialogFooter>
