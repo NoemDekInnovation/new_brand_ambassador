@@ -95,7 +95,7 @@ const Overview = ({ row }: any) => {
   const overview = useUserOverview();
   return (
     <div
-      className="capitalize cursor-pointer"
+      className="capitalize text-xs cursor-pointer"
       onClick={() => {
         overview.setData(row.original);
         overview.onOpen();
@@ -145,7 +145,7 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "lastName",
     header: "Last Name",
     cell: ({ row }) => (
-      <div className="text-xs">{row.getValue("lastName")}</div>
+      <div className="text-xs capitalize">{row.getValue("lastName")}</div>
     ),
   },
   {
@@ -239,22 +239,36 @@ const Actions = ({ payment }: any) => {
             updateUser.setData(payment);
             updateUser.onOpen();
           }}
-          className="p-3 hover:bg-white/70"
+          className="p-2 hover:bg-white/70"
         >
           Update User
         </DropdownMenuItem>
+        {payment?.metaData?.status === "active" && (
+          <>
+            <DropdownMenuItem
+              className="text-red-500 p-2 hover:bg-white/70"
+              onClick={() => {
+                suspendUser.setData(payment);
+                suspendUser.onOpen();
+              }}
+            >
+              Suspend User
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuItem
           onClick={() => {
             resetUser.setData(payment);
             resetUser.onOpen();
           }}
-          className="p-3 hover:bg-white/70"
+          className="p-2 hover:bg-white/70"
         >
           Reset Password
         </DropdownMenuItem>
+
         {payment?.metaData?.status === "suspended" && (
           <DropdownMenuItem
-            className="text-red-500 p-3 hover:bg-white/70"
+            className="text-red-500 p-2 hover:bg-white/70"
             onClick={() => {
               unsuspendUser.setData(payment);
               unsuspendUser.onOpen();
@@ -265,16 +279,7 @@ const Actions = ({ payment }: any) => {
         )}
 
         <DropdownMenuItem
-          className="text-red-500 p-3 hover:bg-white/70"
-          onClick={() => {
-            suspendUser.setData(payment);
-            suspendUser.onOpen();
-          }}
-        >
-          Suspend User
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="text-red-500 p-3 hover:bg-white/70"
+          className="text-red-500 p-2 hover:bg-white/70"
           onClick={() => {
             deleteUser.setData(payment);
             deleteUser.onOpen();
