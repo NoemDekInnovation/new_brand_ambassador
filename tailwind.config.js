@@ -30,6 +30,8 @@ module.exports = {
         bm__niv: "#00AB26",
         bm__grey__text: "#666666",
         bm__gler: "#E1E2E3",
+        bm__grey__text__100: "#515457",
+        bm__pink__bg: "#F8F0EB",
       },
       screens: {
         "8xl": "1920px",
