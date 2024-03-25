@@ -23,13 +23,14 @@ const HeartIcon = ({
   // console.log(user?.user?.userId, favorites);
 
   useEffect(() => {
-    const tobi = user?.user?.userId;
+    const userId = user?.user?.userId;
 
-    const todo = favorites;
+    const fav = favorites;
 
-    const matchingObject = todo?.find((item: any) => item.favedBy === tobi);
+    // const matchingObject =
+    //   fav && fav?.find((item: any) => item.favedBy === userId);
 
-    if (matchingObject) {
+    if (!fav) {
       setIsFavorite(false);
     } else {
       setIsFavorite(true);

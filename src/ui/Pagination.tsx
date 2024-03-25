@@ -18,7 +18,7 @@ export default function Pagination({
   return (
     <>
       <div className="flex flex-col items-center w-full">
-        <div className="inline-flex mt-2 xs:mt-0 w-full items-center justify-between text-[10px] font-normal text-gray-700 dark:text-gray-400">
+        <div className="inline-flex mt-2 sm:mt-0 w-full items-center justify-between text-[10px] font-normal text-gray-700 dark:text-gray-400">
           <div className="flex gap-4 md:gap-8">
             <button>First</button>
             <button className="flex items-center justify-center px-3 h-8  rounded-l">
