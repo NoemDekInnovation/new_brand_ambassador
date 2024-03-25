@@ -103,7 +103,7 @@
 }
 
 .ox__btn {
-  @apply w-full px-6 py-1 text-white rounded-md;
+  @apply bg-bm__ox__red w-full px-6 py-1 text-white rounded-md  hover:bg-bm__ox__red/70 whitespace-nowrap;
 }
 
 /* styles.css */
