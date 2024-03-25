@@ -170,7 +170,11 @@ const Actions = ({ payment }: any) => {
     </DropdownMenu>
   );
 };
-export function OutletTable({ data }: any) {
+
+export interface TalentQueryProp {
+  [key: string]: string | number;
+}
+export function OutletTable({ data, pageSize, page, totalTalent }: any) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -181,6 +185,9 @@ export function OutletTable({ data }: any) {
   const [globalFilter, setGlobalFilter] = React.useState("");
 
   const { onOpen } = useAddOutlet();
+  const [sortQuery, setSortQuery] = React.useState<TalentQueryProp | null>(
+    null
+  );
 
   const table = useReactTable({
     data,
@@ -202,13 +209,31 @@ export function OutletTable({ data }: any) {
     },
   });
 
+  const negativePage = pageSize - 1;
+  const positivePage = pageSize + 1;
+
+  const updateQuery = (newValues: any) => {
+    setSortQuery((prevQuery: any) => ({ ...prevQuery, ...newValues }));
+  };
+
+  const handlePageChange = (size: any) => {
+    updateQuery({ page: size });
+  };
+
+  const handlePageSizeChange = (size: any) => {
+    updateQuery({ pageSize: size });
+  };
+
   return (
     <div className="w-full h-full">
+      <div className="my-4">
+        <h4 className="text-xl sm:text-2xl font-medium">Outlets</h4>
+      </div>
       <div className="flex items-center sm:flex-row flex-col justify-between w-full bg-[#F7F7F7] p-4">
         <DebouncedInput
           value={globalFilter ?? ""}
           onChange={(value) => setGlobalFilter(String(value))}
-          className="w-full md:w-96 placeholder:text-[10px] md:placeholder:text-sm"
+          className="w-full md:w-[450px] placeholder:text-[10px] md:placeholder:text-sm"
           placeholder="Search filter (Name, type, location, address)"
         />
         <Button className="bg-[#63666A] text-white py-4 h-12" onClick={onOpen}>
@@ -264,29 +289,43 @@ export function OutletTable({ data }: any) {
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
+        <div className=" bg-[#F7F7F7] flex flex-col gap-5 md:flex-row justify-between  items-center p-4">
+          <div className="flex items-center">
+            <p className=" whitespace-nowrap  mr-2 text-xs">Rows Per Page:</p>
+            <div className="flex items-center gap-3">
+              {[10, 20, 30, 40, 50].map((n, idx) => {
+                return (
+                  <div
+                    className={`hover:bg-gray-300 text-xs  ${
+                      pageSize === n ? "bg-gray-300" : ""
+                    } rounded p-2 transition-all duration-400 cursor-pointer`}
+                    key={idx}
+                    onClick={() => handlePageSizeChange(n)}
+                  >
+                    {n}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex gap-8 text-bm_black/75 text-xs whitespace-nowrap">
+            <div className="">First</div>
+
+            <div className="flex gap-8 text-bm_black/75 text-[14px]">
+              <p className="text-[10px]">Back</p>
+
+              <p className="text-[10px]">
+                {page * pageSize - negativePage} -{" "}
+                {page * pageSize >= totalTalent ? totalTalent : page * pageSize}{" "}
+                of {totalTalent}
+              </p>
+
+              <p className="text-[10px]">Next</p>
+
+              <p className="text-[10px]">Last</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -139,7 +139,7 @@ export default function ResetUser() {
             className="space-y-8 py-4"
           >
             <div>
-              <div className="border-t p-4">
+              <div className="">
                 <p className="text-base m-4 font-medium">Password</p>
                 <div className="mx-4">
                   <FormField
