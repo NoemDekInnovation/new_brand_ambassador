@@ -233,7 +233,7 @@ export function OutletTable({ data, pageSize, page, totalTalent }: any) {
         <DebouncedInput
           value={globalFilter ?? ""}
           onChange={(value) => setGlobalFilter(String(value))}
-          className="w-full md:w-96 placeholder:text-[10px] md:placeholder:text-sm"
+          className="w-full md:w-[450px] placeholder:text-[10px] md:placeholder:text-sm"
           placeholder="Search filter (Name, type, location, address)"
         />
         <Button className="bg-[#63666A] text-white py-4 h-12" onClick={onOpen}>
@@ -289,42 +289,42 @@ export function OutletTable({ data, pageSize, page, totalTalent }: any) {
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className="flex flex-col gap-5 md:flex-row justify-between mt-3 items-center">
-        <div className="flex items-center">
-          <p className=" whitespace-nowrap  mr-2 text-xs">Rows Per Page:</p>
-          <div className="flex items-center gap-3">
-            {[10, 20, 30, 40, 50].map((n, idx) => {
-              return (
-                <div
-                  className={`hover:bg-gray-300 text-xs  ${
-                    pageSize === n ? "bg-gray-300" : ""
-                  } rounded p-2 transition-all duration-400 cursor-pointer`}
-                  key={idx}
-                  onClick={() => handlePageSizeChange(n)}
-                >
-                  {n}
-                </div>
-              );
-            })}
+        <div className=" bg-[#F7F7F7] flex flex-col gap-5 md:flex-row justify-between  items-center p-4">
+          <div className="flex items-center">
+            <p className=" whitespace-nowrap  mr-2 text-xs">Rows Per Page:</p>
+            <div className="flex items-center gap-3">
+              {[10, 20, 30, 40, 50].map((n, idx) => {
+                return (
+                  <div
+                    className={`hover:bg-gray-300 text-xs  ${
+                      pageSize === n ? "bg-gray-300" : ""
+                    } rounded p-2 transition-all duration-400 cursor-pointer`}
+                    key={idx}
+                    onClick={() => handlePageSizeChange(n)}
+                  >
+                    {n}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
 
-        <div className="flex gap-8 text-bm_black/75 text-xs whitespace-nowrap">
-          <div className="">First</div>
+          <div className="flex gap-8 text-bm_black/75 text-xs whitespace-nowrap">
+            <div className="">First</div>
 
-          <div className="flex gap-8 text-bm_black/75 text-[14px]">
-            <p className="text-[10px]">Back</p>
+            <div className="flex gap-8 text-bm_black/75 text-[14px]">
+              <p className="text-[10px]">Back</p>
 
-            <p className="text-[10px]">
-              {page * pageSize - negativePage} -{" "}
-              {page * pageSize >= totalTalent ? totalTalent : page * pageSize}{" "}
-              of {totalTalent}
-            </p>
+              <p className="text-[10px]">
+                {page * pageSize - negativePage} -{" "}
+                {page * pageSize >= totalTalent ? totalTalent : page * pageSize}{" "}
+                of {totalTalent}
+              </p>
 
-            <p className="text-[10px]">Next</p>
+              <p className="text-[10px]">Next</p>
 
-            <p className="text-[10px]">Last</p>
+              <p className="text-[10px]">Last</p>
+            </div>
           </div>
         </div>
       </div>

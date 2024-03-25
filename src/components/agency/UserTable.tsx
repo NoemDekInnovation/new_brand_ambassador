@@ -182,8 +182,9 @@ export const columns: ColumnDef<any>[] = [
     header: "Date Created",
     cell: ({ row }) => (
       <div className="lowercase text-xs">
-        {row.original.createdAt &&
-          format(new Date(row.getValue("createdAt")), "MM/dd/yyyy")}
+        {row.original.createdAt
+          ? format(new Date(row.getValue("createdAt")), "MM/dd/yyyy")
+          : "-"}
       </div>
     ),
   },
@@ -194,8 +195,9 @@ export const columns: ColumnDef<any>[] = [
       const user = row.original;
       return (
         <div className="capitalize text-xs">
-          {user.metaData.lastLogin &&
-            format(new Date(user.metaData.lastLogin), "MM/dd/yyyy")}
+          {user.metaData.lastLogin
+            ? format(new Date(user.metaData.lastLogin), "MM/dd/yyyy")
+            : "-"}
         </div>
       );
     },
@@ -247,7 +249,7 @@ const Actions = ({ payment }: any) => {
         {payment?.metaData?.status === "active" && (
           <>
             <DropdownMenuItem
-              className="text-red-500 p-2 hover:bg-white/70"
+              className=" p-2 hover:bg-white/70"
               onClick={() => {
                 suspendUser.setData(payment);
                 suspendUser.onOpen();
@@ -269,7 +271,7 @@ const Actions = ({ payment }: any) => {
 
         {payment?.metaData?.status === "suspended" && (
           <DropdownMenuItem
-            className="text-red-500 p-2 hover:bg-white/70"
+            className=" p-2 hover:bg-white/70"
             onClick={() => {
               unsuspendUser.setData(payment);
               unsuspendUser.onOpen();
@@ -278,7 +280,7 @@ const Actions = ({ payment }: any) => {
             Unsuspend User
           </DropdownMenuItem>
         )}
-
+        <DropdownMenuItem>Send Email</DropdownMenuItem>
         <DropdownMenuItem
           className="text-red-500 p-2 hover:bg-white/70"
           onClick={() => {
@@ -297,7 +299,17 @@ export interface TalentQueryProp {
   [key: string]: string | number;
 }
 
-export function UsersTable({ data, pageSize, page, totalTalent }: any) {
+export function UsersTable({
+  data,
+  pageSize,
+  page,
+  totalTalent,
+}: {
+  data: any;
+  pageSize: number;
+  page: number;
+  totalTalent: any;
+}) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -361,7 +373,7 @@ export function UsersTable({ data, pageSize, page, totalTalent }: any) {
           <DebouncedInput
             value={globalFilter ?? ""}
             onChange={(value) => setGlobalFilter(String(value))}
-            className="w-full md:w-96 placeholder:text-[10px] md:placeholder:text-sm"
+            className="w-full md:w-[450px] placeholder:text-[10px] md:placeholder:text-sm"
             placeholder="Search filter (ID, name, status created by, created date)"
           />
           <Button
@@ -372,7 +384,7 @@ export function UsersTable({ data, pageSize, page, totalTalent }: any) {
           </Button>{" "}
         </div>
         <div className="rounded-md border">
-          <Table>
+          <Table className="h-full">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
@@ -421,7 +433,7 @@ export function UsersTable({ data, pageSize, page, totalTalent }: any) {
             </TableBody>
           </Table>
         </div>
-        <div className="flex flex-col gap-5 md:flex-row justify-between mt-3 items-center px-4">
+        <div className="bg-[#F7F7F7] flex flex-col gap-5 md:flex-row justify-between items-center p-4">
           <div className="flex items-center">
             <p className=" whitespace-nowrap  mr-2 text-xs">Rows Per Page:</p>
             <div className="flex items-center gap-3">
