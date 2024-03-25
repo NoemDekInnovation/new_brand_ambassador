@@ -108,9 +108,13 @@ export default function TalentRequirement({
   useEffect(() => {
     checkFormValidity();
   }, [proposal, document]);
-  console.log({ proposal, document });
+  console.log(
+    { proposal, document },
+    // JSON.parse(proposal),
+    JSON.stringify(proposal)
+  );
 
-  const proposalCheck = proposal !== undefined && proposal ? proposal : "";
+  const proposalCheck = proposal === "undefined" ? "" : proposal && proposal;
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
       <Card className="p-2 md:p-8  bg-white overflow-y-scroll h-[83vh]">
