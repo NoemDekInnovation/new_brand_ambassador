@@ -12,7 +12,9 @@ import UnsuspendUser from "./UnsuspendUser";
 import { UserOverview } from "./UserOverview";
 
 const UsersTab = () => {
-  const { staff } = useSelector((state: RootState) => state.agencyUser);
+  const { staff, pageSize, page, totalTalent } = useSelector(
+    (state: RootState) => state.agencyUser
+  );
 
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {

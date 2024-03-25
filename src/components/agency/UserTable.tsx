@@ -50,6 +50,7 @@ import useResetUser from "../../hooks/modals/UserReset";
 import useCreateUser from "../../hooks/modals/UserCreate";
 import useUnsuspendUser from "../../hooks/modals/useUnsuspendUser";
 import useUserOverview from "../../hooks/modals/useUserOverview";
+import UserAlert from "./UserAler";
 
 // const data: Payment[] = [
 //   {
@@ -292,7 +293,11 @@ const Actions = ({ payment }: any) => {
   );
 };
 
-export function UsersTable({ data }: any) {
+export interface TalentQueryProp {
+  [key: string]: string | number;
+}
+
+export function UsersTable({ data, pageSize, page, totalTalent }: any) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -326,11 +331,31 @@ export function UsersTable({ data }: any) {
     },
   });
 
+  const [sortQuery, setSortQuery] = React.useState<TalentQueryProp | null>(
+    null
+  );
+
+  const negativePage = pageSize - 1;
+  const positivePage = pageSize + 1;
+
+  const updateQuery = (newValues: any) => {
+    setSortQuery((prevQuery: any) => ({ ...prevQuery, ...newValues }));
+  };
+
+  const handlePageChange = (size: any) => {
+    updateQuery({ page: size });
+  };
+
+  const handlePageSizeChange = (size: any) => {
+    updateQuery({ pageSize: size });
+  };
+
   return (
-    <div className="w-full">
+    <div className="w-full space-y-3">
       <div className="my-4">
         <h4 className="text-xl sm:text-2xl font-medium">Users</h4>
       </div>
+      <UserAlert />
       <div className="w-full bg-white border rounded-lg">
         <div className="flex items-center sm:flex-row flex-col justify-between w-full bg-[#F7F7F7] p-4">
           <DebouncedInput
@@ -396,28 +421,42 @@ export function UsersTable({ data }: any) {
             </TableBody>
           </Table>
         </div>
-        <div className="flex items-center justify-end space-x-2 p-4">
-          <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+        <div className="flex flex-col gap-5 md:flex-row justify-between mt-3 items-center px-4">
+          <div className="flex items-center">
+            <p className=" whitespace-nowrap  mr-2 text-xs">Rows Per Page:</p>
+            <div className="flex items-center gap-3">
+              {[10, 20, 30, 40, 50].map((n, idx) => {
+                return (
+                  <div
+                    className={`hover:bg-gray-300 text-xs  ${
+                      pageSize === n ? "bg-gray-300" : ""
+                    } rounded p-2 transition-all duration-400 cursor-pointer`}
+                    key={idx}
+                    onClick={() => handlePageSizeChange(n)}
+                  >
+                    {n}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          <div className="space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              Next
-            </Button>
+
+          <div className="flex gap-8 text-bm_black/75 text-xs whitespace-nowrap">
+            <div className="">First</div>
+
+            <div className="flex gap-8 text-bm_black/75 text-[14px]">
+              <p className="text-[10px]">Back</p>
+
+              <p className="text-[10px]">
+                {page * pageSize - negativePage} -{" "}
+                {page * pageSize >= totalTalent ? totalTalent : page * pageSize}{" "}
+                of {totalTalent}
+              </p>
+
+              <p className="text-[10px]">Next</p>
+
+              <p className="text-[10px]">Last</p>
+            </div>
           </div>
         </div>
       </div>
