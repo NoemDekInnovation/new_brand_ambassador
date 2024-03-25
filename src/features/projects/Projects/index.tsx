@@ -8,6 +8,7 @@ const ProjectScreen = () => {
   const toggleView = () => {
     setShowNewProject(!showNewProject);
   };
+
   return (
     <div className="h-full">
       {" "}

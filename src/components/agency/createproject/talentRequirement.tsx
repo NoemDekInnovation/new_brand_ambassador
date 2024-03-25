@@ -59,7 +59,7 @@ export default function TalentRequirement({
     //   };
     //   reader.readAsDataURL(document);
     // }
-    console.log(document);
+    console.log({ document });
   }, [proposal, document]);
 
   const [selectedFileName, setSelectedFileName] = useState("");
@@ -100,7 +100,7 @@ export default function TalentRequirement({
 
   const checkFormValidity = () => {
     const isFormValid =
-      typeof proposal === "string" && proposal.trim() !== "" && document;
+      typeof proposal === "string" && proposal?.trim() !== "" && document;
 
     setIsFormValid(isFormValid);
   };
@@ -108,7 +108,9 @@ export default function TalentRequirement({
   useEffect(() => {
     checkFormValidity();
   }, [proposal, document]);
+  console.log({ proposal, document });
 
+  const proposalCheck = proposal !== undefined && proposal ? proposal : "";
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
       <Card className="p-2 md:p-8  bg-white overflow-y-scroll h-[83vh]">
@@ -131,12 +133,12 @@ export default function TalentRequirement({
             <Textarea
               placeholder="Describe proposal requirements..."
               className="min-h-[250px]"
-              value={proposal}
+              value={proposalCheck}
               onChange={handleProposalChange}
               required
             />
             <p className="text-[12px] text-bm__btn__grey mt-3">
-              {250 - proposal.length} Characters remaining
+              {250 - proposal?.length} Characters remaining
             </p>
             <div className="flex flex-col mt-4">
               <small className="text-bm__btn__grey">
