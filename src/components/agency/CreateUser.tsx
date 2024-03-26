@@ -240,8 +240,8 @@ export function CreateUserDialog() {
                                       <RadioGroupItem value="all" />
                                     </FormControl>
                                     <FormLabel className="font-normal">
-                                      Allow user to create password on his/her
-                                      first login attempt
+                                      Allow user to create password on first
+                                      login attempt
                                     </FormLabel>
                                   </FormItem>
                                   <FormItem className="flex items-center space-x-3 space-y-0">

@@ -132,7 +132,7 @@ export const columns: ColumnDef<any>[] = [
   // },
   {
     accessorKey: "IDNumber",
-    header: "ID",
+    header: "User ID",
     cell: ({ row }) => (
       <div className="text-xs">{row.getValue("IDNumber")}</div>
     ),
@@ -156,6 +156,15 @@ export const columns: ColumnDef<any>[] = [
       <div className="lowercase text-xs">{row.getValue("email")}</div>
     ),
   },
+
+  {
+    accessorKey: "metaData.status",
+    header: "Status",
+    cell: ({ row }) => {
+      const user = row.original;
+      return <div className="capitalize text-xs">{user.metaData.status}</div>;
+    },
+  },
   {
     accessorKey: "metaData.createdBy",
     header: "Created By",
@@ -167,14 +176,6 @@ export const columns: ColumnDef<any>[] = [
           {user.metaData?.createdBy?.lastName}
         </div>
       );
-    },
-  },
-  {
-    accessorKey: "metaData.status",
-    header: "Status",
-    cell: ({ row }) => {
-      const user = row.original;
-      return <div className="capitalize text-xs">{user.metaData.status}</div>;
     },
   },
   {
@@ -206,7 +207,7 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "duration",
     header: "Duration",
     cell: ({ row }) => (
-      <div className="lowercase text-xs">{row.getValue("duration")}</div>
+      <div className="lowercase text-xs">{row.getValue("duration") || "-"}</div>
     ),
   },
   {
@@ -246,6 +247,17 @@ const Actions = ({ payment }: any) => {
         >
           Update User
         </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            resetUser.setData(payment);
+            resetUser.onOpen();
+          }}
+          className="p-2 hover:bg-white/70"
+        >
+          Reset Password
+        </DropdownMenuItem>
+        <DropdownMenuItem>Send Email</DropdownMenuItem>
+
         {payment?.metaData?.status === "active" && (
           <>
             <DropdownMenuItem
@@ -259,15 +271,6 @@ const Actions = ({ payment }: any) => {
             </DropdownMenuItem>
           </>
         )}
-        <DropdownMenuItem
-          onClick={() => {
-            resetUser.setData(payment);
-            resetUser.onOpen();
-          }}
-          className="p-2 hover:bg-white/70"
-        >
-          Reset Password
-        </DropdownMenuItem>
 
         {payment?.metaData?.status === "suspended" && (
           <DropdownMenuItem
@@ -280,7 +283,6 @@ const Actions = ({ payment }: any) => {
             Unsuspend User
           </DropdownMenuItem>
         )}
-        <DropdownMenuItem>Send Email</DropdownMenuItem>
         <DropdownMenuItem
           className="text-red-500 p-2 hover:bg-white/70"
           onClick={() => {
@@ -384,7 +386,7 @@ export function UsersTable({
           </Button>{" "}
         </div>
         <div className="rounded-md border">
-          <Table className="h-full">
+          <Table className=" h-full">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>

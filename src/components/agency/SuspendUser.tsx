@@ -87,8 +87,8 @@ export default function SuspendUser() {
             Are you sure you want to suspend this user?
           </h4>
           <p>
-            This user&apos;s account will be suspend and user won&apos;t have be
-            able to log-in.
+            This user&apos;s account will be suspend and user won&apos;t be able
+            to log-in.
           </p>
         </div>
         <AlertDialogFooter className="p-4 mt-0">
