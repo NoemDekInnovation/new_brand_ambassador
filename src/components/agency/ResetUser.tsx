@@ -159,8 +159,7 @@ export default function ResetUser() {
                               </FormControl>
                               <FormLabel className="font-normal">
                                 Allow user to reset password (A link will be
-                                sent to the user&apos;s email to reset his/her
-                                password)
+                                sent to the user&apos;s email to reset password)
                               </FormLabel>
                             </FormItem>
                             <FormItem className="flex items-center space-x-3 space-y-0">

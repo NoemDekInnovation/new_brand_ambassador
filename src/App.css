@@ -189,3 +189,7 @@ body {
     background-color: #d9d9d9;
   }
 }
+
+.table {
+  height: calc(100vh - 50vh);
+}

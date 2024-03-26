@@ -81,8 +81,8 @@ export default function DeleteUser() {
             Are you sure you want to delete this user?
           </h4>
           <p>
-            Are you sure you want to delete this user? This user&apos;s account
-            will be deleted and user won&apos;t have access to Campaign.
+            This user&apos;s account will be deleted and user won&apos;t have
+            access to Campaign.
           </p>
         </div>
         <AlertDialogFooter className="p-4 mt-0">
