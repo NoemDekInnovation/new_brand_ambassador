@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import NewProject from "./NewProject";
+// import NewProject from "./NewProject";
 import ProjectsView from "./ProjectsView";
+import NewProject from "../../../components/agency/createproject";
 
 const ProjectScreen = () => {
   const [showNewProject, setShowNewProject] = useState(false);
@@ -11,12 +12,7 @@ const ProjectScreen = () => {
 
   return (
     <div className="h-full">
-      {" "}
-      {showNewProject ? (
-        <NewProject cancelProject={toggleView} />
-      ) : (
-        <ProjectsView newProject={toggleView} />
-      )}
+      <ProjectsView newProject={toggleView} />
     </div>
   );
 };

@@ -108,23 +108,22 @@ const Training = () => {
                 </div>
                 <div className="max-w-[400px] md: md:min-w-[300px]">
                   <Pagination
-                    count={10}
-                    currentPage={0}
-                    first=""
-                    last=""
-                    next=""
-                    prev=""
+                    count={0}
+                    currentPage={1}
+                    handlePageChange={() => {}}
+                    pageSize={0}
+                    totalPages={1}
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div className="p-4 py-6  overflow-auto h-[40vh] flex flex-col gap-4 w-full overflow-x-scroll">
+          <div className="p-4 py-6  overflow-auto h-[50vh] flex flex-col gap-4 w-full overflow-x-scroll">
             {[1, 2, 3, 4].map((project) => {
               return (
                 <>
                   <TalentList
-                    project={project}
+                    // project={project}
                     key={project}
                     talent={""}
                     index={0}
@@ -164,12 +163,11 @@ const Training = () => {
 
             <div className="max-w-[400px]">
               <Pagination
-                count={10}
-                currentPage={0}
-                first=""
-                last=""
-                next=""
-                prev=""
+                count={0}
+                currentPage={1}
+                handlePageChange={() => {}}
+                pageSize={0}
+                totalPages={1}
               />
             </div>
           </div>

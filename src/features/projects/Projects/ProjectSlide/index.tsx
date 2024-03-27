@@ -38,7 +38,7 @@ const ProjectSlide = ({
             : "translate-y-[1000px] opacity-0"
         }`}
       >
-        <Card className="rounded-b-none w-full bg-white mx-2 md:mx-8  p-3 md:px-6">
+        <Card className="rounded-b-none w-full bg-white mx-2 h-[90vh] md:mx-8  p-3 md:px-6">
           <div className="flex justify-between items-center">
             <div className="md:hidden">
               <RxHamburgerMenu

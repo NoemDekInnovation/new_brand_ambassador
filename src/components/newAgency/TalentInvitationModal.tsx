@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { Button } from "../../ui/button";
 import { Card } from "../../ui/card";
 import {
@@ -20,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
+import { RootState } from "../../redux/store";
 
 export const TalentInvitationModal = ({
   projectModal,
@@ -30,13 +32,17 @@ export const TalentInvitationModal = ({
   projectModal: boolean;
   setProjectModal: any;
 }) => {
+  const { selectedProject } = useSelector(
+    (state: RootState) => state.newProjects
+  );
+
   return (
     <Dialog open={projectModal} onOpenChange={setProjectModal}>
       {projectModal && (
         <div className=" p-4 h-screen fixed inset-0 bg-black/20 z-[2000] flex justify-center">
           <div className="sm:max-w-[950px] w-full  bg-white text-black m-auto mx-3 rounded-b-lg">
-            <div className="bg-black p-3 w-full justify-between text-white flex items-center">
-              <p>Invite Talent to Project - Nivea Bold & Beauty Launch</p>
+            <div className="bg-black p-3 w-full justify-between text-white flex items-center capitalize">
+              <p>Invite Talent to Project - {selectedProject?.projectTitle}</p>
               <button onClick={() => setProjectModal(false)}>x</button>
             </div>
             <div className="flex justify-center items-center items-center p-4  rounded-b-lg">

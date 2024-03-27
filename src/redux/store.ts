@@ -23,6 +23,10 @@ import leadingReducer from "./leading.slice";
 import agencyUserSlice from "./agencyUser.slice";
 import agencyOutletSlice from "./agencyOutlet.slice";
 
+// revamp
+import projectsSlice from "./revmap/projects";
+import talentSlice from "./revmap/talent.slice";
+
 const store = configureStore({
   reducer: {
     contractOffer: contractOfferReducer,
@@ -47,6 +51,11 @@ const store = configureStore({
     agency: agencyReducer,
     currentengage: currentengageReducer,
     leading: leadingReducer,
+
+    // revamp
+    newProjects: projectsSlice,
+    newtalent: talentSlice,
+
     agencyUser: agencyUserSlice,
     agencyOutlet: agencyOutletSlice
   },
