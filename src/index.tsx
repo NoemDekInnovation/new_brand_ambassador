@@ -8,7 +8,7 @@ import { AuthProvider } from "./context/AuthProvider";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { Toaster } from "../src/ui/toaster";
-
+import LoadingComp from "./components/LoaderAsa";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -19,6 +19,7 @@ root.render(
       <AuthProvider>
         <Provider store={store}>
           <Toaster />
+          <LoadingComp />
           <App />
         </Provider>
       </AuthProvider>

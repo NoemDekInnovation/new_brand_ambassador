@@ -33,6 +33,7 @@ import useAddOutlet from "../../../hooks/modals/useAddOutlet";
 import { toast } from "../../../ui/use-toast";
 import { FileUpload } from "./FileUpload";
 import { OutletType, StatesSelect } from "./SelectOption";
+import useLoading from "../../../hooks/modals/useLoading";
 
 const formSchema = z.object({
   outletName: z.string(),
@@ -66,6 +67,7 @@ export function AddOutletDialog() {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const { isOpen, onClose } = useAddOutlet();
+  const loadingCase = useLoading();
 
   const user = useSelector((state: RootState) => state.user);
 
@@ -79,7 +81,8 @@ export function AddOutletDialog() {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
-    setLoading(true);
+    loadingCase.onOpen();
+
     // ✅ This will be type-safe and validated.
     const formdata = new FormData();
     formdata.append("outletName", values.outletName);
@@ -155,7 +158,7 @@ export function AddOutletDialog() {
           });
         }
       } finally {
-        setLoading(false);
+        loadingCase.onClose();
       }
     }
   }
@@ -225,7 +228,7 @@ export function AddOutletDialog() {
                               <Input
                                 className="w-full p-4 h-12 relative"
                                 disabled={loading}
-                                placeholder="Last Name"
+                                placeholder="Location"
                                 {...field}
                               />
                             </FormControl>
@@ -284,7 +287,7 @@ export function AddOutletDialog() {
                                 <Input
                                   className="w-full p-4 h-12 relative"
                                   disabled={loading}
-                                  placeholder="First Name"
+                                  placeholder="Street"
                                   {...field}
                                 />
                               </FormControl>
@@ -302,7 +305,7 @@ export function AddOutletDialog() {
                                 <Input
                                   className="w-full p-4 h-12 relative"
                                   disabled={loading}
-                                  placeholder="First Name"
+                                  placeholder="City"
                                   {...field}
                                 />
                               </FormControl>
@@ -329,7 +332,7 @@ export function AddOutletDialog() {
                                 <Input
                                   className="w-full p-4 h-12 relative"
                                   disabled={loading}
-                                  placeholder="First Name"
+                                  placeholder="Postal Code"
                                   {...field}
                                 />
                               </FormControl>

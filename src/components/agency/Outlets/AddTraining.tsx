@@ -1,4 +1,4 @@
-import { Button } from "../../ui/button";
+import { Button } from "../../../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,9 +7,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../ui/dialog";
-import { Input } from "../../ui/input";
-import { Label } from "../../ui/label";
+} from "../../../ui/dialog";
+import { Input } from "../../../ui/input";
+import { Label } from "../../../ui/label";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -23,32 +23,35 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../ui/form";
+} from "../../../ui/form";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../../redux/store";
 
-import { patchAxiosInstance } from "../../api/axios";
-import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
-import useCreateUser from "../../hooks/modals/UserCreate";
-import { toast } from "../../ui/use-toast";
-import useLoading from "../../hooks/modals/useLoading";
+import { mediaAxiosInstance, patchAxiosInstance } from "../../../api/axios";
+import { toast } from "../../../ui/use-toast";
+import { FileUpload } from "./FileUpload";
+import { OutletType, StatesSelect } from "./SelectOption";
+import useCreateTraining from "../../../hooks/modals/UserCreateTraining";
+import useLoading from "../../../hooks/modals/useLoading";
 
 const formSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  email: z.string(),
-  phone: z.string().min(11).max(11),
-  IDNumber: z.string(),
-  password: z.string().optional(),
-  type: z.enum(["all", "mentions"], {
-    required_error: "You need to select a password option.",
-  }),
+  centerName: z.string(),
+  location: z.string(),
+  contactEmail: z.string(),
+  contactNumber: z.string(),
+  street: z.string(),
+  city: z.string(),
+  state: z.string(),
+  zipCode: z.string(),
+
+  centerPictures: z.any(),
 });
 
-export function CreateUserDialog() {
+export function AddTrainDialog() {
   const [loading, setLoading] = useState(false);
-  const { isOpen, onClose } = useCreateUser();
+  const [loading1, setLoading1] = useState(false);
+  const { isOpen, onClose } = useCreateTraining();
   const loadingCase = useLoading();
 
   const user = useSelector((state: RootState) => state.user);
@@ -63,14 +66,26 @@ export function CreateUserDialog() {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
-    setLoading(true);
     loadingCase.onOpen();
     // ✅ This will be type-safe and validated.
+    const formdata = new FormData();
+    formdata.append("centerName", values.centerName);
+    formdata.append("contactEmail", values.contactEmail);
+    formdata.append("contactNumber", values.contactNumber);
+    formdata.append("street", values.street);
+    formdata.append("state", values.state);
+    formdata.append("city", values.city);
+    formdata.append("location", values.location);
+    formdata.append("zipCode", values.zipCode);
+
+    for (let i = 0; i < values.centerPictures.length; i++) {
+      formdata.append(`centerPictures`, values.centerPictures[i]);
+    }
     if (user?.user?.accountId !== undefined) {
       try {
-        const response = await patchAxiosInstance.post(
-          `/create-staff`,
-          values,
+        const response = await mediaAxiosInstance.post(
+          `/create-center`,
+          formdata,
           {
             headers: {
               Authorization: `Bearer ${user?.user?.authKey || ""}`,
@@ -78,7 +93,7 @@ export function CreateUserDialog() {
           }
         );
         toast({
-          description: "User successfully created",
+          description: "Center successfully created",
         });
         form.reset();
         onClose();
@@ -87,15 +102,13 @@ export function CreateUserDialog() {
         if (error.response && error.response.status === 400) {
           // Extract and display the specific error message from the API response
           toast({
-            description:
-              error?.response?.data?.error || error?.response?.data?.message,
+            description: error?.response?.data?.message,
             variant: "destructive",
           });
         } else {
           // Display a generic error message for other error scenarios
           toast({
-            description:
-              error?.response?.data?.error || error?.response?.data?.message,
+            description: error?.response?.data?.message,
             variant: "destructive",
           });
         }
@@ -111,13 +124,12 @@ export function CreateUserDialog() {
   //   const formData = new FormData();
 
   // };
-  const password = form.watch("type");
 
   return (
     <Dialog onOpenChange={onCancel} open={isOpen} modal defaultOpen={isOpen}>
-      <DialogContent className="bg-white lg:max-w-[900px] gap-0 p-0 rounded-t-lg">
+      <DialogContent className="bg-white text-[#343637] lg:max-w-[900px] p-0 rounded-t-lg">
         <DialogHeader className=" p-4 md:p-6 bg-[#343637] text-white rounded-t-lg">
-          <DialogTitle className="md:text-xl">Create User</DialogTitle>
+          <DialogTitle className="md:text-xl">Add Training Center</DialogTitle>
         </DialogHeader>
         <div className="p-4">
           <div className="grid gap-4">
@@ -125,24 +137,40 @@ export function CreateUserDialog() {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-8"
+                  className="space-y-4"
                 >
-                  <div className="rounded-lg border space-y-4">
-                    <p className="text-base m-4 font-medium">
-                      User Information
+                  <div className="rounded-lg border space-y-8 h-[55vh] overflow-y-auto sidebar-scroll">
+                    <p className=" mx-4 my-2 text-sm font-medium">
+                      Center Information
                     </p>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2  gap-4  px-4">
                       <FormField
+                        name="centerName"
                         control={form.control}
-                        name="IDNumber"
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
                               <Input
                                 className="w-full p-4 h-12 relative"
                                 disabled={loading}
-                                placeholder="User ID *"
+                                placeholder="Center Name"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="location"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                className="w-full p-4 h-12 relative"
+                                disabled={loading}
+                                placeholder="Location*"
                                 {...field}
                               />
                             </FormControl>
@@ -153,14 +181,15 @@ export function CreateUserDialog() {
                       />
                       <FormField
                         control={form.control}
-                        name="firstName"
+                        name="contactEmail"
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
                               <Input
                                 className="w-full p-4 h-12 relative"
                                 disabled={loading}
-                                placeholder="First Name"
+                                type="email"
+                                placeholder="Contact Email"
                                 {...field}
                               />
                             </FormControl>
@@ -171,52 +200,14 @@ export function CreateUserDialog() {
                       />
                       <FormField
                         control={form.control}
-                        name="lastName"
+                        name="contactNumber"
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
                               <Input
                                 className="w-full p-4 h-12 relative"
                                 disabled={loading}
-                                placeholder="Last Name"
-                                {...field}
-                              />
-                            </FormControl>
-
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4  px-4">
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Input
-                                className="w-full p-4 h-12 relative"
-                                disabled={loading}
-                                placeholder="Email"
-                                {...field}
-                              />
-                            </FormControl>
-
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="phone"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Input
-                                className="w-full p-4 h-12 relative"
-                                disabled={loading}
-                                placeholder="Phone Number"
+                                placeholder="Contact Number"
                                 {...field}
                               />
                             </FormControl>
@@ -226,74 +217,90 @@ export function CreateUserDialog() {
                         )}
                       />
                     </div>
-                    <div className="border-t p-4">
-                      <p className="text-base m-4 font-medium">Password</p>
-                      <div className="mx-4">
+
+                    <div className=" space-y-4 border-y-1 md:px-4 px-2">
+                      <p className="text-sm font-medium">Address</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <FormField
                           control={form.control}
-                          name="type"
+                          name="street"
                           render={({ field }) => (
-                            <FormItem className="space-y-3">
+                            <FormItem>
                               <FormControl>
-                                <RadioGroup
-                                  onValueChange={field.onChange}
-                                  defaultValue={field.value}
-                                  className="flex flex-col space-y-1"
-                                >
-                                  <FormItem className="flex items-center space-x-3 space-y-0">
-                                    <FormControl>
-                                      <RadioGroupItem value="all" />
-                                    </FormControl>
-                                    <FormLabel className="font-normal">
-                                      Allow user to create password on first
-                                      login attempt
-                                    </FormLabel>
-                                  </FormItem>
-                                  <FormItem className="flex items-center space-x-3 space-y-0">
-                                    <FormControl>
-                                      <RadioGroupItem value="mentions" />
-                                    </FormControl>
-                                    <FormLabel className="font-normal">
-                                      Create password
-                                    </FormLabel>
-                                  </FormItem>
-                                </RadioGroup>
+                                <Input
+                                  className="w-full p-4 h-12 relative"
+                                  disabled={loading}
+                                  placeholder="Street"
+                                  {...field}
+                                />
                               </FormControl>
+
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="city"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Input
+                                  className="w-full p-4 h-12 relative"
+                                  disabled={loading}
+                                  placeholder="City"
+                                  {...field}
+                                />
+                              </FormControl>
+
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          name="state"
+                          control={form.control}
+                          render={({ field }) => (
+                            <FormItem>
+                              <StatesSelect field={field} />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="zipCode"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Input
+                                  className="w-full p-4 h-12 relative"
+                                  disabled={loading}
+                                  placeholder="Postal Code"
+                                  {...field}
+                                />
+                              </FormControl>
+
                               <FormMessage />
                             </FormItem>
                           )}
                         />
                       </div>
-                      <div className="relative">
-                        {password === "mentions" && (
-                          <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormControl>
-                                  <Input
-                                    className="w-full p-4 h-12 relative mt-2"
-                                    placeholder="Password *"
-                                    {...field}
-                                  />
-                                </FormControl>
+                    </div>
 
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        )}
-                      </div>
+                    <div className="space-y-4 px-4">
+                      <p className="text-sm font-medium">
+                        Attach Center Pictures
+                      </p>
+                      <FileUpload form={form} name="centerPictures" />
                     </div>
                   </div>
 
-                  <DialogFooter className="py-2 mt-0 mb-0 m-0">
+                  <DialogFooter>
                     <Button
                       type="submit"
                       className="bg-[#63666A] text-white py-4 h-12"
                     >
-                      Create User
+                      Add Center
                     </Button>
                   </DialogFooter>
                 </form>

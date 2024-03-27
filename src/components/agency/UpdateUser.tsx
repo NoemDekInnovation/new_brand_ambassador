@@ -33,6 +33,7 @@ import { RootState } from "../../redux/store";
 import { patchAxiosInstance } from "../../api/axios";
 import { useState } from "react";
 import { toast } from "../../ui/use-toast";
+import useLoading from "../../hooks/modals/useLoading";
 
 const formSchema = z.object({
   firstName: z.string().optional(),
@@ -46,6 +47,7 @@ export default function UpdateUser() {
   const { isOpen, onClose, data, setData } = useUpdateUser();
   const [loading, setLoading] = useState(false);
   const user = useSelector((state: RootState) => state.user);
+  const loadingCase = useLoading();
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onBlur",
@@ -64,6 +66,8 @@ export default function UpdateUser() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setLoading(true);
+    loadingCase.onOpen();
+
     if (user?.user?.accountId !== undefined) {
       try {
         const response = await patchAxiosInstance.patch(
@@ -98,6 +102,7 @@ export default function UpdateUser() {
         }
       } finally {
         setLoading(false);
+        loadingCase.onClose();
       }
     }
   }
