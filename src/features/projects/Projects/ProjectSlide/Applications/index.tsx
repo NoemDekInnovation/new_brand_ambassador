@@ -1,27 +1,4 @@
 import React, { useState } from "react";
-import { Card } from "../../../../../ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../../../../../ui/dropdown-menu";
-import { BiSortAlt2 } from "react-icons/bi";
-import Pagination from "../../../../../ui/Pagination";
-// import PublishedProject from "../PublishedProject";
-import { AiOutlineSearch } from "react-icons/ai";
-import PublishedProject from "../../ProjectTabs/PublishedProject";
-import { Checkbox } from "../../../../../ui/checkbox";
-import { TalentList } from "../../../../../components/newAgency/Talentlist";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../../../../ui/select";
 import InviteTalent from "./InviteTalent";
 import Training from "./Training";
 import ApplicationsTab from "./Applications";

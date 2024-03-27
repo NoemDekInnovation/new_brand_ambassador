@@ -28,7 +28,6 @@ const PublishedProject = ({ project }: { project: any }) => {
 
   const handleSlideUp = (project: any) => {
     setPopUp(!popUp);
-    setSelectedProject(project);
     dispatch(setSelectedProject(project));
   };
 

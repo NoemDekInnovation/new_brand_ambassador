@@ -32,6 +32,7 @@ export interface TalentsProps {
   totalPages: number;
   totalTalent: number;
   invited: string[];
+  selectedTalent: any;
 }
 const initialState: TalentsProps = {
   loading: false,
@@ -55,6 +56,7 @@ const initialState: TalentsProps = {
   totalPages: 1,
   totalTalent: 0,
   invited: [],
+  selectedTalent: null,
 };
 
 export const fetchTalents = createAsyncThunk(
@@ -223,6 +225,10 @@ const talents = createSlice({
     setPageQuery: (state, action) => {
       state.pageQuery = action.payload;
     },
+    setSelectedTalent: (state, action) => {
+      state.selectedTalent = action.payload;
+      state.loading = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -313,4 +319,5 @@ export const {
   setFailedImport,
   setTalentQuery,
   setPageQuery,
+  setSelectedTalent,
 } = talents.actions;

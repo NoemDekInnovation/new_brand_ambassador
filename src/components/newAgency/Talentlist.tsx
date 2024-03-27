@@ -4,6 +4,9 @@ import HeartIcon from "../../libs/HeartIcon";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent } from "../../ui/dialog";
 import { TalentInvitationModal } from "./TalentInvitationModal";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { setSelectedTalent } from "../../redux/revmap/talent.slice";
 
 export const TalentList = ({
   talent,
@@ -28,14 +31,16 @@ export const TalentList = ({
 
   inviteStatus: "applied" | "invite" | "training" | "hired";
 }) => {
-  const handleModalPop = () => {
-    // console.log("chip", { modal });
+  const dispatch = useDispatch<AppDispatch>();
 
-    setSelectedTalentID(talent?._id);
+  const { selectedTalent } = useSelector((state: RootState) => state.newtalent);
+
+  const handleModalPop = (talent: any) => {
+    dispatch(setSelectedTalent(talent));
     setModal(true);
   };
 
-  // console.log({ modal });
+  // console.log({ modal, selectedTalent, talent });
 
   const [isOnline, setIsOnline] = useState(false);
 
@@ -45,7 +50,7 @@ export const TalentList = ({
       statusButton = (
         <button
           className="dark__btn text-[10px]"
-          onClick={() => handleModalPop()}
+          onClick={() => handleModalPop(talent)}
         >
           Invite for training
         </button>
@@ -55,7 +60,7 @@ export const TalentList = ({
       statusButton = (
         <button
           className="dark__btn text-[10px]"
-          onClick={() => handleModalPop()}
+          onClick={() => handleModalPop(talent)}
         >
           Invite
         </button>
@@ -66,7 +71,7 @@ export const TalentList = ({
       statusButton = (
         <button
           className="dark__btn text-[10px]"
-          onClick={() => handleModalPop()}
+          onClick={() => handleModalPop(talent)}
         >
           Send Contract
         </button>
@@ -84,15 +89,6 @@ export const TalentList = ({
       >
         <div className="">
           <div className="bg-black/70 w-[86px] h-[108px] rounded-md flex justify-center item-center">
-            {/* <img
-              src={Logo}
-              alt=""
-              style={{
-                borderRadius: 5,
-              }}
-              className=" hover:grayscale-0 grayscale w-full max-w-[86px] h-full max-h-[108px] object-cover"
-            /> */}
-            {/* <RxPerson /> */}
             {!talent.profilePic && talent.gender === "male" && (
               <img
                 src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gU3ZnIFZlY3RvciBJY29ucyA6IGh0dHA6Ly93d3cub25saW5ld2ViZm9udHMuY29tL2ljb24gLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMjU2IDI1NiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjU2IDI1NiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8bWV0YWRhdGE+IFN2ZyBWZWN0b3IgSWNvbnMgOiBodHRwOi8vd3d3Lm9ubGluZXdlYmZvbnRzLmNvbS9pY29uIDwvbWV0YWRhdGE+DQo8Zz48Zz48Zz48cGF0aCBmaWxsPSIjMDAwMDAwIiBkPSJNMTIzLjEsMTBDMTAyLjYsMTEuNCw4NCwyMy42LDc0LjksNDEuOGMtNC4zLDguNC01LjksMTUuNi01LjcsMjUuN2MwLjIsMjcuNywxMy4xLDU5LjcsMzAuNyw3Ni43YzksOC42LDE3LjcsMTIuOCwyNy40LDEyLjhjNSwwLjEsOC0wLjYsMTMuMS0zYzE1LjctNy4zLDMxLjYtMjguOSw0MC42LTU1LjJjNC41LTEzLjQsNi43LTI4LDUuNy0zNy44Yy0yLTE4LjMtMTIuOC0zNC42LTI4LjgtNDMuNkMxNDcuNCwxMS43LDEzNS45LDkuMywxMjMuMSwxMHogTTE0My4yLDUzLjJjNS41LDEuMyw5LjYsMi43LDE1LjgsNS40YzcuMywzLjEsMTUsNS4xLDIxLjIsNS41bDIuMSwwLjFsLTAuMSw0LjljLTAuNiwyMi44LTE0LDUzLjktMzAuMyw3MC40Yy0xMywxMy4yLTI1LjksMTUuNy0zOS42LDcuOGMtMTAtNS44LTE4LjgtMTYuMy0yNi4xLTMxLjJjLTUuNS0xMS4zLTkuOC0yNC45LTExLjUtMzYuMWMtMC42LTMuOC0wLjYtNC41LDAuMS02LjdjMS44LTUuNiw3LjEtMTIuNCwxMi4xLTE1LjRjNC4yLTIuNSw0LjMtMi41LDMsMC4xYy0yLjQsNC42LTMuNCwxMS0yLjYsMTYuNWMwLjgsNiwxLDYuMSwzLDIuNGM1LjUtMTAsMTIuOS0xOC40LDIwLjMtMjMuMWwxLjQtMC45bC0wLjksMS40Yy00LjgsNy4zLTcuMiwxNi45LTYuNiwyNi4zYzAuNSw4LjMsMC41LDguMyw1LDAuOWMyLjItMy41LDUuNi04LjYsNy42LTExLjNjNi45LTkuMywxNy42LTE4LjksMjAuNS0xOC4yQzEzOC4zLDUyLDE0MC44LDUyLjYsMTQzLjIsNTMuMnoiLz48cGF0aCBmaWxsPSIjMDAwMDAwIiBkPSJNODUsMTU2LjljLTE0LjYsNC45LTIxLjgsNy43LTMxLjcsMTIuNWMtMjEsMTAuMy0zMi44LDIyLTM4LjcsMzguNmMtMyw4LjMtNS4zLDIyLjEtNC41LDI2LjhjMC42LDMuNiwyLjQsNy4zLDQuNCw4LjhjMy41LDIuNi0zLjIsMi41LDExMi4zLDIuNWMxMTcuMywwLDEwOC42LDAuMiwxMTMuMy0yLjljNC44LTMuMiw2LjUtNy44LDUuNy0xNS4zYy0zLjgtMzUuMi0yMy41LTUzLjYtNzYuNC03MS4zYy0xMi44LTQuMy0xMS44LTQuMi0xMS44LTEuOGMwLDcuMy01LjEsMTUuMy0xMiwxOC44Yy01LjQsMi43LTkuMSwzLjQtMTcuNiwzLjRjLTguNSwwLTEyLjItMC43LTE3LjYtMy40Yy02LjktMy41LTEyLTExLjUtMTItMTguOGMwLTEuMy0wLjItMi0wLjYtMkM5Ny41LDE1Mi44LDkxLjcsMTU0LjcsODUsMTU2Ljl6Ii8+PC9nPjwvZz48L2c+DQo8L3N2Zz4="
@@ -208,11 +204,13 @@ export const TalentList = ({
           </div>
         </div>
       </div>
-      <TalentInvitationModal
-        projectModal={modal}
-        setProjectModal={setModal}
-        project={1}
-      />
+      {talent?._id === selectedTalent?._id && (
+        <TalentInvitationModal
+          projectModal={modal}
+          setProjectModal={setModal}
+          project={1}
+        />
+      )}
     </>
   );
 };
