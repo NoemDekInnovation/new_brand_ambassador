@@ -60,13 +60,13 @@ export function StatesSelect({ field, defaultValue }: GenderProps) {
       defaultValue={field.value || defaultValue}
     >
       <FormControl>
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="w-full h-12">
           <SelectValue placeholder="Select State">
             {field.value || defaultValue || "Select State"}
           </SelectValue>
         </SelectTrigger>
       </FormControl>
-      <SelectContent className="bg-white">
+      <SelectContent className="bg-white ">
         {statesInNigeria.map((item, i) => (
           <SelectItem className="" key={i} value={item}>
             {item}

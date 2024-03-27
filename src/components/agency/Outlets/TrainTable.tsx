@@ -40,11 +40,12 @@ import {
   TableHeader,
   TableRow,
 } from "../../../ui/table";
-import useAddOutlet from "../../../hooks/modals/useAddOutlet";
+
 import useDeleteOutlet from "../../../hooks/modals/useDeleteOutlet";
 import useUpdateOutlet from "../../../hooks/modals/useUpdateOutlet";
 import useManageOutlet from "../../../hooks/modals/useManageOutlet";
 import useOutletOverview from "../../../hooks/modals/useOutletOverview";
+import useCreateTraining from "../../../hooks/modals/UserCreateTraining";
 
 export type Payment = {
   id: string;
@@ -63,21 +64,16 @@ const Overview = ({ row }: any) => {
         overview.onOpen();
       }}
     >
-      {row.getValue("outletName")}
+      {row.getValue("centerName")}
     </div>
   );
 };
 
 export const columns: ColumnDef<any>[] = [
   {
-    accessorKey: "outletName",
-    header: "Outlet Name",
+    accessorKey: "centerName",
+    header: "Center Name",
     cell: ({ row }) => <Overview row={row} />,
-  },
-  {
-    accessorKey: "outletType",
-    header: "Outlet Type",
-    cell: ({ row }) => <div className="">{row.getValue("outletType")}</div>,
   },
   {
     accessorKey: "location",
@@ -110,6 +106,11 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "contactNumber",
     header: "Contact Number",
     cell: ({ row }) => <div className="">{row.getValue("contactNumber")}</div>,
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => <div className="">{row.getValue("status")}</div>,
   },
   {
     id: "actions",
@@ -174,7 +175,7 @@ const Actions = ({ payment }: any) => {
 export interface TalentQueryProp {
   [key: string]: string | number;
 }
-export function OutletTable({ data, pageSize, page, totalTalent }: any) {
+export function TrainingTable({ data, pageSize, page, totalTalent }: any) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -184,7 +185,7 @@ export function OutletTable({ data, pageSize, page, totalTalent }: any) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState("");
 
-  const { onOpen } = useAddOutlet();
+  const { onOpen } = useCreateTraining();
   const [sortQuery, setSortQuery] = React.useState<TalentQueryProp | null>(
     null
   );
@@ -231,10 +232,10 @@ export function OutletTable({ data, pageSize, page, totalTalent }: any) {
           value={globalFilter ?? ""}
           onChange={(value) => setGlobalFilter(String(value))}
           className="w-full md:w-[450px] placeholder:text-[10px] md:placeholder:text-sm"
-          placeholder="Search filter (Name, type, location, address)"
+          placeholder="Search filter (Center Name, location, address)"
         />
         <Button className="bg-[#63666A] text-white py-4 h-12" onClick={onOpen}>
-          Add Outlet
+          Add Training Center
         </Button>{" "}
       </div>
       <div className="rounded-md border">
