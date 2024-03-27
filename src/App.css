@@ -76,19 +76,19 @@
 }
 
 .dark___btn {
-  @apply bg-bm__btn__grey w-full px-4 py-1 text-white hover:bg-bm__btn__grey/70 rounded-md;
+  @apply bg-bm__btn__grey px-4 py-1 text-white hover:bg-bm__btn__grey/70 rounded-sm  text-[12px];
 }
 
 .dark__btn {
-  @apply bg-bm__btn__grey w-full px-6 py-1 text-white hover:bg-bm__btn__grey/70 rounded-md;
+  @apply bg-bm__btn__grey px-4 py-1 text-white hover:bg-bm__btn__grey/70 rounded-sm  text-[12px];
 }
 
 .light__btn {
-  @apply bg-bm_card_grey w-full px-6 py-1 text-bm__btn__grey hover:bg-bm_card_grey/70 rounded-md;
+  @apply bg-bm_card_grey w-full px-6 py-1 text-bm__btn__grey hover:bg-bm_card_grey/70 rounded-sm text-[12px];
 }
 
 .outlined__btn {
-  @apply bg-inherit w-full px-6 py-1 border-2 text-bm__btn__grey hover:bg-white/70 rounded-md;
+  @apply bg-inherit w-full px-6 py-1 border-2 text-bm__btn__grey hover:bg-white/70 rounded-sm;
 }
 
 .outlined__yellow__btn {
@@ -103,7 +103,7 @@
 }
 
 .ox__btn {
-  @apply bg-bm__ox__red w-full px-6 py-1 text-white rounded-md  hover:bg-bm__ox__red/70 whitespace-nowrap;
+  @apply bg-bm__ox__red w-full px-6 py-1 text-white text-[12px] rounded-md  hover:bg-bm__ox__red/70 whitespace-nowrap;
 }
 
 /* styles.css */
@@ -130,4 +130,21 @@ body {
   outline: none !important;
   border: none !important;
   box-shadow: none !important;
+}
+
+/* Customize the scrollbar */
+::-webkit-scrollbar {
+  width: 0; /* Set the width of the scrollbar */
+  height: 0; /* Set the width of the scrollbar */
+}
+
+/* Customize the scrollbar track */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Set the background color of the scrollbar track */
+}
+
+/* Customize the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #991d0e; /* Set the color of the scrollbar thumb */
+  border-radius: 0; /* Round the corners of the scrollbar thumb */
 }

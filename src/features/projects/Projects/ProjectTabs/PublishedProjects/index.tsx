@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Card } from "../../../../../ui/card";
 import {
   DropdownMenu,
@@ -12,106 +12,184 @@ import Pagination from "../../../../../ui/Pagination";
 import PublishedProject from "../PublishedProject";
 import { AiOutlineSearch } from "react-icons/ai";
 import NewProject from "../../NewProject";
+import { useNavigate } from "react-router-dom";
+import ProjectTip from "./ProjectTip";
+import { AppDispatch, RootState } from "../../../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchpublishprojects,
+  setProjectQuery,
+} from "../../../../../redux/revmap/projects";
+import _debounce from "lodash.debounce";
 
 const PublishedProjects = () => {
-  const [tipsBox, setTipsBox] = useState(true);
-  const [showNewProject, setShowNewProject] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
 
+  const [showNewProject, setShowNewProject] = useState(false);
+  // const [pageSize, setPageSize] = useState(10);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortQuery, setSortQuery] = useState<any>({
+    // projectId: projectId,
+    pageSize: 10,
+  });
+
+  const {
+    publishProject,
+    totalPages,
+    totalProjects,
+    page,
+    pageSize,
+    projectQuery,
+  } = useSelector((state: RootState) => state.newProjects);
+
+  const navigate = useNavigate();
   const toggleView = () => {
     setShowNewProject(!showNewProject);
   };
-  const handlePageSizeChange = (size: any) => {
-    // updateQuery({ pageSize: size });
+
+  const updateQuery = (newValues: any) => {
+    setSortQuery((prevQuery: any) => ({ ...prevQuery, ...newValues }));
   };
-  const pageSize = 20;
+
+  const handlePageSizeChange = useCallback((size: number) => {
+    updateQuery({ pageSize: size });
+    // Update query or fetch data for the new page size
+  }, []);
+
+  const handlePageChange = useCallback((page: any) => {
+    updateQuery({ page: page });
+  }, []);
+
+  const handleSearchChange = useCallback((e: any) => {
+    updateQuery({ search: e.target.value });
+    setSearchQuery(e.target.value);
+  }, []);
+
+  const debouncedFetchProjects = useCallback(
+    _debounce((projectQuery: any | null) => {
+      dispatch(fetchpublishprojects(projectQuery));
+    }, 300), // Adjust debounce delay as needed
+    [dispatch]
+  );
+
+  useEffect(() => {
+    debouncedFetchProjects(projectQuery);
+    return debouncedFetchProjects.cancel; // Cleanup debounce on component unmount
+  }, [debouncedFetchProjects, projectQuery]);
+
+  const filteredProjects = publishProject?.filter((project: any) => {
+    const lowerCaseSearchQuery = searchQuery.toLowerCase();
+
+    // Check if project and project.projectTitle are defined before calling toLowerCase()
+    const matchesTitle =
+      project?.projectTitle &&
+      project?.projectTitle.toLowerCase().includes(lowerCaseSearchQuery);
+
+    // Check if project.type is defined and matches the desired type
+    // const matchesType =
+    //   project?.type && project?.type.toLowerCase() === type.toLowerCase();
+
+    // Check if project.location is defined and intersects with the desired locations
+    const matchesLocation =
+      project?.location &&
+      project?.projectLocation?.some((loc: string) =>
+        loc.toLowerCase().includes(lowerCaseSearchQuery)
+      );
+
+    return matchesTitle;
+    // return matchesTitle && matchesType && matchesLocation;
+  });
+
+  const filtereProjects = publishProject?.filter((project: any) => {
+    // Check if project and project.name are defined before calling toLowerCase()
+    return (
+      project?.projectTitle &&
+      project?.projectTitle.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
+  useEffect(() => {
+    dispatch(setProjectQuery(sortQuery));
+  }, [sortQuery]);
+
   return (
     <>
-      <Card className="bg-white h-full  p-0 flex flex-col">
-        {/* <Card className="bg-white h-full min-h-[89vh] p-3 md:p-6 flex flex-col md:flex-row gap-3 md:gap-6"> */}
-        {tipsBox && (
-          <div className="bg-[#F8F0EB] p-3 m-4 flex items-start justify-between">
-            <div className="p-2 flex-1 text-[#515457] text-[12px] font-normal">
-              <h2>This page contains all project that you published. </h2>
-              <div className="flex gap-1 items-center">
-                <span className="bg-[#515457] ml-1 h-[3px] w-[3px] rounded-full"></span>
-                <p>You can invite suitable Talent to your projects.</p>
-              </div>
-              <div className="flex gap-1 items-center">
-                <span className="bg-[#515457] ml-1 h-[3px] w-[3px] rounded-full"></span>
-                <p>You can view all applications.</p>
-              </div>
-            </div>
-            <button
-              onClick={() => setTipsBox(false)}
-              className="cursor-pointer"
-            >
-              x
-            </button>
-          </div>
-        )}
+      <Card className="bg-white h-[70vh] p-0 flex flex-col">
+        <ProjectTip />
         <div className="border-y ">
           <div className="flex flex-col md:flex-row gap-3 bg-bm_card_grey p-4 w-full justify-between">
             <div className=" md:flex-1 ">
               <div className="px-3 bg-white mr-2 flex items-center w-full  max-w-[600px]  rounded-md">
                 <AiOutlineSearch />
                 <input
+                  className="w-full bg-transparent outline-none text-[12px] p-2 my-auto"
                   type="search"
                   placeholder="Search filter (Project name, project type and location)"
-                  className="w-full bg-transparent outline-none text-[12px] p-2 my-auto"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
                 />
               </div>
             </div>
-            <div className="w-[160px]">
-              <button className="dark___btn" onClick={toggleView}>
-                Create Project
-              </button>
-            </div>
+            <button
+              className="dark___btn"
+              onClick={() => navigate("/projects/create-project")}
+            >
+              Create Project
+            </button>
           </div>
           <div className="flex flex-col md:flex-row w-full items-center md:justify-end md:gap-6 md:px-4 py-3">
             <DropdownMenu>
               <DropdownMenuTrigger className="flex gap-1 items-center">
                 <BiSortAlt2 />
                 <div className="flex text-[12px] font-normal text-{#252525]">
-                  Sort: {"  "} Title: (A-Z){" "}
+                  Sort by: {"  "}{" "}
+                  <span className="text-black ml-1"> Title</span> (A-Z){" "}
                 </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white p-3">
-                <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
-                  Relevance
+              <DropdownMenuContent className="bg-white p-3 z-[2500] text-[#252525]">
+                <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
+                  Title (A-Z)
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-bm__beige" />
-                <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
-                  Average Rating
+                <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
+                  Title (Z-A)
                 </DropdownMenuItem>
-              </DropdownMenuContent>
+                <DropdownMenuSeparator className="bg-bm__beige" />
+                <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
+                  Date Created{" "}
+                </DropdownMenuItem>{" "}
+                <DropdownMenuSeparator className="bg-bm__beige" />
+                <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
+                  Date Closed{" "}
+                </DropdownMenuItem>{" "}
+              </DropdownMenuContent>{" "}
             </DropdownMenu>
             <div className="max-w-[400px]">
               <Pagination
-                count={10}
-                currentPage={0}
-                first=""
-                last=""
-                next=""
-                prev=""
-              />
+                count={totalProjects}
+                currentPage={page}
+                handlePageChange={handlePageChange}
+                pageSize={pageSize}
+                totalPages={totalPages}
+              />{" "}
             </div>
           </div>
         </div>
-        <div className="p-4 py-6  overflow-y-auto h-[40vh]">
-          {[1, 2, 3, 4].map((project) => {
-            return <PublishedProject key={project} project={project} />;
+        <div className="p-4 py-6  overflow-y-auto h-full">
+          {filteredProjects.map((project, idx) => {
+            return <PublishedProject key={idx} project={project} />;
           })}
         </div>
         <div className="flex w-full bg-bm_card_grey items-center justify-between md:gap-6 md:px-4 py-3 flex-col md:flex-row gap-2">
           <div className="flex items-center">
-            <p className=" whitespace-nowrap  mr-2 text-[10px]">
+            <p className=" whitespace-nowrap  mr-2 text-[12px]">
               Rows Per Page:
             </p>
             <div className="flex items-center gap-3">
               {[10, 20, 30, 40, 50].map((n, idx) => {
                 return (
                   <div
-                    className={`hover:bg-gray-300 text-[10px]  ${
+                    className={`hover:bg-gray-300 text-[12px]  ${
                       pageSize === n ? "bg-gray-300" : ""
                     } rounded p-2 transition-all duration-400 cursor-pointer`}
                     key={idx}
@@ -126,19 +204,17 @@ const PublishedProjects = () => {
 
           <div className="max-w-[400px]">
             <Pagination
-              count={10}
-              currentPage={0}
-              first=""
-              last=""
-              next=""
-              prev=""
+              count={totalProjects}
+              currentPage={page}
+              handlePageChange={handlePageChange}
+              pageSize={pageSize}
+              totalPages={totalPages}
             />
           </div>
         </div>
       </Card>
-      <NewProject cancelProject={toggleView} />
     </>
   );
 };
 
-export default PublishedProjects;
+export default React.memo(PublishedProjects);

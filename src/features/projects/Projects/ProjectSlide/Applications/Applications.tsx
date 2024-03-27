@@ -45,11 +45,11 @@ const Applications = () => {
                   <SelectContent className="z-[2500] bg-white">
                     <SelectGroup>
                       {/* <SelectLabel>Brand Ambassador</SelectLabel> */}
-                      <SelectItem value="brand-ambassador">
-                        Brand Ambassador
+                      <SelectItem value="invite">Invite all</SelectItem>
+                      <SelectItem value="add-to-favorites">
+                        Add to favorites
                       </SelectItem>
-                      <SelectItem value="user">User</SelectItem>
-                      <SelectItem value="supervisor">Supervisor</SelectItem>
+                      <SelectItem value="export">Export(Excel)</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -59,12 +59,18 @@ const Applications = () => {
                   </SelectTrigger>
                   <SelectContent className="z-[2500] bg-white">
                     <SelectGroup>
-                      {/* <SelectLabel>Brand Ambassador</SelectLabel> */}
-                      <SelectItem value="brand-ambassador">
-                        Brand Ambassador
+                      <SelectItem value="invited-talent">
+                        Invited Talent
                       </SelectItem>
-                      <SelectItem value="user">User</SelectItem>
-                      <SelectItem value="supervisor">Supervisor</SelectItem>
+                      <SelectItem value="all-talent">All Talent</SelectItem>{" "}
+                      <SelectItem value="favorites">Favorites</SelectItem>
+                      <SelectItem value="my-talent">My Talent</SelectItem>{" "}
+                      <SelectItem value="current-contracts">
+                        Current Contracts{" "}
+                      </SelectItem>
+                      <SelectItem value="engaged-talent">
+                        Engaged Talent
+                      </SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -108,23 +114,22 @@ const Applications = () => {
                 </div>
                 <div className="max-w-[400px] md: md:min-w-[300px]">
                   <Pagination
-                    count={10}
-                    currentPage={0}
-                    first=""
-                    last=""
-                    next=""
-                    prev=""
+                    count={0}
+                    currentPage={1}
+                    handlePageChange={() => {}}
+                    pageSize={0}
+                    totalPages={1}
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div className="p-4 py-6  overflow-auto h-[40vh] flex flex-col gap-4 w-full overflow-x-scroll">
+          <div className="p-4 py-6  overflow-auto  h-[50vh] flex flex-col gap-4 w-full overflow-x-scroll">
             {[1, 2, 3, 4].map((project) => {
               return (
                 <>
                   <TalentList
-                    project={project}
+                    // project={project}
                     key={project}
                     talent={""}
                     index={0}
@@ -164,13 +169,12 @@ const Applications = () => {
 
             <div className="max-w-[400px]">
               <Pagination
-                count={10}
-                currentPage={0}
-                first=""
-                last=""
-                next=""
-                prev=""
-              />
+                count={0}
+                currentPage={1}
+                handlePageChange={() => {}}
+                pageSize={0}
+                totalPages={1}
+              />{" "}
             </div>
           </div>
         </Card>

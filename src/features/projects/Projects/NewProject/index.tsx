@@ -11,6 +11,7 @@ import { useToast } from "../../../../ui/use-toast";
 import { RootState } from "../../../../redux/store";
 import OfferModal from "../../../../libs/OfferModal";
 import { patchAxiosInstance } from "../../../../api/axios";
+import { AgencyLayout } from "../../../../components/Layout";
 
 // Define a type or interface for the form data
 interface FormData {
@@ -22,12 +23,13 @@ interface FormData {
 export default function NewProject({
   cancelProject,
 }: {
-  cancelProject: () => void;
+  cancelProject?: () => void;
 }) {
   const { user } = useSelector((state: RootState) => state.user);
   const { toast } = useToast();
   const [isModalOpen, setModalOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
+  const [toggleMenubar, setToggleMenubar] = useState(false);
 
   const {
     register,
@@ -75,10 +77,13 @@ export default function NewProject({
   // Other useEffect and logic...
 
   return (
-    <>
-      <div>
+    <AgencyLayout
+      setToggleMenubar={() => setToggleMenubar(!toggleMenubar)}
+      toggleMenubar={toggleMenubar}
+    >
+      <div className="">
         <ProjectForm
-          // handleSubmit={handleSubmit(submitHandler)}
+          handleSubmit={submitHandler}
           register={register}
           errors={errors}
           // Other props...
@@ -89,6 +94,6 @@ export default function NewProject({
           statusMessage={statusMessage}
         />
       </div>
-    </>
+    </AgencyLayout>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Card } from "../../../../../ui/card";
 import {
   DropdownMenu,
@@ -23,15 +23,71 @@ import {
   SelectValue,
 } from "../../../../../ui/select";
 import { BsGrid } from "react-icons/bs";
+import { AppDispatch, RootState } from "../../../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import _debounce from "lodash.debounce";
+import {
+  fetchTalents,
+  setTalentQuery,
+} from "../../../../../redux/revmap/talent.slice";
+import { TalentQueryProp } from "../../../../../redux/talent.slice";
 
 const InviteTalent = () => {
-  const [modal, setModal] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handlePageSizeChange = (size: any) => {
-    // updateQuery({ pageSize: size });
+  const [modal, setModal] = useState(false);
+  const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>({
+    // projectId: projectId,
+  });
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const {
+    talents: resTalents,
+    totalPages,
+    totalTalent,
+    page,
+    talentQuery,
+    pageSize: resPageSize,
+  } = useSelector((state: RootState) => state.newtalent);
+
+  const updateQuery = (newValues: any) => {
+    setSortQuery((prevQuery: any) => ({ ...prevQuery, ...newValues }));
   };
 
-  const pageSize = 20;
+  const handlePageSizeChange = useCallback((size: number) => {
+    updateQuery({ pageSize: size });
+    // Update query or fetch data for the new page size
+  }, []);
+
+  const handlePageChange = useCallback((page: any) => {
+    updateQuery({ page: page });
+  }, []);
+
+  const handleSearchChange = useCallback((e: any) => {
+    updateQuery({ search: e.target.value });
+    setSearchQuery(e.target.value);
+  }, []);
+
+  const debouncedTetchTalents = useCallback(
+    _debounce((talentQuery: any | null) => {
+      console.log("only", { talentQuery });
+
+      dispatch(fetchTalents(talentQuery));
+    }, 300), // Adjust debounce delay as needed
+    [dispatch]
+  );
+
+  useEffect(() => {
+    dispatch(setTalentQuery(sortQuery));
+  }, [sortQuery]);
+
+  // console.log({ talentQuery });
+
+  useEffect(() => {
+    debouncedTetchTalents(talentQuery);
+    return debouncedTetchTalents.cancel; // Cleanup debounce on component unmount
+  }, [debouncedTetchTalents, talentQuery]);
+
   return (
     <>
       <div className="relative w-full gap-4 flex flex-col">
@@ -40,32 +96,37 @@ const InviteTalent = () => {
             <div className="flex flex-col md:flex-row gap-3 bg-bm_card_grey p-4 w-full justify-between">
               <div className=" md:max-w-[520px] w-full whitespace-nowrap gap-4 flex md:flex-1 ">
                 <Select>
-                  <SelectTrigger className="w-full bg-white">
+                  <SelectTrigger className="w-full bg-white text-[12px]">
                     <SelectValue placeholder="Action" />
                   </SelectTrigger>
-                  <SelectContent className="z-[2500] bg-white">
+                  <SelectContent className="z-[2500] bg-white text-[12px]">
                     <SelectGroup>
-                      {/* <SelectLabel>Brand Ambassador</SelectLabel> */}
-                      <SelectItem value="brand-ambassador">
-                        Brand Ambassador
+                      <SelectItem value="invite">Invite all</SelectItem>
+                      <SelectItem value="add-to-favorites">
+                        Add to favorites
                       </SelectItem>
-                      <SelectItem value="user">User</SelectItem>
-                      <SelectItem value="supervisor">Supervisor</SelectItem>
+                      <SelectItem value="export">Export(Excel)</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
                 <Select>
-                  <SelectTrigger className="w-full bg-white">
+                  <SelectTrigger className="w-full bg-white text-[12px]">
                     <SelectValue placeholder="Invited Talent" />
                   </SelectTrigger>
-                  <SelectContent className="z-[2500] bg-white">
-                    <SelectGroup>
-                      {/* <SelectLabel>Brand Ambassador</SelectLabel> */}
-                      <SelectItem value="brand-ambassador">
-                        Brand Ambassador
+                  <SelectContent className="z-[2500] bg-white text-[12px]">
+                    <SelectGroup className="text-[12px]">
+                      <SelectItem value="invited-talent">
+                        Invited Talent
                       </SelectItem>
-                      <SelectItem value="user">User</SelectItem>
-                      <SelectItem value="supervisor">Supervisor</SelectItem>
+                      <SelectItem value="all-talent">All Talent</SelectItem>{" "}
+                      <SelectItem value="favorites">Favorites</SelectItem>
+                      <SelectItem value="my-talent">My Talent</SelectItem>{" "}
+                      <SelectItem value="current-contracts">
+                        Current Contracts{" "}
+                      </SelectItem>
+                      <SelectItem value="engaged-talent">
+                        Engaged Talent
+                      </SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -75,8 +136,10 @@ const InviteTalent = () => {
                   <AiOutlineSearch />
                   <input
                     type="search"
-                    placeholder="Search filter (Project name, project type and location)"
+                    placeholder="Search filter (Name,age, location and skills)"
                     className="w-full bg-transparent outline-none text-[12px] p-2"
+                    value={searchQuery}
+                    onChange={handleSearchChange}
                   />
                 </div>
               </div>
@@ -92,16 +155,29 @@ const InviteTalent = () => {
                     <DropdownMenuTrigger className="flex gap-1 items-center">
                       <BiSortAlt2 />
                       <div className="flex text-[12px] font-normal text-{#252525]">
-                        Sort: {"  "} Relevance{" "}
+                        Sort by: {"  "}{" "}
+                        <span className="text-black ml-1">Relevance </span>
                       </div>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="bg-white p-3">
-                      <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                    <DropdownMenuContent className="bg-white p-3 z-[2500] text-[#252525]">
+                      <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
                         Relevance
                       </DropdownMenuItem>
                       <DropdownMenuSeparator className="bg-bm__beige" />
-                      <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
-                        Average Rating
+                      <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
+                        Rating(Low-High)
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator className="bg-bm__beige" />
+                      <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
+                        Rating(High-Low)
+                      </DropdownMenuItem>{" "}
+                      <DropdownMenuSeparator className="bg-bm__beige" />
+                      <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
+                        Rating(Young-Old)
+                      </DropdownMenuItem>{" "}
+                      <DropdownMenuSeparator className="bg-bm__beige" />
+                      <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
+                        Rating(Old-Young)
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -114,25 +190,23 @@ const InviteTalent = () => {
                 </div>
                 <div className="max-w-[400px] md: md:min-w-[300px]">
                   <Pagination
-                    count={10}
-                    currentPage={0}
-                    first=""
-                    last=""
-                    next=""
-                    prev=""
+                    count={totalTalent}
+                    currentPage={page}
+                    handlePageChange={handlePageChange}
+                    pageSize={resPageSize}
+                    totalPages={totalPages}
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div className="p-4 py-6  overflow-auto h-[40vh] flex flex-col gap-4 w-full overflow-x-scroll">
-            {[1, 2, 3, 4].map((project) => {
+          <div className="p-4 py-6  overflow-auto h-[50vh] flex flex-col gap-4 w-full overflow-x-scroll">
+            {resTalents.map((talent, idx: number) => {
               return (
                 <>
                   <TalentList
-                    project={project}
-                    key={project}
-                    talent={""}
+                    talent={talent}
+                    key={idx}
                     index={0}
                     handleProfilePopUp={() => {}}
                     setSelectedTalentID={() => {}}
@@ -156,7 +230,7 @@ const InviteTalent = () => {
                   return (
                     <div
                       className={`hover:bg-gray-300 text-[10px]  ${
-                        pageSize === n ? "bg-gray-300" : ""
+                        resPageSize === n ? "bg-gray-300" : ""
                       } rounded p-2 transition-all duration-400 cursor-pointer`}
                       key={idx}
                       onClick={() => handlePageSizeChange(n)}
@@ -170,12 +244,11 @@ const InviteTalent = () => {
 
             <div className="max-w-[400px]">
               <Pagination
-                count={10}
-                currentPage={0}
-                first=""
-                last=""
-                next=""
-                prev=""
+                count={totalTalent}
+                currentPage={page}
+                handlePageChange={handlePageChange}
+                pageSize={resPageSize}
+                totalPages={totalPages}
               />
             </div>
           </div>

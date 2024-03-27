@@ -27,6 +27,8 @@ import EditAgencyProfile from "./components/agency/profile/editagencyprofile";
 import PreviewPublished from "./components/agency/publishedpreview/PreviewPublished";
 import Contract from "./components/agency/contract/Contract";
 import Projects from "./features/projects";
+import NewProject from "./features/projects/Projects/NewProject";
+// import NewProject from "./components/agency/createproject";
 
 function App() {
   const ROLES: {
@@ -48,6 +50,7 @@ function App() {
             <Route path="/dashboard" element={<AgencyDashboard />} />
             <Route path="/profile" element={<AgencyProfile />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/create-project" element={<NewProject />} />
             <Route
               path="/profile/edit-agency-profile"
               element={<EditAgencyProfile />}

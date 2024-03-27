@@ -34,10 +34,13 @@ const TopProjectCard = ({ card_width }: { card_width?: string }) => {
       )}
       {!isLoading && (
         <div className="p-2 md:p-4 mb-3">
-          {[1, 2, 3, 4].map(() => {
+          {[1, 2, 3, 4].map((project, idx) => {
             return (
               <>
-                <div className="my-2  text-[12px] flex flex-col gap-2 font-normal">
+                <div
+                  className="my-2  text-[12px] flex flex-col gap-2 font-normal"
+                  key={idx}
+                >
                   <div className="flex items-center font-medium text-[#252525]">
                     <div className="h-3 w-3 rounded-full bg-gray-400 mr-1"></div>{" "}
                     cool Ltd |

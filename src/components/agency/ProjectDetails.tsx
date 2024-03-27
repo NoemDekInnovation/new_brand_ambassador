@@ -214,14 +214,14 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
       </div>
       <Separator className="my-2 mt-6 bg-[#D7D8DA]" />
       <div className="flex justify-end my-3">
-        <Pagination
+        {/* <Pagination
           first={""}
           last={""}
           prev={""}
           next={""}
           currentPage={1}
           count={projectsToRender}
-        />
+        /> */}
       </div>
     </CardContent>
   );
