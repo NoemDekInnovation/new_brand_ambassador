@@ -217,12 +217,9 @@ export function UpdateOutletDialog() {
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Input
-                                className="w-full p-4 h-12 relative"
-                                disabled={loading}
-                                placeholder="Outlet Type"
+                              <OutletType
                                 defaultValue={datas?.outletType}
-                                {...field}
+                                field={field}
                               />
                             </FormControl>
 
