@@ -31,7 +31,7 @@ const PublishedProject = ({ project }: { project: any }) => {
     dispatch(setSelectedProject(project));
   };
 
-  console.log({ project }, project?._id, selectedProject);
+  // console.log({ project }, project?._id, selectedProject);
   return (
     <>
       <Card className="p-2 mb-3">

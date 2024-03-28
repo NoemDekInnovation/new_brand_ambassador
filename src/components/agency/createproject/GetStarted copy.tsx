@@ -115,7 +115,7 @@ export default function GetStarted({
 
   return (
     <div className="px-4 pb-4  md:px-12 xl:px-40">
-      <Card className="bg-white border-none">
+      <Card className="p-4 md:p-8 mt-5 bg-white">
         <ChevBackground text="Getting Started" stage="1" />
         <Card className="w-full py-6 my-7">
           <CardContent>
