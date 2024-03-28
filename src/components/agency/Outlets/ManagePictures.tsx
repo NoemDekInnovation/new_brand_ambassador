@@ -35,6 +35,7 @@ import { toast } from "../../../ui/use-toast";
 import { FileUpload } from "./FileUpload";
 import { StatesSelect } from "./SelectOption";
 import useManageOutlet from "../../../hooks/modals/useManageOutlet";
+import useLoading from "../../../hooks/modals/useLoading";
 
 const formSchema = z.object({
   outletPictures: z.any(),
@@ -43,7 +44,7 @@ const formSchema = z.object({
 export function ManagePictures() {
   const [loading, setLoading] = useState(false);
   const { isOpen, onClose, data, setData } = useManageOutlet();
-
+  const loadingScreen = useLoading();
   const user = useSelector((state: RootState) => state.user);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -75,6 +76,7 @@ export function ManagePictures() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     setLoading(true);
+    loadingScreen.onOpen();
     // ✅ This will be type-safe and validated.
     const formdata = new FormData();
 
@@ -113,6 +115,7 @@ export function ManagePictures() {
           });
         }
       } finally {
+        loadingScreen.onClose();
         setLoading(false);
       }
     }
