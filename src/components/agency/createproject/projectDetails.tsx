@@ -276,21 +276,27 @@ export default function ProjectDetails({
           </div>
           <div className="pt-2">
             <p className="mb-2">Location</p>
-            <div className="py-2 flex gap-6 max-w-3xl flex-wrap">
+            {/* <div className="py-2 flex gap-6 max-w-3xl flex-wrap">
               {aboutProject?.projectLocation !== undefined &&
-                aboutProject?.projectLocation?.map((location, idx) => {
-                  return (
-                    (
-                      <Button
-                        key={idx}
-                        className="light__btn  max-w-fit capitalize"
-                      >
-                        {location}
-                      </Button>
-                    ) || "-"
-                  );
-                })}
-            </div>
+                aboutProject?.projectLocation?.map(
+                  (location: any, idx: any) => {
+                    return (
+                      (
+                        <Button
+                          key={idx}
+                          className="light__btn  max-w-fit capitalize"
+                        >
+                          <div className="flex gap-2">
+                            <p>{location.region}</p>
+                            <p>{location.state}</p>
+                            <p>{location.city}</p>
+                          </div>
+                        </Button>
+                      ) || "-"
+                    );
+                  }
+                )}
+            </div> */}
             {/* <Separator className="bg-bm__beige my-2" /> */}
           </div>
         </InfoCard>

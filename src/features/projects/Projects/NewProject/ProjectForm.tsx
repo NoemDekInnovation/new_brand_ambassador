@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from "react";
 // Import necessary types from react-hook-form
 import { SubmitHandler, FieldValues } from "react-hook-form";
-import GetStarted from "../../../../components/agency/createproject/GetStarted";
-import AboutProject from "../../../../components/agency/createproject/aboutProject";
+// import GetStarted from "../../../../components/agency/createproject/GetStarted";
+// import AboutProject from "../../../../components/agency/createproject/aboutProject";
 import RequiredTalents from "../../../../components/agency/createproject/requiredTalents";
 import ProjectBudget from "../../../../components/agency/createproject/projectBudget";
 import TalentRequirement from "../../../../components/agency/createproject/talentRequirement";
@@ -16,6 +16,8 @@ import { patchAxiosInstance } from "../../../../api/axios";
 import { RootState } from "../../../../redux/store";
 import { useSelector } from "react-redux";
 import { useToast } from "../../../../ui/use-toast";
+import GetStarted from "./components/GetStarted";
+import AboutProject from "./components/AboutProject";
 
 // Define props interface for ProjectForm component
 interface ProjectFormProps {

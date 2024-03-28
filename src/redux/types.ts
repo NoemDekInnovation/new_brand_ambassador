@@ -182,7 +182,8 @@ export interface AboutProjectProps {
   projectTitle: string;
   projectCategory: string;
   // projectCode: string;
-  projectLocation: string[];
+  projectLocation: any;
+  // projectLocation: [];
   projectDescription: string;
   startDate: string;
   endDate: string;
