@@ -80,14 +80,14 @@ export function CenterOverview() {
                 <div className="h-full">
                   <div className="h-4/5 w-full overflow-hidden">
                     <img
-                      src={datas?.outletPictures[index]}
+                      src={datas?.centrePictures[index]}
                       alt="pictures"
                       className="object-cover w-full h-full"
                     />
                   </div>
                   <div className="h-1/5 w-full flex overflow-x-scroll sidebar-scroll">
-                    {datas?.outletPictures.length > 0 &&
-                      datas?.outletPictures.map((item: string, i: number) => (
+                    {datas?.centrePictures.length > 0 &&
+                      datas?.centrePictures.map((item: string, i: number) => (
                         <div
                           key={i}
                           className={` w-24 h-24 aspect-square relative cursor-pointer`}
@@ -106,83 +106,85 @@ export function CenterOverview() {
                   <h4 className="px-4 pt-4 text-xl md:text-2xl font-semibold">
                     {datas?.outletName}, {datas?.location}
                   </h4>
-                  <div className="m-4 space-y-4 rounded-lg px-4">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-40 text-sm">
-                        <p>Centre Name</p>
+                  <div className="flex justify-between flex-col h-full pb-10">
+                    <div className="m-4 space-y-4 rounded-lg px-4">
+                      <div className="flex gap-4 items-center">
+                        <div className="w-40 text-sm">
+                          <p>Centre Name</p>
+                        </div>
+                        <div className=" text-sm">
+                          <p>{datas?.centreName}</p>
+                        </div>
                       </div>
-                      <div className=" text-sm">
-                        <p>{datas?.centreName}</p>
+                      <div className="flex gap-4 items-center">
+                        <div className="w-40 text-sm">
+                          <p>Location</p>
+                        </div>
+                        <div className=" text-sm">
+                          <p>{datas?.location}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex gap-4 items-center">
-                      <div className="w-40 text-sm">
-                        <p>Location</p>
+
+                      <div className="flex gap-4 items-center">
+                        <div className="w-40 text-sm">
+                          <p>Contact Email</p>
+                        </div>
+                        <div className=" text-sm">
+                          <p>{datas?.contactEmail}</p>
+                        </div>
                       </div>
-                      <div className=" text-sm">
-                        <p>{datas?.location}</p>
+                      <div className="flex gap-4 items-center">
+                        <div className="w-40 text-sm">
+                          <p>Contact Number</p>
+                        </div>
+                        <div className=" text-sm">
+                          <p>{datas?.contactNumber}</p>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-4 items-center">
+                        <div className="w-40 text-sm">
+                          <p>Address</p>
+                        </div>
+                        <div className=" text-sm">
+                          <p>
+                            {datas?.address?.street}, {datas?.address?.city},{" "}
+                            {datas?.address?.zipCode}, {datas?.address?.state}.
+                          </p>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="flex gap-4 items-center">
-                      <div className="w-40 text-sm">
-                        <p>Contact Email</p>
-                      </div>
-                      <div className=" text-sm">
-                        <p>{datas?.contactEmail}</p>
-                      </div>
+                    <div className="flex justify-between items-end gap-4 p-4">
+                      <Button
+                        onClick={() => {
+                          managePicture.setData(datas);
+                          managePicture.onOpen();
+                        }}
+                        className="bg-[#F7F7F7] text-black w-full"
+                      >
+                        Manage Pictures
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          updateUser.setData(datas);
+                          updateUser.onOpen();
+                        }}
+                        className="border w-full"
+                      >
+                        Update
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          deleteUser.setData(datas);
+                          deleteUser.onOpen();
+                        }}
+                        variant={"destructive"}
+                        className="border w-full"
+                      >
+                        Delete
+                      </Button>
                     </div>
-                    <div className="flex gap-4 items-center">
-                      <div className="w-40 text-sm">
-                        <p>Contact Number</p>
-                      </div>
-                      <div className=" text-sm">
-                        <p>{datas?.contactNumber}</p>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-4 items-center">
-                      <div className="w-40 text-sm">
-                        <p>Address</p>
-                      </div>
-                      <div className=" text-sm">
-                        <p>
-                          {datas?.address?.street}, {datas?.address?.city},{" "}
-                          {datas?.address?.zipCode}, {datas?.address?.state}.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-end gap-4 p-4">
-                    <Button
-                      onClick={() => {
-                        managePicture.setData(datas);
-                        managePicture.onOpen();
-                      }}
-                      className="bg-[#F7F7F7] text-black w-full"
-                    >
-                      Manage Pictures
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        updateUser.setData(datas);
-                        updateUser.onOpen();
-                      }}
-                      className="border w-full"
-                    >
-                      Update
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        deleteUser.setData(datas);
-                        deleteUser.onOpen();
-                      }}
-                      variant={"destructive"}
-                      className="border w-full"
-                    >
-                      Delete
-                    </Button>
                   </div>
                 </div>
               </div>

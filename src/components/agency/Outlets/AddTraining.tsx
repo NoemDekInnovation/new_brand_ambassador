@@ -34,6 +34,7 @@ import { FileUpload } from "./FileUpload";
 import { OutletType, StatesSelect } from "./SelectOption";
 import useCreateTraining from "../../../hooks/modals/UserCreateTraining";
 import useLoading from "../../../hooks/modals/useLoading";
+import CustomInput from "../../../ui/customInput";
 
 const formSchema = z.object({
   centerName: z.string(),
@@ -139,7 +140,7 @@ export function AddTrainDialog() {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-4"
                 >
-                  <div className="rounded-lg border space-y-8 h-[55vh] overflow-y-auto sidebar-scroll">
+                  <div className="rounded-lg border space-y-8 h-[70vh] overflow-y-auto sidebar-scroll">
                     <p className=" mx-4 my-2 text-sm font-medium">
                       Center Information
                     </p>
@@ -151,11 +152,10 @@ export function AddTrainDialog() {
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Input
-                                className="w-full p-4 h-12 relative"
-                                disabled={loading}
-                                placeholder="Center Name"
-                                {...field}
+                              <CustomInput
+                                required
+                                label="Center Name"
+                                field={field}
                               />
                             </FormControl>
                           </FormItem>
@@ -167,11 +167,10 @@ export function AddTrainDialog() {
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Input
-                                className="w-full p-4 h-12 relative"
-                                disabled={loading}
-                                placeholder="Location*"
-                                {...field}
+                              <CustomInput
+                                required
+                                label="Location"
+                                field={field}
                               />
                             </FormControl>
 
@@ -185,12 +184,10 @@ export function AddTrainDialog() {
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Input
-                                className="w-full p-4 h-12 relative"
-                                disabled={loading}
-                                type="email"
-                                placeholder="Contact Email"
-                                {...field}
+                              <CustomInput
+                                required
+                                label="Contact Email"
+                                field={field}
                               />
                             </FormControl>
 
@@ -204,11 +201,10 @@ export function AddTrainDialog() {
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Input
-                                className="w-full p-4 h-12 relative"
-                                disabled={loading}
-                                placeholder="Contact Number"
-                                {...field}
+                              <CustomInput
+                                required
+                                label="Contact Number"
+                                field={field}
                               />
                             </FormControl>
 
@@ -227,11 +223,10 @@ export function AddTrainDialog() {
                           render={({ field }) => (
                             <FormItem>
                               <FormControl>
-                                <Input
-                                  className="w-full p-4 h-12 relative"
-                                  disabled={loading}
-                                  placeholder="Street"
-                                  {...field}
+                                <CustomInput
+                                  required
+                                  label="Street"
+                                  field={field}
                                 />
                               </FormControl>
 
@@ -245,11 +240,10 @@ export function AddTrainDialog() {
                           render={({ field }) => (
                             <FormItem>
                               <FormControl>
-                                <Input
-                                  className="w-full p-4 h-12 relative"
-                                  disabled={loading}
-                                  placeholder="City"
-                                  {...field}
+                                <CustomInput
+                                  required
+                                  label="City"
+                                  field={field}
                                 />
                               </FormControl>
 
@@ -272,11 +266,10 @@ export function AddTrainDialog() {
                           render={({ field }) => (
                             <FormItem>
                               <FormControl>
-                                <Input
-                                  className="w-full p-4 h-12 relative"
-                                  disabled={loading}
-                                  placeholder="Postal Code"
-                                  {...field}
+                                <CustomInput
+                                  required
+                                  label="Zip code"
+                                  field={field}
                                 />
                               </FormControl>
 

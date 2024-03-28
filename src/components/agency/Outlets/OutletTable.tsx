@@ -115,13 +115,11 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => <div className="">{row.getValue("contactNumber")}</div>,
   },
   {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return <Actions payment={payment} />;
-    },
+    accessorKey: "metaData.status",
+    header: "Status",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.original.metaData.status}</div>
+    ),
   },
 ];
 
@@ -234,6 +232,7 @@ export function OutletTable({ data, pageSize, page, totalTalent }: any) {
       globalFilter,
     },
   });
+  const overview = useOutletOverview();
 
   const negativePage = pageSize - 1;
   const positivePage = pageSize + 1;
@@ -283,6 +282,7 @@ export function OutletTable({ data, pageSize, page, totalTalent }: any) {
                       </TableHead>
                     );
                   })}
+                  <TableHead>Actions</TableHead>
                 </TableRow>
               ))}
             </TableHeader>
@@ -294,13 +294,23 @@ export function OutletTable({ data, pageSize, page, totalTalent }: any) {
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell
+                        key={cell.id}
+                        onClick={() => {
+                          overview.setData(row.original);
+                          overview.onOpen();
+                        }}
+                        className="cursor-pointer"
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
                         )}
                       </TableCell>
                     ))}
+                    <TableCell>
+                      <Actions payment={row.original} />
+                    </TableCell>
                   </TableRow>
                 ))
               ) : (

@@ -118,15 +118,6 @@ export const columns: ColumnDef<any>[] = [
       <div className="capitalize">{row.original.metaData.status}</div>
     ),
   },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return <Actions payment={payment} />;
-    },
-  },
 ];
 
 const Actions = ({ payment }: any) => {
@@ -237,6 +228,7 @@ export function TrainingTable({ data, pageSize, page, totalTalent }: any) {
       globalFilter,
     },
   });
+  const overview = useCenterOverview();
 
   const negativePage = pageSize - 1;
   const positivePage = pageSize + 1;
@@ -254,7 +246,7 @@ export function TrainingTable({ data, pageSize, page, totalTalent }: any) {
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full space-y-4">
       <CentreAlert />
 
       <div className="flex items-center sm:flex-row flex-col justify-between w-full bg-[#F7F7F7] p-4">
@@ -286,6 +278,7 @@ export function TrainingTable({ data, pageSize, page, totalTalent }: any) {
                       </TableHead>
                     );
                   })}
+                  <TableHead>Actions</TableHead>
                 </TableRow>
               ))}
             </TableHeader>
@@ -297,13 +290,23 @@ export function TrainingTable({ data, pageSize, page, totalTalent }: any) {
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell
+                        key={cell.id}
+                        onClick={() => {
+                          overview.setData(row.original);
+                          overview.onOpen();
+                        }}
+                        className="cursor-pointer"
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
                         )}
                       </TableCell>
                     ))}
+                    <TableCell>
+                      <Actions payment={row.original} />
+                    </TableCell>
                   </TableRow>
                 ))
               ) : (

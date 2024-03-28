@@ -34,6 +34,7 @@ import { toast } from "../../../ui/use-toast";
 import { FileUpload } from "./FileUpload";
 import { OutletType, StatesSelect } from "./SelectOption";
 import useLoading from "../../../hooks/modals/useLoading";
+import CustomInput from "../../../ui/customInput";
 
 const formSchema = z.object({
   outletName: z.string(),
@@ -194,16 +195,14 @@ export function AddOutletDialog() {
                         control={form.control}
                         name="outletName"
                         render={({ field }) => (
-                          <FormItem>
+                          <FormItem className="">
                             <FormControl>
-                              <Input
-                                className="w-full p-4 h-12 relative"
-                                disabled={loading}
-                                placeholder="Outlet Name *"
-                                {...field}
+                              <CustomInput
+                                required
+                                label="Outlet Name"
+                                field={field}
                               />
                             </FormControl>
-
                             <FormMessage />
                           </FormItem>
                         )}
@@ -225,11 +224,10 @@ export function AddOutletDialog() {
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Input
-                                className="w-full p-4 h-12 relative"
-                                disabled={loading}
-                                placeholder="Location"
-                                {...field}
+                              <CustomInput
+                                required
+                                label="Location"
+                                field={field}
                               />
                             </FormControl>
 
@@ -243,12 +241,10 @@ export function AddOutletDialog() {
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Input
-                                className="w-full p-4 h-12 relative"
-                                disabled={loading}
-                                type="email"
-                                placeholder="Contact Email"
-                                {...field}
+                              <CustomInput
+                                required
+                                label="Contact Email"
+                                field={field}
                               />
                             </FormControl>
 
@@ -262,11 +258,10 @@ export function AddOutletDialog() {
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Input
-                                className="w-full p-4 h-12 relative"
-                                disabled={loading}
-                                placeholder="Contact Number"
-                                {...field}
+                              <CustomInput
+                                required
+                                label="Contact Number"
+                                field={field}
                               />
                             </FormControl>
 
@@ -284,11 +279,10 @@ export function AddOutletDialog() {
                           render={({ field }) => (
                             <FormItem>
                               <FormControl>
-                                <Input
-                                  className="w-full p-4 h-12 relative"
-                                  disabled={loading}
-                                  placeholder="Street"
-                                  {...field}
+                                <CustomInput
+                                  required
+                                  label="Street"
+                                  field={field}
                                 />
                               </FormControl>
 
@@ -302,11 +296,10 @@ export function AddOutletDialog() {
                           render={({ field }) => (
                             <FormItem>
                               <FormControl>
-                                <Input
-                                  className="w-full p-4 h-12 relative"
-                                  disabled={loading}
-                                  placeholder="City"
-                                  {...field}
+                                <CustomInput
+                                  required
+                                  label="City"
+                                  field={field}
                                 />
                               </FormControl>
 
@@ -329,11 +322,10 @@ export function AddOutletDialog() {
                           render={({ field }) => (
                             <FormItem>
                               <FormControl>
-                                <Input
-                                  className="w-full p-4 h-12 relative"
-                                  disabled={loading}
-                                  placeholder="Postal Code"
-                                  {...field}
+                                <CustomInput
+                                  required
+                                  label="Zip code"
+                                  field={field}
                                 />
                               </FormControl>
 
@@ -346,7 +338,8 @@ export function AddOutletDialog() {
 
                     <div className=" space-y-4 border-b-1 px-4">
                       <p className="text-sm font-medium">
-                        Working Days And Hours
+                        Working Days And Hours{" "}
+                        <span className="text-red-600"></span>
                       </p>
                       <div className="space-y-4 grid grid-cols-1 lg:grid-cols-2 gap-x-12">
                         <div className="flex items-center gap-2">

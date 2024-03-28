@@ -60,7 +60,7 @@ export function StatesSelect({ field, defaultValue }: GenderProps) {
       defaultValue={field.value || defaultValue}
     >
       <FormControl>
-        <SelectTrigger className="w-full h-12">
+        <SelectTrigger className="w-full h-full">
           <SelectValue placeholder="Select State">
             {field.value || defaultValue || "Select State"}
           </SelectValue>
@@ -86,7 +86,7 @@ export function OutletType({ field, defaultValue }: GenderProps) {
       defaultValue={field.value || defaultValue}
     >
       <FormControl>
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="w-full h-full">
           <SelectValue placeholder="Select Outlet Type">
             {field.value || defaultValue || "Outlet Type *"}
           </SelectValue>

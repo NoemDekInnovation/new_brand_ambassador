@@ -20,3 +20,55 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.custom-input {
+  width: 100%;
+  position: relative;
+}
+
+.custom-input input {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  font-weight: 300;
+  border-width: 2px;
+  border-radius: 0.375rem; /* 6px */
+  outline: 0;
+}
+
+.custom-input input:focus {
+  border-color:  #c22a2a;
+}
+
+.custom-input input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.custom-input input.error {
+  border-color: #c22a2a;
+}
+
+.custom-input input.error:focus {
+  border-color:  #c22a2a;
+}
+
+.custom-input label {
+  position: absolute;
+  font-size: 1rem; /* 16px */
+  color: #63666A;
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(-3rem);
+  top: 0; /* 20px */
+  left: 1rem; /* 16px */
+  z-index: 10;
+}
+
+.custom-input input:focus + label,
+.custom-input input:not(:placeholder-shown) + label {
+  transform: scale(0.75) translateY(-4rem);
+}
+
+.custom-input label.error {
+  color: #c22a2a;
+}

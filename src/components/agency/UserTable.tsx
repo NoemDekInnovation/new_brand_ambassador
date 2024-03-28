@@ -210,15 +210,6 @@ export const columns: ColumnDef<any>[] = [
       <div className="lowercase text-xs">{row.getValue("duration") || "-"}</div>
     ),
   },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return <Actions payment={payment} />;
-    },
-  },
 ];
 
 const Actions = ({ payment }: any) => {
@@ -323,6 +314,7 @@ export function UsersTable({
   const [rowSelection, setRowSelection] = React.useState({});
 
   const { onOpen } = useCreateUser();
+  const overview = useUserOverview();
 
   const table = useReactTable({
     data,
@@ -402,6 +394,7 @@ export function UsersTable({
                       </TableHead>
                     );
                   })}
+                  <TableHead>Actions</TableHead>
                 </TableRow>
               ))}
             </TableHeader>
@@ -413,7 +406,14 @@ export function UsersTable({
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell
+                        key={cell.id}
+                        className="cursor-pointer"
+                        onClick={() => {
+                          overview.setData(row.original);
+                          overview.onOpen();
+                        }}
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
