@@ -44,7 +44,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   const [aboutProject, setAboutProject] = useState({
     projectTitle: "",
     projectCategory: "",
-    projectCode: "",
+    // projectCode: "",
     projectLocation: [],
     projectDescription: "",
     startDate: "",
@@ -109,7 +109,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
         draft: isDraft,
         projectTitle: aboutProject.projectTitle,
         projectCategory: aboutProject.projectCategory,
-        projectCode: aboutProject.projectCode,
+        // projectCode: aboutProject.projectCode,
         projectLocation: aboutProject.projectLocation,
         projectDescription: aboutProject.projectDescription,
         projectRequirements: proposal,
@@ -218,7 +218,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
     setAboutProject({
       projectTitle: reusableProject?.projectTitle || "",
       projectCategory: reusableProject?.projectCategory || "",
-      projectCode: "",
+      // projectCode: "",
       projectLocation: reusableProject?.projectLocation || [],
       projectDescription: reusableProject?.projectTitle || "",
       startDate: reusableProject?.projectDuration?.startDate || "",
@@ -264,7 +264,14 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
 
   return (
     <>
-      <div className="">
+      <div className="bg-white">
+        <div className="px-4 pt-6  md:px-12 xl:px-40">
+          <div className="text-[12px] text-bm__grey__text__100 cursor-pointer">
+            <span onClick={cancelProject}>Projects</span>
+            <span className="mx-1">{">"}</span>
+            <span className="underline text-black">Create Project</span>
+          </div>
+        </div>
         {currentStep === "getStarted" && (
           <GetStarted
             next={() => handleStepChange("aboutProject")}
