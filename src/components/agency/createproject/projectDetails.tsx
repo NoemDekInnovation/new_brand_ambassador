@@ -187,9 +187,9 @@ export default function ProjectDetails({
             <p className="py-2 text-[16px] font-normal">
               {aboutProject.projectCategory}
             </p>
-            <p className="py-2 text-[16px] font-normal">
+            {/* <p className="py-2 text-[16px] font-normal">
               {aboutProject.projectCode}
-            </p>
+            </p> */}
             <Separator className="bg-bm__beige my-3" />
             {/* <p className=" capitalize text-[14px]">
               Project Description: {aboutProject.projectDescription || "-"}

@@ -22,7 +22,7 @@ export default function Pagination({
 
   return (
     <>
-      <div className="flex flex-col items-center w-full md:max-w-[240px] md:ml-auto">
+      <div className="flex flex-col items-center w-full md:max-w-[260px] md:ml-auto">
         <div className="inline-flex mt-2 sm:mt-0 w-full items-center justify-between text-[12px] font-normal text-gray-700 dark:text-gray-400">
           <div className="flex gap-4">
             {currentPage * pageSize - negativePage <= pageSize && (

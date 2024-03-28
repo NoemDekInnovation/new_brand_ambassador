@@ -21,7 +21,7 @@ import { useToast } from "../../../ui/use-toast";
 const aboutProjectSchema = z.object({
   projectTitle: z.string(),
   projectCategory: z.string(),
-  projectCode: z.string().min(1),
+  // projectCode: z.string().min(1),
   projectLocation: z.string(),
   projectDescription: z.string(),
   projectRequirements: z.string(),
@@ -67,7 +67,7 @@ export default function NewProject({
   const [aboutProject, setAboutProject] = useState({
     projectTitle: "",
     projectCategory: "",
-    projectCode: "",
+    // projectCode: "",
     projectLocation: [],
     projectDescription: "",
     startDate: "",
@@ -156,7 +156,7 @@ export default function NewProject({
         draft: isDraft,
         projectTitle: aboutProject.projectTitle,
         projectCategory: aboutProject.projectCategory,
-        projectCode: aboutProject.projectCode,
+        // projectCode: aboutProject.projectCode,
         projectLocation: aboutProject.projectLocation,
         projectDescription: aboutProject.projectDescription,
         projectRequirements: proposal,
@@ -265,7 +265,7 @@ export default function NewProject({
     setAboutProject({
       projectTitle: reusableProject?.projectTitle || "",
       projectCategory: reusableProject?.projectCategory || "",
-      projectCode: "",
+      // projectCode: "",
       projectLocation: reusableProject?.projectLocation || [],
       projectDescription: reusableProject?.projectTitle || "",
       startDate: reusableProject?.projectDuration?.startDate || "",

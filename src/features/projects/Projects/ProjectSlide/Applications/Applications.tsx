@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Card } from "../../../../../ui/card";
 import {
   DropdownMenu,
@@ -9,9 +9,7 @@ import {
 } from "../../../../../ui/dropdown-menu";
 import { BiSortAlt2 } from "react-icons/bi";
 import Pagination from "../../../../../ui/Pagination";
-// import PublishedProject from "../PublishedProject";
 import { AiOutlineSearch } from "react-icons/ai";
-import PublishedProject from "../../ProjectTabs/PublishedProject";
 import { Checkbox } from "../../../../../ui/checkbox";
 import { TalentList } from "../../../../../components/newAgency/Talentlist";
 import {
@@ -22,15 +20,77 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../../../ui/select";
+import { BsGrid } from "react-icons/bs";
+import {
+  TalentQueryProp,
+  setTalentQuery,
+} from "../../../../../redux/revmap/talent.slice";
+import { AppDispatch, RootState } from "../../../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import _debounce from "lodash.debounce";
+import { fetchApplications } from "../../../../../redux/applicantions.slice";
 
 const Applications = () => {
-  const [modal, setModal] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handlePageSizeChange = (size: any) => {
-    // updateQuery({ pageSize: size });
+  const [modal, setModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortQuery, setSortQuery] = useState<TalentQueryProp | null>({
+    // projectId: projectId,
+  });
+  const {
+    talents: resTalents,
+    totalPages,
+    totalTalent,
+    page,
+    talentQuery,
+    pageSize,
+  } = useSelector((state: RootState) => state.newtalent);
+  const { selectedProject } = useSelector(
+    (state: RootState) => state.newProjects
+  );
+
+  const updateQuery = (newValues: any) => {
+    setSortQuery((prevQuery: any) => ({ ...prevQuery, ...newValues }));
   };
 
-  const pageSize = 20;
+  const handlePageSizeChange = useCallback((size: number) => {
+    updateQuery({ pageSize: size });
+    // Update query or fetch data for the new page size
+  }, []);
+
+  const handlePageChange = useCallback((page: any) => {
+    updateQuery({ page: page });
+  }, []);
+
+  const handleSearchChange = useCallback((e: any) => {
+    updateQuery({ search: e.target.value });
+    setSearchQuery(e.target.value);
+  }, []);
+
+  const debouncedTetchTalents = useCallback(
+    _debounce((talentQuery: any | null) => {
+      console.log("only", { talentQuery });
+
+      // dispatch(fetchTalents(talentQuery));
+      dispatch(
+        fetchApplications({ id: selectedProject._id, queryParams: null })
+      );
+    }, 300), // Adjust debounce delay as needed
+    [dispatch]
+  );
+
+  useEffect(() => {
+    dispatch(setTalentQuery(sortQuery));
+  }, [sortQuery]);
+
+  // console.log({ talentQuery });
+
+  useEffect(() => {
+    debouncedTetchTalents(talentQuery);
+    return debouncedTetchTalents.cancel; // Cleanup debounce on component unmount
+  }, [debouncedTetchTalents, talentQuery]);
+
   return (
     <>
       <div className="relative w-full gap-4 flex flex-col">
@@ -39,37 +99,38 @@ const Applications = () => {
             <div className="flex flex-col md:flex-row gap-3 bg-bm_card_grey p-4 w-full justify-between">
               <div className=" md:max-w-[520px] w-full whitespace-nowrap gap-4 flex md:flex-1 ">
                 <Select>
-                  <SelectTrigger className="w-full bg-white">
+                  <SelectTrigger className="w-full bg-white text-[12px]">
                     <SelectValue placeholder="Action" />
                   </SelectTrigger>
-                  <SelectContent className="z-[2500] bg-white">
+                  <SelectContent className="z-[2500] bg-white text-[12px]">
                     <SelectGroup>
-                      {/* <SelectLabel>Brand Ambassador</SelectLabel> */}
-                      <SelectItem value="invite">Invite all</SelectItem>
-                      <SelectItem value="add-to-favorites">
-                        Add to favorites
+                      <SelectItem value="invite-for-training">
+                        Invite for training
+                      </SelectItem>
+                      <SelectItem value="send-broadcast">
+                        Send Broadcast{" "}
                       </SelectItem>
                       <SelectItem value="export">Export(Excel)</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
                 <Select>
-                  <SelectTrigger className="w-full bg-white">
-                    <SelectValue placeholder="Invited Talent" />
+                  <SelectTrigger className="w-full bg-white text-[12px]">
+                    <SelectValue placeholder="All Applications" />
                   </SelectTrigger>
-                  <SelectContent className="z-[2500] bg-white">
-                    <SelectGroup>
-                      <SelectItem value="invited-talent">
-                        Invited Talent
+                  <SelectContent className="z-[2500] bg-white text-[12px]">
+                    <SelectGroup className="text-[12px]">
+                      <SelectItem value="training-invitees">
+                        Training Invitees{" "}
                       </SelectItem>
-                      <SelectItem value="all-talent">All Talent</SelectItem>{" "}
-                      <SelectItem value="favorites">Favorites</SelectItem>
-                      <SelectItem value="my-talent">My Talent</SelectItem>{" "}
-                      <SelectItem value="current-contracts">
-                        Current Contracts{" "}
+                      <SelectItem value="all-applications">
+                        All Applications
+                      </SelectItem>{" "}
+                      <SelectItem value="applications-brand-ambassador">
+                        Applications(Brand Ambassador)
                       </SelectItem>
-                      <SelectItem value="engaged-talent">
-                        Engaged Talent
+                      <SelectItem value="applications-supervisor">
+                        Applications(Brand Supervisor)
                       </SelectItem>
                     </SelectGroup>
                   </SelectContent>
@@ -82,56 +143,75 @@ const Applications = () => {
                     type="search"
                     placeholder="Search filter (Project name, project type and location)"
                     className="w-full bg-transparent outline-none text-[12px] p-2"
+                    value={searchQuery}
+                    onChange={handleSearchChange}
                   />
                 </div>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row justify-between md:items-center">
-              <div className="flex items-center gap-3 md:px-4 py-3 px-2">
+            <div className="flex flex-col md:flex-row justify-between md:items-center text-[#808080]">
+              <div className="flex items-center gap-3 md:px-4 py-3 px-2 text-[12px] font-normal">
                 <Checkbox />
                 <p className="whitespace-nowrap">Select all</p>
               </div>
               <div className="flex flex-col md:flex-row w-full items-center md:justify-end md:gap-8 md:px-4">
-                <div className="flex justify-between px-2 gap-2 w-full">
+                <div className="flex justify-between md:justify-end px-2 gap-2 md:gap-8 md:h-full w-full">
                   <DropdownMenu>
                     <DropdownMenuTrigger className="flex gap-1 items-center">
                       <BiSortAlt2 />
                       <div className="flex text-[12px] font-normal text-{#252525]">
-                        Sort: {"  "} Relevance{" "}
+                        Sort by: {"  "}{" "}
+                        <span className="text-black ml-1">Relevance </span>
                       </div>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="bg-white p-3">
-                      <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
+                    <DropdownMenuContent className="bg-white p-3 z-[2500] text-[#252525]">
+                      <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
                         Relevance
                       </DropdownMenuItem>
                       <DropdownMenuSeparator className="bg-bm__beige" />
-                      <DropdownMenuItem className="hover:bg-black/10  text-[16px]">
-                        Average Rating
+                      <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
+                        Rating(Low-High)
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator className="bg-bm__beige" />
+                      <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
+                        Rating(High-Low)
+                      </DropdownMenuItem>{" "}
+                      <DropdownMenuSeparator className="bg-bm__beige" />
+                      <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
+                        Rating(Young-Old)
+                      </DropdownMenuItem>{" "}
+                      <DropdownMenuSeparator className="bg-bm__beige" />
+                      <DropdownMenuItem className="hover:bg-black/10  text-[12px]">
+                        Rating(Old-Young)
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <div className="flex gap-2">View</div>
+                  <div className="flex gap-2 text-[12px] font-normal items-center">
+                    View:
+                    <div className="border rounded p-1 border-[#808080]">
+                      <BsGrid />
+                    </div>
+                  </div>
                 </div>
                 <div className="max-w-[400px] md: md:min-w-[300px]">
                   <Pagination
-                    count={0}
-                    currentPage={1}
-                    handlePageChange={() => {}}
-                    pageSize={0}
-                    totalPages={1}
+                    count={totalTalent}
+                    currentPage={page}
+                    handlePageChange={handlePageChange}
+                    pageSize={pageSize}
+                    totalPages={totalPages}
                   />
                 </div>
               </div>
             </div>
           </div>
           <div className="p-4 py-6  overflow-auto  h-[50vh] flex flex-col gap-4 w-full overflow-x-scroll">
-            {[1, 2, 3, 4].map((project) => {
+            {resTalents.map((talent, idx: number) => {
               return (
                 <>
                   <TalentList
-                    // project={project}
-                    key={project}
-                    talent={""}
+                    talent={talent}
+                    key={idx}
                     index={0}
                     handleProfilePopUp={() => {}}
                     setSelectedTalentID={() => {}}
@@ -169,11 +249,11 @@ const Applications = () => {
 
             <div className="max-w-[400px]">
               <Pagination
-                count={0}
-                currentPage={1}
-                handlePageChange={() => {}}
-                pageSize={0}
-                totalPages={1}
+                count={totalTalent}
+                currentPage={page}
+                handlePageChange={handlePageChange}
+                pageSize={pageSize}
+                totalPages={totalPages}
               />{" "}
             </div>
           </div>
