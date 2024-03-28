@@ -378,98 +378,108 @@ export function UsersTable({
           </Button>{" "}
         </div>
         <div className="rounded-md border">
-          <Table className=" h-full">
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id} className="text-sm capitalize">
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </TableHead>
-                    );
-                  })}
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className="cursor-pointer"
-                        onClick={() => {
-                          overview.setData(row.original);
-                          overview.onOpen();
-                        }}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
+          <div className="h-[40vh]">
+            <Table className=" h-full">
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead
+                          key={header.id}
+                          className="text-sm capitalize"
+                        >
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                        </TableHead>
+                      );
+                    })}
+                    <TableHead>Actions</TableHead>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-        <div className="bg-[#F7F7F7] flex flex-col gap-5 md:flex-row justify-between items-center p-4">
-          <div className="flex items-center">
-            <p className=" whitespace-nowrap  mr-2 text-xs">Rows Per Page:</p>
-            <div className="flex items-center gap-3">
-              {[10, 20, 30, 40, 50].map((n, idx) => {
-                return (
-                  <div
-                    className={`hover:bg-gray-300 text-xs  ${
-                      pageSize === n ? "bg-gray-300" : ""
-                    } rounded p-2 transition-all duration-400 cursor-pointer`}
-                    key={idx}
-                    onClick={() => handlePageSizeChange(n)}
-                  >
-                    {n}
-                  </div>
-                );
-              })}
-            </div>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell
+                          key={cell.id}
+                          className="cursor-pointer"
+                          onClick={() => {
+                            overview.setData(row.original);
+                            overview.onOpen();
+                          }}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                      <TableCell>
+                        <Actions payment={row.original} />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
+                      No results.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
           </div>
+          <div className="bg-[#F7F7F7] flex flex-col gap-5 md:flex-row justify-between items-center p-4">
+            <div className="flex items-center">
+              <p className=" whitespace-nowrap  mr-2 text-xs">Rows Per Page:</p>
+              <div className="flex items-center gap-3">
+                {[10, 20, 30, 40, 50].map((n, idx) => {
+                  return (
+                    <div
+                      className={`hover:bg-gray-300 text-xs  ${
+                        pageSize === n ? "bg-gray-300" : ""
+                      } rounded p-2 transition-all duration-400 cursor-pointer`}
+                      key={idx}
+                      onClick={() => handlePageSizeChange(n)}
+                    >
+                      {n}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
-          <div className="flex gap-8 text-bm_black/75 text-xs whitespace-nowrap">
-            <div className="">First</div>
+            <div className="flex gap-8 text-bm_black/75 text-xs whitespace-nowrap">
+              <div className="">First</div>
 
-            <div className="flex gap-8 text-bm_black/75 text-[14px]">
-              <p className="text-[10px]">Back</p>
+              <div className="flex gap-8 text-bm_black/75 text-[14px]">
+                <p className="text-[10px]">Back</p>
 
-              <p className="text-[10px]">
-                {page * pageSize - negativePage} -{" "}
-                {page * pageSize >= totalTalent ? totalTalent : page * pageSize}{" "}
-                of {totalTalent}
-              </p>
+                <p className="text-[10px]">
+                  {page * pageSize - negativePage} -{" "}
+                  {page * pageSize >= totalTalent
+                    ? totalTalent
+                    : page * pageSize}{" "}
+                  of {totalTalent}
+                </p>
 
-              <p className="text-[10px]">Next</p>
+                <p className="text-[10px]">Next</p>
 
-              <p className="text-[10px]">Last</p>
+                <p className="text-[10px]">Last</p>
+              </div>
             </div>
           </div>
         </div>

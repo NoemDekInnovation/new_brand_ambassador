@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 const CentreAlert = () => {
   const [close, setClose] = useState(
-    localStorage.getItem("alertClosedxx") === "true"
+    sessionStorage.getItem("alertClosedxx") === "true"
   );
 
   const handleClose = () => {
@@ -13,7 +13,7 @@ const CentreAlert = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem("alertClosedxx", close.toString()); // Convert boolean to string
+    sessionStorage.setItem("alertClosedxx", close.toString()); // Convert boolean to string
   }, [close]);
 
   if (close) {

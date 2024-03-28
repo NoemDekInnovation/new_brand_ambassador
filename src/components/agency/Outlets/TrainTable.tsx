@@ -155,7 +155,7 @@ const Actions = ({ payment }: any) => {
         >
           Update
         </DropdownMenuItem>
-        {payment.status === "Public" ? (
+        {payment.metaData.status === "public" ? (
           <DropdownMenuItem
             className="t p-3 hover:bg-white/70"
             onClick={() => {
