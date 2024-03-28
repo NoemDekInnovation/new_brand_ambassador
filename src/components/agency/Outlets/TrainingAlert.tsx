@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 const TainingAlert = () => {
   const [close, setClose] = useState(
-    localStorage.getItem("alertClosedx") === "true"
+    sessionStorage.getItem("alertClosedx") === "true"
   );
 
   const handleClose = () => {
@@ -13,7 +13,7 @@ const TainingAlert = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem("alertClosedx", close.toString()); // Convert boolean to string
+    sessionStorage.setItem("alertClosedx", close.toString()); // Convert boolean to string
   }, [close]);
 
   if (close) {
@@ -36,8 +36,8 @@ const TainingAlert = () => {
             projects.{" "}
           </li>
           <li>
-            U Private Outlets won&apos;t be visible to other Agencies on
-            Campaign while Public Outlets will be visible to them
+            Private Outlets won&apos;t be visible to other Agencies on Campaign
+            while Public Outlets will be visible to them
           </li>
         </ul>
       </AlertDescription>
