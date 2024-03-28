@@ -42,8 +42,6 @@ const OutletTab = () => {
     dispatch(fetchAgencyCenters());
   }, [dispatch]);
 
-  console.log(agencyCenter.center);
-
   return (
     <>
       <div className=" bg-bm_card_greym bg-white h-full overflow-y-scroll md:w-[1950px] xl:w-full w-full">
