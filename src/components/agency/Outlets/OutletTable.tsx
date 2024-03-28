@@ -80,13 +80,15 @@ export const columns: ColumnDef<any>[] = [
   {
     accessorKey: "outletType",
     header: "Outlet Type",
-    cell: ({ row }) => <div className="">{row.getValue("outletType")}</div>,
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("outletType")}</div>
+    ),
   },
   {
     accessorKey: "location",
     header: "Location",
     cell: ({ row }) => {
-      return <div className="">{row.getValue("location")}</div>;
+      return <div className="capitalize">{row.getValue("location")}</div>;
     },
   },
   {
@@ -95,7 +97,7 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => {
       const outlet = row.original;
       return (
-        <div className="">
+        <div className="capitalize">
           {outlet?.address?.street}, {outlet?.address?.city},{" "}
           {outlet?.address?.zipCode} {outlet?.address?.state}
         </div>

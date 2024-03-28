@@ -36,8 +36,8 @@ const TainingAlert = () => {
             projects.{" "}
           </li>
           <li>
-            U Private Outlets won&apos;t be visible to other Agencies on
-            Campaign while Public Outlets will be visible to them
+            Private Outlets won&apos;t be visible to other Agencies on Campaign
+            while Public Outlets will be visible to them
           </li>
         </ul>
       </AlertDescription>
