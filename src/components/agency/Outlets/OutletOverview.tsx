@@ -24,6 +24,8 @@ import useOutletOverview from "../../../hooks/modals/useOutletOverview";
 import useDeleteOutlet from "../../../hooks/modals/useDeleteOutlet";
 import useUpdateOutlet from "../../../hooks/modals/useUpdateOutlet";
 import useManageOutlet from "../../../hooks/modals/useManageOutlet";
+import useMakePublicOutlet from "../../../hooks/modals/useMakePublicOutlet";
+import useMakePrivateOutlet from "../../../hooks/modals/useMakePrivateOutlet";
 
 const formSchema = z.object({
   outletName: z.string().optional(),
@@ -59,7 +61,8 @@ export function OutletOverview() {
   const deleteUser = useDeleteOutlet();
   const updateUser = useUpdateOutlet();
   const managePicture = useManageOutlet();
-
+  const makePrivate = useMakePrivateOutlet();
+  const makePublic = useMakePublicOutlet();
   const user = useSelector((state: RootState) => state.user);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -77,7 +80,7 @@ export function OutletOverview() {
         <div className="p-4">
           <div className="grid gap-4">
             <div className="grid  items-center gap-4 mx-2 md:mx-4">
-              <div className=" space-y-4 h-[75vh] grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto sidebar-scroll">
+              <div className=" space-y-4 h-[80vh] grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto sidebar-scroll">
                 <div className="h-full">
                   <div className="h-4/5 w-full overflow-hidden">
                     <img
@@ -114,6 +117,22 @@ export function OutletOverview() {
                       </div>
                       <div className=" text-sm">
                         <p>{datas?.outletName}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4 items-center">
+                      <div className="w-40 text-sm">
+                        <p>Outlet Type</p>
+                      </div>
+                      <div className=" text-sm">
+                        <p>{datas?.outletType}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4 items-center">
+                      <div className="w-40 text-sm">
+                        <p>Outlet Status</p>
+                      </div>
+                      <div className=" text-sm">
+                        <p>{datas?.metaData?.status}</p>
                       </div>
                     </div>
                     <div className="flex gap-4 items-center">
@@ -206,7 +225,7 @@ export function OutletOverview() {
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-end gap-4 p-4">
+                  <div className="flex justify-between items-end gap-2 p-2">
                     <Button
                       onClick={() => {
                         managePicture.setData(datas);
@@ -225,6 +244,27 @@ export function OutletOverview() {
                     >
                       Update
                     </Button>
+                    {datas?.metaData?.status === "public" ? (
+                      <Button
+                        className="t p-3 hover:bg-white/70"
+                        onClick={() => {
+                          makePrivate.setData(datas);
+                          makePrivate.onOpen();
+                        }}
+                      >
+                        Make Private
+                      </Button>
+                    ) : (
+                      <Button
+                        className="t p-3 hover:bg-white/70"
+                        onClick={() => {
+                          makePublic.setData(datas);
+                          makePublic.onOpen();
+                        }}
+                      >
+                        Make Public
+                      </Button>
+                    )}
                     <Button
                       onClick={() => {
                         deleteUser.setData(datas);

@@ -77,7 +77,7 @@ export const patchAxiosInstance = axios.create({
   baseURL,
   headers: {
     // "Content-Type": "'multipart/form-data'",
-    Authorization: `Bearer ${""}`,
+    "Content-Type": "application/json",
   },
 });
 

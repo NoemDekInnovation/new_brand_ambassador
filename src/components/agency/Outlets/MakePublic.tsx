@@ -33,43 +33,51 @@ export default function MakePublic() {
   const datas = data?.data;
 
   async function onSubmit() {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    loading.onOpen();
-    if (user?.user?.accountId !== undefined) {
-      try {
-        const response = await patchAxiosInstance.patch(
-          `/publish-training-centre/${datas._id}?status=public`,
+    try {
+      loading.onOpen();
 
-          {
-            headers: {
-              Authorization: `Bearer ${user?.user?.authKey || ""}`,
-            },
-          }
-        );
-        toast({
-          description: "Center successfully made public",
-        });
-      } catch (error: any) {
-        console.error("Error submitting form:", error);
-        if (error.response && error.response.status === 400) {
-          // Extract and display the specific error message from the API response
-          toast({
-            description: error?.response?.data?.message,
-            variant: "destructive",
-          });
-        } else {
-          // Display a generic error message for other error scenarios
-          toast({
-            description: error?.response?.data?.message,
-            variant: "destructive",
-          });
-        }
-      } finally {
-        loading.onClose();
+      if (!user?.user?.accountId) {
+        throw new Error("User account ID is undefined");
       }
+
+      const authToken = user?.user?.authKey || "";
+      const response = await patchAxiosInstance.patch(
+        `/publish-training-centre/${datas._id}`,
+        { status: "public" },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+
+      toast({
+        description: "Center successfully made public",
+      });
+    } catch (error: any) {
+      console.error("Error submitting form:", error);
+
+      if (error.response && error.response.status === 400) {
+        toast({
+          description: error.response.data.message || "Bad request",
+          variant: "destructive",
+        });
+      } else if (error.response && error.response.status === 401) {
+        toast({
+          description: "Unauthorized. Please check your credentials.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          description: "An error occurred while processing your request.",
+          variant: "destructive",
+        });
+      }
+    } finally {
+      loading.onClose();
     }
   }
+
   if (!data) {
     return null;
   }
