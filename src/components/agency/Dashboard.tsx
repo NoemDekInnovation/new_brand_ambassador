@@ -421,7 +421,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="flex overflow-hidden overflow-y-hidden h-[82vh] mb-2 ">
+        <div className="flex overflow-hidden overflow-y-hidden sidebar-scroll h-[82vh] mb-2 ">
           <TabsContent value="home" className="w-full">
             <HomeTab />
           </TabsContent>

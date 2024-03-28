@@ -15,11 +15,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../ui/tabs";
 import { TrainingTable } from "./TrainTable";
 import { cn } from "../../../libs/clsx";
 import { AddTrainDialog } from "./AddTraining";
+import { fetchAgencyCenters } from "../../../redux/agencyCenter.slice";
+import DeleteCenter from "./DeleteCenter";
+import { ManagePicturesCenter } from "./ManagePicturesCenter";
+import { UpdateTrainDialog } from "./UpdateTraining";
+import MakePrivate from "./MakePrivate";
+import MakePublic from "./MakePublic";
+import MakePublicOutlet from "./MakePublicOutlet";
+import MakePrivateOutlet from "./MakePrivateOutlet";
+import { CenterOverview } from "./CenterOverview";
 
 const OutletTab = () => {
   const { outlet, pageSize, page, totalTalent } = useSelector(
     (state: RootState) => state.agencyOutlet
   );
+
+  const agencyCenter = useSelector((state: RootState) => state.agencyCenter);
   const [index, setIndex] = useState(0);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -27,12 +38,18 @@ const OutletTab = () => {
     dispatch(fetchAgencyOutlet());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(fetchAgencyCenters());
+  }, [dispatch]);
+
+  console.log(agencyCenter.center);
+
   return (
     <>
       <div className=" bg-bm_card_greym bg-white h-full overflow-y-scroll md:w-[1950px] xl:w-full w-full">
-        <div className="px-4 md:px-12 xl:px-40 flex pt-10 pb-2 h-full  md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
-          <div className="h-full space-y-8 flex-1 flex flex-col items-center sm:block">
-            <div className="my-4">
+        <div className="px-4 md:px-12 xl:px-40 flex pt-6 pb-2 h-full  md:space-x-8 flex-col items-center space-y-4 md:flex-row md:space-y-0 md:items-start">
+          <div className="h-full space-y-4 flex-1 flex flex-col items-center sm:block">
+            <div className="my-2">
               <h4 className="text-xl sm:text-2xl font-medium">
                 Outlets & Training Centers
               </h4>
@@ -70,10 +87,10 @@ const OutletTab = () => {
               </TabsContent>
               <TabsContent value="password">
                 <TrainingTable
-                  data={outlet}
-                  pageSize={pageSize}
-                  page={page}
-                  totalTalent={totalTalent}
+                  data={agencyCenter.center || []}
+                  pageSize={agencyCenter.pageSize}
+                  page={agencyCenter.page}
+                  totalTalent={agencyCenter.totalTalent}
                 />
               </TabsContent>
             </Tabs>
@@ -86,6 +103,14 @@ const OutletTab = () => {
       <ManagePictures />
       <OutletOverview />
       <AddTrainDialog />
+      <DeleteCenter />
+      <ManagePicturesCenter />
+      <UpdateTrainDialog />
+      <MakePrivate />
+      <MakePublic />
+      <MakePublicOutlet />
+      <MakePrivateOutlet />
+      <CenterOverview />
     </>
   );
 };

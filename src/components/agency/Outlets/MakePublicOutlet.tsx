@@ -1,4 +1,4 @@
-import { Button } from "../../ui/button";
+import { Button } from "../../../ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,20 +8,22 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "../../ui/alert-dialog";
+} from "../../../ui/alert-dialog";
 
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../../redux/store";
 
-import { patchAxiosInstance } from "../../api/axios";
+import { patchAxiosInstance } from "../../../api/axios";
 import { useState } from "react";
 
-import useSuspendUser from "../../hooks/modals/useSuspendUser";
-import { toast } from "../../ui/use-toast";
+import { toast } from "../../../ui/use-toast";
+import useMakePublic from "../../../hooks/modals/useMakePublic";
+import useLoading from "../../../hooks/modals/useLoading";
 
-export default function SuspendUser() {
-  const { isOpen, onClose, data, setData } = useSuspendUser();
+export default function MakePublicOutlet() {
+  const { isOpen, onClose, data, setData } = useMakePublic();
   const user = useSelector((state: RootState) => state.user);
+  const loading = useLoading();
 
   const onCancel = () => {
     onClose();
@@ -33,16 +35,12 @@ export default function SuspendUser() {
   async function onSubmit() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    loading.onOpen();
     if (user?.user?.accountId !== undefined) {
       try {
-        const response = await patchAxiosInstance.post(
-          `/suspend-staff/${datas._id}?suspendAction=suspend`,
-          {
-            firstName: datas?.firstName,
-            lastName: datas?.lastName,
-            phone: datas?.phone,
-            IDNumber: datas?.IDNumber,
-          },
+        const response = await patchAxiosInstance.patch(
+          `/publish-outlet/${datas._id}?status=public`,
+
           {
             headers: {
               Authorization: `Bearer ${user?.user?.authKey || ""}`,
@@ -50,7 +48,7 @@ export default function SuspendUser() {
           }
         );
         toast({
-          description: "User successfully suspended",
+          description: "Outlet successfully made public",
         });
       } catch (error: any) {
         console.error("Error submitting form:", error);
@@ -68,6 +66,7 @@ export default function SuspendUser() {
           });
         }
       } finally {
+        loading.onClose();
       }
     }
   }
@@ -79,26 +78,23 @@ export default function SuspendUser() {
       <AlertDialogContent className="bg-white p-0">
         <AlertDialogHeader className=" p-4 md:p-6 bg-[#343637] text-white rounded-t-lg">
           <AlertDialogTitle>
-            Suspend User - {datas?.firstName} {datas?.lastName}
+            Make Outlet Public - {datas?.outletName}, {datas?.location}.
           </AlertDialogTitle>
         </AlertDialogHeader>
         <div className="space-y-4 p-4">
           <h4 className="font-medium text-lg md:text-xl">
-            Are you sure you want to suspend this user?
+            Are you sure you want to make this outlet public?{" "}
           </h4>
-          <p>
-            This user&apos;s account will be suspended and user won&apos;t be
-            able to log-in.
-          </p>
+          <p>Outlet will be visible to all agencies on Campaign </p>
         </div>
         <AlertDialogFooter className="p-4 mt-0">
           <AlertDialogCancel>Cancel</AlertDialogCancel>
 
           <AlertDialogAction
             onClick={onSubmit}
-            className="text-white   bg-red-900 hover:bg-red-400"
+            className="bg-[#63666A] text-white"
           >
-            Suspend User
+            Make Public
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -23,7 +23,7 @@ const UsersTab = () => {
 
   return (
     <div className=" bg-bm_card_greym bg-white h-full overflow-y-scroll md:w-[1950px] xl:w-full w-full">
-      <div className="px-4 md:px-12 xl:px-40 flex pt-10 pb-2  md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
+      <div className="px-4 md:px-12 xl:px-40 flex pt-6 pb-2  md:space-x-8 flex-col items-center space-y-8 md:flex-row md:space-y-0 md:items-start">
         <div className=" space-y-8 flex-1 flex flex-col items-center sm:block">
           <UsersTable
             data={staff}
