@@ -7,6 +7,8 @@ import { TalentInvitationModal } from "./TalentInvitationModal";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { setSelectedTalent } from "../../redux/revmap/talent.slice";
+import { InvitationForTraining } from "./invitationForTrainingModal";
+import { ContractModal } from "./ContractModal";
 
 export const TalentList = ({
   talent,
@@ -204,12 +206,20 @@ export const TalentList = ({
           </div>
         </div>
       </div>
-      {talent?._id === selectedTalent?._id && (
+      {talent?._id === selectedTalent?._id && inviteStatus === "invite" && (
         <TalentInvitationModal
           projectModal={modal}
           setProjectModal={setModal}
-          project={1}
         />
+      )}
+      {talent?._id === selectedTalent?._id && inviteStatus === "applied" && (
+        <InvitationForTraining
+          projectModal={modal}
+          setProjectModal={setModal}
+        />
+      )}
+      {talent?._id === selectedTalent?._id && inviteStatus === "training" && (
+        <ContractModal projectModal={modal} setProjectModal={setModal} />
       )}
     </>
   );

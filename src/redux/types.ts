@@ -181,7 +181,7 @@ export interface SkillProp {
 export interface AboutProjectProps {
   projectTitle: string;
   projectCategory: string;
-  projectCode: string;
+  // projectCode: string;
   projectLocation: string[];
   projectDescription: string;
   startDate: string;

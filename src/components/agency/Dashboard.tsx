@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { fetchactiveproject } from "../../redux/ActiveProject";
 import { fetchcompleteproject } from "../../redux/completeProject";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [toggleMenubar, setToggleMenubar] = useState(false);
@@ -90,6 +91,7 @@ const Dashboard = () => {
     }
   }, []); // Empty dependency array ensures it runs only once on component mount
 
+  const navigate = useNavigate();
   return (
     <AgencyLayout
       setToggleMenubar={() => setToggleMenubar(!toggleMenubar)}
@@ -180,7 +182,10 @@ const Dashboard = () => {
                       </TabsTrigger>
                     </MenubarItem>
                     <MenubarSeparator className="bg-bm__beige" />
-                    <MenubarItem className="hover:underline">
+                    <MenubarItem
+                      className="hover:underline"
+                      onClick={() => navigate("/projects")}
+                    >
                       <TabsTrigger
                         value="projects"
                         className="cursor-pointer hover:underline w-full items-start justify-start"

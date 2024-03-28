@@ -19,7 +19,7 @@ const ProjectSlide = ({
 
   switch (activeTab) {
     case "project_overview":
-      view = <ProjectOverview />;
+      view = <ProjectOverview setProjectPopUp={setPopUp} />;
       break;
 
     case "applications":
