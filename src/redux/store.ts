@@ -20,6 +20,8 @@ import hireSlice from "./hire.slice";
 import agencyReducer from "./agencyTalent.slice";
 import currentengageReducer from "./currentengage.slice";
 import leadingReducer from "./leading.slice";
+import agencyUserSlice from "./agencyUser.slice";
+import agencyOutletSlice from "./agencyOutlet.slice";
 
 // revamp
 import projectsSlice from "./revmap/projects";
@@ -49,9 +51,13 @@ const store = configureStore({
     agency: agencyReducer,
     currentengage: currentengageReducer,
     leading: leadingReducer,
+
     // revamp
     newProjects: projectsSlice,
     newtalent: talentSlice,
+
+    agencyUser: agencyUserSlice,
+    agencyOutlet: agencyOutletSlice
   },
 });
 

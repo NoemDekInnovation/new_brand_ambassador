@@ -20,6 +20,8 @@ import { RootState } from "../../redux/store";
 import { fetchactiveproject } from "../../redux/ActiveProject";
 import { fetchcompleteproject } from "../../redux/completeProject";
 import { useNavigate } from "react-router-dom";
+import UsersTab from "./UserTab";
+import OutletTab from "./Outlets/OutletTab";
 
 const Dashboard = () => {
   const [toggleMenubar, setToggleMenubar] = useState(false);
@@ -98,7 +100,7 @@ const Dashboard = () => {
       toggleMenubar={toggleMenubar}
     >
       <Tabs defaultValue={defaultTab} className="w-full">
-        <div className="flex flex-col md:flex-row   justify-between w-full px-4 md:px-12 xl:px-40 bg-white  shadow-xl drop-shadow-lg space-y-4 md:space-y-0  overflow-x-auto  md:overflow-x-hidden overflow-y-hidden">
+        <div className="flex flex-col md:flex-row   justify-between w-full px-4 md:px-12 xl:px-40 bg-white space-y-4 md:space-y-0  overflow-x-auto  md:overflow-x-hidden overflow-y-hidden">
           <div className="hidden md:flex">
             <TabsList className="mb-4">
               {/* <TabsList className="mb-4 flex flex-col bg-green-300 "> */}
@@ -432,13 +434,15 @@ const Dashboard = () => {
           <TabsContent className="w-full" value="inventory">
             Inventory
           </TabsContent>
-          <TabsContent className="w-full" value="outlets">
-            Outlets
+          <TabsContent className="w-full h-full" value="outlets">
+            <OutletTab />
           </TabsContent>
           <TabsContent className="w-full" value="reports">
             Reports
           </TabsContent>
-          <TabsContent className="w-full" value="users"></TabsContent>
+          <TabsContent className="w-full h-full" value="users">
+            <UsersTab />
+          </TabsContent>
         </div>
       </Tabs>
     </AgencyLayout>
