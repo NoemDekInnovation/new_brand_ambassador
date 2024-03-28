@@ -251,7 +251,7 @@ export default function GetStarted({
                   </RadioGroup>
                 </form>
                 <Button className="dark__btn w-full text-[12px]" onClick={next}>
-                  New{" "}
+                  Next{" "}
                 </Button>
               </CardContent>
             </Card>
