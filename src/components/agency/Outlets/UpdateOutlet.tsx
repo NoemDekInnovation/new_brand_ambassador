@@ -32,7 +32,7 @@ import { mediaAxiosInstance, patchAxiosInstance } from "../../../api/axios";
 import { RadioGroup, RadioGroupItem } from "../../../ui/radio-group";
 import { toast } from "../../../ui/use-toast";
 import { FileUpload } from "./FileUpload";
-import { StatesSelect } from "./SelectOption";
+import { OutletType, StatesSelect } from "./SelectOption";
 import useUpdateOutlet from "../../../hooks/modals/useUpdateOutlet";
 
 const formSchema = z.object({
