@@ -140,7 +140,7 @@ export default function AboutProject({
     label: location.label,
   }));
 
-  const newLocation = aboutProject?.projectLocation?.map((location) => ({
+  const newLocation = aboutProject?.projectLocation?.map((location: any) => ({
     value: location,
     label: location,
   }));
