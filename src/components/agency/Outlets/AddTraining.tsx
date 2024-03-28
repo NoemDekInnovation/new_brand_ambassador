@@ -140,7 +140,7 @@ export function AddTrainDialog() {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-4"
                 >
-                  <div className="rounded-lg border space-y-8 h-[55vh] overflow-y-auto sidebar-scroll">
+                  <div className="rounded-lg border space-y-8 h-[70vh] overflow-y-auto sidebar-scroll">
                     <p className=" mx-4 my-2 text-sm font-medium">
                       Center Information
                     </p>
