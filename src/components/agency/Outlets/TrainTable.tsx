@@ -41,11 +41,15 @@ import {
   TableRow,
 } from "../../../ui/table";
 
-import useDeleteOutlet from "../../../hooks/modals/useDeleteOutlet";
-import useUpdateOutlet from "../../../hooks/modals/useUpdateOutlet";
-import useManageOutlet from "../../../hooks/modals/useManageOutlet";
-import useOutletOverview from "../../../hooks/modals/useOutletOverview";
 import useCreateTraining from "../../../hooks/modals/UserCreateTraining";
+import useDeleteCenter from "../../../hooks/modals/useDeleteCenter";
+import useManagePictureCenter from "../../../hooks/modals/useManagePicture";
+import useUpdateCenter from "../../../hooks/modals/useUpdateCenter";
+import useMakePrivate from "../../../hooks/modals/useMakePrivate";
+import useMakePublic from "../../../hooks/modals/useMakePublic";
+import TainingAlert from "./TrainingAlert";
+import CentreAlert from "./CentreAlert";
+import useCenterOverview from "../../../hooks/modals/useCenterOverview";
 
 export type Payment = {
   id: string;
@@ -55,7 +59,7 @@ export type Payment = {
 };
 
 const Overview = ({ row }: any) => {
-  const overview = useOutletOverview();
+  const overview = useCenterOverview();
   return (
     <div
       className="capitalize cursor-pointer"
@@ -64,14 +68,14 @@ const Overview = ({ row }: any) => {
         overview.onOpen();
       }}
     >
-      {row.getValue("centerName")}
+      {row.getValue("centreName")}
     </div>
   );
 };
 
 export const columns: ColumnDef<any>[] = [
   {
-    accessorKey: "centerName",
+    accessorKey: "centreName",
     header: "Center Name",
     cell: ({ row }) => <Overview row={row} />,
   },
@@ -108,9 +112,11 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => <div className="">{row.getValue("contactNumber")}</div>,
   },
   {
-    accessorKey: "status",
+    accessorKey: "metaData.status",
     header: "Status",
-    cell: ({ row }) => <div className="">{row.getValue("status")}</div>,
+    cell: ({ row }) => (
+      <div className="capitalize">{row.original.metaData.status}</div>
+    ),
   },
   {
     id: "actions",
@@ -124,10 +130,11 @@ export const columns: ColumnDef<any>[] = [
 ];
 
 const Actions = ({ payment }: any) => {
-  const deleteUser = useDeleteOutlet();
-  const updateUser = useUpdateOutlet();
-  const managePicture = useManageOutlet();
-
+  const deleteUser = useDeleteCenter();
+  const updateUser = useUpdateCenter();
+  const managePicture = useManagePictureCenter();
+  const makePrivate = useMakePrivate();
+  const makePublic = useMakePublic();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -157,6 +164,27 @@ const Actions = ({ payment }: any) => {
         >
           Update
         </DropdownMenuItem>
+        {payment.status === "Public" ? (
+          <DropdownMenuItem
+            className="t p-3 hover:bg-white/70"
+            onClick={() => {
+              makePrivate.setData(payment);
+              makePrivate.onOpen();
+            }}
+          >
+            Make Private
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem
+            className="t p-3 hover:bg-white/70"
+            onClick={() => {
+              makePublic.setData(payment);
+              makePublic.onOpen();
+            }}
+          >
+            Make Public
+          </DropdownMenuItem>
+        )}
 
         <DropdownMenuItem
           className="text-red-500 p-3 hover:bg-white/70"
@@ -165,7 +193,7 @@ const Actions = ({ payment }: any) => {
             deleteUser.onOpen();
           }}
         >
-          Delete Outlet
+          Delete Center
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -227,6 +255,8 @@ export function TrainingTable({ data, pageSize, page, totalTalent }: any) {
 
   return (
     <div className="w-full h-full">
+      <CentreAlert />
+
       <div className="flex items-center sm:flex-row flex-col justify-between w-full bg-[#F7F7F7] p-4">
         <DebouncedInput
           value={globalFilter ?? ""}
@@ -239,54 +269,57 @@ export function TrainingTable({ data, pageSize, page, totalTalent }: any) {
         </Button>{" "}
       </div>
       <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+        <div className="h-[40vh]">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    );
+                  })}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+
         <div className=" bg-[#F7F7F7] flex flex-col gap-5 md:flex-row justify-between  items-center p-4">
           <div className="flex items-center">
             <p className=" whitespace-nowrap  mr-2 text-xs">Rows Per Page:</p>

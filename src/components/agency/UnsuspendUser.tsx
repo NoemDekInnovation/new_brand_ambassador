@@ -98,7 +98,7 @@ export default function UnsuspendUser() {
             onClick={onSubmit}
             className="text-white   bg-[#800000] hover:bg-rose-400"
           >
-            Confirm Suspend
+            Unsuspend User
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

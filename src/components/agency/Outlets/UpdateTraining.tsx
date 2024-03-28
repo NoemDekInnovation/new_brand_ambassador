@@ -34,24 +34,24 @@ import { FileUpload } from "./FileUpload";
 import { OutletType, StatesSelect } from "./SelectOption";
 import useCreateTraining from "../../../hooks/modals/UserCreateTraining";
 import useLoading from "../../../hooks/modals/useLoading";
+import useUpdateCenter from "../../../hooks/modals/useUpdateCenter";
 
 const formSchema = z.object({
-  centerName: z.string(),
-  location: z.string(),
-  contactEmail: z.string(),
-  contactNumber: z.string(),
-  street: z.string(),
-  city: z.string(),
-  state: z.string(),
-  zipCode: z.string(),
+  centerName: z.string().optional(),
+  location: z.string().optional(),
+  contactEmail: z.string().optional(),
+  contactNumber: z.string().optional(),
+  street: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  zipCode: z.string().optional(),
 
   centrePictures: z.any(),
 });
 
-export function AddTrainDialog() {
+export function UpdateTrainDialog() {
   const [loading, setLoading] = useState(false);
-  const [loading1, setLoading1] = useState(false);
-  const { isOpen, onClose } = useCreateTraining();
+  const { isOpen, onClose, data } = useUpdateCenter();
   const loadingCase = useLoading();
 
   const user = useSelector((state: RootState) => state.user);
@@ -63,28 +63,46 @@ export function AddTrainDialog() {
     onClose();
     form.reset();
   };
+
+  const datas = data?.data;
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     loadingCase.onOpen();
     // ✅ This will be type-safe and validated.
     const formdata = new FormData();
-    formdata.append("centreName", values.centerName);
-    formdata.append("contactEmail", values.contactEmail);
-    formdata.append("contactNumber", values.contactNumber);
-    formdata.append("street", values.street);
-    formdata.append("state", values.state);
-    formdata.append("city", values.city);
-    formdata.append("location", values.location);
-    formdata.append("zipCode", values.zipCode);
+    if (values.centerName) {
+      formdata.append("centreName", values.centerName);
+    }
+    if (values.contactEmail) {
+      formdata.append("contactEmail", values.contactEmail);
+    }
+    if (values.contactNumber) {
+      formdata.append("contactNumber", values.contactNumber);
+    }
+    if (values.street) {
+      formdata.append("street", values.street);
+    }
+    if (values.state) {
+      formdata.append("state", values.state);
+    }
+    if (values.city) {
+      formdata.append("city", values.city);
+    }
+    if (values.location) {
+      formdata.append("location", values.location);
+    }
+    if (values.zipCode) {
+      formdata.append("zipCode", values.zipCode);
+    }
 
     for (let i = 0; i < values.centrePictures.length; i++) {
       formdata.append(`centrePictures`, values.centrePictures[i]);
     }
     if (user?.user?.accountId !== undefined) {
       try {
-        const response = await mediaAxiosInstance.post(
-          `/create-training-centre`,
+        const response = await mediaAxiosInstance.put(
+          `/edit-training-centre`,
           formdata,
           {
             headers: {
@@ -93,7 +111,7 @@ export function AddTrainDialog() {
           }
         );
         toast({
-          description: "Center successfully created",
+          description: "Center successfully edited.",
         });
         form.reset();
         onClose();
@@ -129,7 +147,9 @@ export function AddTrainDialog() {
     <Dialog onOpenChange={onCancel} open={isOpen} modal defaultOpen={isOpen}>
       <DialogContent className="bg-white text-[#343637] lg:max-w-[900px] p-0 rounded-t-lg">
         <DialogHeader className=" p-4 md:p-6 bg-[#343637] text-white rounded-t-lg">
-          <DialogTitle className="md:text-xl">Add Training Center</DialogTitle>
+          <DialogTitle className="md:text-xl">
+            Update Training Center
+          </DialogTitle>
         </DialogHeader>
         <div className="p-4">
           <div className="grid gap-4">
@@ -139,7 +159,7 @@ export function AddTrainDialog() {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-4"
                 >
-                  <div className="rounded-lg border space-y-8 h-[55vh] overflow-y-auto sidebar-scroll">
+                  <div className="rounded-lg border space-y-8 h-[45vh] overflow-y-auto sidebar-scroll">
                     <p className=" mx-4 my-2 text-sm font-medium">
                       Center Information
                     </p>
@@ -155,6 +175,7 @@ export function AddTrainDialog() {
                                 className="w-full p-4 h-12 relative"
                                 disabled={loading}
                                 placeholder="Center Name"
+                                defaultValue={datas?.centreName}
                                 {...field}
                               />
                             </FormControl>
@@ -171,6 +192,7 @@ export function AddTrainDialog() {
                                 className="w-full p-4 h-12 relative"
                                 disabled={loading}
                                 placeholder="Location*"
+                                defaultValue={datas?.location}
                                 {...field}
                               />
                             </FormControl>
@@ -190,6 +212,7 @@ export function AddTrainDialog() {
                                 disabled={loading}
                                 type="email"
                                 placeholder="Contact Email"
+                                defaultValue={datas?.contactEmail}
                                 {...field}
                               />
                             </FormControl>
@@ -208,6 +231,7 @@ export function AddTrainDialog() {
                                 className="w-full p-4 h-12 relative"
                                 disabled={loading}
                                 placeholder="Contact Number"
+                                defaultValue={datas?.contactNumber}
                                 {...field}
                               />
                             </FormControl>
@@ -231,6 +255,7 @@ export function AddTrainDialog() {
                                   className="w-full p-4 h-12 relative"
                                   disabled={loading}
                                   placeholder="Street"
+                                  defaultValue={datas?.address?.street}
                                   {...field}
                                 />
                               </FormControl>
@@ -249,6 +274,7 @@ export function AddTrainDialog() {
                                   className="w-full p-4 h-12 relative"
                                   disabled={loading}
                                   placeholder="City"
+                                  defaultValue={datas?.address?.city}
                                   {...field}
                                 />
                               </FormControl>
@@ -262,7 +288,10 @@ export function AddTrainDialog() {
                           control={form.control}
                           render={({ field }) => (
                             <FormItem>
-                              <StatesSelect field={field} />
+                              <StatesSelect
+                                defaultValue={datas?.address?.state}
+                                field={field}
+                              />
                             </FormItem>
                           )}
                         />
@@ -276,6 +305,7 @@ export function AddTrainDialog() {
                                   className="w-full p-4 h-12 relative"
                                   disabled={loading}
                                   placeholder="Postal Code"
+                                  defaultValue={datas?.address?.zipCode}
                                   {...field}
                                 />
                               </FormControl>
@@ -285,13 +315,6 @@ export function AddTrainDialog() {
                           )}
                         />
                       </div>
-                    </div>
-
-                    <div className="space-y-4 px-4">
-                      <p className="text-sm font-medium">
-                        Attach Center Pictures
-                      </p>
-                      <FileUpload form={form} name="centrePictures" />
                     </div>
                   </div>
 

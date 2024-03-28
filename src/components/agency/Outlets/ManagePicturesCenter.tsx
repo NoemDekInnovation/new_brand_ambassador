@@ -34,15 +34,15 @@ import useAddOutlet from "../../../hooks/modals/useAddOutlet";
 import { toast } from "../../../ui/use-toast";
 import { FileUpload } from "./FileUpload";
 import { StatesSelect } from "./SelectOption";
-import useManageOutlet from "../../../hooks/modals/useManageOutlet";
+import useManagePictureCenter from "../../../hooks/modals/useManagePicture";
 
 const formSchema = z.object({
-  outletPictures: z.any(),
+  centrePictures: z.any(),
 });
 
-export function ManagePictures() {
+export function ManagePicturesCenter() {
   const [loading, setLoading] = useState(false);
-  const { isOpen, onClose, data, setData } = useManageOutlet();
+  const { isOpen, onClose, data, setData } = useManagePictureCenter();
 
   const user = useSelector((state: RootState) => state.user);
 
@@ -64,6 +64,7 @@ export function ManagePictures() {
       }
     });
   };
+
   const datas = data?.data;
   const onCancel = () => {
     onClose();
@@ -78,13 +79,13 @@ export function ManagePictures() {
     // ✅ This will be type-safe and validated.
     const formdata = new FormData();
 
-    for (let i = 0; i < values.outletPictures.length; i++) {
-      formdata.append(`outletPictures`, values.outletPictures[i]);
+    for (let i = 0; i < values.centrePictures.length; i++) {
+      formdata.append(`centrePictures`, values.centrePictures[i]);
     }
     if (user?.user?.accountId !== undefined) {
       try {
         const response = await mediaAxiosInstance.patch(
-          `/edit-outlet-pictures/${datas._id}`,
+          `/edit-training-centre-pictures/${datas._id}`,
           formdata,
           {
             headers: {
@@ -93,7 +94,7 @@ export function ManagePictures() {
           }
         );
         toast({
-          description: "Outlet pictures successfully added.",
+          description: "Center pictures successfully added.",
         });
         form.reset();
         onClose();
@@ -126,7 +127,7 @@ export function ManagePictures() {
     if (user?.user?.accountId !== undefined) {
       try {
         const response = await mediaAxiosInstance.patch(
-          `/edit-outlet-pictures/${datas._id}`,
+          `/edit-training-centre-pictures/${datas._id}`,
           { picturesToBeDeleted: selectedIndices },
           {
             headers: {
@@ -175,7 +176,7 @@ export function ManagePictures() {
       <DialogContent className="bg-white text-[#343637] lg:max-w-[900px] p-0 rounded-t-lg">
         <DialogHeader className=" p-4 md:p-6 bg-[#343637] text-white rounded-t-lg">
           <DialogTitle className="md:text-xl">
-            Manage Outlet Pictures - {datas?.outletName}, {datas?.location}
+            Manage Center Pictures - {datas?.centreName}, {datas?.location}
           </DialogTitle>
         </DialogHeader>
         <div className="p-4">
@@ -190,7 +191,7 @@ export function ManagePictures() {
                     <div className="bg-[#F7F7F7] flex w-full items-center gap-4 p-4">
                       <FileUpload
                         title="Add or drop pictures or videos"
-                        name="outletPictures"
+                        name="centrePictures"
                         form={form}
                       />
                       <Button
@@ -201,8 +202,8 @@ export function ManagePictures() {
                       </Button>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-0 ">
-                      {datas?.outletPictures.length > 0 ? (
-                        datas?.outletPictures.map((item: string, i: number) => (
+                      {datas?.centrePictures.length > 0 ? (
+                        datas?.centrePictures.map((item: string, i: number) => (
                           <div
                             key={i}
                             className={` aspect-square relative cursor-pointer ${
@@ -229,7 +230,7 @@ export function ManagePictures() {
                         ))
                       ) : (
                         <div className="my-4">
-                          <p>No pictures for the outlet</p>
+                          <p>No pictures for the center</p>
                         </div>
                       )}
                     </div>
